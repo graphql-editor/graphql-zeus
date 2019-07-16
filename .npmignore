@@ -1,0 +1,15 @@
+.vscode
+.DS_STORE
+.docz
+.tscache
+node_modules
+.module-cache
+*.log*
+build
+dist
+src
+example
+images
+.idea
+package-lock.json
+__tests__
