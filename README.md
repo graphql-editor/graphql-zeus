@@ -15,7 +15,7 @@ Given the following schema [Olympus Cards](https://app.graphqleditor.com/aexol/o
 Play with it
 
 ```sh
-$ zeus -u https://faker.graphqleditor.com/aexol/olympus/graphql ./generated
+$ zeus https://faker.graphqleditor.com/aexol/olympus/graphql ./generated
 ```
 
 ```js
