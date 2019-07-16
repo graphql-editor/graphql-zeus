@@ -51,13 +51,13 @@ It will also generate corresponding out.d.ts file so you can have autocompletion
 
 #### Usage with TypeScript
 ```sh
-$ zeus --ts schema.graphql ./
+$ zeus schema.graphql ./  --ts 
 ```
 
 #### Load from URL
 
 ```sh
-$ zeus -u https://faker.graphqleditor.com/aexol/olympus/graphql ./generated
+$ zeus https://faker.graphqleditor.com/aexol/olympus/graphql ./generated
 ```
 
 ### In Project
