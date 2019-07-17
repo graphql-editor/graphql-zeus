@@ -12,6 +12,7 @@ zeus [path] [output_path] [flags]
 
 Flags:
   --ts Output typescript only
+  --typescript Output typescript only
 `
   )
   .demandCommand(1).argv;
