@@ -146,7 +146,7 @@ export const ScalarResolver = (scalar: string, value: any) => {
     case 'scalar':
       return \`\${value}\`;
     default:
-      return \`\${value}\`;
+      return false;
   }
 };
 
@@ -278,7 +278,17 @@ const fullConstruct = (options: fetchOptions) => (
   apiFetch(options, construct(t, name, props)(buildQuery(t, name, o)), name);
 
 const apiFetch = (options: fetchOptions, query: string, name: string) => {
-  return fetch(\`\${options[0]}?query=\${encodeURIComponent(query)}\`, options[1] || {})
+  let queryString = query;
+  if (typeof encodeURIComponent !== 'undefined') {
+    queryString = encodeURIComponent(query);
+  }else{
+    queryString = require("querystring").stringify(query);
+  }
+  let fetch = fetch;
+  if (typeof fetch === 'undefined') {
+    fetch = require('node-fetch');
+  }
+  return fetch(\`\${options[0]}?query=\${queryString}\`, options[1] || {})
     .then((response) => response.json() as Promise<GraphQLResponse>)
     .then((response) => {
       if (response.errors) {
@@ -458,7 +468,17 @@ const joinArgs = (q) => {
     apiFetch(options, construct(t, name, props)(buildQuery(t, name, o)), name);
 
   const apiFetch = (options, query, name) => {
-    return fetch(\`\${options[0]}?query=\${encodeURIComponent(query)}\`, options[1] || {})
+    let queryString = query;
+    if (typeof encodeURIComponent !== 'undefined') {
+      queryString = encodeURIComponent(query);
+    }else{
+      queryString = require("querystring").stringify(query);
+    }
+    let fetch = fetch;
+    if (typeof fetch === 'undefined') {
+      fetch = require('node-fetch');
+    }
+    return fetch(\`\${options[0]}?query=\${queryString}\`, options[1] || {})
       .then((response) => response.json())
       .then((response) => {
         if (response.errors) {
