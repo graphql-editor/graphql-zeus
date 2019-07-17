@@ -1,26 +1,55 @@
-export const graphqlError = `
-export class GraphQLError extends Error {
-    constructor(public response: GraphQLResponse) {
-      super("");
-      console.error(response);
-    }
-    toString() {
-      return "GraphQL Response Error";
-    }
-  }
-`;
-export const graphqlErrorJavascript = `
-export class GraphQLError extends Error {
-    constructor(response) {
-      super("");
-      console.error(response);
-    }
-    toString() {
-      return "GraphQL Response Error";
-    }
-  }
-`;
-export const constantTypes = `type Func<P extends any[], R> = (...args: P) => R;
+export type Query = {
+	cardById:(props:{	cardId:string}) => Card,
+	/** Draw a card<br> */
+	drawCard:Card,
+	/** list All Cards availbla<br> */
+	listCards:Card[]
+}
+
+/** Card used in card game<br> */
+export type Card = {
+	/** The attack power<br> */
+	Attack:number,
+	/** <div>How many children the greek god had</div> */
+	Children?:number,
+	/** The defense power<br> */
+	Defense:number,
+	/** Attack other cards on the table , returns Cards after attack<br> */
+	attack:(props:{	/** Attacked card/card ids<br> */
+	cardID?:string[]}) => Card[],
+	/** Description of a card<br> */
+	description:string,
+	id:string,
+	/** The name of a card<br> */
+	name:string,
+	skills?:SpecialSkills[]
+}
+
+export enum SpecialSkills {
+	THUNDER = "THUNDER",
+	RAIN = "RAIN",
+	FIRE = "FIRE"
+}
+
+export type Mutation = {
+	/** add Card to Cards database<br> */
+	addCard:(props:{	card:createCard}) => Card
+}
+
+export type createCard = {
+	/** Description of a card<br> */
+	description:string,
+	/** <div>How many children the greek god had</div> */
+	Children?:number,
+	/** The attack power<br> */
+	Attack:number,
+	/** The defense power<br> */
+	Defense:number,
+	/** The name of a card<br> */
+	name:string
+}
+
+type Func<P extends any[], R> = (...args: P) => R;
 type ArgsType<F extends Func<any, any>> = F extends Func<infer P, any>
   ? P
   : never;
@@ -99,4 +128,11 @@ type AfterFunctionToGraphQL<T extends Func<any, any>> = (
   props?: ArgsType<T>[0]
 ) => EmptyOrGraphQLReturner<T>;
 
-type fetchOptions = ArgsType<typeof fetch>;`;
+type fetchOptions = ArgsType<typeof fetch>;
+export declare function Api(
+  ...options: fetchOptions
+): {
+  Query: {	cardById: FunctionToGraphQL<Query['cardById']>,
+	drawCard: FunctionToGraphQL<Query['drawCard']>,
+	listCards: FunctionToGraphQL<Query['listCards']>},Mutation: {	addCard: FunctionToGraphQL<Mutation['addCard']>},Subscription: {}
+};

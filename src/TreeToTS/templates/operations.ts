@@ -133,28 +133,20 @@ export const ScalarResolver = (scalar: string, value: any) => {
   switch (scalar) {
     case 'String':
       return \`"\${value}"\`;
-      break;
     case 'Int':
       return \`\${value}\`;
-      break;
     case 'Float':
       return \`\${value}\`;
-      break;
     case 'Boolean':
       return \`\${value}\`;
-      break;
     case 'ID':
       return \`"\${value}"\`;
-      break;
     case 'enum':
       return \`\${value}\`;
-      break;
     case 'scalar':
       return \`\${value}\`;
-      break;
     default:
       return \`\${value}\`;
-      break;
   }
 };
 
@@ -327,28 +319,20 @@ const joinArgs = (q) => {
     switch (scalar) {
       case 'String':
         return \`"\${value}"\`;
-        break;
       case 'Int':
         return \`\${value}\`;
-        break;
       case 'Float':
         return \`\${value}\`;
-        break;
       case 'Boolean':
         return \`\${value}\`;
-        break;
       case 'ID':
         return \`"\${value}"\`;
-        break;
       case 'enum':
         return \`\${value}\`;
-        break;
       case 'scalar':
         return \`\${value}\`;
-        break;
       default:
         return \`\${value}\`;
-        break;
     }
   };
 
