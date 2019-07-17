@@ -133,7 +133,7 @@ export const ScalarResolver = (scalar, value) => {
       return `${value}`;
       break;
     default:
-      return `${value}`;
+      return false;
       break;
   }
 };
@@ -213,7 +213,7 @@ const resolveKV = (k, v) =>
 const objectToTree = (o) =>
   `{${Object.keys(o)
     .map((k) => `${resolveKV(k, o[k])}`)
-    .join('')}}`;
+    .join(' ')}}`;
 
 const traverseToSeekArrays = (parent, a) => {
   if (!a) return '';
@@ -248,7 +248,14 @@ const fullConstruct = (options) => (t, name) => (props) => (o) =>
   apiFetch(options, construct(t, name, props)(buildQuery(t, name, o)), name);
 
 const apiFetch = (options, query, name) => {
-  return fetch(`${options[0]}?query=${encodeURIComponent(query)}`, options[1] || {})
+  let queryString = query;
+  try {
+    queryString = encodeURIComponent(query);
+  } catch (error) {
+    queryString = require('querystring').stringify(query);
+  }
+  console.log(queryString, query);
+  return fetch(`${options[0]}?query=${queryString}`, options[1] || {})
     .then((response) => response.json())
     .then((response) => {
       if (response.errors) {
