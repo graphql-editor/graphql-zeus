@@ -6,7 +6,7 @@ const generateOperation = (
   name: string
 ) => `\t${name}: ((props:any) => (o:any) =>
   \t\tfullConstruct(options)('${t}', '${name}')(props)(o).then(
-  \t\t\t(response) => response as GraphQLDictReturnType<${schemaType}['${name}']>
+  \t\t\t(response:any) => response as GraphQLDictReturnType<${schemaType}['${name}']>
   \t\t)) as FunctionToGraphQL<${schemaType}['${name}']>`;
 
 const generateOperationJavascript = (
@@ -284,13 +284,15 @@ const apiFetch = (options: fetchOptions, query: string, name: string) => {
   }else{
     queryString = require("querystring").stringify(query);
   }
-  let fetch = fetch;
-  if (typeof fetch === 'undefined') {
-    fetch = require('node-fetch');
+  let fetchFunction;
+  if (typeof fetch !== 'undefined') {
+    fetchFunction = fetch;
+  } else {
+    fetchFunction = require('node-fetch');
   }
-  return fetch(\`\${options[0]}?query=\${queryString}\`, options[1] || {})
-    .then((response) => response.json() as Promise<GraphQLResponse>)
-    .then((response) => {
+  return fetchFunction(\`\${options[0]}?query=\${queryString}\`, options[1] || {})
+    .then((response:any) => response.json() as Promise<GraphQLResponse>)
+    .then((response:GraphQLResponse) => {
       if (response.errors) {
         throw new GraphQLError(response);
       }
@@ -474,11 +476,13 @@ const joinArgs = (q) => {
     }else{
       queryString = require("querystring").stringify(query);
     }
-    let fetch = fetch;
-    if (typeof fetch === 'undefined') {
-      fetch = require('node-fetch');
+    let fetchFunction;
+    if (typeof fetch !== 'undefined') {
+      fetchFunction = fetch;
+    } else {
+      fetchFunction = require('node-fetch');
     }
-    return fetch(\`\${options[0]}?query=\${queryString}\`, options[1] || {})
+    return fetchFunction(\`\${options[0]}?query=\${queryString}\`, options[1] || {})
       .then((response) => response.json())
       .then((response) => {
         if (response.errors) {

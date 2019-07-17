@@ -37,6 +37,8 @@ export type Mutation = {
 }
 
 export type createCard = {
+	/** The attack power<br> */
+	Attack:number,
 	/** The defense power<br> */
 	Defense:number,
 	/** The name of a card<br> */
@@ -44,9 +46,7 @@ export type createCard = {
 	/** Description of a card<br> */
 	description:string,
 	/** <div>How many children the greek god had</div> */
-	Children?:number,
-	/** The attack power<br> */
-	Attack:number
+	Children?:number
 }
 
 type Func<P extends any[], R> = (...args: P) => R;

@@ -31,6 +31,12 @@ export const AllTypesProps = {
 		}
 	},
 	createCard:{
+		Attack:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
 		Defense:{
 			type:"Int",
 			array:false,
@@ -54,12 +60,6 @@ export const AllTypesProps = {
 			array:false,
 			arrayRequired:false,
 			required:false
-		},
-		Attack:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
 		}
 	}
 }
@@ -256,11 +256,13 @@ const joinArgs = (q) => {
     }else{
       queryString = require("querystring").stringify(query);
     }
-    let fetch = fetch;
-    if (typeof fetch === 'undefined') {
-      fetch = require('node-fetch');
+    let fetchFunction;
+    if (typeof fetch !== 'undefined') {
+      fetchFunction = fetch;
+    } else {
+      fetchFunction = require('node-fetch');
     }
-    return fetch(`${options[0]}?query=${queryString}`, options[1] || {})
+    return fetchFunction(`${options[0]}?query=${queryString}`, options[1] || {})
       .then((response) => response.json())
       .then((response) => {
         if (response.errors) {
