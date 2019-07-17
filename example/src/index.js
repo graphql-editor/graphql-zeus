@@ -2,9 +2,8 @@ import { Api } from './graphql-zeus';
 
 // This will return Card object with ID only
 const createCards = async () => {
-  let ZeusCard = await Api(
-    'https://faker.graphqleditor.com/aexol/olympus/graphql'
-  ).Mutation.addCard({
+  const api = Api('https://faker.graphqleditor.com/aexol/olympus/graphql', {});
+  let ZeusCard = api.Mutation.addCard({
     card: {
       name: 'Zeus',
       description:
@@ -16,9 +15,7 @@ const createCards = async () => {
   })({
     id: true
   });
-  let DionysusCard = await Api(
-    'https://faker.graphqleditor.com/aexol/olympus/graphql'
-  ).Mutation.addCard({
+  let DionysusCard = api.addCard({
     card: {
       name: 'Dionysus',
       description:
@@ -32,9 +29,7 @@ const createCards = async () => {
     name: true
   });
   // How to call graphql functions on objects
-  const [UpdatedDionysusCard, UpdatedZeusCard] = (await Api(
-    'https://faker.graphqleditor.com/aexol/olympus/graphql'
-  ).Query.cardById({
+  const [UpdatedDionysusCard, UpdatedZeusCard] = api.Query.cardById({
     cardId: DionysusCard.id
   })({
     attack: [
@@ -50,7 +45,7 @@ const createCards = async () => {
         name: true
       }
     ]
-  })).attack;
+  }).attack;
   console.log(UpdatedDionysusCard);
   console.log(UpdatedZeusCard);
 };
