@@ -31,6 +31,18 @@ export const AllTypesProps = {
 		}
 	},
 	createCard:{
+		description:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		Children:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
 		Attack:{
 			type:"Int",
 			array:false,
@@ -48,18 +60,6 @@ export const AllTypesProps = {
 			array:false,
 			arrayRequired:false,
 			required:true
-		},
-		description:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		Children:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
 		}
 	}
 }
@@ -249,20 +249,43 @@ const joinArgs = (q) => {
   ) => (props) => (o) =>
     apiFetch(options, construct(t, name, props)(buildQuery(t, name, o)), name);
 
+
   const apiFetch = (options, query, name) => {
-    let queryString = query;
-    if (typeof encodeURIComponent !== 'undefined') {
-      queryString = encodeURIComponent(query);
-    }else{
-      queryString = require("querystring").stringify(query);
-    }
     let fetchFunction;
+    let queryString = query;
+    let fetchOptions = options[1] || {};
     if (typeof fetch !== 'undefined') {
       fetchFunction = fetch;
     } else {
-      fetchFunction = require('node-fetch');
+      try {
+        fetchFunction = require('node-fetch');
+      } catch (error) {
+        throw new Error("Please install 'node-fetch' to use zeus in nodejs environment");
+      }
     }
-    return fetchFunction(`${options[0]}?query=${queryString}`, options[1] || {})
+    if (fetchOptions.method && fetchOptions.method === 'GET') {
+      if (typeof encodeURIComponent !== 'undefined') {
+        queryString = encodeURIComponent(query);
+      } else {
+        queryString = require('querystring').stringify(query);
+      }
+      return fetchFunction(`${options[0]}?query=${queryString}`, fetchOptions)
+        .then((response) => response.json())
+        .then((response) => {
+          if (response.errors) {
+            throw new GraphQLError(response);
+          }
+          return response.data && response.data[name];
+        });
+    }
+    return fetchFunction(`${options[0]}`, {
+      body: JSON.stringify({ query: queryString }),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      ...fetchOptions
+    })
       .then((response) => response.json())
       .then((response) => {
         if (response.errors) {

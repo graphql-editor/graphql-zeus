@@ -2,7 +2,9 @@ import { Api } from './graphql-zeus';
 
 // This will return Card object with ID only
 const createCards = async () => {
-  const api = Api('https://faker.graphqleditor.com/aexol/olympus/graphql', {});
+  const api = Api('https://faker.graphqleditor.com/aexol/olympus/graphql', {
+    method: 'GET'
+  });
   let ZeusCard = await api.Mutation.addCard({
     card: {
       name: 'Zeus',
