@@ -122,6 +122,17 @@ const createCards = async () => {
 
 ```
 
+To run the example navigate to: `./example` and run
+```sh
+$ npm i
+```
+
+then run 
+
+```
+$ npm run start
+```
+
 ### Spec
 
 ```
