@@ -60,7 +60,7 @@ $ zeus schema.graphql ./  --ts
 $ zeus https://faker.graphqleditor.com/aexol/olympus/graphql ./generated
 ```
 
-With Authori`ation header
+With Authorization header
 
 ```sh
 $ zeus https://faker.graphqleditor.com/aexol/olympus/graphql ./generated --header=Authorization:dsadasdASsad
