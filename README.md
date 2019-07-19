@@ -63,7 +63,7 @@ $ zeus https://faker.graphqleditor.com/aexol/olympus/graphql ./generated
 With Authori`ation header
 
 ```sh
-$ zeus https://faker.graphqleditor.com/aexol/olympus/graphql ./generated --header=Authorization:!dsadasdASD!123124aD@
+$ zeus https://faker.graphqleditor.com/aexol/olympus/graphql ./generated --header=Authorization:dsadasdASsad
 ```
 
 ### Use generated client example
