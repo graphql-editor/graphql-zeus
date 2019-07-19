@@ -6,6 +6,8 @@ import { Utils } from '../Utils';
 
 interface Yargs {
   [x: string]: unknown;
+  header?: string;
+  typescript?: boolean;
   _: string[];
   $0: string;
 }
@@ -14,8 +16,6 @@ interface Args extends Yargs {
   url?: string;
   u?: string;
   ts?: string;
-  typescript?: string;
-  header?: string;
 }
 export class CLI {
   static execute = async (args: Args) => {
@@ -28,7 +28,7 @@ export class CLI {
     }
     schemaFileContents = schemaFileContents || fs.readFileSync(schemaFile).toString();
     const pathToFile = allArgs[1] || '';
-    if ('typescript' in args || 'ts' in args) {
+    if (args.typescript) {
       const outFile = 'graphql-zeus.ts';
       const typeScriptDefinition = TreeToTS.resolveTree(Parser.parse(schemaFileContents));
       fs.writeFileSync(path.join(pathToFile, outFile), typeScriptDefinition);
