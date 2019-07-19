@@ -15,6 +15,7 @@ interface Args extends Yargs {
   u?: string;
   ts?: string;
   typescript?: string;
+  header?: string;
 }
 export class CLI {
   static execute = async (args: Args) => {
@@ -22,7 +23,8 @@ export class CLI {
     const allArgs = args._;
     const schemaFile: string = allArgs[0];
     if (schemaFile.startsWith('http://') || schemaFile.startsWith('https://')) {
-      schemaFileContents = await Utils.getFromUrl(schemaFile);
+      const { header } = args;
+      schemaFileContents = await Utils.getFromUrl(schemaFile, header);
     }
     schemaFileContents = schemaFileContents || fs.readFileSync(schemaFile).toString();
     const pathToFile = allArgs[1] || '';
