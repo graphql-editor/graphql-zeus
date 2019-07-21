@@ -37,16 +37,16 @@ export type Mutation = {
 }
 
 export type createCard = {
-	/** The defense power<br> */
-	Defense:number,
-	/** The name of a card<br> */
-	name:string,
 	/** Description of a card<br> */
 	description:string,
 	/** <div>How many children the greek god had</div> */
 	Children?:number,
 	/** The attack power<br> */
-	Attack:number
+	Attack:number,
+	/** The defense power<br> */
+	Defense:number,
+	/** The name of a card<br> */
+	name:string
 }
 
 
@@ -56,11 +56,10 @@ type AnyFunc = Func<any, any>;
 type AnyRecord = Record<string, any>;
 
 type ArgsType<F extends AnyFunc> = F extends Func<infer P, any> ? P : never;
+type FirstArgument<F extends AnyFunc> = ArgsType<F>;
 
 interface GraphQLResponse {
-  data?: {
-    [x: string]: any;
-  };
+  data?: Record<string, any>;
   errors?: Array<{
     message: string;
   }>;
@@ -98,8 +97,8 @@ type ResolveArgs<T> = T extends AnyRecord
         ? ResolveArgs<T[P]>
         : T[P] extends AnyFunc
         ? ReturnType<T[P]> extends AnyRecord
-          ? [ArgsType<T[P]>[0], ResolveArgs<ResolveInternalFunctionReturn<ReturnType<T[P]>>>]
-          : [ArgsType<T[P]>[0]]
+          ? [FirstArgument<T[P]>, ResolveArgs<ResolveInternalFunctionReturn<ReturnType<T[P]>>>]
+          : [FirstArgument<T[P]>]
         : true;
     }
   : true;
@@ -119,7 +118,7 @@ type FunctionToGraphQL<T> = T extends AnyFunc
   : () => EmptyOrGraphQLReturner<T>;
 
 type AfterFunctionToGraphQL<T extends AnyFunc> = (
-  props?: ArgsType<T>[0]
+  props?: FirstArgument<T>
 ) => EmptyOrGraphQLReturner<T>;
 
 type fetchOptions = ArgsType<typeof fetch>;
