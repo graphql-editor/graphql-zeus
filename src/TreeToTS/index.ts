@@ -10,7 +10,18 @@ import { resolvePropTypeFromRoot } from './templates/returnedPropTypes';
 import { resolveReturnFromRoot } from './templates/returnedReturns';
 import { resolveTypeFromRoot } from './templates/returnedTypes';
 
+/**
+ * Class Responsible for generating typescript and javascript code
+ *
+ * @export
+ * @class TreeToTS
+ */
 export class TreeToTS {
+  /**
+   * Generate javascript and ts declaration file
+   *
+   * @param tree Parser Tree
+   */
   static javascript(tree: ParserTree) {
     const rootTypes = tree.nodes.map(resolveTypeFromRoot);
     const propTypes = `export const AllTypesProps = {\n${tree.nodes
@@ -64,6 +75,12 @@ export declare function Api(
         )
     };
   }
+
+  /**
+   * Generate typescript file
+   *
+   * @param tree Parser Tree
+   */
   static resolveTree(tree: ParserTree) {
     const rootTypes = tree.nodes.map(resolveTypeFromRoot);
     const ignoreTSLINT = `/* tslint:disable */\n\n`;
