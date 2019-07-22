@@ -1,6 +1,12 @@
 import { buildClientSchema, getIntrospectionQuery, printSchema } from 'graphql';
 import fetch from 'node-fetch';
+/**
+ * Class representing all graphql utils needed in Zeus
+ */
 export class Utils {
+  /**
+   * Get GraphQL Schema by doing introspection on specified URL
+   */
   static getFromUrl = async (url: string, header?: string): Promise<string> => {
     const headers: Record<string, string> = {
       'Content-Type': 'application/json'
