@@ -4,20 +4,30 @@ import { Parser } from '../Parser';
 import { TreeToTS } from '../TreeToTS';
 import { Utils } from '../Utils';
 
+/**
+ * basic yargs interface
+ */
 interface Yargs {
   [x: string]: unknown;
-  header?: string;
-  typescript?: boolean;
   _: string[];
   $0: string;
 }
 
+/**
+ * Interface for yargs arguments
+ */
 interface Args extends Yargs {
+  header?: string;
+  typescript?: boolean;
   url?: string;
-  u?: string;
-  ts?: string;
 }
+/**
+ * Main class for controlling CLI
+ */
 export class CLI {
+  /**
+   *  Execute yargs provided args
+   */
   static execute = async (args: Args) => {
     let schemaFileContents: string = '';
     const allArgs = args._;
