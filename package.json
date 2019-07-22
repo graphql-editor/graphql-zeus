@@ -40,8 +40,8 @@
     "typescript": "^3.4.5"
   },
   "dependencies": {
+    "cross-fetch": "^3.0.4",
     "graphql": "^14.0.2",
-    "node-fetch": "^2.6.0",
     "yargs": "^13.3.0"
   },
   "config": {
