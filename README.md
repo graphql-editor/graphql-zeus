@@ -191,6 +191,19 @@ const typeScriptDefinition = TreeToTS.resolveTree(Parser.parse(schemaFileContent
 const jsDefinition = TreeToTS.javascript(Parser.parse(schemaFileContents));
 ```
 
+### Use in your project to dynamically fetch schema
+
+This is useful when you need some schema fetched from your GraphQL endpoint
+
+```js
+import { Utils } from 'graphql-zeus';
+
+Utils.getFromUrl("https://faker.graphqleditor.com/aexol/olympus/graphql").then(schemaContent => {
+  // Use schema content here
+})
+
+```
+
 ## Support 
 
 [Join our GraphQL Editor Channel](https://join.slack.com/t/graphqleditor/shared_invite/enQtNDkwOTgyOTM5OTc1LWI4YjU3N2U5NGVkNzQ2NzY5MGUxMTJiNjFlZDM1Zjc2OWRmNTI0NDM3OWUxYTk4Yjk3MzZlY2QwOWUzZmM2NDI)
