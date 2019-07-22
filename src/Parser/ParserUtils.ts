@@ -6,7 +6,15 @@ const compareArrays = (a1: any[] = [], a2: any[] = []) =>
     return value === a2.sort()[index];
   });
 
+/**
+ * Class used mainly for comparison of ParserFields
+ */
 export class ParserUtils {
+  /**
+   * Compare two parserFields
+   * @param node1 first parser field
+   * @param node2 second parser field
+   */
   static compareParserFields = (node1: ParserField, node2: ParserField): boolean => {
     if (
       node1.name !== node2.name ||
@@ -22,6 +30,12 @@ export class ParserUtils {
     }
     return true;
   }
+  /**
+   * Compare parserfields arrays
+   *
+   * @param t1 first array of ParserFields
+   * @param t2 second array of ParserFields
+   */
   static compareParserTreesNodes = (
     t1: ParserField[] | undefined,
     t2: ParserField[] | undefined

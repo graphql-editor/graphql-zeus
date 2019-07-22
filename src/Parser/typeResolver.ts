@@ -11,7 +11,16 @@ import {
 import { AllTypes, Options, ParserField } from '../Models';
 import { Instances, TypeSystemDefinition, Value, ValueDefinition } from '../Models/Spec';
 
+/**
+ * Class for resolving Types to ParserFields
+ */
 export class TypeResolver {
+  /**
+   * Resolve absolute parent type
+   *
+   * @param n
+   * @param [options=[]]
+   */
   static resolveSingleField(n: TypeNode, options: Options[] = []): ParserField['type'] {
     if (n.kind === 'ListType') {
       const opts = [...options, Options.array];
@@ -36,6 +45,11 @@ export class TypeResolver {
       name: n.name.value
     };
   }
+  /**
+   * Iterate fields and return them as ParserFields
+   *
+   * @param fields
+   */
   static iterateObjectTypeFields(fields: ReadonlyArray<FieldDefinitionNode>): ParserField[] {
     return fields.map(
       (n) =>
@@ -51,6 +65,11 @@ export class TypeResolver {
         } as ParserField)
     );
   }
+  /**
+   * Resolve default ValueNode options
+   *
+   * @param value
+   */
   static resolveInputValueOptions = (value: ValueNode) => {
     const options: Options[] = [];
     if (value.kind === 'ListValue') {
@@ -58,6 +77,11 @@ export class TypeResolver {
     }
     return options;
   }
+  /**
+   * Resolve object field
+   *
+   * @param f
+   */
   static resolveObjectField(f: ObjectFieldNode): ParserField[] {
     return [
       {
@@ -73,6 +97,11 @@ export class TypeResolver {
       }
     ];
   }
+  /**
+   * Resolve GraphQL ValueNode
+   *
+   * @param value
+   */
   static resolveValue(value: ValueNode): ParserField[] {
     if (value.kind === 'ListValue') {
       return value.values.map(TypeResolver.resolveValue).reduce((a, b) => [...a, ...b], []);
@@ -121,6 +150,10 @@ export class TypeResolver {
     }
     return [];
   }
+  /**
+   * Iterate directives
+   * @param directives GraphQL Directive nodes
+   */
   static iterateDirectives(directives: ReadonlyArray<DirectiveNode>): ParserField[] {
     return directives.map(
       (n) =>
@@ -136,6 +169,12 @@ export class TypeResolver {
         } as ParserField)
     );
   }
+  /**
+   * Iterate argument fields
+   *
+   * @param fields Argument Nodes
+   * @returns
+   */
   static iterateArgumentFields(fields: ReadonlyArray<ArgumentNode>): ParserField[] {
     return fields.map(
       (n) =>
@@ -152,6 +191,11 @@ export class TypeResolver {
         } as ParserField)
     );
   }
+  /**
+   * Iterate fields of input
+   *
+   * @param fields Input Value Definitions
+   */
   static iterateInputValueFields(fields: ReadonlyArray<InputValueDefinitionNode>): ParserField[] {
     return fields.map(
       (n) =>
@@ -167,12 +211,22 @@ export class TypeResolver {
         } as ParserField)
     );
   }
+  /**
+   * Resolve interfaces on Object Type
+   *
+   * @param n Type node
+   */
   static resolveInterfaces(n: TypeDefinitionNode) {
     if (n.kind !== 'ObjectTypeDefinition' || !n.interfaces) {
       return;
     }
     return n.interfaces.map((i) => i.name.value);
   }
+  /**
+   * Resolve fields of Type Defintiion node
+   *
+   * @param n Type Defintiion node
+   */
   static resolveFields(n: TypeDefinitionNode): ParserField[] | undefined {
     if (n.kind === 'EnumTypeDefinition') {
       if (!n.values) {

@@ -10,7 +10,17 @@ import {
 import { Directive, OperationType, TypeDefinition, TypeSystemDefinition } from '../Models/Spec';
 import { TypeResolver } from './typeResolver';
 export class Parser {
+  /**
+   * Parse schema from string and return ast
+   *
+   * @param schema
+   */
   static importSchema = (schema: string): GraphQLSchema => buildASTSchema(parse(schema));
+  /**
+   * Change GraphQLNamedType to ParserField
+   *
+   * @param n GraphQLNamedType
+   */
   static namedTypeToSerializedNodeTree = (n: GraphQLNamedType): ParserField => {
     const { name } = n;
     return {
@@ -27,6 +37,11 @@ export class Parser {
       args: TypeResolver.resolveFields(n.astNode!)
     };
   }
+  /**
+   * Change GraphQLDirective to ParserField
+   *
+   * @param n GraphQLDirective
+   */
   static directiveToSerializedNodeTree = (n: GraphQLDirective): ParserField => {
     const { name } = n;
     return {
@@ -42,7 +57,14 @@ export class Parser {
       args: TypeResolver.iterateInputValueFields(n.args.map((a) => a.astNode!))
     };
   }
-  static parse = (schema: string, excludeRoots: string[] = []) => {
+  /**
+   * Parse whole string GraphQL schema and return ParserTree
+   *
+   * @param schema GraphQL schema string
+   * @param [excludeRoots=[]] param to exclude some node names from parsing in this schema
+   * @returns
+   */
+  static parse = (schema: string, excludeRoots: string[] = []): ParserTree => {
     let parsedSchema: GraphQLSchema;
     try {
       parsedSchema = Parser.importSchema(schema);
