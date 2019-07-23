@@ -30,6 +30,10 @@ const createCards = async () => {
     id: true,
     name: true
   });
+  const listCards = await api.Query.listCards()({
+    Attack: true
+  });
+  console.log(listCards);
   // How to call graphql functions on objects
   const [UpdatedDionysusCard, UpdatedZeusCard] = (await api.Query.cardById({
     cardId: DionysusCard.id

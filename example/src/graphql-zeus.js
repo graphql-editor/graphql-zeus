@@ -31,6 +31,12 @@ export const AllTypesProps = {
 		}
 	},
 	createCard:{
+		name:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
 		description:{
 			type:"String",
 			array:false,
@@ -51,12 +57,6 @@ export const AllTypesProps = {
 		},
 		Defense:{
 			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		name:{
-			type:"String",
 			array:false,
 			arrayRequired:false,
 			required:true
@@ -296,19 +296,19 @@ const joinArgs = (q) => {
   };
 
   export const Api = (...options) => ({
-      Query: {	cardById: ((props) => (o) =>
+      Query: {	cardById: ((props = {}) => (o) =>
     		fullConstruct(options)('Query', 'cardById')(props)(o).then(
     			(response) => response
     		)),
-	drawCard: ((props) => (o) =>
+	drawCard: ((props = {}) => (o) =>
     		fullConstruct(options)('Query', 'drawCard')(props)(o).then(
     			(response) => response
     		)),
-	listCards: ((props) => (o) =>
+	listCards: ((props = {}) => (o) =>
     		fullConstruct(options)('Query', 'listCards')(props)(o).then(
     			(response) => response
     		))},
-Mutation: {	addCard: ((props) => (o) =>
+Mutation: {	addCard: ((props = {}) => (o) =>
     		fullConstruct(options)('Mutation', 'addCard')(props)(o).then(
     			(response) => response
     		))},
