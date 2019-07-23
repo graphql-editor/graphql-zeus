@@ -27,7 +27,8 @@ type AnyFunc = Func<any, any>;
 type AnyRecord = Record<string, any>;
 
 type ArgsType<F extends AnyFunc> = F extends Func<infer P, any> ? P : never;
-type FirstArgument<F extends AnyFunc> = ArgsType<F>;
+type GetTypeFromArray<T> = T extends Array<infer R> ? R : T;
+type FirstArgument<F extends AnyFunc> = GetTypeFromArray<ArgsType<F>>;
 
 interface GraphQLResponse {
   data?: Record<string, any>;

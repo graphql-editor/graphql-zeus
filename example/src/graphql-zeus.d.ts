@@ -26,9 +26,9 @@ export type Card = {
 }
 
 export enum SpecialSkills {
-	FIRE = "FIRE",
 	THUNDER = "THUNDER",
-	RAIN = "RAIN"
+	RAIN = "RAIN",
+	FIRE = "FIRE"
 }
 
 export type Mutation = {
@@ -37,16 +37,16 @@ export type Mutation = {
 }
 
 export type createCard = {
+	/** Description of a card<br> */
+	description:string,
+	/** <div>How many children the greek god had</div> */
+	Children?:number,
 	/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
 	Defense:number,
 	/** The name of a card<br> */
-	name:string,
-	/** Description of a card<br> */
-	description:string,
-	/** <div>How many children the greek god had</div> */
-	Children?:number
+	name:string
 }
 
 
@@ -56,7 +56,8 @@ type AnyFunc = Func<any, any>;
 type AnyRecord = Record<string, any>;
 
 type ArgsType<F extends AnyFunc> = F extends Func<infer P, any> ? P : never;
-type FirstArgument<F extends AnyFunc> = ArgsType<F>;
+type GetTypeFromArray<T> = T extends Array<infer R> ? R : T;
+type FirstArgument<F extends AnyFunc> = GetTypeFromArray<ArgsType<F>>;
 
 interface GraphQLResponse {
   data?: Record<string, any>;
