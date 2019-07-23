@@ -33,19 +33,68 @@ const generateOperations = ({
 }): string[] => {
   const allOps = [];
   allOps.push(`Query: {${queries.map((q) => generateOperation('Query', 'Query', q)).join(',\n')}}`);
-  if (mutations) {
+  if (mutations && mutations.length) {
     allOps.push(
       `Mutation: {${mutations
         .map((q) => generateOperation('Mutation', 'Mutation', q))
         .join(',\n')}}`
     );
   }
-  if (subscriptions) {
+  if (subscriptions && subscriptions.length) {
     allOps.push(
       `Subscription: {${subscriptions
         .map((q) => generateOperation('Subscription', 'Subscription', q))
         .join(',\n')}}`
     );
+  }
+  return allOps;
+};
+const generateOperationChainingJavascript = (t: 'Query' | 'Mutation' | 'Subscription') =>
+  `${t}: (o) =>
+    fullChainConstruct(options)('${t}')(o).then(
+      (response) => response
+    )`;
+const generateOperationChaining = (t: 'Query' | 'Mutation' | 'Subscription') =>
+  `${t}: ((o: any) =>
+    fullChainConstruct(options)('${t}')(o).then(
+      (response: any) => response as GraphQLDictReturnType<${t}>
+    )) as OperationToGraphQL<${t}>`;
+
+const generateOperationsChainingJavascipt = ({
+  queries,
+  mutations,
+  subscriptions
+}: {
+  queries: string[];
+  mutations?: string[];
+  subscriptions?: string[];
+}): string[] => {
+  const allOps: string[] = [];
+  allOps.push(generateOperationChainingJavascript('Query'));
+  if (mutations && mutations.length) {
+    allOps.push(generateOperationChainingJavascript('Mutation'));
+  }
+  if (subscriptions && subscriptions.length) {
+    allOps.push(generateOperationChainingJavascript('Subscription'));
+  }
+  return allOps;
+};
+const generateOperationsChaining = ({
+  queries,
+  mutations,
+  subscriptions
+}: {
+  queries: string[];
+  mutations?: string[];
+  subscriptions?: string[];
+}): string[] => {
+  const allOps: string[] = [];
+  allOps.push(generateOperationChaining('Query'));
+  if (mutations && mutations.length) {
+    allOps.push(generateOperationChaining('Mutation'));
+  }
+  if (subscriptions && subscriptions.length) {
+    allOps.push(generateOperationChaining('Subscription'));
   }
   return allOps;
 };
@@ -62,12 +111,12 @@ const generateOperationsJavascript = ({
   allOps.push(
     `Query: {${queries.map((q) => generateOperationJavascript('Query', q)).join(',\n')}}`
   );
-  if (mutations) {
+  if (mutations && mutations.length) {
     allOps.push(
       `Mutation: {${mutations.map((q) => generateOperationJavascript('Mutation', q)).join(',\n')}}`
     );
   }
-  if (subscriptions) {
+  if (subscriptions && subscriptions.length) {
     allOps.push(
       `Subscription: {${subscriptions
         .map((q) => generateOperationJavascript('Subscription', q))
@@ -77,6 +126,25 @@ const generateOperationsJavascript = ({
   return allOps;
 };
 
+export const generateOperationsJavascriptDefinitionsChaining = ({
+  queries,
+  mutations,
+  subscriptions
+}: {
+  queries: string[];
+  mutations?: string[];
+  subscriptions?: string[];
+}): string[] => {
+  const allOps = [];
+  allOps.push(`Query: OperationToGraphQL<Query>`);
+  if (mutations && mutations.length) {
+    allOps.push(`Mutation: OperationToGraphQL<Mutation>`);
+  }
+  if (subscriptions && subscriptions.length) {
+    allOps.push(`Subscription: OperationToGraphQL<Subscription>`);
+  }
+  return allOps;
+};
 export const generateOperationsJavascriptDefinitions = ({
   queries,
   mutations,
@@ -90,14 +158,14 @@ export const generateOperationsJavascriptDefinitions = ({
   allOps.push(
     `Query: {${queries.map((q) => generateOperationJavascriptDefinition('Query', q)).join(',\n')}}`
   );
-  if (mutations) {
+  if (mutations && mutations.length) {
     allOps.push(
       `Mutation: {${mutations
         .map((q) => generateOperationJavascriptDefinition('Mutation', q))
         .join(',\n')}}`
     );
   }
-  if (subscriptions) {
+  if (subscriptions && subscriptions.length) {
     allOps.push(
       `Subscription: {${subscriptions
         .map((q) => generateOperationJavascriptDefinition('Subscription', q))
@@ -277,7 +345,17 @@ const fullConstruct = (options: fetchOptions) => (
 ) => (props?: Dict) => (o?: Record<any, any>) =>
   apiFetch(options, construct(t, name, props)(buildQuery(t, name, o)), name);
 
-const apiFetch = (options: fetchOptions, query: string, name: string) => {
+const fullChainConstruct = (options: fetchOptions) => (
+  t: 'Query' | 'Mutation' | 'Subscription'
+) => (o: Record<any, any>) =>
+  apiFetch(
+    options,
+    \`\${t.toLowerCase()}{\${Object.keys(o)
+      .map((ok) => \`\${ok}\${buildQuery(t, ok, o[ok])}\`)
+      .join('\\n')}}\`
+  );
+
+const apiFetch = (options: fetchOptions, query: string, name?: string) => {
   let fetchFunction;
   let queryString = query;
   let fetchOptions = options[1] || {};
@@ -302,6 +380,9 @@ const apiFetch = (options: fetchOptions, query: string, name: string) => {
         if (response.errors) {
           throw new GraphQLError(response);
         }
+        if (!name) {
+          return response.data;
+        }
         return response.data && response.data[name];
       });
   }
@@ -318,9 +399,18 @@ const apiFetch = (options: fetchOptions, query: string, name: string) => {
       if (response.errors) {
         throw new GraphQLError(response);
       }
+      if (!name) {
+        return response.data;
+      }
       return response.data && response.data[name];
     });
 };
+
+
+export const Chain = (...options: fetchOptions) => ({
+  ${generateOperationsChaining({ queries, mutations, subscriptions }).join(',\n')}
+});
+
 
 export const Api = (...options: fetchOptions) => ({
     ${generateOperations({ queries, mutations, subscriptions }).join(',\n')}
@@ -491,6 +581,15 @@ const joinArgs = (q) => {
   ) => (props) => (o) =>
     apiFetch(options, construct(t, name, props)(buildQuery(t, name, o)), name);
 
+  const fullChainConstruct = (options) => (
+    t
+  ) => (o) =>
+    apiFetch(
+      options,
+      \`\${t.toLowerCase()}{\${Object.keys(o)
+        .map((ok) => \`\${ok}\${buildQuery(t, ok, o[ok])}\`)
+        .join('\\n')}}\`
+    );
 
   const apiFetch = (options, query, name) => {
     let fetchFunction;
@@ -517,6 +616,9 @@ const joinArgs = (q) => {
           if (response.errors) {
             throw new GraphQLError(response);
           }
+          if (!name) {
+            return response.data;
+          }
           return response.data && response.data[name];
         });
     }
@@ -533,9 +635,16 @@ const joinArgs = (q) => {
         if (response.errors) {
           throw new GraphQLError(response);
         }
+        if (!name) {
+          return response.data;
+        }
         return response.data && response.data[name];
       });
   };
+
+  export const Chain = (...options) => ({
+    ${generateOperationsChainingJavascipt({ queries, mutations, subscriptions }).join(',\n')}
+  });
 
   export const Api = (...options) => ({
       ${generateOperationsJavascript({ queries, mutations, subscriptions }).join(',\n')}

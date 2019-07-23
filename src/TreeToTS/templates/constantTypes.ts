@@ -89,6 +89,8 @@ type FunctionToGraphQL<T> = T extends AnyFunc
   ? AfterFunctionToGraphQL<T>
   : () => EmptyOrGraphQLReturner<T>;
 
+type OperationToGraphQL<T> = (o: GraphQLReturner<T>) => Promise<GraphQLDictReturnType<T>>;
+
 type AfterFunctionToGraphQL<T extends AnyFunc> = (
   props?: FirstArgument<T>
 ) => EmptyOrGraphQLReturner<T>;

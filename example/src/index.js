@@ -1,10 +1,11 @@
-import { Api } from './graphql-zeus';
+import { Api, Chain } from './graphql-zeus';
 
 // This will return Card object with ID only
 const createCards = async () => {
   const api = Api('https://faker.graphqleditor.com/aexol/olympus/graphql', {
     method: 'GET'
   });
+  const chain = Chain('https://faker.graphqleditor.com/aexol/olympus/graphql');
   let ZeusCard = await api.Mutation.addCard({
     card: {
       name: 'Zeus',
@@ -30,10 +31,19 @@ const createCards = async () => {
     id: true,
     name: true
   });
-  const listCards = await api.Query.listCards()({
-    Attack: true
+  // Query chaining example
+  const listCardsAndDraw = await chain.Query({
+    listCards: {
+      name: true,
+      skills: true
+    },
+    drawCard: {
+      name: true,
+      skills: true,
+      Attack: true
+    }
   });
-  console.log(listCards);
+  console.log(listCardsAndDraw);
   // How to call graphql functions on objects
   const [UpdatedDionysusCard, UpdatedZeusCard] = (await api.Query.cardById({
     cardId: DionysusCard.id
