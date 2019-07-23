@@ -26,9 +26,9 @@ export type Card = {
 }
 
 export enum SpecialSkills {
-	RAIN = "RAIN",
 	FIRE = "FIRE",
-	THUNDER = "THUNDER"
+	THUNDER = "THUNDER",
+	RAIN = "RAIN"
 }
 
 export type Mutation = {
@@ -118,6 +118,8 @@ type FunctionToGraphQL<T> = T extends AnyFunc
   ? AfterFunctionToGraphQL<T>
   : () => EmptyOrGraphQLReturner<T>;
 
+type OperationToGraphQL<T> = (o: GraphQLReturner<T>) => Promise<GraphQLDictReturnType<T>>;
+
 type AfterFunctionToGraphQL<T extends AnyFunc> = (
   props?: FirstArgument<T>
 ) => EmptyOrGraphQLReturner<T>;
@@ -130,5 +132,10 @@ export declare function Api(
 ): {
   Query: {	cardById: FunctionToGraphQL<Query['cardById']>,
 	drawCard: FunctionToGraphQL<Query['drawCard']>,
-	listCards: FunctionToGraphQL<Query['listCards']>},Mutation: {	addCard: FunctionToGraphQL<Mutation['addCard']>},Subscription: {}
+	listCards: FunctionToGraphQL<Query['listCards']>},Mutation: {	addCard: FunctionToGraphQL<Mutation['addCard']>}
 };
+export declare function Chain(
+  ...options: fetchOptions
+):{
+  Query: OperationToGraphQL<Query>,Mutation: OperationToGraphQL<Mutation>
+}

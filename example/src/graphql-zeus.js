@@ -249,6 +249,15 @@ const joinArgs = (q) => {
   ) => (props) => (o) =>
     apiFetch(options, construct(t, name, props)(buildQuery(t, name, o)), name);
 
+  const fullChainConstruct = (options) => (
+    t
+  ) => (o) =>
+    apiFetch(
+      options,
+      `${t.toLowerCase()}{${Object.keys(o)
+        .map((ok) => `${ok}${buildQuery(t, ok, o[ok])}`)
+        .join('\n')}}`
+    );
 
   const apiFetch = (options, query, name) => {
     let fetchFunction;
@@ -275,6 +284,9 @@ const joinArgs = (q) => {
           if (response.errors) {
             throw new GraphQLError(response);
           }
+          if (!name) {
+            return response.data;
+          }
           return response.data && response.data[name];
         });
     }
@@ -291,9 +303,23 @@ const joinArgs = (q) => {
         if (response.errors) {
           throw new GraphQLError(response);
         }
+        if (!name) {
+          return response.data;
+        }
         return response.data && response.data[name];
       });
   };
+
+  export const Chain = (...options) => ({
+    Query: (o) =>
+    fullChainConstruct(options)('Query')(o).then(
+      (response) => response
+    ),
+Mutation: (o) =>
+    fullChainConstruct(options)('Mutation')(o).then(
+      (response) => response
+    )
+  });
 
   export const Api = (...options) => ({
       Query: {	cardById: ((props = {}) => (o) =>
@@ -311,7 +337,6 @@ const joinArgs = (q) => {
 Mutation: {	addCard: ((props = {}) => (o) =>
     		fullConstruct(options)('Mutation', 'addCard')(props)(o).then(
     			(response) => response
-    		))},
-Subscription: {}
+    		))}
   });
     

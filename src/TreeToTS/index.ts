@@ -4,6 +4,7 @@ import { constantTypes } from './templates/constantTypes';
 import {
   body,
   generateOperationsJavascriptDefinitions,
+  generateOperationsJavascriptDefinitionsChaining,
   javascriptBody
 } from './templates/operations';
 import { resolvePropTypeFromRoot } from './templates/returnedPropTypes';
@@ -71,6 +72,11 @@ export declare function Api(
 ): {
   ${generateOperationsJavascriptDefinitions(operationsBody)}
 };
+export declare function Chain(
+  ...options: fetchOptions
+):{
+  ${generateOperationsJavascriptDefinitionsChaining(operationsBody)}
+}
 `
         )
     };
