@@ -4,7 +4,7 @@ const generateOperation = (
   t: 'Query' | 'Mutation' | 'Subscription',
   schemaType: string,
   name: string
-) => `\t${name}: ((props:any) => (o:any) =>
+) => `\t${name}: ((props:any = {}) => (o:any) =>
   \t\tfullConstruct(options)('${t}', '${name}')(props)(o).then(
   \t\t\t(response:any) => response as GraphQLDictReturnType<${schemaType}['${name}']>
   \t\t)) as FunctionToGraphQL<${schemaType}['${name}']>`;
@@ -12,7 +12,7 @@ const generateOperation = (
 const generateOperationJavascript = (
   t: 'Query' | 'Mutation' | 'Subscription',
   name: string
-) => `\t${name}: ((props) => (o) =>
+) => `\t${name}: ((props = {}) => (o) =>
     \t\tfullConstruct(options)('${t}', '${name}')(props)(o).then(
     \t\t\t(response) => response
     \t\t))`;
