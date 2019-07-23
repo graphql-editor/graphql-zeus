@@ -102,6 +102,19 @@ const createCards = async () => {
     id: true,
     name: true
   });
+   // Query chaining example
+  const listCardsAndDraw = await chain.Query({
+    listCards: {
+      name: true,
+      skills: true
+    },
+    drawCard: {
+      name: true,
+      skills: true,
+      Attack: true
+    }
+  });
+  console.log(listCardsAndDraw)
   // How to call graphql functions on objects
   const [UpdatedDionysusCard, UpdatedZeusCard] = (await Api(
     'https://faker.graphqleditor.com/aexol/olympus/graphql'
@@ -138,6 +151,8 @@ then run
 ```
 $ npm run start
 ```
+
+Use `Api` for single queries mutations and `Chain` for query chaining
 
 ### Spec
 
