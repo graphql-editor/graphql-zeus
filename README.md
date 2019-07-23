@@ -141,33 +141,51 @@ $ npm run start
 
 ### Spec
 
-```
-PROMISE_RETURNING_OBJECT = Api.[OPERATION_NAME].[OPERATION_FIELD](
-    ...OPERATION_FIELD_PARAMS
-)(
-    ...RETURN PARAMS
-)
-```
-
-Internal graphql type functions
+Promise of type query data object is returned.
 
 ```
-PROMISE_RETURNING_OBJECT = Api.[OPERATION_NAME].[OPERATION_FIELD](
-    ...OPERATION_FIELD_PARAMS
-)(
+PROMISE_RETURNING_OBJECT = Api.[OPERATION_NAME].[OPERATION_FIELD]({
+    ...FUNCTION_FIELD_PARAMS
+})(
+    ...QUERY_OBJECT
+).then ( RESPONSE_OBJECT => RESPONSE_OBJECT[OPERATION_FIELD] )
+```
+
+Simple function params object
+
+```
+FUNCTION_FIELD_PARAMS = {
+  KEY: VALUE
+}
+```
+
+Query object 
+
+```
+QUERY_OBJECT = {
     ...RETURN_PARAMS
-    [
+}
+```
+
+Return params is an object containg RETURN_KEY - true if it is a `scalar`, RETURN_PARAMS if `type` otherwise it is a function where you pass Fiel params and type return params.
+
+
+```
+RETURN_PARAMS = {
+    RETURN_KEY: true,
+    RETURN_KEY: {
+        ...RETURN_PARAMS
+    },
+    RETURN_FUNCTION_KEY:[
         {
-            ...FUNCTION_PARAMS
+            ...FUNCTION_FIELD_PARAMS
         },
         {
-            ...RETURN_FUNCTION_PARAMS
+            ...RETURN_PARAMS
         }
     ]
-).then( object => object[FUNCTION_NAME] )
-
+}
 ```
-
 
 
 ### Use In your Project to generate code 
