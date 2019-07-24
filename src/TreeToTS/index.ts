@@ -3,7 +3,6 @@ import { OperationType } from '../Models/Spec';
 import { constantTypes } from './templates/constantTypes';
 import {
   body,
-  generateOperationsJavascriptDefinitions,
   generateOperationsJavascriptDefinitionsChaining,
   javascriptBody
 } from './templates/operations';
@@ -67,11 +66,6 @@ export class TreeToTS {
         .concat(constantTypes)
         .concat(
           `
-export declare function Api(
-  ...options: fetchOptions
-): {
-  ${generateOperationsJavascriptDefinitions(operationsBody)}
-};
 export declare function Chain(
   ...options: fetchOptions
 ):{

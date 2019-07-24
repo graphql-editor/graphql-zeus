@@ -1,15 +1,4 @@
 export const javascriptFunctions = `
-const joinArgs = (q) => {
-    return Array.isArray(q)
-      ? \`[\${q.map(joinArgs).join(',')}]\`
-      : typeof q === 'object'
-      ? \`{\${Object.keys(q)
-          .map((k) => \`\${k}:\${joinArgs(q[k])}\`)
-          .join(',')}}\`
-      : typeof q === 'string'
-      ? \`"\${q}"\`
-      : q;
-  };
 
   export const ScalarResolver = (scalar, value) => {
     switch (scalar) {
@@ -30,10 +19,6 @@ const joinArgs = (q) => {
       default:
         return false;
     }
-  };
-
-  export const ReturnGraphQLTypeOfArgument = (type, name, key) => {
-    return AllTypesProps[type][name][key].type;
   };
 
   export const TypesPropsResolver = ({
@@ -68,16 +53,6 @@ const joinArgs = (q) => {
       return ScalarResolver(AllTypesProps[typeResolved], value);
     }
     return reslovedScalar;
-  };
-
-  const resolveArgs = (q, t, name) => {
-    const argsKeys = Object.keys(q);
-    if (argsKeys.length === 0) {
-      return '';
-    }
-    return \`(\${argsKeys
-      .map((k) => \`\${k}:\${TypesPropsResolver({ value: q[k], type: t, name, key: k })}\`)
-      .join(',')})\`;
   };
 
   const isArrayFunction = (
@@ -138,20 +113,6 @@ const joinArgs = (q) => {
 
   const buildQuery = (type, name, a) =>
     traverseToSeekArrays([type, name], a).replace(/\\"([^{^,^\\n^\\"]*)\\":([^{^,^\\n^\\"]*)/g, '$1:$2');
-
-  const construct = (t, name, args) => (
-    returnedQuery
-  ) => \`
-          \${t.toLowerCase()}{
-            \${name}\${resolveArgs(args, t, name)}\${returnedQuery}
-          }
-    \`;
-
-  const fullConstruct = (options) => (
-    t,
-    name
-  ) => (props) => (o) =>
-    apiFetch(options, construct(t, name, props)(buildQuery(t, name, o)), name);
 
   const fullChainConstruct = (options) => (
     t

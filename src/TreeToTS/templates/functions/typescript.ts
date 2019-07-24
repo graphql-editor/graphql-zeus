@@ -1,16 +1,4 @@
 export const typescriptFunctions = `
-const joinArgs = (q: Dict): string => {
-  return Array.isArray(q)
-    ? \`[\${q.map(joinArgs).join(',')}]\`
-    : typeof q === 'object'
-    ? \`{\${Object.keys(q)
-        .map((k) => \`\${k}:\${joinArgs(q[k])}\`)
-        .join(',')}}\`
-    : typeof q === 'string'
-    ? \`"\${q}"\`
-    : q;
-};
-
 export const ScalarResolver = (scalar: string, value: any) => {
   switch (scalar) {
     case 'String':
@@ -30,10 +18,6 @@ export const ScalarResolver = (scalar: string, value: any) => {
     default:
       return false;
   }
-};
-
-export const ReturnGraphQLTypeOfArgument = (type: string, name: string, key: string) => {
-  return AllTypesProps[type][name][key].type as string;
 };
 
 export const TypesPropsResolver = ({
@@ -74,16 +58,6 @@ export const TypesPropsResolver = ({
     return ScalarResolver(AllTypesProps[typeResolved], value) as string;
   }
   return reslovedScalar;
-};
-
-const resolveArgs = (q: Dict, t: 'Query' | 'Mutation' | 'Subscription', name: string): string => {
-  const argsKeys = Object.keys(q);
-  if (argsKeys.length === 0) {
-    return '';
-  }
-  return \`(\${argsKeys
-    .map((k) => \`\${k}:\${TypesPropsResolver({ value: q[k], type: t, name, key: k })}\`)
-    .join(',')})\`;
 };
 
 const isArrayFunction = <T extends [Record<any, any>, Record<any, any>]>(
@@ -144,20 +118,6 @@ const traverseToSeekArrays = <T extends Record<any, any>>(parent: string[], a?: 
 
 const buildQuery = <T extends Record<any, any>>(type: string, name: string, a?: T) =>
   traverseToSeekArrays([type, name], a).replace(/\\"([^{^,^\\n^\\"]*)\\":([^{^,^\\n^\\"]*)/g, '$1:$2');
-
-const construct = (t: 'Query' | 'Mutation' | 'Subscription', name: string, args: Dict = {}) => (
-  returnedQuery?: string
-) => \`
-        \${t.toLowerCase()}{
-          \${name}\${resolveArgs(args, t, name)}\${returnedQuery}
-        }
-  \`;
-
-const fullConstruct = (options: fetchOptions) => (
-  t: 'Query' | 'Mutation' | 'Subscription',
-  name: string
-) => (props?: Dict) => (o?: Record<any, any>) =>
-  apiFetch(options, construct(t, name, props)(buildQuery(t, name, o)), name);
 
 const fullChainConstruct = (options: fetchOptions) => (
   t: 'Query' | 'Mutation' | 'Subscription'

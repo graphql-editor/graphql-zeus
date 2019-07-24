@@ -24,7 +24,9 @@ export const constantTypes = `
 
 type Func<P extends any[], R> = (...args: P) => R;
 type AnyFunc = Func<any, any>;
-type AnyRecord = Record<string, any>;
+
+type IsType<M, T, Z, L> = T extends M ? Z : L;
+type IsObject<T, Z, L> = IsType<object, T, Z, L>;
 
 type ArgsType<F extends AnyFunc> = F extends Func<infer P, any> ? P : never;
 type GetTypeFromArray<T> = T extends Array<infer R> ? R : T;
@@ -37,63 +39,43 @@ interface GraphQLResponse {
   }>;
 }
 
-interface Dict {
-  [x: string]: Dict | any | Dict[] | any[];
-}
-
 export type ResolveReturned<T> = {
   [P in keyof T]?: T[P] extends Array<infer R>
     ? Array<ResolveReturned<R>>
-    : T[P] extends {
-        [x: string]: infer R;
-      }
-    ? ResolveReturned<T[P]>
     : T[P] extends AnyFunc
     ? ResolveReturned<ReturnType<T[P]>>
-    : T[P];
+    : IsObject<
+        T[P],
+        ResolveReturned<T[P]>,
+        T[P] extends AnyFunc ? ResolveReturned<ReturnType<T[P]>> : T[P]
+      >;
 };
-
-export type State<T> = T extends Array<infer R> ? Array<ResolveReturned<R>> : ResolveReturned<T>;
-
-type GraphQLDictReturnType<T> = T extends AnyFunc ? State<ReturnType<T>> : T;
 
 type ResolveInternalFunctionReturn<T> = T extends Array<infer R> ? R : T;
 
-type ResolveArgs<T> = T extends AnyRecord
-  ? {
-      [P in keyof T]?: T[P] extends Array<infer R>
-        ? ResolveArgs<R>
-        : T[P] extends {
-            [x: string]: infer R;
-          }
-        ? ResolveArgs<T[P]>
-        : T[P] extends AnyFunc
-        ? ReturnType<T[P]> extends AnyRecord
-          ? [FirstArgument<T[P]>, ResolveArgs<ResolveInternalFunctionReturn<ReturnType<T[P]>>>]
-          : [FirstArgument<T[P]>]
-        : true;
-    }
-  : true;
+type ResolveArgs<T> = IsObject<
+  T,
+  {
+    [P in keyof T]?: T[P] extends Array<infer R>
+      ? ResolveArgs<R>
+      : T[P] extends {
+          [x: string]: infer R;
+        }
+      ? ResolveArgs<T[P]>
+      : T[P] extends AnyFunc
+      ? IsObject<
+          ReturnType<T[P]>,
+          [FirstArgument<T[P]>, ResolveArgs<ResolveInternalFunctionReturn<ReturnType<T[P]>>>],
+          [FirstArgument<T[P]>]
+        >
+      : true;
+  },
+  true
+>;
 
 type GraphQLReturner<T> = T extends Array<infer R> ? ResolveArgs<R> : ResolveArgs<T>;
 
-type EmptyOrGraphQLReturner<T> = T extends AnyFunc
-  ? ReturnType<T> extends AnyRecord
-    ? (o: GraphQLReturner<ReturnType<T>>) => Promise<GraphQLDictReturnType<T>>
-    : () => Promise<GraphQLDictReturnType<T>>
-  : T extends AnyRecord
-  ? (o: GraphQLReturner<T>) => Promise<GraphQLDictReturnType<T>>
-  : () => Promise<GraphQLDictReturnType<T>>;
-
-type FunctionToGraphQL<T> = T extends AnyFunc
-  ? AfterFunctionToGraphQL<T>
-  : () => EmptyOrGraphQLReturner<T>;
-
-type OperationToGraphQL<T> = (o: GraphQLReturner<T>) => Promise<GraphQLDictReturnType<T>>;
-
-type AfterFunctionToGraphQL<T extends AnyFunc> = (
-  props?: FirstArgument<T>
-) => EmptyOrGraphQLReturner<T>;
+type OperationToGraphQL<T> = (o: GraphQLReturner<T>) => Promise<ResolveReturned<T>>;
 
 type fetchOptions = ArgsType<typeof fetch>;
 
