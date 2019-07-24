@@ -37,6 +37,8 @@ export type Mutation = {
 }
 
 export type createCard = {
+	/** The defense power<br> */
+	Defense:number,
 	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
@@ -44,9 +46,7 @@ export type createCard = {
 	/** <div>How many children the greek god had</div> */
 	Children?:number,
 	/** The attack power<br> */
-	Attack:number,
-	/** The defense power<br> */
-	Defense:number
+	Attack:number
 }
 
 
