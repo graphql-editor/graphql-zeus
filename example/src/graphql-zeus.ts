@@ -174,16 +174,14 @@ interface Dict {
 export type ResolveReturned<T> = {
   [P in keyof T]?: T[P] extends Array<infer R>
     ? Array<ResolveReturned<R>>
+    : T[P] extends AnyFunc
+    ? ResolveReturned<ReturnType<T[P]>>
     : IsObject<
         T[P],
         ResolveReturned<T[P]>,
         T[P] extends AnyFunc ? ResolveReturned<ReturnType<T[P]>> : T[P]
       >;
 };
-
-export type State<T> = T extends Array<infer R> ? Array<ResolveReturned<R>> : ResolveReturned<T>;
-
-type GraphQLDictReturnType<T> = T extends AnyFunc ? State<ReturnType<T>> : State<T>;
 
 type ResolveInternalFunctionReturn<T> = T extends Array<infer R> ? R : T;
 
@@ -209,27 +207,7 @@ type ResolveArgs<T> = IsObject<
 
 type GraphQLReturner<T> = T extends Array<infer R> ? ResolveArgs<R> : ResolveArgs<T>;
 
-type EmptyOrGraphQLReturner<T> = T extends AnyFunc
-  ? IsObject<
-      ReturnType<T>,
-      (o: GraphQLReturner<ReturnType<T>>) => Promise<GraphQLDictReturnType<T>>,
-      () => Promise<GraphQLDictReturnType<T>>
-    >
-  : IsObject<
-      T,
-      (o: GraphQLReturner<T>) => Promise<GraphQLDictReturnType<T>>,
-      () => Promise<GraphQLDictReturnType<T>>
-    >;
-
-type FunctionToGraphQL<T> = T extends AnyFunc
-  ? AfterFunctionToGraphQL<T>
-  : () => EmptyOrGraphQLReturner<T>;
-
-type OperationToGraphQL<T> = (o: GraphQLReturner<T>) => Promise<GraphQLDictReturnType<T>>;
-
-type AfterFunctionToGraphQL<T extends AnyFunc> = (
-  props?: FirstArgument<T>
-) => EmptyOrGraphQLReturner<T>;
+type OperationToGraphQL<T> = (o: GraphQLReturner<T>) => Promise<ResolveReturned<T>>;
 
 type fetchOptions = ArgsType<typeof fetch>;
 
@@ -310,16 +288,6 @@ export const TypesPropsResolver = ({
   return reslovedScalar;
 };
 
-const resolveArgs = (q: Dict, t: 'Query' | 'Mutation' | 'Subscription', name: string): string => {
-  const argsKeys = Object.keys(q);
-  if (argsKeys.length === 0) {
-    return '';
-  }
-  return `(${argsKeys
-    .map((k) => `${k}:${TypesPropsResolver({ value: q[k], type: t, name, key: k })}`)
-    .join(',')})`;
-};
-
 const isArrayFunction = <T extends [Record<any, any>, Record<any, any>]>(
   parent: string[],
   a: T
@@ -380,20 +348,6 @@ const traverseToSeekArrays = <T extends Record<any, any>>(parent: string[], a?: 
 
 const buildQuery = <T extends Record<any, any>>(type: string, name: string, a?: T) =>
   traverseToSeekArrays([type, name], a).replace(/\"([^{^,^\n^\"]*)\":([^{^,^\n^\"]*)/g, '$1:$2');
-
-const construct = (t: 'Query' | 'Mutation' | 'Subscription', name: string, args: Dict = {}) => (
-  returnedQuery?: string
-) => `
-        ${t.toLowerCase()}{
-          ${name}${resolveArgs(args, t, name)}${returnedQuery}
-        }
-  `;
-
-const fullConstruct = (options: fetchOptions) => (
-  t: 'Query' | 'Mutation' | 'Subscription',
-  name: string
-) => (props?: Dict) => (o?: Record<any, any>) =>
-  apiFetch(options, construct(t, name, props)(buildQuery(t, name, o)), name);
 
 const fullChainConstruct = (options: fetchOptions) => (
   t: 'Query' | 'Mutation' | 'Subscription'
@@ -459,42 +413,13 @@ const apiFetch = (options: fetchOptions, query: string, name?: string) => {
 export const Chain = (...options: fetchOptions) => ({
   Query: ((o: any) =>
     fullChainConstruct(options)('Query')(o).then(
-      (response: any) => response as GraphQLDictReturnType<Query>
+      (response: any) => response as ResolveReturned<Query>
     )) as OperationToGraphQL<Query>,
   Mutation: ((o: any) =>
     fullChainConstruct(options)('Mutation')(o).then(
-      (response: any) => response as GraphQLDictReturnType<Mutation>
+      (response: any) => response as ResolveReturned<Mutation>
     )) as OperationToGraphQL<Mutation>
 });
-
-export const Api = (...options: fetchOptions) => ({
-  Query: {
-    cardById: ((props: any = {}) => (o: any) =>
-      fullConstruct(options)('Query', 'cardById')(props)(o).then(
-        (response: any) => response as GraphQLDictReturnType<Query['cardById']>
-      )) as FunctionToGraphQL<Query['cardById']>,
-    drawCard: ((props: any = {}) => (o: any) =>
-      fullConstruct(options)('Query', 'drawCard')(props)(o).then(
-        (response: any) => response as GraphQLDictReturnType<Query['drawCard']>
-      )) as FunctionToGraphQL<Query['drawCard']>,
-    listCards: ((props: any = {}) => (o: any) =>
-      fullConstruct(options)('Query', 'listCards')(props)(o).then(
-        (response: any) => response as GraphQLDictReturnType<Query['listCards']>
-      )) as FunctionToGraphQL<Query['listCards']>
-  },
-  Mutation: {
-    addCard: ((props: any = {}) => (o: any) =>
-      fullConstruct(options)('Mutation', 'addCard')(props)(o).then(
-        (response: any) => response as GraphQLDictReturnType<Mutation['addCard']>
-      )) as FunctionToGraphQL<Mutation['addCard']>
-  }
-});
-
-Api('')
-  .Query.cardById({ cardId: '' })({
-    Attack: true
-  })
-  .then((res) => res.attack!);
 
 Chain('')
   .Query({
@@ -508,4 +433,5 @@ Chain('')
   })
   .then((chain) => {
     chain.cardById;
+    chain.drawCard;
   });
