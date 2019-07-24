@@ -26,9 +26,9 @@ export type Card = {
 }
 
 export enum SpecialSkills {
-	FIRE = "FIRE",
 	THUNDER = "THUNDER",
-	RAIN = "RAIN"
+	RAIN = "RAIN",
+	FIRE = "FIRE"
 }
 
 export type Mutation = {
@@ -37,8 +37,6 @@ export type Mutation = {
 }
 
 export type createCard = {
-	/** The defense power<br> */
-	Defense:number,
 	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
@@ -46,7 +44,9 @@ export type createCard = {
 	/** <div>How many children the greek god had</div> */
 	Children?:number,
 	/** The attack power<br> */
-	Attack:number
+	Attack:number,
+	/** The defense power<br> */
+	Defense:number
 }
 
 
