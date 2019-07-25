@@ -68,45 +68,30 @@ $ zeus https://faker.graphqleditor.com/aexol/olympus/graphql ./generated --heade
 
 ### Use generated client example
 
-```js
-import { Api } from './graphql-zeus';
+#### Perform query with Chain
 
-// This will return Card object with ID only
+```js
+import { Chain } from './graphql-zeus';
 const createCards = async () => {
-  let ZeusCard = await Api(
-    'https://faker.graphqleditor.com/aexol/olympus/graphql'
-  ).Mutation.addCard({
-    card: {
-      name: 'Zeus',
-      description:
-        "Sky and Thunder god, rules olympus. Hasn't devoured any children. Zeus' father, Cronus ate all of his children except for Zeus.",
-      Attack: 10,
-      Defense: 5,
-      Children: 92 // YES!
-    }
-  })({
-    id: true
-  });
-  let DionysusCard = await Api(
-    'https://faker.graphqleditor.com/aexol/olympus/graphql'
-  ).Mutation.addCard({
-    card: {
-      name: 'Dionysus',
-      description:
-        'Dionysus is the Greek god of wine, has the power to bring the dead back to life.',
-      Attack: 1,
-      Defense: 15,
-      Children: 9
-    }
-  })({
-    id: true,
-    name: true
-  });
-   // Query chaining example
+  const chain = Chain('https://faker.graphqleditor.com/aexol/olympus/graphql');
   const listCardsAndDraw = await chain.Query({
+    cardById: [
+      {
+        cardId: 'sdsd'
+      },
+      {
+        description: true
+      }
+    ],
     listCards: {
       name: true,
-      skills: true
+      skills: true,
+      attack: [
+        { cardID: ['s', 'sd'] },
+        {
+          name: true
+        }
+      ]
     },
     drawCard: {
       name: true,
@@ -114,30 +99,47 @@ const createCards = async () => {
       Attack: true
     }
   });
-  console.log(listCardsAndDraw)
-  // How to call graphql functions on objects
-  const [UpdatedDionysusCard, UpdatedZeusCard] = (await Api(
-    'https://faker.graphqleditor.com/aexol/olympus/graphql'
-  ).Query.cardById({
-    cardId: DionysusCard.id
-  })({
-    attack: [
-      {
-        cardID: [ZeusCard.id]
-      },
-      {
-        id: true,
-        Attack: true,
-        Children: true,
-        Defense: true,
-        description: true,
-        name: true
-      }
-    ]
-  })).attack;
-  console.log(UpdatedDionysusCard);
-  console.log(UpdatedZeusCard);
 };
+createCards();
+```
+
+#### Single query with Api 
+
+Use single query with Api to get response casted.
+
+```js
+import { Api } from './graphql-zeus';
+const createCards = async () => {
+  const api = Api('https://faker.graphqleditor.com/aexol/olympus/graphql');
+  const drawedCard = await api.Query.drawCard({
+    Attack: true,
+    name: true
+  });
+};
+createCards();
+// Result of a query
+// {
+//     "Attack": 83098,
+//     "name": "Jeanne"
+// }
+```
+
+#### Gql string
+Use Zeus to generate gql string
+
+```js
+import { Zeus } from './graphql-zeus';
+const createCards = async () => {
+  const stringGql = Zeus.Query({
+    listCards: {
+      name: true,
+      skills: true,
+      Attack: true
+    }
+  });
+  // query{listCards{name skills Attack}}
+};
+createCards();
 
 ```
 

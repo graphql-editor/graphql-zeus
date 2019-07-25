@@ -1,6 +1,5 @@
 import { Api, Chain, Zeus, Cast } from './graphql-zeus';
 import chalk from 'chalk';
-import fetch from 'node-fetch';
 // This will return Card object with ID only
 const createCards = async () => {
   const chain = Chain('https://faker.graphqleditor.com/aexol/olympus/graphql');
@@ -73,6 +72,7 @@ const createCards = async () => {
       Attack: true
     }
   });
+  // query{listCards{name skills Attack}}
 
   printGQLString('listCards', stringGql);
 };
