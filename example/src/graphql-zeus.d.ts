@@ -45,17 +45,17 @@ export type Mutation = {
 }
 
 export type createCard = {
-	/** <div>How many children the greek god had</div> */
-	Children?:number,
-	/** The attack power<br> */
-	Attack:number,
 	/** The defense power<br> */
 	Defense:number,
 	skills?:SpecialSkills[],
 	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
-	description:string
+	description:string,
+	/** <div>How many children the greek god had</div> */
+	Children?:number,
+	/** The attack power<br> */
+	Attack:number
 }
 
 
@@ -88,6 +88,8 @@ export type ResolveReturned<T> = {
         T[P] extends AnyFunc ? ResolveReturned<ReturnType<T[P]>> : T[P]
       >;
 };
+
+export type State<T> = ResolveReturned<T>
 
 type ResolveInternalFunctionReturn<T> = T extends Array<infer R> ? R : T;
 

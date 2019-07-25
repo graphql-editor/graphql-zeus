@@ -101,6 +101,60 @@ const createCards = async () => {
   });
 };
 createCards();
+// Result of a query
+// {
+//     "drawCard": {
+//         "Attack": 83920,
+//         "name": "Raphaelle",
+//         "skills": [
+//             "RAIN",
+//             "THUNDER",
+//         ]
+//     },
+//     "cardById": {
+//         "description": "Customer"
+//     },
+//     "listCards": [
+//         {
+//             "name": "Lon",
+//             "skills": [
+//                 "THUNDER"
+//             ],
+//             "attack": [
+//                 {
+//                     "name": "Christop"
+//                 },
+//                 {
+//                     "name": "Theodore"
+//                 },
+//                 {
+//                     "name": "Marcelle"
+//                 }
+//             ]
+//         },
+//         {
+//             "name": "Etha",
+//             "skills": null,
+//             "attack": [
+               
+//                 {
+//                     "name": "Naomie"
+//                 }
+//             ]
+//         },
+//         {
+//             "attack": [
+//                 {
+//                     "name": "Kyle"
+//                 },
+//             ],
+//             "name": "Arlene",
+//             "skills": [
+//                 "FIRE",
+//             ]
+//         }
+//     ]
+// }
 ```
 
 #### Single query with Api 
