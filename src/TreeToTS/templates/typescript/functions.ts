@@ -136,8 +136,10 @@ const traverseToSeekArrays = <T extends Record<any, any>>(parent: string[], a?: 
 const buildQuery = <T extends Record<any, any>>(type: string, a?: T) =>
   traverseToSeekArrays([type], a).replace(/\\"([^{^,^\\n^\\"]*)\\":([^{^,^\\n^\\"]*)/g, '$1:$2');
 
+const queryConstruct = (t: 'Query' | 'Mutation' | 'Subscription') => (o: Record<any, any>) => \`\${t.toLowerCase()}\${buildQuery(t, o)}\`;
+
 const fullChainConstruct = (options: fetchOptions) => (t: 'Query' | 'Mutation' | 'Subscription') => (o: Record<any, any>) =>
-  apiFetch(options, \`\${t.toLowerCase()}\${buildQuery(t, o)}\`);
+  apiFetch(options, queryConstruct(t)(o));
 
 const apiFetch = (options: fetchOptions, query: string, name?: string) => {
   let fetchFunction;

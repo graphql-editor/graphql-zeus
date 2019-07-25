@@ -131,8 +131,9 @@ export const javascriptFunctions = `
   const buildQuery = (type, a) =>
     traverseToSeekArrays([type], a).replace(/\\"([^{^,^\\n^\\"]*)\\":([^{^,^\\n^\\"]*)/g, '$1:$2');
 
-  const fullChainConstruct = (options) => (t) => (o) =>
-    apiFetch(options, \`\${t.toLowerCase()}\${buildQuery(t, o)}\`);
+  const queryConstruct = (t) => (o) => \`\${t.toLowerCase()}\${buildQuery(t, o)}\`;
+
+  const fullChainConstruct = (options) => (t) => (o) => apiFetch(options, queryConstruct(t)(o));
 
   const apiFetch = (options, query, name) => {
     let fetchFunction;

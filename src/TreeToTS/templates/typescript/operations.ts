@@ -58,6 +58,52 @@ const generateOperationsApiTypeScript = ({
   return allOps;
 };
 
+const generateOperationZeus = (t: 'Query' | 'Mutation' | 'Subscription') =>
+  `${t}: (o:GraphQLReturner<${t}>) => queryConstruct('${t}')(o)`;
+
+const generateOperationsZeusTypeScript = ({
+  queries,
+  mutations,
+  subscriptions
+}: {
+  queries: string[];
+  mutations?: string[];
+  subscriptions?: string[];
+}): string[] => {
+  const allOps: string[] = [];
+  allOps.push(generateOperationZeus('Query'));
+  if (mutations && mutations.length) {
+    allOps.push(generateOperationZeus('Mutation'));
+  }
+  if (subscriptions && subscriptions.length) {
+    allOps.push(generateOperationZeus('Subscription'));
+  }
+  return allOps;
+};
+
+const generateOperationCast = (t: 'Query' | 'Mutation' | 'Subscription') =>
+  `${t}: (o:any) => o as ResolveReturned<Query>`;
+
+const generateOperationsCastTypeScript = ({
+  queries,
+  mutations,
+  subscriptions
+}: {
+  queries: string[];
+  mutations?: string[];
+  subscriptions?: string[];
+}): string[] => {
+  const allOps: string[] = [];
+  allOps.push(generateOperationCast('Query'));
+  if (mutations && mutations.length) {
+    allOps.push(generateOperationCast('Mutation'));
+  }
+  if (subscriptions && subscriptions.length) {
+    allOps.push(generateOperationCast('Subscription'));
+  }
+  return allOps;
+};
+
 export const bodyTypeScript = ({
   queries,
   mutations,
@@ -77,4 +123,10 @@ export const Chain = (...options: fetchOptions) => ({
 export const Api = (...options: fetchOptions) => ({
   ${generateOperationsApiTypeScript({ queries, mutations, subscriptions }).join(',\n')}
 });
+export const Zeus = {
+  ${generateOperationsZeusTypeScript({ queries, mutations, subscriptions }).join(',\n')}
+};
+export const Cast = {
+  ${generateOperationsCastTypeScript({ queries, mutations, subscriptions }).join(',\n')}
+};
   `;

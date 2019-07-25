@@ -29,6 +29,8 @@ export type ResolveReturned<T> = {
       >;
 };
 
+export type State<T> = ResolveReturned<T>
+
 type ResolveInternalFunctionReturn<T> = T extends Array<infer R> ? R : T;
 
 

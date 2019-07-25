@@ -1,10 +1,6 @@
 import { ParserTree } from '../Models';
 import { OperationType } from '../Models/Spec';
-import {
-  bodyJavascript,
-  generateOperationsJavascriptDefinitionsApi,
-  generateOperationsJavascriptDefinitionsChaining
-} from './templates/javascript';
+import { bodyJavascript, generateOperationsJavascript } from './templates/javascript';
 import { resolvePropTypeFromRoot } from './templates/returnedPropTypes';
 import { resolveReturnFromRoot } from './templates/returnedReturns';
 import { resolveTypeFromRoot } from './templates/returnedTypes';
@@ -64,21 +60,7 @@ export class TreeToTS {
         .join('\n\n')
         .concat('\n\n')
         .concat(constantTypesTypescript)
-        .concat(
-          `
-export declare function Chain(
-  ...options: fetchOptions
-):{
-  ${generateOperationsJavascriptDefinitionsChaining(operationsBody)}
-}
-
-export declare function Api(
-  ...options: fetchOptions
-):{
-  ${generateOperationsJavascriptDefinitionsApi(operationsBody)}
-}
-`
-        )
+        .concat(generateOperationsJavascript(operationsBody))
     };
   }
 
