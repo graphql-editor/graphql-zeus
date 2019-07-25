@@ -9,6 +9,7 @@
   "author": "Artur Czemiel",
   "license": "MIT",
   "dependencies": {
+    "chalk": "^2.4.2",
     "node-fetch": "^2.6.0"
   },
   "devDependencies": {

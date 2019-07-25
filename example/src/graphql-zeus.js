@@ -231,8 +231,9 @@ const traverseToSeekArrays = (parent, a) => {
 const buildQuery = (type, a) =>
   traverseToSeekArrays([type], a).replace(/\"([^{^,^\n^\"]*)\":([^{^,^\n^\"]*)/g, '$1:$2');
 
-const fullChainConstruct = (options) => (t) => (o) =>
-  apiFetch(options, `${t.toLowerCase()}${buildQuery(t, o)}`);
+const queryConstruct = (t) => (o) => `${t.toLowerCase()}${buildQuery(t, o)}`;
+
+const fullChainConstruct = (options) => (t) => (o) => apiFetch(options, queryConstruct(t)(o));
 
 const apiFetch = (options, query, name) => {
   let fetchFunction;
@@ -285,6 +286,11 @@ const apiFetch = (options, query, name) => {
     });
 };
 
+export const Zeus = {
+  Query: (o) => queryConstruct('Query')(o),
+  Mutation: (o) => queryConstruct('Mutation')(o)
+};
+
 export const Chain = (...options) => ({
   Query: (o) => fullChainConstruct(options)('Query')(o).then((response) => response),
   Mutation: (o) => fullChainConstruct(options)('Mutation')(o).then((response) => response)
@@ -311,3 +317,8 @@ export const Api = (...options) => ({
       }).then((response) => response.addCard)
   }
 });
+
+export const Cast = {
+  Query: (o) => o,
+  Mutation: (o) => o
+};

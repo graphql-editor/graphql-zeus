@@ -1,16 +1,21 @@
-import { Api, Chain, SpecialSkills } from './graphql-zeus';
-
+import { Api, Chain, Zeus, Cast } from './graphql-zeus';
+import chalk from 'chalk';
 // This will return Card object with ID only
 const createCards = async () => {
   const chain = Chain('https://faker.graphqleditor.com/aexol/olympus/graphql');
   const api = Api('https://faker.graphqleditor.com/aexol/olympus/graphql');
-
+  const printQueryResult = (name, result) =>
+    console.log(
+      `${chalk.greenBright(name)} result:\n${chalk.cyan(JSON.stringify(result, null, 4))}\n\n`
+    );
+  const printGQLString = (name, result) =>
+    console.log(`${chalk.blue(name)} query:\n${chalk.magenta(result)}\n\n`);
   // one Query example
   const drawedCard = await api.Query.drawCard({
     Attack: true,
     name: true
   });
-  console.log(JSON.stringify(drawedCard, null, 4));
+  printQueryResult('drawCard', drawedCard);
   // Query chaining example
   const listCardsAndDraw = await chain.Query({
     cardById: [
@@ -37,7 +42,8 @@ const createCards = async () => {
       Attack: true
     }
   });
-  console.log(JSON.stringify(listCardsAndDraw, null, 4));
+  printQueryResult('Multiple queries', listCardsAndDraw);
+  // mutation example
   const addCard = await chain.Mutation({
     addCard: [
       {
@@ -56,6 +62,17 @@ const createCards = async () => {
       }
     ]
   });
-  console.log(JSON.stringify(addCard, null, 4));
+  printQueryResult('addCard', addCard);
+
+  // string example
+  const stringGql = Zeus.Query({
+    listCards: {
+      name: true,
+      skills: true,
+      Attack: true
+    }
+  });
+
+  printGQLString('listCards', stringGql);
 };
 createCards();
