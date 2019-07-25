@@ -1,14 +1,14 @@
 import { ParserTree } from '../Models';
 import { OperationType } from '../Models/Spec';
-import { constantTypes } from './templates/constantTypes';
 import {
-  body,
-  generateOperationsJavascriptDefinitionsChaining,
-  javascriptBody
-} from './templates/operations';
+  bodyJavascript,
+  generateOperationsJavascriptDefinitionsApi,
+  generateOperationsJavascriptDefinitionsChaining
+} from './templates/javascript';
 import { resolvePropTypeFromRoot } from './templates/returnedPropTypes';
 import { resolveReturnFromRoot } from './templates/returnedReturns';
 import { resolveTypeFromRoot } from './templates/returnedTypes';
+import { bodyTypeScript, constantTypesTypescript } from './templates/typescript';
 
 /**
  * Class Responsible for generating typescript and javascript code
@@ -53,7 +53,7 @@ export class TreeToTS {
         .map((n) => (n.args ? n.args.map((f) => f.name) : []))
         .reduce((a, b) => a.concat(b), [])
     };
-    const operations = javascriptBody(operationsBody);
+    const operations = bodyJavascript(operationsBody);
 
     return {
       javascript: propTypes
@@ -63,13 +63,19 @@ export class TreeToTS {
       definitions: rootTypes
         .join('\n\n')
         .concat('\n\n')
-        .concat(constantTypes)
+        .concat(constantTypesTypescript)
         .concat(
           `
 export declare function Chain(
   ...options: fetchOptions
 ):{
   ${generateOperationsJavascriptDefinitionsChaining(operationsBody)}
+}
+
+export declare function Api(
+  ...options: fetchOptions
+):{
+  ${generateOperationsJavascriptDefinitionsApi(operationsBody)}
 }
 `
         )
@@ -92,7 +98,7 @@ export declare function Chain(
       .map(resolveReturnFromRoot)
       .filter((pt) => pt)
       .join(',\n')}\n}`;
-    const operations = body({
+    const operations = bodyTypeScript({
       queries: tree.nodes
         .filter(
           (n) => n.type.operations && n.type.operations.find((o) => o === OperationType.query)

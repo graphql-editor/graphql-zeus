@@ -66,13 +66,30 @@ const isArrayFunction = <T extends [Record<any, any>, Record<any, any>]>(
 ) => {
   const [values, r] = a;
   const [mainKey, key, ...keys] = parent;
+  const keyValues = Object.keys(values);
+
+  if (!keys.length) {
+      return keyValues.length > 0
+        ? \`(\${keyValues
+            .map(
+              (v) =>
+                \`\${v}:\${TypesPropsResolver({
+                  value: values[v],
+                  type: mainKey,
+                  name: key,
+                  key: v
+                })}\`
+            )
+            .join(',')})\${r ? traverseToSeekArrays(parent, r) : ''}\`
+        : traverseToSeekArrays(parent, r);
+    }
+
   const [typeResolverKey] = keys.splice(keys.length - 1, 1);
   let valueToResolve = ReturnTypes[mainKey][key];
   for (const k of keys) {
     valueToResolve = ReturnTypes[valueToResolve][k];
   }
 
-  const keyValues = Object.keys(values);
   const argumentString =
     keyValues.length > 0
       ? \`(\${keyValues
@@ -116,18 +133,11 @@ const traverseToSeekArrays = <T extends Record<any, any>>(parent: string[], a?: 
   return objectToTree(b);
 };
 
-const buildQuery = <T extends Record<any, any>>(type: string, name: string, a?: T) =>
-  traverseToSeekArrays([type, name], a).replace(/\\"([^{^,^\\n^\\"]*)\\":([^{^,^\\n^\\"]*)/g, '$1:$2');
+const buildQuery = <T extends Record<any, any>>(type: string, a?: T) =>
+  traverseToSeekArrays([type], a).replace(/\\"([^{^,^\\n^\\"]*)\\":([^{^,^\\n^\\"]*)/g, '$1:$2');
 
-const fullChainConstruct = (options: fetchOptions) => (
-  t: 'Query' | 'Mutation' | 'Subscription'
-) => (o: Record<any, any>) =>
-  apiFetch(
-    options,
-    \`\${t.toLowerCase()}{\${Object.keys(o)
-      .map((ok) => \`\${ok}\${buildQuery(t, ok, o[ok])}\`)
-      .join('\\n')}}\`
-  );
+const fullChainConstruct = (options: fetchOptions) => (t: 'Query' | 'Mutation' | 'Subscription') => (o: Record<any, any>) =>
+  apiFetch(options, \`\${t.toLowerCase()}\${buildQuery(t, o)}\`);
 
 const apiFetch = (options: fetchOptions, query: string, name?: string) => {
   let fetchFunction;

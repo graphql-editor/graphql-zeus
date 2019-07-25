@@ -1,26 +1,4 @@
-export const graphqlError = `
-export class GraphQLError extends Error {
-    constructor(public response: GraphQLResponse) {
-      super("");
-      console.error(response);
-    }
-    toString() {
-      return "GraphQL Response Error";
-    }
-  }
-`;
-export const graphqlErrorJavascript = `
-export class GraphQLError extends Error {
-    constructor(response) {
-      super("");
-      console.error(response);
-    }
-    toString() {
-      return "GraphQL Response Error";
-    }
-  }
-`;
-export const constantTypes = `
+export const constantTypesTypescript = `
 
 type Func<P extends any[], R> = (...args: P) => R;
 type AnyFunc = Func<any, any>;
@@ -53,22 +31,21 @@ export type ResolveReturned<T> = {
 
 type ResolveInternalFunctionReturn<T> = T extends Array<infer R> ? R : T;
 
+
+type ResolveValue<T> = T extends Array<infer R>
+  ? ResolveArgs<R>
+  : T extends AnyFunc
+  ? IsObject<
+      ReturnType<T>,
+      [FirstArgument<T>, ResolveArgs<ResolveInternalFunctionReturn<ReturnType<T>>>],
+      [FirstArgument<T>]
+    >
+  : IsObject<T, ResolveArgs<T>, true>;
+
 type ResolveArgs<T> = IsObject<
   T,
   {
-    [P in keyof T]?: T[P] extends Array<infer R>
-      ? ResolveArgs<R>
-      : T[P] extends {
-          [x: string]: infer R;
-        }
-      ? ResolveArgs<T[P]>
-      : T[P] extends AnyFunc
-      ? IsObject<
-          ReturnType<T[P]>,
-          [FirstArgument<T[P]>, ResolveArgs<ResolveInternalFunctionReturn<ReturnType<T[P]>>>],
-          [FirstArgument<T[P]>]
-        >
-      : true;
+    [P in keyof T]?: ResolveValue<T[P]>;
   },
   true
 >;
@@ -76,6 +53,7 @@ type ResolveArgs<T> = IsObject<
 type GraphQLReturner<T> = T extends Array<infer R> ? ResolveArgs<R> : ResolveArgs<T>;
 
 type OperationToGraphQL<T> = (o: GraphQLReturner<T>) => Promise<ResolveReturned<T>>;
+type ApiFieldToGraphQL<T> = (o: ResolveValue<T>) => Promise<ResolveReturned<T>>;
 
 type fetchOptions = ArgsType<typeof fetch>;
 

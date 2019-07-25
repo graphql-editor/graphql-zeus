@@ -5,7 +5,7 @@ export const AllTypesProps = {
 				type:"String",
 				array:false,
 				arrayRequired:false,
-				required:true
+				required:false
 			}
 		}
 	},
@@ -31,21 +31,15 @@ export const AllTypesProps = {
 		}
 	},
 	createCard:{
-		Children:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		Attack:{
+		Defense:{
 			type:"Int",
 			array:false,
 			arrayRequired:false,
 			required:true
 		},
-		Defense:{
-			type:"Int",
-			array:false,
+		skills:{
+			type:"SpecialSkills",
+			array:true,
 			arrayRequired:false,
 			required:true
 		},
@@ -57,6 +51,18 @@ export const AllTypesProps = {
 		},
 		description:{
 			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		Children:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		Attack:{
+			type:"Int",
 			array:false,
 			arrayRequired:false,
 			required:true
@@ -75,10 +81,16 @@ export const ReturnTypes = {
 		Children:"Int",
 		Defense:"Int",
 		attack:"Card",
+		cardImage:"S3Object",
 		description:"String",
 		id:"ID",
 		name:"String",
 		skills:"SpecialSkills"
+	},
+	S3Object:{
+		bucket:"String",
+		key:"String",
+		region:"String"
 	},
 	Mutation:{
 		addCard:"Card"
@@ -158,13 +170,30 @@ export class GraphQLError extends Error {
   ) => {
     const [values, r] = a;
     const [mainKey, key, ...keys] = parent;
+    const keyValues = Object.keys(values);
+
+    if (!keys.length) {
+        return keyValues.length > 0
+          ? `(${keyValues
+              .map(
+                (v) =>
+                  `${v}:${TypesPropsResolver({
+                    value: values[v],
+                    type: mainKey,
+                    name: key,
+                    key: v
+                  })}`
+              )
+              .join(',')})${r ? traverseToSeekArrays(parent, r) : ''}`
+          : traverseToSeekArrays(parent, r);
+      }
+
     const [typeResolverKey] = keys.splice(keys.length - 1, 1);
     let valueToResolve = ReturnTypes[mainKey][key];
     for (const k of keys) {
       valueToResolve = ReturnTypes[valueToResolve][k];
     }
 
-    const keyValues = Object.keys(values);
     const argumentString =
       keyValues.length > 0
         ? `(${keyValues
@@ -208,18 +237,11 @@ export class GraphQLError extends Error {
     return objectToTree(b);
   };
 
-  const buildQuery = (type, name, a) =>
-    traverseToSeekArrays([type, name], a).replace(/\"([^{^,^\n^\"]*)\":([^{^,^\n^\"]*)/g, '$1:$2');
+  const buildQuery = (type, a) =>
+    traverseToSeekArrays([type], a).replace(/\"([^{^,^\n^\"]*)\":([^{^,^\n^\"]*)/g, '$1:$2');
 
-  const fullChainConstruct = (options) => (
-    t
-  ) => (o) =>
-    apiFetch(
-      options,
-      `${t.toLowerCase()}{${Object.keys(o)
-        .map((ok) => `${ok}${buildQuery(t, ok, o[ok])}`)
-        .join('\n')}}`
-    );
+  const fullChainConstruct = (options) => (t) => (o) =>
+    apiFetch(options, `${t.toLowerCase()}${buildQuery(t, o)}`);
 
   const apiFetch = (options, query, name) => {
     let fetchFunction;
@@ -282,5 +304,27 @@ Mutation: (o) =>
     fullChainConstruct(options)('Mutation')(o).then(
       (response) => response
     )
+  });
+  export const Api = (...options) => ({
+    Query: {
+      cardById: (o) =>
+      fullChainConstruct(options)('Query')({
+        cardById: o
+      }).then((response) => response.cardById),
+drawCard: (o) =>
+      fullChainConstruct(options)('Query')({
+        drawCard: o
+      }).then((response) => response.drawCard),
+listCards: (o) =>
+      fullChainConstruct(options)('Query')({
+        listCards: o
+      }).then((response) => response.listCards)
+  },
+Mutation: {
+      addCard: (o) =>
+      fullChainConstruct(options)('Mutation')({
+        addCard: o
+      }).then((response) => response.addCard)
+  }
   });
     

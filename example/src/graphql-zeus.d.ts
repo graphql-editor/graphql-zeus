@@ -1,5 +1,5 @@
 export type Query = {
-	cardById:(props:{	cardId:string}) => Card,
+	cardById:(props:{	cardId?:string}) => Card,
 	/** Draw a card<br> */
 	drawCard:Card,
 	/** list All Cards availbla<br> */
@@ -17,12 +17,20 @@ export type Card = {
 	/** Attack other cards on the table , returns Cards after attack<br> */
 	attack:(props:{	/** Attacked card/card ids<br> */
 	cardID?:string[]}) => Card[],
+	cardImage?:S3Object,
 	/** Description of a card<br> */
 	description:string,
 	id:string,
 	/** The name of a card<br> */
 	name:string,
 	skills?:SpecialSkills[]
+}
+
+/** Aws S3 File */
+export type S3Object = {
+	bucket:string,
+	key:string,
+	region:string
 }
 
 export enum SpecialSkills {
@@ -37,16 +45,17 @@ export type Mutation = {
 }
 
 export type createCard = {
-	/** <div>How many children the greek god had</div> */
-	Children?:number,
-	/** The attack power<br> */
-	Attack:number,
 	/** The defense power<br> */
 	Defense:number,
+	skills?:SpecialSkills[],
 	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
-	description:string
+	description:string,
+	/** <div>How many children the greek god had</div> */
+	Children?:number,
+	/** The attack power<br> */
+	Attack:number
 }
 
 
@@ -82,22 +91,21 @@ export type ResolveReturned<T> = {
 
 type ResolveInternalFunctionReturn<T> = T extends Array<infer R> ? R : T;
 
+
+type ResolveValue<T> = T extends Array<infer R>
+  ? ResolveArgs<R>
+  : T extends AnyFunc
+  ? IsObject<
+      ReturnType<T>,
+      [FirstArgument<T>, ResolveArgs<ResolveInternalFunctionReturn<ReturnType<T>>>],
+      [FirstArgument<T>]
+    >
+  : IsObject<T, ResolveArgs<T>, true>;
+
 type ResolveArgs<T> = IsObject<
   T,
   {
-    [P in keyof T]?: T[P] extends Array<infer R>
-      ? ResolveArgs<R>
-      : T[P] extends {
-          [x: string]: infer R;
-        }
-      ? ResolveArgs<T[P]>
-      : T[P] extends AnyFunc
-      ? IsObject<
-          ReturnType<T[P]>,
-          [FirstArgument<T[P]>, ResolveArgs<ResolveInternalFunctionReturn<ReturnType<T[P]>>>],
-          [FirstArgument<T[P]>]
-        >
-      : true;
+    [P in keyof T]?: ResolveValue<T[P]>;
   },
   true
 >;
@@ -105,6 +113,7 @@ type ResolveArgs<T> = IsObject<
 type GraphQLReturner<T> = T extends Array<infer R> ? ResolveArgs<R> : ResolveArgs<T>;
 
 type OperationToGraphQL<T> = (o: GraphQLReturner<T>) => Promise<ResolveReturned<T>>;
+type ApiFieldToGraphQL<T> = (o: ResolveValue<T>) => Promise<ResolveReturned<T>>;
 
 type fetchOptions = ArgsType<typeof fetch>;
 
@@ -113,4 +122,16 @@ export declare function Chain(
   ...options: fetchOptions
 ):{
   Query: OperationToGraphQL<Query>,Mutation: OperationToGraphQL<Mutation>
+}
+
+export declare function Api(
+  ...options: fetchOptions
+):{
+  Query: {
+cardById: ApiFieldToGraphQL<Query['cardById']>,
+	drawCard: ApiFieldToGraphQL<Query['drawCard']>,
+	listCards: ApiFieldToGraphQL<Query['listCards']>
+},Mutation: {
+addCard: ApiFieldToGraphQL<Mutation['addCard']>
+}
 }
