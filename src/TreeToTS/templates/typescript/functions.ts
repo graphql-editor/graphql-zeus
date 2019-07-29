@@ -111,7 +111,7 @@ const resolveKV = (k: string, v: boolean | string | { [x: string]: boolean | str
   typeof v === 'boolean' ? k : typeof v === 'object' ? \`\${k}{\${objectToTree(v)}}\` : \`\${k}\${v}\`;
 
 const objectToTree = (o: { [x: string]: boolean | string }): string =>
-  \`{\${Object.keys(o).map((k) => \`\${resolveKV(k, o[k])}\`).join('')}}\`;
+  \`{\${Object.keys(o).map((k) => \`\${resolveKV(k, o[k])}\`).join(' ')}}\`;
 
 const traverseToSeekArrays = <T extends Record<any, any>>(parent: string[], a?: T) => {
   if (!a) return '';
