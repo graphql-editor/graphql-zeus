@@ -1,6 +1,6 @@
-import { fetchFunctionJavascript } from './fetchFunction';
+import { Environment } from '../../../Models/Environment';
 
-export const javascriptFunctions = `
+export const javascriptFunctions = (env: Environment) => `
   export const ScalarResolver = (scalar, value) => {
     switch (scalar) {
       case 'String':
@@ -135,5 +135,5 @@ export const javascriptFunctions = `
   const queryConstruct = (t) => (o) => \`\${t.toLowerCase()}\${buildQuery(t, o)}\`;
 
   const fullChainConstruct = (options) => (t) => (o) => apiFetch(options, queryConstruct(t)(o));
-  ${fetchFunctionJavascript}
+  ${require(`./${env}/fetchFunction`).default}
     `;

@@ -1,26 +1,22 @@
-export const fetchFunctionTypescript = `
-const apiFetch = (options: fetchOptions, query: string, name?: string) => {
+export default `
+const apiFetch = (options, query, name) => {
     let fetchFunction;
     let queryString = query;
     let fetchOptions = options[1] || {};
-    if (typeof fetch !== 'undefined') {
-      fetchFunction = fetch;
-    } else {
-      try {
+    try {
         fetchFunction = require('node-fetch');
-      } catch (error) {
+    } catch (error) {
         throw new Error("Please install 'node-fetch' to use zeus in nodejs environment");
-      }
     }
     if (fetchOptions.method && fetchOptions.method === 'GET') {
-      if (typeof encodeURIComponent !== 'undefined') {
-        queryString = encodeURIComponent(query);
-      } else {
+      try {
         queryString = require('querystring').stringify(query);
+      } catch (error) {
+        throw new Error("Something gone wrong 'querystring' is a part of nodejs environment");
       }
       return fetchFunction(\`\${options[0]}?query=\${queryString}\`, fetchOptions)
-        .then((response: any) => response.json() as Promise<GraphQLResponse>)
-        .then((response: GraphQLResponse) => {
+        .then((response) => response.json())
+        .then((response) => {
           if (response.errors) {
             throw new GraphQLError(response);
           }
@@ -38,8 +34,8 @@ const apiFetch = (options: fetchOptions, query: string, name?: string) => {
       },
       ...fetchOptions
     })
-      .then((response: any) => response.json() as Promise<GraphQLResponse>)
-      .then((response: GraphQLResponse) => {
+      .then((response) => response.json())
+      .then((response) => {
         if (response.errors) {
           throw new GraphQLError(response);
         }
@@ -48,5 +44,4 @@ const apiFetch = (options: fetchOptions, query: string, name?: string) => {
         }
         return response.data && response.data[name];
       });
-  };
-  `;
+  };`;

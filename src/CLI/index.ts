@@ -11,6 +11,11 @@ Load from file or url (url must start with http:// or https:// ):
 zeus [path] [output_path] [options]
 `
   )
+  .option('node', {
+    alias: 'n',
+    describe: 'generate client for nodejs( default is for browser and react-native',
+    boolean: true
+  })
   .option('typescript', {
     alias: 'ts',
     describe: 'output typescript only',

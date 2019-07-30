@@ -1,3 +1,4 @@
+import { Environment } from '../../../Models/Environment';
 import { graphqlErrorJavascript, javascriptFunctions } from './';
 const generateOperationChainingJavascript = (t: 'Query' | 'Mutation' | 'Subscription') =>
   `${t}: (o) =>
@@ -101,17 +102,20 @@ const generateOperationsCastJavascipt = ({
   }
   return allOps;
 };
-export const bodyJavascript = ({
-  queries,
-  mutations,
-  subscriptions
-}: {
-  queries: string[];
-  mutations?: string[];
-  subscriptions?: string[];
-}) => `
+export const bodyJavascript = (
+  env: Environment,
+  {
+    queries,
+    mutations,
+    subscriptions
+  }: {
+    queries: string[];
+    mutations?: string[];
+    subscriptions?: string[];
+  }
+) => `
 ${graphqlErrorJavascript}
-${javascriptFunctions}
+${javascriptFunctions(env)}
 
   export const Chain = (...options) => ({
     ${generateOperationsChainingJavascipt({ queries, mutations, subscriptions }).join(',\n')}

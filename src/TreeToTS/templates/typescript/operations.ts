@@ -1,3 +1,4 @@
+import { Environment } from 'Models/Environment';
 import { constantTypesTypescript, graphqlErrorTypeScript, typescriptFunctions } from './';
 
 const generateOperationChaining = (t: 'Query' | 'Mutation' | 'Subscription') =>
@@ -104,18 +105,21 @@ const generateOperationsCastTypeScript = ({
   return allOps;
 };
 
-export const bodyTypeScript = ({
-  queries,
-  mutations,
-  subscriptions
-}: {
-  queries: string[];
-  mutations?: string[];
-  subscriptions?: string[];
-}) => `
+export const bodyTypeScript = (
+  env: Environment,
+  {
+    queries,
+    mutations,
+    subscriptions
+  }: {
+    queries: string[];
+    mutations?: string[];
+    subscriptions?: string[];
+  }
+) => `
 ${graphqlErrorTypeScript}
 ${constantTypesTypescript}
-${typescriptFunctions}
+${typescriptFunctions(env)}
 
 export const Chain = (...options: fetchOptions) => ({
   ${generateOperationsChaining({ queries, mutations, subscriptions }).join(',\n')}

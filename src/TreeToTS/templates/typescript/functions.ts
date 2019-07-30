@@ -1,6 +1,6 @@
-import { fetchFunctionTypescript } from './fetchFunction';
+import { Environment } from '../../../Models/Environment';
 
-export const typescriptFunctions = `
+export const typescriptFunctions = (env: Environment) => `
 export const ScalarResolver = (scalar: string, value: any) => {
   switch (scalar) {
     case 'String':
@@ -142,5 +142,5 @@ const queryConstruct = (t: 'Query' | 'Mutation' | 'Subscription') => (o: Record<
 
 const fullChainConstruct = (options: fetchOptions) => (t: 'Query' | 'Mutation' | 'Subscription') => (o: Record<any, any>) =>
   apiFetch(options, queryConstruct(t)(o));
-${fetchFunctionTypescript}
+${require(`./${env}/fetchFunction`).default}
   `;

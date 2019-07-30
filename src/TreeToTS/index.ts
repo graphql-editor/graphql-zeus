@@ -1,4 +1,5 @@
 import { ParserTree } from '../Models';
+import { Environment } from '../Models/Environment';
 import { OperationType } from '../Models/Spec';
 import { bodyJavascript, generateOperationsJavascript } from './templates/javascript';
 import { resolvePropTypeFromRoot } from './templates/returnedPropTypes';
@@ -18,7 +19,7 @@ export class TreeToTS {
    *
    * @param tree Parser Tree
    */
-  static javascript(tree: ParserTree) {
+  static javascript(tree: ParserTree, env: Environment = 'browser') {
     const rootTypes = tree.nodes.map(resolveTypeFromRoot);
     const propTypes = `export const AllTypesProps = {\n${tree.nodes
       .map(resolvePropTypeFromRoot)
@@ -49,7 +50,7 @@ export class TreeToTS {
         .map((n) => (n.args ? n.args.map((f) => f.name) : []))
         .reduce((a, b) => a.concat(b), [])
     };
-    const operations = bodyJavascript(operationsBody);
+    const operations = bodyJavascript(env, operationsBody);
 
     return {
       javascript: propTypes
@@ -69,7 +70,7 @@ export class TreeToTS {
    *
    * @param tree Parser Tree
    */
-  static resolveTree(tree: ParserTree) {
+  static resolveTree(tree: ParserTree, env: Environment = 'browser') {
     const rootTypes = tree.nodes.map(resolveTypeFromRoot);
     const ignoreTSLINT = `/* tslint:disable */\n\n`;
     const propTypes = `export const AllTypesProps: Record<string,any> = {\n${tree.nodes
@@ -80,7 +81,7 @@ export class TreeToTS {
       .map(resolveReturnFromRoot)
       .filter((pt) => pt)
       .join(',\n')}\n}`;
-    const operations = bodyTypeScript({
+    const operations = bodyTypeScript(env, {
       queries: tree.nodes
         .filter(
           (n) => n.type.operations && n.type.operations.find((o) => o === OperationType.query)

@@ -31,6 +31,12 @@ export const AllTypesProps = {
 		}
 	},
 	createCard:{
+		Attack:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
 		Defense:{
 			type:"Int",
 			array:false,
@@ -60,12 +66,6 @@ export const AllTypesProps = {
 			array:false,
 			arrayRequired:false,
 			required:false
-		},
-		Attack:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
 		}
 	}
 }
@@ -106,7 +106,6 @@ export class GraphQLError extends Error {
       return "GraphQL Response Error";
     }
   }
-
 
 
   export const ScalarResolver = (scalar, value) => {
@@ -243,25 +242,21 @@ export class GraphQLError extends Error {
   const queryConstruct = (t) => (o) => `${t.toLowerCase()}${buildQuery(t, o)}`;
 
   const fullChainConstruct = (options) => (t) => (o) => apiFetch(options, queryConstruct(t)(o));
-
-  const apiFetch = (options, query, name) => {
+  
+const apiFetch = (options, query, name) => {
     let fetchFunction;
     let queryString = query;
     let fetchOptions = options[1] || {};
-    if (typeof fetch !== 'undefined') {
-      fetchFunction = fetch;
-    } else {
-      try {
+    try {
         fetchFunction = require('node-fetch');
-      } catch (error) {
+    } catch (error) {
         throw new Error("Please install 'node-fetch' to use zeus in nodejs environment");
-      }
     }
     if (fetchOptions.method && fetchOptions.method === 'GET') {
-      if (typeof encodeURIComponent !== 'undefined') {
-        queryString = encodeURIComponent(query);
-      } else {
+      try {
         queryString = require('querystring').stringify(query);
+      } catch (error) {
+        throw new Error("Something gone wrong 'querystring' is a part of nodejs environment");
       }
       return fetchFunction(`${options[0]}?query=${queryString}`, fetchOptions)
         .then((response) => response.json())
