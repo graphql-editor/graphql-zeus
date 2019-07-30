@@ -232,6 +232,14 @@ $ npm run start
 
 Use `Api` for single queries mutations and `Chain` for query chaining
 
+#### Javascript TypeCasting
+You can cast your response from fetch/apollo/other-lib  to correct type even if you are using Javascript:
+
+```js
+import { Cast } from './graphql-zeus';
+const myQuery = Cast.Query(myLib("somegraphqlendpoint"))
+```
+
 ### Spec
 
 Promise of type query data object is returned.
