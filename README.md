@@ -6,6 +6,16 @@
 
 GraphQL Zeus creates autocomplete client library for `Javascript` or `Typescript` which provides autocompletion for strongly typed queries.
 
+Supported Languages:
+- Javascript
+  - Browser
+  - NodeJS
+  - React Native
+- Typescript
+  - Browser
+  - NodeJS
+  - React Native
+
 ## How it works
 
 Given the following schema [Olympus Cards](https://app.graphqleditor.com/aexol/olympus)
@@ -54,6 +64,18 @@ It will also generate corresponding out.d.ts file so you can have autocompletion
 $ zeus schema.graphql ./  --ts 
 ```
 
+#### Usage with NodeJS
+```sh
+$ zeus schema.graphql ./  --node 
+```
+
+#### Usage with React Native
+
+Same as browser
+
+```sh
+$ zeus schema.graphql ./ 
+```
 #### Load from URL
 
 ```sh
