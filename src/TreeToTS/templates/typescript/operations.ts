@@ -31,10 +31,10 @@ const generateOperationApiTypeScript = (t: 'Query' | 'Mutation' | 'Subscription'
   `${t}: {
       ${o
         .map(
-          (op) => `${op}: (o:any) =>
+          (op) => `${op}: ((o:any) =>
       fullChainConstruct(options)('${t}')({
         ${op}: o
-      }).then((response:any) => response.${op}) as ApiFieldToGraphQL<${t}['${op}']>`
+      }).then((response:any) => response.${op})) as ApiFieldToGraphQL<${t}['${op}']>`
         )
         .join(',\n')}
   }`;
