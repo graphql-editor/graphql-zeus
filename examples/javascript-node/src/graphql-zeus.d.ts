@@ -34,9 +34,9 @@ export type S3Object = {
 }
 
 export enum SpecialSkills {
-	FIRE = "FIRE",
 	THUNDER = "THUNDER",
-	RAIN = "RAIN"
+	RAIN = "RAIN",
+	FIRE = "FIRE"
 }
 
 export type Mutation = {
@@ -102,14 +102,14 @@ type ResolveValue<T> = T extends Array<infer R>
       [FirstArgument<T>, ResolveArgs<ResolveInternalFunctionReturn<ReturnType<T>>>],
       [FirstArgument<T>]
     >
-  : IsObject<T, ResolveArgs<T>, true>;
+  : IsObject<T, ResolveArgs<T>, T extends undefined ? undefined : true>;
 
 type ResolveArgs<T> = IsObject<
   T,
   {
     [P in keyof T]?: ResolveValue<T[P]>;
   },
-  true
+  T extends undefined ? undefined : true
 >;
 
 type GraphQLReturner<T> = T extends Array<infer R> ? ResolveArgs<R> : ResolveArgs<T>;
