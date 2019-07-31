@@ -18,7 +18,7 @@ interface GraphQLResponse {
 }
 
 export type ResolveReturned<T> = {
-  [P in keyof T]?: T[P] extends Array<infer R>
+  [P in keyof T]?: T[P] extends (Array<infer R> | undefined)
     ? Array<ResolveReturned<R>>
     : T[P] extends AnyFunc
     ? ResolveReturned<ReturnType<T[P]>>

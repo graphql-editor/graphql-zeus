@@ -45,17 +45,17 @@ export type Mutation = {
 }
 
 export type createCard = {
-	/** The attack power<br> */
-	Attack:number,
-	/** The defense power<br> */
-	Defense:number,
-	skills?:SpecialSkills[],
 	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
 	description:string,
 	/** <div>How many children the greek god had</div> */
-	Children?:number
+	Children?:number,
+	/** The attack power<br> */
+	Attack:number,
+	/** The defense power<br> */
+	Defense:number,
+	skills?:SpecialSkills[]
 }
 
 
@@ -78,7 +78,7 @@ interface GraphQLResponse {
 }
 
 export type ResolveReturned<T> = {
-  [P in keyof T]?: T[P] extends Array<infer R>
+  [P in keyof T]?: T[P] extends (Array<infer R> | undefined)
     ? Array<ResolveReturned<R>>
     : T[P] extends AnyFunc
     ? ResolveReturned<ReturnType<T[P]>>
