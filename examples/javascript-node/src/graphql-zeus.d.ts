@@ -64,7 +64,7 @@ type Func<P extends any[], R> = (...args: P) => R;
 type AnyFunc = Func<any, any>;
 
 type IsType<M, T, Z, L> = T extends M ? Z : L;
-type IsObject<T, Z, L> = IsType<object, T, Z, L>;
+type IsObject<T, Z, L> = IsType<Record<string, unknown>, T, Z, L>;
 
 type ArgsType<F extends AnyFunc> = F extends Func<infer P, any> ? P : never;
 type GetTypeFromArray<T> = T extends Array<infer R> ? R : T;
