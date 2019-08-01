@@ -205,16 +205,16 @@ export type State<T> = ResolveReturned<T>;
 type ResolveInternalFunctionReturn<T> = T extends Array<infer R> ? R : T;
 
 type ResolveValue<T> = T extends Array<infer R>
-  ? ResolveArgs<R>
+  ? SelectionSet<R>
   : T extends AnyFunc
   ? IsObject<
       ReturnType<T>,
-      [FirstArgument<T>, ResolveArgs<ResolveInternalFunctionReturn<ReturnType<T>>>],
+      [FirstArgument<T>, SelectionSet<ResolveInternalFunctionReturn<ReturnType<T>>>],
       [FirstArgument<T>]
     >
-  : IsObject<T, ResolveArgs<T>, T extends undefined ? undefined : true>;
+  : IsObject<T, SelectionSet<T>, T extends undefined ? undefined : true>;
 
-type ResolveArgs<T> = IsObject<
+export type SelectionSet<T> = IsObject<
   T,
   {
     [P in keyof T]?: ResolveValue<T[P]>;
@@ -222,7 +222,7 @@ type ResolveArgs<T> = IsObject<
   T extends undefined ? undefined : true
 >;
 
-type GraphQLReturner<T> = T extends Array<infer R> ? ResolveArgs<R> : ResolveArgs<T>;
+type GraphQLReturner<T> = T extends Array<infer R> ? SelectionSet<R> : SelectionSet<T>;
 
 type OperationToGraphQL<T> = (o: GraphQLReturner<T>) => Promise<ResolveReturned<T>>;
 type ApiFieldToGraphQL<T> = (o: ResolveValue<T>) => Promise<ResolveReturned<T>>;

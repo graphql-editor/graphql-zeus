@@ -240,6 +240,30 @@ import { Cast } from './graphql-zeus';
 const myQuery = Cast.Query(myLib("somegraphqlendpoint"))
 ```
 
+#### Typescript SelectionSet
+
+In typescript you can make type-safe selection sets to reuse them across queries
+
+```ts
+import { SelectionSet,Chain,Card } from './graphql-zeus';
+const chain = Chain('https://faker.graphqleditor.com/aexol/olympus/graphql');
+const cardSelectionSet: SelectionSet<Card> = {
+  name: true,
+  description: true,
+  Attack: true,
+  skills: true,
+  Defense: true,
+  cardImage: {
+    key: true,
+    bucket: true,
+  },
+};
+const queryWithSelectionSet = await chain.Query({
+  drawCard: cardSelectionSet,
+  listCards: cardSelectionSet,
+});
+```
+
 ### Spec
 
 Promise of type query data object is returned.
