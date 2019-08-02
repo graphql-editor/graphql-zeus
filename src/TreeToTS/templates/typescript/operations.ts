@@ -60,7 +60,7 @@ const generateOperationsApiTypeScript = ({
 };
 
 const generateOperationZeus = (t: 'Query' | 'Mutation' | 'Subscription') =>
-  `${t}: (o:GraphQLReturner<${t}>) => queryConstruct('${t}')(o)`;
+  `${t}: (o:GraphQLReturner<AliasType<${t}>>) => queryConstruct('${t}')(o)`;
 
 const generateOperationsZeusTypeScript = ({
   queries,
@@ -83,7 +83,7 @@ const generateOperationsZeusTypeScript = ({
 };
 
 const generateOperationCast = (t: 'Query' | 'Mutation' | 'Subscription') =>
-  `${t}: (o:any) => o as ResolveReturned<Query>`;
+  `${t}: (o:any) => o as ResolveReturned<AliasType<${t}>>`;
 
 const generateOperationsCastTypeScript = ({
   queries,

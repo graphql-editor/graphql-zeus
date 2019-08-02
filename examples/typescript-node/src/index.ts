@@ -1,4 +1,4 @@
-import { Api, Card, Chain, SelectionSet, SpecialSkills } from "./graphql-zeus";
+import { Api, Card, Chain, SelectionSet, SpecialSkills, Zeus } from "./graphql-zeus";
 const run = async () => {
   const chain = Chain("https://faker.graphqleditor.com/aexol/olympus/graphql");
   const api = Api("https://faker.graphqleditor.com/aexol/olympus/graphql");
@@ -61,5 +61,21 @@ const run = async () => {
     listCards: cardSelectionSet,
   });
   console.log(queryWithSelectionSet);
+  const aliasedQuery = Zeus.Query({
+    __alias: {
+      myCards: {
+        listCards: {
+          name: true,
+        },
+      },
+      friendsCards: {
+        listCards: {
+          name: true,
+          description: true,
+        },
+      },
+    },
+  });
+  console.log(aliasedQuery);
 };
 run();

@@ -33,6 +33,18 @@ export const AllTypesProps: Record<string, any> = {
     }
   },
   createCard: {
+    Defense: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true
+    },
+    skills: {
+      type: 'SpecialSkills',
+      array: true,
+      arrayRequired: false,
+      required: true
+    },
     name: {
       type: 'String',
       array: false,
@@ -54,18 +66,6 @@ export const AllTypesProps: Record<string, any> = {
     Attack: {
       type: 'Int',
       array: false,
-      arrayRequired: false,
-      required: true
-    },
-    Defense: {
-      type: 'Int',
-      array: false,
-      arrayRequired: false,
-      required: true
-    },
-    skills: {
-      type: 'SpecialSkills',
-      array: true,
       arrayRequired: false,
       required: true
     }
@@ -137,9 +137,9 @@ export type S3Object = {
 };
 
 export enum SpecialSkills {
-  FIRE = 'FIRE',
   THUNDER = 'THUNDER',
-  RAIN = 'RAIN'
+  RAIN = 'RAIN',
+  FIRE = 'FIRE'
 }
 
 export type Mutation = {
@@ -148,6 +148,9 @@ export type Mutation = {
 };
 
 export type createCard = {
+  /** The defense power<br> */
+  Defense: number;
+  skills?: SpecialSkills[];
   /** The name of a card<br> */
   name: string;
   /** Description of a card<br> */
@@ -156,9 +159,6 @@ export type createCard = {
   Children?: number;
   /** The attack power<br> */
   Attack: number;
-  /** The defense power<br> */
-  Defense: number;
-  skills?: SpecialSkills[];
 };
 
 export class GraphQLError extends Error {
@@ -174,8 +174,21 @@ export class GraphQLError extends Error {
 type Func<P extends any[], R> = (...args: P) => R;
 type AnyFunc = Func<any, any>;
 
+type AliasType<T> = T & {
+  __alias?: Record<string, T>;
+};
+
 type IsType<M, T, Z, L> = T extends M ? Z : L;
-type IsObject<T, Z, L> = IsType<Record<string, unknown>, T, Z, L>;
+type IsObject<T, Z, L> = IsType<
+  {
+    [x in keyof T]: unknown;
+  },
+  T,
+  Z,
+  L
+>;
+type IsSimpleObject<T, Z, L> = IsType<Record<string, unknown> | Record<string, unknown>[], T, Z, L>;
+type IsScalar<T, Z, L> = IsType<string | boolean | number, T, Z, L>;
 
 type ArgsType<F extends AnyFunc> = F extends Func<infer P, any> ? P : never;
 type GetTypeFromArray<T> = T extends Array<infer R> ? R : T;
@@ -207,14 +220,14 @@ type ResolveInternalFunctionReturn<T> = T extends Array<infer R> ? R : T;
 type ResolveValue<T> = T extends Array<infer R>
   ? SelectionSet<R>
   : T extends AnyFunc
-  ? IsObject<
+  ? IsScalar<
       ReturnType<T>,
-      [FirstArgument<T>, SelectionSet<ResolveInternalFunctionReturn<ReturnType<T>>>],
-      [FirstArgument<T>]
+      [FirstArgument<T>],
+      [FirstArgument<T>, SelectionSet<ResolveInternalFunctionReturn<ReturnType<T>>>]
     >
-  : IsObject<T, SelectionSet<T>, T extends undefined ? undefined : true>;
+  : IsSimpleObject<T, SelectionSet<T>, T extends undefined ? undefined : true>;
 
-export type SelectionSet<T> = IsObject<
+export type SelectionSet<T> = IsSimpleObject<
   T,
   {
     [P in keyof T]?: ResolveValue<T[P]>;
@@ -224,7 +237,9 @@ export type SelectionSet<T> = IsObject<
 
 type GraphQLReturner<T> = T extends Array<infer R> ? SelectionSet<R> : SelectionSet<T>;
 
-type OperationToGraphQL<T> = (o: GraphQLReturner<T>) => Promise<ResolveReturned<T>>;
+type OperationToGraphQL<T> = <S extends AliasType<T>>(
+  o: GraphQLReturner<S>
+) => Promise<ResolveReturned<S>>;
 type ApiFieldToGraphQL<T> = (o: ResolveValue<T>) => Promise<ResolveReturned<T>>;
 
 type fetchOptions = ArgsType<typeof fetch>;
@@ -352,13 +367,25 @@ const traverseToSeekArrays = <T extends Record<any, any>>(parent: string[], a?: 
   }
   let b: Record<string, any> = {};
   Object.keys(a).map((k) => {
-    if (Array.isArray(a[k])) {
-      b[k] = isArrayFunction([...parent, k], a[k]);
+    if (k === '__alias') {
+      Object.keys(a[k]).map((aliasKey) => {
+        const aliasOperations = a[k][aliasKey];
+        const aliasOperationName = Object.keys(aliasOperations)[0];
+        const aliasOperation = aliasOperations[aliasOperationName];
+        b[`${aliasKey}: ${aliasOperationName}`] = traverseToSeekArrays(
+          [...parent, aliasOperationName],
+          aliasOperation
+        );
+      });
     } else {
-      if (typeof a[k] === 'object') {
-        b[k] = traverseToSeekArrays([...parent, k], a[k]);
+      if (Array.isArray(a[k])) {
+        b[k] = isArrayFunction([...parent, k], a[k]);
       } else {
-        b[k] = a[k];
+        if (typeof a[k] === 'object') {
+          b[k] = traverseToSeekArrays([...parent, k], a[k]);
+        } else {
+          b[k] = a[k];
+        }
       }
     }
   });
@@ -455,10 +482,10 @@ export const Api = (...options: fetchOptions) => ({
   }
 });
 export const Zeus = {
-  Query: (o: GraphQLReturner<Query>) => queryConstruct('Query')(o),
-  Mutation: (o: GraphQLReturner<Mutation>) => queryConstruct('Mutation')(o)
+  Query: (o: GraphQLReturner<AliasType<Query>>) => queryConstruct('Query')(o),
+  Mutation: (o: GraphQLReturner<AliasType<Mutation>>) => queryConstruct('Mutation')(o)
 };
 export const Cast = {
-  Query: (o: any) => o as ResolveReturned<Query>,
-  Mutation: (o: any) => o as ResolveReturned<Query>
+  Query: (o: any) => o as ResolveReturned<AliasType<Query>>,
+  Mutation: (o: any) => o as ResolveReturned<AliasType<Mutation>>
 };

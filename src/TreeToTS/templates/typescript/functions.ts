@@ -122,13 +122,25 @@ const traverseToSeekArrays = <T extends Record<any, any>>(parent: string[], a?: 
   }
   let b: Record<string,any> = {};
   Object.keys(a).map((k) => {
-    if (Array.isArray(a[k])) {
-      b[k] = isArrayFunction([...parent, k], a[k]);
+    if (k === '__alias') {
+      Object.keys(a[k]).map((aliasKey) => {
+        const aliasOperations = a[k][aliasKey];
+        const aliasOperationName = Object.keys(aliasOperations)[0];
+        const aliasOperation = aliasOperations[aliasOperationName];
+        b[\`\${aliasKey}: \${aliasOperationName}\`] = traverseToSeekArrays(
+          [...parent, aliasOperationName],
+          aliasOperation
+        );
+      });
     } else {
-      if (typeof a[k] === 'object') {
-        b[k] = traverseToSeekArrays([...parent, k], a[k]);
+      if (Array.isArray(a[k])) {
+        b[k] = isArrayFunction([...parent, k], a[k]);
       } else {
-        b[k] = a[k];
+        if (typeof a[k] === 'object') {
+          b[k] = traverseToSeekArrays([...parent, k], a[k]);
+        } else {
+          b[k] = a[k];
+        }
       }
     }
   });

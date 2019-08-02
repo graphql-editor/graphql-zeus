@@ -3,8 +3,16 @@ export const constantTypesTypescript = `
 type Func<P extends any[], R> = (...args: P) => R;
 type AnyFunc = Func<any, any>;
 
+type AliasType<T> = T & {
+  __alias?: Record<string, T>;
+};
+
 type IsType<M, T, Z, L> = T extends M ? Z : L;
-type IsObject<T, Z, L> = IsType<Record<string, unknown>, T, Z, L>;
+type IsObject<T, Z, L> = IsType<{
+	[x in keyof T]:unknown
+}, T, Z, L>;
+type IsSimpleObject<T, Z, L> = IsType<Record<string,unknown>, T, Z, L>;
+type IsScalar<T, Z, L> = IsType<string | boolean | number, T, Z, L>;
 
 type ArgsType<F extends AnyFunc> = F extends Func<infer P, any> ? P : never;
 type GetTypeFromArray<T> = T extends Array<infer R> ? R : T;
@@ -37,14 +45,14 @@ type ResolveInternalFunctionReturn<T> = T extends Array<infer R> ? R : T;
 type ResolveValue<T> = T extends Array<infer R>
   ? SelectionSet<R>
   : T extends AnyFunc
-  ? IsObject<
+  ? IsScalar<
       ReturnType<T>,
-      [FirstArgument<T>, SelectionSet<ResolveInternalFunctionReturn<ReturnType<T>>>],
-      [FirstArgument<T>]
+      [FirstArgument<T>],
+      [FirstArgument<T>, SelectionSet<ResolveInternalFunctionReturn<ReturnType<T>>>]
     >
-  : IsObject<T, SelectionSet<T>, T extends undefined ? undefined : true>;
+  : IsSimpleObject<T, SelectionSet<T>, T extends undefined ? undefined : true>;
 
-export type SelectionSet<T> = IsObject<
+export type SelectionSet<T> = IsSimpleObject<
   T,
   {
     [P in keyof T]?: ResolveValue<T[P]>;
@@ -54,8 +62,12 @@ export type SelectionSet<T> = IsObject<
 
 type GraphQLReturner<T> = T extends Array<infer R> ? SelectionSet<R> : SelectionSet<T>;
 
-type OperationToGraphQL<T> = (o: GraphQLReturner<T>) => Promise<ResolveReturned<T>>;
-type ApiFieldToGraphQL<T> = (o: ResolveValue<T>) => Promise<ResolveReturned<T>>;
+type OperationToGraphQL<T> = (
+  o: GraphQLReturner<AliasType<T>>
+) => Promise<ResolveReturned<AliasType<T>>>;
+type ApiFieldToGraphQL<T> = (
+  o: ResolveValue<T>
+) => Promise<ResolveReturned<T>>;
 
 type fetchOptions = ArgsType<typeof fetch>;
 
