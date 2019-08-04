@@ -13,7 +13,8 @@
   "scripts": {
     "build": "tsc",
     "start": "tsc --watch",
-    "test": "jest"
+    "test": "jest",
+    "examples": "zeus"
   },
   "repository": {
     "type": "git",

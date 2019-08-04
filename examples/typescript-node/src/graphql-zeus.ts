@@ -305,10 +305,7 @@ export const TypesPropsResolver = ({
   return reslovedScalar;
 };
 
-const isArrayFunction = <T extends [Record<any, any>, Record<any, any>]>(
-  parent: string[],
-  a: T
-) => {
+const isArrayFunction = (parent: string[], a: any[]) => {
   const [values, r] = a;
   const [mainKey, key, ...keys] = parent;
   const keyValues = Object.keys(values);
@@ -360,35 +357,35 @@ const objectToTree = (o: { [x: string]: boolean | string }): string =>
     .map((k) => `${resolveKV(k, o[k])}`)
     .join(' ')}}`;
 
-const traverseToSeekArrays = <T extends Record<any, any>>(parent: string[], a?: T) => {
+const traverseToSeekArrays = (parent: string[], a?: any): string => {
   if (!a) return '';
   if (Object.keys(a).length === 0) {
     return '';
   }
   let b: Record<string, any> = {};
-  Object.keys(a).map((k) => {
-    if (k === '__alias') {
-      Object.keys(a[k]).map((aliasKey) => {
-        const aliasOperations = a[k][aliasKey];
-        const aliasOperationName = Object.keys(aliasOperations)[0];
-        const aliasOperation = aliasOperations[aliasOperationName];
-        b[`${aliasKey}: ${aliasOperationName}`] = traverseToSeekArrays(
-          [...parent, aliasOperationName],
-          aliasOperation
-        );
+  if (Array.isArray(a)) {
+    return isArrayFunction([...parent], a);
+  } else {
+    if (typeof a === 'object') {
+      Object.keys(a).map((k) => {
+        if (k === '__alias') {
+          Object.keys(a[k]).map((aliasKey) => {
+            const aliasOperations = a[k][aliasKey];
+            const aliasOperationName = Object.keys(aliasOperations)[0];
+            const aliasOperation = aliasOperations[aliasOperationName];
+            b[`${aliasKey}: ${aliasOperationName}`] = traverseToSeekArrays(
+              [...parent, aliasOperationName],
+              aliasOperation
+            );
+          });
+        } else {
+          b[k] = traverseToSeekArrays([...parent, k], a[k]);
+        }
       });
     } else {
-      if (Array.isArray(a[k])) {
-        b[k] = isArrayFunction([...parent, k], a[k]);
-      } else {
-        if (typeof a[k] === 'object') {
-          b[k] = traverseToSeekArrays([...parent, k], a[k]);
-        } else {
-          b[k] = a[k];
-        }
-      }
+      return '';
     }
-  });
+  }
   return objectToTree(b);
 };
 
@@ -403,6 +400,7 @@ const fullChainConstruct = (options: fetchOptions) => (
 ) => (o: Record<any, any>) => apiFetch(options, queryConstruct(t)(o));
 
 const apiFetch = (options: fetchOptions, query: string, name?: string) => {
+  console.log(query);
   let fetchFunction;
   let queryString = query;
   let fetchOptions = options[1] || {};

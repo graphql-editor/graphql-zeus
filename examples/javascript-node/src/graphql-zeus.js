@@ -216,25 +216,38 @@ export class GraphQLError extends Error {
   const objectToTree = (o) =>
     `{${Object.keys(o).map((k) => `${resolveKV(k, o[k])}`).join(' ')}}`;
 
-  const traverseToSeekArrays = (parent, a) => {
-    if (!a) return '';
-    if (Object.keys(a).length === 0) {
+const traverseToSeekArrays = (parent, a)=> {
+  if (!a) return '';
+  if (Object.keys(a).length === 0) {
+    return '';
+  }
+  let b = {};
+  if (Array.isArray(a)) {
+    return isArrayFunction([...parent], a);
+  } else {
+    if (typeof a === 'object') {
+      Object.keys(a).map((k) => {
+        if (k === '__alias') {
+          Object.keys(a[k]).map((aliasKey) => {
+            const aliasOperations = a[k][aliasKey];
+            const aliasOperationName = Object.keys(aliasOperations)[0];
+            const aliasOperation = aliasOperations[aliasOperationName];
+            b[`${aliasKey}: ${aliasOperationName}`] = traverseToSeekArrays(
+              [...parent, aliasOperationName],
+              aliasOperation
+            );
+          });
+        } else {
+          b[k] = traverseToSeekArrays([...parent, k], a[k]);
+        }
+      });
+    } else {
       return '';
     }
-    let b = {};
-    Object.keys(a).map((k) => {
-      if (Array.isArray(a[k])) {
-        b[k] = isArrayFunction([...parent, k], a[k]);
-      } else {
-        if (typeof a[k] === 'object') {
-          b[k] = traverseToSeekArrays([...parent, k], a[k]);
-        } else {
-          b[k] = a[k];
-        }
-      }
-    });
-    return objectToTree(b);
-  };
+  }
+  return objectToTree(b);
+};
+
 
   const buildQuery = (type, a) =>
     traverseToSeekArrays([type], a).replace(/\"([^{^,^\n^\"]*)\":([^{^,^\n^\"]*)/g, '$1:$2');
