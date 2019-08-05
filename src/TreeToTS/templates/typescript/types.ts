@@ -74,7 +74,18 @@ export type SelectionSet<T> = IsSimpleObject<
 type GraphQLReturner<T> = T extends Array<infer R> ? SelectionSet<R> : SelectionSet<T>;
 
 type OperationToGraphQL<T> = (o: GraphQLReturner<T>) => Promise<ResolveReturned<T>>;
-type ApiFieldToGraphQL<T> = (o: ResolveValue<T>) => Promise<ResolveReturned<T>>;
+
+type ResolveApiField<T> = T extends Array<infer R>
+  ? IsObject<R, ResolveReturned<R>, R>
+  : T extends AnyFunc
+  ? IsObject<
+      ResolveInternalFunctionReturn<ReturnType<T>>,
+      ResolveReturned<ResolveInternalFunctionReturn<ReturnType<T>>>,
+      T
+    >
+  : IsObject<T, ResolveReturned<T>, T>;
+
+type ApiFieldToGraphQL<T> = (o: ResolveValue<T>) => Promise<ResolveApiField<T>>;
 
 type fetchOptions = ArgsType<typeof fetch>;
 

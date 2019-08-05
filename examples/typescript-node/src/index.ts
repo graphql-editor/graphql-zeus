@@ -67,6 +67,11 @@ const run = async () => {
       cardId: "aaa",
     },
     {
+      __alias: {
+        myDesc: {
+          description: true,
+        },
+      },
       name: true,
     },
   ]);
@@ -134,7 +139,7 @@ const run = async () => {
       },
     },
   });
-
+  console.log(JSON.stringify(aliasedQueryExecute, null, 4));
   console.log(
     JSON.stringify(aliasedQueryExecute.listCards!.map((card) => card.atak!.attack!), null, 4),
   );

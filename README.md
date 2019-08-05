@@ -179,6 +179,46 @@ createCards();
 // }
 ```
 
+#### Perform query with aliases
+
+```js
+const aliasedQueryExecute = await chain.Query({
+    listCards: {
+      __alias: {
+        atak: {
+          attack: [
+            { cardID: ["1"] },
+            {
+              name: true,
+              description: true,
+            },
+          ],
+        },
+      },
+    },
+  });
+// RESULT
+// {
+//     "listCards": [
+//         {
+//             "atak": {
+//                 "attack": [
+//                     {
+//                         "name": "Zelma",
+//                         "description": "Central"
+//                     }
+//                 ]
+//             }
+//         }
+//     ]
+// }
+```
+So you can access properties type-safe like this
+
+```js
+aliasedQueryExecute.listCards.map(c=>c.atak.attack)
+```
+
 #### Single query with Api 
 
 Use single query with Api to get response casted.
@@ -269,7 +309,7 @@ const queryWithSelectionSet = await chain.Query({
 Promise of type query data object is returned.
 
 ```
-PROMISE_RETURNING_OBJECT = Api.[OPERATION_NAME].[OPERATION_FIELD]({
+PROMISE_RETURNING_OBJECT = Chain.[OPERATION_NAME]({
     ...FUNCTION_FIELD_PARAMS
 })(
     ...QUERY_OBJECT
@@ -312,6 +352,18 @@ RETURN_PARAMS = {
 }
 ```
 
+#### Use Alias Spec
+
+```
+RETURN_PARAMS = {
+  __alias: RETURN_PARAMS
+}
+```
+
+Access aliased operation type-safe
+```
+PROMISE_RETURNING_OBJECT[ALIAS_STRING][OPERATION_NAME]
+```
 
 ### Use In your Project to generate code 
 

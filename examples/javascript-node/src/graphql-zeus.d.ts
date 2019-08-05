@@ -34,9 +34,9 @@ export type S3Object = {
 }
 
 export enum SpecialSkills {
-	FIRE = "FIRE",
 	THUNDER = "THUNDER",
-	RAIN = "RAIN"
+	RAIN = "RAIN",
+	FIRE = "FIRE"
 }
 
 export type Mutation = {
@@ -45,9 +45,6 @@ export type Mutation = {
 }
 
 export type createCard = {
-	skills?:SpecialSkills[],
-	/** The name of a card<br> */
-	name:string,
 	/** Description of a card<br> */
 	description:string,
 	/** <div>How many children the greek god had</div> */
@@ -55,7 +52,10 @@ export type createCard = {
 	/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
-	Defense:number
+	Defense:number,
+	skills?:SpecialSkills[],
+	/** The name of a card<br> */
+	name:string
 }
 
 
@@ -134,7 +134,18 @@ export type SelectionSet<T> = IsSimpleObject<
 type GraphQLReturner<T> = T extends Array<infer R> ? SelectionSet<R> : SelectionSet<T>;
 
 type OperationToGraphQL<T> = (o: GraphQLReturner<T>) => Promise<ResolveReturned<T>>;
-type ApiFieldToGraphQL<T> = (o: ResolveValue<T>) => Promise<ResolveReturned<T>>;
+
+type ResolveApiField<T> = T extends Array<infer R>
+  ? IsObject<R, ResolveReturned<R>, R>
+  : T extends AnyFunc
+  ? IsObject<
+      ResolveInternalFunctionReturn<ReturnType<T>>,
+      ResolveReturned<ResolveInternalFunctionReturn<ReturnType<T>>>,
+      T
+    >
+  : IsObject<T, ResolveReturned<T>, T>;
+
+type ApiFieldToGraphQL<T> = (o: ResolveValue<T>) => Promise<ResolveApiField<T>>;
 
 type fetchOptions = ArgsType<typeof fetch>;
 
