@@ -131,10 +131,9 @@ const traverseToSeekArrays = (parent: string[], a?: any): string => {
             const aliasOperations = a[k][aliasKey];
             const aliasOperationName = Object.keys(aliasOperations)[0];
             const aliasOperation = aliasOperations[aliasOperationName];
-            b[\`\${aliasKey}: \${aliasOperationName}\`] = traverseToSeekArrays(
-              [...parent, aliasOperationName],
-              aliasOperation
-            );
+            b[
+              \`\${aliasOperationName}__alias__\${aliasKey}: \${aliasOperationName}\`
+            ] = traverseToSeekArrays([...parent, aliasOperationName], aliasOperation);
           });
         } else {
           b[k] = traverseToSeekArrays([...parent, k], a[k]);
@@ -154,5 +153,33 @@ const queryConstruct = (t: 'Query' | 'Mutation' | 'Subscription') => (o: Record<
 
 const fullChainConstruct = (options: fetchOptions) => (t: 'Query' | 'Mutation' | 'Subscription') => (o: Record<any, any>) =>
   apiFetch(options, queryConstruct(t)(o));
+
+const seekForAliases = (o: any) => {
+  if (typeof o === 'object' && o) {
+    const keys = Object.keys(o);
+    if (keys.length < 1) {
+      return;
+    }
+    keys.forEach((k) => {
+      const value = o[k];
+      if (k.indexOf('__alias__') !== -1) {
+        const [operation, alias] = k.split('__alias__');
+        o[alias] = {
+          [operation]: value
+        };
+        delete o[k];
+      } else {
+        if (Array.isArray(value)) {
+          value.forEach(seekForAliases);
+        } else {
+          if (typeof value === 'object') {
+            seekForAliases(value);
+          }
+        }
+      }
+    });
+  }
+};
+
 ${require(`./${env}/fetchFunction`).default}
-  `;
+`;

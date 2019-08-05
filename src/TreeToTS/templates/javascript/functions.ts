@@ -109,37 +109,36 @@ export const javascriptFunctions = (env: Environment) => `
   const objectToTree = (o) =>
     \`{\${Object.keys(o).map((k) => \`\${resolveKV(k, o[k])}\`).join(' ')}}\`;
 
-  const traverseToSeekArrays = (parent, a)=> {
-    if (!a) return '';
-    if (Object.keys(a).length === 0) {
+const traverseToSeekArrays = (parent, a) => {
+  if (!a) return '';
+  if (Object.keys(a).length === 0) {
+    return '';
+  }
+  let b = {};
+  if (Array.isArray(a)) {
+    return isArrayFunction([...parent], a);
+  } else {
+    if (typeof a === 'object') {
+      Object.keys(a).map((k) => {
+        if (k === '__alias') {
+          Object.keys(a[k]).map((aliasKey) => {
+            const aliasOperations = a[k][aliasKey];
+            const aliasOperationName = Object.keys(aliasOperations)[0];
+            const aliasOperation = aliasOperations[aliasOperationName];
+            b[
+              \`\${aliasOperationName}__alias__\${aliasKey}: \${aliasOperationName}\`
+            ] = traverseToSeekArrays([...parent, aliasOperationName], aliasOperation);
+          });
+        } else {
+          b[k] = traverseToSeekArrays([...parent, k], a[k]);
+        }
+      });
+    } else {
       return '';
     }
-    let b = {};
-    if (Array.isArray(a)) {
-      return isArrayFunction([...parent], a);
-    } else {
-      if (typeof a === 'object') {
-        Object.keys(a).map((k) => {
-          if (k === '__alias') {
-            Object.keys(a[k]).map((aliasKey) => {
-              const aliasOperations = a[k][aliasKey];
-              const aliasOperationName = Object.keys(aliasOperations)[0];
-              const aliasOperation = aliasOperations[aliasOperationName];
-              b[\`\${aliasKey}: \${aliasOperationName}\`] = traverseToSeekArrays(
-                [...parent, aliasOperationName],
-                aliasOperation
-              );
-            });
-          } else {
-            b[k] = traverseToSeekArrays([...parent, k], a[k]);
-          }
-        });
-      } else {
-        return '';
-      }
-    }
-    return objectToTree(b);
-  };
+  }
+  return objectToTree(b);
+};
 
   const buildQuery = (type, a) =>
     traverseToSeekArrays([type], a).replace(/\\"([^{^,^\\n^\\"]*)\\":([^{^,^\\n^\\"]*)/g, '$1:$2');
@@ -147,5 +146,31 @@ export const javascriptFunctions = (env: Environment) => `
   const queryConstruct = (t) => (o) => \`\${t.toLowerCase()}\${buildQuery(t, o)}\`;
 
   const fullChainConstruct = (options) => (t) => (o) => apiFetch(options, queryConstruct(t)(o));
+  const seekForAliases = (o) => {
+    if (typeof o === 'object' && o) {
+      const keys = Object.keys(o);
+      if (keys.length < 1) {
+        return;
+      }
+      keys.forEach((k) => {
+        const value = o[k];
+        if (k.indexOf('__alias__') !== -1) {
+          const [operation, alias] = k.split('__alias__');
+          o[alias] = {
+            [operation]: value
+          };
+          delete o[k];
+        } else {
+          if (Array.isArray(value)) {
+            value.forEach(seekForAliases);
+          } else {
+            if (typeof value === 'object') {
+              seekForAliases(value);
+            }
+          }
+        }
+      });
+    }
+  };
   ${require(`./${env}/fetchFunction`).default}
     `;

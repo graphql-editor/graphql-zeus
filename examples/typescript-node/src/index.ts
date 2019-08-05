@@ -21,6 +21,33 @@ const run = async () => {
       },
     ],
   });
+  // const { addCard: ZeusCard } = await chain.Mutation({
+  //   addCard: [
+  //     {
+  //       card: {
+  //         Attack: 1,
+  //         Defense: 2,
+  //         description: "aa",
+  //         name: "SADSD",
+  //         skills: [SpecialSkills.FIRE],
+  //       },
+  //     },
+  //     {
+  //  __alias:{
+  //    otherAttack:{
+  //
+  // }
+  //  }
+  //       name: true,
+  //       Attack: true,
+  //       Defense: true,
+  //       description: true,
+  //     },
+  //   ],
+  // });
+  //
+  // The way it should be returned
+  // ZeusCard.__alias["myAlias"].Attack
   console.log(ZeusCard);
   const { listCards: stack, drawCard: newCard } = await chain.Query({
     listCards: {
@@ -61,6 +88,8 @@ const run = async () => {
     listCards: cardSelectionSet,
   });
   console.log(queryWithSelectionSet);
+  // This is how aliasing should work
+  // console.log(queryWithSelectionSet.aaa.listCards.map(aa => aa.dd.name));
   const aliasedQuery = Zeus.Query({
     __alias: {
       myCards: {
@@ -68,14 +97,46 @@ const run = async () => {
           name: true,
         },
       },
-      friendsCards: {
-        listCards: {
-          name: true,
-          description: true,
+    },
+    listCards: {
+      __alias: {
+        atak: {
+          attack: [
+            { cardID: ["1"] },
+            {
+              name: true,
+              description: true,
+              __alias: {
+                bbb: {
+                  Defense: true,
+                },
+              },
+            },
+          ],
         },
       },
     },
   });
   console.log(aliasedQuery);
+
+  const aliasedQueryExecute = await chain.Query({
+    listCards: {
+      __alias: {
+        atak: {
+          attack: [
+            { cardID: ["1"] },
+            {
+              name: true,
+              description: true,
+            },
+          ],
+        },
+      },
+    },
+  });
+
+  console.log(
+    JSON.stringify(aliasedQueryExecute.listCards!.map((card) => card.atak!.attack!), null, 4),
+  );
 };
 run();

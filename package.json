@@ -14,7 +14,9 @@
     "build": "tsc",
     "start": "tsc --watch",
     "test": "jest",
-    "examples": "zeus"
+    "examples-generate": "zeus https://faker.graphqleditor.com/aexol/olympus/graphql examples/typescript-node/src --ts --n && zeus https://faker.graphqleditor.com/aexol/olympus/graphql examples/javascript-node/src --n",
+    "run-example-typescript-node": "./run-example.sh examples/typescript-node",
+    "run-example-javascript-node": "./run-example.sh examples/javascript-node"
   },
   "repository": {
     "type": "git",

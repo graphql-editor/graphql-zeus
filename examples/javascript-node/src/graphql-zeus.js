@@ -31,6 +31,12 @@ export const AllTypesProps = {
 		}
 	},
 	createCard:{
+		skills:{
+			type:"SpecialSkills",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
 		name:{
 			type:"String",
 			array:false,
@@ -58,12 +64,6 @@ export const AllTypesProps = {
 		Defense:{
 			type:"Int",
 			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		skills:{
-			type:"SpecialSkills",
-			array:true,
 			arrayRequired:false,
 			required:true
 		}
@@ -216,7 +216,7 @@ export class GraphQLError extends Error {
   const objectToTree = (o) =>
     `{${Object.keys(o).map((k) => `${resolveKV(k, o[k])}`).join(' ')}}`;
 
-const traverseToSeekArrays = (parent, a)=> {
+const traverseToSeekArrays = (parent, a) => {
   if (!a) return '';
   if (Object.keys(a).length === 0) {
     return '';
@@ -232,10 +232,9 @@ const traverseToSeekArrays = (parent, a)=> {
             const aliasOperations = a[k][aliasKey];
             const aliasOperationName = Object.keys(aliasOperations)[0];
             const aliasOperation = aliasOperations[aliasOperationName];
-            b[`${aliasKey}: ${aliasOperationName}`] = traverseToSeekArrays(
-              [...parent, aliasOperationName],
-              aliasOperation
-            );
+            b[
+              `${aliasOperationName}__alias__${aliasKey}: ${aliasOperationName}`
+            ] = traverseToSeekArrays([...parent, aliasOperationName], aliasOperation);
           });
         } else {
           b[k] = traverseToSeekArrays([...parent, k], a[k]);
@@ -248,13 +247,38 @@ const traverseToSeekArrays = (parent, a)=> {
   return objectToTree(b);
 };
 
-
   const buildQuery = (type, a) =>
     traverseToSeekArrays([type], a).replace(/\"([^{^,^\n^\"]*)\":([^{^,^\n^\"]*)/g, '$1:$2');
 
   const queryConstruct = (t) => (o) => `${t.toLowerCase()}${buildQuery(t, o)}`;
 
   const fullChainConstruct = (options) => (t) => (o) => apiFetch(options, queryConstruct(t)(o));
+  const seekForAliases = (o) => {
+    if (typeof o === 'object' && o) {
+      const keys = Object.keys(o);
+      if (keys.length < 1) {
+        return;
+      }
+      keys.forEach((k) => {
+        const value = o[k];
+        if (k.indexOf('__alias__') !== -1) {
+          const [operation, alias] = k.split('__alias__');
+          o[alias] = {
+            [operation]: value
+          };
+          delete o[k];
+        } else {
+          if (Array.isArray(value)) {
+            value.forEach(seekForAliases);
+          } else {
+            if (typeof value === 'object') {
+              seekForAliases(value);
+            }
+          }
+        }
+      });
+    }
+  };
   
 const apiFetch = (options, query, name) => {
     let fetchFunction;
@@ -277,10 +301,8 @@ const apiFetch = (options, query, name) => {
           if (response.errors) {
             throw new GraphQLError(response);
           }
-          if (!name) {
-            return response.data;
-          }
-          return response.data && response.data[name];
+          seekForAliases(response.data)
+          return response.data;
         });
     }
     return fetchFunction(`${options[0]}`, {
@@ -296,10 +318,8 @@ const apiFetch = (options, query, name) => {
         if (response.errors) {
           throw new GraphQLError(response);
         }
-        if (!name) {
-          return response.data;
-        }
-        return response.data && response.data[name];
+        seekForAliases(response.data)
+        return response.data;
       });
   };
     

@@ -1,5 +1,5 @@
 export default `
-const apiFetch = (options: fetchOptions, query: string, name?: string) => {
+const apiFetch = (options: fetchOptions, query: string) => {
     let fetchFunction;
     let queryString = query;
     let fetchOptions = options[1] || {};
@@ -20,10 +20,8 @@ const apiFetch = (options: fetchOptions, query: string, name?: string) => {
           if (response.errors) {
             throw new GraphQLError(response);
           }
-          if (!name) {
-            return response.data;
-          }
-          return response.data && response.data[name];
+          seekForAliases(response.data);
+          return response.data;
         });
     }
     return fetchFunction(\`\${options[0]}\`, {
@@ -39,10 +37,8 @@ const apiFetch = (options: fetchOptions, query: string, name?: string) => {
         if (response.errors) {
           throw new GraphQLError(response);
         }
-        if (!name) {
-          return response.data;
-        }
-        return response.data && response.data[name];
+        seekForAliases(response.data);
+        return response.data;
       });
   };
   `;
