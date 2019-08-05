@@ -34,9 +34,9 @@ export type S3Object = {
 }
 
 export enum SpecialSkills {
-	THUNDER = "THUNDER",
 	RAIN = "RAIN",
-	FIRE = "FIRE"
+	FIRE = "FIRE",
+	THUNDER = "THUNDER"
 }
 
 export type Mutation = {
@@ -45,17 +45,17 @@ export type Mutation = {
 }
 
 export type createCard = {
+	/** The defense power<br> */
+	Defense:number,
+	skills?:SpecialSkills[],
+	/** The name of a card<br> */
+	name:string,
 	/** Description of a card<br> */
 	description:string,
 	/** <div>How many children the greek god had</div> */
 	Children?:number,
 	/** The attack power<br> */
-	Attack:number,
-	/** The defense power<br> */
-	Defense:number,
-	skills?:SpecialSkills[],
-	/** The name of a card<br> */
-	name:string
+	Attack:number
 }
 
 
@@ -63,28 +63,21 @@ export type createCard = {
 type Func<P extends any[], R> = (...args: P) => R;
 type AnyFunc = Func<any, any>;
 
+type IsType<M, T, Z, L> = T extends M ? Z : L;
+type IsObject<T, Z, L> = IsType<Record<string | number | symbol, unknown>, T, Z, L>;
+type IsScalar<T, Z, L> = IsType<string | boolean | number, T, Z, L>;
+
 type AliasType<T> = T & {
   __alias?: Record<string, T>;
 };
 
-type AliasedReturnType<T> = T & {
-  [x: string]: T;
-};
-type IsType<M, T, Z, L> = T extends M ? Z : L;
-type IsObject<T, Z, L> = IsType<
-  {
-    [x in keyof T]: unknown;
-  },
-  T,
-  Z,
-  L
->;
-type IsSimpleObject<T, Z, L> = IsType<Record<string, unknown> | Record<string, unknown>[], T, Z, L>;
-type IsScalar<T, Z, L> = IsType<string | boolean | number, T, Z, L>;
+export type AliasedReturnType<T> = {
+	[P in keyof T]:T[P]
+} & Record<Exclude<string,keyof T>,T>
 
 type ArgsType<F extends AnyFunc> = F extends Func<infer P, any> ? P : never;
-type GetTypeFromArray<T> = T extends Array<infer R> ? R : T;
-type FirstArgument<F extends AnyFunc> = GetTypeFromArray<ArgsType<F>>;
+type OfType<T> = T extends Array<infer R> ? R : T;
+type FirstArgument<F extends AnyFunc> = OfType<ArgsType<F>>;
 
 interface GraphQLResponse {
   data?: Record<string, any>;
@@ -93,23 +86,15 @@ interface GraphQLResponse {
   }>;
 }
 
-export type ResolveReturned<T> = AliasedReturnType<
+export type State<T> = AliasedReturnType<
   {
     [P in keyof T]?: T[P] extends (Array<infer R> | undefined)
-      ? Array<ResolveReturned<R>>
+      ? Array<State<R>>
       : T[P] extends AnyFunc
-      ? ResolveReturned<ReturnType<T[P]>>
-      : IsObject<
-          T[P],
-          ResolveReturned<T[P]>,
-          T[P] extends AnyFunc ? ResolveReturned<ReturnType<T[P]>> : T[P]
-        >;
+      ? State<ReturnType<T[P]>>
+      : IsObject<T[P], State<T[P]>, T[P] extends AnyFunc ? State<ReturnType<T[P]>> : T[P]>;
   }
 >;
-
-export type State<T> = ResolveReturned<T>;
-
-type ResolveInternalFunctionReturn<T> = T extends Array<infer R> ? R : T;
 
 type ResolveValue<T> = T extends Array<infer R>
   ? SelectionSet<R>
@@ -117,15 +102,15 @@ type ResolveValue<T> = T extends Array<infer R>
   ? IsScalar<
       ReturnType<T>,
       [FirstArgument<T>],
-      [FirstArgument<T>, AliasType<SelectionSet<ResolveInternalFunctionReturn<ReturnType<T>>>>]
+      [FirstArgument<T>, SelectionSet<OfType<ReturnType<T>>>]
     >
-  : IsSimpleObject<T, AliasType<SelectionSet<T>>, T extends undefined ? undefined : true>;
+  : IsObject<T, SelectionSet<T>, T extends undefined ? undefined : true>;
 
-export type SelectionSet<T> = IsSimpleObject<
+export type SelectionSet<T> = IsObject<
   T,
   AliasType<
     {
-      [P in keyof T]?: AliasType<ResolveValue<T[P]>>;
+      [P in keyof T]?: ResolveValue<T[P]>;
     }
   >,
   T extends undefined ? undefined : true
@@ -133,17 +118,13 @@ export type SelectionSet<T> = IsSimpleObject<
 
 type GraphQLReturner<T> = T extends Array<infer R> ? SelectionSet<R> : SelectionSet<T>;
 
-type OperationToGraphQL<T> = (o: GraphQLReturner<T>) => Promise<ResolveReturned<T>>;
+type OperationToGraphQL<T> = (o: GraphQLReturner<T>) => Promise<State<T>>;
 
 type ResolveApiField<T> = T extends Array<infer R>
-  ? IsObject<R, ResolveReturned<R>, R>
+  ? IsObject<R, State<R>, R>
   : T extends AnyFunc
-  ? IsObject<
-      ResolveInternalFunctionReturn<ReturnType<T>>,
-      ResolveReturned<ResolveInternalFunctionReturn<ReturnType<T>>>,
-      T
-    >
-  : IsObject<T, ResolveReturned<T>, T>;
+  ? IsObject<OfType<ReturnType<T>>, State<OfType<ReturnType<T>>>, T>
+  : IsObject<T, State<T>, T>;
 
 type ApiFieldToGraphQL<T> = (o: ResolveValue<T>) => Promise<ResolveApiField<T>>;
 
@@ -169,9 +150,9 @@ addCard: ApiFieldToGraphQL<Mutation['addCard']>
 }
 
 export declare const Zeus: {
-  Query: (o: GraphQLReturner<AliasType<Query>>) => string,Mutation: (o: GraphQLReturner<AliasType<Mutation>>) => string
+  Query: (o: GraphQLReturner<Query>) => string,Mutation: (o: GraphQLReturner<Mutation>) => string
 }
 
 export declare const Cast: {
-  Query: (o:any) => ResolveReturned<AliasType<Query>>,Mutation: (o:any) => ResolveReturned<AliasType<Mutation>>
+  Query: (o:any) => State<Query>,Mutation: (o:any) => State<Mutation>
 }

@@ -31,24 +31,6 @@ export const AllTypesProps = {
 		}
 	},
 	createCard:{
-		description:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		Children:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		Attack:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
 		Defense:{
 			type:"Int",
 			array:false,
@@ -63,6 +45,24 @@ export const AllTypesProps = {
 		},
 		name:{
 			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		description:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		Children:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		Attack:{
+			type:"Int",
 			array:false,
 			arrayRequired:false,
 			required:true

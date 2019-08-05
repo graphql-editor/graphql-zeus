@@ -4,7 +4,7 @@ import { constantTypesTypescript, graphqlErrorTypeScript, typescriptFunctions } 
 const generateOperationChaining = (t: 'Query' | 'Mutation' | 'Subscription') =>
   `${t}: ((o: any) =>
     fullChainConstruct(options)('${t}')(o).then(
-      (response: any) => response as ResolveReturned<${t}>
+      (response: any) => response as State<${t}>
     )) as OperationToGraphQL<${t}>`;
 
 const generateOperationsChaining = ({
@@ -60,7 +60,7 @@ const generateOperationsApiTypeScript = ({
 };
 
 const generateOperationZeus = (t: 'Query' | 'Mutation' | 'Subscription') =>
-  `${t}: (o:GraphQLReturner<AliasType<${t}>>) => queryConstruct('${t}')(o)`;
+  `${t}: (o:GraphQLReturner<${t}>) => queryConstruct('${t}')(o)`;
 
 const generateOperationsZeusTypeScript = ({
   queries,
@@ -83,7 +83,7 @@ const generateOperationsZeusTypeScript = ({
 };
 
 const generateOperationCast = (t: 'Query' | 'Mutation' | 'Subscription') =>
-  `${t}: (o:any) => o as ResolveReturned<AliasType<${t}>>`;
+  `${t}: (o:any) => o as State<${t}>`;
 
 const generateOperationsCastTypeScript = ({
   queries,

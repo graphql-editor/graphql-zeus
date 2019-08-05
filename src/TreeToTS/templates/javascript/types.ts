@@ -40,7 +40,7 @@ const generateOperationsJavascriptDefinitionsApi = ({
   return allOps;
 };
 
-const ZeusOperations = (t: string) => `${t}: (o: GraphQLReturner<AliasType<${t}>>) => string`;
+const ZeusOperations = (t: string) => `${t}: (o: GraphQLReturner<${t}>) => string`;
 const generateOperationsJavascriptDefinitionsZeus = ({
   queries,
   mutations,
@@ -61,7 +61,7 @@ const generateOperationsJavascriptDefinitionsZeus = ({
   return allOps;
 };
 
-const CastOperations = (t: string) => `${t}: (o:any) => ResolveReturned<AliasType<${t}>>`;
+const CastOperations = (t: string) => `${t}: (o:any) => State<${t}>`;
 const generateOperationsJavascriptDefinitionsCast = ({
   queries,
   mutations,

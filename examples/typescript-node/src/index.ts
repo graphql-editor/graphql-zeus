@@ -61,7 +61,6 @@ const run = async () => {
     },
   });
   console.log(stack, newCard);
-
   const aa = await api.Query.cardById([
     {
       cardId: "aaa",

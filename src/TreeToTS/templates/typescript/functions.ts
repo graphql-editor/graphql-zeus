@@ -146,7 +146,7 @@ const traverseToSeekArrays = (parent: string[], a?: any): string => {
   return objectToTree(b);
 };
 
-const buildQuery = <T extends Record<any, any>>(type: string, a?: T) =>
+const buildQuery = (type: string, a?: Record<any, any>) =>
   traverseToSeekArrays([type], a).replace(/\\"([^{^,^\\n^\\"]*)\\":([^{^,^\\n^\\"]*)/g, '$1:$2');
 
 const queryConstruct = (t: 'Query' | 'Mutation' | 'Subscription') => (o: Record<any, any>) => \`\${t.toLowerCase()}\${buildQuery(t, o)}\`;
