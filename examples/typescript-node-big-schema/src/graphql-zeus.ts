@@ -738,10 +738,9 @@ type AliasType<T> = T & {
   __alias?: Record<string, T>;
 };
 
-export type AliasedReturnType<T> = {
+export type AliasedReturnType<T> ={
 	[P in keyof T]:T[P]
-} & Record<Exclude<string,keyof T>,T>
-
+} & Record<string,T> 
 type ArgsType<F extends AnyFunc> = F extends Func<infer P, any> ? P : never;
 type OfType<T> = T extends Array<infer R> ? R : T;
 type FirstArgument<F extends AnyFunc> = OfType<ArgsType<F>>;
@@ -759,7 +758,7 @@ export type State<T> = AliasedReturnType<
       ? Array<State<R>>
       : T[P] extends AnyFunc
       ? State<ReturnType<T[P]>>
-      : IsObject<T[P], State<T[P]>, T[P] extends AnyFunc ? State<ReturnType<T[P]>> : T[P]>;
+      : IsObject<T[P], AliasedReturnType<T[P]>, T[P] extends AnyFunc ? State<ReturnType<T[P]>> : T[P]>;
   }
 >;
 
