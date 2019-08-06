@@ -191,13 +191,13 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		createTeam:{
-			namespace:{
+			name:{
 				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:true
 			},
-			name:{
+			namespace:{
 				type:"String",
 				array:false,
 				arrayRequired:false,
@@ -251,15 +251,15 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		updateSources:{
-			sources:{
-				type:"NewSource",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
 			project:{
 				type:"ID",
 				array:false,
+				arrayRequired:false,
+				required:true
+			},
+			sources:{
+				type:"NewSource",
+				array:true,
 				arrayRequired:false,
 				required:true
 			}
@@ -281,17 +281,17 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		createProject:{
-			public:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
 			name:{
 				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:true
+			},
+			public:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
 			}
 		},
 		member:{
@@ -303,14 +303,14 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		members:{
-			limit:{
-				type:"Int",
+			last:{
+				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:false
 			},
-			last:{
-				type:"String",
+			limit:{
+				type:"Int",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -346,18 +346,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	UpdateProject:{
-		tags:{
-			type:"String",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		public:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		project:{
 			type:"ID",
 			array:false,
@@ -369,21 +357,21 @@ export const AllTypesProps: Record<string,any> = {
 			array:false,
 			arrayRequired:false,
 			required:false
+		},
+		tags:{
+			type:"String",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		public:{
+			type:"Boolean",
+			array:false,
+			arrayRequired:false,
+			required:false
 		}
 	},
 	NewSource:{
-		contentType:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		checksum:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		filename:{
 			type:"String",
 			array:false,
@@ -392,6 +380,18 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		contentLength:{
 			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		contentType:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		checksum:{
+			type:"String",
 			array:false,
 			arrayRequired:false,
 			required:false
@@ -658,22 +658,22 @@ export type TeamConnection = {
 
 export type Mutation = {
 	createProject:(props:{	public?:boolean,	name:string}) => Project,
-	createTeam:(props:{	namespace:string,	name:string}) => TeamOps,
+	createTeam:(props:{	name:string,	namespace:string}) => TeamOps,
 	createUser:(props:{	namespace:string,	public?:boolean}) => User,
 	deployToFaker:(props:{	id:string}) => boolean,
 	removeProject:(props:{	project:string}) => boolean,
 	team:(props:{	id:string}) => TeamOps,
 	updateProject:(props:{	in?:UpdateProject}) => boolean,
-	updateSources:(props:{	sources?:NewSource[],	project:string}) => (SourceUploadInfo | undefined)[]
+	updateSources:(props:{	project:string,	sources?:NewSource[]}) => (SourceUploadInfo | undefined)[]
 }
 
 export type TeamOps = {
 	addMember:(props:{	username:string,	role:Role}) => Member,
-	createProject:(props:{	public?:boolean,	name:string}) => Project,
+	createProject:(props:{	name:string,	public?:boolean}) => Project,
 	delete?:boolean,
 	id?:string,
 	member:(props:{	username:string}) => MemberOps,
-	members:(props:{	limit?:number,	last?:string}) => MemberConnection,
+	members:(props:{	last?:string,	limit?:number}) => MemberConnection,
 	name?:string,
 	namespace?:Namespace,
 	project:(props:{	id:string}) => ProjectOps
@@ -691,17 +691,17 @@ export type ProjectOps = {
 }
 
 export type UpdateProject = {
-	tags?:string[],
-	public?:boolean,
 	project?:string,
-	description?:string
+	description?:string,
+	tags?:string[],
+	public?:boolean
 }
 
 export type NewSource = {
-	contentType?:string,
-	checksum?:string,
 	filename?:string,
-	contentLength?:number
+	contentLength?:number,
+	contentType?:string,
+	checksum?:string
 }
 
 export type SourceUploadInfo = {
@@ -740,7 +740,8 @@ type AliasType<T> = T & {
 
 export type AliasedReturnType<T> ={
 	[P in keyof T]:T[P]
-} & Record<string,T> 
+} & Record<string,T>
+
 type ArgsType<F extends AnyFunc> = F extends Func<infer P, any> ? P : never;
 type OfType<T> = T extends Array<infer R> ? R : T;
 type FirstArgument<F extends AnyFunc> = OfType<ArgsType<F>>;
@@ -752,15 +753,13 @@ interface GraphQLResponse {
   }>;
 }
 
-export type State<T> = AliasedReturnType<
-  {
-    [P in keyof T]?: T[P] extends (Array<infer R> | undefined)
-      ? Array<State<R>>
-      : T[P] extends AnyFunc
-      ? State<ReturnType<T[P]>>
-      : IsObject<T[P], AliasedReturnType<T[P]>, T[P] extends AnyFunc ? State<ReturnType<T[P]>> : T[P]>;
-  }
->;
+export type State<T> = {
+  [P in keyof T]?: T[P] extends (Array<infer R> | undefined)
+    ? Array<AliasedReturnType<State<R>>>
+    : T[P] extends AnyFunc
+    ? AliasedReturnType<State<ReturnType<T[P]>>>
+    : IsObject<T[P], AliasedReturnType<State<T[P]>>, T[P]>;
+};
 
 type ResolveValue<T> = T extends Array<infer R>
   ? SelectionSet<R>
@@ -784,7 +783,7 @@ export type SelectionSet<T> = IsObject<
 
 type GraphQLReturner<T> = T extends Array<infer R> ? SelectionSet<R> : SelectionSet<T>;
 
-type OperationToGraphQL<T> = (o: GraphQLReturner<T>) => Promise<State<T>>;
+type OperationToGraphQL<T> = (o: GraphQLReturner<T>) => Promise<AliasedReturnType<State<T>>>;
 
 type ResolveApiField<T> = T extends Array<infer R>
   ? IsObject<R, State<R>, R>

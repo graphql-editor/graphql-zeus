@@ -135,9 +135,9 @@ export type S3Object = {
 }
 
 export enum SpecialSkills {
+	THUNDER = "THUNDER",
 	RAIN = "RAIN",
-	FIRE = "FIRE",
-	THUNDER = "THUNDER"
+	FIRE = "FIRE"
 }
 
 export type Mutation = {
@@ -182,9 +182,9 @@ type AliasType<T> = T & {
   __alias?: Record<string, T>;
 };
 
-export type AliasedReturnType<T> = {
+export type AliasedReturnType<T> ={
 	[P in keyof T]:T[P]
-} & Record<Exclude<string,keyof T>,T>
+} & Record<string,T>
 
 type ArgsType<F extends AnyFunc> = F extends Func<infer P, any> ? P : never;
 type OfType<T> = T extends Array<infer R> ? R : T;
@@ -197,15 +197,13 @@ interface GraphQLResponse {
   }>;
 }
 
-export type State<T> = AliasedReturnType<
-  {
-    [P in keyof T]?: T[P] extends (Array<infer R> | undefined)
-      ? Array<State<R>>
-      : T[P] extends AnyFunc
-      ? State<ReturnType<T[P]>>
-      : IsObject<T[P], State<T[P]>, T[P] extends AnyFunc ? State<ReturnType<T[P]>> : T[P]>;
-  }
->;
+export type State<T> = {
+  [P in keyof T]?: T[P] extends (Array<infer R> | undefined)
+    ? Array<AliasedReturnType<State<R>>>
+    : T[P] extends AnyFunc
+    ? AliasedReturnType<State<ReturnType<T[P]>>>
+    : IsObject<T[P], AliasedReturnType<State<T[P]>>, T[P]>;
+};
 
 type ResolveValue<T> = T extends Array<infer R>
   ? SelectionSet<R>
@@ -229,7 +227,7 @@ export type SelectionSet<T> = IsObject<
 
 type GraphQLReturner<T> = T extends Array<infer R> ? SelectionSet<R> : SelectionSet<T>;
 
-type OperationToGraphQL<T> = (o: GraphQLReturner<T>) => Promise<State<T>>;
+type OperationToGraphQL<T> = (o: GraphQLReturner<T>) => Promise<AliasedReturnType<State<T>>>;
 
 type ResolveApiField<T> = T extends Array<infer R>
   ? IsObject<R, State<R>, R>

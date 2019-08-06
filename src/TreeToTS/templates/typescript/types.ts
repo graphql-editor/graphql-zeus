@@ -26,15 +26,13 @@ interface GraphQLResponse {
   }>;
 }
 
-export type State<T> = AliasedReturnType<
-  {
-    [P in keyof T]?: T[P] extends (Array<infer R> | undefined)
-      ? Array<State<R>>
-      : T[P] extends AnyFunc
-      ? State<ReturnType<T[P]>>
-      : IsObject<T[P], AliasedReturnType<T[P]>, T[P] extends AnyFunc ? State<ReturnType<T[P]>> : T[P]>;
-  }
->;
+export type State<T> = {
+  [P in keyof T]?: T[P] extends (Array<infer R> | undefined)
+    ? Array<AliasedReturnType<State<R>>>
+    : T[P] extends AnyFunc
+    ? AliasedReturnType<State<ReturnType<T[P]>>>
+    : IsObject<T[P], AliasedReturnType<State<T[P]>>, T[P]>;
+};
 
 type ResolveValue<T> = T extends Array<infer R>
   ? SelectionSet<R>
@@ -58,7 +56,7 @@ export type SelectionSet<T> = IsObject<
 
 type GraphQLReturner<T> = T extends Array<infer R> ? SelectionSet<R> : SelectionSet<T>;
 
-type OperationToGraphQL<T> = (o: GraphQLReturner<T>) => Promise<State<T>>;
+type OperationToGraphQL<T> = (o: GraphQLReturner<T>) => Promise<AliasedReturnType<State<T>>>;
 
 type ResolveApiField<T> = T extends Array<infer R>
   ? IsObject<R, State<R>, R>
