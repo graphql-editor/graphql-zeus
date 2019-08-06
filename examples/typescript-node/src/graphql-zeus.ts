@@ -33,12 +33,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	createCard:{
-		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
 		description:{
 			type:"String",
 			array:false,
@@ -66,6 +60,12 @@ export const AllTypesProps: Record<string,any> = {
 		skills:{
 			type:"SpecialSkills",
 			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		name:{
+			type:"String",
+			array:false,
 			arrayRequired:false,
 			required:true
 		}
@@ -146,8 +146,6 @@ export type Mutation = {
 }
 
 export type createCard = {
-	/** The name of a card<br> */
-	name:string,
 	/** Description of a card<br> */
 	description:string,
 	/** <div>How many children the greek god had</div> */
@@ -156,7 +154,9 @@ export type createCard = {
 	Attack:number,
 	/** The defense power<br> */
 	Defense:number,
-	skills?:SpecialSkills[]
+	skills?:SpecialSkills[],
+	/** The name of a card<br> */
+	name:string
 }
 
 export class GraphQLError extends Error {
@@ -175,7 +175,7 @@ type Func<P extends any[], R> = (...args: P) => R;
 type AnyFunc = Func<any, any>;
 
 type IsType<M, T, Z, L> = T extends M ? Z : L;
-type IsObject<T, Z, L> = IsType<Record<string | number | symbol, unknown>, T, Z, L>;
+type IsObject<T, Z, L> = IsType<Record<string | number | symbol, unknown | undefined> | undefined, T, Z, L>;
 type IsScalar<T, Z, L> = IsType<string | boolean | number, T, Z, L>;
 
 type AliasType<T> = T & {
@@ -184,7 +184,9 @@ type AliasType<T> = T & {
 
 export type AliasedReturnType<T> ={
 	[P in keyof T]:T[P]
-} & Record<string,T>
+} & Record<string,{
+	[P in keyof T]:T[P]
+}>
 
 type ArgsType<F extends AnyFunc> = F extends Func<infer P, any> ? P : never;
 type OfType<T> = T extends Array<infer R> ? R : T;

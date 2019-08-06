@@ -346,6 +346,12 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	UpdateProject:{
+		public:{
+			type:"Boolean",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
 		project:{
 			type:"ID",
 			array:false,
@@ -363,12 +369,6 @@ export const AllTypesProps: Record<string,any> = {
 			array:true,
 			arrayRequired:false,
 			required:true
-		},
-		public:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
 		}
 	},
 	NewSource:{
@@ -691,10 +691,10 @@ export type ProjectOps = {
 }
 
 export type UpdateProject = {
+	public?:boolean,
 	project?:string,
 	description?:string,
-	tags?:string[],
-	public?:boolean
+	tags?:string[]
 }
 
 export type NewSource = {
@@ -731,7 +731,7 @@ type Func<P extends any[], R> = (...args: P) => R;
 type AnyFunc = Func<any, any>;
 
 type IsType<M, T, Z, L> = T extends M ? Z : L;
-type IsObject<T, Z, L> = IsType<Record<string | number | symbol, unknown>, T, Z, L>;
+type IsObject<T, Z, L> = IsType<Record<string | number | symbol, unknown | undefined> | undefined, T, Z, L>;
 type IsScalar<T, Z, L> = IsType<string | boolean | number, T, Z, L>;
 
 type AliasType<T> = T & {
@@ -740,7 +740,9 @@ type AliasType<T> = T & {
 
 export type AliasedReturnType<T> ={
 	[P in keyof T]:T[P]
-} & Record<string,T>
+} & Record<string,{
+	[P in keyof T]:T[P]
+}>
 
 type ArgsType<F extends AnyFunc> = F extends Func<infer P, any> ? P : never;
 type OfType<T> = T extends Array<infer R> ? R : T;
