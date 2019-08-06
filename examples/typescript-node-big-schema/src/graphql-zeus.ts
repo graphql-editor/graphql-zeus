@@ -191,13 +191,13 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		createTeam:{
-			name:{
+			namespace:{
 				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:true
 			},
-			namespace:{
+			name:{
 				type:"String",
 				array:false,
 				arrayRequired:false,
@@ -251,15 +251,15 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		updateSources:{
-			project:{
-				type:"ID",
-				array:false,
-				arrayRequired:false,
-				required:true
-			},
 			sources:{
 				type:"NewSource",
 				array:true,
+				arrayRequired:false,
+				required:true
+			},
+			project:{
+				type:"ID",
+				array:false,
 				arrayRequired:false,
 				required:true
 			}
@@ -281,17 +281,17 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		createProject:{
-			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
-			},
 			public:{
 				type:"Boolean",
 				array:false,
 				arrayRequired:false,
 				required:false
+			},
+			name:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:true
 			}
 		},
 		member:{
@@ -303,14 +303,14 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		members:{
-			last:{
-				type:"String",
+			limit:{
+				type:"Int",
 				array:false,
 				arrayRequired:false,
 				required:false
 			},
-			limit:{
-				type:"Int",
+			last:{
+				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -346,12 +346,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	UpdateProject:{
-		public:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		project:{
 			type:"ID",
 			array:false,
@@ -369,9 +363,21 @@ export const AllTypesProps: Record<string,any> = {
 			array:true,
 			arrayRequired:false,
 			required:true
+		},
+		public:{
+			type:"Boolean",
+			array:false,
+			arrayRequired:false,
+			required:false
 		}
 	},
 	NewSource:{
+		checksum:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
 		filename:{
 			type:"String",
 			array:false,
@@ -385,12 +391,6 @@ export const AllTypesProps: Record<string,any> = {
 			required:false
 		},
 		contentType:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		checksum:{
 			type:"String",
 			array:false,
 			arrayRequired:false,
@@ -658,22 +658,22 @@ export type TeamConnection = {
 
 export type Mutation = {
 	createProject:(props:{	public?:boolean,	name:string}) => Project,
-	createTeam:(props:{	name:string,	namespace:string}) => TeamOps,
+	createTeam:(props:{	namespace:string,	name:string}) => TeamOps,
 	createUser:(props:{	namespace:string,	public?:boolean}) => User,
 	deployToFaker:(props:{	id:string}) => boolean,
 	removeProject:(props:{	project:string}) => boolean,
 	team:(props:{	id:string}) => TeamOps,
 	updateProject:(props:{	in?:UpdateProject}) => boolean,
-	updateSources:(props:{	project:string,	sources?:NewSource[]}) => (SourceUploadInfo | undefined)[]
+	updateSources:(props:{	sources?:NewSource[],	project:string}) => (SourceUploadInfo | undefined)[]
 }
 
 export type TeamOps = {
 	addMember:(props:{	username:string,	role:Role}) => Member,
-	createProject:(props:{	name:string,	public?:boolean}) => Project,
+	createProject:(props:{	public?:boolean,	name:string}) => Project,
 	delete?:boolean,
 	id?:string,
 	member:(props:{	username:string}) => MemberOps,
-	members:(props:{	last?:string,	limit?:number}) => MemberConnection,
+	members:(props:{	limit?:number,	last?:string}) => MemberConnection,
 	name?:string,
 	namespace?:Namespace,
 	project:(props:{	id:string}) => ProjectOps
@@ -691,17 +691,17 @@ export type ProjectOps = {
 }
 
 export type UpdateProject = {
-	public?:boolean,
 	project?:string,
 	description?:string,
-	tags?:string[]
+	tags?:string[],
+	public?:boolean
 }
 
 export type NewSource = {
+	checksum?:string,
 	filename?:string,
 	contentLength?:number,
-	contentType?:string,
-	checksum?:string
+	contentType?:string
 }
 
 export type SourceUploadInfo = {
@@ -731,7 +731,6 @@ type Func<P extends any[], R> = (...args: P) => R;
 type AnyFunc = Func<any, any>;
 
 type IsType<M, T, Z, L> = T extends M ? Z : L;
-type IsObject<T, Z, L> = IsType<Record<string | number | symbol, unknown | undefined> | undefined, T, Z, L>;
 type IsScalar<T, Z, L> = IsType<string | boolean | number, T, Z, L>;
 
 type AliasType<T> = T & {
@@ -760,7 +759,15 @@ export type State<T> = {
     ? Array<AliasedReturnType<State<R>>>
     : T[P] extends AnyFunc
     ? AliasedReturnType<State<ReturnType<T[P]>>>
-    : IsObject<T[P], AliasedReturnType<State<T[P]>>, T[P]>;
+    : IsScalar<T[P], T[P], AliasedReturnType<State<T[P]>>>;
+};
+
+export type PlainObject<T> = {
+  [P in keyof T]?: T[P] extends (Array<infer R> | undefined)
+    ? Array<PlainObject<R>>
+    : T[P] extends AnyFunc
+    ?  PlainObject<ReturnType<T[P]>>
+    : IsScalar<T[P], T[P], PlainObject<T[P]>>;
 };
 
 type ResolveValue<T> = T extends Array<infer R>
@@ -771,27 +778,25 @@ type ResolveValue<T> = T extends Array<infer R>
       [FirstArgument<T>],
       [FirstArgument<T>, SelectionSet<OfType<ReturnType<T>>>]
     >
-  : IsObject<T, SelectionSet<T>, T extends undefined ? undefined : true>;
+  : IsScalar<T, T extends undefined ? undefined : true, SelectionSet<T>>;
 
-export type SelectionSet<T> = IsObject<
-  T,
-  AliasType<
+export type SelectionSet<T> = IsScalar<
+  T,  T extends undefined ? undefined : true
+,  AliasType<
     {
       [P in keyof T]?: ResolveValue<T[P]>;
     }
-  >,
-  T extends undefined ? undefined : true
->;
+  >>;
 
 type GraphQLReturner<T> = T extends Array<infer R> ? SelectionSet<R> : SelectionSet<T>;
 
 type OperationToGraphQL<T> = (o: GraphQLReturner<T>) => Promise<AliasedReturnType<State<T>>>;
 
 type ResolveApiField<T> = T extends Array<infer R>
-  ? IsObject<R, State<R>, R>
+  ? IsScalar<R, R, State<R>>
   : T extends AnyFunc
-  ? IsObject<OfType<ReturnType<T>>, State<OfType<ReturnType<T>>>, T>
-  : IsObject<T, State<T>, T>;
+  ? IsScalar<OfType<ReturnType<T>>, T, State<OfType<ReturnType<T>>>>
+  : IsScalar<T, T, State<T>>;
 
 type ApiFieldToGraphQL<T> = (o: ResolveValue<T>) => Promise<ResolveApiField<T>>;
 

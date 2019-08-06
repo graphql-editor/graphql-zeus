@@ -122,7 +122,6 @@ const run = async () => {
     },
   });
   console.log(aliasedQuery);
-
   const aliasedQueryExecute = await chain.Query({
     listCards: {
       __alias: {
@@ -138,6 +137,7 @@ const run = async () => {
       },
     },
   });
+
   console.log(JSON.stringify(aliasedQueryExecute, null, 4));
   console.log(
     JSON.stringify(aliasedQueryExecute.listCards!.map((card) => card.atak!.attack!), null, 4),

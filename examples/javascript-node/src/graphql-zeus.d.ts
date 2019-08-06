@@ -34,9 +34,9 @@ export type S3Object = {
 }
 
 export enum SpecialSkills {
-	THUNDER = "THUNDER",
 	RAIN = "RAIN",
-	FIRE = "FIRE"
+	FIRE = "FIRE",
+	THUNDER = "THUNDER"
 }
 
 export type Mutation = {
@@ -45,6 +45,8 @@ export type Mutation = {
 }
 
 export type createCard = {
+	/** <div>How many children the greek god had</div> */
+	Children?:number,
 	/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
@@ -53,9 +55,7 @@ export type createCard = {
 	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
-	description:string,
-	/** <div>How many children the greek god had</div> */
-	Children?:number
+	description:string
 }
 
 
@@ -64,7 +64,6 @@ type Func<P extends any[], R> = (...args: P) => R;
 type AnyFunc = Func<any, any>;
 
 type IsType<M, T, Z, L> = T extends M ? Z : L;
-type IsObject<T, Z, L> = IsType<Record<string | number | symbol, unknown | undefined> | undefined, T, Z, L>;
 type IsScalar<T, Z, L> = IsType<string | boolean | number, T, Z, L>;
 
 type AliasType<T> = T & {
@@ -93,7 +92,15 @@ export type State<T> = {
     ? Array<AliasedReturnType<State<R>>>
     : T[P] extends AnyFunc
     ? AliasedReturnType<State<ReturnType<T[P]>>>
-    : IsObject<T[P], AliasedReturnType<State<T[P]>>, T[P]>;
+    : IsScalar<T[P], T[P], AliasedReturnType<State<T[P]>>>;
+};
+
+export type PlainObject<T> = {
+  [P in keyof T]?: T[P] extends (Array<infer R> | undefined)
+    ? Array<PlainObject<R>>
+    : T[P] extends AnyFunc
+    ?  PlainObject<ReturnType<T[P]>>
+    : IsScalar<T[P], T[P], PlainObject<T[P]>>;
 };
 
 type ResolveValue<T> = T extends Array<infer R>
@@ -104,27 +111,25 @@ type ResolveValue<T> = T extends Array<infer R>
       [FirstArgument<T>],
       [FirstArgument<T>, SelectionSet<OfType<ReturnType<T>>>]
     >
-  : IsObject<T, SelectionSet<T>, T extends undefined ? undefined : true>;
+  : IsScalar<T, T extends undefined ? undefined : true, SelectionSet<T>>;
 
-export type SelectionSet<T> = IsObject<
-  T,
-  AliasType<
+export type SelectionSet<T> = IsScalar<
+  T,  T extends undefined ? undefined : true
+,  AliasType<
     {
       [P in keyof T]?: ResolveValue<T[P]>;
     }
-  >,
-  T extends undefined ? undefined : true
->;
+  >>;
 
 type GraphQLReturner<T> = T extends Array<infer R> ? SelectionSet<R> : SelectionSet<T>;
 
 type OperationToGraphQL<T> = (o: GraphQLReturner<T>) => Promise<AliasedReturnType<State<T>>>;
 
 type ResolveApiField<T> = T extends Array<infer R>
-  ? IsObject<R, State<R>, R>
+  ? IsScalar<R, R, State<R>>
   : T extends AnyFunc
-  ? IsObject<OfType<ReturnType<T>>, State<OfType<ReturnType<T>>>, T>
-  : IsObject<T, State<T>, T>;
+  ? IsScalar<OfType<ReturnType<T>>, T, State<OfType<ReturnType<T>>>>
+  : IsScalar<T, T, State<T>>;
 
 type ApiFieldToGraphQL<T> = (o: ResolveValue<T>) => Promise<ResolveApiField<T>>;
 
