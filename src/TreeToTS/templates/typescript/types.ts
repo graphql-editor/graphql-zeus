@@ -36,6 +36,14 @@ export type State<T> = {
     : IsObject<T[P], AliasedReturnType<State<T[P]>>, T[P]>;
 };
 
+export type PlainObject<T> = {
+  [P in keyof T]?: T[P] extends (Array<infer R> | undefined)
+    ? Array<PlainObject<R>>
+    : T[P] extends AnyFunc
+    ?  PlainObject<ReturnType<T[P]>>
+    : IsObject<T[P], PlainObject<T[P]>, T[P]>;
+};
+
 type ResolveValue<T> = T extends Array<infer R>
   ? SelectionSet<R>
   : T extends AnyFunc
