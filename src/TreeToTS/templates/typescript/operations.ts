@@ -1,11 +1,12 @@
 import { Environment } from 'Models/Environment';
+import { VALUETYPES } from '../resolveValueTypes';
 import { constantTypesTypescript, graphqlErrorTypeScript, typescriptFunctions } from './';
 
 const generateOperationChaining = (t: 'Query' | 'Mutation' | 'Subscription') =>
   `${t}: ((o: any) =>
     fullChainConstruct(options)('${t}')(o).then(
       (response: any) => response as State<${t}>
-    )) as OperationToGraphQL<${t}>`;
+    )) as OperationToGraphQL<${VALUETYPES}["${t}"],${t}>`;
 
 const generateOperationsChaining = ({
   queries,
@@ -34,7 +35,7 @@ const generateOperationApiTypeScript = (t: 'Query' | 'Mutation' | 'Subscription'
           (op) => `${op}: ((o:any) =>
       fullChainConstruct(options)('${t}')({
         ${op}: o
-      }).then((response:any) => response.${op})) as ApiFieldToGraphQL<${t}['${op}']>`
+      }).then((response:any) => response.${op})) as ApiFieldToGraphQL<${VALUETYPES}['${t}']['${op}'],${t}['${op}']>`
         )
         .join(',\n')}
   }`;
@@ -60,7 +61,7 @@ const generateOperationsApiTypeScript = ({
 };
 
 const generateOperationZeus = (t: 'Query' | 'Mutation' | 'Subscription') =>
-  `${t}: (o:GraphQLReturner<${t}>) => queryConstruct('${t}')(o)`;
+  `${t}: (o:GraphQLReturner<${VALUETYPES}["${t}"]>) => queryConstruct('${t}')(o)`;
 
 const generateOperationsZeusTypeScript = ({
   queries,

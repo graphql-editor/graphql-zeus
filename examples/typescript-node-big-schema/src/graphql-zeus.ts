@@ -191,13 +191,13 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		createTeam:{
-			namespace:{
+			name:{
 				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:true
 			},
-			name:{
+			namespace:{
 				type:"String",
 				array:false,
 				arrayRequired:false,
@@ -251,15 +251,15 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		updateSources:{
-			sources:{
-				type:"NewSource",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
 			project:{
 				type:"ID",
 				array:false,
+				arrayRequired:false,
+				required:true
+			},
+			sources:{
+				type:"NewSource",
+				array:true,
 				arrayRequired:false,
 				required:true
 			}
@@ -281,17 +281,17 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		createProject:{
-			public:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
 			name:{
 				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:true
+			},
+			public:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
 			}
 		},
 		member:{
@@ -303,14 +303,14 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		members:{
-			limit:{
-				type:"Int",
+			last:{
+				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:false
 			},
-			last:{
-				type:"String",
+			limit:{
+				type:"Int",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -372,12 +372,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	NewSource:{
-		checksum:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		filename:{
 			type:"String",
 			array:false,
@@ -391,6 +385,12 @@ export const AllTypesProps: Record<string,any> = {
 			required:false
 		},
 		contentType:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		checksum:{
 			type:"String",
 			array:false,
 			arrayRequired:false,
@@ -534,6 +534,155 @@ export const ReturnTypes: Record<string,any> = {
 	}
 }
 
+export type ValueTypes = {
+    ["Query"]: {
+	findProjects:(props:{	query:string,	last?:string,	limit?:number}) => ValueTypes["ProjectConnection"],
+	findProjectsByTag:(props:{	tag:string,	last?:string,	limit?:number}) => ValueTypes["ProjectConnection"],
+	getNamespace:(props:{	slug:string}) => ValueTypes["Namespace"],
+	getProject:(props:{	project:string}) => ValueTypes["Project"],
+	getTeam:(props:{	name:string}) => ValueTypes["Team"],
+	getUser:(props:{	username:string}) => ValueTypes["User"],
+	listProjects:(props:{	last?:string,	limit?:number,	owned?:boolean}) => ValueTypes["ProjectConnection"],
+	myTeams:(props:{	last?:string,	limit?:number}) => ValueTypes["TeamConnection"]
+},
+	["ProjectConnection"]: {
+	pageInfo:ValueTypes["PageInfo"],
+	projects?:ValueTypes["Project"][]
+},
+	["PageInfo"]: {
+	last?:string,
+	limit?:number,
+	next?:boolean
+},
+	["Project"]: {
+	description?:string,
+	endpoint?:ValueTypes["Endpoint"],
+	id:string,
+	name:string,
+	owner?:ValueTypes["User"],
+	public?:boolean,
+	slug?:string,
+	sources:(props:{	last?:string,	limit?:number}) => ValueTypes["FakerSourceConnection"],
+	tags?:string[],
+	team?:ValueTypes["Team"]
+},
+	["Endpoint"]: {
+	uri?:string
+},
+	["User"]: {
+	accountType:ValueTypes["AccountType"],
+	id?:string,
+	namespace?:ValueTypes["Namespace"],
+	subscriptions?:ValueTypes["SubscriptionConnection"],
+	username?:string
+},
+	["AccountType"]:AccountType,
+	["Namespace"]: {
+	project:(props:{	name:string}) => ValueTypes["Project"],
+	projects:(props:{	last?:string,	limit?:number}) => ValueTypes["ProjectConnection"],
+	public?:boolean,
+	slug?:string
+},
+	["SubscriptionConnection"]: {
+	pageInfo:ValueTypes["PageInfo"],
+	subscriptions?:ValueTypes["Subscription"][]
+},
+	["Subscription"]: {
+	cancelURL?:string,
+	expiration?:string,
+	quantity?:number,
+	seats?:ValueTypes["UserConnection"],
+	subscriptionID?:number,
+	updateURL?:string
+},
+	["UserConnection"]: {
+	pageInfo:ValueTypes["PageInfo"],
+	users?:ValueTypes["User"][]
+},
+	["FakerSourceConnection"]: {
+	pageInfo:ValueTypes["PageInfo"],
+	sources?:ValueTypes["FakerSource"][]
+},
+	["FakerSource"]: {
+	checksum?:string,
+	contents?:string,
+	filename?:string,
+	getUrl?:string
+},
+	["Team"]: {
+	id?:string,
+	member:(props:{	username:string}) => ValueTypes["Member"],
+	members:(props:{	last?:string,	limit?:number}) => ValueTypes["MemberConnection"],
+	name:string,
+	namespace:ValueTypes["Namespace"]
+},
+	["Member"]: {
+	email?:string,
+	role?:ValueTypes["Role"],
+	username?:string
+},
+	["Role"]:Role,
+	["MemberConnection"]: {
+	members?:ValueTypes["Member"][],
+	pageInfo:ValueTypes["PageInfo"]
+},
+	["TeamConnection"]: {
+	pageInfo:ValueTypes["PageInfo"],
+	teams?:ValueTypes["Team"][]
+},
+	["Mutation"]: {
+	createProject:(props:{	public?:boolean,	name:string}) => ValueTypes["Project"],
+	createTeam:(props:{	name:string,	namespace:string}) => ValueTypes["TeamOps"],
+	createUser:(props:{	namespace:string,	public?:boolean}) => ValueTypes["User"],
+	deployToFaker:(props:{	id:string}) => boolean,
+	removeProject:(props:{	project:string}) => boolean,
+	team:(props:{	id:string}) => ValueTypes["TeamOps"],
+	updateProject:(props:{	in?:ValueTypes["UpdateProject"]}) => boolean,
+	updateSources:(props:{	project:string,	sources?:ValueTypes["NewSource"][]}) => (ValueTypes["SourceUploadInfo"] | undefined)[]
+},
+	["TeamOps"]: {
+	addMember:(props:{	username:string,	role:ValueTypes["Role"]}) => ValueTypes["Member"],
+	createProject:(props:{	name:string,	public?:boolean}) => ValueTypes["Project"],
+	delete?:boolean,
+	id?:string,
+	member:(props:{	username:string}) => ValueTypes["MemberOps"],
+	members:(props:{	last?:string,	limit?:number}) => ValueTypes["MemberConnection"],
+	name?:string,
+	namespace?:ValueTypes["Namespace"],
+	project:(props:{	id:string}) => ValueTypes["ProjectOps"]
+},
+	["MemberOps"]: {
+	delete?:boolean,
+	update:(props:{	role?:ValueTypes["Role"]}) => boolean
+},
+	["ProjectOps"]: {
+	delete?:boolean,
+	deployToFaker?:boolean,
+	update:(props:{	in?:ValueTypes["UpdateProject"]}) => boolean
+},
+	["UpdateProject"]: {
+	project?:string,
+	description?:string,
+	tags?:string[],
+	public?:boolean
+},
+	["NewSource"]: {
+	filename?:string,
+	contentLength?:number,
+	contentType?:string,
+	checksum?:string
+},
+	["SourceUploadInfo"]: {
+	filename?:string,
+	headers?:(ValueTypes["Header"] | undefined)[],
+	putUrl:string
+},
+	["Header"]: {
+	key:string,
+	value?:string
+}
+  }
+
 export type Query = {
 	findProjects:(props:{	query:string,	last?:string,	limit?:number}) => ProjectConnection,
 	findProjectsByTag:(props:{	tag:string,	last?:string,	limit?:number}) => ProjectConnection,
@@ -658,22 +807,22 @@ export type TeamConnection = {
 
 export type Mutation = {
 	createProject:(props:{	public?:boolean,	name:string}) => Project,
-	createTeam:(props:{	namespace:string,	name:string}) => TeamOps,
+	createTeam:(props:{	name:string,	namespace:string}) => TeamOps,
 	createUser:(props:{	namespace:string,	public?:boolean}) => User,
 	deployToFaker:(props:{	id:string}) => boolean,
 	removeProject:(props:{	project:string}) => boolean,
 	team:(props:{	id:string}) => TeamOps,
 	updateProject:(props:{	in?:UpdateProject}) => boolean,
-	updateSources:(props:{	sources?:NewSource[],	project:string}) => (SourceUploadInfo | undefined)[]
+	updateSources:(props:{	project:string,	sources?:NewSource[]}) => (SourceUploadInfo | undefined)[]
 }
 
 export type TeamOps = {
 	addMember:(props:{	username:string,	role:Role}) => Member,
-	createProject:(props:{	public?:boolean,	name:string}) => Project,
+	createProject:(props:{	name:string,	public?:boolean}) => Project,
 	delete?:boolean,
 	id?:string,
 	member:(props:{	username:string}) => MemberOps,
-	members:(props:{	limit?:number,	last?:string}) => MemberConnection,
+	members:(props:{	last?:string,	limit?:number}) => MemberConnection,
 	name?:string,
 	namespace?:Namespace,
 	project:(props:{	id:string}) => ProjectOps
@@ -698,10 +847,10 @@ export type UpdateProject = {
 }
 
 export type NewSource = {
-	checksum?:string,
 	filename?:string,
 	contentLength?:number,
-	contentType?:string
+	contentType?:string,
+	checksum?:string
 }
 
 export type SourceUploadInfo = {
@@ -733,15 +882,31 @@ type AnyFunc = Func<any, any>;
 type IsType<M, T, Z, L> = T extends M ? Z : L;
 type IsScalar<T, Z, L> = IsType<string | boolean | number, T, Z, L>;
 
-type AliasType<T> = T & {
-  __alias?: Record<string, T>;
+type WithTypeNameValue<T> = T & {
+  __typename?: true;
 };
 
-export type AliasedReturnType<T> ={
-	[P in keyof T]:T[P]
-} & Record<string,{
-	[P in keyof T]:T[P]
-}>
+type AliasType<T> = WithTypeNameValue<T> & {
+  __alias?: Record<string, WithTypeNameValue<T>>;
+};
+
+type WithTypeNameReturn<T> = T & {
+  __typename?: string;
+};
+
+export type AliasedReturnType<T> = WithTypeNameReturn<
+  {
+    [P in keyof T]: T[P];
+  }
+> &
+  Record<
+    string,
+    WithTypeNameReturn<
+      {
+        [P in keyof T]: T[P];
+      }
+    >
+  >;
 
 type ArgsType<F extends AnyFunc> = F extends Func<infer P, any> ? P : never;
 type OfType<T> = T extends Array<infer R> ? R : T;
@@ -790,7 +955,7 @@ export type SelectionSet<T> = IsScalar<
 
 type GraphQLReturner<T> = T extends Array<infer R> ? SelectionSet<R> : SelectionSet<T>;
 
-type OperationToGraphQL<T> = (o: GraphQLReturner<T>) => Promise<AliasedReturnType<State<T>>>;
+type OperationToGraphQL<V,T> = (o: GraphQLReturner<V>) => Promise<AliasedReturnType<State<T>>>;
 
 type ResolveApiField<T> = T extends Array<infer R>
   ? IsScalar<R, R, State<R>>
@@ -798,7 +963,7 @@ type ResolveApiField<T> = T extends Array<infer R>
   ? IsScalar<OfType<ReturnType<T>>, T, State<OfType<ReturnType<T>>>>
   : IsScalar<T, T, State<T>>;
 
-type ApiFieldToGraphQL<T> = (o: ResolveValue<T>) => Promise<ResolveApiField<T>>;
+type ApiFieldToGraphQL<V,T> = (o: ResolveValue<V>) => Promise<ResolveApiField<T>>;
 
 type fetchOptions = ArgsType<typeof fetch>;
 
@@ -1034,116 +1199,116 @@ export const Chain = (...options: fetchOptions) => ({
   Query: ((o: any) =>
     fullChainConstruct(options)('Query')(o).then(
       (response: any) => response as State<Query>
-    )) as OperationToGraphQL<Query>,
+    )) as OperationToGraphQL<ValueTypes["Query"],Query>,
 Mutation: ((o: any) =>
     fullChainConstruct(options)('Mutation')(o).then(
       (response: any) => response as State<Mutation>
-    )) as OperationToGraphQL<Mutation>,
+    )) as OperationToGraphQL<ValueTypes["Mutation"],Mutation>,
 Subscription: ((o: any) =>
     fullChainConstruct(options)('Subscription')(o).then(
       (response: any) => response as State<Subscription>
-    )) as OperationToGraphQL<Subscription>
+    )) as OperationToGraphQL<ValueTypes["Subscription"],Subscription>
 });
 export const Api = (...options: fetchOptions) => ({
   Query: {
       findProjects: ((o:any) =>
       fullChainConstruct(options)('Query')({
         findProjects: o
-      }).then((response:any) => response.findProjects)) as ApiFieldToGraphQL<Query['findProjects']>,
+      }).then((response:any) => response.findProjects)) as ApiFieldToGraphQL<ValueTypes['Query']['findProjects'],Query['findProjects']>,
 findProjectsByTag: ((o:any) =>
       fullChainConstruct(options)('Query')({
         findProjectsByTag: o
-      }).then((response:any) => response.findProjectsByTag)) as ApiFieldToGraphQL<Query['findProjectsByTag']>,
+      }).then((response:any) => response.findProjectsByTag)) as ApiFieldToGraphQL<ValueTypes['Query']['findProjectsByTag'],Query['findProjectsByTag']>,
 getNamespace: ((o:any) =>
       fullChainConstruct(options)('Query')({
         getNamespace: o
-      }).then((response:any) => response.getNamespace)) as ApiFieldToGraphQL<Query['getNamespace']>,
+      }).then((response:any) => response.getNamespace)) as ApiFieldToGraphQL<ValueTypes['Query']['getNamespace'],Query['getNamespace']>,
 getProject: ((o:any) =>
       fullChainConstruct(options)('Query')({
         getProject: o
-      }).then((response:any) => response.getProject)) as ApiFieldToGraphQL<Query['getProject']>,
+      }).then((response:any) => response.getProject)) as ApiFieldToGraphQL<ValueTypes['Query']['getProject'],Query['getProject']>,
 getTeam: ((o:any) =>
       fullChainConstruct(options)('Query')({
         getTeam: o
-      }).then((response:any) => response.getTeam)) as ApiFieldToGraphQL<Query['getTeam']>,
+      }).then((response:any) => response.getTeam)) as ApiFieldToGraphQL<ValueTypes['Query']['getTeam'],Query['getTeam']>,
 getUser: ((o:any) =>
       fullChainConstruct(options)('Query')({
         getUser: o
-      }).then((response:any) => response.getUser)) as ApiFieldToGraphQL<Query['getUser']>,
+      }).then((response:any) => response.getUser)) as ApiFieldToGraphQL<ValueTypes['Query']['getUser'],Query['getUser']>,
 listProjects: ((o:any) =>
       fullChainConstruct(options)('Query')({
         listProjects: o
-      }).then((response:any) => response.listProjects)) as ApiFieldToGraphQL<Query['listProjects']>,
+      }).then((response:any) => response.listProjects)) as ApiFieldToGraphQL<ValueTypes['Query']['listProjects'],Query['listProjects']>,
 myTeams: ((o:any) =>
       fullChainConstruct(options)('Query')({
         myTeams: o
-      }).then((response:any) => response.myTeams)) as ApiFieldToGraphQL<Query['myTeams']>
+      }).then((response:any) => response.myTeams)) as ApiFieldToGraphQL<ValueTypes['Query']['myTeams'],Query['myTeams']>
   },
 Mutation: {
       createProject: ((o:any) =>
       fullChainConstruct(options)('Mutation')({
         createProject: o
-      }).then((response:any) => response.createProject)) as ApiFieldToGraphQL<Mutation['createProject']>,
+      }).then((response:any) => response.createProject)) as ApiFieldToGraphQL<ValueTypes['Mutation']['createProject'],Mutation['createProject']>,
 createTeam: ((o:any) =>
       fullChainConstruct(options)('Mutation')({
         createTeam: o
-      }).then((response:any) => response.createTeam)) as ApiFieldToGraphQL<Mutation['createTeam']>,
+      }).then((response:any) => response.createTeam)) as ApiFieldToGraphQL<ValueTypes['Mutation']['createTeam'],Mutation['createTeam']>,
 createUser: ((o:any) =>
       fullChainConstruct(options)('Mutation')({
         createUser: o
-      }).then((response:any) => response.createUser)) as ApiFieldToGraphQL<Mutation['createUser']>,
+      }).then((response:any) => response.createUser)) as ApiFieldToGraphQL<ValueTypes['Mutation']['createUser'],Mutation['createUser']>,
 deployToFaker: ((o:any) =>
       fullChainConstruct(options)('Mutation')({
         deployToFaker: o
-      }).then((response:any) => response.deployToFaker)) as ApiFieldToGraphQL<Mutation['deployToFaker']>,
+      }).then((response:any) => response.deployToFaker)) as ApiFieldToGraphQL<ValueTypes['Mutation']['deployToFaker'],Mutation['deployToFaker']>,
 removeProject: ((o:any) =>
       fullChainConstruct(options)('Mutation')({
         removeProject: o
-      }).then((response:any) => response.removeProject)) as ApiFieldToGraphQL<Mutation['removeProject']>,
+      }).then((response:any) => response.removeProject)) as ApiFieldToGraphQL<ValueTypes['Mutation']['removeProject'],Mutation['removeProject']>,
 team: ((o:any) =>
       fullChainConstruct(options)('Mutation')({
         team: o
-      }).then((response:any) => response.team)) as ApiFieldToGraphQL<Mutation['team']>,
+      }).then((response:any) => response.team)) as ApiFieldToGraphQL<ValueTypes['Mutation']['team'],Mutation['team']>,
 updateProject: ((o:any) =>
       fullChainConstruct(options)('Mutation')({
         updateProject: o
-      }).then((response:any) => response.updateProject)) as ApiFieldToGraphQL<Mutation['updateProject']>,
+      }).then((response:any) => response.updateProject)) as ApiFieldToGraphQL<ValueTypes['Mutation']['updateProject'],Mutation['updateProject']>,
 updateSources: ((o:any) =>
       fullChainConstruct(options)('Mutation')({
         updateSources: o
-      }).then((response:any) => response.updateSources)) as ApiFieldToGraphQL<Mutation['updateSources']>
+      }).then((response:any) => response.updateSources)) as ApiFieldToGraphQL<ValueTypes['Mutation']['updateSources'],Mutation['updateSources']>
   },
 Subscription: {
       cancelURL: ((o:any) =>
       fullChainConstruct(options)('Subscription')({
         cancelURL: o
-      }).then((response:any) => response.cancelURL)) as ApiFieldToGraphQL<Subscription['cancelURL']>,
+      }).then((response:any) => response.cancelURL)) as ApiFieldToGraphQL<ValueTypes['Subscription']['cancelURL'],Subscription['cancelURL']>,
 expiration: ((o:any) =>
       fullChainConstruct(options)('Subscription')({
         expiration: o
-      }).then((response:any) => response.expiration)) as ApiFieldToGraphQL<Subscription['expiration']>,
+      }).then((response:any) => response.expiration)) as ApiFieldToGraphQL<ValueTypes['Subscription']['expiration'],Subscription['expiration']>,
 quantity: ((o:any) =>
       fullChainConstruct(options)('Subscription')({
         quantity: o
-      }).then((response:any) => response.quantity)) as ApiFieldToGraphQL<Subscription['quantity']>,
+      }).then((response:any) => response.quantity)) as ApiFieldToGraphQL<ValueTypes['Subscription']['quantity'],Subscription['quantity']>,
 seats: ((o:any) =>
       fullChainConstruct(options)('Subscription')({
         seats: o
-      }).then((response:any) => response.seats)) as ApiFieldToGraphQL<Subscription['seats']>,
+      }).then((response:any) => response.seats)) as ApiFieldToGraphQL<ValueTypes['Subscription']['seats'],Subscription['seats']>,
 subscriptionID: ((o:any) =>
       fullChainConstruct(options)('Subscription')({
         subscriptionID: o
-      }).then((response:any) => response.subscriptionID)) as ApiFieldToGraphQL<Subscription['subscriptionID']>,
+      }).then((response:any) => response.subscriptionID)) as ApiFieldToGraphQL<ValueTypes['Subscription']['subscriptionID'],Subscription['subscriptionID']>,
 updateURL: ((o:any) =>
       fullChainConstruct(options)('Subscription')({
         updateURL: o
-      }).then((response:any) => response.updateURL)) as ApiFieldToGraphQL<Subscription['updateURL']>
+      }).then((response:any) => response.updateURL)) as ApiFieldToGraphQL<ValueTypes['Subscription']['updateURL'],Subscription['updateURL']>
   }
 });
 export const Zeus = {
-  Query: (o:GraphQLReturner<Query>) => queryConstruct('Query')(o),
-Mutation: (o:GraphQLReturner<Mutation>) => queryConstruct('Mutation')(o),
-Subscription: (o:GraphQLReturner<Subscription>) => queryConstruct('Subscription')(o)
+  Query: (o:GraphQLReturner<ValueTypes["Query"]>) => queryConstruct('Query')(o),
+Mutation: (o:GraphQLReturner<ValueTypes["Mutation"]>) => queryConstruct('Mutation')(o),
+Subscription: (o:GraphQLReturner<ValueTypes["Subscription"]>) => queryConstruct('Subscription')(o)
 };
 export const Cast = {
   Query: (o:any) => o as State<Query>,

@@ -1,3 +1,5 @@
+import { VALUETYPES } from '../resolveValueTypes';
+
 const generateOperationsJavascriptDefinitionsChaining = ({
   queries,
   mutations,
@@ -8,16 +10,17 @@ const generateOperationsJavascriptDefinitionsChaining = ({
   subscriptions?: string[];
 }): string[] => {
   const allOps = [];
-  allOps.push(`Query: OperationToGraphQL<Query>`);
+  allOps.push(`Query: OperationToGraphQL<${VALUETYPES}["Query"],Query>`);
   if (mutations && mutations.length) {
-    allOps.push(`Mutation: OperationToGraphQL<Mutation>`);
+    allOps.push(`Mutation: OperationToGraphQL<${VALUETYPES}["Mutation"],Mutation>`);
   }
   if (subscriptions && subscriptions.length) {
-    allOps.push(`Subscription: OperationToGraphQL<Subscription>`);
+    allOps.push(`Subscription: OperationToGraphQL<${VALUETYPES}["Subscription"],Subscription>`);
   }
   return allOps;
 };
-const ApiOperation = (t: string, q: string) => `${q}: ApiFieldToGraphQL<${t}['${q}']>`;
+const ApiOperation = (t: string, q: string) =>
+  `${q}: ApiFieldToGraphQL<${VALUETYPES}["${t}"]['${q}'],${t}['${q}']>`;
 const CreateApiOperations = (t: string, o: string[]) =>
   `${t}: {\n${o.map((q) => ApiOperation(t, q)).join(',\n\t')}\n}`;
 const generateOperationsJavascriptDefinitionsApi = ({
@@ -40,7 +43,7 @@ const generateOperationsJavascriptDefinitionsApi = ({
   return allOps;
 };
 
-const ZeusOperations = (t: string) => `${t}: (o: GraphQLReturner<${t}>) => string`;
+const ZeusOperations = (t: string) => `${t}: (o: GraphQLReturner<${VALUETYPES}["${t}"]>) => string`;
 const generateOperationsJavascriptDefinitionsZeus = ({
   queries,
   mutations,

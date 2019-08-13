@@ -64,6 +64,20 @@ const createCards = async () => {
   });
   printQueryResult('addCard', addCard);
 
+  const { drawChangeCard } = await chain.Query({
+    drawChangeCard: {
+      __typename: true,
+      '...on EffectCard': {
+        effectSize: true,
+        name: true
+      },
+      '...on SpecialCard': {
+        effect: true,
+        name: true
+      }
+    }
+  });
+  printQueryResult('drawChangeCard', drawChangeCard);
   // string example
   const stringGql = Zeus.Query({
     listCards: {

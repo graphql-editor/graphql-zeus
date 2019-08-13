@@ -31,18 +31,6 @@ export const AllTypesProps = {
 		}
 	},
 	createCard:{
-		Children:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		Attack:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
 		Defense:{
 			type:"Int",
 			array:false,
@@ -66,6 +54,18 @@ export const AllTypesProps = {
 			array:false,
 			arrayRequired:false,
 			required:true
+		},
+		Children:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		Attack:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:true
 		}
 	}
 }
@@ -74,6 +74,7 @@ export const ReturnTypes = {
 	Query:{
 		cardById:"Card",
 		drawCard:"Card",
+		drawChangeCard:"ChangeCard",
 		listCards:"Card"
 	},
 	Card:{
@@ -91,6 +92,14 @@ export const ReturnTypes = {
 		bucket:"String",
 		key:"String",
 		region:"String"
+	},
+	SpecialCard:{
+		effect:"String",
+		name:"String"
+	},
+	EffectCard:{
+		effectSize:"Float",
+		name:"String"
 	},
 	Mutation:{
 		addCard:"Card"
@@ -344,6 +353,10 @@ drawCard: (o) =>
       fullChainConstruct(options)('Query')({
         drawCard: o
       }).then((response) => response.drawCard),
+drawChangeCard: (o) =>
+      fullChainConstruct(options)('Query')({
+        drawChangeCard: o
+      }).then((response) => response.drawChangeCard),
 listCards: (o) =>
       fullChainConstruct(options)('Query')({
         listCards: o

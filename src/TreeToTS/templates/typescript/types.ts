@@ -6,15 +6,31 @@ type AnyFunc = Func<any, any>;
 type IsType<M, T, Z, L> = T extends M ? Z : L;
 type IsScalar<T, Z, L> = IsType<string | boolean | number, T, Z, L>;
 
-type AliasType<T> = T & {
-  __alias?: Record<string, T>;
+type WithTypeNameValue<T> = T & {
+  __typename?: true;
 };
 
-export type AliasedReturnType<T> ={
-	[P in keyof T]:T[P]
-} & Record<string,{
-	[P in keyof T]:T[P]
-}>
+type AliasType<T> = WithTypeNameValue<T> & {
+  __alias?: Record<string, WithTypeNameValue<T>>;
+};
+
+type WithTypeNameReturn<T> = T & {
+  __typename?: string;
+};
+
+export type AliasedReturnType<T> = WithTypeNameReturn<
+  {
+    [P in keyof T]: T[P];
+  }
+> &
+  Record<
+    string,
+    WithTypeNameReturn<
+      {
+        [P in keyof T]: T[P];
+      }
+    >
+  >;
 
 type ArgsType<F extends AnyFunc> = F extends Func<infer P, any> ? P : never;
 type OfType<T> = T extends Array<infer R> ? R : T;
@@ -63,7 +79,7 @@ export type SelectionSet<T> = IsScalar<
 
 type GraphQLReturner<T> = T extends Array<infer R> ? SelectionSet<R> : SelectionSet<T>;
 
-type OperationToGraphQL<T> = (o: GraphQLReturner<T>) => Promise<AliasedReturnType<State<T>>>;
+type OperationToGraphQL<V,T> = (o: GraphQLReturner<V>) => Promise<AliasedReturnType<State<T>>>;
 
 type ResolveApiField<T> = T extends Array<infer R>
   ? IsScalar<R, R, State<R>>
@@ -71,7 +87,7 @@ type ResolveApiField<T> = T extends Array<infer R>
   ? IsScalar<OfType<ReturnType<T>>, T, State<OfType<ReturnType<T>>>>
   : IsScalar<T, T, State<T>>;
 
-type ApiFieldToGraphQL<T> = (o: ResolveValue<T>) => Promise<ResolveApiField<T>>;
+type ApiFieldToGraphQL<V,T> = (o: ResolveValue<V>) => Promise<ResolveApiField<T>>;
 
 type fetchOptions = ArgsType<typeof fetch>;
 

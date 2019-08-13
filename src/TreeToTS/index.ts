@@ -2,6 +2,7 @@ import { ParserTree } from '../Models';
 import { Environment } from '../Models/Environment';
 import { OperationType } from '../Models/Spec';
 import { bodyJavascript, generateOperationsJavascript } from './templates/javascript';
+import { resolveValueTypes } from './templates/resolveValueTypes';
 import { resolvePropTypeFromRoot } from './templates/returnedPropTypes';
 import { resolveReturnFromRoot } from './templates/returnedReturns';
 import { resolveTypeFromRoot } from './templates/returnedTypes';
@@ -21,6 +22,7 @@ export class TreeToTS {
    */
   static javascript(tree: ParserTree, env: Environment = 'browser') {
     const rootTypes = tree.nodes.map(resolveTypeFromRoot);
+    const valueTypes = resolveValueTypes(tree.nodes);
     const propTypes = `export const AllTypesProps = {\n${tree.nodes
       .map(resolvePropTypeFromRoot)
       .filter((pt) => pt)
@@ -60,6 +62,8 @@ export class TreeToTS {
       definitions: rootTypes
         .join('\n\n')
         .concat('\n\n')
+        .concat(valueTypes)
+        .concat('\n\n')
         .concat(constantTypesTypescript)
         .concat(generateOperationsJavascript(operationsBody))
     };
@@ -72,6 +76,7 @@ export class TreeToTS {
    */
   static resolveTree(tree: ParserTree, env: Environment = 'browser') {
     const rootTypes = tree.nodes.map(resolveTypeFromRoot);
+    const valueTypes = resolveValueTypes(tree.nodes);
     const ignoreTSLINT = `/* tslint:disable */\n\n`;
     const propTypes = `export const AllTypesProps: Record<string,any> = {\n${tree.nodes
       .map(resolvePropTypeFromRoot)
@@ -106,6 +111,8 @@ export class TreeToTS {
       .concat(propTypes)
       .concat('\n\n')
       .concat(returnTypes)
+      .concat('\n\n')
+      .concat(valueTypes)
       .concat('\n\n')
       .concat(rootTypes.join('\n\n'))
       .concat(operations);

@@ -33,18 +33,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	createCard:{
-		Children:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		Attack:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
 		Defense:{
 			type:"Int",
 			array:false,
@@ -68,6 +56,18 @@ export const AllTypesProps: Record<string,any> = {
 			array:false,
 			arrayRequired:false,
 			required:true
+		},
+		Children:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		Attack:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:true
 		}
 	}
 }
@@ -76,6 +76,7 @@ export const ReturnTypes: Record<string,any> = {
 	Query:{
 		cardById:"Card",
 		drawCard:"Card",
+		drawChangeCard:"ChangeCard",
 		listCards:"Card"
 	},
 	Card:{
@@ -94,15 +95,92 @@ export const ReturnTypes: Record<string,any> = {
 		key:"String",
 		region:"String"
 	},
+	SpecialCard:{
+		effect:"String",
+		name:"String"
+	},
+	EffectCard:{
+		effectSize:"Float",
+		name:"String"
+	},
 	Mutation:{
 		addCard:"Card"
 	}
 }
 
+export type ValueTypes = {
+    ["Query"]: {
+	cardById:(props:{	cardId?:string}) => ValueTypes["Card"],
+	/** Draw a card<br> */
+	drawCard:ValueTypes["Card"],
+	drawChangeCard:ValueTypes["ChangeCard"],
+	/** list All Cards availbla<br> */
+	listCards:ValueTypes["Card"][]
+},
+	/** Card used in card game<br> */
+["Card"]: {
+	/** The attack power<br> */
+	Attack:number,
+	/** <div>How many children the greek god had</div> */
+	Children?:number,
+	/** The defense power<br> */
+	Defense:number,
+	/** Attack other cards on the table , returns Cards after attack<br> */
+	attack:(props:{	/** Attacked card/card ids<br> */
+	cardID?:string[]}) => ValueTypes["Card"][],
+	/** Put your description here */
+	cardImage?:ValueTypes["S3Object"],
+	/** Description of a card<br> */
+	description:string,
+	id:string,
+	/** The name of a card<br> */
+	name:string,
+	skills?:ValueTypes["SpecialSkills"][]
+},
+	/** Aws S3 File */
+["S3Object"]: {
+	bucket:string,
+	key:string,
+	region:string
+},
+	["SpecialSkills"]:SpecialSkills,
+	["ChangeCard"]: {		["...on SpecialCard"] : ValueTypes["SpecialCard"],
+		["...on EffectCard"] : ValueTypes["EffectCard"]
+},
+	["SpecialCard"]: {
+	effect:string,
+	name:string
+},
+	["EffectCard"]: {
+	effectSize:number,
+	name:string
+},
+	["Mutation"]: {
+	/** add Card to Cards database<br> */
+	addCard:(props:{	card:ValueTypes["createCard"]}) => ValueTypes["Card"]
+},
+	/** create card inputs<br> */
+["createCard"]: {
+	/** The defense power<br> */
+	Defense:number,
+	/** input skills */
+	skills?:ValueTypes["SpecialSkills"][],
+	/** The name of a card<br> */
+	name:string,
+	/** Description of a card<br> */
+	description:string,
+	/** <div>How many children the greek god had</div> */
+	Children?:number,
+	/** The attack power<br> */
+	Attack:number
+}
+  }
+
 export type Query = {
 	cardById:(props:{	cardId?:string}) => Card,
 	/** Draw a card<br> */
 	drawCard:Card,
+	drawChangeCard:ChangeCard,
 	/** list All Cards availbla<br> */
 	listCards:Card[]
 }
@@ -118,6 +196,7 @@ export type Card = {
 	/** Attack other cards on the table , returns Cards after attack<br> */
 	attack:(props:{	/** Attacked card/card ids<br> */
 	cardID?:string[]}) => Card[],
+	/** Put your description here */
 	cardImage?:S3Object,
 	/** Description of a card<br> */
 	description:string,
@@ -135,9 +214,21 @@ export type S3Object = {
 }
 
 export enum SpecialSkills {
+	FIRE = "FIRE",
 	THUNDER = "THUNDER",
-	RAIN = "RAIN",
-	FIRE = "FIRE"
+	RAIN = "RAIN"
+}
+
+export type ChangeCard = SpecialCard | EffectCard
+
+export type SpecialCard = {
+	effect:string,
+	name:string
+}
+
+export type EffectCard = {
+	effectSize:number,
+	name:string
 }
 
 export type Mutation = {
@@ -145,18 +236,20 @@ export type Mutation = {
 	addCard:(props:{	card:createCard}) => Card
 }
 
+/** create card inputs<br> */
 export type createCard = {
-	/** <div>How many children the greek god had</div> */
-	Children?:number,
-	/** The attack power<br> */
-	Attack:number,
 	/** The defense power<br> */
 	Defense:number,
+	/** input skills */
 	skills?:SpecialSkills[],
 	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
-	description:string
+	description:string,
+	/** <div>How many children the greek god had</div> */
+	Children?:number,
+	/** The attack power<br> */
+	Attack:number
 }
 
 export class GraphQLError extends Error {
@@ -177,15 +270,31 @@ type AnyFunc = Func<any, any>;
 type IsType<M, T, Z, L> = T extends M ? Z : L;
 type IsScalar<T, Z, L> = IsType<string | boolean | number, T, Z, L>;
 
-type AliasType<T> = T & {
-  __alias?: Record<string, T>;
+type WithTypeNameValue<T> = T & {
+  __typename?: true;
 };
 
-export type AliasedReturnType<T> ={
-	[P in keyof T]:T[P]
-} & Record<string,{
-	[P in keyof T]:T[P]
-}>
+type AliasType<T> = WithTypeNameValue<T> & {
+  __alias?: Record<string, WithTypeNameValue<T>>;
+};
+
+type WithTypeNameReturn<T> = T & {
+  __typename?: string;
+};
+
+export type AliasedReturnType<T> = WithTypeNameReturn<
+  {
+    [P in keyof T]: T[P];
+  }
+> &
+  Record<
+    string,
+    WithTypeNameReturn<
+      {
+        [P in keyof T]: T[P];
+      }
+    >
+  >;
 
 type ArgsType<F extends AnyFunc> = F extends Func<infer P, any> ? P : never;
 type OfType<T> = T extends Array<infer R> ? R : T;
@@ -234,7 +343,7 @@ export type SelectionSet<T> = IsScalar<
 
 type GraphQLReturner<T> = T extends Array<infer R> ? SelectionSet<R> : SelectionSet<T>;
 
-type OperationToGraphQL<T> = (o: GraphQLReturner<T>) => Promise<AliasedReturnType<State<T>>>;
+type OperationToGraphQL<V,T> = (o: GraphQLReturner<V>) => Promise<AliasedReturnType<State<T>>>;
 
 type ResolveApiField<T> = T extends Array<infer R>
   ? IsScalar<R, R, State<R>>
@@ -242,7 +351,7 @@ type ResolveApiField<T> = T extends Array<infer R>
   ? IsScalar<OfType<ReturnType<T>>, T, State<OfType<ReturnType<T>>>>
   : IsScalar<T, T, State<T>>;
 
-type ApiFieldToGraphQL<T> = (o: ResolveValue<T>) => Promise<ResolveApiField<T>>;
+type ApiFieldToGraphQL<V,T> = (o: ResolveValue<V>) => Promise<ResolveApiField<T>>;
 
 type fetchOptions = ArgsType<typeof fetch>;
 
@@ -478,37 +587,41 @@ export const Chain = (...options: fetchOptions) => ({
   Query: ((o: any) =>
     fullChainConstruct(options)('Query')(o).then(
       (response: any) => response as State<Query>
-    )) as OperationToGraphQL<Query>,
+    )) as OperationToGraphQL<ValueTypes["Query"],Query>,
 Mutation: ((o: any) =>
     fullChainConstruct(options)('Mutation')(o).then(
       (response: any) => response as State<Mutation>
-    )) as OperationToGraphQL<Mutation>
+    )) as OperationToGraphQL<ValueTypes["Mutation"],Mutation>
 });
 export const Api = (...options: fetchOptions) => ({
   Query: {
       cardById: ((o:any) =>
       fullChainConstruct(options)('Query')({
         cardById: o
-      }).then((response:any) => response.cardById)) as ApiFieldToGraphQL<Query['cardById']>,
+      }).then((response:any) => response.cardById)) as ApiFieldToGraphQL<ValueTypes['Query']['cardById'],Query['cardById']>,
 drawCard: ((o:any) =>
       fullChainConstruct(options)('Query')({
         drawCard: o
-      }).then((response:any) => response.drawCard)) as ApiFieldToGraphQL<Query['drawCard']>,
+      }).then((response:any) => response.drawCard)) as ApiFieldToGraphQL<ValueTypes['Query']['drawCard'],Query['drawCard']>,
+drawChangeCard: ((o:any) =>
+      fullChainConstruct(options)('Query')({
+        drawChangeCard: o
+      }).then((response:any) => response.drawChangeCard)) as ApiFieldToGraphQL<ValueTypes['Query']['drawChangeCard'],Query['drawChangeCard']>,
 listCards: ((o:any) =>
       fullChainConstruct(options)('Query')({
         listCards: o
-      }).then((response:any) => response.listCards)) as ApiFieldToGraphQL<Query['listCards']>
+      }).then((response:any) => response.listCards)) as ApiFieldToGraphQL<ValueTypes['Query']['listCards'],Query['listCards']>
   },
 Mutation: {
       addCard: ((o:any) =>
       fullChainConstruct(options)('Mutation')({
         addCard: o
-      }).then((response:any) => response.addCard)) as ApiFieldToGraphQL<Mutation['addCard']>
+      }).then((response:any) => response.addCard)) as ApiFieldToGraphQL<ValueTypes['Mutation']['addCard'],Mutation['addCard']>
   }
 });
 export const Zeus = {
-  Query: (o:GraphQLReturner<Query>) => queryConstruct('Query')(o),
-Mutation: (o:GraphQLReturner<Mutation>) => queryConstruct('Mutation')(o)
+  Query: (o:GraphQLReturner<ValueTypes["Query"]>) => queryConstruct('Query')(o),
+Mutation: (o:GraphQLReturner<ValueTypes["Mutation"]>) => queryConstruct('Mutation')(o)
 };
 export const Cast = {
   Query: (o:any) => o as State<Query>,

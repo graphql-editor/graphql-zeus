@@ -21,6 +21,21 @@ const run = async () => {
       },
     ],
   });
+
+  const blalba = await chain.Query({
+    drawChangeCard: {
+      "__typename": true,
+      "...on EffectCard": {
+        effectSize: true,
+        name: true,
+      },
+      "...on SpecialCard": {
+        effect: true,
+        name: true,
+      },
+    },
+  });
+  console.log(blalba);
   // const { addCard: ZeusCard } = await chain.Mutation({
   //   addCard: [
   //     {
