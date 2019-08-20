@@ -14,22 +14,14 @@ type AliasType<T> = WithTypeNameValue<T> & {
   __alias?: Record<string, WithTypeNameValue<T>>;
 };
 
-type WithTypeNameReturn<T> = T & {
-  __typename?: string;
-};
-
-export type AliasedReturnType<T> = WithTypeNameReturn<
-  {
+export type AliasedReturnType<T> = {
     [P in keyof T]: T[P];
-  }
-> &
+  } &
   Record<
     string,
-    WithTypeNameReturn<
-      {
-        [P in keyof T]: T[P];
-      }
-    >
+    {
+      [P in keyof T]: T[P];
+    }
   >;
 
 type ArgsType<F extends AnyFunc> = F extends Func<infer P, any> ? P : never;

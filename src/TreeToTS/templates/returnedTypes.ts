@@ -80,7 +80,7 @@ export const resolveTypeFromRoot = (i: ParserField) => {
       .map((f) => `\t${f.name} = "${f.name}"`)
       .join(',\n')}\n}`;
   }
-  return `${plusDescription(i.description)}export type ${i.name} = {\n${i.args
-    .map((f) => resolveField(f))
-    .join(',\n')}\n}`;
+  return `${plusDescription(i.description)}export type ${i.name} = {\n\t__typename?: "${
+    i.name
+  }",\n${i.args.map((f) => resolveField(f)).join(',\n')}\n}`;
 };
