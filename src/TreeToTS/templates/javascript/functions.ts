@@ -29,6 +29,9 @@ export const javascriptFunctions = (env: Environment) => `
     key,
     blockArrays
   }) => {
+    if (value === null) {
+      return \`null\`;
+    }
     let resolvedValue = AllTypesProps[type][name];
     if (key) {
       resolvedValue = resolvedValue[key];

@@ -35,6 +35,9 @@ export const TypesPropsResolver = ({
   key?: string;
   blockArrays?: boolean;
 }): string => {
+  if (value === null) {
+    return \`null\`;
+  }
   let resolvedValue = AllTypesProps[type][name];
   if (key) {
     resolvedValue = resolvedValue[key];
