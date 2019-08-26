@@ -90,6 +90,9 @@ const resolveValueTypeFromRoot = (i: ParserField) => {
 };
 export const resolveValueTypes = (fields: ParserField[]) => {
   return `export type ${VALUETYPES} = {
-    ${fields.map(resolveValueTypeFromRoot).join(',\n\t')}
+    ${fields
+      .filter((t) => t.args && t.args.length)
+      .map(resolveValueTypeFromRoot)
+      .join(',\n\t')}
   }`;
 };
