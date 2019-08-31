@@ -36,7 +36,7 @@ interface GraphQLResponse {
 }
 
 export type State<T> = {
-  [P in keyof T]?: T[P] extends (Array<infer R> | undefined)
+  readonly [P in keyof T]?: T[P] extends (Array<infer R> | undefined)
     ? Array<AliasedReturnType<State<R>>>
     : T[P] extends AnyFunc
     ? AliasedReturnType<State<ReturnType<T[P]>>>

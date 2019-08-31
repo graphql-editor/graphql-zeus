@@ -21,7 +21,6 @@ const run = async () => {
       },
     ],
   });
-
   const blalba = await chain.Query({
     drawChangeCard: {
       "__typename": true,
