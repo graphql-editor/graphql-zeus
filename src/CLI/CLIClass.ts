@@ -35,20 +35,26 @@ export class CLI {
     let schemaFileContents: string = '';
     const allArgs = args._;
     const schemaFile: string = allArgs[0];
+    let host: string | undefined;
     if (schemaFile.startsWith('http://') || schemaFile.startsWith('https://')) {
       const { header } = args;
+      host = schemaFile;
       schemaFileContents = await Utils.getFromUrl(schemaFile, header);
     }
     schemaFileContents = schemaFileContents || fs.readFileSync(schemaFile).toString();
     const pathToFile = allArgs[1] || '';
     if (args.typescript) {
       const outFile = 'graphql-zeus.ts';
-      const typeScriptDefinition = TreeToTS.resolveTree(Parser.parse(schemaFileContents), env);
+      const typeScriptDefinition = TreeToTS.resolveTree(
+        Parser.parse(schemaFileContents),
+        env,
+        host
+      );
       fs.writeFileSync(path.join(pathToFile, outFile), typeScriptDefinition);
     } else {
       const outFile = 'graphql-zeus.js';
       const outFileDefinitions = 'graphql-zeus.d.ts';
-      const jsDefinition = TreeToTS.javascript(Parser.parse(schemaFileContents), env);
+      const jsDefinition = TreeToTS.javascript(Parser.parse(schemaFileContents), env, host);
       fs.writeFileSync(path.join(pathToFile, outFile), jsDefinition.javascript);
       fs.writeFileSync(path.join(pathToFile, outFileDefinitions), jsDefinition.definitions);
     }

@@ -75,7 +75,8 @@ export const ReturnTypes = {
 		cardById:"Card",
 		drawCard:"Card",
 		drawChangeCard:"ChangeCard",
-		listCards:"Card"
+		listCards:"Card",
+		myStacks:"CardStack"
 	},
 	Card:{
 		Attack:"Int",
@@ -99,6 +100,10 @@ export const ReturnTypes = {
 	},
 	EffectCard:{
 		effectSize:"Float",
+		name:"String"
+	},
+	CardStack:{
+		cards:"Card",
 		name:"String"
 	},
 	Mutation:{
@@ -145,6 +150,9 @@ export class GraphQLError extends Error {
     key,
     blockArrays
   }) => {
+    if (value === null) {
+      return `null`;
+    }
     let resolvedValue = AllTypesProps[type][name];
     if (key) {
       resolvedValue = resolvedValue[key];
@@ -360,7 +368,11 @@ drawChangeCard: (o) =>
 listCards: (o) =>
       fullChainConstruct(options)('Query')({
         listCards: o
-      }).then((response) => response.listCards)
+      }).then((response) => response.listCards),
+myStacks: (o) =>
+      fullChainConstruct(options)('Query')({
+        myStacks: o
+      }).then((response) => response.myStacks)
   },
 Mutation: {
       addCard: (o) =>
@@ -378,3 +390,5 @@ Mutation: (o) => queryConstruct('Mutation')(o)
 Mutation: (o) => o
   };
     
+
+export const Gql = Chain('https://faker.graphqleditor.com/aexol/olympus/graphql')

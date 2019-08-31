@@ -1,14 +1,17 @@
 export type Query = {
+	__typename?: "Query",
 	cardById:(props:{	cardId?:string}) => Card,
 	/** Draw a card<br> */
 	drawCard:Card,
 	drawChangeCard:ChangeCard,
-	/** list All Cards availbla<br> */
-	listCards:Card[]
+	/** list All Cards availble<br> */
+	listCards:Card[],
+	myStacks?:CardStack[]
 }
 
 /** Card used in card game<br> */
 export type Card = {
+	__typename?: "Card",
 	/** The attack power<br> */
 	Attack:number,
 	/** <div>How many children the greek god had</div> */
@@ -30,36 +33,48 @@ export type Card = {
 
 /** Aws S3 File */
 export type S3Object = {
+	__typename?: "S3Object",
 	bucket:string,
 	key:string,
 	region:string
 }
 
 export enum SpecialSkills {
+	FIRE = "FIRE",
 	THUNDER = "THUNDER",
-	RAIN = "RAIN",
-	FIRE = "FIRE"
+	RAIN = "RAIN"
 }
 
 export type ChangeCard = SpecialCard | EffectCard
 
 export type SpecialCard = {
+	__typename?: "SpecialCard",
 	effect:string,
 	name:string
 }
 
 export type EffectCard = {
+	__typename?: "EffectCard",
 	effectSize:number,
 	name:string
 }
 
+/** Stack of cards */
+export type CardStack = {
+	__typename?: "CardStack",
+	cards?:Card[],
+	name?:string
+}
+
 export type Mutation = {
+	__typename?: "Mutation",
 	/** add Card to Cards database<br> */
 	addCard:(props:{	card:createCard}) => Card
 }
 
 /** create card inputs<br> */
 export type createCard = {
+	__typename?: "createCard",
 	/** The defense power<br> */
 	Defense:number,
 	/** input skills */
@@ -80,8 +95,9 @@ export type ValueTypes = {
 	/** Draw a card<br> */
 	drawCard:ValueTypes["Card"],
 	drawChangeCard:ValueTypes["ChangeCard"],
-	/** list All Cards availbla<br> */
-	listCards:ValueTypes["Card"][]
+	/** list All Cards availble<br> */
+	listCards:ValueTypes["Card"][],
+	myStacks?:ValueTypes["CardStack"][]
 },
 	/** Card used in card game<br> */
 ["Card"]: {
@@ -121,6 +137,11 @@ export type ValueTypes = {
 	effectSize:number,
 	name:string
 },
+	/** Stack of cards */
+["CardStack"]: {
+	cards?:ValueTypes["Card"][],
+	name?:string
+},
 	["Mutation"]: {
 	/** add Card to Cards database<br> */
 	addCard:(props:{	card:ValueTypes["createCard"]}) => ValueTypes["Card"]
@@ -158,22 +179,14 @@ type AliasType<T> = WithTypeNameValue<T> & {
   __alias?: Record<string, WithTypeNameValue<T>>;
 };
 
-type WithTypeNameReturn<T> = T & {
-  __typename?: string;
-};
-
-export type AliasedReturnType<T> = WithTypeNameReturn<
-  {
+export type AliasedReturnType<T> = {
     [P in keyof T]: T[P];
-  }
-> &
+  } &
   Record<
     string,
-    WithTypeNameReturn<
-      {
-        [P in keyof T]: T[P];
-      }
-    >
+    {
+      [P in keyof T]: T[P];
+    }
   >;
 
 type ArgsType<F extends AnyFunc> = F extends Func<infer P, any> ? P : never;
@@ -188,7 +201,7 @@ interface GraphQLResponse {
 }
 
 export type State<T> = {
-  [P in keyof T]?: T[P] extends (Array<infer R> | undefined)
+  readonly [P in keyof T]?: T[P] extends (Array<infer R> | undefined)
     ? Array<AliasedReturnType<State<R>>>
     : T[P] extends AnyFunc
     ? AliasedReturnType<State<ReturnType<T[P]>>>
@@ -249,7 +262,8 @@ export declare function Api(
 cardById: ApiFieldToGraphQL<ValueTypes["Query"]['cardById'],Query['cardById']>,
 	drawCard: ApiFieldToGraphQL<ValueTypes["Query"]['drawCard'],Query['drawCard']>,
 	drawChangeCard: ApiFieldToGraphQL<ValueTypes["Query"]['drawChangeCard'],Query['drawChangeCard']>,
-	listCards: ApiFieldToGraphQL<ValueTypes["Query"]['listCards'],Query['listCards']>
+	listCards: ApiFieldToGraphQL<ValueTypes["Query"]['listCards'],Query['listCards']>,
+	myStacks: ApiFieldToGraphQL<ValueTypes["Query"]['myStacks'],Query['myStacks']>
 },Mutation: {
 addCard: ApiFieldToGraphQL<ValueTypes["Mutation"]['addCard'],Mutation['addCard']>
 }

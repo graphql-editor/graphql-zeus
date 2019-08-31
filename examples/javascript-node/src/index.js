@@ -1,8 +1,7 @@
-import { Api, Chain, Zeus, Cast } from './graphql-zeus';
+import { Api, Gql, Zeus } from './graphql-zeus';
 import chalk from 'chalk';
 // This will return Card object with ID only
 const createCards = async () => {
-  const chain = Chain('https://faker.graphqleditor.com/aexol/olympus/graphql');
   const api = Api('https://faker.graphqleditor.com/aexol/olympus/graphql');
   const printQueryResult = (name, result) =>
     console.log(
@@ -16,8 +15,8 @@ const createCards = async () => {
     name: true
   });
   printQueryResult('drawCard', drawedCard);
-  // Query chaining example
-  const listCardsAndDraw = await chain.Query({
+  // Query Gqling example
+  const listCardsAndDraw = await Gql.Query({
     cardById: [
       {
         cardId: 'sdsd'
@@ -44,7 +43,7 @@ const createCards = async () => {
   });
   printQueryResult('Multiple queries', listCardsAndDraw);
   // mutation example
-  const addCard = await chain.Mutation({
+  const addCard = await Gql.Mutation({
     addCard: [
       {
         card: {
@@ -64,7 +63,7 @@ const createCards = async () => {
   });
   printQueryResult('addCard', addCard);
 
-  const { drawChangeCard } = await chain.Query({
+  const { drawChangeCard } = await Gql.Query({
     drawChangeCard: {
       __typename: true,
       '...on EffectCard': {

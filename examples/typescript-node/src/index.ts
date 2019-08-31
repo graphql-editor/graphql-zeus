@@ -1,8 +1,7 @@
-import { Api, Card, Chain, SelectionSet, SpecialSkills, Zeus } from "./graphql-zeus";
+import { Api, Card, Gql, SelectionSet, SpecialSkills, Zeus } from "./graphql-zeus";
 const run = async () => {
-  const chain = Chain("https://faker.graphqleditor.com/aexol/olympus/graphql");
   const api = Api("https://faker.graphqleditor.com/aexol/olympus/graphql");
-  const { addCard: ZeusCard } = await chain.Mutation({
+  const { addCard: ZeusCard } = await Gql.Mutation({
     addCard: [
       {
         card: {
@@ -21,7 +20,7 @@ const run = async () => {
       },
     ],
   });
-  const blalba = await chain.Query({
+  const blalba = await Gql.Query({
     drawChangeCard: {
       "__typename": true,
       "...on EffectCard": {
@@ -63,7 +62,7 @@ const run = async () => {
   // The way it should be returned
   // ZeusCard.__alias["myAlias"].Attack
   console.log(ZeusCard);
-  const { listCards: stack, drawCard: newCard } = await chain.Query({
+  const { listCards: stack, drawCard: newCard } = await Gql.Query({
     listCards: {
       name: true,
       cardImage: {
@@ -101,7 +100,7 @@ const run = async () => {
       bucket: true,
     },
   };
-  const queryWithSelectionSet = await chain.Query({
+  const queryWithSelectionSet = await Gql.Query({
     drawCard: cardSelectionSet,
     listCards: cardSelectionSet,
   });
@@ -136,7 +135,7 @@ const run = async () => {
     },
   });
   console.log(aliasedQuery);
-  const aliasedQueryExecute = await chain.Query({
+  const aliasedQueryExecute = await Gql.Query({
     listCards: {
       __alias: {
         atak: {

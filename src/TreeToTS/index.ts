@@ -20,7 +20,7 @@ export class TreeToTS {
    *
    * @param tree Parser Tree
    */
-  static javascript(tree: ParserTree, env: Environment = 'browser') {
+  static javascript(tree: ParserTree, env: Environment = 'browser', host?: string) {
     const rootTypes = tree.nodes.map(resolveTypeFromRoot);
     const valueTypes = resolveValueTypes(tree.nodes);
     const propTypes = `export const AllTypesProps = {\n${tree.nodes
@@ -58,7 +58,9 @@ export class TreeToTS {
       javascript: propTypes
         .concat('\n\n')
         .concat(returnTypes)
-        .concat(operations),
+        .concat(operations)
+        .concat(host ? '\n\n' : '')
+        .concat(host ? `export const Gql = Chain('${host}')` : ''),
       definitions: rootTypes
         .join('\n\n')
         .concat('\n\n')
@@ -74,7 +76,7 @@ export class TreeToTS {
    *
    * @param tree Parser Tree
    */
-  static resolveTree(tree: ParserTree, env: Environment = 'browser') {
+  static resolveTree(tree: ParserTree, env: Environment = 'browser', host?: string) {
     const rootTypes = tree.nodes.map(resolveTypeFromRoot);
     const valueTypes = resolveValueTypes(tree.nodes);
     const ignoreTSLINT = `/* tslint:disable */\n\n`;
@@ -115,6 +117,8 @@ export class TreeToTS {
       .concat(valueTypes)
       .concat('\n\n')
       .concat(rootTypes.join('\n\n'))
-      .concat(operations);
+      .concat(operations)
+      .concat(host ? '\n\n' : '')
+      .concat(host ? `export const Gql = Chain('${host}')` : '');
   }
 }
