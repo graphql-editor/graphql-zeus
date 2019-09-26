@@ -1,5 +1,5 @@
 import { Options, ParserField } from '../../Models';
-import { TypeDefinition } from '../../Models/Spec';
+import { TypeDefinition, TypeSystemDefinition } from '../../Models/Spec';
 
 export const VALUETYPES = 'ValueTypes';
 
@@ -59,22 +59,12 @@ const resolveField = (f: ParserField, resolveArgs = true) => {
   )}`;
 };
 
-const guessTheScalar = (scalar: string) => {
-  const possibleScalars: Record<string, string> = {
-    Date: 'Date',
-    File: 'File',
-    Buffer: 'Buffer'
-  };
-  return scalar in possibleScalars ? possibleScalars[scalar] : undefined;
-};
-
 const resolveValueTypeFromRoot = (i: ParserField) => {
-  if (i.type.name === TypeDefinition.ScalarTypeDefinition) {
-    const exisitingInTS = guessTheScalar(i.name);
-    return exisitingInTS ? '' : `${plusDescription(i.description)}["${i.name}"]:any`;
+  if (i.data!.type === TypeSystemDefinition.DirectiveDefinition) {
+    return '';
   }
   if (!i.args || !i.args.length) {
-    return;
+    return `${plusDescription(i.description)}["${i.name}"]:any`;
   }
   if (i.data!.type === TypeDefinition.UnionTypeDefinition) {
     return `${plusDescription(i.description)}["${i.name}"]: {${i.args
@@ -84,6 +74,11 @@ const resolveValueTypeFromRoot = (i: ParserField) => {
   if (i.data!.type === TypeDefinition.EnumTypeDefinition) {
     return `${plusDescription(i.description)}["${i.name}"]:${i.name}`;
   }
+  if (i.data!.type === TypeDefinition.InputObjectTypeDefinition) {
+    return `${plusDescription(i.description)}["${i.name}"]: {\n${i.args
+      .map((f) => resolveField(f, false))
+      .join(',\n')}\n}`;
+  }
   return `${plusDescription(i.description)}["${i.name}"]: {\n${i.args
     .map((f) => resolveField(f))
     .join(',\n')}\n}`;
@@ -91,8 +86,8 @@ const resolveValueTypeFromRoot = (i: ParserField) => {
 export const resolveValueTypes = (fields: ParserField[]) => {
   return `export type ${VALUETYPES} = {
     ${fields
-      .filter((t) => t.args && t.args.length)
       .map(resolveValueTypeFromRoot)
+      .filter((v) => v)
       .join(',\n\t')}
   }`;
 };

@@ -17,15 +17,6 @@ const resolveField = (f: ParserField, resolveArgs = true) => {
   return `\t\t${name}:{\n${args!.map((a) => resolveArg(a)).join(',\n')}\n\t\t}`;
 };
 
-export const guessTheScalar = (scalar: string) => {
-  const possibleScalars: Record<string, string> = {
-    Date: 'Date',
-    File: 'File',
-    Buffer: 'Buffer'
-  };
-  return scalar in possibleScalars ? possibleScalars[scalar] : undefined;
-};
-
 export const resolvePropTypeFromRoot = (i: ParserField) => {
   if (i.data!.type === TypeDefinition.EnumTypeDefinition) {
     return `\t${i.name}: "enum"`;

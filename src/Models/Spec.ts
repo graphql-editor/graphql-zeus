@@ -64,7 +64,6 @@ export enum ValueDefinition {
 }
 
 export enum TypeExtension {
-  TypeExtension = 'TypeExtension',
   ScalarTypeExtension = 'ScalarTypeExtension',
   ObjectTypeExtension = 'ObjectTypeExtension',
   InterfaceTypeExtension = 'InterfaceTypeExtension',
