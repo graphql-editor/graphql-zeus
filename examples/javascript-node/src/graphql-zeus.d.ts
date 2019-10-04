@@ -40,9 +40,9 @@ export type S3Object = {
 }
 
 export enum SpecialSkills {
+	RAIN = "RAIN",
 	FIRE = "FIRE",
-	THUNDER = "THUNDER",
-	RAIN = "RAIN"
+	THUNDER = "THUNDER"
 }
 
 export type ChangeCard = SpecialCard | EffectCard
@@ -74,8 +74,7 @@ export type Mutation = {
 
 /** create card inputs<br> */
 export type createCard = {
-	__typename?: "createCard",
-	/** The defense power<br> */
+		/** The defense power<br> */
 	Defense:number,
 	/** input skills */
 	skills?:SpecialSkills[],

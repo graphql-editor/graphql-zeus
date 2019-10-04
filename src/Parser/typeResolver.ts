@@ -6,6 +6,8 @@ import {
   ObjectFieldNode,
   TypeDefinitionNode,
   TypeNode,
+  TypeSystemDefinitionNode,
+  TypeSystemExtensionNode,
   ValueNode
 } from 'graphql';
 import { AllTypes, Options, ParserField } from '../Models';
@@ -275,5 +277,47 @@ export class TypeResolver {
     }
     const fields = TypeResolver.iterateObjectTypeFields(n.fields);
     return fields;
+  }
+  static resolveFieldsFromDefinition(
+    n: TypeSystemDefinitionNode | TypeSystemExtensionNode
+  ): ParserField[] | undefined {
+    if ('values' in n && n.values) {
+      return n.values.map(
+        (v) =>
+          ({
+            name: v.name.value,
+            description: v.description && v.description.value,
+            directives: v.directives && TypeResolver.iterateDirectives(v.directives),
+            type: { name: ValueDefinition.EnumValueDefinition },
+            data: {
+              type: ValueDefinition.EnumValueDefinition
+            }
+          } as ParserField)
+      );
+    }
+    if ('types' in n && n.types) {
+      return n.types.map(
+        (t) =>
+          ({
+            name: t.name.value,
+            type: { name: t.name.value },
+            data: {
+              type: TypeSystemDefinition.UnionMemberDefinition
+            }
+          } as ParserField)
+      );
+    }
+    if (n.kind === 'InputObjectTypeDefinition' || n.kind === 'InputObjectTypeExtension') {
+      const fields = TypeResolver.iterateInputValueFields(n.fields!);
+      return fields;
+    }
+    if (
+      n.kind === 'ObjectTypeDefinition' ||
+      n.kind === 'ObjectTypeExtension' ||
+      n.kind === 'InterfaceTypeDefinition' ||
+      n.kind === 'InterfaceTypeExtension'
+    ) {
+      return TypeResolver.iterateObjectTypeFields(n.fields!);
+    }
   }
 }

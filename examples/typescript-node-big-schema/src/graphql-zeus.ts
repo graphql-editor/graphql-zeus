@@ -3,6 +3,12 @@
 export const AllTypesProps: Record<string,any> = {
 	Query:{
 		findProjects:{
+			query:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:true
+			},
 			last:{
 				type:"String",
 				array:false,
@@ -14,12 +20,6 @@ export const AllTypesProps: Record<string,any> = {
 				array:false,
 				arrayRequired:false,
 				required:false
-			},
-			query:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
 			}
 		},
 		findProjectsByTag:{
@@ -75,12 +75,6 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		listProjects:{
-			owned:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
 			last:{
 				type:"String",
 				array:false,
@@ -89,6 +83,12 @@ export const AllTypesProps: Record<string,any> = {
 			},
 			limit:{
 				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
+			owned:{
+				type:"Boolean",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -111,14 +111,14 @@ export const AllTypesProps: Record<string,any> = {
 	},
 	Project:{
 		sources:{
-			limit:{
-				type:"Int",
+			last:{
+				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:false
 			},
-			last:{
-				type:"String",
+			limit:{
+				type:"Int",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -136,14 +136,14 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		projects:{
-			last:{
-				type:"String",
+			limit:{
+				type:"Int",
 				array:false,
 				arrayRequired:false,
 				required:false
 			},
-			limit:{
-				type:"Int",
+			last:{
+				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -251,15 +251,15 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		updateSources:{
-			sources:{
-				type:"NewSource",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
 			project:{
 				type:"ID",
 				array:false,
+				arrayRequired:false,
+				required:true
+			},
+			sources:{
+				type:"NewSource",
+				array:true,
 				arrayRequired:false,
 				required:true
 			}
@@ -372,18 +372,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	NewSource:{
-		contentType:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		checksum:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		filename:{
 			type:"String",
 			array:false,
@@ -392,6 +380,18 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		contentLength:{
 			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		contentType:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		checksum:{
+			type:"String",
 			array:false,
 			arrayRequired:false,
 			required:false
@@ -423,6 +423,7 @@ export const ReturnTypes: Record<string,any> = {
 		description:"String",
 		endpoint:"Endpoint",
 		id:"ID",
+		mocked:"Boolean",
 		name:"String",
 		owner:"User",
 		public:"Boolean",
@@ -458,6 +459,7 @@ export const ReturnTypes: Record<string,any> = {
 		seats:"UserConnection",
 		status:"String",
 		subscriptionID:"Int",
+		subscriptionPlanID:"Int",
 		updateURL:"String"
 	},
 	UserConnection:{
@@ -536,358 +538,686 @@ export const ReturnTypes: Record<string,any> = {
 }
 
 export type ValueTypes = {
-    ["Query"]: {
-	findProjects:(props:{	last?:string,	limit?:number,	query:string}) => ValueTypes["ProjectConnection"],
+    /** Root query type */
+["Query"]: {
+	/** Returns a project connection
+
+query is a regular expresion matched agains project slug
+
+last is an id of the last project returned by previous call
+
+limit limits the number of returned projects */
+	findProjects:(props:{	query:string,	last?:string,	limit?:number}) => ValueTypes["ProjectConnection"],
+	/** Find projects which contain tag
+
+tag is a string
+
+last is an id of the last project returned by previous call
+
+limit limits the number of returned projects */
 	findProjectsByTag:(props:{	tag:string,	last?:string,	limit?:number}) => ValueTypes["ProjectConnection"],
+	/** Return namespace matching slug */
 	getNamespace:(props:{	slug:string}) => ValueTypes["Namespace"],
+	/** Return project by id */
 	getProject:(props:{	project:string}) => ValueTypes["Project"],
+	/** Return team by name */
 	getTeam:(props:{	name:string}) => ValueTypes["Team"],
+	/** Return user by name */
 	getUser:(props:{	username:string}) => ValueTypes["User"],
-	listProjects:(props:{	owned?:boolean,	last?:string,	limit?:number}) => ValueTypes["ProjectConnection"],
+	/** Returns a project connection
+	
+If owned is true, returns only project belonging to currently logged user
+
+last is an id of the last project returned by previous call
+
+limit limits the number of returned projects */
+	listProjects:(props:{	last?:string,	limit?:number,	owned?:boolean}) => ValueTypes["ProjectConnection"],
+	/** List of current user teams */
 	myTeams:(props:{	last?:string,	limit?:number}) => ValueTypes["TeamConnection"]
 },
-	["ProjectConnection"]: {
+	/** Project connection object
+
+Used with paginated listing of projects */
+["ProjectConnection"]: {
+	/** Current connection page info */
 	pageInfo:ValueTypes["PageInfo"],
+	/** List of projects in connection */
 	projects?:ValueTypes["Project"][]
 },
-	["PageInfo"]: {
+	/** PageInfo contains information about connection page */
+["PageInfo"]: {
+	/** last element in connection */
 	last?:string,
+	/** limit set while quering */
 	limit?:number,
+	/** if next is false then client recieved all available data */
 	next?:boolean
 },
-	["Project"]: {
+	/** Project type */
+["Project"]: {
+	/** Project description */
 	description?:string,
+	/** Project endpoint contains a slug under which project can be reached
+
+For example https://app.graphqleditor.com/{endpoint.uri}/ */
 	endpoint?:ValueTypes["Endpoint"],
+	/** Unique project id */
 	id:string,
+	/** Is project mocked by faker backend */
+	mocked?:boolean,
+	/** Project name */
 	name:string,
+	/** Project owner
+
+Can be null if project belongs to a team */
 	owner?:ValueTypes["User"],
+	/** True if project is public */
 	public?:boolean,
+	/** Project part of the slug */
 	slug?:string,
-	sources:(props:{	limit?:number,	last?:string}) => ValueTypes["FakerSourceConnection"],
+	/** Returns a connection object with source files in project
+
+last is a string returned by previous call to Project.sources
+
+limit sets a limit on how many objects can be returned */
+	sources:(props:{	last?:string,	limit?:number}) => ValueTypes["FakerSourceConnection"],
+	/** Project tags */
 	tags?:string[],
+	/** Team to which project belongs
+
+Can be null if project belongs to a user */
 	team?:ValueTypes["Team"]
 },
-	["Endpoint"]: {
+	/** Endpoint returnes a full path to the project without host */
+["Endpoint"]: {
+	/** Full project uri without host */
 	uri?:string
 },
-	["User"]: {
+	/** Editor user */
+["User"]: {
+	/** User's account type */
 	accountType:ValueTypes["AccountType"],
+	/** Unique user id */
 	id?:string,
+	/** User's namespace */
 	namespace?:ValueTypes["Namespace"],
+	/** User's subscriptions */
 	subscriptions?:ValueTypes["SubscriptionConnection"],
+	/** Unique username */
 	username?:string
 },
-	["AccountType"]:AccountType,
-	["Namespace"]: {
+	/** Defines user's account type */
+["AccountType"]:AccountType,
+	/** Namespace is a root object containing projects belonging
+to a team or user */
+["Namespace"]: {
+	/** Return project by name from namespace */
 	project:(props:{	name:string}) => ValueTypes["Project"],
-	projects:(props:{	last?:string,	limit?:number}) => ValueTypes["ProjectConnection"],
+	/** Returns a project connection object which contains a projects belonging to namespace
+
+last is a string returned by previous call to Namespace.projects
+
+limit sets a limit on how many objects can be returned */
+	projects:(props:{	limit?:number,	last?:string}) => ValueTypes["ProjectConnection"],
+	/** True if namespace is public */
 	public?:boolean,
+	/** Namespace part of the slug */
 	slug?:string
 },
 	["SubscriptionConnection"]: {
+	/** Current conenction page info */
 	pageInfo:ValueTypes["PageInfo"],
+	/** List of subscriptions in connection */
 	subscriptions?:ValueTypes["Subscription"][]
 },
 	["Subscription"]: {
+	/** Cancel subscription URL */
 	cancelURL?:string,
+	/** Subscription expiration date */
 	expiration?:string,
+	/** Number of seats in subscription */
 	quantity?:number,
+	/** List of seats in subscription */
 	seats?:ValueTypes["UserConnection"],
+	/** Status of subscription */
 	status?:string,
+	/** Subscription unique id */
 	subscriptionID?:number,
+	/** Subscription unique id */
+	subscriptionPlanID?:number,
+	/** Update subscription URL */
 	updateURL?:string
 },
 	["UserConnection"]: {
+	/** Current connection page info */
 	pageInfo:ValueTypes["PageInfo"],
+	/** List of projects in connection */
 	users?:ValueTypes["User"][]
 },
-	["FakerSourceConnection"]: {
+	/** Connection object containing list of faker sources */
+["FakerSourceConnection"]: {
+	/** Connection pageInfo */
 	pageInfo:ValueTypes["PageInfo"],
+	/** List of sources returned by connection */
 	sources?:ValueTypes["FakerSource"][]
 },
-	["FakerSource"]: {
+	/** A source object */
+["FakerSource"]: {
+	/** File checksum */
 	checksum?:string,
 	contents?:string,
+	/** Name of source file */
 	filename?:string,
+	/** Return an url by which source file can be accessed */
 	getUrl?:string
 },
-	["Team"]: {
+	/** Team object */
+["Team"]: {
+	/** Unique team id */
 	id?:string,
+	/** type object node */
 	member:(props:{	username:string}) => ValueTypes["Member"],
+	/** Paginated list of members in team */
 	members:(props:{	last?:string,	limit?:number}) => ValueTypes["MemberConnection"],
+	/** Team name */
 	name:string,
+	/** Team's namespace */
 	namespace:ValueTypes["Namespace"]
 },
-	["Member"]: {
+	/** Team member */
+["Member"]: {
+	/** Member email */
 	email?:string,
+	/** Member role */
 	role?:ValueTypes["Role"],
+	/** Member username */
 	username?:string
 },
-	["Role"]:Role,
-	["MemberConnection"]: {
+	/** Team member role */
+["Role"]:Role,
+	/** Paginated members list */
+["MemberConnection"]: {
+	/** List of members in this connection */
 	members?:ValueTypes["Member"][],
+	/** pageInfo for member connection */
 	pageInfo:ValueTypes["PageInfo"]
 },
-	["TeamConnection"]: {
+	/** Teams connection */
+["TeamConnection"]: {
+	/** Pagination info used in next fetch */
 	pageInfo:ValueTypes["PageInfo"],
+	/** List of teams returned by current page in connection */
 	teams?:ValueTypes["Team"][]
 },
 	["Mutation"]: {
+	/** Create new user project
+
+public if true project is public
+
+name is project name */
 	createProject:(props:{	public?:boolean,	name:string}) => ValueTypes["Project"],
+	/** Create new team */
 	createTeam:(props:{	namespace:string,	name:string}) => ValueTypes["TeamOps"],
+	/** Create new user
+
+namespace name for a user
+
+public is user namespace public */
 	createUser:(props:{	namespace:string,	public?:boolean}) => ValueTypes["User"],
+	/** deploy project to faker */
 	deployToFaker:(props:{	id:string}) => boolean,
+	/** Remove project by id */
 	removeProject:(props:{	project:string}) => boolean,
+	/** type object node */
 	team:(props:{	id:string}) => ValueTypes["TeamOps"],
+	/** Modify project */
 	updateProject:(props:{	in?:ValueTypes["UpdateProject"]}) => boolean,
-	updateSources:(props:{	sources?:ValueTypes["NewSource"][],	project:string}) => (ValueTypes["SourceUploadInfo"] | undefined)[]
+	/** Add sources to the project */
+	updateSources:(props:{	project:string,	sources?:ValueTypes["NewSource"][]}) => (ValueTypes["SourceUploadInfo"] | undefined)[]
 },
-	["TeamOps"]: {
+	/** Team operations */
+["TeamOps"]: {
+	/** Add member to the team */
 	addMember:(props:{	username:string,	role:ValueTypes["Role"]}) => ValueTypes["Member"],
+	/** Create new team project */
 	createProject:(props:{	public?:boolean,	name:string}) => ValueTypes["Project"],
+	/** Delete team */
 	delete?:boolean,
+	/** Unique team id */
 	id?:string,
+	/** type object node */
 	member:(props:{	username:string}) => ValueTypes["MemberOps"],
+	/** Paginated list of members in team */
 	members:(props:{	last?:string,	limit?:number}) => ValueTypes["MemberConnection"],
+	/** Team name */
 	name?:string,
+	/** Team's namespace */
 	namespace?:ValueTypes["Namespace"],
+	/** type object node */
 	project:(props:{	id:string}) => ValueTypes["ProjectOps"]
 },
-	["MemberOps"]: {
+	/** Team member ops */
+["MemberOps"]: {
+	/** Boolean object node */
 	delete?:boolean,
+	/** Boolean object node */
 	update:(props:{	role?:ValueTypes["Role"]}) => boolean
 },
-	["ProjectOps"]: {
+	/** type object node */
+["ProjectOps"]: {
+	/** Boolean object node */
 	delete?:boolean,
+	/** deploy project to faker */
 	deployToFaker?:boolean,
+	/** Boolean object node */
 	update:(props:{	in?:ValueTypes["UpdateProject"]}) => boolean
 },
-	["UpdateProject"]: {
+	/** Update project payload */
+["UpdateProject"]: {
+	/** List of tags for project */
 	tags?:string[],
+	/** Set project visiblity */
 	public?:boolean,
+	/** ID of project to be updated */
 	project?:string,
+	/** New description for project */
 	description?:string
 },
-	["NewSource"]: {
+	/** New source payload */
+["NewSource"]: {
+	/** source file name */
+	filename?:string,
+	/** Length of source in bytes */
+	contentLength?:number,
+	/** Source mime type */
 	contentType?:string,
-	checksum?:string,
-	filename?:string,
-	contentLength?:number
+	/** Source checksum */
+	checksum?:string
 },
-	["SourceUploadInfo"]: {
+	/** Source upload info object */
+["SourceUploadInfo"]: {
+	/** Source file name */
 	filename?:string,
+	/** List of headers that must be included in PUT request */
 	headers?:(ValueTypes["Header"] | undefined)[],
+	/** String with url used in PUT request */
 	putUrl:string
 },
-	["Header"]: {
+	/** Request header */
+["Header"]: {
+	/** Header name */
 	key:string,
+	/** Header value */
 	value?:string
 }
   }
 
+/** Root query type */
 export type Query = {
 	__typename?: "Query",
-	findProjects:(props:{	last?:string,	limit?:number,	query:string}) => ProjectConnection,
+	/** Returns a project connection
+
+query is a regular expresion matched agains project slug
+
+last is an id of the last project returned by previous call
+
+limit limits the number of returned projects */
+	findProjects:(props:{	query:string,	last?:string,	limit?:number}) => ProjectConnection,
+	/** Find projects which contain tag
+
+tag is a string
+
+last is an id of the last project returned by previous call
+
+limit limits the number of returned projects */
 	findProjectsByTag:(props:{	tag:string,	last?:string,	limit?:number}) => ProjectConnection,
+	/** Return namespace matching slug */
 	getNamespace:(props:{	slug:string}) => Namespace,
+	/** Return project by id */
 	getProject:(props:{	project:string}) => Project,
+	/** Return team by name */
 	getTeam:(props:{	name:string}) => Team,
+	/** Return user by name */
 	getUser:(props:{	username:string}) => User,
-	listProjects:(props:{	owned?:boolean,	last?:string,	limit?:number}) => ProjectConnection,
+	/** Returns a project connection
+	
+If owned is true, returns only project belonging to currently logged user
+
+last is an id of the last project returned by previous call
+
+limit limits the number of returned projects */
+	listProjects:(props:{	last?:string,	limit?:number,	owned?:boolean}) => ProjectConnection,
+	/** List of current user teams */
 	myTeams:(props:{	last?:string,	limit?:number}) => TeamConnection
 }
 
+/** Project connection object
+
+Used with paginated listing of projects */
 export type ProjectConnection = {
 	__typename?: "ProjectConnection",
+	/** Current connection page info */
 	pageInfo:PageInfo,
+	/** List of projects in connection */
 	projects?:Project[]
 }
 
+/** PageInfo contains information about connection page */
 export type PageInfo = {
 	__typename?: "PageInfo",
+	/** last element in connection */
 	last?:string,
+	/** limit set while quering */
 	limit?:number,
+	/** if next is false then client recieved all available data */
 	next?:boolean
 }
 
+/** Project type */
 export type Project = {
 	__typename?: "Project",
+	/** Project description */
 	description?:string,
+	/** Project endpoint contains a slug under which project can be reached
+
+For example https://app.graphqleditor.com/{endpoint.uri}/ */
 	endpoint?:Endpoint,
+	/** Unique project id */
 	id:string,
+	/** Is project mocked by faker backend */
+	mocked?:boolean,
+	/** Project name */
 	name:string,
+	/** Project owner
+
+Can be null if project belongs to a team */
 	owner?:User,
+	/** True if project is public */
 	public?:boolean,
+	/** Project part of the slug */
 	slug?:string,
-	sources:(props:{	limit?:number,	last?:string}) => FakerSourceConnection,
+	/** Returns a connection object with source files in project
+
+last is a string returned by previous call to Project.sources
+
+limit sets a limit on how many objects can be returned */
+	sources:(props:{	last?:string,	limit?:number}) => FakerSourceConnection,
+	/** Project tags */
 	tags?:string[],
+	/** Team to which project belongs
+
+Can be null if project belongs to a user */
 	team?:Team
 }
 
+/** Endpoint returnes a full path to the project without host */
 export type Endpoint = {
 	__typename?: "Endpoint",
+	/** Full project uri without host */
 	uri?:string
 }
 
+/** Editor user */
 export type User = {
 	__typename?: "User",
+	/** User's account type */
 	accountType:AccountType,
+	/** Unique user id */
 	id?:string,
+	/** User's namespace */
 	namespace?:Namespace,
+	/** User's subscriptions */
 	subscriptions?:SubscriptionConnection,
+	/** Unique username */
 	username?:string
 }
 
+/** Defines user's account type */
 export enum AccountType {
 	FREE = "FREE",
 	PREMIUM = "PREMIUM"
 }
 
+/** Namespace is a root object containing projects belonging
+to a team or user */
 export type Namespace = {
 	__typename?: "Namespace",
+	/** Return project by name from namespace */
 	project:(props:{	name:string}) => Project,
-	projects:(props:{	last?:string,	limit?:number}) => ProjectConnection,
+	/** Returns a project connection object which contains a projects belonging to namespace
+
+last is a string returned by previous call to Namespace.projects
+
+limit sets a limit on how many objects can be returned */
+	projects:(props:{	limit?:number,	last?:string}) => ProjectConnection,
+	/** True if namespace is public */
 	public?:boolean,
+	/** Namespace part of the slug */
 	slug?:string
 }
 
 export type SubscriptionConnection = {
 	__typename?: "SubscriptionConnection",
+	/** Current conenction page info */
 	pageInfo:PageInfo,
+	/** List of subscriptions in connection */
 	subscriptions?:Subscription[]
 }
 
 export type Subscription = {
 	__typename?: "Subscription",
+	/** Cancel subscription URL */
 	cancelURL?:string,
+	/** Subscription expiration date */
 	expiration?:string,
+	/** Number of seats in subscription */
 	quantity?:number,
+	/** List of seats in subscription */
 	seats?:UserConnection,
+	/** Status of subscription */
 	status?:string,
+	/** Subscription unique id */
 	subscriptionID?:number,
+	/** Subscription unique id */
+	subscriptionPlanID?:number,
+	/** Update subscription URL */
 	updateURL?:string
 }
 
 export type UserConnection = {
 	__typename?: "UserConnection",
+	/** Current connection page info */
 	pageInfo:PageInfo,
+	/** List of projects in connection */
 	users?:User[]
 }
 
+/** Connection object containing list of faker sources */
 export type FakerSourceConnection = {
 	__typename?: "FakerSourceConnection",
+	/** Connection pageInfo */
 	pageInfo:PageInfo,
+	/** List of sources returned by connection */
 	sources?:FakerSource[]
 }
 
+/** A source object */
 export type FakerSource = {
 	__typename?: "FakerSource",
+	/** File checksum */
 	checksum?:string,
 	contents?:string,
+	/** Name of source file */
 	filename?:string,
+	/** Return an url by which source file can be accessed */
 	getUrl?:string
 }
 
+/** Team object */
 export type Team = {
 	__typename?: "Team",
+	/** Unique team id */
 	id?:string,
+	/** type object node */
 	member:(props:{	username:string}) => Member,
+	/** Paginated list of members in team */
 	members:(props:{	last?:string,	limit?:number}) => MemberConnection,
+	/** Team name */
 	name:string,
+	/** Team's namespace */
 	namespace:Namespace
 }
 
+/** Team member */
 export type Member = {
 	__typename?: "Member",
+	/** Member email */
 	email?:string,
+	/** Member role */
 	role?:Role,
+	/** Member username */
 	username?:string
 }
 
+/** Team member role */
 export enum Role {
-	EDITOR = "EDITOR",
 	VIEWER = "VIEWER",
 	CONTRIBUTOR = "CONTRIBUTOR",
 	OWNER = "OWNER",
-	ADMIN = "ADMIN"
+	ADMIN = "ADMIN",
+	EDITOR = "EDITOR"
 }
 
+/** Paginated members list */
 export type MemberConnection = {
 	__typename?: "MemberConnection",
+	/** List of members in this connection */
 	members?:Member[],
+	/** pageInfo for member connection */
 	pageInfo:PageInfo
 }
 
+/** Teams connection */
 export type TeamConnection = {
 	__typename?: "TeamConnection",
+	/** Pagination info used in next fetch */
 	pageInfo:PageInfo,
+	/** List of teams returned by current page in connection */
 	teams?:Team[]
 }
 
 export type Mutation = {
 	__typename?: "Mutation",
+	/** Create new user project
+
+public if true project is public
+
+name is project name */
 	createProject:(props:{	public?:boolean,	name:string}) => Project,
+	/** Create new team */
 	createTeam:(props:{	namespace:string,	name:string}) => TeamOps,
+	/** Create new user
+
+namespace name for a user
+
+public is user namespace public */
 	createUser:(props:{	namespace:string,	public?:boolean}) => User,
+	/** deploy project to faker */
 	deployToFaker:(props:{	id:string}) => boolean,
+	/** Remove project by id */
 	removeProject:(props:{	project:string}) => boolean,
+	/** type object node */
 	team:(props:{	id:string}) => TeamOps,
+	/** Modify project */
 	updateProject:(props:{	in?:UpdateProject}) => boolean,
-	updateSources:(props:{	sources?:NewSource[],	project:string}) => (SourceUploadInfo | undefined)[]
+	/** Add sources to the project */
+	updateSources:(props:{	project:string,	sources?:NewSource[]}) => (SourceUploadInfo | undefined)[]
 }
 
+/** Team operations */
 export type TeamOps = {
 	__typename?: "TeamOps",
+	/** Add member to the team */
 	addMember:(props:{	username:string,	role:Role}) => Member,
+	/** Create new team project */
 	createProject:(props:{	public?:boolean,	name:string}) => Project,
+	/** Delete team */
 	delete?:boolean,
+	/** Unique team id */
 	id?:string,
+	/** type object node */
 	member:(props:{	username:string}) => MemberOps,
+	/** Paginated list of members in team */
 	members:(props:{	last?:string,	limit?:number}) => MemberConnection,
+	/** Team name */
 	name?:string,
+	/** Team's namespace */
 	namespace?:Namespace,
+	/** type object node */
 	project:(props:{	id:string}) => ProjectOps
 }
 
+/** Team member ops */
 export type MemberOps = {
 	__typename?: "MemberOps",
+	/** Boolean object node */
 	delete?:boolean,
+	/** Boolean object node */
 	update:(props:{	role?:Role}) => boolean
 }
 
+/** type object node */
 export type ProjectOps = {
 	__typename?: "ProjectOps",
+	/** Boolean object node */
 	delete?:boolean,
+	/** deploy project to faker */
 	deployToFaker?:boolean,
+	/** Boolean object node */
 	update:(props:{	in?:UpdateProject}) => boolean
 }
 
+/** Update project payload */
 export type UpdateProject = {
-	__typename?: "UpdateProject",
+		/** List of tags for project */
 	tags?:string[],
+	/** Set project visiblity */
 	public?:boolean,
+	/** ID of project to be updated */
 	project?:string,
+	/** New description for project */
 	description?:string
 }
 
+/** New source payload */
 export type NewSource = {
-	__typename?: "NewSource",
-	contentType?:string,
-	checksum?:string,
+		/** source file name */
 	filename?:string,
-	contentLength?:number
+	/** Length of source in bytes */
+	contentLength?:number,
+	/** Source mime type */
+	contentType?:string,
+	/** Source checksum */
+	checksum?:string
 }
 
+/** Source upload info object */
 export type SourceUploadInfo = {
 	__typename?: "SourceUploadInfo",
+	/** Source file name */
 	filename?:string,
+	/** List of headers that must be included in PUT request */
 	headers?:(Header | undefined)[],
+	/** String with url used in PUT request */
 	putUrl:string
 }
 
+/** Request header */
 export type Header = {
 	__typename?: "Header",
+	/** Header name */
 	key:string,
+	/** Header value */
 	value?:string
 }
 
@@ -1325,6 +1655,10 @@ subscriptionID: ((o:any) =>
       fullChainConstruct(options)('Subscription')({
         subscriptionID: o
       }).then((response:any) => response.subscriptionID)) as ApiFieldToGraphQL<ValueTypes['Subscription']['subscriptionID'],Subscription['subscriptionID']>,
+subscriptionPlanID: ((o:any) =>
+      fullChainConstruct(options)('Subscription')({
+        subscriptionPlanID: o
+      }).then((response:any) => response.subscriptionPlanID)) as ApiFieldToGraphQL<ValueTypes['Subscription']['subscriptionPlanID'],Subscription['subscriptionPlanID']>,
 updateURL: ((o:any) =>
       fullChainConstruct(options)('Subscription')({
         updateURL: o

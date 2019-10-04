@@ -1,13 +1,14 @@
-import { buildASTSchema, GraphQLDirective, GraphQLNamedType, GraphQLSchema, parse } from 'graphql';
 import {
-  AllTypes,
-  BuiltInDirectives,
-  ParserField,
-  ParserTree,
-  TypeDefinitionDisplayMap,
-  TypeSystemDefinitionDisplayStrings
-} from '../Models';
-import { Directive, OperationType, TypeDefinition, TypeSystemDefinition } from '../Models/Spec';
+  buildASTSchema,
+  DefinitionNode,
+  DocumentNode,
+  GraphQLSchema,
+  isTypeSystemDefinitionNode,
+  isTypeSystemExtensionNode,
+  parse
+} from 'graphql';
+import { AllTypes, ParserField, ParserTree, TypeDefinitionDisplayMap } from '../Models';
+import { Directive, OperationType, TypeDefinition } from '../Models/Spec';
 import { TypeResolver } from './typeResolver';
 export class Parser {
   /**
@@ -16,46 +17,34 @@ export class Parser {
    * @param schema
    */
   static importSchema = (schema: string): GraphQLSchema => buildASTSchema(parse(schema));
-  /**
-   * Change GraphQLNamedType to ParserField
-   *
-   * @param n GraphQLNamedType
-   */
-  static namedTypeToSerializedNodeTree = (n: GraphQLNamedType): ParserField => {
-    const { name } = n;
-    return {
-      name,
-      type: {
-        name: TypeDefinitionDisplayMap[n.astNode!.kind]
-      },
-      data: {
-        type: n.astNode!.kind as AllTypes
-      },
-      description: n.description ? n.description : undefined,
-      interfaces: TypeResolver.resolveInterfaces(n.astNode!),
-      directives: n.astNode!.directives && TypeResolver.iterateDirectives(n.astNode!.directives),
-      args: TypeResolver.resolveFields(n.astNode!)
-    };
-  }
-  /**
-   * Change GraphQLDirective to ParserField
-   *
-   * @param n GraphQLDirective
-   */
-  static directiveToSerializedNodeTree = (n: GraphQLDirective): ParserField => {
-    const { name } = n;
-    return {
-      name,
-      type: {
-        name: TypeSystemDefinitionDisplayStrings.directive,
-        directiveOptions: n.locations as Directive[]
-      },
-      data: {
-        type: TypeSystemDefinition.DirectiveDefinition
-      },
-      description: n.description ? n.description : undefined,
-      args: TypeResolver.iterateInputValueFields(n.args.map((a) => a.astNode!))
-    };
+  static documentDefinitionToSerializedNodeTree = (d: DefinitionNode): ParserField | undefined => {
+    if (isTypeSystemDefinitionNode(d) || isTypeSystemExtensionNode(d)) {
+      if ('name' in d) {
+        return {
+          name: d.name!.value,
+          type:
+            d.kind === 'DirectiveDefinition'
+              ? {
+                  name: TypeDefinitionDisplayMap[d.kind],
+                  directiveOptions: d.locations.map((l) => l.value as Directive)
+                }
+              : {
+                  name: TypeDefinitionDisplayMap[d.kind]
+                },
+          data: {
+            type: d.kind as AllTypes
+          },
+          description: 'description' in d && d.description ? d.description!.value : '',
+          interfaces:
+            'interfaces' in d && d.interfaces ? d.interfaces!.map((i) => i.name.value) : undefined,
+          directives:
+            'directives' in d && d.directives
+              ? TypeResolver.iterateDirectives(d.directives!)
+              : undefined,
+          args: TypeResolver.resolveFieldsFromDefinition(d)
+        };
+      }
+    }
   }
   /**
    * Parse whole string GraphQL schema and return ParserTree
@@ -65,35 +54,27 @@ export class Parser {
    * @returns
    */
   static parse = (schema: string, excludeRoots: string[] = []): ParserTree => {
-    let parsedSchema: GraphQLSchema;
+    let parsedSchema: DocumentNode;
+    let astSchema: GraphQLSchema;
     try {
-      parsedSchema = Parser.importSchema(schema);
+      parsedSchema = parse(schema);
+      astSchema = buildASTSchema(parsedSchema);
     } catch (error) {
       /* tslint:disable */ console.log(schema); /* tslint:disable */
     }
-    const typeMap = parsedSchema!.getTypeMap();
-    const directives = parsedSchema!
-      .getDirectives()
-      .filter((d) => !Object.keys(BuiltInDirectives).includes(d.name))
-      .filter((t) => !excludeRoots.includes(t.name));
     const operations = {
-      Query: parsedSchema!.getQueryType(),
-      Mutation: parsedSchema!.getMutationType(),
-      Subscription: parsedSchema!.getSubscriptionType()
+      Query: astSchema!.getQueryType(),
+      Mutation: astSchema!.getMutationType(),
+      Subscription: astSchema!.getSubscriptionType()
     };
+    const nodes = parsedSchema!.definitions
+      .filter((t) => 'name' in t && t.name && !excludeRoots.includes(t.name.value))
+      .map(Parser.documentDefinitionToSerializedNodeTree)
+      .filter((d) => !!d) as ParserField[];
 
-    const rootNodes = Object.keys(typeMap)
-      .map((t) => ({
-        key: t,
-        value: typeMap[t]
-      }))
-      .filter((t) => t.value.astNode)
-      .filter((t) => !excludeRoots.includes(t.value.name))
-      .map((t) => t.value);
     const nodeTree: ParserTree = {
-      nodes: rootNodes.map(Parser.namedTypeToSerializedNodeTree)
+      nodes
     };
-    nodeTree.nodes = nodeTree.nodes.concat(directives.map(Parser.directiveToSerializedNodeTree));
     nodeTree.nodes.forEach((n) => {
       if (n.data!.type! === TypeDefinition.ObjectTypeDefinition) {
         if (operations.Query && operations.Query.name === n.name) {

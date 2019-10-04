@@ -15,9 +15,7 @@ import { Parser, ParserUtils } from '../../src/Parser';
 // TODO: Add directive with arguments test
 
 describe('Directive tests on parser', () => {
-  test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${
-    Directive.OBJECT
-  }`, () => {
+  test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.OBJECT}`, () => {
     const schema = `
     directive @model on ${Directive.OBJECT}
     type Person @model
@@ -34,7 +32,6 @@ describe('Directive tests on parser', () => {
             type: TypeDefinition.ObjectTypeDefinition
           },
           interfaces: [],
-          args: [],
           directives: [
             {
               name: 'model',
@@ -46,7 +43,8 @@ describe('Directive tests on parser', () => {
               },
               args: []
             }
-          ]
+          ],
+          args: []
         },
         {
           name: 'model',
@@ -56,16 +54,13 @@ describe('Directive tests on parser', () => {
           },
           data: {
             type: TypeSystemDefinition.DirectiveDefinition
-          },
-          args: []
+          }
         }
       ]
     };
     expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
   });
-  test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${
-    Directive.FIELD_DEFINITION
-  }`, () => {
+  test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.FIELD_DEFINITION}`, () => {
     const schema = `
     directive @model on ${Directive.FIELD_DEFINITION}
     type Person {
@@ -118,16 +113,13 @@ describe('Directive tests on parser', () => {
           },
           data: {
             type: TypeSystemDefinition.DirectiveDefinition
-          },
-          args: []
+          }
         }
       ]
     };
     expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
   });
-  test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${
-    Directive.ARGUMENT_DEFINITION
-  }`, () => {
+  test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.ARGUMENT_DEFINITION}`, () => {
     const schema = `
     directive @model on ${Directive.ARGUMENT_DEFINITION}
     type Person {
@@ -192,16 +184,13 @@ describe('Directive tests on parser', () => {
           },
           data: {
             type: TypeSystemDefinition.DirectiveDefinition
-          },
-          args: []
+          }
         }
       ]
     };
     expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
   });
-  test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${
-    Directive.INTERFACE
-  }`, () => {
+  test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.INTERFACE}`, () => {
     const schema = `
     directive @model on ${Directive.INTERFACE}
     interface Person @model
@@ -240,16 +229,13 @@ describe('Directive tests on parser', () => {
           },
           data: {
             type: TypeSystemDefinition.DirectiveDefinition
-          },
-          args: []
+          }
         }
       ]
     };
     expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
   });
-  test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${
-    Directive.UNION
-  }`, () => {
+  test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.UNION}`, () => {
     const schema = `
     directive @model on ${Directive.UNION}
     type Car
@@ -267,8 +253,7 @@ describe('Directive tests on parser', () => {
           },
           data: {
             type: TypeSystemDefinition.DirectiveDefinition
-          },
-          args: []
+          }
         },
         {
           name: 'Car',
@@ -339,9 +324,7 @@ describe('Directive tests on parser', () => {
     };
     expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
   });
-  test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${
-    Directive.ENUM
-  }`, () => {
+  test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.ENUM}`, () => {
     const schema = `
     directive @model on ${Directive.ENUM}
     enum Person @model
@@ -379,16 +362,13 @@ describe('Directive tests on parser', () => {
           },
           data: {
             type: TypeSystemDefinition.DirectiveDefinition
-          },
-          args: []
+          }
         }
       ]
     };
     expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
   });
-  test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${
-    Directive.ENUM_VALUE
-  }`, () => {
+  test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.ENUM_VALUE}`, () => {
     const schema = `
     directive @model on ${Directive.ENUM_VALUE}
     enum Person{
@@ -450,16 +430,13 @@ describe('Directive tests on parser', () => {
           },
           data: {
             type: TypeSystemDefinition.DirectiveDefinition
-          },
-          args: []
+          }
         }
       ]
     };
     expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
   });
-  test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${
-    Directive.INPUT_OBJECT
-  }`, () => {
+  test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.INPUT_OBJECT}`, () => {
     const schema = `
     directive @model on ${Directive.INPUT_OBJECT}
     input Person @model
@@ -497,16 +474,13 @@ describe('Directive tests on parser', () => {
           },
           data: {
             type: TypeSystemDefinition.DirectiveDefinition
-          },
-          args: []
+          }
         }
       ]
     };
     expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
   });
-  test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${
-    Directive.INPUT_FIELD_DEFINITION
-  }`, () => {
+  test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.INPUT_FIELD_DEFINITION}`, () => {
     const schema = `
     directive @model on ${Directive.INPUT_FIELD_DEFINITION}
     input Person{
@@ -558,16 +532,13 @@ describe('Directive tests on parser', () => {
           },
           data: {
             type: TypeSystemDefinition.DirectiveDefinition
-          },
-          args: []
+          }
         }
       ]
     };
     expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
   });
-  test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${
-    Directive.SCALAR
-  }`, () => {
+  test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.SCALAR}`, () => {
     const schema = `
     directive @model on ${Directive.SCALAR}
     scalar Person @model
@@ -604,8 +575,7 @@ describe('Directive tests on parser', () => {
           },
           data: {
             type: TypeSystemDefinition.DirectiveDefinition
-          },
-          args: []
+          }
         }
       ]
     };

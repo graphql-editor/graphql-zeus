@@ -5,6 +5,7 @@ import {
   ScalarTypes,
   Type,
   TypeDefinition,
+  TypeExtension,
   TypeSystemDefinition,
   Value,
   ValueDefinition
@@ -23,6 +24,7 @@ export type AllTypes =
   | TypeDefinitionDisplayStrings
   | TypeSystemDefinition
   | TypeSystemDefinitionDisplayStrings
+  | TypeExtension
   | Instances
   | Helpers
   | Type;
