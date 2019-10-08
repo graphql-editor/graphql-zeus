@@ -2,13 +2,16 @@ import {
   buildASTSchema,
   DefinitionNode,
   DocumentNode,
+  extendSchema,
   GraphQLSchema,
   isTypeSystemDefinitionNode,
   isTypeSystemExtensionNode,
-  parse
+  parse,
+  printSchema
 } from 'graphql';
 import { AllTypes, ParserField, ParserTree, TypeDefinitionDisplayMap } from '../Models';
-import { Directive, OperationType, TypeDefinition } from '../Models/Spec';
+import { Directive, OperationType, TypeDefinition, TypeExtension } from '../Models/Spec';
+import { TreeToGraphQL } from '../TreeToGraphQL';
 import { TypeResolver } from './typeResolver';
 export class Parser {
   /**
@@ -89,6 +92,26 @@ export class Parser {
       }
     });
     return nodeTree;
+  };
+  static parseAddExtensions = (schema: string, excludeRoots: string[] = []): ParserTree => {
+    const parsed = Parser.parse(schema, excludeRoots);
+    const wihtoutExtensions = parsed.nodes.filter(
+      (n) => !(n.data && n.data.type! in TypeExtension)
+    );
+    const Extensions = parsed.nodes.filter((n) => n.data && n.data.type! in TypeExtension);
+    const schemaStringWithoutExtensions = TreeToGraphQL.parse({
+      nodes: wihtoutExtensions
+    });
+    const schemaStringWithExtensionsOnly = TreeToGraphQL.parse({
+      nodes: Extensions
+    });
+    const extendedSchemaString = printSchema(
+      extendSchema(
+        buildASTSchema(parse(schemaStringWithoutExtensions)),
+        parse(schemaStringWithExtensionsOnly)
+      )
+    );
+    return Parser.parse(extendedSchemaString);
   };
 }
 export * from './ParserUtils';

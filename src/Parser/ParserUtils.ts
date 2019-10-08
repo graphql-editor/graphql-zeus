@@ -12,8 +12,6 @@ const compareArrays = (a1: any[] = [], a2: any[] = []) =>
 export class ParserUtils {
   /**
    * Compare two parserFields
-   * @param node1 first parser field
-   * @param node2 second parser field
    */
   static compareParserFields = (node1: ParserField, node2: ParserField): boolean => {
     if (
@@ -32,25 +30,28 @@ export class ParserUtils {
   }
   /**
    * Compare parserfields arrays
-   *
-   * @param t1 first array of ParserFields
-   * @param t2 second array of ParserFields
    */
   static compareParserTreesNodes = (
     t1: ParserField[] | undefined,
     t2: ParserField[] | undefined
   ): boolean => {
-    if (!t1 && !t2) {
-      return true;
-    }
-    if (!t1 && !!t2) {
+    if (!t1) {
+      if (!t2) {
+        return true;
+      }
+      if (t2.length === 0) {
+        return true;
+      }
       return false;
     }
-    if (!!t1 && !t2) {
+    if (!t2) {
+      if (t1.length === 0) {
+        return true;
+      }
       return false;
     }
-    for (const node1 of t1!) {
-      const compareResult = t2!.find((node2) => ParserUtils.compareParserFields(node1, node2));
+    for (const node1 of t1) {
+      const compareResult = t2.find((node2) => ParserUtils.compareParserFields(node1, node2));
       if (!compareResult) {
         return false;
       }

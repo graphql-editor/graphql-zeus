@@ -307,9 +307,14 @@ export class TypeResolver {
           } as ParserField)
       );
     }
-    if (n.kind === 'InputObjectTypeDefinition' || n.kind === 'InputObjectTypeExtension') {
-      const fields = TypeResolver.iterateInputValueFields(n.fields!);
-      return fields;
+    if (
+      (n.kind === 'InputObjectTypeDefinition' || n.kind === 'InputObjectTypeExtension') &&
+      n.fields
+    ) {
+      return TypeResolver.iterateInputValueFields(n.fields);
+    }
+    if ('arguments' in n && n.arguments) {
+      return TypeResolver.iterateInputValueFields(n.arguments);
     }
     if (
       n.kind === 'ObjectTypeDefinition' ||

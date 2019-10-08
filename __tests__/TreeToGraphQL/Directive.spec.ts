@@ -10,18 +10,14 @@ import {
   Value,
   ValueDefinition
 } from '../../src/Models';
-import { Parser, ParserUtils } from '../../src/Parser';
+import { TreeToGraphQL } from '../../src/TreeToGraphQL';
+import { trimGraphQL } from '../TestUtils';
 
 // TODO: Add schema directive test
 // TODO: Add directive with arguments test
 
-describe('Directive tests on parser', () => {
+describe('Directive tests on TreeToGraphQL', () => {
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.OBJECT}`, () => {
-    const schema = `
-    directive @model on ${Directive.OBJECT}
-    type Person @model
-    `;
-    const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
         {
@@ -59,16 +55,12 @@ describe('Directive tests on parser', () => {
         }
       ]
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+
+    const graphql = TreeToGraphQL.parse(treeMock);
+    expect(graphql).toContain(`directive @model on ${Directive.OBJECT}`);
+    expect(graphql).toContain(`type Person @model`);
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.FIELD_DEFINITION}`, () => {
-    const schema = `
-    directive @model on ${Directive.FIELD_DEFINITION}
-    type Person {
-      name: String @model
-    }
-    `;
-    const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
         {
@@ -118,16 +110,12 @@ describe('Directive tests on parser', () => {
         }
       ]
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+
+    const graphql = TreeToGraphQL.parse(treeMock);
+    expect(graphql).toContain(`directive @model on ${Directive.FIELD_DEFINITION}`);
+    expect(graphql).toContain(`name: String @model`);
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.ARGUMENT_DEFINITION}`, () => {
-    const schema = `
-    directive @model on ${Directive.ARGUMENT_DEFINITION}
-    type Person {
-      name(override:String @model): String
-    }
-    `;
-    const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
         {
@@ -189,14 +177,12 @@ describe('Directive tests on parser', () => {
         }
       ]
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+
+    const graphql = TreeToGraphQL.parse(treeMock);
+    expect(graphql).toContain(`directive @model on ${Directive.ARGUMENT_DEFINITION}`);
+    expect(graphql).toContain(`override: String @model`);
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.INTERFACE}`, () => {
-    const schema = `
-    directive @model on ${Directive.INTERFACE}
-    interface Person @model
-    `;
-    const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
         {
@@ -234,16 +220,12 @@ describe('Directive tests on parser', () => {
         }
       ]
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+
+    const graphql = TreeToGraphQL.parse(treeMock);
+    expect(graphql).toContain(`directive @model on ${Directive.INTERFACE}`);
+    expect(graphql).toContain(`interface Person @model`);
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.UNION}`, () => {
-    const schema = `
-    directive @model on ${Directive.UNION}
-    type Car
-    type Plane
-    union Machine @model = Car | Plane
-    `;
-    const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
         {
@@ -323,14 +305,12 @@ describe('Directive tests on parser', () => {
         }
       ]
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+
+    const graphql = TreeToGraphQL.parse(treeMock);
+    expect(graphql).toContain(`directive @model on ${Directive.UNION}`);
+    expect(graphql).toContain(`union Machine @model`);
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.ENUM}`, () => {
-    const schema = `
-    directive @model on ${Directive.ENUM}
-    enum Person @model
-    `;
-    const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
         {
@@ -367,17 +347,12 @@ describe('Directive tests on parser', () => {
         }
       ]
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+
+    const graphql = TreeToGraphQL.parse(treeMock);
+    expect(graphql).toContain(`directive @model on ${Directive.ENUM}`);
+    expect(graphql).toContain(`enum Person @model`);
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.ENUM_VALUE}`, () => {
-    const schema = `
-    directive @model on ${Directive.ENUM_VALUE}
-    enum Person{
-      SMART @model
-      DUMB
-    }
-    `;
-    const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
         {
@@ -435,14 +410,12 @@ describe('Directive tests on parser', () => {
         }
       ]
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+
+    const graphql = TreeToGraphQL.parse(treeMock);
+    expect(graphql).toContain(`directive @model on ${Directive.ENUM_VALUE}`);
+    expect(graphql).toContain(`SMART @model`);
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.INPUT_OBJECT}`, () => {
-    const schema = `
-    directive @model on ${Directive.INPUT_OBJECT}
-    input Person @model
-    `;
-    const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
         {
@@ -479,16 +452,12 @@ describe('Directive tests on parser', () => {
         }
       ]
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+
+    const graphql = TreeToGraphQL.parse(treeMock);
+    expect(graphql).toContain(`directive @model on ${Directive.INPUT_OBJECT}`);
+    expect(graphql).toContain(`input Person @model`);
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.INPUT_FIELD_DEFINITION}`, () => {
-    const schema = `
-    directive @model on ${Directive.INPUT_FIELD_DEFINITION}
-    input Person{
-      name: String
-    }
-    `;
-    const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
         {
@@ -537,14 +506,12 @@ describe('Directive tests on parser', () => {
         }
       ]
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+
+    const graphql = TreeToGraphQL.parse(treeMock);
+    expect(graphql).toContain(`directive @model on ${Directive.INPUT_FIELD_DEFINITION}`);
+    expect(graphql).toContain(`name: String @model`);
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.SCALAR}`, () => {
-    const schema = `
-    directive @model on ${Directive.SCALAR}
-    scalar Person @model
-    `;
-    const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
         {
@@ -580,24 +547,12 @@ describe('Directive tests on parser', () => {
         }
       ]
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+
+    const graphql = TreeToGraphQL.parse(treeMock);
+    expect(graphql).toContain(`directive @model on ${Directive.SCALAR}`);
+    expect(graphql).toContain(`scalar Person @model`);
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.OBJECT} with input arguments`, () => {
-    const schema = `
-    directive @model(
-      address: Address = { age: 2010 }
-    ) on ${Directive.OBJECT}
-    type Person @model(address:{
-      name: "Artur",
-      weight: 22.3
-    })
-    input Address{
-      name: ${ScalarTypes.String}
-      age: ${ScalarTypes.Int}
-      weight: ${ScalarTypes.Float}
-    }
-    `;
-    const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
         {
@@ -792,6 +747,9 @@ describe('Directive tests on parser', () => {
         }
       ]
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+
+    const graphql = trimGraphQL(TreeToGraphQL.parse(treeMock));
+    expect(graphql).toContain(`@model( address: Address = { age: 2010})`);
+    expect(graphql).toContain(`@model( address: { name: \"Artur\",weight: 22.3})`);
   });
 });

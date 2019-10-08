@@ -86,5 +86,6 @@ export enum Instances {
 }
 export enum Helpers {
   Directives = 'Directives',
-  Implements = 'Implements'
+  Implements = 'Implements',
+  Extend = 'Extend'
 }

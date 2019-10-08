@@ -1,8 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import { TranslateGraphQL } from 'TranslateGraphQL';
 import { Environment } from '../Models/Environment';
-import { Parser } from '../Parser';
-import { TreeToTS } from '../TreeToTS';
 import { Utils } from '../Utils';
 
 /**
@@ -45,18 +44,14 @@ export class CLI {
     const pathToFile = allArgs[1] || '';
     if (args.typescript) {
       const outFile = 'graphql-zeus.ts';
-      const typeScriptDefinition = TreeToTS.resolveTree(
-        Parser.parse(schemaFileContents),
-        env,
-        host
-      );
-      fs.writeFileSync(path.join(pathToFile, outFile), typeScriptDefinition);
+      const typeScriptDefinition = TranslateGraphQL.typescript(schemaFileContents, env, host);
+      fs.writeFileSync(path.join(pathToFile, outFile), typeScriptDefinition.code);
     } else {
       const outFile = 'graphql-zeus.js';
       const outFileDefinitions = 'graphql-zeus.d.ts';
-      const jsDefinition = TreeToTS.javascript(Parser.parse(schemaFileContents), env, host);
-      fs.writeFileSync(path.join(pathToFile, outFile), jsDefinition.javascript);
-      fs.writeFileSync(path.join(pathToFile, outFileDefinitions), jsDefinition.definitions);
+      const jsDefinition = TranslateGraphQL.javascript(schemaFileContents, env, host);
+      fs.writeFileSync(path.join(pathToFile, outFile), jsDefinition.code);
+      fs.writeFileSync(path.join(pathToFile, outFileDefinitions), jsDefinition.typings);
     }
   }
 }

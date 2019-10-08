@@ -1,6 +1,4 @@
-import { ParserTree } from '../Models';
-import { Environment } from '../Models/Environment';
-import { OperationType } from '../Models/Spec';
+import { Environment, OperationType, ParserTree } from '../Models';
 import { bodyJavascript, generateOperationsJavascript } from './templates/javascript';
 import { resolveValueTypes } from './templates/resolveValueTypes';
 import { resolvePropTypeFromRoot } from './templates/returnedPropTypes';
