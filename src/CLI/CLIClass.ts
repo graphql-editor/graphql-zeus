@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { TranslateGraphQL } from 'TranslateGraphQL';
 import { Environment } from '../Models/Environment';
+import { TranslateGraphQL } from '../TranslateGraphQL';
 import { Utils } from '../Utils';
 
 /**
@@ -50,6 +50,7 @@ export class CLI {
       const outFile = 'graphql-zeus.js';
       const outFileDefinitions = 'graphql-zeus.d.ts';
       const jsDefinition = TranslateGraphQL.javascript(schemaFileContents, env, host);
+
       fs.writeFileSync(path.join(pathToFile, outFile), jsDefinition.code);
       fs.writeFileSync(path.join(pathToFile, outFileDefinitions), jsDefinition.typings);
     }

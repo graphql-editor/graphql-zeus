@@ -1,14 +1,3 @@
-export type Query = {
-	__typename?: "Query",
-	cardById:(props:{	cardId?:string}) => Card,
-	/** Draw a card<br> */
-	drawCard:Card,
-	drawChangeCard:ChangeCard,
-	/** list All Cards availble<br> */
-	listCards:Card[],
-	myStacks?:CardStack[]
-}
-
 /** Card used in card game<br> */
 export type Card = {
 	__typename?: "Card",
@@ -31,26 +20,29 @@ export type Card = {
 	skills?:SpecialSkills[]
 }
 
-/** Aws S3 File */
-export type S3Object = {
-	__typename?: "S3Object",
-	bucket:string,
-	key:string,
-	region:string
-}
-
-export enum SpecialSkills {
-	RAIN = "RAIN",
-	FIRE = "FIRE",
-	THUNDER = "THUNDER"
+/** Stack of cards */
+export type CardStack = {
+	__typename?: "CardStack",
+	cards?:Card[],
+	name?:string
 }
 
 export type ChangeCard = SpecialCard | EffectCard
 
-export type SpecialCard = {
-	__typename?: "SpecialCard",
-	effect:string,
-	name:string
+/** create card inputs<br> */
+export type createCard = {
+		/** The name of a card<br> */
+	name:string,
+	/** Description of a card<br> */
+	description:string,
+	/** <div>How many children the greek god had</div> */
+	Children?:number,
+	/** The attack power<br> */
+	Attack:number,
+	/** The defense power<br> */
+	Defense:number,
+	/** input skills */
+	skills?:SpecialSkills[]
 }
 
 export type EffectCard = {
@@ -59,46 +51,45 @@ export type EffectCard = {
 	name:string
 }
 
-/** Stack of cards */
-export type CardStack = {
-	__typename?: "CardStack",
-	cards?:Card[],
-	name?:string
-}
-
 export type Mutation = {
 	__typename?: "Mutation",
 	/** add Card to Cards database<br> */
 	addCard:(props:{	card:createCard}) => Card
 }
 
-/** create card inputs<br> */
-export type createCard = {
-		/** The defense power<br> */
-	Defense:number,
-	/** input skills */
-	skills?:SpecialSkills[],
-	/** The name of a card<br> */
-	name:string,
-	/** Description of a card<br> */
-	description:string,
-	/** <div>How many children the greek god had</div> */
-	Children?:number,
-	/** The attack power<br> */
-	Attack:number
+export type Query = {
+	__typename?: "Query",
+	cardById:(props:{	cardId?:string}) => Card,
+	/** Draw a card<br> */
+	drawCard:Card,
+	drawChangeCard:ChangeCard,
+	/** list All Cards availble<br> */
+	listCards:Card[],
+	myStacks?:CardStack[]
+}
+
+/** Aws S3 File */
+export type S3Object = {
+	__typename?: "S3Object",
+	bucket:string,
+	key:string,
+	region:string
+}
+
+export type SpecialCard = {
+	__typename?: "SpecialCard",
+	effect:string,
+	name:string
+}
+
+export enum SpecialSkills {
+	THUNDER = "THUNDER",
+	RAIN = "RAIN",
+	FIRE = "FIRE"
 }
 
 export type ValueTypes = {
-    ["Query"]: {
-	cardById:(props:{	cardId?:string}) => ValueTypes["Card"],
-	/** Draw a card<br> */
-	drawCard:ValueTypes["Card"],
-	drawChangeCard:ValueTypes["ChangeCard"],
-	/** list All Cards availble<br> */
-	listCards:ValueTypes["Card"][],
-	myStacks?:ValueTypes["CardStack"][]
-},
-	/** Card used in card game<br> */
+    /** Card used in card game<br> */
 ["Card"]: {
 	/** The attack power<br> */
 	Attack:number,
@@ -118,39 +109,16 @@ export type ValueTypes = {
 	name:string,
 	skills?:ValueTypes["SpecialSkills"][]
 },
-	/** Aws S3 File */
-["S3Object"]: {
-	bucket:string,
-	key:string,
-	region:string
-},
-	["SpecialSkills"]:SpecialSkills,
-	["ChangeCard"]: {		["...on SpecialCard"] : ValueTypes["SpecialCard"],
-		["...on EffectCard"] : ValueTypes["EffectCard"]
-},
-	["SpecialCard"]: {
-	effect:string,
-	name:string
-},
-	["EffectCard"]: {
-	effectSize:number,
-	name:string
-},
 	/** Stack of cards */
 ["CardStack"]: {
 	cards?:ValueTypes["Card"][],
 	name?:string
 },
-	["Mutation"]: {
-	/** add Card to Cards database<br> */
-	addCard:(props:{	card:ValueTypes["createCard"]}) => ValueTypes["Card"]
+	["ChangeCard"]: {		["...on SpecialCard"] : ValueTypes["SpecialCard"],
+		["...on EffectCard"] : ValueTypes["EffectCard"]
 },
 	/** create card inputs<br> */
 ["createCard"]: {
-	/** The defense power<br> */
-	Defense:number,
-	/** input skills */
-	skills?:ValueTypes["SpecialSkills"][],
 	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
@@ -158,8 +126,40 @@ export type ValueTypes = {
 	/** <div>How many children the greek god had</div> */
 	Children?:number,
 	/** The attack power<br> */
-	Attack:number
-}
+	Attack:number,
+	/** The defense power<br> */
+	Defense:number,
+	/** input skills */
+	skills?:ValueTypes["SpecialSkills"][]
+},
+	["EffectCard"]: {
+	effectSize:number,
+	name:string
+},
+	["Mutation"]: {
+	/** add Card to Cards database<br> */
+	addCard:(props:{	card:ValueTypes["createCard"]}) => ValueTypes["Card"]
+},
+	["Query"]: {
+	cardById:(props:{	cardId?:string}) => ValueTypes["Card"],
+	/** Draw a card<br> */
+	drawCard:ValueTypes["Card"],
+	drawChangeCard:ValueTypes["ChangeCard"],
+	/** list All Cards availble<br> */
+	listCards:ValueTypes["Card"][],
+	myStacks?:ValueTypes["CardStack"][]
+},
+	/** Aws S3 File */
+["S3Object"]: {
+	bucket:string,
+	key:string,
+	region:string
+},
+	["SpecialCard"]: {
+	effect:string,
+	name:string
+},
+	["SpecialSkills"]:SpecialSkills
   }
 
 
