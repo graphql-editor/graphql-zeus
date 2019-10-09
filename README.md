@@ -4,14 +4,14 @@
 
 [![npm](https://img.shields.io/npm/v/graphql-zeus.svg?style=flat-square)](https://www.npmjs.com/package/graphql-zeus) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=flat-square)](http://commitizen.github.io/cz-cli/) [![npm downloads](https://img.shields.io/npm/dt/graphql-zeus.svg?style=flat-square)](https://www.npmjs.com/package/graphql-zeus)
 
-GraphQL Zeus creates autocomplete client library for `Javascript` or `Typescript` which provides autocompletion for strongly typed queries.
+GraphQL Zeus creates autocomplete client library for `JavaScript` or `TypeScript` which provides autocompletion for strongly typed queries.
 
 Supported Languages:
 - Javascript
   - Browser
   - NodeJS
   - React Native
-- Typescript
+- TypeScript
   - Browser
   - NodeJS
   - React Native
@@ -31,7 +31,7 @@ Given the following schema [Olympus Cards](https://app.graphqleditor.com/aexol/o
 - [How to use](#how-to-use)
   - [As a CLI](#as-a-cli)
     - [Installation](#installation)
-    - [Usage with Javascript](#usage-with-javascript)
+    - [Usage with JavaScript](#usage-with-javascript)
     - [Usage with TypeScript](#usage-with-typescript)
     - [Usage with NodeJS](#usage-with-nodejs)
     - [Usage with React Native](#usage-with-react-native)
@@ -42,8 +42,8 @@ Given the following schema [Olympus Cards](https://app.graphqleditor.com/aexol/o
     - [Perform query with aliases](#perform-query-with-aliases)
     - [Single query with Api](#single-query-with-api)
     - [Gql string](#gql-string)
-    - [Javascript TypeCasting](#javascript-typecasting)
-    - [Typescript SelectionSet](#typescript-selectionset)
+    - [JavaScript TypeCasting](#javascript-typecasting)
+    - [TypeScript SelectionSet](#typescript-selectionset)
   - [Spec](#spec)
     - [Use Alias Spec](#use-alias-spec)
   - [Use In your Project to generate code](#use-in-your-project-to-generate-code)
@@ -73,7 +73,7 @@ $ npm i -g graphql-zeus
 
 Of course you can install locally to a project and then use as a npm command or with `npx`
 
-#### Usage with Javascript
+#### Usage with JavaScript
 
 ```sh
 $ zeus schema.graphql ./
@@ -327,8 +327,8 @@ $ npm run start
 
 Use `Api` for single queries mutations and `Chain` for query chaining
 
-#### Javascript TypeCasting
-You can cast your response from fetch/apollo/other-lib  to correct type even if you are using Javascript:
+#### JavaScript Type Casting
+You can cast your response from fetch/apollo/other-lib  to correct type even if you are using JavaScript:
 
 ```js
 import { Cast } from './graphql-zeus';
@@ -337,7 +337,7 @@ const myQuery = Cast.Query(myLib("somegraphqlendpoint"))
 
 #### Typescript SelectionSet
 
-In typescript you can make type-safe selection sets to reuse them across queries
+In TypeScript you can make type-safe selection sets to reuse them across queries
 
 ```ts
 import { SelectionSet,Chain,Card } from './graphql-zeus';
