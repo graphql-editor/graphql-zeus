@@ -82,7 +82,8 @@ export enum OperationType {
 
 export enum Instances {
   Argument = 'Argument',
-  Directive = 'Directive'
+  Directive = 'Directive',
+  Implement = 'Implement'
 }
 export enum Helpers {
   Directives = 'Directives',
