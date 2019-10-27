@@ -1,6 +1,11 @@
 {
   "defaultSeverity": "error",
   "extends": ["tslint:recommended"],
+  "linterOptions": {
+    "exclude": [
+        "./generated/*"
+    ]
+  },
   "jsRules": {},
   "rules": {
     "trailing-comma": false,
