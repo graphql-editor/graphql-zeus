@@ -1,0 +1,102 @@
+"""Card used in card game<br>"""
+type Card {
+  """The attack power<br>"""
+  Attack: Int!
+
+  """<div>How many children the greek god had</div>"""
+  Children: Int
+
+  """The defense power<br>"""
+  Defense: Int!
+
+  """Attack other cards on the table , returns Cards after attack<br>"""
+  attack(
+    """Attacked card/card ids<br>"""
+    cardID: [String!]
+  ): [Card!]
+
+  """Put your description here"""
+  cardImage: S3Object
+
+  """Description of a card<br>"""
+  description: String!
+  id: ID!
+
+  """The name of a card<br>"""
+  name: String!
+  skills: [SpecialSkills!]
+}
+
+"""Stack of cards"""
+type CardStack {
+  cards: [Card!]
+  name: String
+}
+
+union ChangeCard = SpecialCard | EffectCard
+
+"""create card inputs<br>"""
+input createCard {
+  """The name of a card<br>"""
+  name: String!
+
+  """Description of a card<br>"""
+  description: String!
+
+  """<div>How many children the greek god had</div>"""
+  Children: Int
+
+  """The attack power<br>"""
+  Attack: Int!
+
+  """The defense power<br>"""
+  Defense: Int!
+
+  """input skills"""
+  skills: [SpecialSkills!]
+}
+
+type EffectCard {
+  effectSize: Float!
+  name: String!
+}
+
+type Mutation {
+  """add Card to Cards database<br>"""
+  addCard(card: createCard!): Card!
+}
+
+type Query {
+  cardById(cardId: String): Card
+
+  """Draw a card<br>"""
+  drawCard: Card!
+  drawChangeCard: ChangeCard!
+
+  """list All Cards availble<br>"""
+  listCards: [Card!]!
+  myStacks: [CardStack!]
+}
+
+"""Aws S3 File"""
+type S3Object {
+  bucket: String!
+  key: String!
+  region: String!
+}
+
+type SpecialCard {
+  effect: String!
+  name: String!
+}
+
+enum SpecialSkills {
+  """Lower enemy defense -5<br>"""
+  THUNDER
+
+  """Attack multiple Cards at once<br>"""
+  RAIN
+
+  """50% chance to avoid any attack<br>"""
+  FIRE
+}

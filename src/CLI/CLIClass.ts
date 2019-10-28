@@ -21,6 +21,7 @@ interface Args extends Yargs {
   typescript?: boolean;
   node?: boolean;
   url?: string;
+  graphql?: string;
 }
 /**
  * Main class for controlling CLI
@@ -42,6 +43,13 @@ export class CLI {
     }
     schemaFileContents = schemaFileContents || fs.readFileSync(schemaFile).toString();
     const pathToFile = allArgs[1] || '';
+    if (args.graphql) {
+      const schemaPath =
+        args.graphql.endsWith('.graphql') || args.graphql.endsWith('.gql')
+          ? args.graphql
+          : path.join(args.graphql, 'schema.graphql');
+      fs.writeFileSync(schemaPath, schemaFileContents);
+    }
     if (args.typescript) {
       const outFile = 'graphql-zeus.ts';
       const typeScriptDefinition = TranslateGraphQL.typescript(schemaFileContents, env, host);
