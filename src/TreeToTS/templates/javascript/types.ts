@@ -1,3 +1,4 @@
+/* tslint:disable */
 import { VALUETYPES } from '../resolveValueTypes';
 
 const generateOperationsJavascriptDefinitionsChaining = ({

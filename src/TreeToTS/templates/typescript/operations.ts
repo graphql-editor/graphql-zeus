@@ -1,3 +1,4 @@
+/* tslint:disable */
 import { Environment } from 'Models/Environment';
 import { VALUETYPES } from '../resolveValueTypes';
 import { constantTypesTypescript, graphqlErrorTypeScript, typescriptFunctions } from './';

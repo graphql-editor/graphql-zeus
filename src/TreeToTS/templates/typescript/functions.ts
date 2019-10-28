@@ -1,3 +1,4 @@
+/* tslint:disable */
 import { Environment } from '../../../Models/Environment';
 
 export const typescriptFunctions = (env: Environment) => `

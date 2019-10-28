@@ -1,3 +1,4 @@
+/* tslint:disable */
 import { Environment } from '../../../Models/Environment';
 import { graphqlErrorJavascript, javascriptFunctions } from './';
 const generateOperationChainingJavascript = (t: 'Query' | 'Mutation' | 'Subscription') =>

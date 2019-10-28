@@ -1,3 +1,4 @@
+/* tslint:disable */
 export const constantTypesTypescript = `
 
 type Func<P extends any[], R> = (...args: P) => R;

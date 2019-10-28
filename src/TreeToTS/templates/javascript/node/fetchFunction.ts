@@ -1,3 +1,4 @@
+/* tslint:disable */
 export default `
 const apiFetch = (options, query, name) => {
     let fetchFunction;
