@@ -106,7 +106,7 @@ type Mutation {
   updateProject(in: UpdateProject): Boolean
 
   """Add sources to the project"""
-  updateSources(project: ID!, sources: [NewSource!]): [SourceUploadInfo]
+  updateSources(sources: [NewSource!], project: ID!): [SourceUploadInfo]
 }
 
 """
@@ -135,17 +135,17 @@ type Namespace {
 
 """New source payload"""
 input NewSource {
-  """Source mime type"""
-  contentType: String
-
-  """Source checksum"""
-  checksum: String
-
   """source file name"""
   filename: String
 
   """Length of source in bytes"""
   contentLength: Int
+
+  """Source mime type"""
+  contentType: String
+
+  """Source checksum"""
+  checksum: String
 }
 
 """PageInfo contains information about connection page"""
@@ -250,7 +250,7 @@ type Query {
   
   limit limits the number of returned projects
   """
-  findProjects(limit: Int, query: String!, last: String): ProjectConnection
+  findProjects(query: String!, last: String, limit: Int): ProjectConnection
 
   """
   Find projects which contain tag
@@ -292,6 +292,12 @@ type Query {
 
 """Team member role"""
 enum Role {
+  """Team viewer can view projects in team"""
+  VIEWER
+
+  """Team contributor can edit projects in team"""
+  CONTRIBUTOR
+
   """
   Team owner owner can add/remove/edit/view projects and members to a team. Only owner can delete team
   """
@@ -304,12 +310,6 @@ enum Role {
 
   """Team editor can add/edit projects in team"""
   EDITOR
-
-  """Team viewer can view projects in team"""
-  VIEWER
-
-  """Team contributor can edit projects in team"""
-  CONTRIBUTOR
 }
 
 """Source upload info object"""
@@ -367,7 +367,7 @@ type Team {
   member(username: String!): Member
 
   """Paginated list of members in team"""
-  members(limit: Int, last: String): MemberConnection
+  members(last: String, limit: Int): MemberConnection
 
   """Team name"""
   name: String!
@@ -417,17 +417,17 @@ type TeamOps {
 
 """Update project payload"""
 input UpdateProject {
-  """List of tags for project"""
-  tags: [String!]
-
-  """Set project visiblity"""
-  public: Boolean
-
   """ID of project to be updated"""
   project: ID
 
   """New description for project"""
   description: String
+
+  """List of tags for project"""
+  tags: [String!]
+
+  """Set project visiblity"""
+  public: Boolean
 }
 
 """Editor user"""
@@ -454,4 +454,9 @@ type UserConnection {
 
   """List of projects in connection"""
   users: [User!]
+}
+
+schema{
+	query: Query,
+	mutation: Mutation
 }

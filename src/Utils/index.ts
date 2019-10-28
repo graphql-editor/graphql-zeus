@@ -1,5 +1,5 @@
 import fetch from 'cross-fetch';
-import { buildClientSchema, getIntrospectionQuery, printSchema } from 'graphql';
+import { buildClientSchema, getIntrospectionQuery, IntrospectionQuery, printSchema } from 'graphql';
 /**
  * Class representing all graphql utils needed in Zeus
  */
@@ -31,6 +31,21 @@ export class Utils {
       throw new Error(JSON.stringify(errors, null, 2));
     }
     const c = buildClientSchema(data);
-    return printSchema(c);
+    const { queryType, mutationType, subscriptionType } = (data as IntrospectionQuery).__schema;
+    let schemaClient = printSchema(c);
+    const addons = [];
+    if (queryType) {
+      addons.push(`query: ${queryType.name}`);
+    }
+    if (mutationType) {
+      addons.push(`mutation: ${mutationType.name}`);
+    }
+    if (subscriptionType) {
+      addons.push(`subscription: ${subscriptionType.name}`);
+    }
+    if (addons.length > 0) {
+      schemaClient += `\nschema{\n\t${addons.join(',\n\t')}\n}`;
+    }
+    return schemaClient;
   }
 }

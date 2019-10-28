@@ -31,18 +31,18 @@ export type ChangeCard = SpecialCard | EffectCard
 
 /** create card inputs<br> */
 export type createCard = {
-		/** input skills */
+		/** The attack power<br> */
+	Attack:number,
+	/** The defense power<br> */
+	Defense:number,
+	/** input skills */
 	skills?:SpecialSkills[],
 	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
 	description:string,
 	/** <div>How many children the greek god had</div> */
-	Children?:number,
-	/** The attack power<br> */
-	Attack:number,
-	/** The defense power<br> */
-	Defense:number
+	Children?:number
 }
 
 export type EffectCard = {
@@ -83,9 +83,9 @@ export type SpecialCard = {
 }
 
 export enum SpecialSkills {
+	FIRE = "FIRE",
 	THUNDER = "THUNDER",
-	RAIN = "RAIN",
-	FIRE = "FIRE"
+	RAIN = "RAIN"
 }
 
 export type ValueTypes = {
@@ -119,6 +119,10 @@ export type ValueTypes = {
 },
 	/** create card inputs<br> */
 ["createCard"]: {
+	/** The attack power<br> */
+	Attack:number,
+	/** The defense power<br> */
+	Defense:number,
 	/** input skills */
 	skills?:ValueTypes["SpecialSkills"][],
 	/** The name of a card<br> */
@@ -126,11 +130,7 @@ export type ValueTypes = {
 	/** Description of a card<br> */
 	description:string,
 	/** <div>How many children the greek god had</div> */
-	Children?:number,
-	/** The attack power<br> */
-	Attack:number,
-	/** The defense power<br> */
-	Defense:number
+	Children?:number
 },
 	["EffectCard"]: {
 	effectSize:number,

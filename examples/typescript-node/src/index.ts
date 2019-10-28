@@ -1,4 +1,4 @@
-import { Api, Card, Gql, SelectionSet, SpecialSkills, Zeus, Query,ResolverArgumentsType } from "./graphql-zeus";
+import { Api, Card, Gql, SelectionSet, SpecialSkills, Zeus } from "./graphql-zeus";
 const run = async () => {
   const api = Api("https://faker.graphqleditor.com/aexol/olympus/graphql");
   const { addCard: ZeusCard } = await Gql.Mutation({
@@ -88,7 +88,6 @@ const run = async () => {
     },
   ]);
   console.log(aa);
-  const bb: ResolverArgumentsType<Query["drawCard"]>
   const cardSelectionSet: SelectionSet<Card> = {
     name: true,
     description: true,

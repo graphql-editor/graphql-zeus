@@ -10,6 +10,18 @@ export const AllTypesProps = {
 		}
 	},
 	createCard:{
+		Attack:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		Defense:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
 		skills:{
 			type:"SpecialSkills",
 			array:true,
@@ -33,18 +45,6 @@ export const AllTypesProps = {
 			array:false,
 			arrayRequired:false,
 			required:false
-		},
-		Attack:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		Defense:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
 		}
 	},
 	Mutation:{
