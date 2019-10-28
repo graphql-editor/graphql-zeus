@@ -13,17 +13,18 @@ zeus [path] [output_path] [options]
   )
   .option('node', {
     alias: 'n',
-    describe: 'generate client for nodejs( default is for browser and react-native',
+    describe: 'Generate client for NodeJS( default is for browser and react-native )',
     boolean: true
   })
   .option('typescript', {
     alias: 'ts',
-    describe: 'output typescript only',
+    describe: 'Output TypeScript only',
     boolean: true
   })
   .option('header', {
     alias: 'h',
-    describe: 'additional header',
+    describe:
+      'Additional header flag. You can also pass multiple headers like this -h myheader:123123 -h myheader2:321321',
     string: true
   })
   .demandCommand(1).argv;

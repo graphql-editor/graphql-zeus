@@ -7,16 +7,19 @@ export class Utils {
   /**
    * Get GraphQL Schema by doing introspection on specified URL
    */
-  static getFromUrl = async (url: string, header?: string): Promise<string> => {
+  static getFromUrl = async (url: string, header?: string | string[]): Promise<string> => {
     const headers: Record<string, string> = {
       'Content-Type': 'application/json'
     };
     if (header) {
-      const [key, val] = header.split(':').map((k) => k.trim());
-      if (!val) {
-        throw new Error('Incorrect Header');
+      const allHeaders: string[] = Array.isArray(header) ? header : [header];
+      for (const h of allHeaders) {
+        const [key, val] = h.split(':').map((k) => k.trim());
+        if (!val) {
+          throw new Error(`Incorrect Header ${key}`);
+        }
+        headers[key] = val;
       }
-      headers[key] = val;
     }
     const response = await fetch(url, {
       method: 'POST',
