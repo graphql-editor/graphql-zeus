@@ -372,18 +372,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	UpdateProject:{
-		project:{
-			type:"ID",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		description:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		tags:{
 			type:"String",
 			array:true,
@@ -392,6 +380,18 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		public:{
 			type:"Boolean",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		project:{
+			type:"ID",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		description:{
+			type:"String",
 			array:false,
 			arrayRequired:false,
 			required:false
@@ -822,14 +822,14 @@ limit limits the number of returned projects */
 },
 	/** Update project payload */
 ["UpdateProject"]: {
-	/** ID of project to be updated */
-	project?:string,
-	/** New description for project */
-	description?:string,
 	/** List of tags for project */
 	tags?:string[],
 	/** Set project visiblity */
-	public?:boolean
+	public?:boolean,
+	/** ID of project to be updated */
+	project?:string,
+	/** New description for project */
+	description?:string
 },
 	/** Editor user */
 ["User"]: {
@@ -1188,14 +1188,14 @@ export type TeamOps = {
 
 /** Update project payload */
 export type UpdateProject = {
-		/** ID of project to be updated */
-	project?:string,
-	/** New description for project */
-	description?:string,
-	/** List of tags for project */
+		/** List of tags for project */
 	tags?:string[],
 	/** Set project visiblity */
-	public?:boolean
+	public?:boolean,
+	/** ID of project to be updated */
+	project?:string,
+	/** New description for project */
+	description?:string
 }
 
 /** Editor user */
@@ -1256,6 +1256,10 @@ export type AliasedReturnType<T> = {
       [P in keyof T]: T[P];
     }
   >;
+
+export type ResolverType<F> = F extends Func<infer P, any>
+  ? P[0]
+  : undefined;
 
 type ArgsType<F extends AnyFunc> = F extends Func<infer P, any> ? P : never;
 type OfType<T> = T extends Array<infer R> ? R : T;

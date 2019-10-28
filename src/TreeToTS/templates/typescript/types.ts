@@ -24,6 +24,10 @@ export type AliasedReturnType<T> = {
     }
   >;
 
+export type ResolverType<F> = F extends Func<infer P, any>
+  ? P[0]
+  : undefined;
+
 type ArgsType<F extends AnyFunc> = F extends Func<infer P, any> ? P : never;
 type OfType<T> = T extends Array<infer R> ? R : T;
 type FirstArgument<F extends AnyFunc> = OfType<ArgsType<F>>;

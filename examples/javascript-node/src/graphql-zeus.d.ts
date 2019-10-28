@@ -31,7 +31,9 @@ export type ChangeCard = SpecialCard | EffectCard
 
 /** create card inputs<br> */
 export type createCard = {
-		/** The name of a card<br> */
+		/** input skills */
+	skills?:SpecialSkills[],
+	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
 	description:string,
@@ -40,9 +42,7 @@ export type createCard = {
 	/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
-	Defense:number,
-	/** input skills */
-	skills?:SpecialSkills[]
+	Defense:number
 }
 
 export type EffectCard = {
@@ -119,6 +119,8 @@ export type ValueTypes = {
 },
 	/** create card inputs<br> */
 ["createCard"]: {
+	/** input skills */
+	skills?:ValueTypes["SpecialSkills"][],
 	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
@@ -128,9 +130,7 @@ export type ValueTypes = {
 	/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
-	Defense:number,
-	/** input skills */
-	skills?:ValueTypes["SpecialSkills"][]
+	Defense:number
 },
 	["EffectCard"]: {
 	effectSize:number,
@@ -187,6 +187,10 @@ export type AliasedReturnType<T> = {
       [P in keyof T]: T[P];
     }
   >;
+
+export type ResolverType<F> = F extends Func<infer P, any>
+  ? P[0]
+  : undefined;
 
 type ArgsType<F extends AnyFunc> = F extends Func<infer P, any> ? P : never;
 type OfType<T> = T extends Array<infer R> ? R : T;

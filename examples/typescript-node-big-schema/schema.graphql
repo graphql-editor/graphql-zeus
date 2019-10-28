@@ -417,17 +417,17 @@ type TeamOps {
 
 """Update project payload"""
 input UpdateProject {
-  """ID of project to be updated"""
-  project: ID
-
-  """New description for project"""
-  description: String
-
   """List of tags for project"""
   tags: [String!]
 
   """Set project visiblity"""
   public: Boolean
+
+  """ID of project to be updated"""
+  project: ID
+
+  """New description for project"""
+  description: String
 }
 
 """Editor user"""
