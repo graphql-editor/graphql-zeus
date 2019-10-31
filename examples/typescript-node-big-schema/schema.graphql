@@ -106,7 +106,7 @@ type Mutation {
   updateProject(in: UpdateProject): Boolean
 
   """Add sources to the project"""
-  updateSources(sources: [NewSource!], project: ID!): [SourceUploadInfo]
+  updateSources(project: ID!, sources: [NewSource!]): [SourceUploadInfo]
 }
 
 """
@@ -124,7 +124,7 @@ type Namespace {
   
   limit sets a limit on how many objects can be returned
   """
-  projects(last: String, limit: Int): ProjectConnection
+  projects(limit: Int, last: String): ProjectConnection
 
   """True if namespace is public"""
   public: Boolean
@@ -292,9 +292,6 @@ type Query {
 
 """Team member role"""
 enum Role {
-  """Team viewer can view projects in team"""
-  VIEWER
-
   """Team contributor can edit projects in team"""
   CONTRIBUTOR
 
@@ -310,6 +307,9 @@ enum Role {
 
   """Team editor can add/edit projects in team"""
   EDITOR
+
+  """Team viewer can view projects in team"""
+  VIEWER
 }
 
 """Source upload info object"""
@@ -403,7 +403,7 @@ type TeamOps {
   member(username: String!): MemberOps
 
   """Paginated list of members in team"""
-  members(limit: Int, last: String): MemberConnection
+  members(last: String, limit: Int): MemberConnection
 
   """Team name"""
   name: String
@@ -417,6 +417,9 @@ type TeamOps {
 
 """Update project payload"""
 input UpdateProject {
+  """Set project visiblity"""
+  public: Boolean
+
   """ID of project to be updated"""
   project: ID
 
@@ -425,9 +428,6 @@ input UpdateProject {
 
   """List of tags for project"""
   tags: [String!]
-
-  """Set project visiblity"""
-  public: Boolean
 }
 
 """Editor user"""

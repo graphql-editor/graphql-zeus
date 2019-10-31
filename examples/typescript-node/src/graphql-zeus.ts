@@ -12,6 +12,18 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	createCard:{
+		Children:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		Attack:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
 		Defense:{
 			type:"Int",
 			array:false,
@@ -32,18 +44,6 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		description:{
 			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		Children:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		Attack:{
-			type:"Int",
 			array:false,
 			arrayRequired:false,
 			required:true
@@ -144,6 +144,10 @@ export type ValueTypes = {
 },
 	/** create card inputs<br> */
 ["createCard"]: {
+	/** <div>How many children the greek god had</div> */
+	Children?:number,
+	/** The attack power<br> */
+	Attack:number,
 	/** The defense power<br> */
 	Defense:number,
 	/** input skills */
@@ -151,11 +155,7 @@ export type ValueTypes = {
 	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
-	description:string,
-	/** <div>How many children the greek god had</div> */
-	Children?:number,
-	/** The attack power<br> */
-	Attack:number
+	description:string
 },
 	["EffectCard"]: {
 	effectSize:number,
@@ -220,18 +220,18 @@ export type ChangeCard = SpecialCard | EffectCard
 
 /** create card inputs<br> */
 export type createCard = {
-		/** The defense power<br> */
+		/** <div>How many children the greek god had</div> */
+	Children?:number,
+	/** The attack power<br> */
+	Attack:number,
+	/** The defense power<br> */
 	Defense:number,
 	/** input skills */
 	skills?:SpecialSkills[],
 	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
-	description:string,
-	/** <div>How many children the greek god had</div> */
-	Children?:number,
-	/** The attack power<br> */
-	Attack:number
+	description:string
 }
 
 export type EffectCard = {
@@ -294,6 +294,7 @@ type AnyFunc = Func<any, any>;
 
 type IsType<M, T, Z, L> = T extends M ? Z : L;
 type IsScalar<T, Z, L> = IsType<string | boolean | number, T, Z, L>;
+type IsObject<T, Z, L> = IsType<{} | Record<string,any>, T, Z, L>;
 
 type WithTypeNameValue<T> = T & {
   __typename?: true;
@@ -303,15 +304,15 @@ type AliasType<T> = WithTypeNameValue<T> & {
   __alias?: Record<string, WithTypeNameValue<T>>;
 };
 
-export type AliasedReturnType<T> = {
+export type AliasedReturnType<T> = IsObject<T,{
+  [P in keyof T]: T[P];
+} &
+Record<
+  string,
+  {
     [P in keyof T]: T[P];
-  } &
-  Record<
-    string,
-    {
-      [P in keyof T]: T[P];
-    }
-  >;
+  }
+>,never>;
 
 export type ResolverType<F> = F extends Func<infer P, any>
   ? P[0]
@@ -329,11 +330,11 @@ interface GraphQLResponse {
 }
 
 export type State<T> = {
-  readonly [P in keyof T]?: T[P] extends (Array<infer R> | undefined)
+  [P in keyof T]?: T[P] extends (Array<infer R> | undefined)
     ? Array<AliasedReturnType<State<R>>>
     : T[P] extends AnyFunc
     ? AliasedReturnType<State<ReturnType<T[P]>>>
-    : IsScalar<T[P], T[P], AliasedReturnType<State<T[P]>>>;
+    : IsScalar<T[P], T[P], IsObject<T[P],AliasedReturnType<State<T[P]>>,never>>;
 };
 
 export type PlainObject<T> = {
@@ -341,7 +342,7 @@ export type PlainObject<T> = {
     ? Array<PlainObject<R>>
     : T[P] extends AnyFunc
     ?  PlainObject<ReturnType<T[P]>>
-    : IsScalar<T[P], T[P], PlainObject<T[P]>>;
+    : IsScalar<T[P], T[P], IsObject<T[P],PlainObject<T[P]>,never>>;
 };
 
 type ResolveValue<T> = T extends Array<infer R>
@@ -352,15 +353,15 @@ type ResolveValue<T> = T extends Array<infer R>
       [FirstArgument<T>],
       [FirstArgument<T>, SelectionSet<OfType<ReturnType<T>>>]
     >
-  : IsScalar<T, T extends undefined ? undefined : true, SelectionSet<T>>;
+  : IsScalar<T, T extends undefined ? undefined : true, IsObject<T,SelectionSet<T>,never>>;
 
 export type SelectionSet<T> = IsScalar<
   T,  T extends undefined ? undefined : true
-,  AliasType<
+, IsObject<T,AliasType<
     {
       [P in keyof T]?: ResolveValue<T[P]>;
     }
-  >>;
+  >,never>>;
 
 type GraphQLReturner<T> = T extends Array<infer R> ? SelectionSet<R> : SelectionSet<T>;
 

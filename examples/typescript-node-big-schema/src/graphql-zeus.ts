@@ -88,15 +88,15 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		updateSources:{
-			sources:{
-				type:"NewSource",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
 			project:{
 				type:"ID",
 				array:false,
+				arrayRequired:false,
+				required:true
+			},
+			sources:{
+				type:"NewSource",
+				array:true,
 				arrayRequired:false,
 				required:true
 			}
@@ -112,14 +112,14 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		projects:{
-			last:{
-				type:"String",
+			limit:{
+				type:"Int",
 				array:false,
 				arrayRequired:false,
 				required:false
 			},
-			limit:{
-				type:"Int",
+			last:{
+				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -349,14 +349,14 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		members:{
-			limit:{
-				type:"Int",
+			last:{
+				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:false
 			},
-			last:{
-				type:"String",
+			limit:{
+				type:"Int",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -372,6 +372,12 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	UpdateProject:{
+		public:{
+			type:"Boolean",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
 		project:{
 			type:"ID",
 			array:false,
@@ -389,12 +395,6 @@ export const AllTypesProps: Record<string,any> = {
 			array:true,
 			arrayRequired:false,
 			required:true
-		},
-		public:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
 		}
 	}
 }
@@ -616,7 +616,7 @@ public is user namespace public */
 	/** Modify project */
 	updateProject:(props:{	in?:ValueTypes["UpdateProject"]}) => boolean,
 	/** Add sources to the project */
-	updateSources:(props:{	sources?:ValueTypes["NewSource"][],	project:string}) => (ValueTypes["SourceUploadInfo"] | undefined)[]
+	updateSources:(props:{	project:string,	sources?:ValueTypes["NewSource"][]}) => (ValueTypes["SourceUploadInfo"] | undefined)[]
 },
 	/** Namespace is a root object containing projects belonging
 to a team or user */
@@ -628,7 +628,7 @@ to a team or user */
 last is a string returned by previous call to Namespace.projects
 
 limit sets a limit on how many objects can be returned */
-	projects:(props:{	last?:string,	limit?:number}) => ValueTypes["ProjectConnection"],
+	projects:(props:{	limit?:number,	last?:string}) => ValueTypes["ProjectConnection"],
 	/** True if namespace is public */
 	public?:boolean,
 	/** Namespace part of the slug */
@@ -812,7 +812,7 @@ limit limits the number of returned projects */
 	/** type object node */
 	member:(props:{	username:string}) => ValueTypes["MemberOps"],
 	/** Paginated list of members in team */
-	members:(props:{	limit?:number,	last?:string}) => ValueTypes["MemberConnection"],
+	members:(props:{	last?:string,	limit?:number}) => ValueTypes["MemberConnection"],
 	/** Team name */
 	name?:string,
 	/** Team's namespace */
@@ -822,14 +822,14 @@ limit limits the number of returned projects */
 },
 	/** Update project payload */
 ["UpdateProject"]: {
+	/** Set project visiblity */
+	public?:boolean,
 	/** ID of project to be updated */
 	project?:string,
 	/** New description for project */
 	description?:string,
 	/** List of tags for project */
-	tags?:string[],
-	/** Set project visiblity */
-	public?:boolean
+	tags?:string[]
 },
 	/** Editor user */
 ["User"]: {
@@ -949,7 +949,7 @@ public is user namespace public */
 	/** Modify project */
 	updateProject:(props:{	in?:UpdateProject}) => boolean,
 	/** Add sources to the project */
-	updateSources:(props:{	sources?:NewSource[],	project:string}) => (SourceUploadInfo | undefined)[]
+	updateSources:(props:{	project:string,	sources?:NewSource[]}) => (SourceUploadInfo | undefined)[]
 }
 
 /** Namespace is a root object containing projects belonging
@@ -963,7 +963,7 @@ export type Namespace = {
 last is a string returned by previous call to Namespace.projects
 
 limit sets a limit on how many objects can be returned */
-	projects:(props:{	last?:string,	limit?:number}) => ProjectConnection,
+	projects:(props:{	limit?:number,	last?:string}) => ProjectConnection,
 	/** True if namespace is public */
 	public?:boolean,
 	/** Namespace part of the slug */
@@ -1093,11 +1093,11 @@ limit limits the number of returned projects */
 
 /** Team member role */
 export enum Role {
-	VIEWER = "VIEWER",
 	CONTRIBUTOR = "CONTRIBUTOR",
 	OWNER = "OWNER",
 	ADMIN = "ADMIN",
-	EDITOR = "EDITOR"
+	EDITOR = "EDITOR",
+	VIEWER = "VIEWER"
 }
 
 /** Source upload info object */
@@ -1177,7 +1177,7 @@ export type TeamOps = {
 	/** type object node */
 	member:(props:{	username:string}) => MemberOps,
 	/** Paginated list of members in team */
-	members:(props:{	limit?:number,	last?:string}) => MemberConnection,
+	members:(props:{	last?:string,	limit?:number}) => MemberConnection,
 	/** Team name */
 	name?:string,
 	/** Team's namespace */
@@ -1188,14 +1188,14 @@ export type TeamOps = {
 
 /** Update project payload */
 export type UpdateProject = {
-		/** ID of project to be updated */
+		/** Set project visiblity */
+	public?:boolean,
+	/** ID of project to be updated */
 	project?:string,
 	/** New description for project */
 	description?:string,
 	/** List of tags for project */
-	tags?:string[],
-	/** Set project visiblity */
-	public?:boolean
+	tags?:string[]
 }
 
 /** Editor user */
@@ -1238,6 +1238,7 @@ type AnyFunc = Func<any, any>;
 
 type IsType<M, T, Z, L> = T extends M ? Z : L;
 type IsScalar<T, Z, L> = IsType<string | boolean | number, T, Z, L>;
+type IsObject<T, Z, L> = IsType<{} | Record<string,any>, T, Z, L>;
 
 type WithTypeNameValue<T> = T & {
   __typename?: true;
@@ -1247,15 +1248,15 @@ type AliasType<T> = WithTypeNameValue<T> & {
   __alias?: Record<string, WithTypeNameValue<T>>;
 };
 
-export type AliasedReturnType<T> = {
+export type AliasedReturnType<T> = IsObject<T,{
+  [P in keyof T]: T[P];
+} &
+Record<
+  string,
+  {
     [P in keyof T]: T[P];
-  } &
-  Record<
-    string,
-    {
-      [P in keyof T]: T[P];
-    }
-  >;
+  }
+>,never>;
 
 export type ResolverType<F> = F extends Func<infer P, any>
   ? P[0]
@@ -1273,11 +1274,11 @@ interface GraphQLResponse {
 }
 
 export type State<T> = {
-  readonly [P in keyof T]?: T[P] extends (Array<infer R> | undefined)
+  [P in keyof T]?: T[P] extends (Array<infer R> | undefined)
     ? Array<AliasedReturnType<State<R>>>
     : T[P] extends AnyFunc
     ? AliasedReturnType<State<ReturnType<T[P]>>>
-    : IsScalar<T[P], T[P], AliasedReturnType<State<T[P]>>>;
+    : IsScalar<T[P], T[P], IsObject<T[P],AliasedReturnType<State<T[P]>>,never>>;
 };
 
 export type PlainObject<T> = {
@@ -1285,7 +1286,7 @@ export type PlainObject<T> = {
     ? Array<PlainObject<R>>
     : T[P] extends AnyFunc
     ?  PlainObject<ReturnType<T[P]>>
-    : IsScalar<T[P], T[P], PlainObject<T[P]>>;
+    : IsScalar<T[P], T[P], IsObject<T[P],PlainObject<T[P]>,never>>;
 };
 
 type ResolveValue<T> = T extends Array<infer R>
@@ -1296,15 +1297,15 @@ type ResolveValue<T> = T extends Array<infer R>
       [FirstArgument<T>],
       [FirstArgument<T>, SelectionSet<OfType<ReturnType<T>>>]
     >
-  : IsScalar<T, T extends undefined ? undefined : true, SelectionSet<T>>;
+  : IsScalar<T, T extends undefined ? undefined : true, IsObject<T,SelectionSet<T>,never>>;
 
 export type SelectionSet<T> = IsScalar<
   T,  T extends undefined ? undefined : true
-,  AliasType<
+, IsObject<T,AliasType<
     {
       [P in keyof T]?: ResolveValue<T[P]>;
     }
-  >>;
+  >,never>>;
 
 type GraphQLReturner<T> = T extends Array<infer R> ? SelectionSet<R> : SelectionSet<T>;
 
