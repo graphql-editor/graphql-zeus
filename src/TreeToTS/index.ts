@@ -21,6 +21,7 @@ export class TreeToTS {
   static javascript(tree: ParserTree, env: Environment = 'browser', host?: string) {
     const rootTypes = tree.nodes.map(resolveTypeFromRoot);
     const valueTypes = resolveValueTypes(tree.nodes);
+    const ignoreESLINT = `/* eslint-disable */\n\n`;
     const propTypes = `export const AllTypesProps = {\n${tree.nodes
       .map(resolvePropTypeFromRoot)
       .filter((pt) => pt)
@@ -53,7 +54,8 @@ export class TreeToTS {
     const operations = bodyJavascript(env, operationsBody);
 
     return {
-      javascript: propTypes
+      javascript: ignoreESLINT
+        .concat(propTypes)
         .concat('\n\n')
         .concat(returnTypes)
         .concat(operations)
