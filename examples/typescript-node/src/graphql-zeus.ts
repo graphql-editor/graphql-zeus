@@ -1,300 +1,303 @@
 /* tslint:disable */
 
-export const AllTypesProps: Record<string,any> = {
-	Card:{
-		attack:{
-			cardID:{
-				type:"String",
-				array:true,
-				arrayRequired:false,
-				required:true
-			}
-		}
-	},
-	createCard:{
-		Children:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		Attack:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		Defense:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		skills:{
-			type:"SpecialSkills",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		description:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		}
-	},
-	Mutation:{
-		addCard:{
-			card:{
-				type:"createCard",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		}
-	},
-	Query:{
-		cardById:{
-			cardId:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		}
-	},
-	SpecialSkills: "enum"
-}
+export const AllTypesProps: Record<string, any> = {
+  Card: {
+    attack: {
+      cardID: {
+        type: 'String',
+        array: true,
+        arrayRequired: false,
+        required: true
+      }
+    }
+  },
+  createCard: {
+    Children: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: false
+    },
+    Attack: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true
+    },
+    Defense: {
+      type: 'Int',
+      array: false,
+      arrayRequired: false,
+      required: true
+    },
+    skills: {
+      type: 'SpecialSkills',
+      array: true,
+      arrayRequired: false,
+      required: true
+    },
+    name: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true
+    },
+    description: {
+      type: 'String',
+      array: false,
+      arrayRequired: false,
+      required: true
+    }
+  },
+  Mutation: {
+    addCard: {
+      card: {
+        type: 'createCard',
+        array: false,
+        arrayRequired: false,
+        required: true
+      }
+    }
+  },
+  Query: {
+    cardById: {
+      cardId: {
+        type: 'String',
+        array: false,
+        arrayRequired: false,
+        required: false
+      }
+    }
+  },
+  SpecialSkills: 'enum'
+};
 
-export const ReturnTypes: Record<string,any> = {
-	Card:{
-		Attack:"Int",
-		Children:"Int",
-		Defense:"Int",
-		attack:"Card",
-		cardImage:"S3Object",
-		description:"String",
-		id:"ID",
-		name:"String",
-		skills:"SpecialSkills"
-	},
-	CardStack:{
-		cards:"Card",
-		name:"String"
-	},
-	EffectCard:{
-		effectSize:"Float",
-		name:"String"
-	},
-	Mutation:{
-		addCard:"Card"
-	},
-	Query:{
-		cardById:"Card",
-		drawCard:"Card",
-		drawChangeCard:"ChangeCard",
-		listCards:"Card",
-		myStacks:"CardStack"
-	},
-	S3Object:{
-		bucket:"String",
-		key:"String",
-		region:"String"
-	},
-	SpecialCard:{
-		effect:"String",
-		name:"String"
-	}
-}
+export const ReturnTypes: Record<string, any> = {
+  Card: {
+    Attack: 'Int',
+    Children: 'Int',
+    Defense: 'Int',
+    attack: 'Card',
+    cardImage: 'S3Object',
+    description: 'String',
+    id: 'ID',
+    name: 'String',
+    skills: 'SpecialSkills'
+  },
+  CardStack: {
+    cards: 'Card',
+    name: 'String'
+  },
+  EffectCard: {
+    effectSize: 'Float',
+    name: 'String'
+  },
+  Mutation: {
+    addCard: 'Card'
+  },
+  Query: {
+    cardById: 'Card',
+    drawCard: 'Card',
+    drawChangeCard: 'ChangeCard',
+    listCards: 'Card',
+    myStacks: 'CardStack'
+  },
+  S3Object: {
+    bucket: 'String',
+    key: 'String',
+    region: 'String'
+  },
+  SpecialCard: {
+    effect: 'String',
+    name: 'String'
+  }
+};
 
 export type ValueTypes = {
-    /** Card used in card game<br> */
-["Card"]: {
-	/** The attack power<br> */
-	Attack:number,
-	/** <div>How many children the greek god had</div> */
-	Children?:number,
-	/** The defense power<br> */
-	Defense:number,
-	/** Attack other cards on the table , returns Cards after attack<br> */
-	attack:(props:{	/** Attacked card/card ids<br> */
-	cardID?:string[]}) => ValueTypes["Card"][],
-	/** Put your description here */
-	cardImage?:ValueTypes["S3Object"],
-	/** Description of a card<br> */
-	description:string,
-	id:string,
-	/** The name of a card<br> */
-	name:string,
-	skills?:ValueTypes["SpecialSkills"][]
-},
-	/** Stack of cards */
-["CardStack"]: {
-	cards?:ValueTypes["Card"][],
-	name?:string
-},
-	["ChangeCard"]: {		["...on SpecialCard"] : ValueTypes["SpecialCard"],
-		["...on EffectCard"] : ValueTypes["EffectCard"]
-},
-	/** create card inputs<br> */
-["createCard"]: {
-	/** <div>How many children the greek god had</div> */
-	Children?:number,
-	/** The attack power<br> */
-	Attack:number,
-	/** The defense power<br> */
-	Defense:number,
-	/** input skills */
-	skills?:ValueTypes["SpecialSkills"][],
-	/** The name of a card<br> */
-	name:string,
-	/** Description of a card<br> */
-	description:string
-},
-	["EffectCard"]: {
-	effectSize:number,
-	name:string
-},
-	["Mutation"]: {
-	/** add Card to Cards database<br> */
-	addCard:(props:{	card:ValueTypes["createCard"]}) => ValueTypes["Card"]
-},
-	["Query"]: {
-	cardById:(props:{	cardId?:string}) => ValueTypes["Card"],
-	/** Draw a card<br> */
-	drawCard:ValueTypes["Card"],
-	drawChangeCard:ValueTypes["ChangeCard"],
-	/** list All Cards availble<br> */
-	listCards:ValueTypes["Card"][],
-	myStacks?:ValueTypes["CardStack"][]
-},
-	/** Aws S3 File */
-["S3Object"]: {
-	bucket:string,
-	key:string,
-	region:string
-},
-	["SpecialCard"]: {
-	effect:string,
-	name:string
-},
-	["SpecialSkills"]:SpecialSkills
-  }
+  /** Card used in card game<br> */
+  ['Card']: {
+    /** The attack power<br> */
+    Attack: number;
+    /** <div>How many children the greek god had</div> */
+    Children?: number;
+    /** The defense power<br> */
+    Defense: number;
+    /** Attack other cards on the table , returns Cards after attack<br> */
+    attack: (props: {
+      /** Attacked card/card ids<br> */
+      cardID?: string[];
+    }) => ValueTypes['Card'][];
+    /** Put your description here */
+    cardImage?: ValueTypes['S3Object'];
+    /** Description of a card<br> */
+    description: string;
+    id: string;
+    /** The name of a card<br> */
+    name: string;
+    skills?: ValueTypes['SpecialSkills'][];
+  };
+  /** Stack of cards */
+  ['CardStack']: {
+    cards?: ValueTypes['Card'][];
+    name?: string;
+  };
+  ['ChangeCard']: {
+    ['...on SpecialCard']: ValueTypes['SpecialCard'];
+    ['...on EffectCard']: ValueTypes['EffectCard'];
+  };
+  /** create card inputs<br> */
+  ['createCard']: {
+    /** <div>How many children the greek god had</div> */
+    Children?: number;
+    /** The attack power<br> */
+    Attack: number;
+    /** The defense power<br> */
+    Defense: number;
+    /** input skills */
+    skills?: ValueTypes['SpecialSkills'][];
+    /** The name of a card<br> */
+    name: string;
+    /** Description of a card<br> */
+    description: string;
+  };
+  ['EffectCard']: {
+    effectSize: number;
+    name: string;
+  };
+  ['Mutation']: {
+    /** add Card to Cards database<br> */
+    addCard: (props: { card: ValueTypes['createCard'] }) => ValueTypes['Card'];
+  };
+  ['Query']: {
+    cardById: (props: { cardId?: string }) => ValueTypes['Card'];
+    /** Draw a card<br> */
+    drawCard: ValueTypes['Card'];
+    drawChangeCard: ValueTypes['ChangeCard'];
+    /** list All Cards availble<br> */
+    listCards: ValueTypes['Card'][];
+    myStacks?: ValueTypes['CardStack'][];
+  };
+  /** Aws S3 File */
+  ['S3Object']: {
+    bucket: string;
+    key: string;
+    region: string;
+  };
+  ['SpecialCard']: {
+    effect: string;
+    name: string;
+  };
+  ['SpecialSkills']: SpecialSkills;
+};
 
 /** Card used in card game<br> */
 export type Card = {
-	__typename?: "Card",
-	/** The attack power<br> */
-	Attack:number,
-	/** <div>How many children the greek god had</div> */
-	Children?:number,
-	/** The defense power<br> */
-	Defense:number,
-	/** Attack other cards on the table , returns Cards after attack<br> */
-	attack:(props:{	/** Attacked card/card ids<br> */
-	cardID?:string[]}) => Card[],
-	/** Put your description here */
-	cardImage?:S3Object,
-	/** Description of a card<br> */
-	description:string,
-	id:string,
-	/** The name of a card<br> */
-	name:string,
-	skills?:SpecialSkills[]
-}
+  __typename?: 'Card';
+  /** The attack power<br> */
+  Attack: number;
+  /** <div>How many children the greek god had</div> */
+  Children?: number;
+  /** The defense power<br> */
+  Defense: number;
+  /** Attack other cards on the table , returns Cards after attack<br> */
+  attack: (props: {
+    /** Attacked card/card ids<br> */
+    cardID?: string[];
+  }) => Card[];
+  /** Put your description here */
+  cardImage?: S3Object;
+  /** Description of a card<br> */
+  description: string;
+  id: string;
+  /** The name of a card<br> */
+  name: string;
+  skills?: SpecialSkills[];
+};
 
 /** Stack of cards */
 export type CardStack = {
-	__typename?: "CardStack",
-	cards?:Card[],
-	name?:string
-}
+  __typename?: 'CardStack';
+  cards?: Card[];
+  name?: string;
+};
 
-export type ChangeCard = SpecialCard | EffectCard
+export type ChangeCard = SpecialCard | EffectCard;
 
 /** create card inputs<br> */
 export type createCard = {
-		/** <div>How many children the greek god had</div> */
-	Children?:number,
-	/** The attack power<br> */
-	Attack:number,
-	/** The defense power<br> */
-	Defense:number,
-	/** input skills */
-	skills?:SpecialSkills[],
-	/** The name of a card<br> */
-	name:string,
-	/** Description of a card<br> */
-	description:string
-}
+  /** <div>How many children the greek god had</div> */
+  Children?: number;
+  /** The attack power<br> */
+  Attack: number;
+  /** The defense power<br> */
+  Defense: number;
+  /** input skills */
+  skills?: SpecialSkills[];
+  /** The name of a card<br> */
+  name: string;
+  /** Description of a card<br> */
+  description: string;
+};
 
 export type EffectCard = {
-	__typename?: "EffectCard",
-	effectSize:number,
-	name:string
-}
+  __typename?: 'EffectCard';
+  effectSize: number;
+  name: string;
+};
 
 export type Mutation = {
-	__typename?: "Mutation",
-	/** add Card to Cards database<br> */
-	addCard:(props:{	card:createCard}) => Card
-}
+  __typename?: 'Mutation';
+  /** add Card to Cards database<br> */
+  addCard: (props: { card: createCard }) => Card;
+};
 
 export type Query = {
-	__typename?: "Query",
-	cardById:(props:{	cardId?:string}) => Card,
-	/** Draw a card<br> */
-	drawCard:Card,
-	drawChangeCard:ChangeCard,
-	/** list All Cards availble<br> */
-	listCards:Card[],
-	myStacks?:CardStack[]
-}
+  __typename?: 'Query';
+  cardById: (props: { cardId?: string }) => Card;
+  /** Draw a card<br> */
+  drawCard: Card;
+  drawChangeCard: ChangeCard;
+  /** list All Cards availble<br> */
+  listCards: Card[];
+  myStacks?: CardStack[];
+};
 
 /** Aws S3 File */
 export type S3Object = {
-	__typename?: "S3Object",
-	bucket:string,
-	key:string,
-	region:string
-}
+  __typename?: 'S3Object';
+  bucket: string;
+  key: string;
+  region: string;
+};
 
 export type SpecialCard = {
-	__typename?: "SpecialCard",
-	effect:string,
-	name:string
-}
+  __typename?: 'SpecialCard';
+  effect: string;
+  name: string;
+};
 
 export enum SpecialSkills {
-	THUNDER = "THUNDER",
-	RAIN = "RAIN",
-	FIRE = "FIRE"
+  THUNDER = 'THUNDER',
+  RAIN = 'RAIN',
+  FIRE = 'FIRE'
 }
 
 export class GraphQLError extends Error {
-    constructor(public response: GraphQLResponse) {
-      super("");
-      console.error(response);
-    }
-    toString() {
-      return "GraphQL Response Error";
-    }
+  constructor(public response: GraphQLResponse) {
+    super('');
+    console.error(response);
   }
-
-
+  toString() {
+    return 'GraphQL Response Error';
+  }
+}
 
 type Func<P extends any[], R> = (...args: P) => R;
 type AnyFunc = Func<any, any>;
 
 type IsType<M, T, Z, L> = T extends M ? Z : L;
 type IsScalar<T, Z, L> = IsType<string | boolean | number, T, Z, L>;
-type IsObject<T, Z, L> = IsType<{} | Record<string,any>, T, Z, L>;
+type IsObject<T, Z, L> = IsType<{} | Record<string, any>, T, Z, L>;
 
 type WithTypeNameValue<T> = T & {
   __typename?: true;
@@ -304,19 +307,21 @@ type AliasType<T> = WithTypeNameValue<T> & {
   __alias?: Record<string, WithTypeNameValue<T>>;
 };
 
-export type AliasedReturnType<T> = IsObject<T,{
-  [P in keyof T]: T[P];
-} &
-Record<
-  string,
+export type AliasedReturnType<T> = IsObject<
+  T,
   {
     [P in keyof T]: T[P];
-  }
->,never>;
+  } &
+    Record<
+      string,
+      {
+        [P in keyof T]: T[P];
+      }
+    >,
+  never
+>;
 
-export type ResolverType<F> = F extends Func<infer P, any>
-  ? P[0]
-  : undefined;
+export type ResolverType<F> = F extends Func<infer P, any> ? P[0] : undefined;
 
 type ArgsType<F extends AnyFunc> = F extends Func<infer P, any> ? P : never;
 type OfType<T> = T extends Array<infer R> ? R : T;
@@ -334,15 +339,15 @@ export type State<T> = {
     ? Array<AliasedReturnType<State<R>>>
     : T[P] extends AnyFunc
     ? AliasedReturnType<State<ReturnType<T[P]>>>
-    : IsScalar<T[P], T[P], IsObject<T[P],AliasedReturnType<State<T[P]>>,never>>;
+    : IsScalar<T[P], T[P], IsObject<T[P], AliasedReturnType<State<T[P]>>, never>>;
 };
 
 export type PlainObject<T> = {
   [P in keyof T]?: T[P] extends (Array<infer R> | undefined)
     ? Array<PlainObject<R>>
     : T[P] extends AnyFunc
-    ?  PlainObject<ReturnType<T[P]>>
-    : IsScalar<T[P], T[P], IsObject<T[P],PlainObject<T[P]>,never>>;
+    ? PlainObject<ReturnType<T[P]>>
+    : IsScalar<T[P], T[P], IsObject<T[P], PlainObject<T[P]>, never>>;
 };
 
 type ResolveValue<T> = T extends Array<infer R>
@@ -353,19 +358,81 @@ type ResolveValue<T> = T extends Array<infer R>
       [FirstArgument<T>],
       [FirstArgument<T>, SelectionSet<OfType<ReturnType<T>>>]
     >
-  : IsScalar<T, T extends undefined ? undefined : true, IsObject<T,SelectionSet<T>,never>>;
+  : IsScalar<T, T extends undefined ? undefined : true, IsObject<T, SelectionSet<T>, never>>;
 
 export type SelectionSet<T> = IsScalar<
-  T,  T extends undefined ? undefined : true
-, IsObject<T,AliasType<
-    {
-      [P in keyof T]?: ResolveValue<T[P]>;
-    }
-  >,never>>;
+  T,
+  T extends undefined ? undefined : true,
+  IsObject<
+    T,
+    AliasType<
+      {
+        [P in keyof T]?: ResolveValue<T[P]>;
+      }
+    >,
+    never
+  >
+>;
 
 type GraphQLReturner<T> = T extends Array<infer R> ? SelectionSet<R> : SelectionSet<T>;
 
-type OperationToGraphQL<V,T> = (o: GraphQLReturner<V>) => Promise<AliasedReturnType<State<T>>>;
+type Anify<T> = { [P in keyof T]?: any };
+
+// Key extends '__alias'
+//     ? {
+//         [A in keyof DST[Key]]: SRC extends Anify<DST[Key][A]> ? MapAliasType<SRC, DST[Key][A]> : never;
+//       }
+//     :
+
+type MapType<SRC extends Anify<DST>, DST> = DST extends {
+  __alias: any;
+}
+  ? {
+      [A in keyof DST['__alias']]: SRC extends Anify<DST['__alias'][A]>
+        ? MapType<SRC, DST['__alias'][A]>
+        : never;
+    } &
+      {
+        [Key in keyof Omit<DST, '__alias'>]-?: DST[Key] extends boolean
+          ? SRC[Key]
+          : DST[Key] extends [any, infer R]
+          ? MapType<OfType<ReturnType<SRC[Key]>>, R>
+          : MapType<SRC[Key], DST[Key]>;
+      }
+  : {
+      [Key in keyof DST]-?: DST[Key] extends boolean
+        ? SRC[Key]
+        : DST[Key] extends [any, infer R]
+        ? MapType<OfType<ReturnType<SRC[Key]>>, R>
+        : MapType<SRC[Key], DST[Key]>;
+    };
+type testMappedAliasType = MapType<
+  Card,
+  {
+    Attack: true;
+    __alias: {
+      nameee: {
+        Defense: true;
+      };
+    };
+  }
+>;
+const ddd: testMappedAliasType = {
+  Attack: 1,
+  nameee: {
+    Defense: 2
+  }
+};
+
+type cc = MapType<Card, { Attack: true; attack: [{ cardID: string[] }, { Defense: true }] }>;
+const bb: cc = {
+  Attack: 1,
+  attack: {
+    Defense: 1
+  }
+};
+
+type OperationToGraphQL<V, T> = <Z>(o: Z | GraphQLReturner<V>) => Promise<MapType<V, Z>>;
 
 type ResolveApiField<T> = T extends Array<infer R>
   ? IsScalar<R, R, State<R>>
@@ -373,11 +440,9 @@ type ResolveApiField<T> = T extends Array<infer R>
   ? IsScalar<OfType<ReturnType<T>>, T, State<OfType<ReturnType<T>>>>
   : IsScalar<T, T, State<T>>;
 
-type ApiFieldToGraphQL<V,T> = (o: ResolveValue<V>) => Promise<ResolveApiField<T>>;
+type ApiFieldToGraphQL<V, T> = (o: ResolveValue<V>) => Promise<ResolveApiField<T>>;
 
 type fetchOptions = ArgsType<typeof fetch>;
-
-
 
 export const ScalarResolver = (scalar: string, value: any) => {
   switch (scalar) {
@@ -443,29 +508,26 @@ export const TypesPropsResolver = ({
   return reslovedScalar;
 };
 
-const isArrayFunction = (
-  parent: string[],
-  a: any[]
-) => {
+const isArrayFunction = (parent: string[], a: any[]) => {
   const [values, r] = a;
   const [mainKey, key, ...keys] = parent;
   const keyValues = Object.keys(values);
 
   if (!keys.length) {
-      return keyValues.length > 0
-        ? `(${keyValues
-            .map(
-              (v) =>
-                `${v}:${TypesPropsResolver({
-                  value: values[v],
-                  type: mainKey,
-                  name: key,
-                  key: v
-                })}`
-            )
-            .join(',')})${r ? traverseToSeekArrays(parent, r) : ''}`
-        : traverseToSeekArrays(parent, r);
-    }
+    return keyValues.length > 0
+      ? `(${keyValues
+          .map(
+            (v) =>
+              `${v}:${TypesPropsResolver({
+                value: values[v],
+                type: mainKey,
+                name: key,
+                key: v
+              })}`
+          )
+          .join(',')})${r ? traverseToSeekArrays(parent, r) : ''}`
+      : traverseToSeekArrays(parent, r);
+  }
 
   const [typeResolverKey] = keys.splice(keys.length - 1, 1);
   let valueToResolve = ReturnTypes[mainKey][key];
@@ -494,7 +556,9 @@ const resolveKV = (k: string, v: boolean | string | { [x: string]: boolean | str
   typeof v === 'boolean' ? k : typeof v === 'object' ? `${k}{${objectToTree(v)}}` : `${k}${v}`;
 
 const objectToTree = (o: { [x: string]: boolean | string }): string =>
-  `{${Object.keys(o).map((k) => `${resolveKV(k, o[k])}`).join(' ')}}`;
+  `{${Object.keys(o)
+    .map((k) => `${resolveKV(k, o[k])}`)
+    .join(' ')}}`;
 
 const traverseToSeekArrays = (parent: string[], a?: any): string => {
   if (!a) return '';
@@ -530,10 +594,12 @@ const traverseToSeekArrays = (parent: string[], a?: any): string => {
 const buildQuery = (type: string, a?: Record<any, any>) =>
   traverseToSeekArrays([type], a).replace(/\"([^{^,^\n^\"]*)\":([^{^,^\n^\"]*)/g, '$1:$2');
 
-const queryConstruct = (t: 'Query' | 'Mutation' | 'Subscription') => (o: Record<any, any>) => `${t.toLowerCase()}${buildQuery(t, o)}`;
+const queryConstruct = (t: 'Query' | 'Mutation' | 'Subscription') => (o: Record<any, any>) =>
+  `${t.toLowerCase()}${buildQuery(t, o)}`;
 
-const fullChainConstruct = (options: fetchOptions) => (t: 'Query' | 'Mutation' | 'Subscription') => (o: Record<any, any>) =>
-  apiFetch(options, queryConstruct(t)(o));
+const fullChainConstruct = (options: fetchOptions) => (
+  t: 'Query' | 'Mutation' | 'Subscription'
+) => (o: Record<any, any>) => apiFetch(options, queryConstruct(t)(o));
 
 const seekForAliases = (o: any) => {
   if (typeof o === 'object' && o) {
@@ -562,40 +628,22 @@ const seekForAliases = (o: any) => {
   }
 };
 
-
 const apiFetch = (options: fetchOptions, query: string) => {
-    let fetchFunction;
-    let queryString = query;
-    let fetchOptions = options[1] || {};
+  let fetchFunction;
+  let queryString = query;
+  let fetchOptions = options[1] || {};
+  try {
+    fetchFunction = require('node-fetch');
+  } catch (error) {
+    throw new Error("Please install 'node-fetch' to use zeus in nodejs environment");
+  }
+  if (fetchOptions.method && fetchOptions.method === 'GET') {
     try {
-        fetchFunction = require('node-fetch');
+      queryString = require('querystring').stringify(query);
     } catch (error) {
-        throw new Error("Please install 'node-fetch' to use zeus in nodejs environment");
+      throw new Error("Something gone wrong 'querystring' is a part of nodejs environment");
     }
-    if (fetchOptions.method && fetchOptions.method === 'GET') {
-      try {
-          queryString = require('querystring').stringify(query);
-      } catch (error) {
-          throw new Error("Something gone wrong 'querystring' is a part of nodejs environment");
-      }
-      return fetchFunction(`${options[0]}?query=${queryString}`, fetchOptions)
-        .then((response: any) => response.json() as Promise<GraphQLResponse>)
-        .then((response: GraphQLResponse) => {
-          if (response.errors) {
-            throw new GraphQLError(response);
-          }
-          seekForAliases(response.data);
-          return response.data;
-        });
-    }
-    return fetchFunction(`${options[0]}`, {
-      body: JSON.stringify({ query: queryString }),
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      ...fetchOptions
-    })
+    return fetchFunction(`${options[0]}?query=${queryString}`, fetchOptions)
       .then((response: any) => response.json() as Promise<GraphQLResponse>)
       .then((response: GraphQLResponse) => {
         if (response.errors) {
@@ -604,58 +652,116 @@ const apiFetch = (options: fetchOptions, query: string) => {
         seekForAliases(response.data);
         return response.data;
       });
-  };
-  
-
+  }
+  return fetchFunction(`${options[0]}`, {
+    body: JSON.stringify({ query: queryString }),
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    ...fetchOptions
+  })
+    .then((response: any) => response.json() as Promise<GraphQLResponse>)
+    .then((response: GraphQLResponse) => {
+      if (response.errors) {
+        throw new GraphQLError(response);
+      }
+      seekForAliases(response.data);
+      return response.data;
+    });
+};
 
 export const Chain = (...options: fetchOptions) => ({
   Query: ((o: any) =>
     fullChainConstruct(options)('Query')(o).then(
       (response: any) => response as State<Query>
-    )) as OperationToGraphQL<ValueTypes["Query"],Query>,
-Mutation: ((o: any) =>
+    )) as OperationToGraphQL<ValueTypes['Query'], Query>,
+  Mutation: ((o: any) =>
     fullChainConstruct(options)('Mutation')(o).then(
       (response: any) => response as State<Mutation>
-    )) as OperationToGraphQL<ValueTypes["Mutation"],Mutation>
+    )) as OperationToGraphQL<ValueTypes['Mutation'], Mutation>
 });
 export const Api = (...options: fetchOptions) => ({
   Query: {
-      cardById: ((o:any) =>
+    cardById: ((o: any) =>
       fullChainConstruct(options)('Query')({
         cardById: o
-      }).then((response:any) => response.cardById)) as ApiFieldToGraphQL<ValueTypes['Query']['cardById'],Query['cardById']>,
-drawCard: ((o:any) =>
+      }).then((response: any) => response.cardById)) as ApiFieldToGraphQL<
+      ValueTypes['Query']['cardById'],
+      Query['cardById']
+    >,
+    drawCard: ((o: any) =>
       fullChainConstruct(options)('Query')({
         drawCard: o
-      }).then((response:any) => response.drawCard)) as ApiFieldToGraphQL<ValueTypes['Query']['drawCard'],Query['drawCard']>,
-drawChangeCard: ((o:any) =>
+      }).then((response: any) => response.drawCard)) as ApiFieldToGraphQL<
+      ValueTypes['Query']['drawCard'],
+      Query['drawCard']
+    >,
+    drawChangeCard: ((o: any) =>
       fullChainConstruct(options)('Query')({
         drawChangeCard: o
-      }).then((response:any) => response.drawChangeCard)) as ApiFieldToGraphQL<ValueTypes['Query']['drawChangeCard'],Query['drawChangeCard']>,
-listCards: ((o:any) =>
+      }).then((response: any) => response.drawChangeCard)) as ApiFieldToGraphQL<
+      ValueTypes['Query']['drawChangeCard'],
+      Query['drawChangeCard']
+    >,
+    listCards: ((o: any) =>
       fullChainConstruct(options)('Query')({
         listCards: o
-      }).then((response:any) => response.listCards)) as ApiFieldToGraphQL<ValueTypes['Query']['listCards'],Query['listCards']>,
-myStacks: ((o:any) =>
+      }).then((response: any) => response.listCards)) as ApiFieldToGraphQL<
+      ValueTypes['Query']['listCards'],
+      Query['listCards']
+    >,
+    myStacks: ((o: any) =>
       fullChainConstruct(options)('Query')({
         myStacks: o
-      }).then((response:any) => response.myStacks)) as ApiFieldToGraphQL<ValueTypes['Query']['myStacks'],Query['myStacks']>
+      }).then((response: any) => response.myStacks)) as ApiFieldToGraphQL<
+      ValueTypes['Query']['myStacks'],
+      Query['myStacks']
+    >
   },
-Mutation: {
-      addCard: ((o:any) =>
+  Mutation: {
+    addCard: ((o: any) =>
       fullChainConstruct(options)('Mutation')({
         addCard: o
-      }).then((response:any) => response.addCard)) as ApiFieldToGraphQL<ValueTypes['Mutation']['addCard'],Mutation['addCard']>
+      }).then((response: any) => response.addCard)) as ApiFieldToGraphQL<
+      ValueTypes['Mutation']['addCard'],
+      Mutation['addCard']
+    >
   }
 });
 export const Zeus = {
-  Query: (o:GraphQLReturner<ValueTypes["Query"]>) => queryConstruct('Query')(o),
-Mutation: (o:GraphQLReturner<ValueTypes["Mutation"]>) => queryConstruct('Mutation')(o)
+  Query: (o: GraphQLReturner<ValueTypes['Query']>) => queryConstruct('Query')(o),
+  Mutation: (o: GraphQLReturner<ValueTypes['Mutation']>) => queryConstruct('Mutation')(o)
 };
 export const Cast = {
-  Query: (o:any) => o as State<Query>,
-Mutation: (o:any) => o as State<Mutation>
+  Query: (o: any) => o as State<Query>,
+  Mutation: (o: any) => o as State<Mutation>
 };
-  
 
-export const Gql = Chain('https://faker.graphqleditor.com/aexol/olympus/graphql')
+export const Gql = Chain('https://faker.graphqleditor.com/aexol/olympus/graphql');
+Gql.Query({
+  __alias: {
+    explore: {
+      drawCard: {
+        id: true
+      }
+    }
+  },
+  drawCard: {
+    Attack: true
+  },
+  cardById: [
+    {
+      cardId: ''
+    },
+    {
+      Defense: true,
+      attack: [
+        { cardID: ['ad'] },
+        {
+          description: true
+        }
+      ]
+    }
+  ]
+}).then((res) => res.explore.drawCard.id);
