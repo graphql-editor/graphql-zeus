@@ -144,7 +144,7 @@ const traverseToSeekArrays = (parent, a) => {
 };
 
   const buildQuery = (type, a) =>
-    traverseToSeekArrays([type], a).replace(/\\"([^{^,^\\n^\\"]*)\\":([^{^,^\\n^\\"]*)/g, '$1:$2');
+    traverseToSeekArrays([type], a)
 
   const queryConstruct = (t) => (o) => \`\${t.toLowerCase()}\${buildQuery(t, o)}\`;
 

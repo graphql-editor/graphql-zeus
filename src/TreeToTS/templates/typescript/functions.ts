@@ -150,7 +150,7 @@ const traverseToSeekArrays = (parent: string[], a?: any): string => {
 };
 
 const buildQuery = (type: string, a?: Record<any, any>) =>
-  traverseToSeekArrays([type], a).replace(/\\"([^{^,^\\n^\\"]*)\\":([^{^,^\\n^\\"]*)/g, '$1:$2');
+  traverseToSeekArrays([type], a)
 
 const queryConstruct = (t: 'Query' | 'Mutation' | 'Subscription') => (o: Record<any, any>) => \`\${t.toLowerCase()}\${buildQuery(t, o)}\`;
 

@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 export const AllTypesProps = {
 	Card:{
 		attack:{
@@ -10,6 +12,18 @@ export const AllTypesProps = {
 		}
 	},
 	createCard:{
+		Children:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		Attack:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
 		Defense:{
 			type:"Int",
 			array:false,
@@ -30,18 +44,6 @@ export const AllTypesProps = {
 		},
 		description:{
 			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		Children:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		Attack:{
-			type:"Int",
 			array:false,
 			arrayRequired:false,
 			required:true
@@ -265,7 +267,7 @@ const traverseToSeekArrays = (parent, a) => {
 };
 
   const buildQuery = (type, a) =>
-    traverseToSeekArrays([type], a).replace(/\"([^{^,^\n^\"]*)\":([^{^,^\n^\"]*)/g, '$1:$2');
+    traverseToSeekArrays([type], a)
 
   const queryConstruct = (t) => (o) => `${t.toLowerCase()}${buildQuery(t, o)}`;
 
@@ -350,36 +352,6 @@ Mutation: (o) =>
     fullChainConstruct(options)('Mutation')(o).then(
       (response) => response
     )
-  });
-  export const Api = (...options) => ({
-    Query: {
-      cardById: (o) =>
-      fullChainConstruct(options)('Query')({
-        cardById: o
-      }).then((response) => response.cardById),
-drawCard: (o) =>
-      fullChainConstruct(options)('Query')({
-        drawCard: o
-      }).then((response) => response.drawCard),
-drawChangeCard: (o) =>
-      fullChainConstruct(options)('Query')({
-        drawChangeCard: o
-      }).then((response) => response.drawChangeCard),
-listCards: (o) =>
-      fullChainConstruct(options)('Query')({
-        listCards: o
-      }).then((response) => response.listCards),
-myStacks: (o) =>
-      fullChainConstruct(options)('Query')({
-        myStacks: o
-      }).then((response) => response.myStacks)
-  },
-Mutation: {
-      addCard: (o) =>
-      fullChainConstruct(options)('Mutation')({
-        addCard: o
-      }).then((response) => response.addCard)
-  }
   });
   export const Zeus = {
     Query: (o) => queryConstruct('Query')(o),

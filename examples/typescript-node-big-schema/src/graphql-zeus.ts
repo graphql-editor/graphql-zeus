@@ -1248,16 +1248,6 @@ type AliasType<T> = WithTypeNameValue<T> & {
   __alias?: Record<string, WithTypeNameValue<T>>;
 };
 
-export type AliasedReturnType<T> = IsObject<T,{
-  [P in keyof T]: T[P];
-} &
-Record<
-  string,
-  {
-    [P in keyof T]: T[P];
-  }
->,never>;
-
 export type ResolverType<F> = F extends Func<infer P, any>
   ? P[0]
   : undefined;
@@ -1275,10 +1265,10 @@ interface GraphQLResponse {
 
 export type State<T> = {
   [P in keyof T]?: T[P] extends (Array<infer R> | undefined)
-    ? Array<AliasedReturnType<State<R>>>
+    ? Array<State<R>>
     : T[P] extends AnyFunc
-    ? AliasedReturnType<State<ReturnType<T[P]>>>
-    : IsScalar<T[P], T[P], IsObject<T[P],AliasedReturnType<State<T[P]>>,never>>;
+    ? State<ReturnType<T[P]>>
+    : IsScalar<T[P], T[P], IsObject<T[P], State<T[P]>, never>>;
 };
 
 export type PlainObject<T> = {
@@ -1309,15 +1299,35 @@ export type SelectionSet<T> = IsScalar<
 
 type GraphQLReturner<T> = T extends Array<infer R> ? SelectionSet<R> : SelectionSet<T>;
 
-type OperationToGraphQL<V,T> = (o: GraphQLReturner<V>) => Promise<AliasedReturnType<State<T>>>;
+type Anify<T> = { [P in keyof T]?: any };
+type MapType<SRC extends Anify<DST>, DST> = DST extends {
+  __alias: any;
+}
+  ? {
+      [A in keyof DST['__alias']]: SRC extends Anify<DST['__alias'][A]>
+        ? MapType<SRC, DST['__alias'][A]>
+        : never;
+    } &
+      {
+        [Key in keyof Omit<DST, '__alias'>]-?: DST[Key] extends boolean
+          ? SRC[Key]
+          : DST[Key] extends [any, infer R]
+          ? MapType<OfType<ReturnType<SRC[Key]>>, R>
+          : SRC[Key] extends Array<infer SRCArray>
+          ? MapType<SRCArray, DST[Key]>[]
+          : MapType<SRC[Key], DST[Key]>;
+      }
+  : {
+      [Key in keyof DST]-?: DST[Key] extends boolean
+        ? SRC[Key]
+        : DST[Key] extends [any, infer R]
+        ? MapType<OfType<ReturnType<SRC[Key]>>, R>
+        : SRC[Key] extends Array<infer SRCArray>
+        ? MapType<SRCArray, DST[Key]>[]
+        : MapType<SRC[Key], DST[Key]>;
+    };
 
-type ResolveApiField<T> = T extends Array<infer R>
-  ? IsScalar<R, R, State<R>>
-  : T extends AnyFunc
-  ? IsScalar<OfType<ReturnType<T>>, T, State<OfType<ReturnType<T>>>>
-  : IsScalar<T, T, State<T>>;
-
-type ApiFieldToGraphQL<V,T> = (o: ResolveValue<V>) => Promise<ResolveApiField<T>>;
+type OperationToGraphQL<V> = <Z>(o: Z | GraphQLReturner<V>) => Promise<MapType<V, Z>>;
 
 type fetchOptions = ArgsType<typeof fetch>;
 
@@ -1472,7 +1482,7 @@ const traverseToSeekArrays = (parent: string[], a?: any): string => {
 };
 
 const buildQuery = (type: string, a?: Record<any, any>) =>
-  traverseToSeekArrays([type], a).replace(/\"([^{^,^\n^\"]*)\":([^{^,^\n^\"]*)/g, '$1:$2');
+  traverseToSeekArrays([type], a)
 
 const queryConstruct = (t: 'Query' | 'Mutation' | 'Subscription') => (o: Record<any, any>) => `${t.toLowerCase()}${buildQuery(t, o)}`;
 
@@ -1556,81 +1566,11 @@ export const Chain = (...options: fetchOptions) => ({
   Query: ((o: any) =>
     fullChainConstruct(options)('Query')(o).then(
       (response: any) => response as State<Query>
-    )) as OperationToGraphQL<ValueTypes["Query"],Query>,
+    )) as OperationToGraphQL<ValueTypes["Query"]>,
 Mutation: ((o: any) =>
     fullChainConstruct(options)('Mutation')(o).then(
       (response: any) => response as State<Mutation>
-    )) as OperationToGraphQL<ValueTypes["Mutation"],Mutation>
-});
-export const Api = (...options: fetchOptions) => ({
-  Query: {
-      findProjects: ((o:any) =>
-      fullChainConstruct(options)('Query')({
-        findProjects: o
-      }).then((response:any) => response.findProjects)) as ApiFieldToGraphQL<ValueTypes['Query']['findProjects'],Query['findProjects']>,
-findProjectsByTag: ((o:any) =>
-      fullChainConstruct(options)('Query')({
-        findProjectsByTag: o
-      }).then((response:any) => response.findProjectsByTag)) as ApiFieldToGraphQL<ValueTypes['Query']['findProjectsByTag'],Query['findProjectsByTag']>,
-getNamespace: ((o:any) =>
-      fullChainConstruct(options)('Query')({
-        getNamespace: o
-      }).then((response:any) => response.getNamespace)) as ApiFieldToGraphQL<ValueTypes['Query']['getNamespace'],Query['getNamespace']>,
-getProject: ((o:any) =>
-      fullChainConstruct(options)('Query')({
-        getProject: o
-      }).then((response:any) => response.getProject)) as ApiFieldToGraphQL<ValueTypes['Query']['getProject'],Query['getProject']>,
-getTeam: ((o:any) =>
-      fullChainConstruct(options)('Query')({
-        getTeam: o
-      }).then((response:any) => response.getTeam)) as ApiFieldToGraphQL<ValueTypes['Query']['getTeam'],Query['getTeam']>,
-getUser: ((o:any) =>
-      fullChainConstruct(options)('Query')({
-        getUser: o
-      }).then((response:any) => response.getUser)) as ApiFieldToGraphQL<ValueTypes['Query']['getUser'],Query['getUser']>,
-listProjects: ((o:any) =>
-      fullChainConstruct(options)('Query')({
-        listProjects: o
-      }).then((response:any) => response.listProjects)) as ApiFieldToGraphQL<ValueTypes['Query']['listProjects'],Query['listProjects']>,
-myTeams: ((o:any) =>
-      fullChainConstruct(options)('Query')({
-        myTeams: o
-      }).then((response:any) => response.myTeams)) as ApiFieldToGraphQL<ValueTypes['Query']['myTeams'],Query['myTeams']>
-  },
-Mutation: {
-      createProject: ((o:any) =>
-      fullChainConstruct(options)('Mutation')({
-        createProject: o
-      }).then((response:any) => response.createProject)) as ApiFieldToGraphQL<ValueTypes['Mutation']['createProject'],Mutation['createProject']>,
-createTeam: ((o:any) =>
-      fullChainConstruct(options)('Mutation')({
-        createTeam: o
-      }).then((response:any) => response.createTeam)) as ApiFieldToGraphQL<ValueTypes['Mutation']['createTeam'],Mutation['createTeam']>,
-createUser: ((o:any) =>
-      fullChainConstruct(options)('Mutation')({
-        createUser: o
-      }).then((response:any) => response.createUser)) as ApiFieldToGraphQL<ValueTypes['Mutation']['createUser'],Mutation['createUser']>,
-deployToFaker: ((o:any) =>
-      fullChainConstruct(options)('Mutation')({
-        deployToFaker: o
-      }).then((response:any) => response.deployToFaker)) as ApiFieldToGraphQL<ValueTypes['Mutation']['deployToFaker'],Mutation['deployToFaker']>,
-removeProject: ((o:any) =>
-      fullChainConstruct(options)('Mutation')({
-        removeProject: o
-      }).then((response:any) => response.removeProject)) as ApiFieldToGraphQL<ValueTypes['Mutation']['removeProject'],Mutation['removeProject']>,
-team: ((o:any) =>
-      fullChainConstruct(options)('Mutation')({
-        team: o
-      }).then((response:any) => response.team)) as ApiFieldToGraphQL<ValueTypes['Mutation']['team'],Mutation['team']>,
-updateProject: ((o:any) =>
-      fullChainConstruct(options)('Mutation')({
-        updateProject: o
-      }).then((response:any) => response.updateProject)) as ApiFieldToGraphQL<ValueTypes['Mutation']['updateProject'],Mutation['updateProject']>,
-updateSources: ((o:any) =>
-      fullChainConstruct(options)('Mutation')({
-        updateSources: o
-      }).then((response:any) => response.updateSources)) as ApiFieldToGraphQL<ValueTypes['Mutation']['updateSources'],Mutation['updateSources']>
-  }
+    )) as OperationToGraphQL<ValueTypes["Mutation"]>
 });
 export const Zeus = {
   Query: (o:GraphQLReturner<ValueTypes["Query"]>) => queryConstruct('Query')(o),

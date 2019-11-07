@@ -1,6 +1,5 @@
-import { Api, Card, Gql, SelectionSet, SpecialSkills, Zeus } from "./graphql-zeus";
+import { Gql, SpecialSkills, Zeus } from "./graphql-zeus";
 const run = async () => {
-  const api = Api("https://faker.graphqleditor.com/aexol/olympus/graphql");
   const { addCard: ZeusCard } = await Gql.Mutation({
     addCard: [
       {
@@ -28,11 +27,11 @@ const run = async () => {
         name: true,
       },
       "...on SpecialCard": {
-        effect: true,
         name: true,
       },
     },
   });
+  console.log("DRAW ...");
   console.log(blalba);
   // const { addCard: ZeusCard } = await chain.Mutation({
   //   addCard: [
@@ -74,38 +73,7 @@ const run = async () => {
     },
   });
   console.log(stack, newCard);
-  const aa = await api.Query.cardById([
-    {
-      cardId: "aaa",
-    },
-    {
-      __alias: {
-        myDesc: {
-          description: true,
-        },
-      },
-      name: true,
-    },
-  ]);
-  console.log(aa);
-  const cardSelectionSet: SelectionSet<Card> = {
-    name: true,
-    description: true,
-    Attack: true,
-    skills: true,
-    Defense: true,
-    cardImage: {
-      key: true,
-      bucket: true,
-    },
-  };
-  const queryWithSelectionSet = await Gql.Query({
-    drawCard: cardSelectionSet,
-    listCards: cardSelectionSet,
-  });
-  console.log(queryWithSelectionSet);
-  // This is how aliasing should work
-  // console.log(queryWithSelectionSet.aaa.listCards.map(aa => aa.dd.name));
+
   const aliasedQuery = Zeus.Query({
     __alias: {
       myCards: {
@@ -149,7 +117,6 @@ const run = async () => {
       },
     },
   });
-
   console.log(JSON.stringify(aliasedQueryExecute, null, 4));
   console.log(
     JSON.stringify(aliasedQueryExecute.listCards!.map((card) => card.atak!.attack!), null, 4),

@@ -15,16 +15,6 @@ type AliasType<T> = WithTypeNameValue<T> & {
   __alias?: Record<string, WithTypeNameValue<T>>;
 };
 
-export type AliasedReturnType<T> = IsObject<T,{
-  [P in keyof T]: T[P];
-} &
-Record<
-  string,
-  {
-    [P in keyof T]: T[P];
-  }
->,never>;
-
 export type ResolverType<F> = F extends Func<infer P, any>
   ? P[0]
   : undefined;
@@ -42,10 +32,10 @@ interface GraphQLResponse {
 
 export type State<T> = {
   [P in keyof T]?: T[P] extends (Array<infer R> | undefined)
-    ? Array<AliasedReturnType<State<R>>>
+    ? Array<State<R>>
     : T[P] extends AnyFunc
-    ? AliasedReturnType<State<ReturnType<T[P]>>>
-    : IsScalar<T[P], T[P], IsObject<T[P],AliasedReturnType<State<T[P]>>,never>>;
+    ? State<ReturnType<T[P]>>
+    : IsScalar<T[P], T[P], IsObject<T[P], State<T[P]>, never>>;
 };
 
 export type PlainObject<T> = {
@@ -76,15 +66,35 @@ export type SelectionSet<T> = IsScalar<
 
 type GraphQLReturner<T> = T extends Array<infer R> ? SelectionSet<R> : SelectionSet<T>;
 
-type OperationToGraphQL<V,T> = (o: GraphQLReturner<V>) => Promise<AliasedReturnType<State<T>>>;
+type Anify<T> = { [P in keyof T]?: any };
+type MapType<SRC extends Anify<DST>, DST> = DST extends {
+  __alias: any;
+}
+  ? {
+      [A in keyof DST['__alias']]: SRC extends Anify<DST['__alias'][A]>
+        ? MapType<SRC, DST['__alias'][A]>
+        : never;
+    } &
+      {
+        [Key in keyof Omit<DST, '__alias'>]-?: DST[Key] extends boolean
+          ? SRC[Key]
+          : DST[Key] extends [any, infer R]
+          ? MapType<OfType<ReturnType<SRC[Key]>>, R>
+          : SRC[Key] extends Array<infer SRCArray>
+          ? MapType<SRCArray, DST[Key]>[]
+          : MapType<SRC[Key], DST[Key]>;
+      }
+  : {
+      [Key in keyof DST]-?: DST[Key] extends boolean
+        ? SRC[Key]
+        : DST[Key] extends [any, infer R]
+        ? MapType<OfType<ReturnType<SRC[Key]>>, R>
+        : SRC[Key] extends Array<infer SRCArray>
+        ? MapType<SRCArray, DST[Key]>[]
+        : MapType<SRC[Key], DST[Key]>;
+    };
 
-type ResolveApiField<T> = T extends Array<infer R>
-  ? IsScalar<R, R, State<R>>
-  : T extends AnyFunc
-  ? IsScalar<OfType<ReturnType<T>>, T, State<OfType<ReturnType<T>>>>
-  : IsScalar<T, T, State<T>>;
-
-type ApiFieldToGraphQL<V,T> = (o: ResolveValue<V>) => Promise<ResolveApiField<T>>;
+type OperationToGraphQL<V> = <Z>(o: Z | GraphQLReturner<V>) => Promise<MapType<V, Z>>;
 
 type fetchOptions = ArgsType<typeof fetch>;
 
