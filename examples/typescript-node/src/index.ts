@@ -34,6 +34,7 @@ const run = async () => {
       },
     },
   });
+  console.log(blalba.drawChangeCard.__typename);
   console.log("DRAW ...");
   // const { addCard: ZeusCard } = await chain.Mutation({
   //   addCard: [
