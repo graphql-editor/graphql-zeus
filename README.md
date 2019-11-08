@@ -6,6 +6,8 @@
 
 GraphQL Zeus creates autocomplete client library for `JavaScript` or `TypeScript` which provides autocompletion for strongly typed queries.
 
+From version 2.0 Zeus ⚡⚡⚡ support mapped types !!!
+
 Supported Languages:
 - Javascript
   - Browser
@@ -19,7 +21,7 @@ Supported Languages:
 
 Given the following schema [Olympus Cards](https://app.graphqleditor.com/aexol/olympus)
 
-![](images/autocomplete-greek.gif)
+![](images/zeusexample.gif)
 
 ## Table of contents
 - [How it works](#how-it-works)
