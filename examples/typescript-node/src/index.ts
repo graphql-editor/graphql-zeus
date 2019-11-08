@@ -35,7 +35,6 @@ const run = async () => {
     },
   });
   console.log("DRAW ...");
-  console.log(blalba);
   // const { addCard: ZeusCard } = await chain.Mutation({
   //   addCard: [
   //     {

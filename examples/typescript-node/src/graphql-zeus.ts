@@ -272,9 +272,9 @@ export type SpecialCard = {
 }
 
 export enum SpecialSkills {
+	FIRE = "FIRE",
 	THUNDER = "THUNDER",
-	RAIN = "RAIN",
-	FIRE = "FIRE"
+	RAIN = "RAIN"
 }
 
 export class GraphQLError extends Error {
@@ -373,27 +373,27 @@ type MapType<SRC extends Anify<DST>, DST> = DST extends boolean ? SRC : IsUnion<
     __alias: any;
   }
     ? {
-        [A in keyof DST['__alias']]: SRC extends Anify<DST['__alias'][A]>
-          ? MapType<SRC, DST['__alias'][A]>
+        [A in keyof DST['__alias']]: Required<SRC> extends Anify<DST['__alias'][A]>
+          ? MapType<Required<SRC>, DST['__alias'][A]>
           : never;
       } &
         {
           [Key in keyof Omit<DST, '__alias'>]: DST[Key] extends boolean
             ? SRC[Key]
             : DST[Key] extends [any, infer R]
-            ? ReturnType<SRC[Key]> extends Array<infer RETURNED> ? MapType<RETURNED, R>[] : MapType<ReturnType<SRC[Key]> ,R>
-            : SRC[Key] extends Array<infer SRCArray>
+            ? ReturnType<Required<SRC>[Key]> extends Array<infer RETURNED> ? MapType<RETURNED, R>[] : MapType<ReturnType<Required<SRC>[Key]> ,R>
+            : Required<SRC>[Key] extends Array<infer SRCArray>
             ? MapType<SRCArray, DST[Key]>[]
-            : MapType<SRC[Key], DST[Key]>;
+            : MapType<Required<SRC>[Key], DST[Key]>;
         }
     : {
         [Key in keyof DST]: DST[Key] extends boolean
           ? SRC[Key]
           : DST[Key] extends [any, infer R]
-          ? ReturnType<SRC[Key]> extends Array<infer RETURNED> ? MapType<RETURNED, R>[] : MapType<ReturnType<SRC[Key]> ,R>
-          : SRC[Key] extends Array<infer SRCArray>
+          ? ReturnType<Required<SRC>[Key]> extends Array<infer RETURNED> ? MapType<RETURNED, R>[] : MapType<ReturnType<Required<SRC>[Key]> ,R>
+          : Required<SRC>[Key] extends Array<infer SRCArray>
           ? MapType<SRCArray, DST[Key]>[]
-          : MapType<SRC[Key], DST[Key]>;
+          : MapType<Required<SRC>[Key], DST[Key]>;
       }
 >;
 

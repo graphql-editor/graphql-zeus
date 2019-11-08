@@ -127,6 +127,12 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	NewSource:{
+		contentLength:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
 		contentType:{
 			type:"String",
 			array:false,
@@ -141,12 +147,6 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		filename:{
 			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		contentLength:{
-			type:"Int",
 			array:false,
 			arrayRequired:false,
 			required:false
@@ -636,14 +636,14 @@ limit sets a limit on how many objects can be returned */
 },
 	/** New source payload */
 ["NewSource"]: {
+	/** Length of source in bytes */
+	contentLength?:number,
 	/** Source mime type */
 	contentType?:string,
 	/** Source checksum */
 	checksum?:string,
 	/** source file name */
-	filename?:string,
-	/** Length of source in bytes */
-	contentLength?:number
+	filename?:string
 },
 	/** PageInfo contains information about connection page */
 ["PageInfo"]: {
@@ -972,14 +972,14 @@ limit sets a limit on how many objects can be returned */
 
 /** New source payload */
 export type NewSource = {
-		/** Source mime type */
+		/** Length of source in bytes */
+	contentLength?:number,
+	/** Source mime type */
 	contentType?:string,
 	/** Source checksum */
 	checksum?:string,
 	/** source file name */
-	filename?:string,
-	/** Length of source in bytes */
-	contentLength?:number
+	filename?:string
 }
 
 /** PageInfo contains information about connection page */
@@ -1317,27 +1317,27 @@ type MapType<SRC extends Anify<DST>, DST> = DST extends boolean ? SRC : IsUnion<
     __alias: any;
   }
     ? {
-        [A in keyof DST['__alias']]: SRC extends Anify<DST['__alias'][A]>
-          ? MapType<SRC, DST['__alias'][A]>
+        [A in keyof DST['__alias']]: Required<SRC> extends Anify<DST['__alias'][A]>
+          ? MapType<Required<SRC>, DST['__alias'][A]>
           : never;
       } &
         {
           [Key in keyof Omit<DST, '__alias'>]: DST[Key] extends boolean
             ? SRC[Key]
             : DST[Key] extends [any, infer R]
-            ? ReturnType<SRC[Key]> extends Array<infer RETURNED> ? MapType<RETURNED, R>[] : MapType<ReturnType<SRC[Key]> ,R>
-            : SRC[Key] extends Array<infer SRCArray>
+            ? ReturnType<Required<SRC>[Key]> extends Array<infer RETURNED> ? MapType<RETURNED, R>[] : MapType<ReturnType<Required<SRC>[Key]> ,R>
+            : Required<SRC>[Key] extends Array<infer SRCArray>
             ? MapType<SRCArray, DST[Key]>[]
-            : MapType<SRC[Key], DST[Key]>;
+            : MapType<Required<SRC>[Key], DST[Key]>;
         }
     : {
         [Key in keyof DST]: DST[Key] extends boolean
           ? SRC[Key]
           : DST[Key] extends [any, infer R]
-          ? ReturnType<SRC[Key]> extends Array<infer RETURNED> ? MapType<RETURNED, R>[] : MapType<ReturnType<SRC[Key]> ,R>
-          : SRC[Key] extends Array<infer SRCArray>
+          ? ReturnType<Required<SRC>[Key]> extends Array<infer RETURNED> ? MapType<RETURNED, R>[] : MapType<ReturnType<Required<SRC>[Key]> ,R>
+          : Required<SRC>[Key] extends Array<infer SRCArray>
           ? MapType<SRCArray, DST[Key]>[]
-          : MapType<SRC[Key], DST[Key]>;
+          : MapType<Required<SRC>[Key], DST[Key]>;
       }
 >;
 

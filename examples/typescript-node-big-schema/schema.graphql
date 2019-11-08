@@ -135,6 +135,9 @@ type Namespace {
 
 """New source payload"""
 input NewSource {
+  """Length of source in bytes"""
+  contentLength: Int
+
   """Source mime type"""
   contentType: String
 
@@ -143,9 +146,6 @@ input NewSource {
 
   """source file name"""
   filename: String
-
-  """Length of source in bytes"""
-  contentLength: Int
 }
 
 """PageInfo contains information about connection page"""
