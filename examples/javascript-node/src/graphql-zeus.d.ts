@@ -31,7 +31,9 @@ export type ChangeCard = SpecialCard | EffectCard
 
 /** create card inputs<br> */
 export type createCard = {
-		/** <div>How many children the greek god had</div> */
+		/** Description of a card<br> */
+	description:string,
+	/** <div>How many children the greek god had</div> */
 	Children?:number,
 	/** The attack power<br> */
 	Attack:number,
@@ -40,9 +42,7 @@ export type createCard = {
 	/** input skills */
 	skills?:SpecialSkills[],
 	/** The name of a card<br> */
-	name:string,
-	/** Description of a card<br> */
-	description:string
+	name:string
 }
 
 export type EffectCard = {
@@ -119,6 +119,8 @@ export type ValueTypes = {
 },
 	/** create card inputs<br> */
 ["createCard"]: {
+	/** Description of a card<br> */
+	description:string,
 	/** <div>How many children the greek god had</div> */
 	Children?:number,
 	/** The attack power<br> */
@@ -128,9 +130,7 @@ export type ValueTypes = {
 	/** input skills */
 	skills?:ValueTypes["SpecialSkills"][],
 	/** The name of a card<br> */
-	name:string,
-	/** Description of a card<br> */
-	description:string
+	name:string
 },
 	["EffectCard"]: {
 	effectSize:number,
@@ -169,7 +169,7 @@ type AnyFunc = Func<any, any>;
 
 type IsType<M, T, Z, L> = T extends M ? Z : L;
 type IsScalar<T, Z, L> = IsType<string | boolean | number, T, Z, L>;
-type IsObject<T, Z, L> = IsType<{} | Record<string,any>, T, Z, L>;
+type IsObject<T, Z, L> = IsType<{} | Record<string, any>, T, Z, L>;
 
 type WithTypeNameValue<T> = T & {
   __typename?: true;
@@ -179,9 +179,7 @@ type AliasType<T> = WithTypeNameValue<T> & {
   __alias?: Record<string, WithTypeNameValue<T>>;
 };
 
-export type ResolverType<F> = F extends Func<infer P, any>
-  ? P[0]
-  : undefined;
+export type ResolverType<F> = F extends Func<infer P, any> ? P[0] : undefined;
 
 type ArgsType<F extends AnyFunc> = F extends Func<infer P, any> ? P : never;
 type OfType<T> = T extends Array<infer R> ? R : T;
@@ -203,11 +201,11 @@ export type State<T> = {
 };
 
 export type PlainObject<T> = {
-  [P in keyof T]?: T[P] extends (Array<infer R> | undefined)
+  [P in keyof T]: T[P] extends (Array<infer R> | undefined)
     ? Array<PlainObject<R>>
     : T[P] extends AnyFunc
-    ?  PlainObject<ReturnType<T[P]>>
-    : IsScalar<T[P], T[P], IsObject<T[P],PlainObject<T[P]>,never>>;
+    ? PlainObject<ReturnType<T[P]>>
+    : IsScalar<T[P], T[P], IsObject<T[P], PlainObject<T[P]>, never>>;
 };
 
 type ResolveValue<T> = T extends Array<infer R>
@@ -218,69 +216,73 @@ type ResolveValue<T> = T extends Array<infer R>
       [FirstArgument<T>],
       [FirstArgument<T>, SelectionSet<OfType<ReturnType<T>>>]
     >
-  : IsScalar<T, T extends undefined ? undefined : true, IsObject<T,SelectionSet<T>,never>>;
+  : IsScalar<T, T extends undefined ? undefined : true, IsObject<T, SelectionSet<T>, never>>;
 
 export type SelectionSet<T> = IsScalar<
-  T,  T extends undefined ? undefined : true
-, IsObject<T,AliasType<
-    {
-      [P in keyof T]?: ResolveValue<T[P]>;
-    }
-  >,never>>;
+  T,
+  T extends undefined ? undefined : true,
+  IsObject<
+    T,
+    AliasType<
+      {
+        [P in keyof T]?: ResolveValue<T[P]>;
+      }
+    >,
+    never
+  >
+>;
 
 type GraphQLReturner<T> = T extends Array<infer R> ? SelectionSet<R> : SelectionSet<T>;
+type IsUnion<T, YES, NO, U extends T = T> = (T extends any
+  ? (U extends T ? false : true)
+  : never) extends false
+  ? NO
+  : YES;
 
 type Anify<T> = { [P in keyof T]?: any };
-type MapType<SRC extends Anify<DST>, DST> = DST extends {
-  __alias: any;
-}
-  ? {
-      [A in keyof DST['__alias']]: SRC extends Anify<DST['__alias'][A]>
-        ? MapType<SRC, DST['__alias'][A]>
-        : never;
-    } &
-      {
-        [Key in keyof Omit<DST, '__alias'>]-?: DST[Key] extends boolean
+
+type MapType<SRC extends Anify<DST>, DST> = DST extends boolean ? SRC : IsUnion<
+  SRC,
+  State<SRC>,
+  DST extends {
+    __alias: any;
+  }
+    ? {
+        [A in keyof DST['__alias']]: SRC extends Anify<DST['__alias'][A]>
+          ? MapType<SRC, DST['__alias'][A]>
+          : never;
+      } &
+        {
+          [Key in keyof Omit<DST, '__alias'>]: DST[Key] extends boolean
+            ? SRC[Key]
+            : DST[Key] extends [any, infer R]
+            ? ReturnType<SRC[Key]> extends Array<infer RETURNED> ? MapType<RETURNED, R>[] : MapType<ReturnType<SRC[Key]> ,R>
+            : SRC[Key] extends Array<infer SRCArray>
+            ? MapType<SRCArray, DST[Key]>[]
+            : MapType<SRC[Key], DST[Key]>;
+        }
+    : {
+        [Key in keyof DST]: DST[Key] extends boolean
           ? SRC[Key]
           : DST[Key] extends [any, infer R]
-          ? MapType<OfType<ReturnType<SRC[Key]>>, R>
+          ? ReturnType<SRC[Key]> extends Array<infer RETURNED> ? MapType<RETURNED, R>[] : MapType<ReturnType<SRC[Key]> ,R>
           : SRC[Key] extends Array<infer SRCArray>
           ? MapType<SRCArray, DST[Key]>[]
           : MapType<SRC[Key], DST[Key]>;
       }
-  : {
-      [Key in keyof DST]-?: DST[Key] extends boolean
-        ? SRC[Key]
-        : DST[Key] extends [any, infer R]
-        ? MapType<OfType<ReturnType<SRC[Key]>>, R>
-        : SRC[Key] extends Array<infer SRCArray>
-        ? MapType<SRCArray, DST[Key]>[]
-        : MapType<SRC[Key], DST[Key]>;
-    };
+>;
 
-type OperationToGraphQL<V> = <Z>(o: Z | GraphQLReturner<V>) => Promise<MapType<V, Z>>;
+type OperationToGraphQL<V, T> = <Z>(o: Z | GraphQLReturner<V>) => Promise<MapType<T, Z>>;
 
 type fetchOptions = ArgsType<typeof fetch>;
+
+export type SelectionFunction<V> = <T>(t: T | SelectionSet<V>) => T;
 
 
 export declare function Chain(
   ...options: fetchOptions
 ):{
   Query: OperationToGraphQL<ValueTypes["Query"],Query>,Mutation: OperationToGraphQL<ValueTypes["Mutation"],Mutation>
-}
-
-export declare function Api(
-  ...options: fetchOptions
-):{
-  Query: {
-cardById: ApiFieldToGraphQL<ValueTypes["Query"]['cardById'],Query['cardById']>,
-	drawCard: ApiFieldToGraphQL<ValueTypes["Query"]['drawCard'],Query['drawCard']>,
-	drawChangeCard: ApiFieldToGraphQL<ValueTypes["Query"]['drawChangeCard'],Query['drawChangeCard']>,
-	listCards: ApiFieldToGraphQL<ValueTypes["Query"]['listCards'],Query['listCards']>,
-	myStacks: ApiFieldToGraphQL<ValueTypes["Query"]['myStacks'],Query['myStacks']>
-},Mutation: {
-addCard: ApiFieldToGraphQL<ValueTypes["Mutation"]['addCard'],Mutation['addCard']>
-}
 }
 
 export declare const Zeus: {

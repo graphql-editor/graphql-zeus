@@ -3,7 +3,7 @@ const run = async () => {
   const chain = Chain("https://project-api.graphqleditor.com/graphql");
   const experimentalQuery = await chain.Query({
     listProjects: [
-      { owned: true },
+      { limit: 100 },
       {
         projects: {
           __alias: {
@@ -15,6 +15,6 @@ const run = async () => {
       },
     ],
   });
-  console.log(experimentalQuery.ccc.listProjects!);
+  console.log(experimentalQuery.listProjects.projects);
 };
 run();

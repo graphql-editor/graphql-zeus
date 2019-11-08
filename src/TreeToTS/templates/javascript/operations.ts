@@ -11,12 +11,14 @@ const generateOperationsChainingJavascipt = ({
   mutations,
   subscriptions
 }: {
-  queries: string[];
+  queries?: string[];
   mutations?: string[];
   subscriptions?: string[];
 }): string[] => {
   const allOps: string[] = [];
-  allOps.push(generateOperationChainingJavascript('Query'));
+  if (queries && queries.length) {
+    allOps.push(generateOperationChainingJavascript('Query'));
+  }
   if (mutations && mutations.length) {
     allOps.push(generateOperationChainingJavascript('Mutation'));
   }
@@ -34,12 +36,14 @@ const generateOperationsZeusJavascipt = ({
   mutations,
   subscriptions
 }: {
-  queries: string[];
+  queries?: string[];
   mutations?: string[];
   subscriptions?: string[];
 }): string[] => {
   const allOps: string[] = [];
-  allOps.push(generateOperationZeusJavascript('Query'));
+  if (queries && queries.length) {
+    allOps.push(generateOperationZeusJavascript('Query'));
+  }
   if (mutations && mutations.length) {
     allOps.push(generateOperationZeusJavascript('Mutation'));
   }
@@ -57,12 +61,14 @@ const generateOperationsCastJavascipt = ({
   mutations,
   subscriptions
 }: {
-  queries: string[];
+  queries?: string[];
   mutations?: string[];
   subscriptions?: string[];
 }): string[] => {
   const allOps: string[] = [];
-  allOps.push(generateOperationCastJavascript('Query'));
+  if (queries && queries.length) {
+    allOps.push(generateOperationCastJavascript('Query'));
+  }
   if (mutations && mutations.length) {
     allOps.push(generateOperationCastJavascript('Mutation'));
   }
@@ -78,7 +84,7 @@ export const bodyJavascript = (
     mutations,
     subscriptions
   }: {
-    queries: string[];
+    queries?: string[];
     mutations?: string[];
     subscriptions?: string[];
   }

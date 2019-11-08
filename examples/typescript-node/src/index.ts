@@ -12,13 +12,16 @@ const run = async () => {
         },
       },
       {
-        name: true,
-        Attack: true,
-        Defense: true,
-        description: true,
+        __typename: true,
+        skills: true,
+        Children: true,
+        cardImage: {
+          bucket: true,
+        },
       },
     ],
   });
+
   const blalba = await Gql.Query({
     drawChangeCard: {
       "__typename": true,

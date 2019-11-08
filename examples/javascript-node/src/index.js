@@ -1,20 +1,13 @@
-import { Api, Gql, Zeus } from './graphql-zeus';
+import { Gql, Zeus } from './graphql-zeus';
 import chalk from 'chalk';
 // This will return Card object with ID only
 const createCards = async () => {
-  const api = Api('https://faker.graphqleditor.com/aexol/olympus/graphql');
   const printQueryResult = (name, result) =>
     console.log(
       `${chalk.greenBright(name)} result:\n${chalk.cyan(JSON.stringify(result, null, 4))}\n\n`
     );
   const printGQLString = (name, result) =>
     console.log(`${chalk.blue(name)} query:\n${chalk.magenta(result)}\n\n`);
-  // one Query example
-  const drawedCard = await api.Query.drawCard({
-    Attack: true,
-    name: true
-  });
-  printQueryResult('drawCard', drawedCard);
   // Query Gqling example
   const listCardsAndDraw = await Gql.Query({
     cardById: [
