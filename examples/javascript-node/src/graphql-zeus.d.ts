@@ -31,7 +31,9 @@ export type ChangeCard = SpecialCard | EffectCard
 
 /** create card inputs<br> */
 export type createCard = {
-		/** Description of a card<br> */
+		/** The name of a card<br> */
+	name:string,
+	/** Description of a card<br> */
 	description:string,
 	/** <div>How many children the greek god had</div> */
 	Children?:number,
@@ -40,9 +42,7 @@ export type createCard = {
 	/** The defense power<br> */
 	Defense:number,
 	/** input skills */
-	skills?:SpecialSkills[],
-	/** The name of a card<br> */
-	name:string
+	skills?:SpecialSkills[]
 }
 
 export type EffectCard = {
@@ -83,9 +83,9 @@ export type SpecialCard = {
 }
 
 export enum SpecialSkills {
+	FIRE = "FIRE",
 	THUNDER = "THUNDER",
-	RAIN = "RAIN",
-	FIRE = "FIRE"
+	RAIN = "RAIN"
 }
 
 export type ValueTypes = {
@@ -119,6 +119,8 @@ export type ValueTypes = {
 },
 	/** create card inputs<br> */
 ["createCard"]: {
+	/** The name of a card<br> */
+	name:string,
 	/** Description of a card<br> */
 	description:string,
 	/** <div>How many children the greek god had</div> */
@@ -128,9 +130,7 @@ export type ValueTypes = {
 	/** The defense power<br> */
 	Defense:number,
 	/** input skills */
-	skills?:ValueTypes["SpecialSkills"][],
-	/** The name of a card<br> */
-	name:string
+	skills?:ValueTypes["SpecialSkills"][]
 },
 	["EffectCard"]: {
 	effectSize:number,
@@ -193,7 +193,7 @@ interface GraphQLResponse {
 }
 
 export type State<T> = {
-  [P in keyof T]?: T[P] extends (Array<infer R> | undefined)
+  [P in keyof T]: T[P] extends (Array<infer R> | undefined)
     ? Array<State<R>>
     : T[P] extends AnyFunc
     ? State<ReturnType<T[P]>>
@@ -201,7 +201,7 @@ export type State<T> = {
 };
 
 export type PlainObject<T> = {
-  [P in keyof T]: T[P] extends (Array<infer R> | undefined)
+  [P in keyof T]?: T[P] extends (Array<infer R> | undefined)
     ? Array<PlainObject<R>>
     : T[P] extends AnyFunc
     ? PlainObject<ReturnType<T[P]>>

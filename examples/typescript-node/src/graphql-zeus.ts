@@ -272,9 +272,9 @@ export type SpecialCard = {
 }
 
 export enum SpecialSkills {
-	FIRE = "FIRE",
 	THUNDER = "THUNDER",
-	RAIN = "RAIN"
+	RAIN = "RAIN",
+	FIRE = "FIRE"
 }
 
 export class GraphQLError extends Error {
@@ -318,7 +318,7 @@ interface GraphQLResponse {
 }
 
 export type State<T> = {
-  [P in keyof T]?: T[P] extends (Array<infer R> | undefined)
+  [P in keyof T]: T[P] extends (Array<infer R> | undefined)
     ? Array<State<R>>
     : T[P] extends AnyFunc
     ? State<ReturnType<T[P]>>
@@ -326,7 +326,7 @@ export type State<T> = {
 };
 
 export type PlainObject<T> = {
-  [P in keyof T]: T[P] extends (Array<infer R> | undefined)
+  [P in keyof T]?: T[P] extends (Array<infer R> | undefined)
     ? Array<PlainObject<R>>
     : T[P] extends AnyFunc
     ? PlainObject<ReturnType<T[P]>>
