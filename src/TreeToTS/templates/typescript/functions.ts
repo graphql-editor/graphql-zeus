@@ -43,6 +43,9 @@ export const TypesPropsResolver = ({
   if (key) {
     resolvedValue = resolvedValue[key];
   }
+  if (!resolvedValue) {
+    throw new Error(`Cannot resolve ${type} ${name}${key ? ` ${key}` : ''}`)
+  }
   const typeResolved = resolvedValue.type;
   const isArray: boolean = resolvedValue.array;
   if (isArray && !blockArrays) {

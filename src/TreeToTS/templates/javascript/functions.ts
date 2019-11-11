@@ -36,6 +36,9 @@ export const javascriptFunctions = (env: Environment) => `
     if (key) {
       resolvedValue = resolvedValue[key];
     }
+    if (!resolvedValue) {
+      throw new Error(`Cannot resolve ${type} ${name}${key ? ` ${key}` : ''}`)
+    }
     const typeResolved = resolvedValue.type;
     const isArray = resolvedValue.array;
     if (isArray && !blockArrays) {
