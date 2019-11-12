@@ -12,12 +12,6 @@ export const AllTypesProps = {
 		}
 	},
 	createCard:{
-		Attack:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
 		Defense:{
 			type:"Int",
 			array:false,
@@ -47,6 +41,12 @@ export const AllTypesProps = {
 			array:false,
 			arrayRequired:false,
 			required:false
+		},
+		Attack:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:true
 		}
 	},
 	Mutation:{
@@ -162,6 +162,9 @@ export class GraphQLError extends Error {
     let resolvedValue = AllTypesProps[type][name];
     if (key) {
       resolvedValue = resolvedValue[key];
+    }
+    if (!resolvedValue) {
+      throw new Error(`Cannot resolve ${type} ${name}${key ? ` ${key}` : ''}`)
     }
     const typeResolved = resolvedValue.type;
     const isArray = resolvedValue.array;

@@ -37,9 +37,7 @@ export type ChangeCard = {
 
 /** create card inputs<br> */
 export type createCard = {
-		/** The attack power<br> */
-	Attack:number,
-	/** The defense power<br> */
+		/** The defense power<br> */
 	Defense:number,
 	/** input skills */
 	skills?:SpecialSkills[],
@@ -48,7 +46,9 @@ export type createCard = {
 	/** Description of a card<br> */
 	description:string,
 	/** <div>How many children the greek god had</div> */
-	Children?:number
+	Children?:number,
+	/** The attack power<br> */
+	Attack:number
 }
 
 export type EffectCard = {
@@ -138,8 +138,6 @@ export type ValueTypes = {
 },
 	/** create card inputs<br> */
 ["createCard"]: {
-	/** The attack power<br> */
-	Attack:number,
 	/** The defense power<br> */
 	Defense:number,
 	/** input skills */
@@ -149,7 +147,9 @@ export type ValueTypes = {
 	/** Description of a card<br> */
 	description:string,
 	/** <div>How many children the greek god had</div> */
-	Children?:number
+	Children?:number,
+	/** The attack power<br> */
+	Attack:number
 },
 	["EffectCard"]: {
 	effectSize:number,
