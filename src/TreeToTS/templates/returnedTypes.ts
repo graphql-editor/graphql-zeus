@@ -1,5 +1,5 @@
 import { Options, ParserField } from '../../Models';
-import { TypeDefinition, TypeSystemDefinition } from '../../Models/Spec';
+import { Helpers, TypeDefinition, TypeSystemDefinition } from '../../Models/Spec';
 
 const typeScriptMap: Record<string, string> = {
   Int: 'number',
@@ -56,6 +56,9 @@ const resolveField = (f: ParserField, resolveArgs = true) => {
 export const resolveTypeFromRoot = (i: ParserField, rootNodes: ParserField[]) => {
   if (i.data!.type === TypeSystemDefinition.DirectiveDefinition) {
     return '';
+  }
+  if (i.data!.type === Helpers.Comment) {
+    return `// ${i.description}`;
   }
   if (!i.args || !i.args.length) {
     return `${plusDescription(i.description)}export type ${i.name} = any`;

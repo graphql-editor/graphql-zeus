@@ -10,6 +10,7 @@ import {
   ValueDefinition
 } from '../../Models';
 import { ArgumentTemplate } from './ArgumentTemplate';
+import { CommentTemplate } from './CommentTemplate';
 import { DirectiveTemplate } from './DirectiveTemplate';
 import { EnumValueDefinitionTemplate } from './EnumValueDefinitionTemplate';
 import { ExtendTemplate } from './ExtendTemplate';
@@ -59,8 +60,8 @@ export class TemplateUtils {
    */
   static isArrayRequired = (f: ParserField, type: string): string =>
     f.type.options &&
-    f.type.options.find((o) => o === Options.arrayRequired) &&
-    f.type.options.find((o) => o === Options.array)
+      f.type.options.find((o) => o === Options.arrayRequired) &&
+      f.type.options.find((o) => o === Options.array)
       ? `${type}!`
       : type
   /**
@@ -142,6 +143,8 @@ export class TemplateUtils {
           return InputValueTemplate.resolve(f);
         case Helpers.Extend:
           return ExtendTemplate.resolve(f);
+        case Helpers.Comment:
+          return CommentTemplate.resolve(f);
         case Instances.Argument:
           return ArgumentTemplate.resolve(f);
         case Instances.Directive:

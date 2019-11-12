@@ -1,5 +1,5 @@
 import { Options, ParserField } from '../../Models';
-import { TypeDefinition, TypeSystemDefinition } from '../../Models/Spec';
+import { Helpers, TypeDefinition, TypeSystemDefinition } from '../../Models/Spec';
 
 export const VALUETYPES = 'ValueTypes';
 
@@ -61,6 +61,9 @@ const resolveField = (f: ParserField, resolveArgs = true) => {
 
 const resolveValueTypeFromRoot = (i: ParserField, rootNodes: ParserField[]) => {
   if (i.data!.type === TypeSystemDefinition.DirectiveDefinition) {
+    return '';
+  }
+  if (i.data!.type === Helpers.Comment) {
     return '';
   }
   if (!i.args || !i.args.length) {

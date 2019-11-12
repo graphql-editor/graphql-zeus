@@ -7,13 +7,16 @@ import {
   isTypeSystemDefinitionNode,
   isTypeSystemExtensionNode,
   parse,
-  printSchema
+  printSchema,
 } from 'graphql';
 import { AllTypes, ParserField, ParserTree, TypeDefinitionDisplayMap } from '../Models';
-import { Directive, OperationType, TypeDefinition, TypeExtension } from '../Models/Spec';
+import { Directive, Helpers, OperationType, TypeDefinition, TypeExtension } from '../Models/Spec';
 import { TreeToGraphQL } from '../TreeToGraphQL';
 import { TypeResolver } from './typeResolver';
 export class Parser {
+  static findComments(schema: string) {
+    return schema.split('\n').filter((s) => s.startsWith("#")).map((s) => s.slice(1).trimStart());
+  }
   /**
    * Parse schema from string and return ast
    *
@@ -28,12 +31,12 @@ export class Parser {
           type:
             d.kind === 'DirectiveDefinition'
               ? {
-                  name: TypeDefinitionDisplayMap[d.kind],
-                  directiveOptions: d.locations.map((l) => l.value as Directive)
-                }
+                name: TypeDefinitionDisplayMap[d.kind],
+                directiveOptions: d.locations.map((l) => l.value as Directive)
+              }
               : {
-                  name: TypeDefinitionDisplayMap[d.kind]
-                },
+                name: TypeDefinitionDisplayMap[d.kind]
+              },
           data: {
             type: d.kind as AllTypes
           },
@@ -74,9 +77,18 @@ export class Parser {
       .filter((t) => 'name' in t && t.name && !excludeRoots.includes(t.name.value))
       .map(Parser.documentDefinitionToSerializedNodeTree)
       .filter((d) => !!d) as ParserField[];
-
+    const comments: ParserField[] = Parser.findComments(schema).map(description => ({
+      name: Helpers.Comment,
+      type: {
+        name: Helpers.Comment
+      },
+      data: {
+        type: Helpers.Comment
+      },
+      description
+    } as ParserField))
     const nodeTree: ParserTree = {
-      nodes
+      nodes: [...comments, ...nodes,]
     };
     nodeTree.nodes.forEach((n) => {
       if (n.data!.type! === TypeDefinition.ObjectTypeDefinition) {
