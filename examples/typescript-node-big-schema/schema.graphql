@@ -135,6 +135,9 @@ type Namespace {
 
 """New source payload"""
 input NewSource {
+  """Length of source in bytes"""
+  contentLength: Int
+
   """Source mime type"""
   contentType: String
 
@@ -143,9 +146,6 @@ input NewSource {
 
   """source file name"""
   filename: String
-
-  """Length of source in bytes"""
-  contentLength: Int
 }
 
 """PageInfo contains information about connection page"""
@@ -284,7 +284,7 @@ type Query {
   
   limit limits the number of returned projects
   """
-  listProjects(last: String, limit: Int, owned: Boolean): ProjectConnection
+  listProjects(owned: Boolean, last: String, limit: Int): ProjectConnection
 
   """List of current user teams"""
   myTeams(last: String, limit: Int): TeamConnection
@@ -391,7 +391,7 @@ type TeamOps {
   addMember(username: String!, role: Role!): Member
 
   """Create new team project"""
-  createProject(name: String!, public: Boolean): Project
+  createProject(public: Boolean, name: String!): Project
 
   """Delete team"""
   delete: Boolean
@@ -403,7 +403,7 @@ type TeamOps {
   member(username: String!): MemberOps
 
   """Paginated list of members in team"""
-  members(last: String, limit: Int): MemberConnection
+  members(limit: Int, last: String): MemberConnection
 
   """Team name"""
   name: String

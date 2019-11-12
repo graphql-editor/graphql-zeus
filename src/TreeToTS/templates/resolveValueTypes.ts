@@ -59,7 +59,7 @@ const resolveField = (f: ParserField, resolveArgs = true) => {
   )}`;
 };
 
-const resolveValueTypeFromRoot = (i: ParserField) => {
+const resolveValueTypeFromRoot = (i: ParserField, rootNodes: ParserField[]) => {
   if (i.data!.type === TypeSystemDefinition.DirectiveDefinition) {
     return '';
   }
@@ -79,14 +79,23 @@ const resolveValueTypeFromRoot = (i: ParserField) => {
       .map((f) => resolveField(f, false))
       .join(',\n')}\n}`;
   }
+  if (i.data!.type === TypeDefinition.InterfaceTypeDefinition) {
+    const typesImplementing = rootNodes.filter(
+      (rn) => rn.interfaces && rn.interfaces.includes(i.name)
+    );
+    return `${plusDescription(i.description)}["${i.name}"]:{
+\t${i.args.map((f) => resolveField(f)).join(',\n')};\n\t\t${typesImplementing
+      .map((f) => `['...on ${f.name}']: ${f.name};`)
+      .join('\n\t\t')}\n}`;
+  }
   return `${plusDescription(i.description)}["${i.name}"]: {\n${i.args
     .map((f) => resolveField(f))
     .join(',\n')}\n}`;
 };
-export const resolveValueTypes = (fields: ParserField[]) => {
+export const resolveValueTypes = (fields: ParserField[], rootNodes: ParserField[]) => {
   return `export type ${VALUETYPES} = {
     ${fields
-      .map(resolveValueTypeFromRoot)
+      .map((f) => resolveValueTypeFromRoot(f, rootNodes))
       .filter((v) => v)
       .join(',\n\t')}
   }`;

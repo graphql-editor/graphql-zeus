@@ -20,7 +20,7 @@ export class TreeToTS {
    */
   static javascript(tree: ParserTree, env: Environment = 'browser', host?: string) {
     const rootTypes = tree.nodes.map((n) => resolveTypeFromRoot(n, tree.nodes));
-    const valueTypes = resolveValueTypes(tree.nodes);
+    const valueTypes = resolveValueTypes(tree.nodes, tree.nodes);
     const ignoreESLINT = `/* eslint-disable */\n\n`;
     const propTypes = `export const AllTypesProps = {\n${tree.nodes
       .map(resolvePropTypeFromRoot)
@@ -78,7 +78,7 @@ export class TreeToTS {
    */
   static resolveTree(tree: ParserTree, env: Environment = 'browser', host?: string) {
     const rootTypes = tree.nodes.map((n) => resolveTypeFromRoot(n, tree.nodes));
-    const valueTypes = resolveValueTypes(tree.nodes);
+    const valueTypes = resolveValueTypes(tree.nodes, tree.nodes);
     const ignoreTSLINT = `/* tslint:disable */\n\n`;
     const propTypes = `export const AllTypesProps: Record<string,any> = {\n${tree.nodes
       .map(resolvePropTypeFromRoot)

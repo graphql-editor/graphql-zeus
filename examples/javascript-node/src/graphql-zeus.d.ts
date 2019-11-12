@@ -159,8 +159,12 @@ export type ValueTypes = {
 	/** add Card to Cards database<br> */
 	addCard:(props:{	card:ValueTypes["createCard"]}) => ValueTypes["Card"]
 },
-	["Nameable"]: {
-	name:string
+	["Nameable"]:{
+		name:string;
+		['...on Card']: Card;
+		['...on CardStack']: CardStack;
+		['...on EffectCard']: EffectCard;
+		['...on SpecialCard']: SpecialCard;
 },
 	["Query"]: {
 	cardById:(props:{	cardId?:string}) => ValueTypes["Card"],

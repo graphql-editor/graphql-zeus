@@ -12,12 +12,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	createCard:{
-		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
 		description:{
 			type:"String",
 			array:false,
@@ -45,6 +39,12 @@ export const AllTypesProps: Record<string,any> = {
 		skills:{
 			type:"SpecialSkills",
 			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		name:{
+			type:"String",
+			array:false,
 			arrayRequired:false,
 			required:true
 		}
@@ -148,8 +148,6 @@ export type ValueTypes = {
 },
 	/** create card inputs<br> */
 ["createCard"]: {
-	/** The name of a card<br> */
-	name:string,
 	/** Description of a card<br> */
 	description:string,
 	/** <div>How many children the greek god had</div> */
@@ -159,7 +157,9 @@ export type ValueTypes = {
 	/** The defense power<br> */
 	Defense:number,
 	/** input skills */
-	skills?:ValueTypes["SpecialSkills"][]
+	skills?:ValueTypes["SpecialSkills"][],
+	/** The name of a card<br> */
+	name:string
 },
 	["EffectCard"]: {
 	effectSize:number,
@@ -169,8 +169,12 @@ export type ValueTypes = {
 	/** add Card to Cards database<br> */
 	addCard:(props:{	card:ValueTypes["createCard"]}) => ValueTypes["Card"]
 },
-	["Nameable"]: {
-	name:string
+	["Nameable"]:{
+		name:string;
+		['...on Card']: Card;
+		['...on CardStack']: CardStack;
+		['...on EffectCard']: EffectCard;
+		['...on SpecialCard']: SpecialCard;
 },
 	["Query"]: {
 	cardById:(props:{	cardId?:string}) => ValueTypes["Card"],
@@ -234,9 +238,7 @@ export type ChangeCard = {
 
 /** create card inputs<br> */
 export type createCard = {
-		/** The name of a card<br> */
-	name:string,
-	/** Description of a card<br> */
+		/** Description of a card<br> */
 	description:string,
 	/** <div>How many children the greek god had</div> */
 	Children?:number,
@@ -245,7 +247,9 @@ export type createCard = {
 	/** The defense power<br> */
 	Defense:number,
 	/** input skills */
-	skills?:SpecialSkills[]
+	skills?:SpecialSkills[],
+	/** The name of a card<br> */
+	name:string
 }
 
 export type EffectCard = {

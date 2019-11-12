@@ -127,6 +127,12 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	NewSource:{
+		contentLength:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
 		contentType:{
 			type:"String",
 			array:false,
@@ -141,12 +147,6 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		filename:{
 			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		contentLength:{
-			type:"Int",
 			array:false,
 			arrayRequired:false,
 			required:false
@@ -252,6 +252,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		listProjects:{
+			owned:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			last:{
 				type:"String",
 				array:false,
@@ -260,12 +266,6 @@ export const AllTypesProps: Record<string,any> = {
 			},
 			limit:{
 				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			owned:{
-				type:"Boolean",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -327,17 +327,17 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		createProject:{
-			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
-			},
 			public:{
 				type:"Boolean",
 				array:false,
 				arrayRequired:false,
 				required:false
+			},
+			name:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:true
 			}
 		},
 		member:{
@@ -349,14 +349,14 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		members:{
-			last:{
-				type:"String",
+			limit:{
+				type:"Int",
 				array:false,
 				arrayRequired:false,
 				required:false
 			},
-			limit:{
-				type:"Int",
+			last:{
+				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -636,14 +636,14 @@ limit sets a limit on how many objects can be returned */
 },
 	/** New source payload */
 ["NewSource"]: {
+	/** Length of source in bytes */
+	contentLength?:number,
 	/** Source mime type */
 	contentType?:string,
 	/** Source checksum */
 	checksum?:string,
 	/** source file name */
-	filename?:string,
-	/** Length of source in bytes */
-	contentLength?:number
+	filename?:string
 },
 	/** PageInfo contains information about connection page */
 ["PageInfo"]: {
@@ -740,7 +740,7 @@ If owned is true, returns only project belonging to currently logged user
 last is an id of the last project returned by previous call
 
 limit limits the number of returned projects */
-	listProjects:(props:{	last?:string,	limit?:number,	owned?:boolean}) => ValueTypes["ProjectConnection"],
+	listProjects:(props:{	owned?:boolean,	last?:string,	limit?:number}) => ValueTypes["ProjectConnection"],
 	/** List of current user teams */
 	myTeams:(props:{	last?:string,	limit?:number}) => ValueTypes["TeamConnection"]
 },
@@ -804,7 +804,7 @@ limit limits the number of returned projects */
 	/** Add member to the team */
 	addMember:(props:{	username:string,	role:ValueTypes["Role"]}) => ValueTypes["Member"],
 	/** Create new team project */
-	createProject:(props:{	name:string,	public?:boolean}) => ValueTypes["Project"],
+	createProject:(props:{	public?:boolean,	name:string}) => ValueTypes["Project"],
 	/** Delete team */
 	delete?:boolean,
 	/** Unique team id */
@@ -812,7 +812,7 @@ limit limits the number of returned projects */
 	/** type object node */
 	member:(props:{	username:string}) => ValueTypes["MemberOps"],
 	/** Paginated list of members in team */
-	members:(props:{	last?:string,	limit?:number}) => ValueTypes["MemberConnection"],
+	members:(props:{	limit?:number,	last?:string}) => ValueTypes["MemberConnection"],
 	/** Team name */
 	name?:string,
 	/** Team's namespace */
@@ -972,14 +972,14 @@ limit sets a limit on how many objects can be returned */
 
 /** New source payload */
 export type NewSource = {
-		/** Source mime type */
+		/** Length of source in bytes */
+	contentLength?:number,
+	/** Source mime type */
 	contentType?:string,
 	/** Source checksum */
 	checksum?:string,
 	/** source file name */
-	filename?:string,
-	/** Length of source in bytes */
-	contentLength?:number
+	filename?:string
 }
 
 /** PageInfo contains information about connection page */
@@ -1086,7 +1086,7 @@ If owned is true, returns only project belonging to currently logged user
 last is an id of the last project returned by previous call
 
 limit limits the number of returned projects */
-	listProjects:(props:{	last?:string,	limit?:number,	owned?:boolean}) => ProjectConnection,
+	listProjects:(props:{	owned?:boolean,	last?:string,	limit?:number}) => ProjectConnection,
 	/** List of current user teams */
 	myTeams:(props:{	last?:string,	limit?:number}) => TeamConnection
 }
@@ -1169,7 +1169,7 @@ export type TeamOps = {
 	/** Add member to the team */
 	addMember:(props:{	username:string,	role:Role}) => Member,
 	/** Create new team project */
-	createProject:(props:{	name:string,	public?:boolean}) => Project,
+	createProject:(props:{	public?:boolean,	name:string}) => Project,
 	/** Delete team */
 	delete?:boolean,
 	/** Unique team id */
@@ -1177,7 +1177,7 @@ export type TeamOps = {
 	/** type object node */
 	member:(props:{	username:string}) => MemberOps,
 	/** Paginated list of members in team */
-	members:(props:{	last?:string,	limit?:number}) => MemberConnection,
+	members:(props:{	limit?:number,	last?:string}) => MemberConnection,
 	/** Team name */
 	name?:string,
 	/** Team's namespace */

@@ -37,9 +37,6 @@ union ChangeCard = SpecialCard | EffectCard
 
 """create card inputs<br>"""
 input createCard {
-  """The name of a card<br>"""
-  name: String!
-
   """Description of a card<br>"""
   description: String!
 
@@ -54,6 +51,9 @@ input createCard {
 
   """input skills"""
   skills: [SpecialSkills!]
+
+  """The name of a card<br>"""
+  name: String!
 }
 
 type EffectCard implements Nameable {
