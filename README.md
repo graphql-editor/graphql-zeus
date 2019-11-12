@@ -38,6 +38,7 @@ Given the following schema [Olympus Cards](https://app.graphqleditor.com/aexol/o
   - [Use generated client example](#use-generated-client-example)
     - [Perform query with Chain](#perform-query-with-chain)
     - [Unions](#unions)
+    - [Interfaces](#interfaces)
     - [Perform query with aliases](#perform-query-with-aliases)
     - [Gql string](#gql-string)
     - [JavaScript Type Casting](#javascript-type-casting)
@@ -228,6 +229,55 @@ const { drawChangeCard } = await chain.Query({
 // }
 ```
 
+#### Interfaces
+And interfaces.
+
+```ts
+const {nameables} = await Gql.Query({
+    nameables: {
+      "__typename": true,
+      "name": true,
+      "...on CardStack": {
+        cards: {
+          Defense: true,
+        },
+      },
+      "...on Card": {
+        Attack: true,
+      },
+    },
+  });
+// result
+// {
+//     "nameables": [
+//         {
+//             "__typename": "EffectCard",
+//             "name": "Hector"
+//         },
+//         {
+//             "__typename": "CardStack",
+//             "name": "Scotty",
+//             "cards": [
+//                 {
+//                     "Defense": 1950
+//                 },
+//                 {
+//                     "Defense": 76566
+//                 },
+//                 {
+//                     "Defense": 64261
+//                 }
+//             ]
+//         },
+//         {
+//             "__typename": "SpecialCard",
+//             "name": "Itzel"
+//         },
+//     ]
+// }
+```
+
+
 #### Perform query with aliases
 
 ```js
@@ -348,7 +398,6 @@ const queryWithSelectionSet = await chain.Query({
   listCards: cardSelector2,
 });
 ```
-
 ### Spec
 
 Promise of type query data object is returned.

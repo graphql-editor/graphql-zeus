@@ -1,10 +1,10 @@
 import chalk from "chalk";
 import { Gql, SpecialSkills, Zeus } from "./graphql-zeus";
-const printQueryResult = (name, result) =>
+const printQueryResult = (name: string, result: any) =>
   console.log(
     `${chalk.greenBright(name)} result:\n${chalk.cyan(JSON.stringify(result, null, 4))}\n\n`,
   );
-const printGQLString = (name, result) =>
+const printGQLString = (name: string, result: string) =>
   console.log(`${chalk.blue(name)} query:\n${chalk.magenta(result)}\n\n`);
 const run = async () => {
   const { addCard: ZeusCard } = await Gql.Mutation({
@@ -111,7 +111,7 @@ const run = async () => {
       },
     },
   });
-  console.log(aliasedQuery);
+  printGQLString("aliasedQuery", aliasedQuery);
   const aliasedQueryExecute = await Gql.Query({
     listCards: {
       __alias: {
@@ -128,14 +128,7 @@ const run = async () => {
       id: true,
     },
   });
-  console.log(JSON.stringify(aliasedQueryExecute, null, 4));
-  console.log(
-    JSON.stringify(
-      aliasedQueryExecute.listCards.map((card) => card.atak.attack.map((aa) => aa.name)),
-      null,
-      4,
-    ),
-  );
+  printQueryResult("aliasedQuery", aliasedQueryExecute);
 
   const interfaceTest = await Gql.Query({
     nameables: {
@@ -151,5 +144,6 @@ const run = async () => {
       },
     },
   });
+  printQueryResult("interfaceTest", interfaceTest);
 };
 run();
