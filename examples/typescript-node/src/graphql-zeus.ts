@@ -12,18 +12,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	createCard:{
-		description:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		Children:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		Attack:{
 			type:"Int",
 			array:false,
@@ -47,6 +35,18 @@ export const AllTypesProps: Record<string,any> = {
 			array:false,
 			arrayRequired:false,
 			required:true
+		},
+		description:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		Children:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
 		}
 	},
 	Mutation:{
@@ -148,10 +148,6 @@ export type ValueTypes = {
 },
 	/** create card inputs<br> */
 ["createCard"]: {
-	/** Description of a card<br> */
-	description:string,
-	/** <div>How many children the greek god had</div> */
-	Children?:number,
 	/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
@@ -159,7 +155,11 @@ export type ValueTypes = {
 	/** input skills */
 	skills?:ValueTypes["SpecialSkills"][],
 	/** The name of a card<br> */
-	name:string
+	name:string,
+	/** Description of a card<br> */
+	description:string,
+	/** <div>How many children the greek god had</div> */
+	Children?:number
 },
 	["EffectCard"]: {
 	effectSize:number,
@@ -238,18 +238,18 @@ export type ChangeCard = {
 
 /** create card inputs<br> */
 export type createCard = {
-		/** Description of a card<br> */
-	description:string,
-	/** <div>How many children the greek god had</div> */
-	Children?:number,
-	/** The attack power<br> */
+		/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
 	Defense:number,
 	/** input skills */
 	skills?:SpecialSkills[],
 	/** The name of a card<br> */
-	name:string
+	name:string,
+	/** Description of a card<br> */
+	description:string,
+	/** <div>How many children the greek god had</div> */
+	Children?:number
 }
 
 export type EffectCard = {
