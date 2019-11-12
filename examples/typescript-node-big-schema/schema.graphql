@@ -124,7 +124,7 @@ type Namespace {
   
   limit sets a limit on how many objects can be returned
   """
-  projects(limit: Int, last: String): ProjectConnection
+  projects(last: String, limit: Int): ProjectConnection
 
   """True if namespace is public"""
   public: Boolean
@@ -135,17 +135,17 @@ type Namespace {
 
 """New source payload"""
 input NewSource {
-  """source file name"""
-  filename: String
-
-  """Length of source in bytes"""
-  contentLength: Int
-
   """Source mime type"""
   contentType: String
 
   """Source checksum"""
   checksum: String
+
+  """source file name"""
+  filename: String
+
+  """Length of source in bytes"""
+  contentLength: Int
 }
 
 """PageInfo contains information about connection page"""
@@ -284,7 +284,7 @@ type Query {
   
   limit limits the number of returned projects
   """
-  listProjects(owned: Boolean, last: String, limit: Int): ProjectConnection
+  listProjects(last: String, limit: Int, owned: Boolean): ProjectConnection
 
   """List of current user teams"""
   myTeams(last: String, limit: Int): TeamConnection
@@ -292,9 +292,6 @@ type Query {
 
 """Team member role"""
 enum Role {
-  """Team contributor can edit projects in team"""
-  CONTRIBUTOR
-
   """
   Team owner owner can add/remove/edit/view projects and members to a team. Only owner can delete team
   """
@@ -310,6 +307,9 @@ enum Role {
 
   """Team viewer can view projects in team"""
   VIEWER
+
+  """Team contributor can edit projects in team"""
+  CONTRIBUTOR
 }
 
 """Source upload info object"""
@@ -391,7 +391,7 @@ type TeamOps {
   addMember(username: String!, role: Role!): Member
 
   """Create new team project"""
-  createProject(public: Boolean, name: String!): Project
+  createProject(name: String!, public: Boolean): Project
 
   """Delete team"""
   delete: Boolean
@@ -417,9 +417,6 @@ type TeamOps {
 
 """Update project payload"""
 input UpdateProject {
-  """Set project visiblity"""
-  public: Boolean
-
   """ID of project to be updated"""
   project: ID
 
@@ -428,6 +425,9 @@ input UpdateProject {
 
   """List of tags for project"""
   tags: [String!]
+
+  """Set project visiblity"""
+  public: Boolean
 }
 
 """Editor user"""

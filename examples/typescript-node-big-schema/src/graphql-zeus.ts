@@ -112,14 +112,14 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		projects:{
-			limit:{
-				type:"Int",
+			last:{
+				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:false
 			},
-			last:{
-				type:"String",
+			limit:{
+				type:"Int",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -127,18 +127,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	NewSource:{
-		filename:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		contentLength:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		contentType:{
 			type:"String",
 			array:false,
@@ -147,6 +135,18 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		checksum:{
 			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		filename:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		contentLength:{
+			type:"Int",
 			array:false,
 			arrayRequired:false,
 			required:false
@@ -252,12 +252,6 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		listProjects:{
-			owned:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
 			last:{
 				type:"String",
 				array:false,
@@ -266,6 +260,12 @@ export const AllTypesProps: Record<string,any> = {
 			},
 			limit:{
 				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
+			owned:{
+				type:"Boolean",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -327,17 +327,17 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		createProject:{
-			public:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
 			name:{
 				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:true
+			},
+			public:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
 			}
 		},
 		member:{
@@ -372,12 +372,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	UpdateProject:{
-		public:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		project:{
 			type:"ID",
 			array:false,
@@ -395,6 +389,12 @@ export const AllTypesProps: Record<string,any> = {
 			array:true,
 			arrayRequired:false,
 			required:true
+		},
+		public:{
+			type:"Boolean",
+			array:false,
+			arrayRequired:false,
+			required:false
 		}
 	}
 }
@@ -628,7 +628,7 @@ to a team or user */
 last is a string returned by previous call to Namespace.projects
 
 limit sets a limit on how many objects can be returned */
-	projects:(props:{	limit?:number,	last?:string}) => ValueTypes["ProjectConnection"],
+	projects:(props:{	last?:string,	limit?:number}) => ValueTypes["ProjectConnection"],
 	/** True if namespace is public */
 	public?:boolean,
 	/** Namespace part of the slug */
@@ -636,14 +636,14 @@ limit sets a limit on how many objects can be returned */
 },
 	/** New source payload */
 ["NewSource"]: {
-	/** source file name */
-	filename?:string,
-	/** Length of source in bytes */
-	contentLength?:number,
 	/** Source mime type */
 	contentType?:string,
 	/** Source checksum */
-	checksum?:string
+	checksum?:string,
+	/** source file name */
+	filename?:string,
+	/** Length of source in bytes */
+	contentLength?:number
 },
 	/** PageInfo contains information about connection page */
 ["PageInfo"]: {
@@ -740,7 +740,7 @@ If owned is true, returns only project belonging to currently logged user
 last is an id of the last project returned by previous call
 
 limit limits the number of returned projects */
-	listProjects:(props:{	owned?:boolean,	last?:string,	limit?:number}) => ValueTypes["ProjectConnection"],
+	listProjects:(props:{	last?:string,	limit?:number,	owned?:boolean}) => ValueTypes["ProjectConnection"],
 	/** List of current user teams */
 	myTeams:(props:{	last?:string,	limit?:number}) => ValueTypes["TeamConnection"]
 },
@@ -804,7 +804,7 @@ limit limits the number of returned projects */
 	/** Add member to the team */
 	addMember:(props:{	username:string,	role:ValueTypes["Role"]}) => ValueTypes["Member"],
 	/** Create new team project */
-	createProject:(props:{	public?:boolean,	name:string}) => ValueTypes["Project"],
+	createProject:(props:{	name:string,	public?:boolean}) => ValueTypes["Project"],
 	/** Delete team */
 	delete?:boolean,
 	/** Unique team id */
@@ -822,14 +822,14 @@ limit limits the number of returned projects */
 },
 	/** Update project payload */
 ["UpdateProject"]: {
-	/** Set project visiblity */
-	public?:boolean,
 	/** ID of project to be updated */
 	project?:string,
 	/** New description for project */
 	description?:string,
 	/** List of tags for project */
-	tags?:string[]
+	tags?:string[],
+	/** Set project visiblity */
+	public?:boolean
 },
 	/** Editor user */
 ["User"]: {
@@ -963,7 +963,7 @@ export type Namespace = {
 last is a string returned by previous call to Namespace.projects
 
 limit sets a limit on how many objects can be returned */
-	projects:(props:{	limit?:number,	last?:string}) => ProjectConnection,
+	projects:(props:{	last?:string,	limit?:number}) => ProjectConnection,
 	/** True if namespace is public */
 	public?:boolean,
 	/** Namespace part of the slug */
@@ -972,14 +972,14 @@ limit sets a limit on how many objects can be returned */
 
 /** New source payload */
 export type NewSource = {
-		/** source file name */
-	filename?:string,
-	/** Length of source in bytes */
-	contentLength?:number,
-	/** Source mime type */
+		/** Source mime type */
 	contentType?:string,
 	/** Source checksum */
-	checksum?:string
+	checksum?:string,
+	/** source file name */
+	filename?:string,
+	/** Length of source in bytes */
+	contentLength?:number
 }
 
 /** PageInfo contains information about connection page */
@@ -1086,18 +1086,18 @@ If owned is true, returns only project belonging to currently logged user
 last is an id of the last project returned by previous call
 
 limit limits the number of returned projects */
-	listProjects:(props:{	owned?:boolean,	last?:string,	limit?:number}) => ProjectConnection,
+	listProjects:(props:{	last?:string,	limit?:number,	owned?:boolean}) => ProjectConnection,
 	/** List of current user teams */
 	myTeams:(props:{	last?:string,	limit?:number}) => TeamConnection
 }
 
 /** Team member role */
 export enum Role {
-	CONTRIBUTOR = "CONTRIBUTOR",
 	OWNER = "OWNER",
 	ADMIN = "ADMIN",
 	EDITOR = "EDITOR",
-	VIEWER = "VIEWER"
+	VIEWER = "VIEWER",
+	CONTRIBUTOR = "CONTRIBUTOR"
 }
 
 /** Source upload info object */
@@ -1169,7 +1169,7 @@ export type TeamOps = {
 	/** Add member to the team */
 	addMember:(props:{	username:string,	role:Role}) => Member,
 	/** Create new team project */
-	createProject:(props:{	public?:boolean,	name:string}) => Project,
+	createProject:(props:{	name:string,	public?:boolean}) => Project,
 	/** Delete team */
 	delete?:boolean,
 	/** Unique team id */
@@ -1188,14 +1188,14 @@ export type TeamOps = {
 
 /** Update project payload */
 export type UpdateProject = {
-		/** Set project visiblity */
-	public?:boolean,
-	/** ID of project to be updated */
+		/** ID of project to be updated */
 	project?:string,
 	/** New description for project */
 	description?:string,
 	/** List of tags for project */
-	tags?:string[]
+	tags?:string[],
+	/** Set project visiblity */
+	public?:boolean
 }
 
 /** Editor user */
@@ -1230,7 +1230,6 @@ export class GraphQLError extends Error {
       return "GraphQL Response Error";
     }
   }
-
 
 
 type Func<P extends any[], R> = (...args: P) => R;
@@ -1302,44 +1301,83 @@ export type SelectionSet<T> = IsScalar<
 >;
 
 type GraphQLReturner<T> = T extends Array<infer R> ? SelectionSet<R> : SelectionSet<T>;
-type IsUnion<T, YES, NO, U extends T = T> = (T extends any
-  ? (U extends T ? false : true)
-  : never) extends false
-  ? NO
-  : YES;
+
+export type MapInterface<SRC, DST> = SRC extends {
+  __interface: infer INTERFACE;
+  __resolve: infer IMPLEMENTORS;
+}
+  ? ObjectToUnion<
+      Omit<
+        {
+          [Key in keyof Omit<DST, keyof INTERFACE | '__typename'>]: Key extends keyof IMPLEMENTORS
+            ? MapType<IMPLEMENTORS[Key], DST[Key]> &
+                Omit<
+                  {
+                    [Key in keyof Omit<
+                      DST,
+                      keyof IMPLEMENTORS | '__typename'
+                    >]: Key extends keyof INTERFACE
+                      ? LastMapTypeSRCResolver<INTERFACE[Key], DST[Key]>
+                      : never;
+                  },
+                  keyof IMPLEMENTORS
+                > &
+                (DST extends { __typename: any }
+                  ? MapType<IMPLEMENTORS[Key], { __typename: true }>
+                  : {})
+            : never;
+        },
+        keyof INTERFACE | '__typename'
+      >
+    >
+  : never;
+
+export type ValueToUnion<T> = T extends {
+  __typename: infer R;
+}
+  ? {
+      [P in keyof Omit<T, '__typename'>]: T[P] & {
+        __typename: R;
+      };
+    }
+  : T;
+
+export type ObjectToUnion<T> = {
+  [P in keyof T]: T[P];
+}[keyof T];
 
 type Anify<T> = { [P in keyof T]?: any };
 
-type MapType<SRC extends Anify<DST>, DST> = DST extends boolean ? SRC : IsUnion<
-  SRC,
-  State<SRC>,
-  DST extends {
-    __alias: any;
-  }
-    ? {
-        [A in keyof DST['__alias']]: Required<SRC> extends Anify<DST['__alias'][A]>
-          ? MapType<Required<SRC>, DST['__alias'][A]>
-          : never;
-      } &
-        {
-          [Key in keyof Omit<DST, '__alias'>]: DST[Key] extends boolean
-            ? SRC[Key]
-            : DST[Key] extends [any, infer R]
-            ? ReturnType<Required<SRC>[Key]> extends Array<infer RETURNED> ? MapType<RETURNED, R>[] : MapType<ReturnType<Required<SRC>[Key]> ,R>
-            : Required<SRC>[Key] extends Array<infer SRCArray>
-            ? MapType<SRCArray, DST[Key]>[]
-            : MapType<Required<SRC>[Key], DST[Key]>;
-        }
-    : {
-        [Key in keyof DST]: DST[Key] extends boolean
-          ? SRC[Key]
-          : DST[Key] extends [any, infer R]
-          ? ReturnType<Required<SRC>[Key]> extends Array<infer RETURNED> ? MapType<RETURNED, R>[] : MapType<ReturnType<Required<SRC>[Key]> ,R>
-          : Required<SRC>[Key] extends Array<infer SRCArray>
-          ? MapType<SRCArray, DST[Key]>[]
-          : MapType<Required<SRC>[Key], DST[Key]>;
+type LastMapTypeSRCResolver<SRC, DST> = SRC extends AnyFunc
+  ? ReturnType<SRC> extends Array<infer FUNCRET>
+    ? MapType<FUNCRET, DST>[]
+    : MapType<ReturnType<SRC>, DST>
+  : SRC extends Array<infer AR>
+  ? LastMapTypeSRCResolver<AR, DST>[]
+  : SRC extends { __interface: any; __resolve: any }
+  ? MapInterface<SRC, DST>
+  : SRC extends { __union: any; __resolve: infer RESOLVE }
+  ? ObjectToUnion<MapType<RESOLVE, ValueToUnion<DST>>>
+  : DST extends boolean
+  ? SRC
+  : MapType<SRC, DST>;
+
+type MapType<SRC extends Anify<DST>, DST> = DST extends {
+  __alias: any;
+}
+  ? {
+      [A in keyof DST['__alias']]: Required<SRC> extends Anify<DST['__alias'][A]>
+        ? MapType<Required<SRC>, DST['__alias'][A]>
+        : never;
+    } &
+      {
+        [Key in keyof Omit<DST, '__alias'>]: LastMapTypeSRCResolver<SRC[Key], DST[Key]>;
       }
->;
+  : {
+      [Key in keyof DST]: DST[Key] extends [any, infer PAYLOAD]
+        ? LastMapTypeSRCResolver<SRC[Key], PAYLOAD>
+        : LastMapTypeSRCResolver<SRC[Key], DST[Key]>;
+    };
 
 type OperationToGraphQL<V, T> = <Z>(o: Z | GraphQLReturner<V>) => Promise<MapType<T, Z>>;
 

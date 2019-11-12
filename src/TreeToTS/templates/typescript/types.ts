@@ -1,5 +1,4 @@
 export const constantTypesTypescript = `
-
 type Func<P extends any[], R> = (...args: P) => R;
 type AnyFunc = Func<any, any>;
 
@@ -69,44 +68,83 @@ export type SelectionSet<T> = IsScalar<
 >;
 
 type GraphQLReturner<T> = T extends Array<infer R> ? SelectionSet<R> : SelectionSet<T>;
-type IsUnion<T, YES, NO, U extends T = T> = (T extends any
-  ? (U extends T ? false : true)
-  : never) extends false
-  ? NO
-  : YES;
+
+export type MapInterface<SRC, DST> = SRC extends {
+  __interface: infer INTERFACE;
+  __resolve: infer IMPLEMENTORS;
+}
+  ? ObjectToUnion<
+      Omit<
+        {
+          [Key in keyof Omit<DST, keyof INTERFACE | '__typename'>]: Key extends keyof IMPLEMENTORS
+            ? MapType<IMPLEMENTORS[Key], DST[Key]> &
+                Omit<
+                  {
+                    [Key in keyof Omit<
+                      DST,
+                      keyof IMPLEMENTORS | '__typename'
+                    >]: Key extends keyof INTERFACE
+                      ? LastMapTypeSRCResolver<INTERFACE[Key], DST[Key]>
+                      : never;
+                  },
+                  keyof IMPLEMENTORS
+                > &
+                (DST extends { __typename: any }
+                  ? MapType<IMPLEMENTORS[Key], { __typename: true }>
+                  : {})
+            : never;
+        },
+        keyof INTERFACE | '__typename'
+      >
+    >
+  : never;
+
+export type ValueToUnion<T> = T extends {
+  __typename: infer R;
+}
+  ? {
+      [P in keyof Omit<T, '__typename'>]: T[P] & {
+        __typename: R;
+      };
+    }
+  : T;
+
+export type ObjectToUnion<T> = {
+  [P in keyof T]: T[P];
+}[keyof T];
 
 type Anify<T> = { [P in keyof T]?: any };
 
-type MapType<SRC extends Anify<DST>, DST> = DST extends boolean ? SRC : IsUnion<
-  SRC,
-  State<SRC>,
-  DST extends {
-    __alias: any;
-  }
-    ? {
-        [A in keyof DST['__alias']]: Required<SRC> extends Anify<DST['__alias'][A]>
-          ? MapType<Required<SRC>, DST['__alias'][A]>
-          : never;
-      } &
-        {
-          [Key in keyof Omit<DST, '__alias'>]: DST[Key] extends boolean
-            ? SRC[Key]
-            : DST[Key] extends [any, infer R]
-            ? ReturnType<Required<SRC>[Key]> extends Array<infer RETURNED> ? MapType<RETURNED, R>[] : MapType<ReturnType<Required<SRC>[Key]> ,R>
-            : Required<SRC>[Key] extends Array<infer SRCArray>
-            ? MapType<SRCArray, DST[Key]>[]
-            : MapType<Required<SRC>[Key], DST[Key]>;
-        }
-    : {
-        [Key in keyof DST]: DST[Key] extends boolean
-          ? SRC[Key]
-          : DST[Key] extends [any, infer R]
-          ? ReturnType<Required<SRC>[Key]> extends Array<infer RETURNED> ? MapType<RETURNED, R>[] : MapType<ReturnType<Required<SRC>[Key]> ,R>
-          : Required<SRC>[Key] extends Array<infer SRCArray>
-          ? MapType<SRCArray, DST[Key]>[]
-          : MapType<Required<SRC>[Key], DST[Key]>;
+type LastMapTypeSRCResolver<SRC, DST> = SRC extends AnyFunc
+  ? ReturnType<SRC> extends Array<infer FUNCRET>
+    ? MapType<FUNCRET, DST>[]
+    : MapType<ReturnType<SRC>, DST>
+  : SRC extends Array<infer AR>
+  ? LastMapTypeSRCResolver<AR, DST>[]
+  : SRC extends { __interface: any; __resolve: any }
+  ? MapInterface<SRC, DST>
+  : SRC extends { __union: any; __resolve: infer RESOLVE }
+  ? ObjectToUnion<MapType<RESOLVE, ValueToUnion<DST>>>
+  : DST extends boolean
+  ? SRC
+  : MapType<SRC, DST>;
+
+type MapType<SRC extends Anify<DST>, DST> = DST extends {
+  __alias: any;
+}
+  ? {
+      [A in keyof DST['__alias']]: Required<SRC> extends Anify<DST['__alias'][A]>
+        ? MapType<Required<SRC>, DST['__alias'][A]>
+        : never;
+    } &
+      {
+        [Key in keyof Omit<DST, '__alias'>]: LastMapTypeSRCResolver<SRC[Key], DST[Key]>;
       }
->;
+  : {
+      [Key in keyof DST]: DST[Key] extends [any, infer PAYLOAD]
+        ? LastMapTypeSRCResolver<SRC[Key], PAYLOAD>
+        : LastMapTypeSRCResolver<SRC[Key], DST[Key]>;
+    };
 
 type OperationToGraphQL<V, T> = <Z>(o: Z | GraphQLReturner<V>) => Promise<MapType<T, Z>>;
 

@@ -24,10 +24,16 @@ export type Card = {
 export type CardStack = {
 	__typename?: "CardStack",
 	cards?:Card[],
-	name?:string
+	name:string
 }
 
-export type ChangeCard = SpecialCard | EffectCard
+export type ChangeCard = {
+	__union:SpecialCard | EffectCard;
+	__resolve:{
+		['...on SpecialCard']: SpecialCard;
+		['...on EffectCard']: EffectCard;
+	}
+}
 
 /** create card inputs<br> */
 export type createCard = {
@@ -57,6 +63,18 @@ export type Mutation = {
 	addCard:(props:{	card:createCard}) => Card
 }
 
+export type Nameable = {
+	__interface:{
+			name:string
+	};
+	__resolve:{
+		['...on Card']: Card;
+		['...on CardStack']: CardStack;
+		['...on EffectCard']: EffectCard;
+		['...on SpecialCard']: SpecialCard;
+	}
+}
+
 export type Query = {
 	__typename?: "Query",
 	cardById:(props:{	cardId?:string}) => Card,
@@ -65,7 +83,8 @@ export type Query = {
 	drawChangeCard:ChangeCard,
 	/** list All Cards availble<br> */
 	listCards:Card[],
-	myStacks?:CardStack[]
+	myStacks?:CardStack[],
+	nameables:Nameable[]
 }
 
 /** Aws S3 File */
@@ -83,9 +102,9 @@ export type SpecialCard = {
 }
 
 export enum SpecialSkills {
-	FIRE = "FIRE",
 	THUNDER = "THUNDER",
-	RAIN = "RAIN"
+	RAIN = "RAIN",
+	FIRE = "FIRE"
 }
 
 export type ValueTypes = {
@@ -112,7 +131,7 @@ export type ValueTypes = {
 	/** Stack of cards */
 ["CardStack"]: {
 	cards?:ValueTypes["Card"][],
-	name?:string
+	name:string
 },
 	["ChangeCard"]: {		["...on SpecialCard"] : ValueTypes["SpecialCard"],
 		["...on EffectCard"] : ValueTypes["EffectCard"]
@@ -140,6 +159,9 @@ export type ValueTypes = {
 	/** add Card to Cards database<br> */
 	addCard:(props:{	card:ValueTypes["createCard"]}) => ValueTypes["Card"]
 },
+	["Nameable"]: {
+	name:string
+},
 	["Query"]: {
 	cardById:(props:{	cardId?:string}) => ValueTypes["Card"],
 	/** Draw a card<br> */
@@ -147,7 +169,8 @@ export type ValueTypes = {
 	drawChangeCard:ValueTypes["ChangeCard"],
 	/** list All Cards availble<br> */
 	listCards:ValueTypes["Card"][],
-	myStacks?:ValueTypes["CardStack"][]
+	myStacks?:ValueTypes["CardStack"][],
+	nameables:ValueTypes["Nameable"][]
 },
 	/** Aws S3 File */
 ["S3Object"]: {
@@ -161,7 +184,6 @@ export type ValueTypes = {
 },
 	["SpecialSkills"]:SpecialSkills
   }
-
 
 
 type Func<P extends any[], R> = (...args: P) => R;
@@ -233,44 +255,83 @@ export type SelectionSet<T> = IsScalar<
 >;
 
 type GraphQLReturner<T> = T extends Array<infer R> ? SelectionSet<R> : SelectionSet<T>;
-type IsUnion<T, YES, NO, U extends T = T> = (T extends any
-  ? (U extends T ? false : true)
-  : never) extends false
-  ? NO
-  : YES;
+
+export type MapInterface<SRC, DST> = SRC extends {
+  __interface: infer INTERFACE;
+  __resolve: infer IMPLEMENTORS;
+}
+  ? ObjectToUnion<
+      Omit<
+        {
+          [Key in keyof Omit<DST, keyof INTERFACE | '__typename'>]: Key extends keyof IMPLEMENTORS
+            ? MapType<IMPLEMENTORS[Key], DST[Key]> &
+                Omit<
+                  {
+                    [Key in keyof Omit<
+                      DST,
+                      keyof IMPLEMENTORS | '__typename'
+                    >]: Key extends keyof INTERFACE
+                      ? LastMapTypeSRCResolver<INTERFACE[Key], DST[Key]>
+                      : never;
+                  },
+                  keyof IMPLEMENTORS
+                > &
+                (DST extends { __typename: any }
+                  ? MapType<IMPLEMENTORS[Key], { __typename: true }>
+                  : {})
+            : never;
+        },
+        keyof INTERFACE | '__typename'
+      >
+    >
+  : never;
+
+export type ValueToUnion<T> = T extends {
+  __typename: infer R;
+}
+  ? {
+      [P in keyof Omit<T, '__typename'>]: T[P] & {
+        __typename: R;
+      };
+    }
+  : T;
+
+export type ObjectToUnion<T> = {
+  [P in keyof T]: T[P];
+}[keyof T];
 
 type Anify<T> = { [P in keyof T]?: any };
 
-type MapType<SRC extends Anify<DST>, DST> = DST extends boolean ? SRC : IsUnion<
-  SRC,
-  State<SRC>,
-  DST extends {
-    __alias: any;
-  }
-    ? {
-        [A in keyof DST['__alias']]: Required<SRC> extends Anify<DST['__alias'][A]>
-          ? MapType<Required<SRC>, DST['__alias'][A]>
-          : never;
-      } &
-        {
-          [Key in keyof Omit<DST, '__alias'>]: DST[Key] extends boolean
-            ? SRC[Key]
-            : DST[Key] extends [any, infer R]
-            ? ReturnType<Required<SRC>[Key]> extends Array<infer RETURNED> ? MapType<RETURNED, R>[] : MapType<ReturnType<Required<SRC>[Key]> ,R>
-            : Required<SRC>[Key] extends Array<infer SRCArray>
-            ? MapType<SRCArray, DST[Key]>[]
-            : MapType<Required<SRC>[Key], DST[Key]>;
-        }
-    : {
-        [Key in keyof DST]: DST[Key] extends boolean
-          ? SRC[Key]
-          : DST[Key] extends [any, infer R]
-          ? ReturnType<Required<SRC>[Key]> extends Array<infer RETURNED> ? MapType<RETURNED, R>[] : MapType<ReturnType<Required<SRC>[Key]> ,R>
-          : Required<SRC>[Key] extends Array<infer SRCArray>
-          ? MapType<SRCArray, DST[Key]>[]
-          : MapType<Required<SRC>[Key], DST[Key]>;
+type LastMapTypeSRCResolver<SRC, DST> = SRC extends AnyFunc
+  ? ReturnType<SRC> extends Array<infer FUNCRET>
+    ? MapType<FUNCRET, DST>[]
+    : MapType<ReturnType<SRC>, DST>
+  : SRC extends Array<infer AR>
+  ? LastMapTypeSRCResolver<AR, DST>[]
+  : SRC extends { __interface: any; __resolve: any }
+  ? MapInterface<SRC, DST>
+  : SRC extends { __union: any; __resolve: infer RESOLVE }
+  ? ObjectToUnion<MapType<RESOLVE, ValueToUnion<DST>>>
+  : DST extends boolean
+  ? SRC
+  : MapType<SRC, DST>;
+
+type MapType<SRC extends Anify<DST>, DST> = DST extends {
+  __alias: any;
+}
+  ? {
+      [A in keyof DST['__alias']]: Required<SRC> extends Anify<DST['__alias'][A]>
+        ? MapType<Required<SRC>, DST['__alias'][A]>
+        : never;
+    } &
+      {
+        [Key in keyof Omit<DST, '__alias'>]: LastMapTypeSRCResolver<SRC[Key], DST[Key]>;
       }
->;
+  : {
+      [Key in keyof DST]: DST[Key] extends [any, infer PAYLOAD]
+        ? LastMapTypeSRCResolver<SRC[Key], PAYLOAD>
+        : LastMapTypeSRCResolver<SRC[Key], DST[Key]>;
+    };
 
 type OperationToGraphQL<V, T> = <Z>(o: Z | GraphQLReturner<V>) => Promise<MapType<T, Z>>;
 

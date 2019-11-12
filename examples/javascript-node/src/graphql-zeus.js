@@ -95,12 +95,16 @@ export const ReturnTypes = {
 	Mutation:{
 		addCard:"Card"
 	},
+	Nameable:{
+		name:"String"
+	},
 	Query:{
 		cardById:"Card",
 		drawCard:"Card",
 		drawChangeCard:"ChangeCard",
 		listCards:"Card",
-		myStacks:"CardStack"
+		myStacks:"CardStack",
+		nameables:"Nameable"
 	},
 	S3Object:{
 		bucket:"String",

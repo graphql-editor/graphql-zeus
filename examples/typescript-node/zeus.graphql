@@ -1,5 +1,5 @@
 """Card used in card game<br>"""
-type Card {
+type Card implements Nameable {
   """The attack power<br>"""
   Attack: Int!
 
@@ -28,15 +28,21 @@ type Card {
 }
 
 """Stack of cards"""
-type CardStack {
+type CardStack implements Nameable {
   cards: [Card!]
-  name: String
+  name: String!
 }
 
 union ChangeCard = SpecialCard | EffectCard
 
 """create card inputs<br>"""
 input createCard {
+  """The name of a card<br>"""
+  name: String!
+
+  """Description of a card<br>"""
+  description: String!
+
   """<div>How many children the greek god had</div>"""
   Children: Int
 
@@ -48,15 +54,9 @@ input createCard {
 
   """input skills"""
   skills: [SpecialSkills!]
-
-  """The name of a card<br>"""
-  name: String!
-
-  """Description of a card<br>"""
-  description: String!
 }
 
-type EffectCard {
+type EffectCard implements Nameable {
   effectSize: Float!
   name: String!
 }
@@ -64,6 +64,10 @@ type EffectCard {
 type Mutation {
   """add Card to Cards database<br>"""
   addCard(card: createCard!): Card!
+}
+
+interface Nameable {
+  name: String!
 }
 
 type Query {
@@ -76,6 +80,7 @@ type Query {
   """list All Cards availble<br>"""
   listCards: [Card!]!
   myStacks: [CardStack!]
+  nameables: [Nameable!]!
 }
 
 """Aws S3 File"""
@@ -85,7 +90,7 @@ type S3Object {
   region: String!
 }
 
-type SpecialCard {
+type SpecialCard implements Nameable {
   effect: String!
   name: String!
 }

@@ -1,4 +1,11 @@
+import chalk from "chalk";
 import { Gql, SpecialSkills, Zeus } from "./graphql-zeus";
+const printQueryResult = (name, result) =>
+  console.log(
+    `${chalk.greenBright(name)} result:\n${chalk.cyan(JSON.stringify(result, null, 4))}\n\n`,
+  );
+const printGQLString = (name, result) =>
+  console.log(`${chalk.blue(name)} query:\n${chalk.magenta(result)}\n\n`);
 const run = async () => {
   const { addCard: ZeusCard } = await Gql.Mutation({
     addCard: [
@@ -12,7 +19,6 @@ const run = async () => {
         },
       },
       {
-        __typename: true,
         skills: true,
         Children: true,
         cardImage: {
@@ -21,6 +27,7 @@ const run = async () => {
       },
     ],
   });
+  printQueryResult("ZeusCard", ZeusCard);
 
   const blalba = await Gql.Query({
     drawChangeCard: {
@@ -34,8 +41,7 @@ const run = async () => {
       },
     },
   });
-  console.log(blalba.drawChangeCard.__typename);
-  console.log("DRAW ...");
+  printQueryResult("drawChangeCard", blalba.drawChangeCard);
   // const { addCard: ZeusCard } = await chain.Mutation({
   //   addCard: [
   //     {
@@ -63,7 +69,6 @@ const run = async () => {
   //
   // The way it should be returned
   // ZeusCard.__alias["myAlias"].Attack
-  console.log(ZeusCard);
   const { listCards: stack, drawCard: newCard } = await Gql.Query({
     listCards: {
       name: true,
@@ -75,7 +80,9 @@ const run = async () => {
       Attack: true,
     },
   });
-  console.log(stack, newCard);
+
+  printQueryResult("stack", stack);
+  printQueryResult("newCard", newCard);
 
   const aliasedQuery = Zeus.Query({
     __alias: {
@@ -113,16 +120,36 @@ const run = async () => {
             { cardID: ["1"] },
             {
               name: true,
-              description: true,
+              Defense: true,
             },
           ],
         },
       },
+      id: true,
     },
   });
   console.log(JSON.stringify(aliasedQueryExecute, null, 4));
   console.log(
-    JSON.stringify(aliasedQueryExecute.listCards!.map((card) => card.atak!.attack!), null, 4),
+    JSON.stringify(
+      aliasedQueryExecute.listCards.map((card) => card.atak.attack.map((aa) => aa.name)),
+      null,
+      4,
+    ),
   );
+
+  const interfaceTest = await Gql.Query({
+    nameables: {
+      "__typename": true,
+      "name": true,
+      "...on CardStack": {
+        cards: {
+          Defense: true,
+        },
+      },
+      "...on Card": {
+        Attack: true,
+      },
+    },
+  });
 };
 run();
