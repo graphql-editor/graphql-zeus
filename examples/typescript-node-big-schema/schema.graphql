@@ -82,7 +82,7 @@ type Mutation {
   createProject(public: Boolean, name: String!): Project!
 
   """Create new team"""
-  createTeam(name: String!, namespace: String!): TeamOps
+  createTeam(namespace: String!, name: String!): TeamOps
 
   """
   Create new user
@@ -106,7 +106,7 @@ type Mutation {
   updateProject(in: UpdateProject): Boolean
 
   """Add sources to the project"""
-  updateSources(sources: [NewSource!], project: ID!): [SourceUploadInfo]
+  updateSources(project: ID!, sources: [NewSource!]): [SourceUploadInfo]
 }
 
 """
@@ -135,9 +135,6 @@ type Namespace {
 
 """New source payload"""
 input NewSource {
-  """Source mime type"""
-  contentType: String
-
   """Source checksum"""
   checksum: String
 
@@ -146,6 +143,9 @@ input NewSource {
 
   """Length of source in bytes"""
   contentLength: Int
+
+  """Source mime type"""
+  contentType: String
 }
 
 """PageInfo contains information about connection page"""
@@ -250,7 +250,7 @@ type Query {
   
   limit limits the number of returned projects
   """
-  findProjects(last: String, limit: Int, query: String!): ProjectConnection
+  findProjects(query: String!, last: String, limit: Int): ProjectConnection
 
   """
   Find projects which contain tag
@@ -284,7 +284,7 @@ type Query {
   
   limit limits the number of returned projects
   """
-  listProjects(owned: Boolean, last: String, limit: Int): ProjectConnection
+  listProjects(last: String, limit: Int, owned: Boolean): ProjectConnection
 
   """List of current user teams"""
   myTeams(last: String, limit: Int): TeamConnection
@@ -292,6 +292,11 @@ type Query {
 
 """Team member role"""
 enum Role {
+  """
+  Team owner owner can add/remove/edit/view projects and members to a team. Only owner can delete team
+  """
+  OWNER
+
   """
   Team admin can add/remove/edit/view projects and members(except owner) to a team
   """
@@ -305,11 +310,6 @@ enum Role {
 
   """Team contributor can edit projects in team"""
   CONTRIBUTOR
-
-  """
-  Team owner owner can add/remove/edit/view projects and members to a team. Only owner can delete team
-  """
-  OWNER
 }
 
 """Source upload info object"""
@@ -388,7 +388,7 @@ type TeamConnection {
 """Team operations"""
 type TeamOps {
   """Add member to the team"""
-  addMember(username: String!, role: Role!): Member
+  addMember(role: Role!, username: String!): Member
 
   """Create new team project"""
   createProject(public: Boolean, name: String!): Project

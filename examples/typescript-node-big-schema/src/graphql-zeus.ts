@@ -28,13 +28,13 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		createTeam:{
-			name:{
+			namespace:{
 				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:true
 			},
-			namespace:{
+			name:{
 				type:"String",
 				array:false,
 				arrayRequired:false,
@@ -88,15 +88,15 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		updateSources:{
-			sources:{
-				type:"NewSource",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
 			project:{
 				type:"ID",
 				array:false,
+				arrayRequired:false,
+				required:true
+			},
+			sources:{
+				type:"NewSource",
+				array:true,
 				arrayRequired:false,
 				required:true
 			}
@@ -127,12 +127,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	NewSource:{
-		contentType:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		checksum:{
 			type:"String",
 			array:false,
@@ -147,6 +141,12 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		contentLength:{
 			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		contentType:{
+			type:"String",
 			array:false,
 			arrayRequired:false,
 			required:false
@@ -180,6 +180,12 @@ export const AllTypesProps: Record<string,any> = {
 	},
 	Query:{
 		findProjects:{
+			query:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:true
+			},
 			last:{
 				type:"String",
 				array:false,
@@ -191,12 +197,6 @@ export const AllTypesProps: Record<string,any> = {
 				array:false,
 				arrayRequired:false,
 				required:false
-			},
-			query:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
 			}
 		},
 		findProjectsByTag:{
@@ -252,12 +252,6 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		listProjects:{
-			owned:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
 			last:{
 				type:"String",
 				array:false,
@@ -266,6 +260,12 @@ export const AllTypesProps: Record<string,any> = {
 			},
 			limit:{
 				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
+			owned:{
+				type:"Boolean",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -313,14 +313,14 @@ export const AllTypesProps: Record<string,any> = {
 	},
 	TeamOps:{
 		addMember:{
-			username:{
-				type:"String",
+			role:{
+				type:"Role",
 				array:false,
 				arrayRequired:false,
 				required:true
 			},
-			role:{
-				type:"Role",
+			username:{
+				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:true
@@ -600,7 +600,7 @@ public if true project is public
 name is project name */
 	createProject:(props:{	public?:boolean,	name:string}) => ValueTypes["Project"],
 	/** Create new team */
-	createTeam:(props:{	name:string,	namespace:string}) => ValueTypes["TeamOps"],
+	createTeam:(props:{	namespace:string,	name:string}) => ValueTypes["TeamOps"],
 	/** Create new user
 
 namespace name for a user
@@ -616,7 +616,7 @@ public is user namespace public */
 	/** Modify project */
 	updateProject:(props:{	in?:ValueTypes["UpdateProject"]}) => boolean,
 	/** Add sources to the project */
-	updateSources:(props:{	sources?:ValueTypes["NewSource"][],	project:string}) => (ValueTypes["SourceUploadInfo"] | undefined)[]
+	updateSources:(props:{	project:string,	sources?:ValueTypes["NewSource"][]}) => (ValueTypes["SourceUploadInfo"] | undefined)[]
 },
 	/** Namespace is a root object containing projects belonging
 to a team or user */
@@ -636,14 +636,14 @@ limit sets a limit on how many objects can be returned */
 },
 	/** New source payload */
 ["NewSource"]: {
-	/** Source mime type */
-	contentType?:string,
 	/** Source checksum */
 	checksum?:string,
 	/** source file name */
 	filename?:string,
 	/** Length of source in bytes */
-	contentLength?:number
+	contentLength?:number,
+	/** Source mime type */
+	contentType?:string
 },
 	/** PageInfo contains information about connection page */
 ["PageInfo"]: {
@@ -716,7 +716,7 @@ query is a regular expresion matched agains project slug
 last is an id of the last project returned by previous call
 
 limit limits the number of returned projects */
-	findProjects:(props:{	last?:string,	limit?:number,	query:string}) => ValueTypes["ProjectConnection"],
+	findProjects:(props:{	query:string,	last?:string,	limit?:number}) => ValueTypes["ProjectConnection"],
 	/** Find projects which contain tag
 
 tag is a string
@@ -740,7 +740,7 @@ If owned is true, returns only project belonging to currently logged user
 last is an id of the last project returned by previous call
 
 limit limits the number of returned projects */
-	listProjects:(props:{	owned?:boolean,	last?:string,	limit?:number}) => ValueTypes["ProjectConnection"],
+	listProjects:(props:{	last?:string,	limit?:number,	owned?:boolean}) => ValueTypes["ProjectConnection"],
 	/** List of current user teams */
 	myTeams:(props:{	last?:string,	limit?:number}) => ValueTypes["TeamConnection"]
 },
@@ -802,7 +802,7 @@ limit limits the number of returned projects */
 	/** Team operations */
 ["TeamOps"]: {
 	/** Add member to the team */
-	addMember:(props:{	username:string,	role:ValueTypes["Role"]}) => ValueTypes["Member"],
+	addMember:(props:{	role:ValueTypes["Role"],	username:string}) => ValueTypes["Member"],
 	/** Create new team project */
 	createProject:(props:{	public?:boolean,	name:string}) => ValueTypes["Project"],
 	/** Delete team */
@@ -933,7 +933,7 @@ public if true project is public
 name is project name */
 	createProject:(props:{	public?:boolean,	name:string}) => Project,
 	/** Create new team */
-	createTeam:(props:{	name:string,	namespace:string}) => TeamOps,
+	createTeam:(props:{	namespace:string,	name:string}) => TeamOps,
 	/** Create new user
 
 namespace name for a user
@@ -949,7 +949,7 @@ public is user namespace public */
 	/** Modify project */
 	updateProject:(props:{	in?:UpdateProject}) => boolean,
 	/** Add sources to the project */
-	updateSources:(props:{	sources?:NewSource[],	project:string}) => (SourceUploadInfo | undefined)[]
+	updateSources:(props:{	project:string,	sources?:NewSource[]}) => (SourceUploadInfo | undefined)[]
 }
 
 /** Namespace is a root object containing projects belonging
@@ -972,14 +972,14 @@ limit sets a limit on how many objects can be returned */
 
 /** New source payload */
 export type NewSource = {
-		/** Source mime type */
-	contentType?:string,
-	/** Source checksum */
+		/** Source checksum */
 	checksum?:string,
 	/** source file name */
 	filename?:string,
 	/** Length of source in bytes */
-	contentLength?:number
+	contentLength?:number,
+	/** Source mime type */
+	contentType?:string
 }
 
 /** PageInfo contains information about connection page */
@@ -1062,7 +1062,7 @@ query is a regular expresion matched agains project slug
 last is an id of the last project returned by previous call
 
 limit limits the number of returned projects */
-	findProjects:(props:{	last?:string,	limit?:number,	query:string}) => ProjectConnection,
+	findProjects:(props:{	query:string,	last?:string,	limit?:number}) => ProjectConnection,
 	/** Find projects which contain tag
 
 tag is a string
@@ -1086,18 +1086,18 @@ If owned is true, returns only project belonging to currently logged user
 last is an id of the last project returned by previous call
 
 limit limits the number of returned projects */
-	listProjects:(props:{	owned?:boolean,	last?:string,	limit?:number}) => ProjectConnection,
+	listProjects:(props:{	last?:string,	limit?:number,	owned?:boolean}) => ProjectConnection,
 	/** List of current user teams */
 	myTeams:(props:{	last?:string,	limit?:number}) => TeamConnection
 }
 
 /** Team member role */
 export enum Role {
+	OWNER = "OWNER",
 	ADMIN = "ADMIN",
 	EDITOR = "EDITOR",
 	VIEWER = "VIEWER",
-	CONTRIBUTOR = "CONTRIBUTOR",
-	OWNER = "OWNER"
+	CONTRIBUTOR = "CONTRIBUTOR"
 }
 
 /** Source upload info object */
@@ -1167,7 +1167,7 @@ export type TeamConnection = {
 export type TeamOps = {
 	__typename?: "TeamOps",
 	/** Add member to the team */
-	addMember:(props:{	username:string,	role:Role}) => Member,
+	addMember:(props:{	role:Role,	username:string}) => Member,
 	/** Create new team project */
 	createProject:(props:{	public?:boolean,	name:string}) => Project,
 	/** Delete team */

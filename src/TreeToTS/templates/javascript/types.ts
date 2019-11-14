@@ -85,4 +85,6 @@ export declare const Zeus: {
 export declare const Cast: {
   ${generateOperationsJavascriptDefinitionsCast(operationsBody)}
 }
+
+export declare const Gql: ReturnType<typeof Chain>
 `;
