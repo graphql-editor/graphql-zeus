@@ -1,4 +1,18 @@
 export default `
+const handleFetchResponse = (
+  response: Parameters<Extract<Parameters<ReturnType<typeof fetch>['then']>[0], Function>>[0]
+): Promise<GraphQLResponse> => {
+  if (!response.ok) {
+    return new Promise((resolve, reject) => {
+      response.text().then(text => {
+        try { reject(JSON.parse(text)); }
+        catch (err) { reject(text); }
+      }).catch(reject);
+    });
+  }
+  return response.json();
+};
+
 const apiFetch = (options: fetchOptions, query: string) => {
     let fetchFunction;
     let queryString = query;
@@ -15,7 +29,7 @@ const apiFetch = (options: fetchOptions, query: string) => {
           throw new Error("Something gone wrong 'querystring' is a part of nodejs environment");
       }
       return fetchFunction(\`\${options[0]}?query=\${queryString}\`, fetchOptions)
-        .then((response: any) => response.json() as Promise<GraphQLResponse>)
+        .then(handleFetchResponse)
         .then((response: GraphQLResponse) => {
           if (response.errors) {
             throw new GraphQLError(response);
@@ -32,7 +46,7 @@ const apiFetch = (options: fetchOptions, query: string) => {
       },
       ...fetchOptions
     })
-      .then((response: any) => response.json() as Promise<GraphQLResponse>)
+      .then(handleFetchResponse)
       .then((response: GraphQLResponse) => {
         if (response.errors) {
           throw new GraphQLError(response);
