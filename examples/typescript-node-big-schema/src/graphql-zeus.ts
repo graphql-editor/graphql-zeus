@@ -88,15 +88,15 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		updateSources:{
-			project:{
-				type:"ID",
-				array:false,
-				arrayRequired:false,
-				required:true
-			},
 			sources:{
 				type:"NewSource",
 				array:true,
+				arrayRequired:false,
+				required:true
+			},
+			project:{
+				type:"ID",
+				array:false,
 				arrayRequired:false,
 				required:true
 			}
@@ -200,6 +200,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		findProjectsByTag:{
+			limit:{
+				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			tag:{
 				type:"String",
 				array:false,
@@ -208,12 +214,6 @@ export const AllTypesProps: Record<string,any> = {
 			},
 			last:{
 				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			limit:{
-				type:"Int",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -272,14 +272,14 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		myTeams:{
-			last:{
-				type:"String",
+			limit:{
+				type:"Int",
 				array:false,
 				arrayRequired:false,
 				required:false
 			},
-			limit:{
-				type:"Int",
+			last:{
+				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -313,14 +313,14 @@ export const AllTypesProps: Record<string,any> = {
 	},
 	TeamOps:{
 		addMember:{
-			role:{
-				type:"Role",
+			username:{
+				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:true
 			},
-			username:{
-				type:"String",
+			role:{
+				type:"Role",
 				array:false,
 				arrayRequired:false,
 				required:true
@@ -372,18 +372,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	UpdateProject:{
-		project:{
-			type:"ID",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		description:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		tags:{
 			type:"String",
 			array:true,
@@ -392,6 +380,18 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		public:{
 			type:"Boolean",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		project:{
+			type:"ID",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		description:{
+			type:"String",
 			array:false,
 			arrayRequired:false,
 			required:false
@@ -616,7 +616,7 @@ public is user namespace public */
 	/** Modify project */
 	updateProject:(props:{	in?:ValueTypes["UpdateProject"]}) => boolean,
 	/** Add sources to the project */
-	updateSources:(props:{	project:string,	sources?:ValueTypes["NewSource"][]}) => (ValueTypes["SourceUploadInfo"] | undefined)[]
+	updateSources:(props:{	sources?:ValueTypes["NewSource"][],	project:string}) => (ValueTypes["SourceUploadInfo"] | undefined)[]
 },
 	/** Namespace is a root object containing projects belonging
 to a team or user */
@@ -724,7 +724,7 @@ tag is a string
 last is an id of the last project returned by previous call
 
 limit limits the number of returned projects */
-	findProjectsByTag:(props:{	tag:string,	last?:string,	limit?:number}) => ValueTypes["ProjectConnection"],
+	findProjectsByTag:(props:{	limit?:number,	tag:string,	last?:string}) => ValueTypes["ProjectConnection"],
 	/** Return namespace matching slug */
 	getNamespace:(props:{	slug:string}) => ValueTypes["Namespace"],
 	/** Return project by id */
@@ -742,7 +742,7 @@ last is an id of the last project returned by previous call
 limit limits the number of returned projects */
 	listProjects:(props:{	last?:string,	limit?:number,	owned?:boolean}) => ValueTypes["ProjectConnection"],
 	/** List of current user teams */
-	myTeams:(props:{	last?:string,	limit?:number}) => ValueTypes["TeamConnection"]
+	myTeams:(props:{	limit?:number,	last?:string}) => ValueTypes["TeamConnection"]
 },
 	/** Team member role */
 ["Role"]:Role,
@@ -802,7 +802,7 @@ limit limits the number of returned projects */
 	/** Team operations */
 ["TeamOps"]: {
 	/** Add member to the team */
-	addMember:(props:{	role:ValueTypes["Role"],	username:string}) => ValueTypes["Member"],
+	addMember:(props:{	username:string,	role:ValueTypes["Role"]}) => ValueTypes["Member"],
 	/** Create new team project */
 	createProject:(props:{	public?:boolean,	name:string}) => ValueTypes["Project"],
 	/** Delete team */
@@ -822,14 +822,14 @@ limit limits the number of returned projects */
 },
 	/** Update project payload */
 ["UpdateProject"]: {
-	/** ID of project to be updated */
-	project?:string,
-	/** New description for project */
-	description?:string,
 	/** List of tags for project */
 	tags?:string[],
 	/** Set project visiblity */
-	public?:boolean
+	public?:boolean,
+	/** ID of project to be updated */
+	project?:string,
+	/** New description for project */
+	description?:string
 },
 	/** Editor user */
 ["User"]: {
@@ -949,7 +949,7 @@ public is user namespace public */
 	/** Modify project */
 	updateProject:(props:{	in?:UpdateProject}) => boolean,
 	/** Add sources to the project */
-	updateSources:(props:{	project:string,	sources?:NewSource[]}) => (SourceUploadInfo | undefined)[]
+	updateSources:(props:{	sources?:NewSource[],	project:string}) => (SourceUploadInfo | undefined)[]
 }
 
 /** Namespace is a root object containing projects belonging
@@ -1070,7 +1070,7 @@ tag is a string
 last is an id of the last project returned by previous call
 
 limit limits the number of returned projects */
-	findProjectsByTag:(props:{	tag:string,	last?:string,	limit?:number}) => ProjectConnection,
+	findProjectsByTag:(props:{	limit?:number,	tag:string,	last?:string}) => ProjectConnection,
 	/** Return namespace matching slug */
 	getNamespace:(props:{	slug:string}) => Namespace,
 	/** Return project by id */
@@ -1088,16 +1088,16 @@ last is an id of the last project returned by previous call
 limit limits the number of returned projects */
 	listProjects:(props:{	last?:string,	limit?:number,	owned?:boolean}) => ProjectConnection,
 	/** List of current user teams */
-	myTeams:(props:{	last?:string,	limit?:number}) => TeamConnection
+	myTeams:(props:{	limit?:number,	last?:string}) => TeamConnection
 }
 
 /** Team member role */
 export enum Role {
-	OWNER = "OWNER",
 	ADMIN = "ADMIN",
 	EDITOR = "EDITOR",
 	VIEWER = "VIEWER",
-	CONTRIBUTOR = "CONTRIBUTOR"
+	CONTRIBUTOR = "CONTRIBUTOR",
+	OWNER = "OWNER"
 }
 
 /** Source upload info object */
@@ -1167,7 +1167,7 @@ export type TeamConnection = {
 export type TeamOps = {
 	__typename?: "TeamOps",
 	/** Add member to the team */
-	addMember:(props:{	role:Role,	username:string}) => Member,
+	addMember:(props:{	username:string,	role:Role}) => Member,
 	/** Create new team project */
 	createProject:(props:{	public?:boolean,	name:string}) => Project,
 	/** Delete team */
@@ -1188,14 +1188,14 @@ export type TeamOps = {
 
 /** Update project payload */
 export type UpdateProject = {
-		/** ID of project to be updated */
-	project?:string,
-	/** New description for project */
-	description?:string,
-	/** List of tags for project */
+		/** List of tags for project */
 	tags?:string[],
 	/** Set project visiblity */
-	public?:boolean
+	public?:boolean,
+	/** ID of project to be updated */
+	project?:string,
+	/** New description for project */
+	description?:string
 }
 
 /** Editor user */
@@ -1362,7 +1362,7 @@ type LastMapTypeSRCResolver<SRC, DST> = SRC extends AnyFunc
   ? SRC
   : MapType<SRC, DST>;
 
-type MapType<SRC extends Anify<DST>, DST> = DST extends {
+type MapType<SRC extends Anify<DST>, DST> = DST extends boolean ? SRC : DST extends {
   __alias: any;
 }
   ? {
