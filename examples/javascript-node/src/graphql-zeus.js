@@ -12,12 +12,6 @@ export const AllTypesProps = {
 		}
 	},
 	createCard:{
-		description:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
 		Children:{
 			type:"Int",
 			array:false,
@@ -43,6 +37,12 @@ export const AllTypesProps = {
 			required:true
 		},
 		name:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		description:{
 			type:"String",
 			array:false,
 			arrayRequired:false,
@@ -306,6 +306,18 @@ const traverseToSeekArrays = (parent, a) => {
     }
   };
   
+const handleFetchResponse = response => {
+  if (!response.ok) {
+    return new Promise((resolve, reject) => {
+      response.text().then(text => {
+        try { reject(JSON.parse(text)); }
+        catch (err) { reject(text); }
+      }).catch(reject);
+    });
+  }
+  return response.json();
+};
+
 const apiFetch = (options, query, name) => {
     let fetchFunction;
     let queryString = query;
@@ -322,7 +334,7 @@ const apiFetch = (options, query, name) => {
         throw new Error("Something gone wrong 'querystring' is a part of nodejs environment");
       }
       return fetchFunction(`${options[0]}?query=${queryString}`, fetchOptions)
-        .then((response) => response.json())
+        .then(handleFetchResponse)
         .then((response) => {
           if (response.errors) {
             throw new GraphQLError(response);
@@ -339,7 +351,7 @@ const apiFetch = (options, query, name) => {
       },
       ...fetchOptions
     })
-      .then((response) => response.json())
+      .then(handleFetchResponse)
       .then((response) => {
         if (response.errors) {
           throw new GraphQLError(response);
