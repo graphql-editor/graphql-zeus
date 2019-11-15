@@ -1,4 +1,16 @@
 export default `
+const handleFetchResponse = response => {
+  if (!response.ok) {
+    return new Promise((resolve, reject) => {
+      response.text().then(text => {
+        try { reject(JSON.parse(text)); }
+        catch (err) { reject(text); }
+      }).catch(reject);
+    });
+  }
+  return response.json();
+};
+
 const apiFetch = (options, query) => {
     const fetchFunction = fetch;
     let queryString = query;
@@ -6,7 +18,7 @@ const apiFetch = (options, query) => {
     if (fetchOptions.method && fetchOptions.method === 'GET') {
       queryString = encodeURIComponent(query);
       return fetchFunction(\`\${options[0]}?query=\${queryString}\`, fetchOptions)
-        .then((response) => response.json())
+        .then(handleFetchResponse)
         .then((response) => {
           if (response.errors) {
             throw new GraphQLError(response);
@@ -23,7 +35,7 @@ const apiFetch = (options, query) => {
       },
       ...fetchOptions
     })
-      .then((response) => response.json())
+      .then(handleFetchResponse)
       .then((response) => {
         if (response.errors) {
           throw new GraphQLError(response);
