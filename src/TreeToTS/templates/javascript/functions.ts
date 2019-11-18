@@ -4,7 +4,7 @@ export const javascriptFunctions = (env: Environment) => `
   export const ScalarResolver = (scalar, value) => {
     switch (scalar) {
       case 'String':
-        return \`"\${value}"\`;
+        return \`"\${value.replace(/"/g, '\\"')}"\`;
       case 'Int':
         return \`\${value}\`;
       case 'Float':
