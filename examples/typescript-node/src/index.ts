@@ -37,7 +37,7 @@ const run = async () => {
   const tryAssignToPlain: PlainObjects["Card"] = {
     ...ZeusCard,
   };
-  console.log(tryAssignToPlain.Attack)
+  console.log(tryAssignToPlain.Attack);
   printQueryResult("ZeusCard", ZeusCard);
 
   const blalba = await Gql.Query({
