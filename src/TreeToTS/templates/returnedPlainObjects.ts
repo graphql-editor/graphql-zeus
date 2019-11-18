@@ -83,9 +83,9 @@ const resolveValueTypeFromRoot = (i: ParserField, rootNodes: ParserField[]) => {
     return `${plusDescription(i.description)}["${i.name}"]:{
 \t${i.args.map((f) => resolveField(f)).join(';\n')}\n} & (${`${typesImplementing.map((a) => resolveValueType(a.name)).join(" | ")}`})`;
   }
-  return `${plusDescription(i.description)}["${i.name}"]: {\n${i.args
+  return `${plusDescription(i.description)}["${i.name}"]: {\n\t\t__typename?: "${i.name}";\n\t\t${i.args
     .map((f) => resolveField(f))
-    .join(',\n')}\n}`;
+    .join(',\n\t\t')}\n\t}`;
 };
 export const resolvePlainObjects = (fields: ParserField[], rootNodes: ParserField[]) => {
   return `export type ${PLAINOBJECTS} = {

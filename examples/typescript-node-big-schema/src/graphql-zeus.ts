@@ -80,7 +80,7 @@ public is user namespace public */
 	/** Modify project */
 	updateProject:(props:{	in?:ValueTypes["UpdateProject"]}) => boolean,
 	/** Add sources to the project */
-	updateSources:(props:{	project:string,	sources?:ValueTypes["NewSource"][]}) => (ValueTypes["SourceUploadInfo"] | undefined)[]
+	updateSources:(props:{	sources?:ValueTypes["NewSource"][],	project:string}) => (ValueTypes["SourceUploadInfo"] | undefined)[]
 },
 	/** Namespace is a root object containing projects belonging
 to a team or user */
@@ -100,14 +100,14 @@ limit sets a limit on how many objects can be returned */
 },
 	/** New source payload */
 ["NewSource"]: {
+	/** Source checksum */
+	checksum?:string,
 	/** source file name */
 	filename?:string,
 	/** Length of source in bytes */
 	contentLength?:number,
 	/** Source mime type */
-	contentType?:string,
-	/** Source checksum */
-	checksum?:string
+	contentType?:string
 },
 	/** PageInfo contains information about connection page */
 ["PageInfo"]: {
@@ -188,7 +188,7 @@ tag is a string
 last is an id of the last project returned by previous call
 
 limit limits the number of returned projects */
-	findProjectsByTag:(props:{	tag:string,	last?:string,	limit?:number}) => ValueTypes["ProjectConnection"],
+	findProjectsByTag:(props:{	limit?:number,	tag:string,	last?:string}) => ValueTypes["ProjectConnection"],
 	/** Return namespace matching slug */
 	getNamespace:(props:{	slug:string}) => ValueTypes["Namespace"],
 	/** Return project by id */
@@ -206,7 +206,7 @@ last is an id of the last project returned by previous call
 limit limits the number of returned projects */
 	listProjects:(props:{	last?:string,	limit?:number,	owned?:boolean}) => ValueTypes["ProjectConnection"],
 	/** List of current user teams */
-	myTeams:(props:{	last?:string,	limit?:number}) => ValueTypes["TeamConnection"]
+	myTeams:(props:{	limit?:number,	last?:string}) => ValueTypes["TeamConnection"]
 },
 	/** Team member role */
 ["Role"]:Role,
@@ -321,174 +321,188 @@ export type PlainObjects = {
 ["AccountType"]:AccountType,
 	/** Endpoint returnes a full path to the project without host */
 ["Endpoint"]: {
-	/** Full project uri without host */
+		__typename?: "Endpoint";
+			/** Full project uri without host */
 	uri?:string
-},
+	},
 	/** A source object */
 ["FakerSource"]: {
-	/** File checksum */
+		__typename?: "FakerSource";
+			/** File checksum */
 	checksum?:string,
-	contents?:string,
-	/** Name of source file */
+			contents?:string,
+			/** Name of source file */
 	filename?:string,
-	/** Return an url by which source file can be accessed */
+			/** Return an url by which source file can be accessed */
 	getUrl?:string
-},
+	},
 	/** Connection object containing list of faker sources */
 ["FakerSourceConnection"]: {
-	/** Connection pageInfo */
+		__typename?: "FakerSourceConnection";
+			/** Connection pageInfo */
 	pageInfo:PlainObjects["PageInfo"],
-	/** List of sources returned by connection */
+			/** List of sources returned by connection */
 	sources?:PlainObjects["FakerSource"][]
-},
+	},
 	/** Request header */
 ["Header"]: {
-	/** Header name */
+		__typename?: "Header";
+			/** Header name */
 	key:string,
-	/** Header value */
+			/** Header value */
 	value?:string
-},
+	},
 	/** Team member */
 ["Member"]: {
-	/** Member email */
+		__typename?: "Member";
+			/** Member email */
 	email?:string,
-	/** Member role */
+			/** Member role */
 	role?:PlainObjects["Role"],
-	/** Member username */
+			/** Member username */
 	username?:string
-},
+	},
 	/** Paginated members list */
 ["MemberConnection"]: {
-	/** List of members in this connection */
+		__typename?: "MemberConnection";
+			/** List of members in this connection */
 	members?:PlainObjects["Member"][],
-	/** pageInfo for member connection */
+			/** pageInfo for member connection */
 	pageInfo:PlainObjects["PageInfo"]
-},
+	},
 	/** Team member ops */
 ["MemberOps"]: {
-	/** Boolean object node */
+		__typename?: "MemberOps";
+			/** Boolean object node */
 	delete?:boolean,
-	/** Boolean object node */
+			/** Boolean object node */
 	update?:boolean
-},
+	},
 	["Mutation"]: {
-	/** Create new user project
+		__typename?: "Mutation";
+			/** Create new user project
 
 public if true project is public
 
 name is project name */
 	createProject:PlainObjects["Project"],
-	/** Create new team */
+			/** Create new team */
 	createTeam?:PlainObjects["TeamOps"],
-	/** Create new user
+			/** Create new user
 
 namespace name for a user
 
 public is user namespace public */
 	createUser:PlainObjects["User"],
-	/** deploy project to faker */
+			/** deploy project to faker */
 	deployToFaker?:boolean,
-	/** Remove project by id */
+			/** Remove project by id */
 	removeProject?:boolean,
-	/** type object node */
+			/** type object node */
 	team?:PlainObjects["TeamOps"],
-	/** Modify project */
+			/** Modify project */
 	updateProject?:boolean,
-	/** Add sources to the project */
+			/** Add sources to the project */
 	updateSources?:(PlainObjects["SourceUploadInfo"] | undefined)[]
-},
+	},
 	/** Namespace is a root object containing projects belonging
 to a team or user */
 ["Namespace"]: {
-	/** Return project by name from namespace */
+		__typename?: "Namespace";
+			/** Return project by name from namespace */
 	project?:PlainObjects["Project"],
-	/** Returns a project connection object which contains a projects belonging to namespace
+			/** Returns a project connection object which contains a projects belonging to namespace
 
 last is a string returned by previous call to Namespace.projects
 
 limit sets a limit on how many objects can be returned */
 	projects?:PlainObjects["ProjectConnection"],
-	/** True if namespace is public */
+			/** True if namespace is public */
 	public?:boolean,
-	/** Namespace part of the slug */
+			/** Namespace part of the slug */
 	slug?:string
-},
+	},
 	/** New source payload */
 ["NewSource"]: {
+	/** Source checksum */
+	checksum?:string,
 	/** source file name */
 	filename?:string,
 	/** Length of source in bytes */
 	contentLength?:number,
 	/** Source mime type */
-	contentType?:string,
-	/** Source checksum */
-	checksum?:string
+	contentType?:string
 },
 	/** PageInfo contains information about connection page */
 ["PageInfo"]: {
-	/** last element in connection */
+		__typename?: "PageInfo";
+			/** last element in connection */
 	last?:string,
-	/** limit set while quering */
+			/** limit set while quering */
 	limit?:number,
-	/** if next is false then client recieved all available data */
+			/** if next is false then client recieved all available data */
 	next?:boolean
-},
+	},
 	/** Project type */
 ["Project"]: {
-	/** Project description */
+		__typename?: "Project";
+			/** Project description */
 	description?:string,
-	/** Project endpoint contains a slug under which project can be reached
+			/** Project endpoint contains a slug under which project can be reached
 
 For example https://app.graphqleditor.com/{endpoint.uri}/ */
 	endpoint?:PlainObjects["Endpoint"],
-	/** Unique project id */
+			/** Unique project id */
 	id:string,
-	/** Is project mocked by faker backend */
+			/** Is project mocked by faker backend */
 	mocked?:boolean,
-	/** Project name */
+			/** Project name */
 	name:string,
-	/** Project owner
+			/** Project owner
 
 Can be null if project belongs to a team */
 	owner?:PlainObjects["User"],
-	/** True if project is public */
+			/** True if project is public */
 	public?:boolean,
-	/** Project part of the slug */
+			/** Project part of the slug */
 	slug?:string,
-	/** Returns a connection object with source files in project
+			/** Returns a connection object with source files in project
 
 last is a string returned by previous call to Project.sources
 
 limit sets a limit on how many objects can be returned */
 	sources?:PlainObjects["FakerSourceConnection"],
-	/** Project tags */
+			/** Project tags */
 	tags?:string[],
-	/** Team to which project belongs
+			/** Team to which project belongs
 
 Can be null if project belongs to a user */
 	team?:PlainObjects["Team"]
-},
+	},
 	/** Project connection object
 
 Used with paginated listing of projects */
 ["ProjectConnection"]: {
-	/** Current connection page info */
+		__typename?: "ProjectConnection";
+			/** Current connection page info */
 	pageInfo:PlainObjects["PageInfo"],
-	/** List of projects in connection */
+			/** List of projects in connection */
 	projects?:PlainObjects["Project"][]
-},
+	},
 	/** type object node */
 ["ProjectOps"]: {
-	/** Boolean object node */
+		__typename?: "ProjectOps";
+			/** Boolean object node */
 	delete?:boolean,
-	/** deploy project to faker */
+			/** deploy project to faker */
 	deployToFaker?:boolean,
-	/** Boolean object node */
+			/** Boolean object node */
 	update?:boolean
-},
+	},
 	/** Root query type */
 ["Query"]: {
-	/** Returns a project connection
+		__typename?: "Query";
+			/** Returns a project connection
 
 query is a regular expresion matched agains project slug
 
@@ -496,7 +510,7 @@ last is an id of the last project returned by previous call
 
 limit limits the number of returned projects */
 	findProjects?:PlainObjects["ProjectConnection"],
-	/** Find projects which contain tag
+			/** Find projects which contain tag
 
 tag is a string
 
@@ -504,15 +518,15 @@ last is an id of the last project returned by previous call
 
 limit limits the number of returned projects */
 	findProjectsByTag?:PlainObjects["ProjectConnection"],
-	/** Return namespace matching slug */
+			/** Return namespace matching slug */
 	getNamespace?:PlainObjects["Namespace"],
-	/** Return project by id */
+			/** Return project by id */
 	getProject?:PlainObjects["Project"],
-	/** Return team by name */
+			/** Return team by name */
 	getTeam?:PlainObjects["Team"],
-	/** Return user by name */
+			/** Return user by name */
 	getUser?:PlainObjects["User"],
-	/** Returns a project connection
+			/** Returns a project connection
 	
 If owned is true, returns only project belonging to currently logged user
 
@@ -520,85 +534,91 @@ last is an id of the last project returned by previous call
 
 limit limits the number of returned projects */
 	listProjects?:PlainObjects["ProjectConnection"],
-	/** List of current user teams */
+			/** List of current user teams */
 	myTeams?:PlainObjects["TeamConnection"]
-},
+	},
 	/** Team member role */
 ["Role"]:Role,
 	/** Source upload info object */
 ["SourceUploadInfo"]: {
-	/** Source file name */
+		__typename?: "SourceUploadInfo";
+			/** Source file name */
 	filename?:string,
-	/** List of headers that must be included in PUT request */
+			/** List of headers that must be included in PUT request */
 	headers?:(PlainObjects["Header"] | undefined)[],
-	/** String with url used in PUT request */
+			/** String with url used in PUT request */
 	putUrl:string
-},
+	},
 	["Subscription"]: {
-	/** Cancel subscription URL */
+		__typename?: "Subscription";
+			/** Cancel subscription URL */
 	cancelURL?:string,
-	/** Subscription expiration date */
+			/** Subscription expiration date */
 	expiration?:string,
-	/** Number of seats in subscription */
+			/** Number of seats in subscription */
 	quantity?:number,
-	/** List of seats in subscription */
+			/** List of seats in subscription */
 	seats?:PlainObjects["UserConnection"],
-	/** Status of subscription */
+			/** Status of subscription */
 	status?:string,
-	/** Subscription unique id */
+			/** Subscription unique id */
 	subscriptionID?:number,
-	/** Subscription unique id */
+			/** Subscription unique id */
 	subscriptionPlanID?:number,
-	/** Update subscription URL */
+			/** Update subscription URL */
 	updateURL?:string
-},
+	},
 	["SubscriptionConnection"]: {
-	/** Current conenction page info */
+		__typename?: "SubscriptionConnection";
+			/** Current conenction page info */
 	pageInfo:PlainObjects["PageInfo"],
-	/** List of subscriptions in connection */
+			/** List of subscriptions in connection */
 	subscriptions?:PlainObjects["Subscription"][]
-},
+	},
 	/** Team object */
 ["Team"]: {
-	/** Unique team id */
+		__typename?: "Team";
+			/** Unique team id */
 	id?:string,
-	/** type object node */
+			/** type object node */
 	member?:PlainObjects["Member"],
-	/** Paginated list of members in team */
+			/** Paginated list of members in team */
 	members?:PlainObjects["MemberConnection"],
-	/** Team name */
+			/** Team name */
 	name:string,
-	/** Team's namespace */
+			/** Team's namespace */
 	namespace:PlainObjects["Namespace"]
-},
+	},
 	/** Teams connection */
 ["TeamConnection"]: {
-	/** Pagination info used in next fetch */
+		__typename?: "TeamConnection";
+			/** Pagination info used in next fetch */
 	pageInfo:PlainObjects["PageInfo"],
-	/** List of teams returned by current page in connection */
+			/** List of teams returned by current page in connection */
 	teams?:PlainObjects["Team"][]
-},
+	},
 	/** Team operations */
 ["TeamOps"]: {
-	/** Add member to the team */
+		__typename?: "TeamOps";
+			/** Add member to the team */
 	addMember?:PlainObjects["Member"],
-	/** Create new team project */
+			/** Create new team project */
 	createProject?:PlainObjects["Project"],
-	/** Delete team */
+			/** Delete team */
 	delete?:boolean,
-	/** Unique team id */
+			/** Unique team id */
 	id?:string,
-	/** type object node */
+			/** type object node */
 	member?:PlainObjects["MemberOps"],
-	/** Paginated list of members in team */
+			/** Paginated list of members in team */
 	members?:PlainObjects["MemberConnection"],
-	/** Team name */
+			/** Team name */
 	name?:string,
-	/** Team's namespace */
+			/** Team's namespace */
 	namespace?:PlainObjects["Namespace"],
-	/** type object node */
+			/** type object node */
 	project?:PlainObjects["ProjectOps"]
-},
+	},
 	/** Update project payload */
 ["UpdateProject"]: {
 	/** List of tags for project */
@@ -612,23 +632,25 @@ limit limits the number of returned projects */
 },
 	/** Editor user */
 ["User"]: {
-	/** User's account type */
+		__typename?: "User";
+			/** User's account type */
 	accountType:PlainObjects["AccountType"],
-	/** Unique user id */
+			/** Unique user id */
 	id?:string,
-	/** User's namespace */
+			/** User's namespace */
 	namespace?:PlainObjects["Namespace"],
-	/** User's subscriptions */
+			/** User's subscriptions */
 	subscriptions?:PlainObjects["SubscriptionConnection"],
-	/** Unique username */
+			/** Unique username */
 	username?:string
-},
+	},
 	["UserConnection"]: {
-	/** Current connection page info */
+		__typename?: "UserConnection";
+			/** Current connection page info */
 	pageInfo:PlainObjects["PageInfo"],
-	/** List of projects in connection */
+			/** List of projects in connection */
 	users?:PlainObjects["User"][]
-}
+	}
   }
 
 /** Defines user's account type */
@@ -728,7 +750,7 @@ public is user namespace public */
 	/** Modify project */
 	updateProject:(props:{	in?:UpdateProject}) => boolean,
 	/** Add sources to the project */
-	updateSources:(props:{	project:string,	sources?:NewSource[]}) => (SourceUploadInfo | undefined)[]
+	updateSources:(props:{	sources?:NewSource[],	project:string}) => (SourceUploadInfo | undefined)[]
 }
 
 /** Namespace is a root object containing projects belonging
@@ -751,14 +773,14 @@ limit sets a limit on how many objects can be returned */
 
 /** New source payload */
 export type NewSource = {
-		/** source file name */
+		/** Source checksum */
+	checksum?:string,
+	/** source file name */
 	filename?:string,
 	/** Length of source in bytes */
 	contentLength?:number,
 	/** Source mime type */
-	contentType?:string,
-	/** Source checksum */
-	checksum?:string
+	contentType?:string
 }
 
 /** PageInfo contains information about connection page */
@@ -849,7 +871,7 @@ tag is a string
 last is an id of the last project returned by previous call
 
 limit limits the number of returned projects */
-	findProjectsByTag:(props:{	tag:string,	last?:string,	limit?:number}) => ProjectConnection,
+	findProjectsByTag:(props:{	limit?:number,	tag:string,	last?:string}) => ProjectConnection,
 	/** Return namespace matching slug */
 	getNamespace:(props:{	slug:string}) => Namespace,
 	/** Return project by id */
@@ -867,16 +889,16 @@ last is an id of the last project returned by previous call
 limit limits the number of returned projects */
 	listProjects:(props:{	last?:string,	limit?:number,	owned?:boolean}) => ProjectConnection,
 	/** List of current user teams */
-	myTeams:(props:{	last?:string,	limit?:number}) => TeamConnection
+	myTeams:(props:{	limit?:number,	last?:string}) => TeamConnection
 }
 
 /** Team member role */
 export enum Role {
-	CONTRIBUTOR = "CONTRIBUTOR",
-	OWNER = "OWNER",
 	ADMIN = "ADMIN",
 	EDITOR = "EDITOR",
-	VIEWER = "VIEWER"
+	VIEWER = "VIEWER",
+	CONTRIBUTOR = "CONTRIBUTOR",
+	OWNER = "OWNER"
 }
 
 /** Source upload info object */
@@ -1088,15 +1110,15 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		updateSources:{
-			project:{
-				type:"ID",
-				array:false,
-				arrayRequired:false,
-				required:true
-			},
 			sources:{
 				type:"NewSource",
 				array:true,
+				arrayRequired:false,
+				required:true
+			},
+			project:{
+				type:"ID",
+				array:false,
 				arrayRequired:false,
 				required:true
 			}
@@ -1127,6 +1149,12 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	NewSource:{
+		checksum:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
 		filename:{
 			type:"String",
 			array:false,
@@ -1140,12 +1168,6 @@ export const AllTypesProps: Record<string,any> = {
 			required:false
 		},
 		contentType:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		checksum:{
 			type:"String",
 			array:false,
 			arrayRequired:false,
@@ -1200,6 +1222,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		findProjectsByTag:{
+			limit:{
+				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			tag:{
 				type:"String",
 				array:false,
@@ -1208,12 +1236,6 @@ export const AllTypesProps: Record<string,any> = {
 			},
 			last:{
 				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			limit:{
-				type:"Int",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -1272,14 +1294,14 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		myTeams:{
-			last:{
-				type:"String",
+			limit:{
+				type:"Int",
 				array:false,
 				arrayRequired:false,
 				required:false
 			},
-			limit:{
-				type:"Int",
+			last:{
+				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:false

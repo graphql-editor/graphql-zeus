@@ -32,8 +32,6 @@ export type ValueTypes = {
 },
 	/** create card inputs<br> */
 ["createCard"]: {
-	/** The name of a card<br> */
-	name:string,
 	/** Description of a card<br> */
 	description:string,
 	/** <div>How many children the greek god had</div> */
@@ -43,7 +41,9 @@ export type ValueTypes = {
 	/** The defense power<br> */
 	Defense:number,
 	/** input skills */
-	skills?:ValueTypes["SpecialSkills"][]
+	skills?:ValueTypes["SpecialSkills"][],
+	/** The name of a card<br> */
+	name:string
 },
 	["EffectCard"]: {
 	effectSize:number,
@@ -86,33 +86,33 @@ export type ValueTypes = {
 export type PlainObjects = {
     /** Card used in card game<br> */
 ["Card"]: {
-	/** The attack power<br> */
+		__typename?: "Card";
+			/** The attack power<br> */
 	Attack:number,
-	/** <div>How many children the greek god had</div> */
+			/** <div>How many children the greek god had</div> */
 	Children?:number,
-	/** The defense power<br> */
+			/** The defense power<br> */
 	Defense:number,
-	/** Attack other cards on the table , returns Cards after attack<br> */
+			/** Attack other cards on the table , returns Cards after attack<br> */
 	attack?:PlainObjects["Card"][],
-	/** Put your description here */
+			/** Put your description here */
 	cardImage?:PlainObjects["S3Object"],
-	/** Description of a card<br> */
+			/** Description of a card<br> */
 	description:string,
-	id:string,
-	/** The name of a card<br> */
+			id:string,
+			/** The name of a card<br> */
 	name:string,
-	skills?:PlainObjects["SpecialSkills"][]
-},
+			skills?:PlainObjects["SpecialSkills"][]
+	},
 	/** Stack of cards */
 ["CardStack"]: {
-	cards?:PlainObjects["Card"][],
-	name:string
-},
+		__typename?: "CardStack";
+			cards?:PlainObjects["Card"][],
+			name:string
+	},
 	["ChangeCard"]: PlainObjects["SpecialCard"] | PlainObjects["EffectCard"],
 	/** create card inputs<br> */
 ["createCard"]: {
-	/** The name of a card<br> */
-	name:string,
 	/** Description of a card<br> */
 	description:string,
 	/** <div>How many children the greek god had</div> */
@@ -122,39 +122,46 @@ export type PlainObjects = {
 	/** The defense power<br> */
 	Defense:number,
 	/** input skills */
-	skills?:PlainObjects["SpecialSkills"][]
-},
-	["EffectCard"]: {
-	effectSize:number,
+	skills?:PlainObjects["SpecialSkills"][],
+	/** The name of a card<br> */
 	name:string
 },
+	["EffectCard"]: {
+		__typename?: "EffectCard";
+			effectSize:number,
+			name:string
+	},
 	["Mutation"]: {
-	/** add Card to Cards database<br> */
+		__typename?: "Mutation";
+			/** add Card to Cards database<br> */
 	addCard:PlainObjects["Card"]
-},
+	},
 	["Nameable"]:{
 		name:string
 } & (PlainObjects["Card"] | PlainObjects["CardStack"] | PlainObjects["EffectCard"] | PlainObjects["SpecialCard"]),
 	["Query"]: {
-	cardById?:PlainObjects["Card"],
-	/** Draw a card<br> */
+		__typename?: "Query";
+			cardById?:PlainObjects["Card"],
+			/** Draw a card<br> */
 	drawCard:PlainObjects["Card"],
-	drawChangeCard:PlainObjects["ChangeCard"],
-	/** list All Cards availble<br> */
+			drawChangeCard:PlainObjects["ChangeCard"],
+			/** list All Cards availble<br> */
 	listCards:PlainObjects["Card"][],
-	myStacks?:PlainObjects["CardStack"][],
-	nameables:PlainObjects["Nameable"][]
-},
+			myStacks?:PlainObjects["CardStack"][],
+			nameables:PlainObjects["Nameable"][]
+	},
 	/** Aws S3 File */
 ["S3Object"]: {
-	bucket:string,
-	key:string,
-	region:string
-},
+		__typename?: "S3Object";
+			bucket:string,
+			key:string,
+			region:string
+	},
 	["SpecialCard"]: {
-	effect:string,
-	name:string
-},
+		__typename?: "SpecialCard";
+			effect:string,
+			name:string
+	},
 	["SpecialSkills"]:SpecialSkills
   }
 
@@ -197,9 +204,7 @@ export type ChangeCard = {
 
 /** create card inputs<br> */
 export type createCard = {
-		/** The name of a card<br> */
-	name:string,
-	/** Description of a card<br> */
+		/** Description of a card<br> */
 	description:string,
 	/** <div>How many children the greek god had</div> */
 	Children?:number,
@@ -208,7 +213,9 @@ export type createCard = {
 	/** The defense power<br> */
 	Defense:number,
 	/** input skills */
-	skills?:SpecialSkills[]
+	skills?:SpecialSkills[],
+	/** The name of a card<br> */
+	name:string
 }
 
 export type EffectCard = {
