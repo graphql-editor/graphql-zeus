@@ -1,3 +1,163 @@
+/* tslint:disable */
+/* eslint-disable */
+
+export type ValueTypes = {
+    /** Card used in card game<br> */
+["Card"]: {
+	/** The attack power<br> */
+	Attack:number,
+	/** <div>How many children the greek god had</div> */
+	Children?:number,
+	/** The defense power<br> */
+	Defense:number,
+	/** Attack other cards on the table , returns Cards after attack<br> */
+	attack:(props:{	/** Attacked card/card ids<br> */
+	cardID?:string[]}) => ValueTypes["Card"][],
+	/** Put your description here */
+	cardImage?:ValueTypes["S3Object"],
+	/** Description of a card<br> */
+	description:string,
+	id:string,
+	/** The name of a card<br> */
+	name:string,
+	skills?:ValueTypes["SpecialSkills"][]
+},
+	/** Stack of cards */
+["CardStack"]: {
+	cards?:ValueTypes["Card"][],
+	name:string
+},
+	["ChangeCard"]: {		["...on SpecialCard"] : ValueTypes["SpecialCard"],
+		["...on EffectCard"] : ValueTypes["EffectCard"]
+},
+	/** create card inputs<br> */
+["createCard"]: {
+	/** input skills */
+	skills?:ValueTypes["SpecialSkills"][],
+	/** The name of a card<br> */
+	name:string,
+	/** Description of a card<br> */
+	description:string,
+	/** <div>How many children the greek god had</div> */
+	Children?:number,
+	/** The attack power<br> */
+	Attack:number,
+	/** The defense power<br> */
+	Defense:number
+},
+	["EffectCard"]: {
+	effectSize:number,
+	name:string
+},
+	["Mutation"]: {
+	/** add Card to Cards database<br> */
+	addCard:(props:{	card:ValueTypes["createCard"]}) => ValueTypes["Card"]
+},
+	["Nameable"]:{
+		name:string;
+		['...on Card']: Card;
+		['...on CardStack']: CardStack;
+		['...on EffectCard']: EffectCard;
+		['...on SpecialCard']: SpecialCard;
+},
+	["Query"]: {
+	cardById:(props:{	cardId?:string}) => ValueTypes["Card"],
+	/** Draw a card<br> */
+	drawCard:ValueTypes["Card"],
+	drawChangeCard:ValueTypes["ChangeCard"],
+	/** list All Cards availble<br> */
+	listCards:ValueTypes["Card"][],
+	myStacks?:ValueTypes["CardStack"][],
+	nameables:ValueTypes["Nameable"][]
+},
+	/** Aws S3 File */
+["S3Object"]: {
+	bucket:string,
+	key:string,
+	region:string
+},
+	["SpecialCard"]: {
+	effect:string,
+	name:string
+},
+	["SpecialSkills"]:SpecialSkills
+  }
+
+export type PlainObjects = {
+    /** Card used in card game<br> */
+["Card"]: {
+	/** The attack power<br> */
+	Attack:number,
+	/** <div>How many children the greek god had</div> */
+	Children?:number,
+	/** The defense power<br> */
+	Defense:number,
+	/** Attack other cards on the table , returns Cards after attack<br> */
+	attack?:PlainObjects["Card"][],
+	/** Put your description here */
+	cardImage?:PlainObjects["S3Object"],
+	/** Description of a card<br> */
+	description:string,
+	id:string,
+	/** The name of a card<br> */
+	name:string,
+	skills?:PlainObjects["SpecialSkills"][]
+},
+	/** Stack of cards */
+["CardStack"]: {
+	cards?:PlainObjects["Card"][],
+	name:string
+},
+	["ChangeCard"]: SpecialCard | EffectCard,
+	/** create card inputs<br> */
+["createCard"]: {
+	/** input skills */
+	skills?:PlainObjects["SpecialSkills"][],
+	/** The name of a card<br> */
+	name:string,
+	/** Description of a card<br> */
+	description:string,
+	/** <div>How many children the greek god had</div> */
+	Children?:number,
+	/** The attack power<br> */
+	Attack:number,
+	/** The defense power<br> */
+	Defense:number
+},
+	["EffectCard"]: {
+	effectSize:number,
+	name:string
+},
+	["Mutation"]: {
+	/** add Card to Cards database<br> */
+	addCard:PlainObjects["Card"]
+},
+	["Nameable"]:{
+		name:string
+} & (Card | CardStack | EffectCard | SpecialCard),
+	["Query"]: {
+	cardById?:PlainObjects["Card"],
+	/** Draw a card<br> */
+	drawCard:PlainObjects["Card"],
+	drawChangeCard:PlainObjects["ChangeCard"],
+	/** list All Cards availble<br> */
+	listCards:PlainObjects["Card"][],
+	myStacks?:PlainObjects["CardStack"][],
+	nameables:PlainObjects["Nameable"][]
+},
+	/** Aws S3 File */
+["S3Object"]: {
+	bucket:string,
+	key:string,
+	region:string
+},
+	["SpecialCard"]: {
+	effect:string,
+	name:string
+},
+	["SpecialSkills"]:SpecialSkills
+  }
+
 /** Card used in card game<br> */
 export type Card = {
 	__typename?: "Card",
@@ -37,18 +197,18 @@ export type ChangeCard = {
 
 /** create card inputs<br> */
 export type createCard = {
-		/** <div>How many children the greek god had</div> */
-	Children?:number,
-	/** The attack power<br> */
-	Attack:number,
-	/** The defense power<br> */
-	Defense:number,
-	/** input skills */
+		/** input skills */
 	skills?:SpecialSkills[],
 	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
-	description:string
+	description:string,
+	/** <div>How many children the greek god had</div> */
+	Children?:number,
+	/** The attack power<br> */
+	Attack:number,
+	/** The defense power<br> */
+	Defense:number
 }
 
 export type EffectCard = {
@@ -102,92 +262,10 @@ export type SpecialCard = {
 }
 
 export enum SpecialSkills {
-	THUNDER = "THUNDER",
 	RAIN = "RAIN",
-	FIRE = "FIRE"
+	FIRE = "FIRE",
+	THUNDER = "THUNDER"
 }
-
-export type ValueTypes = {
-    /** Card used in card game<br> */
-["Card"]: {
-	/** The attack power<br> */
-	Attack:number,
-	/** <div>How many children the greek god had</div> */
-	Children?:number,
-	/** The defense power<br> */
-	Defense:number,
-	/** Attack other cards on the table , returns Cards after attack<br> */
-	attack:(props:{	/** Attacked card/card ids<br> */
-	cardID?:string[]}) => ValueTypes["Card"][],
-	/** Put your description here */
-	cardImage?:ValueTypes["S3Object"],
-	/** Description of a card<br> */
-	description:string,
-	id:string,
-	/** The name of a card<br> */
-	name:string,
-	skills?:ValueTypes["SpecialSkills"][]
-},
-	/** Stack of cards */
-["CardStack"]: {
-	cards?:ValueTypes["Card"][],
-	name:string
-},
-	["ChangeCard"]: {		["...on SpecialCard"] : ValueTypes["SpecialCard"],
-		["...on EffectCard"] : ValueTypes["EffectCard"]
-},
-	/** create card inputs<br> */
-["createCard"]: {
-	/** <div>How many children the greek god had</div> */
-	Children?:number,
-	/** The attack power<br> */
-	Attack:number,
-	/** The defense power<br> */
-	Defense:number,
-	/** input skills */
-	skills?:ValueTypes["SpecialSkills"][],
-	/** The name of a card<br> */
-	name:string,
-	/** Description of a card<br> */
-	description:string
-},
-	["EffectCard"]: {
-	effectSize:number,
-	name:string
-},
-	["Mutation"]: {
-	/** add Card to Cards database<br> */
-	addCard:(props:{	card:ValueTypes["createCard"]}) => ValueTypes["Card"]
-},
-	["Nameable"]:{
-		name:string;
-		['...on Card']: Card;
-		['...on CardStack']: CardStack;
-		['...on EffectCard']: EffectCard;
-		['...on SpecialCard']: SpecialCard;
-},
-	["Query"]: {
-	cardById:(props:{	cardId?:string}) => ValueTypes["Card"],
-	/** Draw a card<br> */
-	drawCard:ValueTypes["Card"],
-	drawChangeCard:ValueTypes["ChangeCard"],
-	/** list All Cards availble<br> */
-	listCards:ValueTypes["Card"][],
-	myStacks?:ValueTypes["CardStack"][],
-	nameables:ValueTypes["Nameable"][]
-},
-	/** Aws S3 File */
-["S3Object"]: {
-	bucket:string,
-	key:string,
-	region:string
-},
-	["SpecialCard"]: {
-	effect:string,
-	name:string
-},
-	["SpecialSkills"]:SpecialSkills
-  }
 
 
 type Func<P extends any[], R> = (...args: P) => R;

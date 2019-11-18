@@ -106,7 +106,7 @@ type Mutation {
   updateProject(in: UpdateProject): Boolean
 
   """Add sources to the project"""
-  updateSources(project: ID!, sources: [NewSource!]): [SourceUploadInfo]
+  updateSources(sources: [NewSource!], project: ID!): [SourceUploadInfo]
 }
 
 """
@@ -135,6 +135,9 @@ type Namespace {
 
 """New source payload"""
 input NewSource {
+  """Source checksum"""
+  checksum: String
+
   """source file name"""
   filename: String
 
@@ -143,9 +146,6 @@ input NewSource {
 
   """Source mime type"""
   contentType: String
-
-  """Source checksum"""
-  checksum: String
 }
 
 """PageInfo contains information about connection page"""
@@ -261,7 +261,7 @@ type Query {
   
   limit limits the number of returned projects
   """
-  findProjectsByTag(tag: String!, last: String, limit: Int): ProjectConnection
+  findProjectsByTag(limit: Int, tag: String!, last: String): ProjectConnection
 
   """Return namespace matching slug"""
   getNamespace(slug: String!): Namespace
@@ -287,19 +287,11 @@ type Query {
   listProjects(last: String, limit: Int, owned: Boolean): ProjectConnection
 
   """List of current user teams"""
-  myTeams(last: String, limit: Int): TeamConnection
+  myTeams(limit: Int, last: String): TeamConnection
 }
 
 """Team member role"""
 enum Role {
-  """Team contributor can edit projects in team"""
-  CONTRIBUTOR
-
-  """
-  Team owner owner can add/remove/edit/view projects and members to a team. Only owner can delete team
-  """
-  OWNER
-
   """
   Team admin can add/remove/edit/view projects and members(except owner) to a team
   """
@@ -310,6 +302,14 @@ enum Role {
 
   """Team viewer can view projects in team"""
   VIEWER
+
+  """Team contributor can edit projects in team"""
+  CONTRIBUTOR
+
+  """
+  Team owner owner can add/remove/edit/view projects and members to a team. Only owner can delete team
+  """
+  OWNER
 }
 
 """Source upload info object"""
@@ -417,9 +417,6 @@ type TeamOps {
 
 """Update project payload"""
 input UpdateProject {
-  """New description for project"""
-  description: String
-
   """List of tags for project"""
   tags: [String!]
 
@@ -428,6 +425,9 @@ input UpdateProject {
 
   """ID of project to be updated"""
   project: ID
+
+  """New description for project"""
+  description: String
 }
 
 """Editor user"""

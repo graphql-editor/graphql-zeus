@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { Gql, SpecialSkills, Zeus } from "./graphql-zeus";
+import { Gql, PlainObjects, SpecialSkills, Zeus } from "./graphql-zeus";
 const printQueryResult = (name: string, result: any) =>
   console.log(
     `${chalk.greenBright(name)} result:\n${chalk.cyan(JSON.stringify(result, null, 4))}\n\n`,
@@ -19,14 +19,25 @@ const run = async () => {
         },
       },
       {
+        id: true,
+        description: true,
+        name: true,
+        Attack: true,
         skills: true,
         Children: true,
+        Defense: true,
         cardImage: {
           bucket: true,
+          region: true,
+          key: true,
         },
       },
     ],
   });
+  const tryAssignToPlain: PlainObjects["Card"] = {
+    ...ZeusCard,
+  };
+  console.log(tryAssignToPlain.Attack)
   printQueryResult("ZeusCard", ZeusCard);
 
   const blalba = await Gql.Query({

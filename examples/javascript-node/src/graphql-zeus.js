@@ -1,6 +1,7 @@
+/* tslint:disable */
 /* eslint-disable */
 
-export const AllTypesProps = {
+export const AllTypesProps: Record<string,any> = {
 	Card:{
 		attack:{
 			cardID:{
@@ -12,24 +13,6 @@ export const AllTypesProps = {
 		}
 	},
 	createCard:{
-		Children:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		Attack:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		Defense:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
 		skills:{
 			type:"SpecialSkills",
 			array:true,
@@ -44,6 +27,24 @@ export const AllTypesProps = {
 		},
 		description:{
 			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		Children:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		Attack:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		Defense:{
+			type:"Int",
 			array:false,
 			arrayRequired:false,
 			required:true
@@ -72,7 +73,7 @@ export const AllTypesProps = {
 	SpecialSkills: "enum"
 }
 
-export const ReturnTypes = {
+export const ReturnTypes: Record<string,any> = {
 	Card:{
 		Attack:"Int",
 		Children:"Int",
