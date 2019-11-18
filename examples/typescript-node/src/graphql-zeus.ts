@@ -34,6 +34,8 @@ export type ValueTypes = {
   },
   /** create card inputs<br> */
   ["createCard"]: {
+    /** The defense power<br> */
+    Defense: number,
     /** input skills */
     skills?: ValueTypes["SpecialSkills"][],
     /** The name of a card<br> */
@@ -43,9 +45,7 @@ export type ValueTypes = {
     /** <div>How many children the greek god had</div> */
     Children?: number,
     /** The attack power<br> */
-    Attack: number,
-    /** The defense power<br> */
-    Defense: number
+    Attack: number
   },
   ["EffectCard"]: {
     effectSize: number,
@@ -57,10 +57,10 @@ export type ValueTypes = {
   },
   ["Nameable"]: {
     name: string;
-    ['...on Card']: Card;
-    ['...on CardStack']: CardStack;
-    ['...on EffectCard']: EffectCard;
-    ['...on SpecialCard']: SpecialCard;
+    ['...on Card']: ValueTypes["Card"];
+    ['...on CardStack']: ValueTypes["CardStack"];
+    ['...on EffectCard']: ValueTypes["EffectCard"];
+    ['...on SpecialCard']: ValueTypes["SpecialCard"];
   },
   ["Query"]: {
     cardById: (props: { cardId?: string }) => ValueTypes["Card"],
@@ -110,9 +110,11 @@ export type PlainObjects = {
     cards?: PlainObjects["Card"][],
     name: string
   },
-  ["ChangeCard"]: SpecialCard | EffectCard,
+  ["ChangeCard"]: PlainObjects["SpecialCard"] | PlainObjects["EffectCard"],
   /** create card inputs<br> */
   ["createCard"]: {
+    /** The defense power<br> */
+    Defense: number,
     /** input skills */
     skills?: PlainObjects["SpecialSkills"][],
     /** The name of a card<br> */
@@ -122,9 +124,7 @@ export type PlainObjects = {
     /** <div>How many children the greek god had</div> */
     Children?: number,
     /** The attack power<br> */
-    Attack: number,
-    /** The defense power<br> */
-    Defense: number
+    Attack: number
   },
   ["EffectCard"]: {
     effectSize: number,
@@ -136,7 +136,7 @@ export type PlainObjects = {
   },
   ["Nameable"]: {
     name: string
-  } & (Card | CardStack | EffectCard | SpecialCard),
+  } & (PlainObjects["Card"] | PlainObjects["CardStack"] | PlainObjects["EffectCard"] | PlainObjects["SpecialCard"]),
   ["Query"]: {
     cardById?: PlainObjects["Card"],
     /** Draw a card<br> */
@@ -200,6 +200,8 @@ export type ChangeCard = {
 
 /** create card inputs<br> */
 export type createCard = {
+  /** The defense power<br> */
+  Defense: number,
   /** input skills */
   skills?: SpecialSkills[],
   /** The name of a card<br> */
@@ -209,9 +211,7 @@ export type createCard = {
   /** <div>How many children the greek god had</div> */
   Children?: number,
   /** The attack power<br> */
-  Attack: number,
-  /** The defense power<br> */
-  Defense: number
+  Attack: number
 }
 
 export type EffectCard = {
@@ -268,7 +268,9 @@ export enum SpecialSkills {
   THUNDER = "THUNDER",
   RAIN = "RAIN",
   FIRE = "FIRE"
-} export const AllTypesProps: Record<string, any> = {
+}
+
+export const AllTypesProps: Record<string, any> = {
   Card: {
     attack: {
       cardID: {
@@ -280,6 +282,12 @@ export enum SpecialSkills {
     }
   },
   createCard: {
+    Defense: {
+      type: "Int",
+      array: false,
+      arrayRequired: false,
+      required: true
+    },
     skills: {
       type: "SpecialSkills",
       array: true,
@@ -305,12 +313,6 @@ export enum SpecialSkills {
       required: false
     },
     Attack: {
-      type: "Int",
-      array: false,
-      arrayRequired: false,
-      required: true
-    },
-    Defense: {
       type: "Int",
       array: false,
       arrayRequired: false,

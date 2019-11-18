@@ -32,8 +32,6 @@ export type ValueTypes = {
 },
 	/** create card inputs<br> */
 ["createCard"]: {
-	/** input skills */
-	skills?:ValueTypes["SpecialSkills"][],
 	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
@@ -43,7 +41,9 @@ export type ValueTypes = {
 	/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
-	Defense:number
+	Defense:number,
+	/** input skills */
+	skills?:ValueTypes["SpecialSkills"][]
 },
 	["EffectCard"]: {
 	effectSize:number,
@@ -55,10 +55,10 @@ export type ValueTypes = {
 },
 	["Nameable"]:{
 		name:string;
-		['...on Card']: Card;
-		['...on CardStack']: CardStack;
-		['...on EffectCard']: EffectCard;
-		['...on SpecialCard']: SpecialCard;
+		['...on Card']: ValueTypes["Card"];
+		['...on CardStack']: ValueTypes["CardStack"];
+		['...on EffectCard']: ValueTypes["EffectCard"];
+		['...on SpecialCard']: ValueTypes["SpecialCard"];
 },
 	["Query"]: {
 	cardById:(props:{	cardId?:string}) => ValueTypes["Card"],
@@ -108,11 +108,9 @@ export type PlainObjects = {
 	cards?:PlainObjects["Card"][],
 	name:string
 },
-	["ChangeCard"]: SpecialCard | EffectCard,
+	["ChangeCard"]: PlainObjects["SpecialCard"] | PlainObjects["EffectCard"],
 	/** create card inputs<br> */
 ["createCard"]: {
-	/** input skills */
-	skills?:PlainObjects["SpecialSkills"][],
 	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
@@ -122,7 +120,9 @@ export type PlainObjects = {
 	/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
-	Defense:number
+	Defense:number,
+	/** input skills */
+	skills?:PlainObjects["SpecialSkills"][]
 },
 	["EffectCard"]: {
 	effectSize:number,
@@ -134,7 +134,7 @@ export type PlainObjects = {
 },
 	["Nameable"]:{
 		name:string
-} & (Card | CardStack | EffectCard | SpecialCard),
+} & (PlainObjects["Card"] | PlainObjects["CardStack"] | PlainObjects["EffectCard"] | PlainObjects["SpecialCard"]),
 	["Query"]: {
 	cardById?:PlainObjects["Card"],
 	/** Draw a card<br> */
@@ -197,9 +197,7 @@ export type ChangeCard = {
 
 /** create card inputs<br> */
 export type createCard = {
-		/** input skills */
-	skills?:SpecialSkills[],
-	/** The name of a card<br> */
+		/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
 	description:string,
@@ -208,7 +206,9 @@ export type createCard = {
 	/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
-	Defense:number
+	Defense:number,
+	/** input skills */
+	skills?:SpecialSkills[]
 }
 
 export type EffectCard = {
@@ -262,9 +262,9 @@ export type SpecialCard = {
 }
 
 export enum SpecialSkills {
+	THUNDER = "THUNDER",
 	RAIN = "RAIN",
-	FIRE = "FIRE",
-	THUNDER = "THUNDER"
+	FIRE = "FIRE"
 }
 
 

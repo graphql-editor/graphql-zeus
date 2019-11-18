@@ -66,7 +66,7 @@ const resolveValueTypeFromRoot = (i: ParserField, rootNodes: ParserField[]) => {
     return `${plusDescription(i.description)}["${i.name}"]:any`;
   }
   if (i.data!.type === TypeDefinition.UnionTypeDefinition) {
-    return `${plusDescription(i.description)}["${i.name}"]: ${i.args.map((a) => a.name).join(" | ")}`;
+    return `${plusDescription(i.description)}["${i.name}"]: ${i.args.map((a) => resolveValueType(a.name)).join(" | ")}`;
   }
   if (i.data!.type === TypeDefinition.EnumTypeDefinition) {
     return `${plusDescription(i.description)}["${i.name}"]:${i.name}`;
@@ -81,7 +81,7 @@ const resolveValueTypeFromRoot = (i: ParserField, rootNodes: ParserField[]) => {
       (rn) => rn.interfaces && rn.interfaces.includes(i.name)
     );
     return `${plusDescription(i.description)}["${i.name}"]:{
-\t${i.args.map((f) => resolveField(f)).join(';\n')}\n} & (${`${typesImplementing.map((a) => a.name).join(" | ")}`})`;
+\t${i.args.map((f) => resolveField(f)).join(';\n')}\n} & (${`${typesImplementing.map((a) => resolveValueType(a.name)).join(" | ")}`})`;
   }
   return `${plusDescription(i.description)}["${i.name}"]: {\n${i.args
     .map((f) => resolveField(f))

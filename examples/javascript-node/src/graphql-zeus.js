@@ -13,12 +13,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	createCard:{
-		skills:{
-			type:"SpecialSkills",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
 		name:{
 			type:"String",
 			array:false,
@@ -46,6 +40,12 @@ export const AllTypesProps: Record<string,any> = {
 		Defense:{
 			type:"Int",
 			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		skills:{
+			type:"SpecialSkills",
+			array:true,
 			arrayRequired:false,
 			required:true
 		}

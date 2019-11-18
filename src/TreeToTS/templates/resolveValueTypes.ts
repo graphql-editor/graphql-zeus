@@ -88,8 +88,8 @@ const resolveValueTypeFromRoot = (i: ParserField, rootNodes: ParserField[]) => {
     );
     return `${plusDescription(i.description)}["${i.name}"]:{
 \t${i.args.map((f) => resolveField(f)).join(',\n')};\n\t\t${typesImplementing
-      .map((f) => `['...on ${f.name}']: ${f.name};`)
-      .join('\n\t\t')}\n}`;
+        .map((f) => `['...on ${f.name}']: ${resolveValueType(f.name)};`)
+        .join('\n\t\t')}\n}`;
   }
   return `${plusDescription(i.description)}["${i.name}"]: {\n${i.args
     .map((f) => resolveField(f))

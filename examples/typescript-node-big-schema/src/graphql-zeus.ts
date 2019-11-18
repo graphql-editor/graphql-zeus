@@ -80,7 +80,7 @@ public is user namespace public */
 	/** Modify project */
 	updateProject:(props:{	in?:ValueTypes["UpdateProject"]}) => boolean,
 	/** Add sources to the project */
-	updateSources:(props:{	sources?:ValueTypes["NewSource"][],	project:string}) => (ValueTypes["SourceUploadInfo"] | undefined)[]
+	updateSources:(props:{	project:string,	sources?:ValueTypes["NewSource"][]}) => (ValueTypes["SourceUploadInfo"] | undefined)[]
 },
 	/** Namespace is a root object containing projects belonging
 to a team or user */
@@ -100,14 +100,14 @@ limit sets a limit on how many objects can be returned */
 },
 	/** New source payload */
 ["NewSource"]: {
-	/** Source checksum */
-	checksum?:string,
 	/** source file name */
 	filename?:string,
 	/** Length of source in bytes */
 	contentLength?:number,
 	/** Source mime type */
-	contentType?:string
+	contentType?:string,
+	/** Source checksum */
+	checksum?:string
 },
 	/** PageInfo contains information about connection page */
 ["PageInfo"]: {
@@ -188,7 +188,7 @@ tag is a string
 last is an id of the last project returned by previous call
 
 limit limits the number of returned projects */
-	findProjectsByTag:(props:{	limit?:number,	tag:string,	last?:string}) => ValueTypes["ProjectConnection"],
+	findProjectsByTag:(props:{	tag:string,	last?:string,	limit?:number}) => ValueTypes["ProjectConnection"],
 	/** Return namespace matching slug */
 	getNamespace:(props:{	slug:string}) => ValueTypes["Namespace"],
 	/** Return project by id */
@@ -206,7 +206,7 @@ last is an id of the last project returned by previous call
 limit limits the number of returned projects */
 	listProjects:(props:{	last?:string,	limit?:number,	owned?:boolean}) => ValueTypes["ProjectConnection"],
 	/** List of current user teams */
-	myTeams:(props:{	limit?:number,	last?:string}) => ValueTypes["TeamConnection"]
+	myTeams:(props:{	last?:string,	limit?:number}) => ValueTypes["TeamConnection"]
 },
 	/** Team member role */
 ["Role"]:Role,
@@ -415,14 +415,14 @@ limit sets a limit on how many objects can be returned */
 },
 	/** New source payload */
 ["NewSource"]: {
-	/** Source checksum */
-	checksum?:string,
 	/** source file name */
 	filename?:string,
 	/** Length of source in bytes */
 	contentLength?:number,
 	/** Source mime type */
-	contentType?:string
+	contentType?:string,
+	/** Source checksum */
+	checksum?:string
 },
 	/** PageInfo contains information about connection page */
 ["PageInfo"]: {
@@ -728,7 +728,7 @@ public is user namespace public */
 	/** Modify project */
 	updateProject:(props:{	in?:UpdateProject}) => boolean,
 	/** Add sources to the project */
-	updateSources:(props:{	sources?:NewSource[],	project:string}) => (SourceUploadInfo | undefined)[]
+	updateSources:(props:{	project:string,	sources?:NewSource[]}) => (SourceUploadInfo | undefined)[]
 }
 
 /** Namespace is a root object containing projects belonging
@@ -751,14 +751,14 @@ limit sets a limit on how many objects can be returned */
 
 /** New source payload */
 export type NewSource = {
-		/** Source checksum */
-	checksum?:string,
-	/** source file name */
+		/** source file name */
 	filename?:string,
 	/** Length of source in bytes */
 	contentLength?:number,
 	/** Source mime type */
-	contentType?:string
+	contentType?:string,
+	/** Source checksum */
+	checksum?:string
 }
 
 /** PageInfo contains information about connection page */
@@ -849,7 +849,7 @@ tag is a string
 last is an id of the last project returned by previous call
 
 limit limits the number of returned projects */
-	findProjectsByTag:(props:{	limit?:number,	tag:string,	last?:string}) => ProjectConnection,
+	findProjectsByTag:(props:{	tag:string,	last?:string,	limit?:number}) => ProjectConnection,
 	/** Return namespace matching slug */
 	getNamespace:(props:{	slug:string}) => Namespace,
 	/** Return project by id */
@@ -867,16 +867,16 @@ last is an id of the last project returned by previous call
 limit limits the number of returned projects */
 	listProjects:(props:{	last?:string,	limit?:number,	owned?:boolean}) => ProjectConnection,
 	/** List of current user teams */
-	myTeams:(props:{	limit?:number,	last?:string}) => TeamConnection
+	myTeams:(props:{	last?:string,	limit?:number}) => TeamConnection
 }
 
 /** Team member role */
 export enum Role {
+	CONTRIBUTOR = "CONTRIBUTOR",
+	OWNER = "OWNER",
 	ADMIN = "ADMIN",
 	EDITOR = "EDITOR",
-	VIEWER = "VIEWER",
-	CONTRIBUTOR = "CONTRIBUTOR",
-	OWNER = "OWNER"
+	VIEWER = "VIEWER"
 }
 
 /** Source upload info object */
@@ -998,7 +998,9 @@ export type UserConnection = {
 	pageInfo:PageInfo,
 	/** List of projects in connection */
 	users?:User[]
-}export const AllTypesProps: Record<string,any> = {
+}
+
+export const AllTypesProps: Record<string,any> = {
 	AccountType: "enum",
 	MemberOps:{
 		update:{
@@ -1086,15 +1088,15 @@ export type UserConnection = {
 			}
 		},
 		updateSources:{
-			sources:{
-				type:"NewSource",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
 			project:{
 				type:"ID",
 				array:false,
+				arrayRequired:false,
+				required:true
+			},
+			sources:{
+				type:"NewSource",
+				array:true,
 				arrayRequired:false,
 				required:true
 			}
@@ -1125,12 +1127,6 @@ export type UserConnection = {
 		}
 	},
 	NewSource:{
-		checksum:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		filename:{
 			type:"String",
 			array:false,
@@ -1144,6 +1140,12 @@ export type UserConnection = {
 			required:false
 		},
 		contentType:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		checksum:{
 			type:"String",
 			array:false,
 			arrayRequired:false,
@@ -1198,12 +1200,6 @@ export type UserConnection = {
 			}
 		},
 		findProjectsByTag:{
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
 			tag:{
 				type:"String",
 				array:false,
@@ -1212,6 +1208,12 @@ export type UserConnection = {
 			},
 			last:{
 				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
+			limit:{
+				type:"Int",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -1270,14 +1272,14 @@ export type UserConnection = {
 			}
 		},
 		myTeams:{
-			limit:{
-				type:"Int",
+			last:{
+				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:false
 			},
-			last:{
-				type:"String",
+			limit:{
+				type:"Int",
 				array:false,
 				arrayRequired:false,
 				required:false

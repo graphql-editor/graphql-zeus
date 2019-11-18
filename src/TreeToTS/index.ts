@@ -91,6 +91,7 @@ export class TreeToTS {
     const operations = bodyTypeScript(env, TreeToTS.resolveOperations(tree));
     return TreeToTS.resolveBasisHeader()
       .concat(TreeToTS.resolveBasisTypes(tree))
+      .concat('\n\n')
       .concat(TreeToTS.resolveBasisCode(tree))
       .concat(operations)
       .concat(host ? '\n\n' : '')

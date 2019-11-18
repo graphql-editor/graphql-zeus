@@ -106,7 +106,7 @@ type Mutation {
   updateProject(in: UpdateProject): Boolean
 
   """Add sources to the project"""
-  updateSources(sources: [NewSource!], project: ID!): [SourceUploadInfo]
+  updateSources(project: ID!, sources: [NewSource!]): [SourceUploadInfo]
 }
 
 """
@@ -135,9 +135,6 @@ type Namespace {
 
 """New source payload"""
 input NewSource {
-  """Source checksum"""
-  checksum: String
-
   """source file name"""
   filename: String
 
@@ -146,6 +143,9 @@ input NewSource {
 
   """Source mime type"""
   contentType: String
+
+  """Source checksum"""
+  checksum: String
 }
 
 """PageInfo contains information about connection page"""
@@ -261,7 +261,7 @@ type Query {
   
   limit limits the number of returned projects
   """
-  findProjectsByTag(limit: Int, tag: String!, last: String): ProjectConnection
+  findProjectsByTag(tag: String!, last: String, limit: Int): ProjectConnection
 
   """Return namespace matching slug"""
   getNamespace(slug: String!): Namespace
@@ -287,11 +287,19 @@ type Query {
   listProjects(last: String, limit: Int, owned: Boolean): ProjectConnection
 
   """List of current user teams"""
-  myTeams(limit: Int, last: String): TeamConnection
+  myTeams(last: String, limit: Int): TeamConnection
 }
 
 """Team member role"""
 enum Role {
+  """Team contributor can edit projects in team"""
+  CONTRIBUTOR
+
+  """
+  Team owner owner can add/remove/edit/view projects and members to a team. Only owner can delete team
+  """
+  OWNER
+
   """
   Team admin can add/remove/edit/view projects and members(except owner) to a team
   """
@@ -302,14 +310,6 @@ enum Role {
 
   """Team viewer can view projects in team"""
   VIEWER
-
-  """Team contributor can edit projects in team"""
-  CONTRIBUTOR
-
-  """
-  Team owner owner can add/remove/edit/view projects and members to a team. Only owner can delete team
-  """
-  OWNER
 }
 
 """Source upload info object"""
