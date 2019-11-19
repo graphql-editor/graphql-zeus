@@ -13,6 +13,12 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	createCard:{
+		name:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
 		description:{
 			type:"String",
 			array:false,
@@ -40,12 +46,6 @@ export const AllTypesProps: Record<string,any> = {
 		skills:{
 			type:"SpecialSkills",
 			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		name:{
-			type:"String",
-			array:false,
 			arrayRequired:false,
 			required:true
 		}
@@ -132,7 +132,7 @@ export class GraphQLError extends Error {
   export const ScalarResolver = (scalar, value) => {
     switch (scalar) {
       case 'String':
-        return `"${value}"`;
+        return  `"${value.replace(/"/g, '\\\"')}"`;
       case 'Int':
         return `${value}`;
       case 'Float':

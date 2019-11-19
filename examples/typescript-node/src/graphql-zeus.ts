@@ -3,83 +3,90 @@
 
 export type ValueTypes = {
     /** Card used in card game<br> */
-["Card"]: {
+["Card"]: AliasType<{
 	/** The attack power<br> */
-	Attack:number,
+	Attack:true,
 	/** <div>How many children the greek god had</div> */
-	Children?:number,
+	Children?:true,
 	/** The defense power<br> */
-	Defense:number,
-	/** Attack other cards on the table , returns Cards after attack<br> */
-	attack:(props:{	/** Attacked card/card ids<br> */
-	cardID?:string[]}) => ValueTypes["Card"][],
+	Defense:true,
+attack:[{	/** Attacked card/card ids<br> */
+	cardID?:string[]},ValueTypes["Card"]],
 	/** Put your description here */
 	cardImage?:ValueTypes["S3Object"],
 	/** Description of a card<br> */
-	description:string,
-	id:string,
+	description:true,
+	id:true,
 	/** The name of a card<br> */
-	name:string,
-	skills?:ValueTypes["SpecialSkills"][]
-},
+	name:true,
+	skills?:ValueTypes["SpecialSkills"]
+		__typename?: true
+}>;
 	/** Stack of cards */
-["CardStack"]: {
-	cards?:ValueTypes["Card"][],
-	name:string
-},
-	["ChangeCard"]: {		["...on SpecialCard"] : ValueTypes["SpecialCard"],
+["CardStack"]: AliasType<{
+	cards?:ValueTypes["Card"],
+	name:true
+		__typename?: true
+}>;
+	["ChangeCard"]: AliasType<{		["...on SpecialCard"] : ValueTypes["SpecialCard"],
 		["...on EffectCard"] : ValueTypes["EffectCard"]
-},
+		__typename?: true
+}>;
 	/** create card inputs<br> */
 ["createCard"]: {
-	/** Description of a card<br> */
-	description:string,
-	/** <div>How many children the greek god had</div> */
-	Children?:number,
-	/** The attack power<br> */
-	Attack:number,
 	/** The defense power<br> */
 	Defense:number,
 	/** input skills */
 	skills?:ValueTypes["SpecialSkills"][],
 	/** The name of a card<br> */
-	name:string
-},
-	["EffectCard"]: {
-	effectSize:number,
-	name:string
-},
-	["Mutation"]: {
-	/** add Card to Cards database<br> */
-	addCard:(props:{	card:ValueTypes["createCard"]}) => ValueTypes["Card"]
-},
-	["Nameable"]:{
-		name:string;
+	name:string,
+	/** Description of a card<br> */
+	description:string,
+	/** <div>How many children the greek god had</div> */
+	Children?:number,
+	/** The attack power<br> */
+	Attack:number
+};
+	["EffectCard"]: AliasType<{
+	effectSize:true,
+	name:true
+		__typename?: true
+}>;
+	["Mutation"]: AliasType<{
+addCard:[{	card:ValueTypes["createCard"]},ValueTypes["Card"]]
+		__typename?: true
+}>;
+	["Nameable"]:AliasType<{
+		name:true;
 		['...on Card']: ValueTypes["Card"];
 		['...on CardStack']: ValueTypes["CardStack"];
 		['...on EffectCard']: ValueTypes["EffectCard"];
 		['...on SpecialCard']: ValueTypes["SpecialCard"];
-},
-	["Query"]: {
-	cardById:(props:{	cardId?:string}) => ValueTypes["Card"],
+		__typename?: true
+}>;
+	["Query"]: AliasType<{
+cardById:[{	cardId?:string},ValueTypes["Card"]],
 	/** Draw a card<br> */
 	drawCard:ValueTypes["Card"],
 	drawChangeCard:ValueTypes["ChangeCard"],
 	/** list All Cards availble<br> */
-	listCards:ValueTypes["Card"][],
-	myStacks?:ValueTypes["CardStack"][],
-	nameables:ValueTypes["Nameable"][]
-},
+	listCards:ValueTypes["Card"],
+	myStacks?:ValueTypes["CardStack"],
+	nameables:ValueTypes["Nameable"]
+		__typename?: true
+}>;
 	/** Aws S3 File */
-["S3Object"]: {
-	bucket:string,
-	key:string,
-	region:string
-},
-	["SpecialCard"]: {
-	effect:string,
-	name:string
-},
+["S3Object"]: AliasType<{
+	bucket:true,
+	key:true,
+	region:true
+		__typename?: true
+}>;
+	["SpecialCard"]: AliasType<{
+	effect:true,
+	name:true
+		__typename?: true
+}>;
 	["SpecialSkills"]:SpecialSkills
   }
 
@@ -113,18 +120,18 @@ export type PlainObjects = {
 	["ChangeCard"]: PlainObjects["SpecialCard"] | PlainObjects["EffectCard"],
 	/** create card inputs<br> */
 ["createCard"]: {
-	/** Description of a card<br> */
-	description:string,
-	/** <div>How many children the greek god had</div> */
-	Children?:number,
-	/** The attack power<br> */
-	Attack:number,
 	/** The defense power<br> */
 	Defense:number,
 	/** input skills */
 	skills?:PlainObjects["SpecialSkills"][],
 	/** The name of a card<br> */
-	name:string
+	name:string,
+	/** Description of a card<br> */
+	description:string,
+	/** <div>How many children the greek god had</div> */
+	Children?:number,
+	/** The attack power<br> */
+	Attack:number
 },
 	["EffectCard"]: {
 		__typename?: "EffectCard";
@@ -204,18 +211,18 @@ export type ChangeCard = {
 
 /** create card inputs<br> */
 export type createCard = {
-		/** Description of a card<br> */
-	description:string,
-	/** <div>How many children the greek god had</div> */
-	Children?:number,
-	/** The attack power<br> */
-	Attack:number,
-	/** The defense power<br> */
+		/** The defense power<br> */
 	Defense:number,
 	/** input skills */
 	skills?:SpecialSkills[],
 	/** The name of a card<br> */
-	name:string
+	name:string,
+	/** Description of a card<br> */
+	description:string,
+	/** <div>How many children the greek god had</div> */
+	Children?:number,
+	/** The attack power<br> */
+	Attack:number
 }
 
 export type EffectCard = {
@@ -286,24 +293,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	createCard:{
-		description:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		Children:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		Attack:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
 		Defense:{
 			type:"Int",
 			array:false,
@@ -318,6 +307,24 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		name:{
 			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		description:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		Children:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		Attack:{
+			type:"Int",
 			array:false,
 			arrayRequired:false,
 			required:true
@@ -446,26 +453,14 @@ export type PlainObject<T> = {
     : IsScalar<T[P], T[P], IsObject<T[P], PlainObject<T[P]>, never>>;
 };
 
-type ResolveValue<T> = T extends Array<infer R>
-  ? SelectionSet<R>
-  : T extends AnyFunc
-  ? IsScalar<
-      ReturnType<T>,
-      [FirstArgument<T>],
-      [FirstArgument<T>, SelectionSet<OfType<ReturnType<T>>>]
-    >
-  : IsScalar<T, T extends undefined ? undefined : true, IsObject<T, SelectionSet<T>, never>>;
-
 export type SelectionSet<T> = IsScalar<
   T,
-  T extends undefined ? undefined : true,
+  T extends undefined ? undefined : T,
   IsObject<
     T,
-    AliasType<
-      {
-        [P in keyof T]?: ResolveValue<T[P]>;
-      }
-    >,
+    {
+      [P in keyof T]?: SelectionSet<T[P]>;
+    },
     never
   >
 >;
@@ -561,7 +556,7 @@ export const ZeusSelect = <T>() => ((t: any) => t) as SelectionFunction<T>;
 export const ScalarResolver = (scalar: string, value: any) => {
   switch (scalar) {
     case 'String':
-      return `"${value}"`;
+      return  `"${value.replace(/"/g, '\\\"')}"`;
     case 'Int':
       return `${value}`;
     case 'Float':

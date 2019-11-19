@@ -43,26 +43,14 @@ export type PlainObject<T> = {
     : IsScalar<T[P], T[P], IsObject<T[P], PlainObject<T[P]>, never>>;
 };
 
-type ResolveValue<T> = T extends Array<infer R>
-  ? SelectionSet<R>
-  : T extends AnyFunc
-  ? IsScalar<
-      ReturnType<T>,
-      [FirstArgument<T>],
-      [FirstArgument<T>, SelectionSet<OfType<ReturnType<T>>>]
-    >
-  : IsScalar<T, T extends undefined ? undefined : true, IsObject<T, SelectionSet<T>, never>>;
-
 export type SelectionSet<T> = IsScalar<
   T,
-  T extends undefined ? undefined : true,
+  T extends undefined ? undefined : T,
   IsObject<
     T,
-    AliasType<
-      {
-        [P in keyof T]?: ResolveValue<T[P]>;
-      }
-    >,
+    {
+      [P in keyof T]?: SelectionSet<T[P]>;
+    },
     never
   >
 >;

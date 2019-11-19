@@ -107,7 +107,7 @@ const run = async () => {
       __alias: {
         atak: {
           attack: [
-            { cardID: ["1"] },
+            { cardID: ["aaa"] },
             {
               name: true,
               description: true,
