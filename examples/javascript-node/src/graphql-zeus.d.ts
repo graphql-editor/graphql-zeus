@@ -5,27 +5,27 @@ export type ValueTypes = {
     /** Card used in card game<br> */
 ["Card"]: AliasType<{
 	/** The attack power<br> */
-	Attack:true,
+	Attack?:true,
 	/** <div>How many children the greek god had</div> */
 	Children?:true,
 	/** The defense power<br> */
-	Defense:true,
-attack:[{	/** Attacked card/card ids<br> */
-	cardID?:string[]},ValueTypes["Card"]],
+	Defense?:true,
+attack?: [{	/** Attacked card/card ids<br> */
+	cardID:string[]},ValueTypes["Card"]],
 	/** Put your description here */
 	cardImage?:ValueTypes["S3Object"],
 	/** Description of a card<br> */
-	description:true,
-	id:true,
+	description?:true,
+	id?:true,
 	/** The name of a card<br> */
-	name:true,
-	skills?:ValueTypes["SpecialSkills"]
+	name?:true,
+	skills?:true
 		__typename?: true
 }>;
 	/** Stack of cards */
 ["CardStack"]: AliasType<{
 	cards?:ValueTypes["Card"],
-	name:true
+	name?:true
 		__typename?: true
 }>;
 	["ChangeCard"]: AliasType<{		["...on SpecialCard"] : ValueTypes["SpecialCard"],
@@ -34,10 +34,6 @@ attack:[{	/** Attacked card/card ids<br> */
 }>;
 	/** create card inputs<br> */
 ["createCard"]: {
-	/** The name of a card<br> */
-	name:string,
-	/** Description of a card<br> */
-	description:string,
 	/** <div>How many children the greek god had</div> */
 	Children?:number,
 	/** The attack power<br> */
@@ -45,19 +41,23 @@ attack:[{	/** Attacked card/card ids<br> */
 	/** The defense power<br> */
 	Defense:number,
 	/** input skills */
-	skills?:ValueTypes["SpecialSkills"][]
+	skills?:ValueTypes["SpecialSkills"][],
+	/** The name of a card<br> */
+	name:string,
+	/** Description of a card<br> */
+	description:string
 };
 	["EffectCard"]: AliasType<{
-	effectSize:true,
-	name:true
+	effectSize?:true,
+	name?:true
 		__typename?: true
 }>;
 	["Mutation"]: AliasType<{
-addCard:[{	card:ValueTypes["createCard"]},ValueTypes["Card"]]
+addCard?: [{	card:ValueTypes["createCard"]},ValueTypes["Card"]]
 		__typename?: true
 }>;
 	["Nameable"]:AliasType<{
-		name:true;
+		name?:true;
 		['...on Card']: ValueTypes["Card"];
 		['...on CardStack']: ValueTypes["CardStack"];
 		['...on EffectCard']: ValueTypes["EffectCard"];
@@ -65,26 +65,26 @@ addCard:[{	card:ValueTypes["createCard"]},ValueTypes["Card"]]
 		__typename?: true
 }>;
 	["Query"]: AliasType<{
-cardById:[{	cardId?:string},ValueTypes["Card"]],
+cardById?: [{	cardId?:string},ValueTypes["Card"]],
 	/** Draw a card<br> */
-	drawCard:ValueTypes["Card"],
-	drawChangeCard:ValueTypes["ChangeCard"],
+	drawCard?:ValueTypes["Card"],
+	drawChangeCard?:ValueTypes["ChangeCard"],
 	/** list All Cards availble<br> */
-	listCards:ValueTypes["Card"],
+	listCards?:ValueTypes["Card"],
 	myStacks?:ValueTypes["CardStack"],
-	nameables:ValueTypes["Nameable"]
+	nameables?:ValueTypes["Nameable"]
 		__typename?: true
 }>;
 	/** Aws S3 File */
 ["S3Object"]: AliasType<{
-	bucket:true,
-	key:true,
-	region:true
+	bucket?:true,
+	key?:true,
+	region?:true
 		__typename?: true
 }>;
 	["SpecialCard"]: AliasType<{
-	effect:true,
-	name:true
+	effect?:true,
+	name?:true
 		__typename?: true
 }>;
 	["SpecialSkills"]:SpecialSkills
@@ -120,10 +120,6 @@ export type PlainObjects = {
 	["ChangeCard"]: PlainObjects["SpecialCard"] | PlainObjects["EffectCard"],
 	/** create card inputs<br> */
 ["createCard"]: {
-	/** The name of a card<br> */
-	name:string,
-	/** Description of a card<br> */
-	description:string,
 	/** <div>How many children the greek god had</div> */
 	Children?:number,
 	/** The attack power<br> */
@@ -131,7 +127,11 @@ export type PlainObjects = {
 	/** The defense power<br> */
 	Defense:number,
 	/** input skills */
-	skills?:PlainObjects["SpecialSkills"][]
+	skills?:PlainObjects["SpecialSkills"][],
+	/** The name of a card<br> */
+	name:string,
+	/** Description of a card<br> */
+	description:string
 },
 	["EffectCard"]: {
 		__typename?: "EffectCard";
@@ -183,7 +183,7 @@ export type Card = {
 	Defense:number,
 	/** Attack other cards on the table , returns Cards after attack<br> */
 	attack:(props:{	/** Attacked card/card ids<br> */
-	cardID?:string[]}) => Card[],
+	cardID:string[]}) => Card[],
 	/** Put your description here */
 	cardImage?:S3Object,
 	/** Description of a card<br> */
@@ -211,18 +211,18 @@ export type ChangeCard = {
 
 /** create card inputs<br> */
 export type createCard = {
-		/** The name of a card<br> */
-	name:string,
-	/** Description of a card<br> */
-	description:string,
-	/** <div>How many children the greek god had</div> */
+		/** <div>How many children the greek god had</div> */
 	Children?:number,
 	/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
 	Defense:number,
 	/** input skills */
-	skills?:SpecialSkills[]
+	skills?:SpecialSkills[],
+	/** The name of a card<br> */
+	name:string,
+	/** Description of a card<br> */
+	description:string
 }
 
 export type EffectCard = {
@@ -276,18 +276,14 @@ export type SpecialCard = {
 }
 
 export enum SpecialSkills {
+	FIRE = "FIRE",
 	THUNDER = "THUNDER",
-	RAIN = "RAIN",
-	FIRE = "FIRE"
+	RAIN = "RAIN"
 }
 
 
 type Func<P extends any[], R> = (...args: P) => R;
 type AnyFunc = Func<any, any>;
-
-type IsType<M, T, Z, L> = T extends M ? Z : L;
-type IsScalar<T, Z, L> = IsType<string | boolean | number, T, Z, L>;
-type IsObject<T, Z, L> = IsType<{} | Record<string, any>, T, Z, L>;
 
 type WithTypeNameValue<T> = T & {
   __typename?: true;
@@ -299,9 +295,7 @@ type AliasType<T> = WithTypeNameValue<T> & {
 
 export type ResolverType<F> = F extends Func<infer P, any> ? P[0] : undefined;
 
-type ArgsType<F extends AnyFunc> = F extends Func<infer P, any> ? P : never;
-type OfType<T> = T extends Array<infer R> ? R : T;
-type FirstArgument<F extends AnyFunc> = OfType<ArgsType<F>>;
+export type ArgsType<F extends AnyFunc> = F extends Func<infer P, any> ? P : never;
 
 interface GraphQLResponse {
   data?: Record<string, any>;
@@ -309,37 +303,6 @@ interface GraphQLResponse {
     message: string;
   }>;
 }
-
-export type State<T> = {
-  [P in keyof T]: T[P] extends (Array<infer R> | undefined)
-    ? Array<State<R>>
-    : T[P] extends AnyFunc
-    ? State<ReturnType<T[P]>>
-    : IsScalar<T[P], T[P], IsObject<T[P], State<T[P]>, never>>;
-};
-
-export type PlainObject<T> = {
-  [P in keyof T]?: T[P] extends (Array<infer R> | undefined)
-    ? Array<PlainObject<R>>
-    : T[P] extends AnyFunc
-    ? PlainObject<ReturnType<T[P]>>
-    : IsScalar<T[P], T[P], IsObject<T[P], PlainObject<T[P]>, never>>;
-};
-
-export type SelectionSet<T> = IsScalar<
-  T,
-  T extends undefined ? undefined : T,
-  IsObject<
-    T,
-    {
-      [P in keyof T]?: SelectionSet<T[P]>;
-    },
-    never
-  >
->;
-
-type GraphQLReturner<T> = T extends Array<infer R> ? SelectionSet<R> : SelectionSet<T>;
-
 export type MapInterface<SRC, DST> = SRC extends {
   __interface: infer INTERFACE;
   __resolve: infer IMPLEMENTORS;
@@ -417,11 +380,15 @@ type MapType<SRC extends Anify<DST>, DST> = DST extends boolean ? SRC : DST exte
         : LastMapTypeSRCResolver<SRC[Key], DST[Key]>;
     };
 
-type OperationToGraphQL<V, T> = <Z>(o: Z | GraphQLReturner<V>) => Promise<MapType<T, Z>>;
+type OperationToGraphQL<V, T> = <Z>(o: Z | V) => Promise<MapType<T, Z>>;
+
+type CastToGraphQL<V, T> = (
+  resultOfYourQuery: any
+) => <Z>(o: Z | V) => MapType<T, Z>;
 
 type fetchOptions = ArgsType<typeof fetch>;
 
-export type SelectionFunction<V> = <T>(t: T | SelectionSet<V>) => T;
+export type SelectionFunction<V> = <T>(t: T | V) => T;
 
 
 export declare function Chain(
@@ -431,11 +398,17 @@ export declare function Chain(
 }
 
 export declare const Zeus: {
-  Query: (o: GraphQLReturner<ValueTypes["Query"]>) => string,Mutation: (o: GraphQLReturner<ValueTypes["Mutation"]>) => string
+  Query: (o: ValueTypes["Query"]) => string,Mutation: (o: ValueTypes["Mutation"]) => string
 }
 
 export declare const Cast: {
-  Query: (o:any) => State<Query>,Mutation: (o:any) => State<Mutation>
+  Query: ((o: any) => (b: any) => o) as CastToGraphQL<
+  ValueTypes["Query"],
+  Query
+>,Mutation: ((o: any) => (b: any) => o) as CastToGraphQL<
+  ValueTypes["Mutation"],
+  Mutation
+>
 }
 
 export declare const Gql: ReturnType<typeof Chain>

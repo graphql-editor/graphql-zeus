@@ -42,11 +42,10 @@
     "mocha": "^6.0.2",
     "ts-jest": "^23.10.5",
     "ts-toolbelt": "^4.9.20",
+    "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.7.2"
   },
   "dependencies": {
-    "@typescript-eslint/eslint-plugin": "^2.7.0",
-    "@typescript-eslint/parser": "^2.7.0",
     "cross-fetch": "^3.0.4",
     "graphql": "^14.0.2",
     "yargs": "^13.3.0"

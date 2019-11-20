@@ -12,7 +12,7 @@ type Card implements Nameable {
   """Attack other cards on the table , returns Cards after attack<br>"""
   attack(
     """Attacked card/card ids<br>"""
-    cardID: [String!]
+    cardID: [String!]!
   ): [Card!]
 
   """Put your description here"""
@@ -37,15 +37,6 @@ union ChangeCard = SpecialCard | EffectCard
 
 """create card inputs<br>"""
 input createCard {
-  """The defense power<br>"""
-  Defense: Int!
-
-  """input skills"""
-  skills: [SpecialSkills!]
-
-  """The name of a card<br>"""
-  name: String!
-
   """Description of a card<br>"""
   description: String!
 
@@ -54,6 +45,15 @@ input createCard {
 
   """The attack power<br>"""
   Attack: Int!
+
+  """The defense power<br>"""
+  Defense: Int!
+
+  """input skills"""
+  skills: [SpecialSkills!]
+
+  """The name of a card<br>"""
+  name: String!
 }
 
 type EffectCard implements Nameable {
@@ -96,14 +96,14 @@ type SpecialCard implements Nameable {
 }
 
 enum SpecialSkills {
+  """50% chance to avoid any attack<br>"""
+  FIRE
+
   """Lower enemy defense -5<br>"""
   THUNDER
 
   """Attack multiple Cards at once<br>"""
   RAIN
-
-  """50% chance to avoid any attack<br>"""
-  FIRE
 }
 
 schema{

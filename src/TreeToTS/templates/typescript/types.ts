@@ -2,10 +2,6 @@ export const constantTypesTypescript = `
 type Func<P extends any[], R> = (...args: P) => R;
 type AnyFunc = Func<any, any>;
 
-type IsType<M, T, Z, L> = T extends M ? Z : L;
-type IsScalar<T, Z, L> = IsType<string | boolean | number, T, Z, L>;
-type IsObject<T, Z, L> = IsType<{} | Record<string, any>, T, Z, L>;
-
 type WithTypeNameValue<T> = T & {
   __typename?: true;
 };
@@ -16,9 +12,7 @@ type AliasType<T> = WithTypeNameValue<T> & {
 
 export type ResolverType<F> = F extends Func<infer P, any> ? P[0] : undefined;
 
-type ArgsType<F extends AnyFunc> = F extends Func<infer P, any> ? P : never;
-type OfType<T> = T extends Array<infer R> ? R : T;
-type FirstArgument<F extends AnyFunc> = OfType<ArgsType<F>>;
+export type ArgsType<F extends AnyFunc> = F extends Func<infer P, any> ? P : never;
 
 interface GraphQLResponse {
   data?: Record<string, any>;
@@ -26,37 +20,6 @@ interface GraphQLResponse {
     message: string;
   }>;
 }
-
-export type State<T> = {
-  [P in keyof T]: T[P] extends (Array<infer R> | undefined)
-    ? Array<State<R>>
-    : T[P] extends AnyFunc
-    ? State<ReturnType<T[P]>>
-    : IsScalar<T[P], T[P], IsObject<T[P], State<T[P]>, never>>;
-};
-
-export type PlainObject<T> = {
-  [P in keyof T]?: T[P] extends (Array<infer R> | undefined)
-    ? Array<PlainObject<R>>
-    : T[P] extends AnyFunc
-    ? PlainObject<ReturnType<T[P]>>
-    : IsScalar<T[P], T[P], IsObject<T[P], PlainObject<T[P]>, never>>;
-};
-
-export type SelectionSet<T> = IsScalar<
-  T,
-  T extends undefined ? undefined : T,
-  IsObject<
-    T,
-    {
-      [P in keyof T]?: SelectionSet<T[P]>;
-    },
-    never
-  >
->;
-
-type GraphQLReturner<T> = T extends Array<infer R> ? SelectionSet<R> : SelectionSet<T>;
-
 export type MapInterface<SRC, DST> = SRC extends {
   __interface: infer INTERFACE;
   __resolve: infer IMPLEMENTORS;
@@ -134,10 +97,14 @@ type MapType<SRC extends Anify<DST>, DST> = DST extends boolean ? SRC : DST exte
         : LastMapTypeSRCResolver<SRC[Key], DST[Key]>;
     };
 
-type OperationToGraphQL<V, T> = <Z>(o: Z | GraphQLReturner<V>) => Promise<MapType<T, Z>>;
+type OperationToGraphQL<V, T> = <Z>(o: Z | V) => Promise<MapType<T, Z>>;
+
+type CastToGraphQL<V, T> = (
+  resultOfYourQuery: any
+) => <Z>(o: Z | V) => MapType<T, Z>;
 
 type fetchOptions = ArgsType<typeof fetch>;
 
-export type SelectionFunction<V> = <T>(t: T | SelectionSet<V>) => T;
+export type SelectionFunction<V> = <T>(t: T | V) => T;
 
 `;

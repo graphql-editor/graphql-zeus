@@ -7,24 +7,12 @@ export const AllTypesProps: Record<string,any> = {
 			cardID:{
 				type:"String",
 				array:true,
-				arrayRequired:false,
+				arrayRequired:true,
 				required:true
 			}
 		}
 	},
 	createCard:{
-		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		description:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
 		Children:{
 			type:"Int",
 			array:false,
@@ -46,6 +34,18 @@ export const AllTypesProps: Record<string,any> = {
 		skills:{
 			type:"SpecialSkills",
 			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		name:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		description:{
+			type:"String",
+			array:false,
 			arrayRequired:false,
 			required:true
 		}
@@ -378,8 +378,8 @@ Mutation: (o) =>
 Mutation: (o) => queryConstruct('Mutation')(o)
   };
   export const Cast = {
-    Query: (o) => o,
-Mutation: (o) => o
+    Query: (o) => (b) => o,
+Mutation: (o) => (b) => o
   };
     
 
