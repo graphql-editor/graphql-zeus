@@ -34,10 +34,6 @@ attack?: [{	/** Attacked card/card ids<br> */
 }>;
 	/** create card inputs<br> */
 ["createCard"]: {
-	/** <div>How many children the greek god had</div> */
-	Children?:number,
-	/** The attack power<br> */
-	Attack:number,
 	/** The defense power<br> */
 	Defense:number,
 	/** input skills */
@@ -45,7 +41,11 @@ attack?: [{	/** Attacked card/card ids<br> */
 	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
-	description:string
+	description:string,
+	/** <div>How many children the greek god had</div> */
+	Children?:number,
+	/** The attack power<br> */
+	Attack:number
 };
 	["EffectCard"]: AliasType<{
 	effectSize?:true,
@@ -120,10 +120,6 @@ export type PlainObjects = {
 	["ChangeCard"]: PlainObjects["SpecialCard"] | PlainObjects["EffectCard"],
 	/** create card inputs<br> */
 ["createCard"]: {
-	/** <div>How many children the greek god had</div> */
-	Children?:number,
-	/** The attack power<br> */
-	Attack:number,
 	/** The defense power<br> */
 	Defense:number,
 	/** input skills */
@@ -131,7 +127,11 @@ export type PlainObjects = {
 	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
-	description:string
+	description:string,
+	/** <div>How many children the greek god had</div> */
+	Children?:number,
+	/** The attack power<br> */
+	Attack:number
 },
 	["EffectCard"]: {
 		__typename?: "EffectCard";
@@ -211,18 +211,18 @@ export type ChangeCard = {
 
 /** create card inputs<br> */
 export type createCard = {
-		/** <div>How many children the greek god had</div> */
-	Children?:number,
-	/** The attack power<br> */
-	Attack:number,
-	/** The defense power<br> */
+		/** The defense power<br> */
 	Defense:number,
 	/** input skills */
 	skills?:SpecialSkills[],
 	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
-	description:string
+	description:string,
+	/** <div>How many children the greek god had</div> */
+	Children?:number,
+	/** The attack power<br> */
+	Attack:number
 }
 
 export type EffectCard = {
@@ -276,9 +276,9 @@ export type SpecialCard = {
 }
 
 export enum SpecialSkills {
-	FIRE = "FIRE",
 	THUNDER = "THUNDER",
-	RAIN = "RAIN"
+	RAIN = "RAIN",
+	FIRE = "FIRE"
 }
 
 
@@ -349,7 +349,10 @@ export type ObjectToUnion<T> = {
 
 type Anify<T> = { [P in keyof T]?: any };
 
-type LastMapTypeSRCResolver<SRC, DST> = SRC extends AnyFunc
+
+type LastMapTypeSRCResolver<SRC, DST> = SRC extends undefined
+  ? never
+  : SRC extends AnyFunc
   ? ReturnType<SRC> extends Array<infer FUNCRET>
     ? MapType<FUNCRET, DST>[]
     : MapType<ReturnType<SRC>, DST>
@@ -363,16 +366,25 @@ type LastMapTypeSRCResolver<SRC, DST> = SRC extends AnyFunc
   ? SRC
   : MapType<SRC, DST>;
 
-type MapType<SRC extends Anify<DST>, DST> = DST extends boolean ? SRC : DST extends {
-  __alias: any;
-}
+type MapType<SRC extends Anify<DST>, DST> = DST extends boolean
+  ? SRC
+  : DST extends {
+      __alias: any;
+    }
   ? {
-      [A in keyof DST['__alias']]: Required<SRC> extends Anify<DST['__alias'][A]>
-        ? MapType<Required<SRC>, DST['__alias'][A]>
+      [A in keyof DST["__alias"]]: Required<SRC> extends Anify<
+        DST["__alias"][A]
+      >
+        ? MapType<Required<SRC>, DST["__alias"][A]>
         : never;
     } &
       {
-        [Key in keyof Omit<DST, '__alias'>]: LastMapTypeSRCResolver<SRC[Key], DST[Key]>;
+        [Key in keyof Omit<DST, "__alias">]: DST[Key] extends [
+          any,
+          infer PAYLOAD
+        ]
+          ? LastMapTypeSRCResolver<SRC[Key], PAYLOAD>
+          : LastMapTypeSRCResolver<SRC[Key], DST[Key]>;
       }
   : {
       [Key in keyof DST]: DST[Key] extends [any, infer PAYLOAD]

@@ -66,7 +66,10 @@ export type ObjectToUnion<T> = {
 
 type Anify<T> = { [P in keyof T]?: any };
 
-type LastMapTypeSRCResolver<SRC, DST> = SRC extends AnyFunc
+
+type LastMapTypeSRCResolver<SRC, DST> = SRC extends undefined
+  ? never
+  : SRC extends AnyFunc
   ? ReturnType<SRC> extends Array<infer FUNCRET>
     ? MapType<FUNCRET, DST>[]
     : MapType<ReturnType<SRC>, DST>
@@ -80,16 +83,25 @@ type LastMapTypeSRCResolver<SRC, DST> = SRC extends AnyFunc
   ? SRC
   : MapType<SRC, DST>;
 
-type MapType<SRC extends Anify<DST>, DST> = DST extends boolean ? SRC : DST extends {
-  __alias: any;
-}
+type MapType<SRC extends Anify<DST>, DST> = DST extends boolean
+  ? SRC
+  : DST extends {
+      __alias: any;
+    }
   ? {
-      [A in keyof DST['__alias']]: Required<SRC> extends Anify<DST['__alias'][A]>
-        ? MapType<Required<SRC>, DST['__alias'][A]>
+      [A in keyof DST["__alias"]]: Required<SRC> extends Anify<
+        DST["__alias"][A]
+      >
+        ? MapType<Required<SRC>, DST["__alias"][A]>
         : never;
     } &
       {
-        [Key in keyof Omit<DST, '__alias'>]: LastMapTypeSRCResolver<SRC[Key], DST[Key]>;
+        [Key in keyof Omit<DST, "__alias">]: DST[Key] extends [
+          any,
+          infer PAYLOAD
+        ]
+          ? LastMapTypeSRCResolver<SRC[Key], PAYLOAD>
+          : LastMapTypeSRCResolver<SRC[Key], DST[Key]>;
       }
   : {
       [Key in keyof DST]: DST[Key] extends [any, infer PAYLOAD]
