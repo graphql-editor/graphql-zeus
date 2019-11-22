@@ -17,7 +17,8 @@
     "examples-generate": "zeus https://project-api.graphqleditor.com/graphql examples/typescript-node-big-schema/src --ts --n -g examples/typescript-node-big-schema/ && zeus https://faker.graphqleditor.com/aexol/olympus/graphql examples/typescript-node/src --ts --n -g examples/typescript-node/zeus.graphql && zeus https://faker.graphqleditor.com/aexol/olympus/graphql examples/javascript-node/src --n",
     "run-example-typescript-node": "./run-example.sh examples/typescript-node",
     "run-example-typescript-node-big-schema": "./run-example.sh examples/typescript-node-big-schema",
-    "run-example-javascript-node": "./run-example.sh examples/javascript-node"
+    "run-example-javascript-node": "./run-example.sh examples/javascript-node",
+    "lint": "tsc --noEmit && eslint './src/**/*.{js,ts}' --quiet --fix"
   },
   "repository": {
     "type": "git",
@@ -35,11 +36,16 @@
     "@types/node": "^10.12.18",
     "@types/node-fetch": "^2.3.7",
     "@types/yargs": "^13.0.0",
+    "@typescript-eslint/eslint-plugin": "^2.8.0",
+    "@typescript-eslint/parser": "^2.8.0",
     "cz-conventional-changelog": "^2.1.0",
     "eslint": "^6.6.0",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-plugin-prettier": "^3.1.1",
     "husky": "^1.3.1",
     "jest": "^24.1.0",
     "mocha": "^6.0.2",
+    "prettier": "^1.19.1",
     "ts-jest": "^23.10.5",
     "ts-toolbelt": "^4.9.20",
     "tslint-config-prettier": "^1.18.0",
