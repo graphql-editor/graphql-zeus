@@ -10,10 +10,7 @@ export const resolveReturnFromRoot = (i: ParserField) => {
   if (i.data!.type === TypeDefinition.UnionTypeDefinition) {
     return;
   }
-  if (
-    i.data!.type !== TypeDefinition.ObjectTypeDefinition &&
-    i.data!.type !== TypeDefinition.InterfaceTypeDefinition
-  ) {
+  if (i.data!.type !== TypeDefinition.ObjectTypeDefinition && i.data!.type !== TypeDefinition.InterfaceTypeDefinition) {
     return;
   }
   if (!i.args) {

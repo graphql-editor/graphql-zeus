@@ -9,7 +9,7 @@ export class Utils {
    */
   static getFromUrl = async (url: string, header?: string | string[]): Promise<string> => {
     const headers: Record<string, string> = {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     };
     if (header) {
       const allHeaders: string[] = Array.isArray(header) ? header : [header];
@@ -24,7 +24,7 @@ export class Utils {
     const response = await fetch(url, {
       method: 'POST',
       headers,
-      body: JSON.stringify({ query: getIntrospectionQuery() })
+      body: JSON.stringify({ query: getIntrospectionQuery() }),
     });
     const { data, errors } = await response.json();
     if (errors) {
@@ -47,5 +47,5 @@ export class Utils {
       schemaClient += `\nschema{\n\t${addons.join(',\n\t')}\n}`;
     }
     return schemaClient;
-  }
+  };
 }

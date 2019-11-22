@@ -7,7 +7,7 @@ import {
   TypeExtension,
   TypeSystemDefinition,
   Value,
-  ValueDefinition
+  ValueDefinition,
 } from '../../Models';
 import { ArgumentTemplate } from './ArgumentTemplate';
 import { CommentTemplate } from './CommentTemplate';
@@ -37,7 +37,7 @@ export class TemplateUtils {
    * @memberof TemplateUtils
    */
   static isArray = (f: ParserField, type: string): string =>
-    f.type.options && f.type.options.find((o) => o === Options.array) ? `[${type}]` : type
+    f.type.options && f.type.options.find((o) => o === Options.array) ? `[${type}]` : type;
   /**
    * Check if type is NonNullType from graphql and required in zeus
    *
@@ -48,7 +48,7 @@ export class TemplateUtils {
    * @memberof TemplateUtils
    */
   static isRequired = (f: ParserField, type: string): string =>
-    f.type.options && f.type.options.find((o) => o === Options.required) ? `${type}!` : type
+    f.type.options && f.type.options.find((o) => o === Options.required) ? `${type}!` : type;
   /**
    * Check if type is NonNullType and ListType from graphql and required and arrayRequired in zeus
    *
@@ -60,10 +60,10 @@ export class TemplateUtils {
    */
   static isArrayRequired = (f: ParserField, type: string): string =>
     f.type.options &&
-      f.type.options.find((o) => o === Options.arrayRequired) &&
-      f.type.options.find((o) => o === Options.array)
+    f.type.options.find((o) => o === Options.arrayRequired) &&
+    f.type.options.find((o) => o === Options.array)
       ? `${type}!`
-      : type
+      : type;
   /**
    *
    *
@@ -72,10 +72,7 @@ export class TemplateUtils {
    * @memberof TemplateUtils
    */
   static resolveType = (f: ParserField) =>
-    TemplateUtils.isArrayRequired(
-      f,
-      TemplateUtils.isArray(f, TemplateUtils.isRequired(f, f.type.name))
-    )
+    TemplateUtils.isArrayRequired(f, TemplateUtils.isArray(f, TemplateUtils.isRequired(f, f.type.name)));
   /**
    * Return description in GraphQL format
    *
@@ -86,7 +83,7 @@ export class TemplateUtils {
    * @memberof TemplateUtils
    */
   static descriptionResolver = (description?: string, prefix = ''): string =>
-    description ? `${prefix}"""\n${prefix}${description}\n${prefix}"""\n` : ''
+    description ? `${prefix}"""\n${prefix}${description}\n${prefix}"""\n` : '';
   /**
    * Creates implements for GraphQL types
    *
@@ -95,7 +92,7 @@ export class TemplateUtils {
    * @memberof TemplateUtils
    */
   static resolveImplements = (interfaces?: string[]) =>
-    interfaces && interfaces.length ? ` implements ${interfaces.join(' & ')}` : ''
+    interfaces && interfaces.length ? ` implements ${interfaces.join(' & ')}` : '';
   /**
    * Create directives for graphql fields
    *
@@ -106,7 +103,7 @@ export class TemplateUtils {
   static resolveDirectives = (directives?: ParserField[]) =>
     directives && directives.length
       ? ` ${directives.map((d) => TemplateUtils.resolverForConnection(d)).join(' ')}`
-      : ''
+      : '';
   /**
    * Detect the Zeus graphql type and cast it to proper function in type resolver
    *
@@ -154,5 +151,5 @@ export class TemplateUtils {
       }
     }
     return '';
-  }
+  };
 }

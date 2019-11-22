@@ -8,7 +8,7 @@ import {
   TypeNode,
   TypeSystemDefinitionNode,
   TypeSystemExtensionNode,
-  ValueNode
+  ValueNode,
 } from 'graphql';
 import { AllTypes, Options, ParserField } from '../Models';
 import { Instances, TypeSystemDefinition, Value, ValueDefinition } from '../Models/Spec';
@@ -28,7 +28,7 @@ export class TypeResolver {
       const opts = [...options, Options.array];
       return {
         options: opts,
-        ...TypeResolver.resolveSingleField(n.type, opts)
+        ...TypeResolver.resolveSingleField(n.type, opts),
       };
     }
     if (n.kind === 'NonNullType') {
@@ -40,11 +40,11 @@ export class TypeResolver {
       }
       return {
         options: opts,
-        ...TypeResolver.resolveSingleField(n.type, opts)
+        ...TypeResolver.resolveSingleField(n.type, opts),
       };
     }
     return {
-      name: n.name.value
+      name: n.name.value,
     };
   }
   /**
@@ -62,9 +62,9 @@ export class TypeResolver {
           type: TypeResolver.resolveSingleField(n.type),
           directives: n.directives && TypeResolver.iterateDirectives(n.directives),
           data: {
-            type: TypeSystemDefinition.FieldDefinition
-          }
-        } as ParserField)
+            type: TypeSystemDefinition.FieldDefinition,
+          },
+        } as ParserField),
     );
   }
   /**
@@ -78,7 +78,7 @@ export class TypeResolver {
       options.push(Options.array);
     }
     return options;
-  }
+  };
   /**
    * Resolve object field
    *
@@ -90,13 +90,13 @@ export class TypeResolver {
         name: f.name.value,
         type: {
           name: f.name.value,
-          options: TypeResolver.resolveInputValueOptions(f.value)
+          options: TypeResolver.resolveInputValueOptions(f.value),
         },
         data: {
-          type: Instances.Argument
+          type: Instances.Argument,
         },
-        args: TypeResolver.resolveValue(f.value)
-      }
+        args: TypeResolver.resolveValue(f.value),
+      },
     ];
   }
   /**
@@ -112,16 +112,14 @@ export class TypeResolver {
       return [
         {
           name: value.kind,
-          args: value.fields
-            .map((f) => TypeResolver.resolveObjectField(f))
-            .reduce((a, b) => [...a, ...b], []),
+          args: value.fields.map((f) => TypeResolver.resolveObjectField(f)).reduce((a, b) => [...a, ...b], []),
           data: {
-            type: value.kind as AllTypes
+            type: value.kind as AllTypes,
           },
           type: {
-            name: value.kind as AllTypes
-          }
-        }
+            name: value.kind as AllTypes,
+          },
+        },
       ];
     }
     if (value.kind === 'EnumValue') {
@@ -129,12 +127,12 @@ export class TypeResolver {
         {
           name: value.value,
           data: {
-            type: value.kind as AllTypes
+            type: value.kind as AllTypes,
           },
           type: {
-            name: value.value
-          }
-        }
+            name: value.value,
+          },
+        },
       ];
     }
     if (value.kind in Value) {
@@ -142,12 +140,12 @@ export class TypeResolver {
         {
           name: 'value' in value ? value.value.toString() : 'name' in value ? value.name.value : '',
           type: {
-            name: value.kind
+            name: value.kind,
           },
           data: {
-            type: value.kind as AllTypes
-          }
-        }
+            type: value.kind as AllTypes,
+          },
+        },
       ];
     }
     return [];
@@ -162,13 +160,13 @@ export class TypeResolver {
         ({
           name: n.name.value,
           type: {
-            name: n.name.value
+            name: n.name.value,
           },
           data: {
-            type: Instances.Directive
+            type: Instances.Directive,
           },
-          args: n.arguments ? TypeResolver.iterateArgumentFields(n.arguments) : []
-        } as ParserField)
+          args: n.arguments ? TypeResolver.iterateArgumentFields(n.arguments) : [],
+        } as ParserField),
     );
   }
   /**
@@ -184,13 +182,13 @@ export class TypeResolver {
           name: n.name.value,
           type: {
             name: n.name.value,
-            options: TypeResolver.resolveInputValueOptions(n.value)
+            options: TypeResolver.resolveInputValueOptions(n.value),
           },
           data: {
-            type: Instances.Argument
+            type: Instances.Argument,
           },
-          args: TypeResolver.resolveValue(n.value)
-        } as ParserField)
+          args: TypeResolver.resolveValue(n.value),
+        } as ParserField),
     );
   }
   /**
@@ -207,10 +205,10 @@ export class TypeResolver {
           directives: n.directives && TypeResolver.iterateDirectives(n.directives),
           type: TypeResolver.resolveSingleField(n.type),
           data: {
-            type: ValueDefinition.InputValueDefinition
+            type: ValueDefinition.InputValueDefinition,
           },
-          args: n.defaultValue ? TypeResolver.resolveValue(n.defaultValue) : []
-        } as ParserField)
+          args: n.defaultValue ? TypeResolver.resolveValue(n.defaultValue) : [],
+        } as ParserField),
     );
   }
   /**
@@ -242,9 +240,9 @@ export class TypeResolver {
             directives: v.directives && TypeResolver.iterateDirectives(v.directives),
             type: { name: ValueDefinition.EnumValueDefinition },
             data: {
-              type: ValueDefinition.EnumValueDefinition
-            }
-          } as ParserField)
+              type: ValueDefinition.EnumValueDefinition,
+            },
+          } as ParserField),
       );
     }
     if (n.kind === 'ScalarTypeDefinition') {
@@ -260,9 +258,9 @@ export class TypeResolver {
             name: t.name.value,
             type: { name: t.name.value },
             data: {
-              type: TypeSystemDefinition.UnionMemberDefinition
-            }
-          } as ParserField)
+              type: TypeSystemDefinition.UnionMemberDefinition,
+            },
+          } as ParserField),
       );
     }
     if (n.kind === 'InputObjectTypeDefinition') {
@@ -278,9 +276,7 @@ export class TypeResolver {
     const fields = TypeResolver.iterateObjectTypeFields(n.fields);
     return fields;
   }
-  static resolveFieldsFromDefinition(
-    n: TypeSystemDefinitionNode | TypeSystemExtensionNode
-  ): ParserField[] | undefined {
+  static resolveFieldsFromDefinition(n: TypeSystemDefinitionNode | TypeSystemExtensionNode): ParserField[] | undefined {
     if ('values' in n && n.values) {
       return n.values.map(
         (v) =>
@@ -290,9 +286,9 @@ export class TypeResolver {
             directives: v.directives && TypeResolver.iterateDirectives(v.directives),
             type: { name: ValueDefinition.EnumValueDefinition },
             data: {
-              type: ValueDefinition.EnumValueDefinition
-            }
-          } as ParserField)
+              type: ValueDefinition.EnumValueDefinition,
+            },
+          } as ParserField),
       );
     }
     if ('types' in n && n.types) {
@@ -302,15 +298,12 @@ export class TypeResolver {
             name: t.name.value,
             type: { name: t.name.value },
             data: {
-              type: TypeSystemDefinition.UnionMemberDefinition
-            }
-          } as ParserField)
+              type: TypeSystemDefinition.UnionMemberDefinition,
+            },
+          } as ParserField),
       );
     }
-    if (
-      (n.kind === 'InputObjectTypeDefinition' || n.kind === 'InputObjectTypeExtension') &&
-      n.fields
-    ) {
+    if ((n.kind === 'InputObjectTypeDefinition' || n.kind === 'InputObjectTypeExtension') && n.fields) {
       return TypeResolver.iterateInputValueFields(n.fields);
     }
     if ('arguments' in n && n.arguments) {

@@ -27,14 +27,11 @@ export class ParserUtils {
       return false;
     }
     return true;
-  }
+  };
   /**
    * Compare parserfields arrays
    */
-  static compareParserTreesNodes = (
-    t1: ParserField[] | undefined,
-    t2: ParserField[] | undefined
-  ): boolean => {
+  static compareParserTreesNodes = (t1: ParserField[] | undefined, t2: ParserField[] | undefined): boolean => {
     if (!t1) {
       if (!t2) {
         return true;
@@ -57,5 +54,5 @@ export class ParserUtils {
       }
     }
     return true;
-  }
+  };
 }

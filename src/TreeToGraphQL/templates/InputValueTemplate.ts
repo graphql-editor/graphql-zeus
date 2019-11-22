@@ -14,10 +14,8 @@ export class InputValueTemplate {
         argsString = ` = ${f.args.map(TemplateUtils.resolverForConnection).join('\n')}`;
       }
     }
-    return `${TemplateUtils.descriptionResolver(f.description, `\t`)}\t${
-      f.name
-    }: ${TemplateUtils.resolveType(f)}${argsString}${TemplateUtils.resolveDirectives(
-      f.directives
-    )}`;
+    return `${TemplateUtils.descriptionResolver(f.description, `\t`)}\t${f.name}: ${TemplateUtils.resolveType(
+      f,
+    )}${argsString}${TemplateUtils.resolveDirectives(f.directives)}`;
   }
 }

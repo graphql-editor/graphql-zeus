@@ -2,7 +2,7 @@ import { Options, ParserField } from '../../Models';
 import { TypeDefinition } from '../../Models/Spec';
 const resolveArg = (f: ParserField, tabs = '\t\t\t') => {
   const {
-    type: { options }
+    type: { options },
   } = f;
   const isArray = !!(options && options.find((o) => o === Options.array));
   const isArrayRequired = !!(options && options.find((o) => o === Options.arrayRequired));

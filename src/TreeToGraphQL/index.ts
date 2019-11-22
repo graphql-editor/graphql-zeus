@@ -8,7 +8,7 @@ export class TreeToGraphQL {
     const operations: Record<OperationType, string | null> = {
       [OperationType.query]: null,
       [OperationType.mutation]: null,
-      [OperationType.subscription]: null
+      [OperationType.subscription]: null,
     };
     parserTree.nodes
       .filter((n) => n.type.operations && n.type.operations.length > 0)

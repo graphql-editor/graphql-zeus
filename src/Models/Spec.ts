@@ -3,7 +3,7 @@ export enum ScalarTypes {
   Float = 'Float',
   ID = 'ID',
   Int = 'Int',
-  String = 'String'
+  String = 'String',
 }
 
 export enum Directive {
@@ -17,7 +17,7 @@ export enum Directive {
   ENUM = 'ENUM',
   ENUM_VALUE = 'ENUM_VALUE',
   INPUT_OBJECT = 'INPUT_OBJECT',
-  INPUT_FIELD_DEFINITION = 'INPUT_FIELD_DEFINITION'
+  INPUT_FIELD_DEFINITION = 'INPUT_FIELD_DEFINITION',
 }
 export enum Value {
   Variable = 'Variable',
@@ -28,12 +28,12 @@ export enum Value {
   NullValue = 'NullValue',
   EnumValue = 'EnumValue',
   ListValue = 'ListValue',
-  ObjectValue = 'ObjectValue'
+  ObjectValue = 'ObjectValue',
 }
 export enum Type {
   NamedType = 'NamedType',
   ListType = 'ListType',
-  NonNullType = 'NonNullType'
+  NonNullType = 'NonNullType',
 }
 
 export enum TypeSystemDefinition {
@@ -41,12 +41,12 @@ export enum TypeSystemDefinition {
   TypeDefinition = 'TypeDefinition',
   DirectiveDefinition = 'DirectiveDefinition',
   FieldDefinition = 'FieldDefinition',
-  UnionMemberDefinition = 'UnionMemberDefinition' // NOT IN SPEC
+  UnionMemberDefinition = 'UnionMemberDefinition', // NOT IN SPEC
 }
 
 export enum TypeSystemExtension {
   SchemaExtension = 'SchemaExtension',
-  TypeExtension = 'TypeExtension'
+  TypeExtension = 'TypeExtension',
 }
 
 export enum TypeDefinition {
@@ -55,12 +55,12 @@ export enum TypeDefinition {
   InterfaceTypeDefinition = 'InterfaceTypeDefinition',
   UnionTypeDefinition = 'UnionTypeDefinition',
   EnumTypeDefinition = 'EnumTypeDefinition',
-  InputObjectTypeDefinition = 'InputObjectTypeDefinition'
+  InputObjectTypeDefinition = 'InputObjectTypeDefinition',
 }
 
 export enum ValueDefinition {
   EnumValueDefinition = 'EnumValueDefinition',
-  InputValueDefinition = 'InputValueDefinition'
+  InputValueDefinition = 'InputValueDefinition',
 }
 
 export enum TypeExtension {
@@ -69,13 +69,13 @@ export enum TypeExtension {
   InterfaceTypeExtension = 'InterfaceTypeExtension',
   UnionTypeExtension = 'UnionTypeExtension',
   EnumTypeExtension = 'EnumTypeExtension',
-  InputObjectTypeExtension = 'InputObjectTypeExtension'
+  InputObjectTypeExtension = 'InputObjectTypeExtension',
 }
 
 export enum OperationType {
   query = 'query',
   mutation = 'mutation',
-  subscription = 'subscription'
+  subscription = 'subscription',
 }
 
 // below this line this is out of spec
@@ -83,11 +83,11 @@ export enum OperationType {
 export enum Instances {
   Argument = 'Argument',
   Directive = 'Directive',
-  Implement = 'Implement'
+  Implement = 'Implement',
 }
 export enum Helpers {
   Directives = 'Directives',
   Implements = 'Implements',
   Extend = 'Extend',
-  Comment = 'Comment'
+  Comment = 'Comment',
 }

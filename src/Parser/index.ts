@@ -15,7 +15,10 @@ import { TreeToGraphQL } from '../TreeToGraphQL';
 import { TypeResolver } from './typeResolver';
 export class Parser {
   static findComments(schema: string) {
-    return schema.split('\n').filter((s) => s.startsWith("#")).map((s) => s.slice(1).trimStart());
+    return schema
+      .split('\n')
+      .filter((s) => s.startsWith('#'))
+      .map((s) => s.slice(1).trimStart());
   }
   /**
    * Parse schema from string and return ast
@@ -31,27 +34,23 @@ export class Parser {
           type:
             d.kind === 'DirectiveDefinition'
               ? {
-                name: TypeDefinitionDisplayMap[d.kind],
-                directiveOptions: d.locations.map((l) => l.value as Directive)
-              }
+                  name: TypeDefinitionDisplayMap[d.kind],
+                  directiveOptions: d.locations.map((l) => l.value as Directive),
+                }
               : {
-                name: TypeDefinitionDisplayMap[d.kind]
-              },
+                  name: TypeDefinitionDisplayMap[d.kind],
+                },
           data: {
-            type: d.kind as AllTypes
+            type: d.kind as AllTypes,
           },
           description: 'description' in d && d.description ? d.description!.value : '',
-          interfaces:
-            'interfaces' in d && d.interfaces ? d.interfaces!.map((i) => i.name.value) : undefined,
-          directives:
-            'directives' in d && d.directives
-              ? TypeResolver.iterateDirectives(d.directives!)
-              : undefined,
-          args: TypeResolver.resolveFieldsFromDefinition(d)
+          interfaces: 'interfaces' in d && d.interfaces ? d.interfaces!.map((i) => i.name.value) : undefined,
+          directives: 'directives' in d && d.directives ? TypeResolver.iterateDirectives(d.directives!) : undefined,
+          args: TypeResolver.resolveFieldsFromDefinition(d),
         };
       }
     }
-  }
+  };
   /**
    * Parse whole string GraphQL schema and return ParserTree
    *
@@ -71,24 +70,27 @@ export class Parser {
     const operations = {
       Query: astSchema!.getQueryType(),
       Mutation: astSchema!.getMutationType(),
-      Subscription: astSchema!.getSubscriptionType()
+      Subscription: astSchema!.getSubscriptionType(),
     };
     const nodes = parsedSchema!.definitions
       .filter((t) => 'name' in t && t.name && !excludeRoots.includes(t.name.value))
       .map(Parser.documentDefinitionToSerializedNodeTree)
       .filter((d) => !!d) as ParserField[];
-    const comments: ParserField[] = Parser.findComments(schema).map(description => ({
-      name: Helpers.Comment,
-      type: {
-        name: Helpers.Comment
-      },
-      data: {
-        type: Helpers.Comment
-      },
-      description
-    } as ParserField))
+    const comments: ParserField[] = Parser.findComments(schema).map(
+      (description) =>
+        ({
+          name: Helpers.Comment,
+          type: {
+            name: Helpers.Comment,
+          },
+          data: {
+            type: Helpers.Comment,
+          },
+          description,
+        } as ParserField),
+    );
     const nodeTree: ParserTree = {
-      nodes: [...comments, ...nodes,]
+      nodes: [...comments, ...nodes],
     };
     nodeTree.nodes.forEach((n) => {
       if (n.data!.type! === TypeDefinition.ObjectTypeDefinition) {
@@ -111,20 +113,15 @@ export class Parser {
     if (!Extensions || Extensions.length === 0) {
       return parsed;
     }
-    const wihtoutExtensions = parsed.nodes.filter(
-      (n) => !(n.data && n.data.type! in TypeExtension)
-    );
+    const wihtoutExtensions = parsed.nodes.filter((n) => !(n.data && n.data.type! in TypeExtension));
     const schemaStringWithoutExtensions = TreeToGraphQL.parse({
-      nodes: wihtoutExtensions
+      nodes: wihtoutExtensions,
     });
     const schemaStringWithExtensionsOnly = TreeToGraphQL.parse({
-      nodes: Extensions
+      nodes: Extensions,
     });
     const extendedSchemaString = printSchema(
-      extendSchema(
-        buildASTSchema(parse(schemaStringWithoutExtensions)),
-        parse(schemaStringWithExtensionsOnly)
-      )
+      extendSchema(buildASTSchema(parse(schemaStringWithoutExtensions)), parse(schemaStringWithExtensionsOnly)),
     );
     return Parser.parse(extendedSchemaString);
   };
