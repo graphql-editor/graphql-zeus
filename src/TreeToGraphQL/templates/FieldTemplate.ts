@@ -15,8 +15,6 @@ export class FieldTemplate {
     }
     return `${TemplateUtils.descriptionResolver(f.description, '\t')}\t${
       f.name
-    }${argsString}: ${TemplateUtils.resolveType(f)}${TemplateUtils.resolveDirectives(
-      f.directives
-    )}`;
+    }${argsString}: ${TemplateUtils.resolveType(f)}${TemplateUtils.resolveDirectives(f.directives)}`;
   }
 }

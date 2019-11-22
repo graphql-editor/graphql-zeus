@@ -10,12 +10,11 @@ const typeScriptMap: Record<string, string> = {
   Float: 'number',
   Boolean: 'boolean',
   ID: 'string',
-  String: 'string'
+  String: 'string',
 };
 const toTypeScriptPrimitive = (a: string): string => typeScriptMap[a] || a;
 
-const plusDescription = (description?: string, prefix: string = '') =>
-  description ? `${prefix}/** ${description} */\n` : '';
+const plusDescription = (description?: string, prefix = '') => (description ? `${prefix}/** ${description} */\n` : '');
 
 const resolveField = (f: ParserField, resolveArgs = true) => {
   const {
@@ -49,9 +48,7 @@ const resolveField = (f: ParserField, resolveArgs = true) => {
     return isRequiredName(name) + ':';
   };
   return `${plusDescription(f.description, '\t')}\t${resolveArgsName(f.name)}${concatArray(
-    f.type.name in typeScriptMap
-      ? toTypeScriptPrimitive(f.type.name)
-      : resolveValueType(f.type.name)
+    f.type.name in typeScriptMap ? toTypeScriptPrimitive(f.type.name) : resolveValueType(f.type.name),
   )}`;
 };
 
@@ -66,7 +63,7 @@ const resolveValueTypeFromRoot = (i: ParserField, rootNodes: ParserField[]) => {
     return `${plusDescription(i.description)}["${i.name}"]:any`;
   }
   if (i.data!.type === TypeDefinition.UnionTypeDefinition) {
-    return `${plusDescription(i.description)}["${i.name}"]: ${i.args.map((a) => resolveValueType(a.name)).join(" | ")}`;
+    return `${plusDescription(i.description)}["${i.name}"]: ${i.args.map((a) => resolveValueType(a.name)).join(' | ')}`;
   }
   if (i.data!.type === TypeDefinition.EnumTypeDefinition) {
     return `${plusDescription(i.description)}["${i.name}"]:${i.name}`;
@@ -77,11 +74,11 @@ const resolveValueTypeFromRoot = (i: ParserField, rootNodes: ParserField[]) => {
       .join(',\n')}\n}`;
   }
   if (i.data!.type === TypeDefinition.InterfaceTypeDefinition) {
-    const typesImplementing = rootNodes.filter(
-      (rn) => rn.interfaces && rn.interfaces.includes(i.name)
-    );
+    const typesImplementing = rootNodes.filter((rn) => rn.interfaces && rn.interfaces.includes(i.name));
     return `${plusDescription(i.description)}["${i.name}"]:{
-\t${i.args.map((f) => resolveField(f)).join(';\n')}\n} & (${`${typesImplementing.map((a) => resolveValueType(a.name)).join(" | ")}`})`;
+\t${i.args.map((f) => resolveField(f)).join(';\n')}\n} & (${`${typesImplementing
+      .map((a) => resolveValueType(a.name))
+      .join(' | ')}`})`;
   }
   return `${plusDescription(i.description)}["${i.name}"]: {\n\t\t__typename?: "${i.name}";\n\t\t${i.args
     .map((f) => resolveField(f))

@@ -1,9 +1,9 @@
-import { VALUETYPES } from "../resolveValueTypes";
+import { VALUETYPES } from '../resolveValueTypes';
 
 const generateOperationsJavascriptDefinitionsChaining = ({
   queries,
   mutations,
-  subscriptions
+  subscriptions,
 }: {
   queries?: string[];
   mutations?: string[];
@@ -14,24 +14,19 @@ const generateOperationsJavascriptDefinitionsChaining = ({
     allOps.push(`Query: OperationToGraphQL<${VALUETYPES}["Query"],Query>`);
   }
   if (mutations && mutations.length) {
-    allOps.push(
-      `Mutation: OperationToGraphQL<${VALUETYPES}["Mutation"],Mutation>`
-    );
+    allOps.push(`Mutation: OperationToGraphQL<${VALUETYPES}["Mutation"],Mutation>`);
   }
   if (subscriptions && subscriptions.length) {
-    allOps.push(
-      `Subscription: OperationToGraphQL<${VALUETYPES}["Subscription"],Subscription>`
-    );
+    allOps.push(`Subscription: OperationToGraphQL<${VALUETYPES}["Subscription"],Subscription>`);
   }
   return allOps;
 };
 
-const ZeusOperations = (t: string) =>
-  `${t}: (o: ${VALUETYPES}["${t}"]) => string`;
+const ZeusOperations = (t: string) => `${t}: (o: ${VALUETYPES}["${t}"]) => string`;
 const generateOperationsJavascriptDefinitionsZeus = ({
   queries,
   mutations,
-  subscriptions
+  subscriptions,
 }: {
   queries?: string[];
   mutations?: string[];
@@ -39,26 +34,24 @@ const generateOperationsJavascriptDefinitionsZeus = ({
 }): string[] => {
   const allOps = [];
   if (queries && queries.length) {
-    allOps.push(ZeusOperations("Query"));
+    allOps.push(ZeusOperations('Query'));
   }
   if (mutations && mutations.length) {
-    allOps.push(ZeusOperations("Mutation"));
+    allOps.push(ZeusOperations('Mutation'));
   }
   if (subscriptions && subscriptions.length) {
-    allOps.push(ZeusOperations("Subscription"));
+    allOps.push(ZeusOperations('Subscription'));
   }
   return allOps;
 };
-const CastOperations = (
-  t: string
-) => `${t}: ((o: any) => (b: any) => o) as CastToGraphQL<
+const CastOperations = (t: string) => `${t}: ((o: any) => (b: any) => o) as CastToGraphQL<
   ValueTypes["${t}"],
   ${t}
 >`;
 const generateOperationsJavascriptDefinitionsCast = ({
   queries,
   mutations,
-  subscriptions
+  subscriptions,
 }: {
   queries?: string[];
   mutations?: string[];
@@ -66,13 +59,13 @@ const generateOperationsJavascriptDefinitionsCast = ({
 }): string[] => {
   const allOps = [];
   if (queries && queries.length) {
-    allOps.push(CastOperations("Query"));
+    allOps.push(CastOperations('Query'));
   }
   if (mutations && mutations.length) {
-    allOps.push(CastOperations("Mutation"));
+    allOps.push(CastOperations('Mutation'));
   }
   if (subscriptions && subscriptions.length) {
-    allOps.push(CastOperations("Subscription"));
+    allOps.push(CastOperations('Subscription'));
   }
   return allOps;
 };

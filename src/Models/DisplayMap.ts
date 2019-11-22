@@ -7,14 +7,14 @@ export enum TypeDefinitionDisplayStrings {
   input = 'input',
   scalar = 'scalar',
   union = 'union',
-  directive = 'directive'
+  directive = 'directive',
 }
 export enum TypeSystemDefinitionDisplayStrings {
   directive = 'directive',
   schema = 'schema',
   definition = 'definition',
   field = 'field',
-  member = 'member'
+  member = 'member',
 }
 
 export const TypeDefinitionDisplayMap: Record<
@@ -33,16 +33,13 @@ export const TypeDefinitionDisplayMap: Record<
   [TypeExtension.InputObjectTypeExtension]: TypeDefinitionDisplayStrings.input,
   [TypeExtension.ScalarTypeExtension]: TypeDefinitionDisplayStrings.scalar,
   [TypeExtension.UnionTypeExtension]: TypeDefinitionDisplayStrings.union,
-  [TypeSystemDefinition.DirectiveDefinition]: TypeDefinitionDisplayStrings.directive
+  [TypeSystemDefinition.DirectiveDefinition]: TypeDefinitionDisplayStrings.directive,
 };
 
-export const TypeSystemDefinitionDisplayMap: Record<
-  TypeSystemDefinition,
-  TypeSystemDefinitionDisplayStrings
-> = {
+export const TypeSystemDefinitionDisplayMap: Record<TypeSystemDefinition, TypeSystemDefinitionDisplayStrings> = {
   [TypeSystemDefinition.DirectiveDefinition]: TypeSystemDefinitionDisplayStrings.directive,
   [TypeSystemDefinition.FieldDefinition]: TypeSystemDefinitionDisplayStrings.field,
   [TypeSystemDefinition.SchemaDefinition]: TypeSystemDefinitionDisplayStrings.schema,
   [TypeSystemDefinition.TypeDefinition]: TypeSystemDefinitionDisplayStrings.definition,
-  [TypeSystemDefinition.UnionMemberDefinition]: TypeSystemDefinitionDisplayStrings.member
+  [TypeSystemDefinition.UnionMemberDefinition]: TypeSystemDefinitionDisplayStrings.member,
 };

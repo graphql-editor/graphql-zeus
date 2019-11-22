@@ -6,17 +6,16 @@ const typeScriptMap: Record<string, string> = {
   Float: 'number',
   Boolean: 'boolean',
   ID: 'string',
-  String: 'string'
+  String: 'string',
 };
 const toTypeScriptPrimitive = (a: string): string => typeScriptMap[a] || a;
 
-const plusDescription = (description?: string, prefix: string = '') =>
-  description ? `${prefix}/** ${description} */\n` : '';
+const plusDescription = (description?: string, prefix = '') => (description ? `${prefix}/** ${description} */\n` : '');
 
 const resolveField = (f: ParserField, resolveArgs = true) => {
   const {
     type: { options },
-    args
+    args,
   } = f;
   const isArray = !!(options && options.find((o) => o === Options.array));
   const isArrayRequired = !!(options && options.find((o) => o === Options.arrayRequired));
@@ -49,7 +48,7 @@ const resolveField = (f: ParserField, resolveArgs = true) => {
     return isRequiredName(name) + ':';
   };
   return `${plusDescription(f.description, '\t')}\t${resolveArgsName(f.name)}${concatArray(
-    toTypeScriptPrimitive(f.type.name)
+    toTypeScriptPrimitive(f.type.name),
   )}`;
 };
 
@@ -66,9 +65,7 @@ export const resolveTypeFromRoot = (i: ParserField, rootNodes: ParserField[]) =>
   if (i.data!.type === TypeDefinition.UnionTypeDefinition) {
     return `${plusDescription(i.description)}export type ${i.name} = {
 \t__union:${i.args.map((f) => f.type.name).join(' | ')};
-\t__resolve:{\n\t\t${i.args
-      .map((f) => `['...on ${f.type.name}']: ${f.type.name};`)
-      .join('\n\t\t')}\n\t}\n}`;
+\t__resolve:{\n\t\t${i.args.map((f) => `['...on ${f.type.name}']: ${f.type.name};`).join('\n\t\t')}\n\t}\n}`;
   }
   if (i.data!.type === TypeDefinition.EnumTypeDefinition) {
     return `${plusDescription(i.description)}export enum ${i.name} {\n${i.args
@@ -81,16 +78,12 @@ export const resolveTypeFromRoot = (i: ParserField, rootNodes: ParserField[]) =>
       .join(',\n')}\n}`;
   }
   if (i.data!.type === TypeDefinition.InterfaceTypeDefinition) {
-    const typesImplementing = rootNodes.filter(
-      (rn) => rn.interfaces && rn.interfaces.includes(i.name)
-    );
+    const typesImplementing = rootNodes.filter((rn) => rn.interfaces && rn.interfaces.includes(i.name));
     return `${plusDescription(i.description)}export type ${i.name} = {
 \t__interface:{\n\t\t${i.args.map((f) => resolveField(f)).join(',\n')}\n\t};
-\t__resolve:{\n\t\t${typesImplementing
-      .map((f) => `['...on ${f.name}']: ${f.name};`)
-      .join('\n\t\t')}\n\t}\n}`;
+\t__resolve:{\n\t\t${typesImplementing.map((f) => `['...on ${f.name}']: ${f.name};`).join('\n\t\t')}\n\t}\n}`;
   }
-  return `${plusDescription(i.description)}export type ${i.name} = {\n\t__typename?: "${
-    i.name
-  }",\n${i.args.map((f) => resolveField(f)).join(',\n')}\n}`;
+  return `${plusDescription(i.description)}export type ${i.name} = {\n\t__typename?: "${i.name}",\n${i.args
+    .map((f) => resolveField(f))
+    .join(',\n')}\n}`;
 };

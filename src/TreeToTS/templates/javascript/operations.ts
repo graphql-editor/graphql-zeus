@@ -1,8 +1,6 @@
-import { Environment } from "../../../Models/Environment";
-import { graphqlErrorJavascript, javascriptFunctions } from "./";
-const generateOperationChainingJavascript = (
-  t: "Query" | "Mutation" | "Subscription"
-) =>
+import { Environment } from '../../../Models/Environment';
+import { graphqlErrorJavascript, javascriptFunctions } from './';
+const generateOperationChainingJavascript = (t: 'Query' | 'Mutation' | 'Subscription') =>
   `${t}: (o) =>
     fullChainConstruct(options)('${t}')(o).then(
       (response) => response
@@ -11,7 +9,7 @@ const generateOperationChainingJavascript = (
 const generateOperationsChainingJavascipt = ({
   queries,
   mutations,
-  subscriptions
+  subscriptions,
 }: {
   queries?: string[];
   mutations?: string[];
@@ -19,25 +17,24 @@ const generateOperationsChainingJavascipt = ({
 }): string[] => {
   const allOps: string[] = [];
   if (queries && queries.length) {
-    allOps.push(generateOperationChainingJavascript("Query"));
+    allOps.push(generateOperationChainingJavascript('Query'));
   }
   if (mutations && mutations.length) {
-    allOps.push(generateOperationChainingJavascript("Mutation"));
+    allOps.push(generateOperationChainingJavascript('Mutation'));
   }
   if (subscriptions && subscriptions.length) {
-    allOps.push(generateOperationChainingJavascript("Subscription"));
+    allOps.push(generateOperationChainingJavascript('Subscription'));
   }
   return allOps;
 };
 
-const generateOperationZeusJavascript = (
-  t: "Query" | "Mutation" | "Subscription"
-) => `${t}: (o) => queryConstruct('${t}')(o)`;
+const generateOperationZeusJavascript = (t: 'Query' | 'Mutation' | 'Subscription') =>
+  `${t}: (o) => queryConstruct('${t}')(o)`;
 
 const generateOperationsZeusJavascipt = ({
   queries,
   mutations,
-  subscriptions
+  subscriptions,
 }: {
   queries?: string[];
   mutations?: string[];
@@ -45,25 +42,23 @@ const generateOperationsZeusJavascipt = ({
 }): string[] => {
   const allOps: string[] = [];
   if (queries && queries.length) {
-    allOps.push(generateOperationZeusJavascript("Query"));
+    allOps.push(generateOperationZeusJavascript('Query'));
   }
   if (mutations && mutations.length) {
-    allOps.push(generateOperationZeusJavascript("Mutation"));
+    allOps.push(generateOperationZeusJavascript('Mutation'));
   }
   if (subscriptions && subscriptions.length) {
-    allOps.push(generateOperationZeusJavascript("Subscription"));
+    allOps.push(generateOperationZeusJavascript('Subscription'));
   }
   return allOps;
 };
 
-const generateOperationCastJavascript = (
-  t: "Query" | "Mutation" | "Subscription"
-) => `${t}: (o) => (b) => o`;
+const generateOperationCastJavascript = (t: 'Query' | 'Mutation' | 'Subscription') => `${t}: (o) => (b) => o`;
 
 const generateOperationsCastJavascipt = ({
   queries,
   mutations,
-  subscriptions
+  subscriptions,
 }: {
   queries?: string[];
   mutations?: string[];
@@ -71,13 +66,13 @@ const generateOperationsCastJavascipt = ({
 }): string[] => {
   const allOps: string[] = [];
   if (queries && queries.length) {
-    allOps.push(generateOperationCastJavascript("Query"));
+    allOps.push(generateOperationCastJavascript('Query'));
   }
   if (mutations && mutations.length) {
-    allOps.push(generateOperationCastJavascript("Mutation"));
+    allOps.push(generateOperationCastJavascript('Mutation'));
   }
   if (subscriptions && subscriptions.length) {
-    allOps.push(generateOperationCastJavascript("Subscription"));
+    allOps.push(generateOperationCastJavascript('Subscription'));
   }
   return allOps;
 };
@@ -86,12 +81,12 @@ export const bodyJavascript = (
   {
     queries,
     mutations,
-    subscriptions
+    subscriptions,
   }: {
     queries?: string[];
     mutations?: string[];
     subscriptions?: string[];
-  }
+  },
 ) => `
 ${graphqlErrorJavascript}
 ${javascriptFunctions(env)}
@@ -100,21 +95,21 @@ ${javascriptFunctions(env)}
     ${generateOperationsChainingJavascipt({
       queries,
       mutations,
-      subscriptions
-    }).join(",\n")}
+      subscriptions,
+    }).join(',\n')}
   });
   export const Zeus = {
     ${generateOperationsZeusJavascipt({
       queries,
       mutations,
-      subscriptions
-    }).join(",\n")}
+      subscriptions,
+    }).join(',\n')}
   };
   export const Cast = {
     ${generateOperationsCastJavascipt({
       queries,
       mutations,
-      subscriptions
-    }).join(",\n")}
+      subscriptions,
+    }).join(',\n')}
   };
     `;

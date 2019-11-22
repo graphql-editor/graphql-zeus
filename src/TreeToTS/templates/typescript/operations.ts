@@ -1,12 +1,8 @@
-import { Environment } from "Models/Environment";
-import { VALUETYPES } from "../resolveValueTypes";
-import {
-  constantTypesTypescript,
-  graphqlErrorTypeScript,
-  typescriptFunctions
-} from "./";
+import { Environment } from 'Models/Environment';
+import { VALUETYPES } from '../resolveValueTypes';
+import { constantTypesTypescript, graphqlErrorTypeScript, typescriptFunctions } from './';
 
-const generateOperationChaining = (t: "Query" | "Mutation" | "Subscription") =>
+const generateOperationChaining = (t: 'Query' | 'Mutation' | 'Subscription') =>
   `${t}: ((o: any) =>
     fullChainConstruct(options)('${t}')(o).then(
       (response: any) => response
@@ -15,7 +11,7 @@ const generateOperationChaining = (t: "Query" | "Mutation" | "Subscription") =>
 const generateOperationsChaining = ({
   queries,
   mutations,
-  subscriptions
+  subscriptions,
 }: {
   queries?: string[];
   mutations?: string[];
@@ -23,24 +19,24 @@ const generateOperationsChaining = ({
 }): string[] => {
   const allOps: string[] = [];
   if (queries && queries.length) {
-    allOps.push(generateOperationChaining("Query"));
+    allOps.push(generateOperationChaining('Query'));
   }
   if (mutations && mutations.length) {
-    allOps.push(generateOperationChaining("Mutation"));
+    allOps.push(generateOperationChaining('Mutation'));
   }
   if (subscriptions && subscriptions.length) {
-    allOps.push(generateOperationChaining("Subscription"));
+    allOps.push(generateOperationChaining('Subscription'));
   }
   return allOps;
 };
 
-const generateOperationZeus = (t: "Query" | "Mutation" | "Subscription") =>
+const generateOperationZeus = (t: 'Query' | 'Mutation' | 'Subscription') =>
   `${t}: (o:${VALUETYPES}["${t}"]) => queryConstruct('${t}')(o)`;
 
 const generateOperationsZeusTypeScript = ({
   queries,
   mutations,
-  subscriptions
+  subscriptions,
 }: {
   queries?: string[];
   mutations?: string[];
@@ -48,24 +44,23 @@ const generateOperationsZeusTypeScript = ({
 }): string[] => {
   const allOps: string[] = [];
   if (queries && queries.length) {
-    allOps.push(generateOperationZeus("Query"));
+    allOps.push(generateOperationZeus('Query'));
   }
   if (mutations && mutations.length) {
-    allOps.push(generateOperationZeus("Mutation"));
+    allOps.push(generateOperationZeus('Mutation'));
   }
   if (subscriptions && subscriptions.length) {
-    allOps.push(generateOperationZeus("Subscription"));
+    allOps.push(generateOperationZeus('Subscription'));
   }
   return allOps;
 };
 
-const generateSelectorZeus = (t: "Query" | "Mutation" | "Subscription") =>
-  `${t}: ZeusSelect<${VALUETYPES}["${t}"]>()`;
+const generateSelectorZeus = (t: 'Query' | 'Mutation' | 'Subscription') => `${t}: ZeusSelect<${VALUETYPES}["${t}"]>()`;
 
 const generateSelectorsZeusTypeScript = ({
   queries,
   mutations,
-  subscriptions
+  subscriptions,
 }: {
   queries?: string[];
   mutations?: string[];
@@ -73,18 +68,18 @@ const generateSelectorsZeusTypeScript = ({
 }): string[] => {
   const allOps: string[] = [];
   if (queries && queries.length) {
-    allOps.push(generateSelectorZeus("Query"));
+    allOps.push(generateSelectorZeus('Query'));
   }
   if (mutations && mutations.length) {
-    allOps.push(generateSelectorZeus("Mutation"));
+    allOps.push(generateSelectorZeus('Mutation'));
   }
   if (subscriptions && subscriptions.length) {
-    allOps.push(generateSelectorZeus("Subscription"));
+    allOps.push(generateSelectorZeus('Subscription'));
   }
   return allOps;
 };
 
-const generateOperationCast = (t: "Query" | "Mutation" | "Subscription") =>
+const generateOperationCast = (t: 'Query' | 'Mutation' | 'Subscription') =>
   `${t}: ((o: any) => (b: any) => o) as CastToGraphQL<
   ValueTypes["${t}"],
   ${t}
@@ -93,7 +88,7 @@ const generateOperationCast = (t: "Query" | "Mutation" | "Subscription") =>
 const generateOperationsCastTypeScript = ({
   queries,
   mutations,
-  subscriptions
+  subscriptions,
 }: {
   queries?: string[];
   mutations?: string[];
@@ -101,13 +96,13 @@ const generateOperationsCastTypeScript = ({
 }): string[] => {
   const allOps: string[] = [];
   if (queries && queries.length) {
-    allOps.push(generateOperationCast("Query"));
+    allOps.push(generateOperationCast('Query'));
   }
   if (mutations && mutations.length) {
-    allOps.push(generateOperationCast("Mutation"));
+    allOps.push(generateOperationCast('Mutation'));
   }
   if (subscriptions && subscriptions.length) {
-    allOps.push(generateOperationCast("Subscription"));
+    allOps.push(generateOperationCast('Subscription'));
   }
   return allOps;
 };
@@ -117,39 +112,35 @@ export const bodyTypeScript = (
   {
     queries,
     mutations,
-    subscriptions
+    subscriptions,
   }: {
     queries?: string[];
     mutations?: string[];
     subscriptions?: string[];
-  }
+  },
 ) => `
 ${graphqlErrorTypeScript}
 ${constantTypesTypescript}
 ${typescriptFunctions(env)}
 
 export const Chain = (...options: fetchOptions) => ({
-  ${generateOperationsChaining({ queries, mutations, subscriptions }).join(
-    ",\n"
-  )}
+  ${generateOperationsChaining({ queries, mutations, subscriptions }).join(',\n')}
 });
 export const Zeus = {
   ${generateOperationsZeusTypeScript({
     queries,
     mutations,
-    subscriptions
-  }).join(",\n")}
+    subscriptions,
+  }).join(',\n')}
 };
 export const Cast = {
   ${generateOperationsCastTypeScript({
     queries,
     mutations,
-    subscriptions
-  }).join(",\n")}
+    subscriptions,
+  }).join(',\n')}
 };
 export const Selectors = {
-  ${generateSelectorsZeusTypeScript({ queries, mutations, subscriptions }).join(
-    ",\n"
-  )}
+  ${generateSelectorsZeusTypeScript({ queries, mutations, subscriptions }).join(',\n')}
 };
   `;

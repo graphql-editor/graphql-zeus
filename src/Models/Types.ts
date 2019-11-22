@@ -8,13 +8,13 @@ import {
   TypeExtension,
   TypeSystemDefinition,
   Value,
-  ValueDefinition
+  ValueDefinition,
 } from './Spec';
 
 export enum BuiltInDirectives {
   skip = 'skip',
   include = 'include',
-  deprecated = 'deprecated'
+  deprecated = 'deprecated',
 }
 export type AllTypes =
   | ScalarTypes

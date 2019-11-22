@@ -32,7 +32,7 @@ export class CLI {
    */
   static execute = async (args: Args) => {
     const env: Environment = args.node ? 'node' : 'browser';
-    let schemaFileContents: string = '';
+    let schemaFileContents = '';
     const allArgs = args._;
     const schemaFile: string = allArgs[0];
     let host: string | undefined;
@@ -62,5 +62,5 @@ export class CLI {
       fs.writeFileSync(path.join(pathToFile, outFile), jsDefinition.code);
       fs.writeFileSync(path.join(pathToFile, outFileDefinitions), jsDefinition.typings);
     }
-  }
+  };
 }
