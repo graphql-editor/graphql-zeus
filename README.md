@@ -364,7 +364,7 @@ const myQuery = Cast.Query(myLib("somegraphqlendpoint"))
 In TypeScript you can make type-safe selection sets to reuse them across queries
 You can use Selectors on operations or ZeusSelect on concrete type
 ```ts
-import { ZeusSelect, Selectors, Chain, Card } from './graphql-zeus';
+import { ZeusSelect, Selectors, Chain, ValueTypes } from './graphql-zeus';
 const chain = Chain('https://faker.graphqleditor.com/aexol/olympus/graphql');
 
 const { drawCard: cardSelector } = Selectors.Query({
@@ -381,7 +381,7 @@ const { drawCard: cardSelector } = Selectors.Query({
   }
 });
 
-const cardSelector2 = ZeusSelect<Card>()({
+const cardSelector2 = ZeusSelect<ValueTypes["Card"]>()({
   name: true,
   description: true,
   Attack: true,
