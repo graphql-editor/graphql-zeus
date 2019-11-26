@@ -69,10 +69,6 @@ type Anify<T> = { [P in keyof T]?: any };
 
 type LastMapTypeSRCResolver<SRC, DST> = SRC extends undefined
   ? never
-  : SRC extends AnyFunc
-  ? ReturnType<SRC> extends Array<infer FUNCRET>
-    ? MapType<FUNCRET, DST>[]
-    : MapType<ReturnType<SRC>, DST>
   : SRC extends Array<infer AR>
   ? LastMapTypeSRCResolver<AR, DST>[]
   : SRC extends { __interface: any; __resolve: any }

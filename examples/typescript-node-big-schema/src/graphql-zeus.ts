@@ -70,7 +70,7 @@ deployToFaker?: [{	id:string},true],
 removeProject?: [{	project:string},true],
 team?: [{	id:string},ValueTypes["TeamOps"]],
 updateProject?: [{	in?:ValueTypes["UpdateProject"]},true],
-updateSources?: [{	project:string,	sources?:ValueTypes["NewSource"][]},ValueTypes["SourceUploadInfo"]]
+updateSources?: [{	sources?:ValueTypes["NewSource"][],	project:string},ValueTypes["SourceUploadInfo"]]
 		__typename?: true
 }>;
 	/** Namespace is a root object containing projects belonging
@@ -86,14 +86,14 @@ projects?: [{	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
 }>;
 	/** New source payload */
 ["NewSource"]: {
+	/** Source checksum */
+	checksum?:string,
 	/** source file name */
 	filename?:string,
 	/** Length of source in bytes */
 	contentLength?:number,
 	/** Source mime type */
-	contentType?:string,
-	/** Source checksum */
-	checksum?:string
+	contentType?:string
 };
 	/** PageInfo contains information about connection page */
 ["PageInfo"]: AliasType<{
@@ -158,13 +158,13 @@ update?: [{	in?:ValueTypes["UpdateProject"]},true]
 	/** Root query type */
 ["Query"]: AliasType<{
 findProjects?: [{	query:string,	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
-findProjectsByTag?: [{	tag:string,	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
+findProjectsByTag?: [{	limit?:number,	tag:string,	last?:string},ValueTypes["ProjectConnection"]],
 getNamespace?: [{	slug:string},ValueTypes["Namespace"]],
 getProject?: [{	project:string},ValueTypes["Project"]],
 getTeam?: [{	name:string},ValueTypes["Team"]],
 getUser?: [{	username:string},ValueTypes["User"]],
 listProjects?: [{	last?:string,	limit?:number,	owned?:boolean},ValueTypes["ProjectConnection"]],
-myTeams?: [{	last?:string,	limit?:number},ValueTypes["TeamConnection"]]
+myTeams?: [{	limit?:number,	last?:string},ValueTypes["TeamConnection"]]
 		__typename?: true
 }>;
 	/** Team member role */
@@ -227,7 +227,7 @@ members?: [{	last?:string,	limit?:number},ValueTypes["MemberConnection"]],
 }>;
 	/** Team operations */
 ["TeamOps"]: AliasType<{
-addMember?: [{	role:ValueTypes["Role"],	username:string},ValueTypes["Member"]],
+addMember?: [{	username:string,	role:ValueTypes["Role"]},ValueTypes["Member"]],
 createProject?: [{	public?:boolean,	name:string},ValueTypes["Project"]],
 	/** Delete team */
 	delete?:true,
@@ -244,14 +244,14 @@ project?: [{	id:string},ValueTypes["ProjectOps"]]
 }>;
 	/** Update project payload */
 ["UpdateProject"]: {
-	/** List of tags for project */
-	tags?:string[],
-	/** Set project visiblity */
-	public?:boolean,
 	/** ID of project to be updated */
 	project?:string,
 	/** New description for project */
-	description?:string
+	description?:string,
+	/** List of tags for project */
+	tags?:string[],
+	/** Set project visiblity */
+	public?:boolean
 };
 	/** Editor user */
 ["User"]: AliasType<{
@@ -384,14 +384,14 @@ limit sets a limit on how many objects can be returned */
 	},
 	/** New source payload */
 ["NewSource"]: {
+	/** Source checksum */
+	checksum?:string,
 	/** source file name */
 	filename?:string,
 	/** Length of source in bytes */
 	contentLength?:number,
 	/** Source mime type */
-	contentType?:string,
-	/** Source checksum */
-	checksum?:string
+	contentType?:string
 },
 	/** PageInfo contains information about connection page */
 ["PageInfo"]: {
@@ -581,14 +581,14 @@ limit limits the number of returned projects */
 	},
 	/** Update project payload */
 ["UpdateProject"]: {
-	/** List of tags for project */
-	tags?:string[],
-	/** Set project visiblity */
-	public?:boolean,
 	/** ID of project to be updated */
 	project?:string,
 	/** New description for project */
-	description?:string
+	description?:string,
+	/** List of tags for project */
+	tags?:string[],
+	/** Set project visiblity */
+	public?:boolean
 },
 	/** Editor user */
 ["User"]: {
@@ -682,7 +682,7 @@ export type MemberOps = {
 	/** Boolean object node */
 	delete?:boolean,
 	/** Boolean object node */
-	update:(props:{	role?:Role}) => boolean
+	update?:boolean
 }
 
 export type Mutation = {
@@ -692,25 +692,25 @@ export type Mutation = {
 public if true project is public
 
 name is project name */
-	createProject:(props:{	public?:boolean,	name:string}) => Project,
+	createProject:Project,
 	/** Create new team */
-	createTeam:(props:{	namespace:string,	name:string}) => TeamOps,
+	createTeam?:TeamOps,
 	/** Create new user
 
 namespace name for a user
 
 public is user namespace public */
-	createUser:(props:{	namespace:string,	public?:boolean}) => User,
+	createUser:User,
 	/** deploy project to faker */
-	deployToFaker:(props:{	id:string}) => boolean,
+	deployToFaker?:boolean,
 	/** Remove project by id */
-	removeProject:(props:{	project:string}) => boolean,
+	removeProject?:boolean,
 	/** type object node */
-	team:(props:{	id:string}) => TeamOps,
+	team?:TeamOps,
 	/** Modify project */
-	updateProject:(props:{	in?:UpdateProject}) => boolean,
+	updateProject?:boolean,
 	/** Add sources to the project */
-	updateSources:(props:{	project:string,	sources?:NewSource[]}) => (SourceUploadInfo | undefined)[]
+	updateSources?:(SourceUploadInfo | undefined)[]
 }
 
 /** Namespace is a root object containing projects belonging
@@ -718,13 +718,13 @@ to a team or user */
 export type Namespace = {
 	__typename?: "Namespace",
 	/** Return project by name from namespace */
-	project:(props:{	name:string}) => Project,
+	project?:Project,
 	/** Returns a project connection object which contains a projects belonging to namespace
 
 last is a string returned by previous call to Namespace.projects
 
 limit sets a limit on how many objects can be returned */
-	projects:(props:{	last?:string,	limit?:number}) => ProjectConnection,
+	projects?:ProjectConnection,
 	/** True if namespace is public */
 	public?:boolean,
 	/** Namespace part of the slug */
@@ -733,14 +733,14 @@ limit sets a limit on how many objects can be returned */
 
 /** New source payload */
 export type NewSource = {
-		/** source file name */
+		/** Source checksum */
+	checksum?:string,
+	/** source file name */
 	filename?:string,
 	/** Length of source in bytes */
 	contentLength?:number,
 	/** Source mime type */
-	contentType?:string,
-	/** Source checksum */
-	checksum?:string
+	contentType?:string
 }
 
 /** PageInfo contains information about connection page */
@@ -782,7 +782,7 @@ Can be null if project belongs to a team */
 last is a string returned by previous call to Project.sources
 
 limit sets a limit on how many objects can be returned */
-	sources:(props:{	last?:string,	limit?:number}) => FakerSourceConnection,
+	sources?:FakerSourceConnection,
 	/** Project tags */
 	tags?:string[],
 	/** Team to which project belongs
@@ -810,7 +810,7 @@ export type ProjectOps = {
 	/** deploy project to faker */
 	deployToFaker?:boolean,
 	/** Boolean object node */
-	update:(props:{	in?:UpdateProject}) => boolean
+	update?:boolean
 }
 
 /** Root query type */
@@ -823,7 +823,7 @@ query is a regular expresion matched agains project slug
 last is an id of the last project returned by previous call
 
 limit limits the number of returned projects */
-	findProjects:(props:{	query:string,	last?:string,	limit?:number}) => ProjectConnection,
+	findProjects?:ProjectConnection,
 	/** Find projects which contain tag
 
 tag is a string
@@ -831,15 +831,15 @@ tag is a string
 last is an id of the last project returned by previous call
 
 limit limits the number of returned projects */
-	findProjectsByTag:(props:{	tag:string,	last?:string,	limit?:number}) => ProjectConnection,
+	findProjectsByTag?:ProjectConnection,
 	/** Return namespace matching slug */
-	getNamespace:(props:{	slug:string}) => Namespace,
+	getNamespace?:Namespace,
 	/** Return project by id */
-	getProject:(props:{	project:string}) => Project,
+	getProject?:Project,
 	/** Return team by name */
-	getTeam:(props:{	name:string}) => Team,
+	getTeam?:Team,
 	/** Return user by name */
-	getUser:(props:{	username:string}) => User,
+	getUser?:User,
 	/** Returns a project connection
 	
 If owned is true, returns only project belonging to currently logged user
@@ -847,18 +847,18 @@ If owned is true, returns only project belonging to currently logged user
 last is an id of the last project returned by previous call
 
 limit limits the number of returned projects */
-	listProjects:(props:{	last?:string,	limit?:number,	owned?:boolean}) => ProjectConnection,
+	listProjects?:ProjectConnection,
 	/** List of current user teams */
-	myTeams:(props:{	last?:string,	limit?:number}) => TeamConnection
+	myTeams?:TeamConnection
 }
 
 /** Team member role */
 export enum Role {
-	OWNER = "OWNER",
 	ADMIN = "ADMIN",
 	EDITOR = "EDITOR",
 	VIEWER = "VIEWER",
-	CONTRIBUTOR = "CONTRIBUTOR"
+	CONTRIBUTOR = "CONTRIBUTOR",
+	OWNER = "OWNER"
 }
 
 /** Source upload info object */
@@ -906,9 +906,9 @@ export type Team = {
 	/** Unique team id */
 	id?:string,
 	/** type object node */
-	member:(props:{	username:string}) => Member,
+	member?:Member,
 	/** Paginated list of members in team */
-	members:(props:{	last?:string,	limit?:number}) => MemberConnection,
+	members?:MemberConnection,
 	/** Team name */
 	name:string,
 	/** Team's namespace */
@@ -928,35 +928,35 @@ export type TeamConnection = {
 export type TeamOps = {
 	__typename?: "TeamOps",
 	/** Add member to the team */
-	addMember:(props:{	role:Role,	username:string}) => Member,
+	addMember?:Member,
 	/** Create new team project */
-	createProject:(props:{	public?:boolean,	name:string}) => Project,
+	createProject?:Project,
 	/** Delete team */
 	delete?:boolean,
 	/** Unique team id */
 	id?:string,
 	/** type object node */
-	member:(props:{	username:string}) => MemberOps,
+	member?:MemberOps,
 	/** Paginated list of members in team */
-	members:(props:{	last?:string,	limit?:number}) => MemberConnection,
+	members?:MemberConnection,
 	/** Team name */
 	name?:string,
 	/** Team's namespace */
 	namespace?:Namespace,
 	/** type object node */
-	project:(props:{	id:string}) => ProjectOps
+	project?:ProjectOps
 }
 
 /** Update project payload */
 export type UpdateProject = {
-		/** List of tags for project */
-	tags?:string[],
-	/** Set project visiblity */
-	public?:boolean,
-	/** ID of project to be updated */
+		/** ID of project to be updated */
 	project?:string,
 	/** New description for project */
-	description?:string
+	description?:string,
+	/** List of tags for project */
+	tags?:string[],
+	/** Set project visiblity */
+	public?:boolean
 }
 
 /** Editor user */
@@ -1070,15 +1070,15 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		updateSources:{
-			project:{
-				type:"ID",
-				array:false,
-				arrayRequired:false,
-				required:true
-			},
 			sources:{
 				type:"NewSource",
 				array:true,
+				arrayRequired:false,
+				required:true
+			},
+			project:{
+				type:"ID",
+				array:false,
 				arrayRequired:false,
 				required:true
 			}
@@ -1109,6 +1109,12 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	NewSource:{
+		checksum:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
 		filename:{
 			type:"String",
 			array:false,
@@ -1122,12 +1128,6 @@ export const AllTypesProps: Record<string,any> = {
 			required:false
 		},
 		contentType:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		checksum:{
 			type:"String",
 			array:false,
 			arrayRequired:false,
@@ -1182,6 +1182,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		findProjectsByTag:{
+			limit:{
+				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			tag:{
 				type:"String",
 				array:false,
@@ -1190,12 +1196,6 @@ export const AllTypesProps: Record<string,any> = {
 			},
 			last:{
 				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			limit:{
-				type:"Int",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -1254,14 +1254,14 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		myTeams:{
-			last:{
-				type:"String",
+			limit:{
+				type:"Int",
 				array:false,
 				arrayRequired:false,
 				required:false
 			},
-			limit:{
-				type:"Int",
+			last:{
+				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -1295,14 +1295,14 @@ export const AllTypesProps: Record<string,any> = {
 	},
 	TeamOps:{
 		addMember:{
-			role:{
-				type:"Role",
+			username:{
+				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:true
 			},
-			username:{
-				type:"String",
+			role:{
+				type:"Role",
 				array:false,
 				arrayRequired:false,
 				required:true
@@ -1354,18 +1354,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	UpdateProject:{
-		tags:{
-			type:"String",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		public:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		project:{
 			type:"ID",
 			array:false,
@@ -1374,6 +1362,18 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		description:{
 			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		tags:{
+			type:"String",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		public:{
+			type:"Boolean",
 			array:false,
 			arrayRequired:false,
 			required:false
@@ -1600,10 +1600,6 @@ type Anify<T> = { [P in keyof T]?: any };
 
 type LastMapTypeSRCResolver<SRC, DST> = SRC extends undefined
   ? never
-  : SRC extends AnyFunc
-  ? ReturnType<SRC> extends Array<infer FUNCRET>
-    ? MapType<FUNCRET, DST>[]
-    : MapType<ReturnType<SRC>, DST>
   : SRC extends Array<infer AR>
   ? LastMapTypeSRCResolver<AR, DST>[]
   : SRC extends { __interface: any; __resolve: any }

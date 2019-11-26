@@ -12,10 +12,9 @@ const toTypeScriptPrimitive = (a: string): string => typeScriptMap[a] || a;
 
 const plusDescription = (description?: string, prefix = '') => (description ? `${prefix}/** ${description} */\n` : '');
 
-const resolveField = (f: ParserField, resolveArgs = true) => {
+const resolveField = (f: ParserField) => {
   const {
     type: { options },
-    args,
   } = f;
   const isArray = !!(options && options.find((o) => o === Options.array));
   const isArrayRequired = !!(options && options.find((o) => o === Options.arrayRequired));
@@ -42,9 +41,6 @@ const resolveField = (f: ParserField, resolveArgs = true) => {
     return name;
   };
   const resolveArgsName = (name: string): string => {
-    if (resolveArgs && args && args.length) {
-      return `${name}:(props:{${args.map((a) => resolveField(a, false))}}) => `;
-    }
     return isRequiredName(name) + ':';
   };
   return `${plusDescription(f.description, '\t')}\t${resolveArgsName(f.name)}${concatArray(
@@ -74,7 +70,7 @@ export const resolveTypeFromRoot = (i: ParserField, rootNodes: ParserField[]) =>
   }
   if (i.data!.type === TypeDefinition.InputObjectTypeDefinition) {
     return `${plusDescription(i.description)}export type ${i.name} = {\n\t${i.args
-      .map((f) => resolveField(f, false))
+      .map((f) => resolveField(f))
       .join(',\n')}\n}`;
   }
   if (i.data!.type === TypeDefinition.InterfaceTypeDefinition) {

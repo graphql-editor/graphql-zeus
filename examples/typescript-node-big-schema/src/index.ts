@@ -1,10 +1,10 @@
-import { Chain, Selectors } from "./graphql-zeus";
+import { Chain, Selectors } from './graphql-zeus';
 const run = async () => {
-  const chain = Chain("https://project-api.graphqleditor.com/graphql");
+  const chain = Chain('https://project-api.graphqleditor.com/graphql');
   const projectPayload = Selectors.Query({
     getProject: [
       {
-        project: ""
+        project: '',
       },
       {
         id: true,
@@ -15,24 +15,24 @@ const run = async () => {
         tags: true,
         mocked: true,
         endpoint: {
-          uri: true
+          uri: true,
         },
         sources: [
           {},
           {
             sources: {
               getUrl: true,
-              filename: true
-            }
-          }
-        ]
-      }
-    ]
+              filename: true,
+            },
+          },
+        ],
+      },
+    ],
   }).getProject[1];
   const experimentalQuery = await chain.Query({
     getUser: [
       {
-        username: "a"
+        username: 'a',
       },
       {
         id: true,
@@ -46,12 +46,12 @@ const run = async () => {
             expiration: true,
             seats: {
               users: {
-                username: true
-              }
+                username: true,
+              },
             },
             status: true,
-            updateURL: true
-          }
+            updateURL: true,
+          },
         },
         namespace: {
           slug: true,
@@ -59,11 +59,11 @@ const run = async () => {
           projects: [
             {},
             {
-              projects: projectPayload
-            }
-          ]
-        }
-      }
+              projects: projectPayload,
+            },
+          ],
+        },
+      },
     ],
     listProjects: [
       { limit: 100 },
@@ -77,26 +77,43 @@ const run = async () => {
           tags: true,
           mocked: true,
           endpoint: {
-            uri: true
+            uri: true,
           },
           sources: [
             {},
             {
               sources: {
                 getUrl: true,
-                filename: true
-              }
-            }
-          ]
-        }
-      }
-    ]
+                filename: true,
+              },
+            },
+          ],
+        },
+      },
+    ],
   });
-  experimentalQuery.getUser.subscriptions.subscriptions.map((s) =>
-    s.seats.users.map((d) => d.username)
-  );
-  experimentalQuery.getUser.namespace.projects.projects.map((p) =>
-    p.sources.sources.map((s) => s.filename)
-  );
+  experimentalQuery.getUser.subscriptions.subscriptions.map((s) => s.seats.users.map((d) => d.username));
+  experimentalQuery.getUser.namespace.projects.projects.map((p) => p.sources.sources.map((s) => s.filename));
+  const experimentalMutation = await chain.Mutation({
+    updateSources: [
+      {
+        project: 'projectId',
+        sources: [
+          {
+            checksum: '',
+          },
+        ],
+      },
+      {
+        filename: true,
+        headers: {
+          key: true,
+          value: true,
+        },
+        putUrl: true,
+      },
+    ],
+  });
+  experimentalMutation.updateSources.map((s) => s.headers.map((h) => h.key));
 };
 run();

@@ -182,8 +182,7 @@ export type Card = {
 	/** The defense power<br> */
 	Defense:number,
 	/** Attack other cards on the table , returns Cards after attack<br> */
-	attack:(props:{	/** Attacked card/card ids<br> */
-	cardID:string[]}) => Card[],
+	attack?:Card[],
 	/** Put your description here */
 	cardImage?:S3Object,
 	/** Description of a card<br> */
@@ -234,7 +233,7 @@ export type EffectCard = {
 export type Mutation = {
 	__typename?: "Mutation",
 	/** add Card to Cards database<br> */
-	addCard:(props:{	card:createCard}) => Card
+	addCard:Card
 }
 
 export type Nameable = {
@@ -251,7 +250,7 @@ export type Nameable = {
 
 export type Query = {
 	__typename?: "Query",
-	cardById:(props:{	cardId?:string}) => Card,
+	cardById?:Card,
 	/** Draw a card<br> */
 	drawCard:Card,
 	drawChangeCard:ChangeCard,
@@ -276,9 +275,9 @@ export type SpecialCard = {
 }
 
 export enum SpecialSkills {
-	RAIN = "RAIN",
 	FIRE = "FIRE",
-	THUNDER = "THUNDER"
+	THUNDER = "THUNDER",
+	RAIN = "RAIN"
 }
 
 
@@ -352,10 +351,6 @@ type Anify<T> = { [P in keyof T]?: any };
 
 type LastMapTypeSRCResolver<SRC, DST> = SRC extends undefined
   ? never
-  : SRC extends AnyFunc
-  ? ReturnType<SRC> extends Array<infer FUNCRET>
-    ? MapType<FUNCRET, DST>[]
-    : MapType<ReturnType<SRC>, DST>
   : SRC extends Array<infer AR>
   ? LastMapTypeSRCResolver<AR, DST>[]
   : SRC extends { __interface: any; __resolve: any }
