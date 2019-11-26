@@ -1,9 +1,7 @@
-import chalk from "chalk";
-import { Gql, PlainObjects, SpecialSkills, Zeus } from "./graphql-zeus";
+import chalk from 'chalk';
+import { Gql, PartialObjects, SpecialSkills, Zeus } from './graphql-zeus';
 const printQueryResult = (name: string, result: any) =>
-  console.log(
-    `${chalk.greenBright(name)} result:\n${chalk.cyan(JSON.stringify(result, null, 4))}\n\n`,
-  );
+  console.log(`${chalk.greenBright(name)} result:\n${chalk.cyan(JSON.stringify(result, null, 4))}\n\n`);
 const printGQLString = (name: string, result: string) =>
   console.log(`${chalk.blue(name)} query:\n${chalk.magenta(result)}\n\n`);
 const run = async () => {
@@ -13,8 +11,8 @@ const run = async () => {
         card: {
           Attack: 1,
           Defense: 2,
-          description: "aa",
-          name: "SADSD",
+          description: 'aa',
+          name: 'SADSD',
           skills: [SpecialSkills.FIRE],
         },
       },
@@ -34,25 +32,25 @@ const run = async () => {
       },
     ],
   });
-  const tryAssignToPlain: PlainObjects["Card"] = {
+  const tryAssignToPlain: PartialObjects['Card'] = {
     ...ZeusCard,
   };
   console.log(tryAssignToPlain.Attack);
-  printQueryResult("ZeusCard", ZeusCard);
+  printQueryResult('ZeusCard', ZeusCard);
 
   const blalba = await Gql.Query({
     drawChangeCard: {
-      "__typename": true,
-      "...on EffectCard": {
+      __typename: true,
+      '...on EffectCard': {
         effectSize: true,
         name: true,
       },
-      "...on SpecialCard": {
+      '...on SpecialCard': {
         name: true,
       },
     },
   });
-  printQueryResult("drawChangeCard", blalba.drawChangeCard);
+  printQueryResult('drawChangeCard', blalba.drawChangeCard);
   // const { addCard: ZeusCard } = await chain.Mutation({
   //   addCard: [
   //     {
@@ -92,8 +90,8 @@ const run = async () => {
     },
   });
 
-  printQueryResult("stack", stack);
-  printQueryResult("newCard", newCard);
+  printQueryResult('stack', stack);
+  printQueryResult('newCard', newCard);
 
   const aliasedQuery = Zeus.Query({
     __alias: {
@@ -107,7 +105,7 @@ const run = async () => {
       __alias: {
         atak: {
           attack: [
-            { cardID: ["aaa"] },
+            { cardID: ['aaa'] },
             {
               name: true,
               description: true,
@@ -122,13 +120,13 @@ const run = async () => {
       },
     },
   });
-  printGQLString("aliasedQuery", aliasedQuery);
+  printGQLString('aliasedQuery', aliasedQuery);
   const aliasedQueryExecute = await Gql.Query({
     listCards: {
       __alias: {
         atak: {
           attack: [
-            { cardID: ["1"] },
+            { cardID: ['1'] },
             {
               name: true,
               Defense: true,
@@ -139,22 +137,22 @@ const run = async () => {
       id: true,
     },
   });
-  printQueryResult("aliasedQuery", aliasedQueryExecute);
+  printQueryResult('aliasedQuery', aliasedQueryExecute);
 
   const interfaceTest = await Gql.Query({
     nameables: {
-      "__typename": true,
-      "name": true,
-      "...on CardStack": {
+      __typename: true,
+      name: true,
+      '...on CardStack': {
         cards: {
           Defense: true,
         },
       },
-      "...on Card": {
+      '...on Card': {
         Attack: true,
       },
     },
   });
-  printQueryResult("interfaceTest", interfaceTest);
+  printQueryResult('interfaceTest', interfaceTest);
 };
 run();

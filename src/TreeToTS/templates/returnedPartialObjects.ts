@@ -1,7 +1,7 @@
 import { Options, ParserField } from '../../Models';
 import { Helpers, TypeDefinition, TypeSystemDefinition } from '../../Models/Spec';
 
-export const PLAINOBJECTS = 'PlainObjects';
+export const PLAINOBJECTS = 'PartialObjects';
 
 const resolveValueType = (t: string) => `${PLAINOBJECTS}["${t}"]`;
 
@@ -16,7 +16,7 @@ const toTypeScriptPrimitive = (a: string): string => typeScriptMap[a] || a;
 
 const plusDescription = (description?: string, prefix = '') => (description ? `${prefix}/** ${description} */\n` : '');
 
-const resolveField = (f: ParserField, resolveArgs = true) => {
+const resolveField = (f: ParserField, optional = false) => {
   const {
     type: { options },
   } = f;
@@ -25,12 +25,12 @@ const resolveField = (f: ParserField, resolveArgs = true) => {
   const isRequired = !!(options && options.find((o) => o === Options.required));
   const isRequiredName = (name: string) => {
     if (isArray) {
-      if (isArrayRequired) {
+      if (isArrayRequired && !optional) {
         return name;
       }
       return `${name}?`;
     }
-    if (isRequired) {
+    if (isRequired && !optional) {
       return name;
     }
     return `${name}?`;
@@ -76,15 +76,15 @@ const resolveValueTypeFromRoot = (i: ParserField, rootNodes: ParserField[]) => {
   if (i.data!.type === TypeDefinition.InterfaceTypeDefinition) {
     const typesImplementing = rootNodes.filter((rn) => rn.interfaces && rn.interfaces.includes(i.name));
     return `${plusDescription(i.description)}["${i.name}"]:{
-\t${i.args.map((f) => resolveField(f)).join(';\n')}\n} & (${`${typesImplementing
+\t${i.args.map((f) => resolveField(f, true)).join(';\n')}\n} & (${`${typesImplementing
       .map((a) => resolveValueType(a.name))
       .join(' | ')}`})`;
   }
   return `${plusDescription(i.description)}["${i.name}"]: {\n\t\t__typename?: "${i.name}";\n\t\t${i.args
-    .map((f) => resolveField(f))
+    .map((f) => resolveField(f, true))
     .join(',\n\t\t')}\n\t}`;
 };
-export const resolvePlainObjects = (fields: ParserField[], rootNodes: ParserField[]) => {
+export const resolvePartialObjects = (fields: ParserField[], rootNodes: ParserField[]) => {
   return `export type ${PLAINOBJECTS} = {
     ${fields
       .map((f) => resolveValueTypeFromRoot(f, rootNodes))

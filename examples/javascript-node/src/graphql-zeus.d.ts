@@ -34,10 +34,6 @@ attack?: [{	/** Attacked card/card ids<br> */
 }>;
 	/** create card inputs<br> */
 ["createCard"]: {
-	/** The defense power<br> */
-	Defense:number,
-	/** input skills */
-	skills?:ValueTypes["SpecialSkills"][],
 	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
@@ -45,7 +41,11 @@ attack?: [{	/** Attacked card/card ids<br> */
 	/** <div>How many children the greek god had</div> */
 	Children?:number,
 	/** The attack power<br> */
-	Attack:number
+	Attack:number,
+	/** The defense power<br> */
+	Defense:number,
+	/** input skills */
+	skills?:ValueTypes["SpecialSkills"][]
 };
 	["EffectCard"]: AliasType<{
 	effectSize?:true,
@@ -90,40 +90,36 @@ cardById?: [{	cardId?:string},ValueTypes["Card"]],
 	["SpecialSkills"]:SpecialSkills
   }
 
-export type PlainObjects = {
+export type PartialObjects = {
     /** Card used in card game<br> */
 ["Card"]: {
 		__typename?: "Card";
 			/** The attack power<br> */
-	Attack:number,
+	Attack?:number,
 			/** <div>How many children the greek god had</div> */
 	Children?:number,
 			/** The defense power<br> */
-	Defense:number,
+	Defense?:number,
 			/** Attack other cards on the table , returns Cards after attack<br> */
-	attack?:PlainObjects["Card"][],
+	attack?:PartialObjects["Card"][],
 			/** Put your description here */
-	cardImage?:PlainObjects["S3Object"],
+	cardImage?:PartialObjects["S3Object"],
 			/** Description of a card<br> */
-	description:string,
-			id:string,
+	description?:string,
+			id?:string,
 			/** The name of a card<br> */
-	name:string,
-			skills?:PlainObjects["SpecialSkills"][]
+	name?:string,
+			skills?:PartialObjects["SpecialSkills"][]
 	},
 	/** Stack of cards */
 ["CardStack"]: {
 		__typename?: "CardStack";
-			cards?:PlainObjects["Card"][],
-			name:string
+			cards?:PartialObjects["Card"][],
+			name?:string
 	},
-	["ChangeCard"]: PlainObjects["SpecialCard"] | PlainObjects["EffectCard"],
+	["ChangeCard"]: PartialObjects["SpecialCard"] | PartialObjects["EffectCard"],
 	/** create card inputs<br> */
 ["createCard"]: {
-	/** The defense power<br> */
-	Defense:number,
-	/** input skills */
-	skills?:PlainObjects["SpecialSkills"][],
 	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
@@ -131,43 +127,47 @@ export type PlainObjects = {
 	/** <div>How many children the greek god had</div> */
 	Children?:number,
 	/** The attack power<br> */
-	Attack:number
+	Attack:number,
+	/** The defense power<br> */
+	Defense:number,
+	/** input skills */
+	skills?:PartialObjects["SpecialSkills"][]
 },
 	["EffectCard"]: {
 		__typename?: "EffectCard";
-			effectSize:number,
-			name:string
+			effectSize?:number,
+			name?:string
 	},
 	["Mutation"]: {
 		__typename?: "Mutation";
 			/** add Card to Cards database<br> */
-	addCard:PlainObjects["Card"]
+	addCard?:PartialObjects["Card"]
 	},
 	["Nameable"]:{
-		name:string
-} & (PlainObjects["Card"] | PlainObjects["CardStack"] | PlainObjects["EffectCard"] | PlainObjects["SpecialCard"]),
+		name?:string
+} & (PartialObjects["Card"] | PartialObjects["CardStack"] | PartialObjects["EffectCard"] | PartialObjects["SpecialCard"]),
 	["Query"]: {
 		__typename?: "Query";
-			cardById?:PlainObjects["Card"],
+			cardById?:PartialObjects["Card"],
 			/** Draw a card<br> */
-	drawCard:PlainObjects["Card"],
-			drawChangeCard:PlainObjects["ChangeCard"],
+	drawCard?:PartialObjects["Card"],
+			drawChangeCard?:PartialObjects["ChangeCard"],
 			/** list All Cards availble<br> */
-	listCards:PlainObjects["Card"][],
-			myStacks?:PlainObjects["CardStack"][],
-			nameables:PlainObjects["Nameable"][]
+	listCards?:PartialObjects["Card"][],
+			myStacks?:PartialObjects["CardStack"][],
+			nameables?:PartialObjects["Nameable"][]
 	},
 	/** Aws S3 File */
 ["S3Object"]: {
 		__typename?: "S3Object";
-			bucket:string,
-			key:string,
-			region:string
+			bucket?:string,
+			key?:string,
+			region?:string
 	},
 	["SpecialCard"]: {
 		__typename?: "SpecialCard";
-			effect:string,
-			name:string
+			effect?:string,
+			name?:string
 	},
 	["SpecialSkills"]:SpecialSkills
   }
@@ -211,18 +211,18 @@ export type ChangeCard = {
 
 /** create card inputs<br> */
 export type createCard = {
-		/** The defense power<br> */
-	Defense:number,
-	/** input skills */
-	skills?:SpecialSkills[],
-	/** The name of a card<br> */
+		/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
 	description:string,
 	/** <div>How many children the greek god had</div> */
 	Children?:number,
 	/** The attack power<br> */
-	Attack:number
+	Attack:number,
+	/** The defense power<br> */
+	Defense:number,
+	/** input skills */
+	skills?:SpecialSkills[]
 }
 
 export type EffectCard = {
@@ -276,9 +276,9 @@ export type SpecialCard = {
 }
 
 export enum SpecialSkills {
-	THUNDER = "THUNDER",
 	RAIN = "RAIN",
-	FIRE = "FIRE"
+	FIRE = "FIRE",
+	THUNDER = "THUNDER"
 }
 
 
