@@ -68,7 +68,7 @@ type Anify<T> = { [P in keyof T]?: any };
 
 
 type LastMapTypeSRCResolver<SRC, DST> = SRC extends undefined
-  ? never
+  ? undefined
   : SRC extends Array<infer AR>
   ? LastMapTypeSRCResolver<AR, DST>[]
   : SRC extends { __interface: any; __resolve: any }
