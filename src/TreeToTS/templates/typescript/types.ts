@@ -10,7 +10,9 @@ type AliasType<T> = WithTypeNameValue<T> & {
   __alias?: Record<string, WithTypeNameValue<T>>;
 };
 
-export type ResolverType<F> = F extends [infer ARGS, any] ? ARGS : undefined;
+type NotUndefined<T> = T extends undefined ? never : T;
+
+export type ResolverType<F> = NotUndefined<F extends [infer ARGS, any] ? ARGS : undefined>;
 
 export type ArgsType<F extends AnyFunc> = F extends Func<infer P, any> ? P : never;
 
