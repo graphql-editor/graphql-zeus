@@ -29,6 +29,17 @@ export class TreeToTS {
     const ignoreESLINT = `/* eslint-disable */\n\n`;
     return ignoreTSLINT.concat(ignoreESLINT);
   }
+  static resolveBasisCodeJavascript(tree: ParserTree) {
+    const propTypes = `export const AllTypesProps = {\n${tree.nodes
+      .map(resolvePropTypeFromRoot)
+      .filter((pt) => pt)
+      .join(',\n')}\n}`;
+    const returnTypes = `export const ReturnTypes = {\n${tree.nodes
+      .map(resolveReturnFromRoot)
+      .filter((pt) => pt)
+      .join(',\n')}\n}`;
+    return propTypes.concat('\n\n').concat(returnTypes);
+  }
   static resolveBasisCode(tree: ParserTree) {
     const propTypes = `export const AllTypesProps: Record<string,any> = {\n${tree.nodes
       .map(resolvePropTypeFromRoot)
@@ -59,7 +70,7 @@ export class TreeToTS {
 
     return {
       javascript: TreeToTS.resolveBasisHeader()
-        .concat(TreeToTS.resolveBasisCode(tree))
+        .concat(TreeToTS.resolveBasisCodeJavascript(tree))
         .concat(operations)
         .concat(host ? '\n\n' : '')
         .concat(host ? `export const Gql = Chain('${host}')` : ''),

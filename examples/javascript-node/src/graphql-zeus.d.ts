@@ -275,9 +275,9 @@ export type SpecialCard = {
 }
 
 export enum SpecialSkills {
-	FIRE = "FIRE",
 	THUNDER = "THUNDER",
-	RAIN = "RAIN"
+	RAIN = "RAIN",
+	FIRE = "FIRE"
 }
 
 
@@ -292,7 +292,9 @@ type AliasType<T> = WithTypeNameValue<T> & {
   __alias?: Record<string, WithTypeNameValue<T>>;
 };
 
-export type ResolverType<F> = F extends Func<infer P, any> ? P[0] : undefined;
+type NotUndefined<T> = T extends undefined ? never : T;
+
+export type ResolverType<F> = NotUndefined<F extends [infer ARGS, any] ? ARGS : undefined>;
 
 export type ArgsType<F extends AnyFunc> = F extends Func<infer P, any> ? P : never;
 
@@ -350,7 +352,7 @@ type Anify<T> = { [P in keyof T]?: any };
 
 
 type LastMapTypeSRCResolver<SRC, DST> = SRC extends undefined
-  ? never
+  ? undefined
   : SRC extends Array<infer AR>
   ? LastMapTypeSRCResolver<AR, DST>[]
   : SRC extends { __interface: any; __resolve: any }

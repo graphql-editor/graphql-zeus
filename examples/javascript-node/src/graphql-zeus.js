@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export const AllTypesProps: Record<string,any> = {
+export const AllTypesProps = {
 	Card:{
 		attack:{
 			cardID:{
@@ -73,7 +73,7 @@ export const AllTypesProps: Record<string,any> = {
 	SpecialSkills: "enum"
 }
 
-export const ReturnTypes: Record<string,any> = {
+export const ReturnTypes = {
 	Card:{
 		Attack:"Int",
 		Children:"Int",

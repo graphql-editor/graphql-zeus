@@ -70,7 +70,7 @@ deployToFaker?: [{	id:string},true],
 removeProject?: [{	project:string},true],
 team?: [{	id:string},ValueTypes["TeamOps"]],
 updateProject?: [{	in?:ValueTypes["UpdateProject"]},true],
-updateSources?: [{	sources?:ValueTypes["NewSource"][],	project:string},ValueTypes["SourceUploadInfo"]]
+updateSources?: [{	project:string,	sources?:ValueTypes["NewSource"][]},ValueTypes["SourceUploadInfo"]]
 		__typename?: true
 }>;
 	/** Namespace is a root object containing projects belonging
@@ -86,14 +86,14 @@ projects?: [{	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
 }>;
 	/** New source payload */
 ["NewSource"]: {
-	/** Source checksum */
-	checksum?:string,
-	/** source file name */
-	filename?:string,
 	/** Length of source in bytes */
 	contentLength?:number,
 	/** Source mime type */
-	contentType?:string
+	contentType?:string,
+	/** Source checksum */
+	checksum?:string,
+	/** source file name */
+	filename?:string
 };
 	/** PageInfo contains information about connection page */
 ["PageInfo"]: AliasType<{
@@ -163,8 +163,8 @@ getNamespace?: [{	slug:string},ValueTypes["Namespace"]],
 getProject?: [{	project:string},ValueTypes["Project"]],
 getTeam?: [{	name:string},ValueTypes["Team"]],
 getUser?: [{	username:string},ValueTypes["User"]],
-listProjects?: [{	last?:string,	limit?:number,	owned?:boolean},ValueTypes["ProjectConnection"]],
-myTeams?: [{	limit?:number,	last?:string},ValueTypes["TeamConnection"]]
+listProjects?: [{	owned?:boolean,	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
+myTeams?: [{	last?:string,	limit?:number},ValueTypes["TeamConnection"]]
 		__typename?: true
 }>;
 	/** Team member role */
@@ -244,14 +244,14 @@ project?: [{	id:string},ValueTypes["ProjectOps"]]
 }>;
 	/** Update project payload */
 ["UpdateProject"]: {
+	/** Set project visiblity */
+	public?:boolean,
 	/** ID of project to be updated */
 	project?:string,
 	/** New description for project */
 	description?:string,
 	/** List of tags for project */
-	tags?:string[],
-	/** Set project visiblity */
-	public?:boolean
+	tags?:string[]
 };
 	/** Editor user */
 ["User"]: AliasType<{
@@ -384,14 +384,14 @@ limit sets a limit on how many objects can be returned */
 	},
 	/** New source payload */
 ["NewSource"]: {
-	/** Source checksum */
-	checksum?:string,
-	/** source file name */
-	filename?:string,
 	/** Length of source in bytes */
 	contentLength?:number,
 	/** Source mime type */
-	contentType?:string
+	contentType?:string,
+	/** Source checksum */
+	checksum?:string,
+	/** source file name */
+	filename?:string
 },
 	/** PageInfo contains information about connection page */
 ["PageInfo"]: {
@@ -581,14 +581,14 @@ limit limits the number of returned projects */
 	},
 	/** Update project payload */
 ["UpdateProject"]: {
+	/** Set project visiblity */
+	public?:boolean,
 	/** ID of project to be updated */
 	project?:string,
 	/** New description for project */
 	description?:string,
 	/** List of tags for project */
-	tags?:string[],
-	/** Set project visiblity */
-	public?:boolean
+	tags?:string[]
 },
 	/** Editor user */
 ["User"]: {
@@ -733,14 +733,14 @@ limit sets a limit on how many objects can be returned */
 
 /** New source payload */
 export type NewSource = {
-		/** Source checksum */
-	checksum?:string,
-	/** source file name */
-	filename?:string,
-	/** Length of source in bytes */
+		/** Length of source in bytes */
 	contentLength?:number,
 	/** Source mime type */
-	contentType?:string
+	contentType?:string,
+	/** Source checksum */
+	checksum?:string,
+	/** source file name */
+	filename?:string
 }
 
 /** PageInfo contains information about connection page */
@@ -854,11 +854,11 @@ limit limits the number of returned projects */
 
 /** Team member role */
 export enum Role {
+	OWNER = "OWNER",
 	ADMIN = "ADMIN",
 	EDITOR = "EDITOR",
 	VIEWER = "VIEWER",
-	CONTRIBUTOR = "CONTRIBUTOR",
-	OWNER = "OWNER"
+	CONTRIBUTOR = "CONTRIBUTOR"
 }
 
 /** Source upload info object */
@@ -949,14 +949,14 @@ export type TeamOps = {
 
 /** Update project payload */
 export type UpdateProject = {
-		/** ID of project to be updated */
+		/** Set project visiblity */
+	public?:boolean,
+	/** ID of project to be updated */
 	project?:string,
 	/** New description for project */
 	description?:string,
 	/** List of tags for project */
-	tags?:string[],
-	/** Set project visiblity */
-	public?:boolean
+	tags?:string[]
 }
 
 /** Editor user */
@@ -1070,15 +1070,15 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		updateSources:{
-			sources:{
-				type:"NewSource",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
 			project:{
 				type:"ID",
 				array:false,
+				arrayRequired:false,
+				required:true
+			},
+			sources:{
+				type:"NewSource",
+				array:true,
 				arrayRequired:false,
 				required:true
 			}
@@ -1109,18 +1109,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	NewSource:{
-		checksum:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		filename:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		contentLength:{
 			type:"Int",
 			array:false,
@@ -1128,6 +1116,18 @@ export const AllTypesProps: Record<string,any> = {
 			required:false
 		},
 		contentType:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		checksum:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		filename:{
 			type:"String",
 			array:false,
 			arrayRequired:false,
@@ -1234,6 +1234,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		listProjects:{
+			owned:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			last:{
 				type:"String",
 				array:false,
@@ -1242,26 +1248,20 @@ export const AllTypesProps: Record<string,any> = {
 			},
 			limit:{
 				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			owned:{
-				type:"Boolean",
 				array:false,
 				arrayRequired:false,
 				required:false
 			}
 		},
 		myTeams:{
-			limit:{
-				type:"Int",
+			last:{
+				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:false
 			},
-			last:{
-				type:"String",
+			limit:{
+				type:"Int",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -1354,6 +1354,12 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	UpdateProject:{
+		public:{
+			type:"Boolean",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
 		project:{
 			type:"ID",
 			array:false,
@@ -1371,12 +1377,6 @@ export const AllTypesProps: Record<string,any> = {
 			array:true,
 			arrayRequired:false,
 			required:true
-		},
-		public:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
 		}
 	}
 }
@@ -1541,7 +1541,9 @@ type AliasType<T> = WithTypeNameValue<T> & {
   __alias?: Record<string, WithTypeNameValue<T>>;
 };
 
-export type ResolverType<F> = F extends Func<infer P, any> ? P[0] : undefined;
+type NotUndefined<T> = T extends undefined ? never : T;
+
+export type ResolverType<F> = NotUndefined<F extends [infer ARGS, any] ? ARGS : undefined>;
 
 export type ArgsType<F extends AnyFunc> = F extends Func<infer P, any> ? P : never;
 
@@ -1599,7 +1601,7 @@ type Anify<T> = { [P in keyof T]?: any };
 
 
 type LastMapTypeSRCResolver<SRC, DST> = SRC extends undefined
-  ? never
+  ? undefined
   : SRC extends Array<infer AR>
   ? LastMapTypeSRCResolver<AR, DST>[]
   : SRC extends { __interface: any; __resolve: any }

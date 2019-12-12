@@ -106,7 +106,7 @@ type Mutation {
   updateProject(in: UpdateProject): Boolean
 
   """Add sources to the project"""
-  updateSources(sources: [NewSource!], project: ID!): [SourceUploadInfo]
+  updateSources(project: ID!, sources: [NewSource!]): [SourceUploadInfo]
 }
 
 """
@@ -135,17 +135,17 @@ type Namespace {
 
 """New source payload"""
 input NewSource {
-  """Source checksum"""
-  checksum: String
-
-  """source file name"""
-  filename: String
-
   """Length of source in bytes"""
   contentLength: Int
 
   """Source mime type"""
   contentType: String
+
+  """Source checksum"""
+  checksum: String
+
+  """source file name"""
+  filename: String
 }
 
 """PageInfo contains information about connection page"""
@@ -284,14 +284,19 @@ type Query {
   
   limit limits the number of returned projects
   """
-  listProjects(last: String, limit: Int, owned: Boolean): ProjectConnection
+  listProjects(owned: Boolean, last: String, limit: Int): ProjectConnection
 
   """List of current user teams"""
-  myTeams(limit: Int, last: String): TeamConnection
+  myTeams(last: String, limit: Int): TeamConnection
 }
 
 """Team member role"""
 enum Role {
+  """
+  Team owner owner can add/remove/edit/view projects and members to a team. Only owner can delete team
+  """
+  OWNER
+
   """
   Team admin can add/remove/edit/view projects and members(except owner) to a team
   """
@@ -305,11 +310,6 @@ enum Role {
 
   """Team contributor can edit projects in team"""
   CONTRIBUTOR
-
-  """
-  Team owner owner can add/remove/edit/view projects and members to a team. Only owner can delete team
-  """
-  OWNER
 }
 
 """Source upload info object"""
@@ -417,6 +417,9 @@ type TeamOps {
 
 """Update project payload"""
 input UpdateProject {
+  """Set project visiblity"""
+  public: Boolean
+
   """ID of project to be updated"""
   project: ID
 
@@ -425,9 +428,6 @@ input UpdateProject {
 
   """List of tags for project"""
   tags: [String!]
-
-  """Set project visiblity"""
-  public: Boolean
 }
 
 """Editor user"""
