@@ -29,21 +29,25 @@ export class TypeDefinitionsTemplates {
     description,
     name,
     data,
-  }: Pick<ParserField, 'description' | 'name' | 'data'>) =>
+  }: Pick<ParserField, 'description' | 'name' | 'data'>): string =>
     `${TemplateUtils.descriptionResolver(description)}extend ${
       TypeDefinitionDisplayMap[data!.type as TypeDefinition]
     } ${name}`;
   /**
    * Basic TypeDefinition template with mapping to display `type` instead of `ObjectTypeDefinition`
    */
-  static definitionTemplate = ({ description, name, data }: Pick<ParserField, 'description' | 'name' | 'data'>) =>
+  static definitionTemplate = ({
+    description,
+    name,
+    data,
+  }: Pick<ParserField, 'description' | 'name' | 'data'>): string =>
     `${TemplateUtils.descriptionResolver(description)}${
       TypeDefinitionDisplayMap[data!.type as TypeDefinition]
     } ${name}`;
   /**
    * Resolve type
    */
-  static resolve = ({ name, description, type, interfaces, args, directives, data }: ParserField): string =>
+  static resolve = ({ name, description, interfaces, args, directives, data }: ParserField): string =>
     TypeDefinitionsTemplates.definitionTemplate({ name, description, data }) +
     `${TemplateUtils.resolveImplements(interfaces)}${TemplateUtils.resolveDirectives(directives)}${
       args && args.length ? `{\n${args.map(TemplateUtils.resolverForConnection).join('\n')}\n}` : ''
@@ -58,7 +62,7 @@ export class TypeDefinitionsTemplates {
   /**
    * Resolve union
    */
-  static resolveUnion = ({ name, description, type, args, directives, data }: ParserField): string =>
+  static resolveUnion = ({ name, description, args, directives, data }: ParserField): string =>
     TypeDefinitionsTemplates.definitionTemplate({ name, description, data }) +
     `${TemplateUtils.resolveDirectives(directives)}${
       args && args.length ? ` = ${args.map(TemplateUtils.resolverForConnection).join(' | ')}` : ''

@@ -1,6 +1,10 @@
 import { Environment } from '../../../Models/Environment';
 import { graphqlErrorJavascript, javascriptFunctions } from './';
-const generateOperationChainingJavascript = (t: 'Query' | 'Mutation' | 'Subscription') =>
+import { ResolvedOperations } from 'TreeToTS';
+
+export type Operation = 'Query' | 'Mutation' | 'Subscription';
+
+const generateOperationChainingJavascript = (t: Operation): string =>
   `${t}: (o) =>
     fullChainConstruct(options)('${t}')(o).then(
       (response) => response
@@ -10,11 +14,7 @@ const generateOperationsChainingJavascipt = ({
   queries,
   mutations,
   subscriptions,
-}: {
-  queries?: string[];
-  mutations?: string[];
-  subscriptions?: string[];
-}): string[] => {
+}: Partial<ResolvedOperations>): string[] => {
   const allOps: string[] = [];
   if (queries && queries.length) {
     allOps.push(generateOperationChainingJavascript('Query'));
@@ -28,18 +28,13 @@ const generateOperationsChainingJavascipt = ({
   return allOps;
 };
 
-const generateOperationZeusJavascript = (t: 'Query' | 'Mutation' | 'Subscription') =>
-  `${t}: (o) => queryConstruct('${t}')(o)`;
+const generateOperationZeusJavascript = (t: Operation): string => `${t}: (o) => queryConstruct('${t}')(o)`;
 
 const generateOperationsZeusJavascipt = ({
   queries,
   mutations,
   subscriptions,
-}: {
-  queries?: string[];
-  mutations?: string[];
-  subscriptions?: string[];
-}): string[] => {
+}: Partial<ResolvedOperations>): string[] => {
   const allOps: string[] = [];
   if (queries && queries.length) {
     allOps.push(generateOperationZeusJavascript('Query'));
@@ -53,17 +48,13 @@ const generateOperationsZeusJavascipt = ({
   return allOps;
 };
 
-const generateOperationCastJavascript = (t: 'Query' | 'Mutation' | 'Subscription') => `${t}: (o) => (b) => o`;
+const generateOperationCastJavascript = (t: Operation): string => `${t}: (o) => (b) => o`;
 
 const generateOperationsCastJavascipt = ({
   queries,
   mutations,
   subscriptions,
-}: {
-  queries?: string[];
-  mutations?: string[];
-  subscriptions?: string[];
-}): string[] => {
+}: Partial<ResolvedOperations>): string[] => {
   const allOps: string[] = [];
   if (queries && queries.length) {
     allOps.push(generateOperationCastJavascript('Query'));
@@ -76,40 +67,17 @@ const generateOperationsCastJavascipt = ({
   }
   return allOps;
 };
-export const bodyJavascript = (
-  env: Environment,
-  {
-    queries,
-    mutations,
-    subscriptions,
-  }: {
-    queries?: string[];
-    mutations?: string[];
-    subscriptions?: string[];
-  },
-) => `
+export const bodyJavascript = (env: Environment, resolvedOperations: Partial<ResolvedOperations>): string => `
 ${graphqlErrorJavascript}
 ${javascriptFunctions(env)}
 
   export const Chain = (...options) => ({
-    ${generateOperationsChainingJavascipt({
-      queries,
-      mutations,
-      subscriptions,
-    }).join(',\n')}
+    ${generateOperationsChainingJavascipt(resolvedOperations).join(',\n')}
   });
   export const Zeus = {
-    ${generateOperationsZeusJavascipt({
-      queries,
-      mutations,
-      subscriptions,
-    }).join(',\n')}
+    ${generateOperationsZeusJavascipt(resolvedOperations).join(',\n')}
   };
   export const Cast = {
-    ${generateOperationsCastJavascipt({
-      queries,
-      mutations,
-      subscriptions,
-    }).join(',\n')}
+    ${generateOperationsCastJavascipt(resolvedOperations).join(',\n')}
   };
     `;

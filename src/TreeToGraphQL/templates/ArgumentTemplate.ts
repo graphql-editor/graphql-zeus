@@ -5,15 +5,15 @@ import { TemplateUtils } from './TemplateUtils';
  * resolve function argument
  */
 export class ArgumentTemplate {
-  static resolve(f: ParserField) {
+  static resolve({ args, type }: ParserField): string {
     let argsString = '';
-    if (f.args && f.args.length) {
-      if (f.type.options && f.type.options!.includes(Options.array)) {
-        argsString = `[${f.args.map(TemplateUtils.resolverForConnection).join(',\n')}]`;
+    if (args && args.length) {
+      if (type.options && type.options!.includes(Options.array)) {
+        argsString = `[${args.map(TemplateUtils.resolverForConnection).join(',\n')}]`;
       } else {
-        argsString = `${f.args.map(TemplateUtils.resolverForConnection).join('\n')}`;
+        argsString = `${args.map(TemplateUtils.resolverForConnection).join('\n')}`;
       }
     }
-    return `${f.type.name}: ${argsString}`;
+    return `${type.name}: ${argsString}`;
   }
 }

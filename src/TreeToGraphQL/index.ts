@@ -2,8 +2,8 @@ import { OperationType, ParserTree } from '../Models';
 import { TemplateUtils } from './templates/TemplateUtils';
 
 export class TreeToGraphQL {
-  static parse(parserTree: ParserTree) {
-    const joinDefinitions = (...defintions: string[]) => defintions.join('\n\n');
+  static parse(parserTree: ParserTree): string {
+    const joinDefinitions = (...defintions: string[]): string => defintions.join('\n\n');
     const alldefs = parserTree.nodes.map(TemplateUtils.resolverForConnection);
     const operations: Record<OperationType, string | null> = {
       [OperationType.query]: null,

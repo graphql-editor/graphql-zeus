@@ -1,14 +1,11 @@
 import { VALUETYPES } from '../resolveValueTypes';
+import { ResolvedOperations } from 'TreeToTS';
 
 const generateOperationsJavascriptDefinitionsChaining = ({
   queries,
   mutations,
   subscriptions,
-}: {
-  queries?: string[];
-  mutations?: string[];
-  subscriptions?: string[];
-}): string[] => {
+}: Partial<ResolvedOperations>): string[] => {
   const allOps = [];
   if (queries && queries.length) {
     allOps.push(`Query: OperationToGraphQL<${VALUETYPES}["Query"],Query>`);
@@ -22,16 +19,13 @@ const generateOperationsJavascriptDefinitionsChaining = ({
   return allOps;
 };
 
-const ZeusOperations = (t: string) => `${t}: (o: ${VALUETYPES}["${t}"]) => string`;
+const ZeusOperations = (t: string): string => `${t}: (o: ${VALUETYPES}["${t}"]) => string`;
+
 const generateOperationsJavascriptDefinitionsZeus = ({
   queries,
   mutations,
   subscriptions,
-}: {
-  queries?: string[];
-  mutations?: string[];
-  subscriptions?: string[];
-}): string[] => {
+}: Partial<ResolvedOperations>): string[] => {
   const allOps = [];
   if (queries && queries.length) {
     allOps.push(ZeusOperations('Query'));
@@ -44,19 +38,17 @@ const generateOperationsJavascriptDefinitionsZeus = ({
   }
   return allOps;
 };
-const CastOperations = (t: string) => `${t}: CastToGraphQL<
+
+const CastOperations = (t: string): string => `${t}: CastToGraphQL<
   ValueTypes["${t}"],
   ${t}
 >`;
+
 const generateOperationsJavascriptDefinitionsCast = ({
   queries,
   mutations,
   subscriptions,
-}: {
-  queries?: string[];
-  mutations?: string[];
-  subscriptions?: string[];
-}): string[] => {
+}: Partial<ResolvedOperations>): string[] => {
   const allOps = [];
   if (queries && queries.length) {
     allOps.push(CastOperations('Query'));
@@ -70,11 +62,7 @@ const generateOperationsJavascriptDefinitionsCast = ({
   return allOps;
 };
 
-export const generateOperationsJavascript = (operationsBody: {
-  queries?: string[];
-  mutations?: string[];
-  subscriptions?: string[];
-}) => `
+export const generateOperationsJavascript = (operationsBody: Partial<ResolvedOperations>): string => `
 export declare function Chain(
   ...options: fetchOptions
 ):{

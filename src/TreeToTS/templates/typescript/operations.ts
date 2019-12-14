@@ -1,22 +1,16 @@
 import { Environment } from 'Models/Environment';
 import { VALUETYPES } from '../resolveValueTypes';
 import { constantTypesTypescript, graphqlErrorTypeScript, typescriptFunctions } from './';
+import { Operation } from '../javascript';
+import { ResolvedOperations } from 'TreeToTS';
 
-const generateOperationChaining = (t: 'Query' | 'Mutation' | 'Subscription') =>
+const generateOperationChaining = (t: Operation): string =>
   `${t}: ((o: any) =>
     fullChainConstruct(options)('${t}')(o).then(
       (response: any) => response
     )) as OperationToGraphQL<${VALUETYPES}["${t}"],${t}>`;
 
-const generateOperationsChaining = ({
-  queries,
-  mutations,
-  subscriptions,
-}: {
-  queries?: string[];
-  mutations?: string[];
-  subscriptions?: string[];
-}): string[] => {
+const generateOperationsChaining = ({ queries, mutations, subscriptions }: Partial<ResolvedOperations>): string[] => {
   const allOps: string[] = [];
   if (queries && queries.length) {
     allOps.push(generateOperationChaining('Query'));
@@ -30,18 +24,13 @@ const generateOperationsChaining = ({
   return allOps;
 };
 
-const generateOperationZeus = (t: 'Query' | 'Mutation' | 'Subscription') =>
-  `${t}: (o:${VALUETYPES}["${t}"]) => queryConstruct('${t}')(o)`;
+const generateOperationZeus = (t: Operation): string => `${t}: (o:${VALUETYPES}["${t}"]) => queryConstruct('${t}')(o)`;
 
 const generateOperationsZeusTypeScript = ({
   queries,
   mutations,
   subscriptions,
-}: {
-  queries?: string[];
-  mutations?: string[];
-  subscriptions?: string[];
-}): string[] => {
+}: Partial<ResolvedOperations>): string[] => {
   const allOps: string[] = [];
   if (queries && queries.length) {
     allOps.push(generateOperationZeus('Query'));
@@ -55,17 +44,13 @@ const generateOperationsZeusTypeScript = ({
   return allOps;
 };
 
-const generateSelectorZeus = (t: 'Query' | 'Mutation' | 'Subscription') => `${t}: ZeusSelect<${VALUETYPES}["${t}"]>()`;
+const generateSelectorZeus = (t: Operation): string => `${t}: ZeusSelect<${VALUETYPES}["${t}"]>()`;
 
 const generateSelectorsZeusTypeScript = ({
   queries,
   mutations,
   subscriptions,
-}: {
-  queries?: string[];
-  mutations?: string[];
-  subscriptions?: string[];
-}): string[] => {
+}: Partial<ResolvedOperations>): string[] => {
   const allOps: string[] = [];
   if (queries && queries.length) {
     allOps.push(generateSelectorZeus('Query'));
@@ -79,7 +64,7 @@ const generateSelectorsZeusTypeScript = ({
   return allOps;
 };
 
-const generateOperationCast = (t: 'Query' | 'Mutation' | 'Subscription') =>
+const generateOperationCast = (t: Operation): string =>
   `${t}: ((o: any) => (b: any) => o) as CastToGraphQL<
   ValueTypes["${t}"],
   ${t}
@@ -89,11 +74,7 @@ const generateOperationsCastTypeScript = ({
   queries,
   mutations,
   subscriptions,
-}: {
-  queries?: string[];
-  mutations?: string[];
-  subscriptions?: string[];
-}): string[] => {
+}: Partial<ResolvedOperations>): string[] => {
   const allOps: string[] = [];
   if (queries && queries.length) {
     allOps.push(generateOperationCast('Query'));
@@ -107,40 +88,21 @@ const generateOperationsCastTypeScript = ({
   return allOps;
 };
 
-export const bodyTypeScript = (
-  env: Environment,
-  {
-    queries,
-    mutations,
-    subscriptions,
-  }: {
-    queries?: string[];
-    mutations?: string[];
-    subscriptions?: string[];
-  },
-) => `
+export const bodyTypeScript = (env: Environment, resolvedOperations: Partial<ResolvedOperations>): string => `
 ${graphqlErrorTypeScript}
 ${constantTypesTypescript}
 ${typescriptFunctions(env)}
 
 export const Chain = (...options: fetchOptions) => ({
-  ${generateOperationsChaining({ queries, mutations, subscriptions }).join(',\n')}
+  ${generateOperationsChaining(resolvedOperations).join(',\n')}
 });
 export const Zeus = {
-  ${generateOperationsZeusTypeScript({
-    queries,
-    mutations,
-    subscriptions,
-  }).join(',\n')}
+  ${generateOperationsZeusTypeScript(resolvedOperations).join(',\n')}
 };
 export const Cast = {
-  ${generateOperationsCastTypeScript({
-    queries,
-    mutations,
-    subscriptions,
-  }).join(',\n')}
+  ${generateOperationsCastTypeScript(resolvedOperations).join(',\n')}
 };
 export const Selectors = {
-  ${generateSelectorsZeusTypeScript({ queries, mutations, subscriptions }).join(',\n')}
+  ${generateSelectorsZeusTypeScript(resolvedOperations).join(',\n')}
 };
   `;

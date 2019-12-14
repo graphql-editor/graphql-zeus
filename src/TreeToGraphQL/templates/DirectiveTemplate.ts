@@ -8,7 +8,7 @@ export class DirectiveTemplate {
   /**
    * Resolve directive field
    */
-  static resolve(f: ParserField) {
+  static resolve(f: ParserField): string {
     let argsString = '';
     if (f.args && f.args.length) {
       argsString = `(\n${f.args

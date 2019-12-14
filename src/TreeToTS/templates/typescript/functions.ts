@@ -1,6 +1,6 @@
 import { Environment } from '../../../Models/Environment';
 
-export const typescriptFunctions = (env: Environment) => `
+export const typescriptFunctions = (env: Environment): string => `
 export const ZeusSelect = <T>() => ((t: any) => t) as SelectionFunction<T>;
 export const ScalarResolver = (scalar: string, value: any) => {
   switch (scalar) {

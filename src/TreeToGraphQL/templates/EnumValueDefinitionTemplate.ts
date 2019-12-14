@@ -8,7 +8,7 @@ export class EnumValueDefinitionTemplate {
   /**
    * Resolve field to enum value definiton
    */
-  static resolve(f: ParserField) {
+  static resolve(f: ParserField): string {
     return `${TemplateUtils.descriptionResolver(f.description, `\t`)}\t${f.name}${TemplateUtils.resolveDirectives(
       f.directives,
     )}`;

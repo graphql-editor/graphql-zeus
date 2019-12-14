@@ -14,7 +14,7 @@ import { Directive, Helpers, OperationType, TypeDefinition, TypeExtension } from
 import { TreeToGraphQL } from '../TreeToGraphQL';
 import { TypeResolver } from './typeResolver';
 export class Parser {
-  static findComments(schema: string) {
+  static findComments(schema: string): string[] {
     return schema
       .split('\n')
       .filter((s) => s.startsWith('#'))

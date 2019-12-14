@@ -32,7 +32,7 @@ export class CLI {
   /**
    *  Execute yargs provided args
    */
-  static execute = async (args: Args) => {
+  static execute = async (args: Args): Promise<void> => {
     const env: Environment = args.node ? 'node' : 'browser';
     const outputFilename = args.output;
     let schemaFileContents = '';

@@ -3,7 +3,7 @@ import { Helpers, TypeDefinition, TypeSystemDefinition } from '../../Models/Spec
 
 export const PLAINOBJECTS = 'PartialObjects';
 
-const resolveValueType = (t: string) => `${PLAINOBJECTS}["${t}"]`;
+const resolveValueType = (t: string): string => `${PLAINOBJECTS}["${t}"]`;
 
 const typeScriptMap: Record<string, string> = {
   Int: 'number',
@@ -14,16 +14,17 @@ const typeScriptMap: Record<string, string> = {
 };
 const toTypeScriptPrimitive = (a: string): string => typeScriptMap[a] || a;
 
-const plusDescription = (description?: string, prefix = '') => (description ? `${prefix}/** ${description} */\n` : '');
+const plusDescription = (description?: string, prefix = ''): string =>
+  description ? `${prefix}/** ${description} */\n` : '';
 
-const resolveField = (f: ParserField, optional = false) => {
+const resolveField = (f: ParserField, optional = false): string => {
   const {
     type: { options },
   } = f;
   const isArray = !!(options && options.find((o) => o === Options.array));
   const isArrayRequired = !!(options && options.find((o) => o === Options.arrayRequired));
   const isRequired = !!(options && options.find((o) => o === Options.required));
-  const isRequiredName = (name: string) => {
+  const isRequiredName = (name: string): string => {
     if (isArray) {
       if (isArrayRequired && !optional) {
         return name;
@@ -35,7 +36,7 @@ const resolveField = (f: ParserField, optional = false) => {
     }
     return `${name}?`;
   };
-  const concatArray = (name: string) => {
+  const concatArray = (name: string): string => {
     if (isArray) {
       if (!isRequired) {
         return `(${name} | undefined)[]`;
@@ -52,7 +53,7 @@ const resolveField = (f: ParserField, optional = false) => {
   )}`;
 };
 
-const resolveValueTypeFromRoot = (i: ParserField, rootNodes: ParserField[]) => {
+const resolveValueTypeFromRoot = (i: ParserField, rootNodes: ParserField[]): string => {
   if (i.data!.type === TypeSystemDefinition.DirectiveDefinition) {
     return '';
   }
@@ -84,7 +85,7 @@ const resolveValueTypeFromRoot = (i: ParserField, rootNodes: ParserField[]) => {
     .map((f) => resolveField(f, true))
     .join(',\n\t\t')}\n\t}`;
 };
-export const resolvePartialObjects = (fields: ParserField[], rootNodes: ParserField[]) => {
+export const resolvePartialObjects = (fields: ParserField[], rootNodes: ParserField[]): string => {
   return `export type ${PLAINOBJECTS} = {
     ${fields
       .map((f) => resolveValueTypeFromRoot(f, rootNodes))

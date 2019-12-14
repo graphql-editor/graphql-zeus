@@ -1,6 +1,6 @@
 import { ParserField } from '../Models';
 
-const compareArrays = (a1: any[] = [], a2: any[] = []) =>
+const compareArrays = (a1: any[] = [], a2: any[] = []): boolean =>
   a1.length === a2.length &&
   a1.sort().every((value, index) => {
     return value === a2.sort()[index];
