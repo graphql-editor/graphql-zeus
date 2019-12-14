@@ -1,10 +1,11 @@
 import { Options, ParserField } from '../../Models';
 import { TemplateUtils } from './TemplateUtils';
+import { Template } from './Template';
 
 /**
  * resolve function argument
  */
-export class ArgumentTemplate {
+export class ArgumentTemplate implements Template {
   static resolve({ args, type }: ParserField): string {
     let argsString = '';
     if (args && args.length) {

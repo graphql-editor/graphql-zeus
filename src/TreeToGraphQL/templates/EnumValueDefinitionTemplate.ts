@@ -1,10 +1,11 @@
 import { ParserField } from '../../Models';
 import { TemplateUtils } from './TemplateUtils';
+import { Template } from './Template';
 
 /**
  * Template for enum value defintion
  */
-export class EnumValueDefinitionTemplate {
+export class EnumValueDefinitionTemplate implements Template {
   /**
    * Resolve field to enum value definiton
    */

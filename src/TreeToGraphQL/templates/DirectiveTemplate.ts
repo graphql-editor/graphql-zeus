@@ -1,10 +1,11 @@
 import { ParserField } from '../../Models';
 import { TemplateUtils } from './TemplateUtils';
+import { Template } from './Template';
 
 /**
  * Template for directives
  */
-export class DirectiveTemplate {
+export class DirectiveTemplate implements Template {
   /**
    * Resolve directive field
    */
