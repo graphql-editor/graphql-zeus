@@ -18,7 +18,7 @@
     "run-example-typescript-node": "./run-example.sh examples/typescript-node",
     "run-example-typescript-node-big-schema": "./run-example.sh examples/typescript-node-big-schema",
     "run-example-javascript-node": "./run-example.sh examples/javascript-node",
-    "lint": "tsc --noEmit && eslint './src/**/*.{js,ts}' --quiet --fix"
+    "lint": "tsc --noEmit && eslint \"./src/**/*.{ts,js}\" --fix"
   },
   "repository": {
     "type": "git",
