@@ -1,6 +1,6 @@
 {
   "name": "graphql-zeus",
-  "version": "2.4.5",
+  "version": "2.4.6",
   "private": false,
   "license": "MIT",
   "description": "Generate Client Libary for GraphQL Schema",
