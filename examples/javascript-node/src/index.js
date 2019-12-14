@@ -3,20 +3,17 @@ import chalk from 'chalk';
 // This will return Card object with ID only
 const createCards = async () => {
   const printQueryResult = (name, result) =>
-    console.log(
-      `${chalk.greenBright(name)} result:\n${chalk.cyan(JSON.stringify(result, null, 4))}\n\n`
-    );
-  const printGQLString = (name, result) =>
-    console.log(`${chalk.blue(name)} query:\n${chalk.magenta(result)}\n\n`);
+    console.log(`${chalk.greenBright(name)} result:\n${chalk.cyan(JSON.stringify(result, null, 4))}\n\n`);
+  const printGQLString = (name, result) => console.log(`${chalk.blue(name)} query:\n${chalk.magenta(result)}\n\n`);
   // Query Gqling example
   const listCardsAndDraw = await Gql.Query({
     cardById: [
       {
-        cardId: 'sdsd'
+        cardId: 'sdsd',
       },
       {
-        description: true
-      }
+        description: true,
+      },
     ],
     listCards: {
       name: true,
@@ -24,15 +21,15 @@ const createCards = async () => {
       attack: [
         { cardID: ['s', 'sd'] },
         {
-          name: true
-        }
-      ]
+          name: true,
+        },
+      ],
     },
     drawCard: {
       name: true,
       skills: true,
-      Attack: true
-    }
+      Attack: true,
+    },
   });
   printQueryResult('Multiple queries', listCardsAndDraw);
   // mutation example
@@ -44,15 +41,15 @@ const createCards = async () => {
           description: 'Allmighty',
           skills: ['THUNDER'],
           Attack: 1,
-          Defense: 1
-        }
+          Defense: 1,
+        },
       },
       {
         name: true,
         description: true,
-        skills: true
-      }
-    ]
+        skills: true,
+      },
+    ],
   });
   printQueryResult('addCard', addCard);
 
@@ -61,13 +58,13 @@ const createCards = async () => {
       __typename: true,
       '...on EffectCard': {
         effectSize: true,
-        name: true
+        name: true,
       },
       '...on SpecialCard': {
         effect: true,
-        name: true
-      }
-    }
+        name: true,
+      },
+    },
   });
   printQueryResult('drawChangeCard', drawChangeCard);
   // string example
@@ -75,8 +72,8 @@ const createCards = async () => {
     listCards: {
       name: true,
       skills: true,
-      Attack: true
-    }
+      Attack: true,
+    },
   });
   // query{listCards{name skills Attack}}
 

@@ -44,7 +44,7 @@ const generateOperationsJavascriptDefinitionsZeus = ({
   }
   return allOps;
 };
-const CastOperations = (t: string) => `${t}: ((o: any) => (b: any) => o) as CastToGraphQL<
+const CastOperations = (t: string) => `${t}: CastToGraphQL<
   ValueTypes["${t}"],
   ${t}
 >`;

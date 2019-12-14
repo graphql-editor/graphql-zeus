@@ -411,10 +411,10 @@ export declare const Zeus: {
 }
 
 export declare const Cast: {
-  Query: ((o: any) => (b: any) => o) as CastToGraphQL<
+  Query: CastToGraphQL<
   ValueTypes["Query"],
   Query
->,Mutation: ((o: any) => (b: any) => o) as CastToGraphQL<
+>,Mutation: CastToGraphQL<
   ValueTypes["Mutation"],
   Mutation
 >

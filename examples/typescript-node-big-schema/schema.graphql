@@ -124,7 +124,7 @@ type Namespace {
   
   limit sets a limit on how many objects can be returned
   """
-  projects(last: String, limit: Int): ProjectConnection
+  projects(limit: Int, last: String): ProjectConnection
 
   """True if namespace is public"""
   public: Boolean
@@ -135,6 +135,9 @@ type Namespace {
 
 """New source payload"""
 input NewSource {
+  """source file name"""
+  filename: String
+
   """Length of source in bytes"""
   contentLength: Int
 
@@ -143,9 +146,6 @@ input NewSource {
 
   """Source checksum"""
   checksum: String
-
-  """source file name"""
-  filename: String
 }
 
 """PageInfo contains information about connection page"""
@@ -201,7 +201,7 @@ type Project {
   
   limit sets a limit on how many objects can be returned
   """
-  sources(last: String, limit: Int): FakerSourceConnection
+  sources(limit: Int, last: String): FakerSourceConnection
 
   """Project tags"""
   tags: [String!]
@@ -261,7 +261,7 @@ type Query {
   
   limit limits the number of returned projects
   """
-  findProjectsByTag(limit: Int, tag: String!, last: String): ProjectConnection
+  findProjectsByTag(tag: String!, last: String, limit: Int): ProjectConnection
 
   """Return namespace matching slug"""
   getNamespace(slug: String!): Namespace
@@ -292,6 +292,12 @@ type Query {
 
 """Team member role"""
 enum Role {
+  """Team viewer can view projects in team"""
+  VIEWER
+
+  """Team contributor can edit projects in team"""
+  CONTRIBUTOR
+
   """
   Team owner owner can add/remove/edit/view projects and members to a team. Only owner can delete team
   """
@@ -304,12 +310,6 @@ enum Role {
 
   """Team editor can add/edit projects in team"""
   EDITOR
-
-  """Team viewer can view projects in team"""
-  VIEWER
-
-  """Team contributor can edit projects in team"""
-  CONTRIBUTOR
 }
 
 """Source upload info object"""
@@ -417,17 +417,17 @@ type TeamOps {
 
 """Update project payload"""
 input UpdateProject {
-  """Set project visiblity"""
-  public: Boolean
-
-  """ID of project to be updated"""
-  project: ID
-
   """New description for project"""
   description: String
 
   """List of tags for project"""
   tags: [String!]
+
+  """Set project visiblity"""
+  public: Boolean
+
+  """ID of project to be updated"""
+  project: ID
 }
 
 """Editor user"""
