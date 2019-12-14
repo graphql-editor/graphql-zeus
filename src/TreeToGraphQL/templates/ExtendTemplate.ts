@@ -5,7 +5,7 @@ import { Template } from './Template';
 /**
  * resolve extension
  */
-export class ExtendTemplate implements Template {
+export class ExtendTemplate extends Template {
   static resolve(f: ParserField): string {
     if (f.args) {
       const extendedTypes = f.args

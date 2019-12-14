@@ -5,7 +5,7 @@ import { Template } from './Template';
 /**
  * Template for directives
  */
-export class DirectiveTemplate implements Template {
+export class DirectiveTemplate extends Template {
   /**
    * Resolve directive field
    */

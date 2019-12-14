@@ -5,7 +5,7 @@ import { Template } from './Template';
 /**
  * resolve function argument
  */
-export class ArgumentTemplate implements Template {
+export class ArgumentTemplate extends Template {
   static resolve({ args, type }: ParserField): string {
     let argsString = '';
     if (args && args.length) {

@@ -5,7 +5,7 @@ import { Template } from './Template';
 /**
  * Template for GraphQL Field
  */
-export class FieldTemplate implements Template {
+export class FieldTemplate extends Template {
   static resolve(f: ParserField): string {
     let argsString = '';
     if (f.args && f.args.length) {

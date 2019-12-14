@@ -5,7 +5,7 @@ import { Template } from './Template';
 /**
  * template for input value and function arguments
  */
-export class InputValueTemplate implements Template {
+export class InputValueTemplate extends Template {
   static resolve(f: ParserField): string {
     let argsString = '';
     if (f.args && f.args.length) {

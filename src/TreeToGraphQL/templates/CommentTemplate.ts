@@ -4,7 +4,7 @@ import { Template } from './Template';
 /**
  * resolve comment node
  */
-export class CommentTemplate implements Template {
+export class CommentTemplate extends Template {
   static resolve(f: ParserField): string {
     return f.description ? `# ${f.description}` : '';
   }

@@ -1,10 +1,11 @@
 import { ParserField, Value } from '../../Models';
 import { TemplateUtils } from './TemplateUtils';
+import { Template } from './Template';
 
 /**
  * Template responsible for default values in GraphQL
  */
-export class ValueTemplate {
+export class ValueTemplate extends Template {
   static resolve(f: ParserField): string {
     let returnedValue = `${f.name}`;
     if (f.data && f.data.type) {
