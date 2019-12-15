@@ -22,6 +22,8 @@ interface Args extends Yargs {
   node?: boolean;
   url?: string;
   graphql?: string;
+
+  output?: string;
 }
 /**
  * Main class for controlling CLI
@@ -30,8 +32,9 @@ export class CLI {
   /**
    *  Execute yargs provided args
    */
-  static execute = async (args: Args) => {
+  static execute = async (args: Args): Promise<void> => {
     const env: Environment = args.node ? 'node' : 'browser';
+    const outputFilename = args.output;
     let schemaFileContents = '';
     const allArgs = args._;
     const schemaFile: string = allArgs[0];
@@ -51,12 +54,12 @@ export class CLI {
       fs.writeFileSync(schemaPath, schemaFileContents);
     }
     if (args.typescript) {
-      const outFile = 'graphql-zeus.ts';
+      const outFile = `${outputFilename}.ts`;
       const typeScriptDefinition = TranslateGraphQL.typescript(schemaFileContents, env, host);
       fs.writeFileSync(path.join(pathToFile, outFile), typeScriptDefinition.code);
     } else {
-      const outFile = 'graphql-zeus.js';
-      const outFileDefinitions = 'graphql-zeus.d.ts';
+      const outFile = `${outputFilename}.js`;
+      const outFileDefinitions = `${outputFilename}.d.ts`;
       const jsDefinition = TranslateGraphQL.javascript(schemaFileContents, env, host);
 
       fs.writeFileSync(path.join(pathToFile, outFile), jsDefinition.code);

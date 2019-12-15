@@ -1,11 +1,12 @@
 import { ParserField } from '../../Models';
 import { TemplateUtils } from './TemplateUtils';
+import { Template } from './Template';
 
 /**
  * Template for GraphQL Field
  */
-export class FieldTemplate {
-  static resolve(f: ParserField) {
+export class FieldTemplate extends Template {
+  static resolve(f: ParserField): string {
     let argsString = '';
     if (f.args && f.args.length) {
       argsString = `(\n${f.args

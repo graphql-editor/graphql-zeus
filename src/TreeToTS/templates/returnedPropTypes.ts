@@ -1,6 +1,6 @@
 import { Options, ParserField } from '../../Models';
 import { TypeDefinition } from '../../Models/Spec';
-const resolveArg = (f: ParserField, tabs = '\t\t\t') => {
+const resolveArg = (f: ParserField, tabs = '\t\t\t'): string => {
   const {
     type: { options },
   } = f;
@@ -12,12 +12,12 @@ const resolveArg = (f: ParserField, tabs = '\t\t\t') => {
     f.type.name
   }",${aTabs}array:${!!isArray},${aTabs}arrayRequired:${!!isArrayRequired},${aTabs}required:${!!isRequired}\n${tabs}}`;
 };
-const resolveField = (f: ParserField, resolveArgs = true) => {
+const resolveField = (f: ParserField, resolveArgs = true): string => {
   const { args, name } = f;
   return `\t\t${name}:{\n${args!.map((a) => resolveArg(a)).join(',\n')}\n\t\t}`;
 };
 
-export const resolvePropTypeFromRoot = (i: ParserField) => {
+export const resolvePropTypeFromRoot = (i: ParserField): string => {
   if (i.data!.type === TypeDefinition.EnumTypeDefinition) {
     return `\t${i.name}: "enum"`;
   }
@@ -28,10 +28,10 @@ export const resolvePropTypeFromRoot = (i: ParserField) => {
     return `\t${i.name}:{\n${i.args!.map((f) => resolveArg(f, '\t\t')).join(',\n')}\n\t}`;
   }
   if (!i.args) {
-    return;
+    return '';
   }
   if (i.args.filter((f) => f.args && f.args.length > 0).length === 0) {
-    return;
+    return '';
   }
   return `\t${i.name}:{\n${i.args
     .filter((f) => f.args && f.args.length)

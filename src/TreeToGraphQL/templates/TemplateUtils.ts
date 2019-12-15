@@ -71,7 +71,7 @@ export class TemplateUtils {
    * @static
    * @memberof TemplateUtils
    */
-  static resolveType = (f: ParserField) =>
+  static resolveType = (f: ParserField): string =>
     TemplateUtils.isArrayRequired(f, TemplateUtils.isArray(f, TemplateUtils.isRequired(f, f.type.name)));
   /**
    * Return description in GraphQL format
@@ -91,7 +91,7 @@ export class TemplateUtils {
    * @static
    * @memberof TemplateUtils
    */
-  static resolveImplements = (interfaces?: string[]) =>
+  static resolveImplements = (interfaces?: string[]): string =>
     interfaces && interfaces.length ? ` implements ${interfaces.join(' & ')}` : '';
   /**
    * Create directives for graphql fields
@@ -100,7 +100,7 @@ export class TemplateUtils {
    * @memberof TemplateUtils
    * @param [directives] directives parser fields
    */
-  static resolveDirectives = (directives?: ParserField[]) =>
+  static resolveDirectives = (directives?: ParserField[]): string =>
     directives && directives.length
       ? ` ${directives.map((d) => TemplateUtils.resolverForConnection(d)).join(' ')}`
       : '';

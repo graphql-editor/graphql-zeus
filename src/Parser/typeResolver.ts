@@ -72,7 +72,7 @@ export class TypeResolver {
    *
    * @param value
    */
-  static resolveInputValueOptions = (value: ValueNode) => {
+  static resolveInputValueOptions = (value: ValueNode): Options[] => {
     const options: Options[] = [];
     if (value.kind === 'ListValue') {
       options.push(Options.array);
@@ -216,7 +216,7 @@ export class TypeResolver {
    *
    * @param n Type node
    */
-  static resolveInterfaces(n: TypeDefinitionNode) {
+  static resolveInterfaces(n: TypeDefinitionNode): Nullable<string[]> {
     if (n.kind !== 'ObjectTypeDefinition' || !n.interfaces) {
       return;
     }

@@ -1,6 +1,6 @@
 import { Environment } from '../../../Models/Environment';
 
-export const javascriptFunctions = (env: Environment) => `
+export const javascriptFunctions = (env: Environment): string => `
   export const ScalarResolver = (scalar, value) => {
     switch (scalar) {
       case 'String':

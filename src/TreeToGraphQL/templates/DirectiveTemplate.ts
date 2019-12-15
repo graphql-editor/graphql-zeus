@@ -1,14 +1,15 @@
 import { ParserField } from '../../Models';
 import { TemplateUtils } from './TemplateUtils';
+import { Template } from './Template';
 
 /**
  * Template for directives
  */
-export class DirectiveTemplate {
+export class DirectiveTemplate extends Template {
   /**
    * Resolve directive field
    */
-  static resolve(f: ParserField) {
+  static resolve(f: ParserField): string {
     let argsString = '';
     if (f.args && f.args.length) {
       argsString = `(\n${f.args

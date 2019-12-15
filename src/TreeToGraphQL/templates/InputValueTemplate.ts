@@ -1,11 +1,12 @@
 import { Options, ParserField } from '../../Models';
 import { TemplateUtils } from './TemplateUtils';
+import { Template } from './Template';
 
 /**
  * template for input value and function arguments
  */
-export class InputValueTemplate {
-  static resolve(f: ParserField) {
+export class InputValueTemplate extends Template {
+  static resolve(f: ParserField): string {
     let argsString = '';
     if (f.args && f.args.length) {
       if (f.type.options && f.type.options.includes(Options.array)) {

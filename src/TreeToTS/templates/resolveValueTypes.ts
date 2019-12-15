@@ -3,32 +3,36 @@ import { Helpers, TypeDefinition, TypeSystemDefinition } from '../../Models/Spec
 
 export const VALUETYPES = 'ValueTypes';
 
-const resolveValueType = (t: string) => `${VALUETYPES}["${t}"]`;
+const resolveValueType = (t: string): string => `${VALUETYPES}["${t}"]`;
 
-const typeScriptMap: Record<string, string> = {
+type GqlTypes = 'Int' | 'Float' | 'Boolean' | 'ID' | 'String';
+type TSTypes = 'number' | 'boolean' | 'string';
+
+const typeScriptMap: Record<GqlTypes, TSTypes> = {
   Int: 'number',
   Float: 'number',
   Boolean: 'boolean',
   ID: 'string',
   String: 'string',
 };
-const toTypeScriptPrimitive = (a: string): string => typeScriptMap[a] || a;
+const toTypeScriptPrimitive = (a: GqlTypes): string => typeScriptMap[a] || a;
 
-const plusDescription = (description?: string, prefix = '') => (description ? `${prefix}/** ${description} */\n` : '');
-const resolveArg = (f: ParserField) => {
+const plusDescription = (description?: string, prefix = ''): string =>
+  description ? `${prefix}/** ${description} */\n` : '';
+const resolveArg = (f: ParserField): string => {
   const {
     type: { options },
   } = f;
   const isArray = !!(options && options.find((o) => o === Options.array));
   const isArrayRequired = !!(options && options.find((o) => o === Options.arrayRequired));
   const isRequired = !!(options && options.find((o) => o === Options.required));
-  const isRequiredName = (name: string) => {
+  const isRequiredName = (name: string): string => {
     if ((isArray && isArrayRequired) || (isRequired && !isArray)) {
       return name;
     }
     return `${name}?`;
   };
-  const concatArray = (name: string) => {
+  const concatArray = (name: string): string => {
     if (isArray) {
       if (!isRequired) {
         return `(${name} | undefined)[]`;
@@ -41,10 +45,10 @@ const resolveArg = (f: ParserField) => {
     return isRequiredName(name) + ':';
   };
   return `${plusDescription(f.description, '\t')}\t${resolveArgsName(f.name)}${concatArray(
-    f.type.name in typeScriptMap ? toTypeScriptPrimitive(f.type.name) : resolveValueType(f.type.name),
+    f.type.name in typeScriptMap ? toTypeScriptPrimitive(f.type.name as GqlTypes) : resolveValueType(f.type.name),
   )}`;
 };
-const resolveField = (f: ParserField, enumsAndScalars: string[]) => {
+const resolveField = (f: ParserField, enumsAndScalars: string[]): string => {
   const { args } = f;
   const resolvedTypeName =
     f.type.name in typeScriptMap || enumsAndScalars.includes(f.type.name) ? 'true' : resolveValueType(f.type.name);
@@ -54,9 +58,9 @@ const resolveField = (f: ParserField, enumsAndScalars: string[]) => {
   return `${plusDescription(f.description, '\t')}\t${`${f.name}?` + ':'}${resolvedTypeName}`;
 };
 
-const AliasType = (code: string) => `AliasType<${code}>`;
+const AliasType = (code: string): string => `AliasType<${code}>`;
 
-const resolveValueTypeFromRoot = (i: ParserField, rootNodes: ParserField[], enumsAndScalars: string[]) => {
+const resolveValueTypeFromRoot = (i: ParserField, rootNodes: ParserField[], enumsAndScalars: string[]): string => {
   if (i.data!.type === TypeSystemDefinition.DirectiveDefinition) {
     return '';
   }
@@ -92,7 +96,7 @@ const resolveValueTypeFromRoot = (i: ParserField, rootNodes: ParserField[], enum
     `{\n${i.args.map((f) => resolveField(f, enumsAndScalars)).join(',\n')}\n\t\t__typename?: true\n}`,
   )}`;
 };
-export const resolveValueTypes = (rootNodes: ParserField[]) => {
+export const resolveValueTypes = (rootNodes: ParserField[]): string => {
   const enumsAndScalars = rootNodes
     .filter(
       (n) => n.data?.type === TypeDefinition.EnumTypeDefinition || n.data?.type === TypeDefinition.ScalarTypeDefinition,

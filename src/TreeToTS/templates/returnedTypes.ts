@@ -10,16 +10,17 @@ const typeScriptMap: Record<string, string> = {
 };
 const toTypeScriptPrimitive = (a: string): string => typeScriptMap[a] || a;
 
-const plusDescription = (description?: string, prefix = '') => (description ? `${prefix}/** ${description} */\n` : '');
+const plusDescription = (description?: string, prefix = ''): string =>
+  description ? `${prefix}/** ${description} */\n` : '';
 
-const resolveField = (f: ParserField) => {
+const resolveField = (f: ParserField): string => {
   const {
     type: { options },
   } = f;
   const isArray = !!(options && options.find((o) => o === Options.array));
   const isArrayRequired = !!(options && options.find((o) => o === Options.arrayRequired));
   const isRequired = !!(options && options.find((o) => o === Options.required));
-  const isRequiredName = (name: string) => {
+  const isRequiredName = (name: string): string => {
     if (isArray) {
       if (isArrayRequired) {
         return name;
@@ -31,7 +32,7 @@ const resolveField = (f: ParserField) => {
     }
     return `${name}?`;
   };
-  const concatArray = (name: string) => {
+  const concatArray = (name: string): string => {
     if (isArray) {
       if (!isRequired) {
         return `(${name} | undefined)[]`;
@@ -48,7 +49,7 @@ const resolveField = (f: ParserField) => {
   )}`;
 };
 
-export const resolveTypeFromRoot = (i: ParserField, rootNodes: ParserField[]) => {
+export const resolveTypeFromRoot = (i: ParserField, rootNodes: ParserField[]): string => {
   if (i.data!.type === TypeSystemDefinition.DirectiveDefinition) {
     return '';
   }

@@ -14,7 +14,11 @@
     "outDir": "./lib",
     "lib": ["es6", "es7", "esnext", "dom"],
     "rootDir": "./src",
-    "baseUrl": "./src/"
+    "baseUrl": "./src/",
+    "typeRoots": [
+      "./node_modules/@types",
+      "./types"
+    ]
   },
   "exclude": ["lib", "node_modules", "docs", "__tests__", "generated", "examples"]
 }
