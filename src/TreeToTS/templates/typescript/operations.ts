@@ -1,8 +1,8 @@
 import { Environment } from 'Models/Environment';
+import { ResolvedOperations } from 'TreeToTS';
+import { Operation } from '../javascript';
 import { VALUETYPES } from '../resolveValueTypes';
 import { constantTypesTypescript, graphqlErrorTypeScript, typescriptFunctions } from './';
-import { Operation } from '../javascript';
-import { ResolvedOperations } from 'TreeToTS';
 
 const generateOperationChaining = (t: Operation): string =>
   `${t}: ((o: any) =>

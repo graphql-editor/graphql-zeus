@@ -13,6 +13,18 @@ export const AllTypesProps = {
 		}
 	},
 	createCard:{
+		Defense:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		skills:{
+			type:"SpecialSkills",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
 		name:{
 			type:"String",
 			array:false,
@@ -34,18 +46,6 @@ export const AllTypesProps = {
 		Attack:{
 			type:"Int",
 			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		Defense:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		skills:{
-			type:"SpecialSkills",
-			array:true,
 			arrayRequired:false,
 			required:true
 		}

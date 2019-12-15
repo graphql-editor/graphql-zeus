@@ -1,6 +1,6 @@
+import { ResolvedOperations } from 'TreeToTS';
 import { Environment } from '../../../Models/Environment';
 import { graphqlErrorJavascript, javascriptFunctions } from './';
-import { ResolvedOperations } from 'TreeToTS';
 
 export type Operation = 'Query' | 'Mutation' | 'Subscription';
 

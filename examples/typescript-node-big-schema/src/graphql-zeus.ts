@@ -244,14 +244,14 @@ project?: [{	id:string},ValueTypes["ProjectOps"]]
 }>;
 	/** Update project payload */
 ["UpdateProject"]: {
+	/** ID of project to be updated */
+	project?:string,
 	/** New description for project */
 	description?:string,
 	/** List of tags for project */
 	tags?:string[],
 	/** Set project visiblity */
-	public?:boolean,
-	/** ID of project to be updated */
-	project?:string
+	public?:boolean
 };
 	/** Editor user */
 ["User"]: AliasType<{
@@ -581,14 +581,14 @@ limit limits the number of returned projects */
 	},
 	/** Update project payload */
 ["UpdateProject"]: {
+	/** ID of project to be updated */
+	project?:string,
 	/** New description for project */
 	description?:string,
 	/** List of tags for project */
 	tags?:string[],
 	/** Set project visiblity */
-	public?:boolean,
-	/** ID of project to be updated */
-	project?:string
+	public?:boolean
 },
 	/** Editor user */
 ["User"]: {
@@ -949,14 +949,14 @@ export type TeamOps = {
 
 /** Update project payload */
 export type UpdateProject = {
-		/** New description for project */
+		/** ID of project to be updated */
+	project?:string,
+	/** New description for project */
 	description?:string,
 	/** List of tags for project */
 	tags?:string[],
 	/** Set project visiblity */
-	public?:boolean,
-	/** ID of project to be updated */
-	project?:string
+	public?:boolean
 }
 
 /** Editor user */
@@ -1354,6 +1354,12 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	UpdateProject:{
+		project:{
+			type:"ID",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
 		description:{
 			type:"String",
 			array:false,
@@ -1368,12 +1374,6 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		public:{
 			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		project:{
-			type:"ID",
 			array:false,
 			arrayRequired:false,
 			required:false

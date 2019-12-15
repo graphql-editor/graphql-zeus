@@ -417,6 +417,9 @@ type TeamOps {
 
 """Update project payload"""
 input UpdateProject {
+  """ID of project to be updated"""
+  project: ID
+
   """New description for project"""
   description: String
 
@@ -425,9 +428,6 @@ input UpdateProject {
 
   """Set project visiblity"""
   public: Boolean
-
-  """ID of project to be updated"""
-  project: ID
 }
 
 """Editor user"""

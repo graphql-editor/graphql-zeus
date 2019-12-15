@@ -1,5 +1,5 @@
-import { VALUETYPES } from '../resolveValueTypes';
 import { ResolvedOperations } from 'TreeToTS';
+import { VALUETYPES } from '../resolveValueTypes';
 
 const generateOperationsJavascriptDefinitionsChaining = ({
   queries,

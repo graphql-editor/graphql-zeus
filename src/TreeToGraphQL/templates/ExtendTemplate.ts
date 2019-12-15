@@ -1,11 +1,10 @@
 import { ParserField } from '../../Models';
 import { TemplateUtils } from './TemplateUtils';
-import { Template } from './Template';
 
 /**
  * resolve extension
  */
-export class ExtendTemplate extends Template {
+export class ExtendTemplate {
   static resolve(f: ParserField): string {
     if (f.args) {
       const extendedTypes = f.args

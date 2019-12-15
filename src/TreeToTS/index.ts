@@ -7,16 +7,16 @@ import { resolveReturnFromRoot } from './templates/returnedReturns';
 import { resolveTypeFromRoot } from './templates/returnedTypes';
 import { bodyTypeScript, constantTypesTypescript } from './templates/typescript';
 
-export type ResolvedOperations = {
+export interface ResolvedOperations {
   queries: string[];
   mutations: string[];
   subscriptions: string[];
-};
+}
 
-type JSFilesOutput = {
+interface JSFilesOutput {
   javascript: string;
   definitions: string;
-};
+}
 
 const disableLintersComments = ['tslint:disable', 'eslint-disable'];
 /**
