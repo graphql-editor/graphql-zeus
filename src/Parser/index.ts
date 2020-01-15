@@ -58,14 +58,16 @@ export class Parser {
    * @param [excludeRoots=[]] param to exclude some node names from parsing in this schema
    * @returns
    */
-  static parse = (schema: string, excludeRoots: string[] = []): ParserTree => {
+  static parse = (schema: string, excludeRoots: string[] = [], libraries = ''): ParserTree => {
     let parsedSchema: DocumentNode;
     let astSchema: GraphQLSchema;
+    const compiledSchema = [libraries, schema].join('\n');
+
     try {
-      parsedSchema = parse(schema);
+      parsedSchema = parse(compiledSchema);
       astSchema = buildASTSchema(parsedSchema);
     } catch (error) {
-      /* tslint:disable */ console.log(schema); /* tslint:disable */
+      /* tslint:disable */ console.log(compiledSchema); /* tslint:disable */
     }
     const operations = {
       Query: astSchema!.getQueryType(),
