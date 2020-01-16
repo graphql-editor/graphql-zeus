@@ -33,18 +33,23 @@ export class Utils {
     const c = buildClientSchema(data);
     const { queryType, mutationType, subscriptionType } = (data as IntrospectionQuery).__schema;
     let schemaClient = printSchema(c);
-    const addons = [];
-    if (queryType) {
-      addons.push(`query: ${queryType.name}`);
-    }
-    if (mutationType) {
-      addons.push(`mutation: ${mutationType.name}`);
-    }
-    if (subscriptionType) {
-      addons.push(`subscription: ${subscriptionType.name}`);
-    }
-    if (addons.length > 0) {
-      schemaClient += `\nschema{\n\t${addons.join(',\n\t')}\n}`;
+    const isSchemaOfCommonNames =
+      queryType?.name === 'Query' || mutationType?.name === 'Mutation' || subscriptionType?.name === 'Subscription';
+
+    if (isSchemaOfCommonNames) {
+      const addons = [];
+      if (queryType) {
+        addons.push(`query: ${queryType.name}`);
+      }
+      if (mutationType) {
+        addons.push(`mutation: ${mutationType.name}`);
+      }
+      if (subscriptionType) {
+        addons.push(`subscription: ${subscriptionType.name}`);
+      }
+      if (addons.length > 0) {
+        schemaClient += `\nschema{\n\t${addons.join(',\n\t')}\n}`;
+      }
     }
     return schemaClient;
   };
