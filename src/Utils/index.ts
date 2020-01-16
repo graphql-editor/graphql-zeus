@@ -34,7 +34,7 @@ export class Utils {
     const { queryType, mutationType, subscriptionType } = (data as IntrospectionQuery).__schema;
     let schemaClient = printSchema(c);
     const isSchemaOfCommonNames =
-      queryType?.name === 'Query' || mutationType?.name === 'Mutation' || subscriptionType?.name === 'Subscription';
+      queryType?.name === 'Query' && mutationType?.name === 'Mutation' && subscriptionType?.name === 'Subscription';
 
     if (isSchemaOfCommonNames) {
       const addons = [];
