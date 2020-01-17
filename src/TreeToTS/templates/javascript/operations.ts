@@ -3,7 +3,7 @@ import { Environment } from '../../../Models';
 import { graphqlErrorJavascript, javascriptFunctions } from './';
 
 const generateOperationChainingJavascript = (t: OperationName): string =>
-  `${t}: (o) =>
+  `${t.name}: (o) =>
     fullChainConstruct(options)('${t.name}')(o).then(
       (response) => response
     )`;
@@ -39,7 +39,7 @@ const generateOperationsZeusJavascipt = ({ query, mutation, subscription }: Reso
   return allOps;
 };
 
-const generateOperationCastJavascript = (t: OperationName): string => `${t}: (o) => (b) => o`;
+const generateOperationCastJavascript = (t: OperationName): string => `${t.name}: (o) => (b) => o`;
 
 const generateOperationsCastJavascipt = ({ query, mutation, subscription }: ResolvedOperations): string[] => {
   const allOps: string[] = [];
