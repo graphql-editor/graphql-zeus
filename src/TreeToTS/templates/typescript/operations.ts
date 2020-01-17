@@ -1,97 +1,90 @@
 import { Environment } from 'Models/Environment';
-import { ResolvedOperations } from 'TreeToTS';
-import { Operation } from '../javascript';
+import { OperationName, ResolvedOperations } from 'TreeToTS';
 import { VALUETYPES } from '../resolveValueTypes';
 import { constantTypesTypescript, graphqlErrorTypeScript, typescriptFunctions } from './';
 
-const generateOperationChaining = (t: Operation): string =>
-  `${t}: ((o: any) =>
-    fullChainConstruct(options)('${t}')(o).then(
+const generateOperationChaining = (t: OperationName): string =>
+  `${t.name}: ((o: any) =>
+    fullChainConstruct(options)('${t.name}')(o).then(
       (response: any) => response
-    )) as OperationToGraphQL<${VALUETYPES}["${t}"],${t}>`;
+    )) as OperationToGraphQL<${VALUETYPES}["${t.name}"],${t.name}>`;
 
-const generateOperationsChaining = ({ queries, mutations, subscriptions }: Partial<ResolvedOperations>): string[] => {
+const generateOperationsChaining = ({ query, mutation, subscription }: Partial<ResolvedOperations>): string[] => {
   const allOps: string[] = [];
-  if (queries && queries.length) {
-    allOps.push(generateOperationChaining('Query'));
+  if (query?.operationName?.name && query.operations.length) {
+    allOps.push(generateOperationChaining(query.operationName));
   }
-  if (mutations && mutations.length) {
-    allOps.push(generateOperationChaining('Mutation'));
+  if (mutation?.operationName?.name && mutation.operations.length) {
+    allOps.push(generateOperationChaining(mutation.operationName));
   }
-  if (subscriptions && subscriptions.length) {
-    allOps.push(generateOperationChaining('Subscription'));
+  if (subscription?.operationName?.name && subscription.operations.length) {
+    allOps.push(generateOperationChaining(subscription.operationName));
   }
   return allOps;
 };
 
-const generateOperationZeus = (t: Operation): string => `${t}: (o:${VALUETYPES}["${t}"]) => queryConstruct('${t}')(o)`;
+const generateOperationZeus = (t: OperationName): string =>
+  `${t.name}: (o:${VALUETYPES}["${t.name}"]) => queryConstruct('${t.name}')(o)`;
 
-const generateOperationsZeusTypeScript = ({
-  queries,
-  mutations,
-  subscriptions,
-}: Partial<ResolvedOperations>): string[] => {
+const generateOperationsZeusTypeScript = ({ query, mutation, subscription }: Partial<ResolvedOperations>): string[] => {
   const allOps: string[] = [];
-  if (queries && queries.length) {
-    allOps.push(generateOperationZeus('Query'));
+  if (query?.operationName?.name && query.operations.length) {
+    allOps.push(generateOperationZeus(query.operationName));
   }
-  if (mutations && mutations.length) {
-    allOps.push(generateOperationZeus('Mutation'));
+  if (mutation?.operationName?.name && mutation.operations.length) {
+    allOps.push(generateOperationZeus(mutation.operationName));
   }
-  if (subscriptions && subscriptions.length) {
-    allOps.push(generateOperationZeus('Subscription'));
+  if (subscription?.operationName?.name && subscription.operations.length) {
+    allOps.push(generateOperationZeus(subscription.operationName));
   }
   return allOps;
 };
 
-const generateSelectorZeus = (t: Operation): string => `${t}: ZeusSelect<${VALUETYPES}["${t}"]>()`;
+const generateSelectorZeus = (t: OperationName): string => `${t.name}: ZeusSelect<${VALUETYPES}["${t.name}"]>()`;
 
-const generateSelectorsZeusTypeScript = ({
-  queries,
-  mutations,
-  subscriptions,
-}: Partial<ResolvedOperations>): string[] => {
+const generateSelectorsZeusTypeScript = ({ query, mutation, subscription }: Partial<ResolvedOperations>): string[] => {
   const allOps: string[] = [];
-  if (queries && queries.length) {
-    allOps.push(generateSelectorZeus('Query'));
+  if (query?.operationName?.name && query.operations.length) {
+    allOps.push(generateSelectorZeus(query.operationName));
   }
-  if (mutations && mutations.length) {
-    allOps.push(generateSelectorZeus('Mutation'));
+  if (mutation?.operationName?.name && mutation.operations.length) {
+    allOps.push(generateSelectorZeus(mutation.operationName));
   }
-  if (subscriptions && subscriptions.length) {
-    allOps.push(generateSelectorZeus('Subscription'));
+  if (subscription?.operationName?.name && subscription.operations.length) {
+    allOps.push(generateSelectorZeus(subscription.operationName));
   }
   return allOps;
 };
 
-const generateOperationCast = (t: Operation): string =>
-  `${t}: ((o: any) => (b: any) => o) as CastToGraphQL<
-  ValueTypes["${t}"],
-  ${t}
+const generateOperationCast = (t: OperationName): string =>
+  `${t.name}: ((o: any) => (b: any) => o) as CastToGraphQL<
+  ValueTypes["${t.name}"],
+  ${t.name}
 >`;
 
-const generateOperationsCastTypeScript = ({
-  queries,
-  mutations,
-  subscriptions,
-}: Partial<ResolvedOperations>): string[] => {
+const generateOperationsCastTypeScript = ({ query, mutation, subscription }: Partial<ResolvedOperations>): string[] => {
   const allOps: string[] = [];
-  if (queries && queries.length) {
-    allOps.push(generateOperationCast('Query'));
+  if (query?.operationName?.name && query.operations.length) {
+    allOps.push(generateOperationCast(query.operationName));
   }
-  if (mutations && mutations.length) {
-    allOps.push(generateOperationCast('Mutation'));
+  if (mutation?.operationName?.name && mutation.operations.length) {
+    allOps.push(generateOperationCast(mutation.operationName));
   }
-  if (subscriptions && subscriptions.length) {
-    allOps.push(generateOperationCast('Subscription'));
+  if (subscription?.operationName?.name && subscription.operations.length) {
+    allOps.push(generateOperationCast(subscription.operationName));
   }
   return allOps;
 };
 
-export const bodyTypeScript = (env: Environment, resolvedOperations: Partial<ResolvedOperations>): string => `
+export const bodyTypeScript = (env: Environment, resolvedOperations: ResolvedOperations): string => `
 ${graphqlErrorTypeScript}
 ${constantTypesTypescript}
-${typescriptFunctions(env)}
+${typescriptFunctions(
+  env,
+  resolvedOperations.query.operationName,
+  resolvedOperations.mutation.operationName,
+  resolvedOperations.subscription.operationName,
+)}
 
 export const Chain = (...options: fetchOptions) => ({
   ${generateOperationsChaining(resolvedOperations).join(',\n')}

@@ -1,73 +1,60 @@
-import { ResolvedOperations } from 'TreeToTS';
-import { Environment } from '../../../Models/Environment';
+import { OperationName, ResolvedOperations } from 'TreeToTS';
+import { Environment } from '../../../Models';
 import { graphqlErrorJavascript, javascriptFunctions } from './';
 
-export type Operation = 'Query' | 'Mutation' | 'Subscription';
-
-const generateOperationChainingJavascript = (t: Operation): string =>
+const generateOperationChainingJavascript = (t: OperationName): string =>
   `${t}: (o) =>
-    fullChainConstruct(options)('${t}')(o).then(
+    fullChainConstruct(options)('${t.name}')(o).then(
       (response) => response
     )`;
 
-const generateOperationsChainingJavascipt = ({
-  queries,
-  mutations,
-  subscriptions,
-}: Partial<ResolvedOperations>): string[] => {
+const generateOperationsChainingJavascipt = ({ query, mutation, subscription }: ResolvedOperations): string[] => {
   const allOps: string[] = [];
-  if (queries && queries.length) {
-    allOps.push(generateOperationChainingJavascript('Query'));
+  if (query?.operationName?.name && query.operations.length) {
+    allOps.push(generateOperationChainingJavascript(query.operationName));
   }
-  if (mutations && mutations.length) {
-    allOps.push(generateOperationChainingJavascript('Mutation'));
+  if (mutation?.operationName?.name && mutation.operations.length) {
+    allOps.push(generateOperationChainingJavascript(mutation.operationName));
   }
-  if (subscriptions && subscriptions.length) {
-    allOps.push(generateOperationChainingJavascript('Subscription'));
+  if (subscription?.operationName?.name && subscription.operations.length) {
+    allOps.push(generateOperationChainingJavascript(subscription.operationName));
   }
   return allOps;
 };
 
-const generateOperationZeusJavascript = (t: Operation): string => `${t}: (o) => queryConstruct('${t}')(o)`;
+const generateOperationZeusJavascript = (t: OperationName): string =>
+  `${t.name}: (o) => queryConstruct('${t.name}')(o)`;
 
-const generateOperationsZeusJavascipt = ({
-  queries,
-  mutations,
-  subscriptions,
-}: Partial<ResolvedOperations>): string[] => {
+const generateOperationsZeusJavascipt = ({ query, mutation, subscription }: ResolvedOperations): string[] => {
   const allOps: string[] = [];
-  if (queries && queries.length) {
-    allOps.push(generateOperationZeusJavascript('Query'));
+  if (query?.operationName?.name && query.operations.length) {
+    allOps.push(generateOperationZeusJavascript(query.operationName));
   }
-  if (mutations && mutations.length) {
-    allOps.push(generateOperationZeusJavascript('Mutation'));
+  if (mutation?.operationName?.name && mutation.operations.length) {
+    allOps.push(generateOperationZeusJavascript(mutation.operationName));
   }
-  if (subscriptions && subscriptions.length) {
-    allOps.push(generateOperationZeusJavascript('Subscription'));
+  if (subscription?.operationName?.name && subscription.operations.length) {
+    allOps.push(generateOperationZeusJavascript(subscription.operationName));
   }
   return allOps;
 };
 
-const generateOperationCastJavascript = (t: Operation): string => `${t}: (o) => (b) => o`;
+const generateOperationCastJavascript = (t: OperationName): string => `${t}: (o) => (b) => o`;
 
-const generateOperationsCastJavascipt = ({
-  queries,
-  mutations,
-  subscriptions,
-}: Partial<ResolvedOperations>): string[] => {
+const generateOperationsCastJavascipt = ({ query, mutation, subscription }: ResolvedOperations): string[] => {
   const allOps: string[] = [];
-  if (queries && queries.length) {
-    allOps.push(generateOperationCastJavascript('Query'));
+  if (query?.operationName?.name && query.operations.length) {
+    allOps.push(generateOperationCastJavascript(query.operationName));
   }
-  if (mutations && mutations.length) {
-    allOps.push(generateOperationCastJavascript('Mutation'));
+  if (mutation?.operationName?.name && mutation.operations.length) {
+    allOps.push(generateOperationCastJavascript(mutation.operationName));
   }
-  if (subscriptions && subscriptions.length) {
-    allOps.push(generateOperationCastJavascript('Subscription'));
+  if (subscription?.operationName?.name && subscription.operations.length) {
+    allOps.push(generateOperationCastJavascript(subscription.operationName));
   }
   return allOps;
 };
-export const bodyJavascript = (env: Environment, resolvedOperations: Partial<ResolvedOperations>): string => `
+export const bodyJavascript = (env: Environment, resolvedOperations: ResolvedOperations): string => `
 ${graphqlErrorJavascript}
 ${javascriptFunctions(env)}
 

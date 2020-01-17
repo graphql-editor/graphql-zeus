@@ -1,4 +1,4 @@
-import { Environment, OperationType, ParserTree } from '../Models';
+import { Environment, OperationType, ParserField, ParserTree } from '../Models';
 import { bodyJavascript, generateOperationsJavascript } from './templates/javascript';
 import { resolveValueTypes } from './templates/resolveValueTypes';
 import { resolvePartialObjects } from './templates/returnedPartialObjects';
@@ -7,10 +7,20 @@ import { resolveReturnFromRoot } from './templates/returnedReturns';
 import { resolveTypeFromRoot } from './templates/returnedTypes';
 import { bodyTypeScript, constantTypesTypescript } from './templates/typescript';
 
+export type OperationName = {
+  name: string;
+  type: 'operation';
+};
+
 export interface ResolvedOperations {
-  queries: string[];
-  mutations: string[];
-  subscriptions: string[];
+  query: OperationDetails;
+  mutation: OperationDetails;
+  subscription: OperationDetails;
+}
+
+export interface OperationDetails {
+  operationName?: OperationName;
+  operations: string[];
 }
 
 interface JSFilesOutput {
@@ -23,17 +33,25 @@ const disableLintersComments = ['tslint:disable', 'eslint-disable'];
  * Class Responsible for generating typescript and javascript code
  */
 export class TreeToTS {
-  static findOperations(tree: ParserTree, ot: OperationType): string[] {
-    return tree.nodes
-      .filter((n) => n.type.operations && n.type.operations.find((o) => o === ot))
-      .map((n) => (n.args ? n.args.map((f) => f.name) : []))
-      .reduce((a, b) => a.concat(b), []);
+  static findOperations(nodes: ParserField[], ot: OperationType): OperationDetails {
+    const node: ParserField = nodes.filter((n) => n.type.operations && n.type.operations.find((o) => o === ot))[0];
+
+    if (node === undefined) {
+      return { operationName: undefined, operations: [] };
+    }
+
+    const args = node.args ? node.args : [];
+
+    const operations = args.map((f: { name: string }) => f.name);
+
+    return { operationName: { name: node.name, type: 'operation' }, operations: operations };
   }
   static resolveOperations(tree: ParserTree): ResolvedOperations {
+    const nodes = tree.nodes;
     return {
-      queries: TreeToTS.findOperations(tree, OperationType.query),
-      mutations: TreeToTS.findOperations(tree, OperationType.mutation),
-      subscriptions: TreeToTS.findOperations(tree, OperationType.subscription),
+      query: TreeToTS.findOperations(nodes, OperationType.query),
+      mutation: TreeToTS.findOperations(nodes, OperationType.mutation),
+      subscription: TreeToTS.findOperations(nodes, OperationType.subscription),
     };
   }
   static resolveBasisHeader(): string {
