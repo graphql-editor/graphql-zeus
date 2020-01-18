@@ -1,7 +1,7 @@
 """Defines user's account type"""
 enum AccountType {
-  FREE
   PREMIUM
+  FREE
 }
 
 """Endpoint returnes a full path to the project without host"""
@@ -106,7 +106,7 @@ type Mutation {
   updateProject(in: UpdateProject): Boolean
 
   """Add sources to the project"""
-  updateSources(project: ID!, sources: [NewSource!]): [SourceUploadInfo]
+  updateSources(sources: [NewSource!], project: ID!): [SourceUploadInfo]
 }
 
 """
@@ -124,7 +124,7 @@ type Namespace {
   
   limit sets a limit on how many objects can be returned
   """
-  projects(limit: Int, last: String): ProjectConnection
+  projects(last: String, limit: Int): ProjectConnection
 
   """True if namespace is public"""
   public: Boolean
@@ -135,6 +135,9 @@ type Namespace {
 
 """New source payload"""
 input NewSource {
+  """Source checksum"""
+  checksum: String
+
   """source file name"""
   filename: String
 
@@ -143,9 +146,6 @@ input NewSource {
 
   """Source mime type"""
   contentType: String
-
-  """Source checksum"""
-  checksum: String
 }
 
 """PageInfo contains information about connection page"""
@@ -201,7 +201,7 @@ type Project {
   
   limit sets a limit on how many objects can be returned
   """
-  sources(limit: Int, last: String): FakerSourceConnection
+  sources(last: String, limit: Int): FakerSourceConnection
 
   """Project tags"""
   tags: [String!]
@@ -284,7 +284,7 @@ type Query {
   
   limit limits the number of returned projects
   """
-  listProjects(owned: Boolean, last: String, limit: Int): ProjectConnection
+  listProjects(last: String, limit: Int, owned: Boolean): ProjectConnection
 
   """List of current user teams"""
   myTeams(last: String, limit: Int): TeamConnection
@@ -417,17 +417,17 @@ type TeamOps {
 
 """Update project payload"""
 input UpdateProject {
-  """ID of project to be updated"""
-  project: ID
-
-  """New description for project"""
-  description: String
-
   """List of tags for project"""
   tags: [String!]
 
   """Set project visiblity"""
   public: Boolean
+
+  """ID of project to be updated"""
+  project: ID
+
+  """New description for project"""
+  description: String
 }
 
 """Editor user"""
@@ -454,9 +454,4 @@ type UserConnection {
 
   """List of projects in connection"""
   users: [User!]
-}
-
-schema{
-	query: Query,
-	mutation: Mutation
 }

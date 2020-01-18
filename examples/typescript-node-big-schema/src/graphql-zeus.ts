@@ -70,14 +70,14 @@ deployToFaker?: [{	id:string},true],
 removeProject?: [{	project:string},true],
 team?: [{	id:string},ValueTypes["TeamOps"]],
 updateProject?: [{	in?:ValueTypes["UpdateProject"]},true],
-updateSources?: [{	project:string,	sources?:ValueTypes["NewSource"][]},ValueTypes["SourceUploadInfo"]]
+updateSources?: [{	sources?:ValueTypes["NewSource"][],	project:string},ValueTypes["SourceUploadInfo"]]
 		__typename?: true
 }>;
 	/** Namespace is a root object containing projects belonging
 to a team or user */
 ["Namespace"]: AliasType<{
 project?: [{	name:string},ValueTypes["Project"]],
-projects?: [{	limit?:number,	last?:string},ValueTypes["ProjectConnection"]],
+projects?: [{	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
 	/** True if namespace is public */
 	public?:true,
 	/** Namespace part of the slug */
@@ -86,14 +86,14 @@ projects?: [{	limit?:number,	last?:string},ValueTypes["ProjectConnection"]],
 }>;
 	/** New source payload */
 ["NewSource"]: {
+	/** Source checksum */
+	checksum?:string,
 	/** source file name */
 	filename?:string,
 	/** Length of source in bytes */
 	contentLength?:number,
 	/** Source mime type */
-	contentType?:string,
-	/** Source checksum */
-	checksum?:string
+	contentType?:string
 };
 	/** PageInfo contains information about connection page */
 ["PageInfo"]: AliasType<{
@@ -127,7 +127,7 @@ Can be null if project belongs to a team */
 	public?:true,
 	/** Project part of the slug */
 	slug?:true,
-sources?: [{	limit?:number,	last?:string},ValueTypes["FakerSourceConnection"]],
+sources?: [{	last?:string,	limit?:number},ValueTypes["FakerSourceConnection"]],
 	/** Project tags */
 	tags?:true,
 	/** Team to which project belongs
@@ -163,7 +163,7 @@ getNamespace?: [{	slug:string},ValueTypes["Namespace"]],
 getProject?: [{	project:string},ValueTypes["Project"]],
 getTeam?: [{	name:string},ValueTypes["Team"]],
 getUser?: [{	username:string},ValueTypes["User"]],
-listProjects?: [{	owned?:boolean,	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
+listProjects?: [{	last?:string,	limit?:number,	owned?:boolean},ValueTypes["ProjectConnection"]],
 myTeams?: [{	last?:string,	limit?:number},ValueTypes["TeamConnection"]]
 		__typename?: true
 }>;
@@ -244,14 +244,14 @@ project?: [{	id:string},ValueTypes["ProjectOps"]]
 }>;
 	/** Update project payload */
 ["UpdateProject"]: {
-	/** ID of project to be updated */
-	project?:string,
-	/** New description for project */
-	description?:string,
 	/** List of tags for project */
 	tags?:string[],
 	/** Set project visiblity */
-	public?:boolean
+	public?:boolean,
+	/** ID of project to be updated */
+	project?:string,
+	/** New description for project */
+	description?:string
 };
 	/** Editor user */
 ["User"]: AliasType<{
@@ -384,14 +384,14 @@ limit sets a limit on how many objects can be returned */
 	},
 	/** New source payload */
 ["NewSource"]: {
+	/** Source checksum */
+	checksum?:string,
 	/** source file name */
 	filename?:string,
 	/** Length of source in bytes */
 	contentLength?:number,
 	/** Source mime type */
-	contentType?:string,
-	/** Source checksum */
-	checksum?:string
+	contentType?:string
 },
 	/** PageInfo contains information about connection page */
 ["PageInfo"]: {
@@ -581,14 +581,14 @@ limit limits the number of returned projects */
 	},
 	/** Update project payload */
 ["UpdateProject"]: {
-	/** ID of project to be updated */
-	project?:string,
-	/** New description for project */
-	description?:string,
 	/** List of tags for project */
 	tags?:string[],
 	/** Set project visiblity */
-	public?:boolean
+	public?:boolean,
+	/** ID of project to be updated */
+	project?:string,
+	/** New description for project */
+	description?:string
 },
 	/** Editor user */
 ["User"]: {
@@ -615,8 +615,8 @@ limit limits the number of returned projects */
 
 /** Defines user's account type */
 export enum AccountType {
-	FREE = "FREE",
-	PREMIUM = "PREMIUM"
+	PREMIUM = "PREMIUM",
+	FREE = "FREE"
 }
 
 /** Endpoint returnes a full path to the project without host */
@@ -733,14 +733,14 @@ limit sets a limit on how many objects can be returned */
 
 /** New source payload */
 export type NewSource = {
-		/** source file name */
+		/** Source checksum */
+	checksum?:string,
+	/** source file name */
 	filename?:string,
 	/** Length of source in bytes */
 	contentLength?:number,
 	/** Source mime type */
-	contentType?:string,
-	/** Source checksum */
-	checksum?:string
+	contentType?:string
 }
 
 /** PageInfo contains information about connection page */
@@ -949,14 +949,14 @@ export type TeamOps = {
 
 /** Update project payload */
 export type UpdateProject = {
-		/** ID of project to be updated */
-	project?:string,
-	/** New description for project */
-	description?:string,
-	/** List of tags for project */
+		/** List of tags for project */
 	tags?:string[],
 	/** Set project visiblity */
-	public?:boolean
+	public?:boolean,
+	/** ID of project to be updated */
+	project?:string,
+	/** New description for project */
+	description?:string
 }
 
 /** Editor user */
@@ -1070,15 +1070,15 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		updateSources:{
-			project:{
-				type:"ID",
-				array:false,
-				arrayRequired:false,
-				required:true
-			},
 			sources:{
 				type:"NewSource",
 				array:true,
+				arrayRequired:false,
+				required:true
+			},
+			project:{
+				type:"ID",
+				array:false,
 				arrayRequired:false,
 				required:true
 			}
@@ -1094,14 +1094,14 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		projects:{
-			limit:{
-				type:"Int",
+			last:{
+				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:false
 			},
-			last:{
-				type:"String",
+			limit:{
+				type:"Int",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -1109,6 +1109,12 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	NewSource:{
+		checksum:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
 		filename:{
 			type:"String",
 			array:false,
@@ -1126,24 +1132,18 @@ export const AllTypesProps: Record<string,any> = {
 			array:false,
 			arrayRequired:false,
 			required:false
-		},
-		checksum:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
 		}
 	},
 	Project:{
 		sources:{
-			limit:{
-				type:"Int",
+			last:{
+				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:false
 			},
-			last:{
-				type:"String",
+			limit:{
+				type:"Int",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -1234,12 +1234,6 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		listProjects:{
-			owned:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
 			last:{
 				type:"String",
 				array:false,
@@ -1248,6 +1242,12 @@ export const AllTypesProps: Record<string,any> = {
 			},
 			limit:{
 				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
+			owned:{
+				type:"Boolean",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -1354,18 +1354,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	UpdateProject:{
-		project:{
-			type:"ID",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		description:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		tags:{
 			type:"String",
 			array:true,
@@ -1374,6 +1362,18 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		public:{
 			type:"Boolean",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		project:{
+			type:"ID",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		description:{
+			type:"String",
 			array:false,
 			arrayRequired:false,
 			required:false
@@ -1905,11 +1905,16 @@ export const Chain = (...options: fetchOptions) => ({
 Mutation: ((o: any) =>
     fullChainConstruct(options)('Mutation')(o).then(
       (response: any) => response
-    )) as OperationToGraphQL<ValueTypes["Mutation"],Mutation>
+    )) as OperationToGraphQL<ValueTypes["Mutation"],Mutation>,
+Subscription: ((o: any) =>
+    fullChainConstruct(options)('Subscription')(o).then(
+      (response: any) => response
+    )) as OperationToGraphQL<ValueTypes["Subscription"],Subscription>
 });
 export const Zeus = {
   Query: (o:ValueTypes["Query"]) => queryConstruct('Query')(o),
-Mutation: (o:ValueTypes["Mutation"]) => queryConstruct('Mutation')(o)
+Mutation: (o:ValueTypes["Mutation"]) => queryConstruct('Mutation')(o),
+Subscription: (o:ValueTypes["Subscription"]) => queryConstruct('Subscription')(o)
 };
 export const Cast = {
   Query: ((o: any) => (b: any) => o) as CastToGraphQL<
@@ -1919,11 +1924,16 @@ export const Cast = {
 Mutation: ((o: any) => (b: any) => o) as CastToGraphQL<
   ValueTypes["Mutation"],
   Mutation
+>,
+Subscription: ((o: any) => (b: any) => o) as CastToGraphQL<
+  ValueTypes["Subscription"],
+  Subscription
 >
 };
 export const Selectors = {
   Query: ZeusSelect<ValueTypes["Query"]>(),
-Mutation: ZeusSelect<ValueTypes["Mutation"]>()
+Mutation: ZeusSelect<ValueTypes["Mutation"]>(),
+Subscription: ZeusSelect<ValueTypes["Subscription"]>()
 };
   
 
