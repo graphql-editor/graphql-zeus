@@ -34,6 +34,8 @@ attack?: [{	/** Attacked card/card ids<br> */
 }>;
 	/** create card inputs<br> */
 ["createCard"]: {
+	/** The defense power<br> */
+	Defense:number,
 	/** input skills */
 	skills?:ValueTypes["SpecialSkills"][],
 	/** The name of a card<br> */
@@ -43,9 +45,7 @@ attack?: [{	/** Attacked card/card ids<br> */
 	/** <div>How many children the greek god had</div> */
 	Children?:number,
 	/** The attack power<br> */
-	Attack:number,
-	/** The defense power<br> */
-	Defense:number
+	Attack:number
 };
 	["EffectCard"]: AliasType<{
 	effectSize?:true,
@@ -120,6 +120,8 @@ export type PartialObjects = {
 	["ChangeCard"]: PartialObjects["SpecialCard"] | PartialObjects["EffectCard"],
 	/** create card inputs<br> */
 ["createCard"]: {
+	/** The defense power<br> */
+	Defense:number,
 	/** input skills */
 	skills?:PartialObjects["SpecialSkills"][],
 	/** The name of a card<br> */
@@ -129,9 +131,7 @@ export type PartialObjects = {
 	/** <div>How many children the greek god had</div> */
 	Children?:number,
 	/** The attack power<br> */
-	Attack:number,
-	/** The defense power<br> */
-	Defense:number
+	Attack:number
 },
 	["EffectCard"]: {
 		__typename?: "EffectCard";
@@ -210,7 +210,9 @@ export type ChangeCard = {
 
 /** create card inputs<br> */
 export type createCard = {
-		/** input skills */
+		/** The defense power<br> */
+	Defense:number,
+	/** input skills */
 	skills?:SpecialSkills[],
 	/** The name of a card<br> */
 	name:string,
@@ -219,9 +221,7 @@ export type createCard = {
 	/** <div>How many children the greek god had</div> */
 	Children?:number,
 	/** The attack power<br> */
-	Attack:number,
-	/** The defense power<br> */
-	Defense:number
+	Attack:number
 }
 
 export type EffectCard = {
@@ -275,9 +275,9 @@ export type SpecialCard = {
 }
 
 export enum SpecialSkills {
+	RAIN = "RAIN",
 	FIRE = "FIRE",
-	THUNDER = "THUNDER",
-	RAIN = "RAIN"
+	THUNDER = "THUNDER"
 }
 
 
@@ -403,7 +403,7 @@ export type SelectionFunction<V> = <T>(t: T | V) => T;
 export declare function Chain(
   ...options: fetchOptions
 ):{
-  Query: OperationToGraphQL<ValueTypes[query.name],Query>,Mutation: OperationToGraphQL<ValueTypes[mutation.name],Mutation>
+  Query: OperationToGraphQL<ValueTypes["Query"],Query>,Mutation: OperationToGraphQL<ValueTypes["Mutation"],Mutation>
 }
 
 export declare const Zeus: {

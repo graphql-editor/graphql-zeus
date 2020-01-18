@@ -70,7 +70,7 @@ deployToFaker?: [{	id:string},true],
 removeProject?: [{	project:string},true],
 team?: [{	id:string},ValueTypes["TeamOps"]],
 updateProject?: [{	in?:ValueTypes["UpdateProject"]},true],
-updateSources?: [{	sources?:ValueTypes["NewSource"][],	project:string},ValueTypes["SourceUploadInfo"]]
+updateSources?: [{	project:string,	sources?:ValueTypes["NewSource"][]},ValueTypes["SourceUploadInfo"]]
 		__typename?: true
 }>;
 	/** Namespace is a root object containing projects belonging
@@ -86,14 +86,14 @@ projects?: [{	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
 }>;
 	/** New source payload */
 ["NewSource"]: {
-	/** Source checksum */
-	checksum?:string,
 	/** source file name */
 	filename?:string,
 	/** Length of source in bytes */
 	contentLength?:number,
 	/** Source mime type */
-	contentType?:string
+	contentType?:string,
+	/** Source checksum */
+	checksum?:string
 };
 	/** PageInfo contains information about connection page */
 ["PageInfo"]: AliasType<{
@@ -157,7 +157,7 @@ update?: [{	in?:ValueTypes["UpdateProject"]},true]
 }>;
 	/** Root query type */
 ["Query"]: AliasType<{
-findProjects?: [{	query:string,	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
+findProjects?: [{	last?:string,	limit?:number,	query:string},ValueTypes["ProjectConnection"]],
 findProjectsByTag?: [{	tag:string,	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
 getNamespace?: [{	slug:string},ValueTypes["Namespace"]],
 getProject?: [{	project:string},ValueTypes["Project"]],
@@ -234,7 +234,7 @@ createProject?: [{	public?:boolean,	name:string},ValueTypes["Project"]],
 	/** Unique team id */
 	id?:true,
 member?: [{	username:string},ValueTypes["MemberOps"]],
-members?: [{	last?:string,	limit?:number},ValueTypes["MemberConnection"]],
+members?: [{	limit?:number,	last?:string},ValueTypes["MemberConnection"]],
 	/** Team name */
 	name?:true,
 	/** Team's namespace */
@@ -244,14 +244,14 @@ project?: [{	id:string},ValueTypes["ProjectOps"]]
 }>;
 	/** Update project payload */
 ["UpdateProject"]: {
+	/** New description for project */
+	description?:string,
 	/** List of tags for project */
 	tags?:string[],
 	/** Set project visiblity */
 	public?:boolean,
 	/** ID of project to be updated */
-	project?:string,
-	/** New description for project */
-	description?:string
+	project?:string
 };
 	/** Editor user */
 ["User"]: AliasType<{
@@ -384,14 +384,14 @@ limit sets a limit on how many objects can be returned */
 	},
 	/** New source payload */
 ["NewSource"]: {
-	/** Source checksum */
-	checksum?:string,
 	/** source file name */
 	filename?:string,
 	/** Length of source in bytes */
 	contentLength?:number,
 	/** Source mime type */
-	contentType?:string
+	contentType?:string,
+	/** Source checksum */
+	checksum?:string
 },
 	/** PageInfo contains information about connection page */
 ["PageInfo"]: {
@@ -581,14 +581,14 @@ limit limits the number of returned projects */
 	},
 	/** Update project payload */
 ["UpdateProject"]: {
+	/** New description for project */
+	description?:string,
 	/** List of tags for project */
 	tags?:string[],
 	/** Set project visiblity */
 	public?:boolean,
 	/** ID of project to be updated */
-	project?:string,
-	/** New description for project */
-	description?:string
+	project?:string
 },
 	/** Editor user */
 ["User"]: {
@@ -615,8 +615,8 @@ limit limits the number of returned projects */
 
 /** Defines user's account type */
 export enum AccountType {
-	PREMIUM = "PREMIUM",
-	FREE = "FREE"
+	FREE = "FREE",
+	PREMIUM = "PREMIUM"
 }
 
 /** Endpoint returnes a full path to the project without host */
@@ -733,14 +733,14 @@ limit sets a limit on how many objects can be returned */
 
 /** New source payload */
 export type NewSource = {
-		/** Source checksum */
-	checksum?:string,
-	/** source file name */
+		/** source file name */
 	filename?:string,
 	/** Length of source in bytes */
 	contentLength?:number,
 	/** Source mime type */
-	contentType?:string
+	contentType?:string,
+	/** Source checksum */
+	checksum?:string
 }
 
 /** PageInfo contains information about connection page */
@@ -854,11 +854,11 @@ limit limits the number of returned projects */
 
 /** Team member role */
 export enum Role {
-	VIEWER = "VIEWER",
-	CONTRIBUTOR = "CONTRIBUTOR",
 	OWNER = "OWNER",
 	ADMIN = "ADMIN",
-	EDITOR = "EDITOR"
+	EDITOR = "EDITOR",
+	VIEWER = "VIEWER",
+	CONTRIBUTOR = "CONTRIBUTOR"
 }
 
 /** Source upload info object */
@@ -949,14 +949,14 @@ export type TeamOps = {
 
 /** Update project payload */
 export type UpdateProject = {
-		/** List of tags for project */
+		/** New description for project */
+	description?:string,
+	/** List of tags for project */
 	tags?:string[],
 	/** Set project visiblity */
 	public?:boolean,
 	/** ID of project to be updated */
-	project?:string,
-	/** New description for project */
-	description?:string
+	project?:string
 }
 
 /** Editor user */
@@ -1070,15 +1070,15 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		updateSources:{
-			sources:{
-				type:"NewSource",
-				array:true,
-				arrayRequired:false,
-				required:true
-			},
 			project:{
 				type:"ID",
 				array:false,
+				arrayRequired:false,
+				required:true
+			},
+			sources:{
+				type:"NewSource",
+				array:true,
 				arrayRequired:false,
 				required:true
 			}
@@ -1109,12 +1109,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	NewSource:{
-		checksum:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		filename:{
 			type:"String",
 			array:false,
@@ -1128,6 +1122,12 @@ export const AllTypesProps: Record<string,any> = {
 			required:false
 		},
 		contentType:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		checksum:{
 			type:"String",
 			array:false,
 			arrayRequired:false,
@@ -1162,12 +1162,6 @@ export const AllTypesProps: Record<string,any> = {
 	},
 	Query:{
 		findProjects:{
-			query:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
-			},
 			last:{
 				type:"String",
 				array:false,
@@ -1179,6 +1173,12 @@ export const AllTypesProps: Record<string,any> = {
 				array:false,
 				arrayRequired:false,
 				required:false
+			},
+			query:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:true
 			}
 		},
 		findProjectsByTag:{
@@ -1331,14 +1331,14 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		members:{
-			last:{
-				type:"String",
+			limit:{
+				type:"Int",
 				array:false,
 				arrayRequired:false,
 				required:false
 			},
-			limit:{
-				type:"Int",
+			last:{
+				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -1354,6 +1354,12 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	UpdateProject:{
+		description:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
 		tags:{
 			type:"String",
 			array:true,
@@ -1368,12 +1374,6 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		project:{
 			type:"ID",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		description:{
-			type:"String",
 			array:false,
 			arrayRequired:false,
 			required:false

@@ -1,7 +1,7 @@
 """Defines user's account type"""
 enum AccountType {
-  PREMIUM
   FREE
+  PREMIUM
 }
 
 """Endpoint returnes a full path to the project without host"""
@@ -106,7 +106,7 @@ type Mutation {
   updateProject(in: UpdateProject): Boolean
 
   """Add sources to the project"""
-  updateSources(sources: [NewSource!], project: ID!): [SourceUploadInfo]
+  updateSources(project: ID!, sources: [NewSource!]): [SourceUploadInfo]
 }
 
 """
@@ -135,9 +135,6 @@ type Namespace {
 
 """New source payload"""
 input NewSource {
-  """Source checksum"""
-  checksum: String
-
   """source file name"""
   filename: String
 
@@ -146,6 +143,9 @@ input NewSource {
 
   """Source mime type"""
   contentType: String
+
+  """Source checksum"""
+  checksum: String
 }
 
 """PageInfo contains information about connection page"""
@@ -250,7 +250,7 @@ type Query {
   
   limit limits the number of returned projects
   """
-  findProjects(query: String!, last: String, limit: Int): ProjectConnection
+  findProjects(last: String, limit: Int, query: String!): ProjectConnection
 
   """
   Find projects which contain tag
@@ -292,12 +292,6 @@ type Query {
 
 """Team member role"""
 enum Role {
-  """Team viewer can view projects in team"""
-  VIEWER
-
-  """Team contributor can edit projects in team"""
-  CONTRIBUTOR
-
   """
   Team owner owner can add/remove/edit/view projects and members to a team. Only owner can delete team
   """
@@ -310,6 +304,12 @@ enum Role {
 
   """Team editor can add/edit projects in team"""
   EDITOR
+
+  """Team viewer can view projects in team"""
+  VIEWER
+
+  """Team contributor can edit projects in team"""
+  CONTRIBUTOR
 }
 
 """Source upload info object"""
@@ -403,7 +403,7 @@ type TeamOps {
   member(username: String!): MemberOps
 
   """Paginated list of members in team"""
-  members(last: String, limit: Int): MemberConnection
+  members(limit: Int, last: String): MemberConnection
 
   """Team name"""
   name: String
@@ -417,6 +417,9 @@ type TeamOps {
 
 """Update project payload"""
 input UpdateProject {
+  """New description for project"""
+  description: String
+
   """List of tags for project"""
   tags: [String!]
 
@@ -425,9 +428,6 @@ input UpdateProject {
 
   """ID of project to be updated"""
   project: ID
-
-  """New description for project"""
-  description: String
 }
 
 """Editor user"""

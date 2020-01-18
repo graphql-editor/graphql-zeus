@@ -8,13 +8,18 @@ const generateOperationsJavascriptDefinitionsChaining = ({
 }: ResolvedOperations): string[] => {
   const allOps = [];
   if (query.operations.length) {
-    allOps.push(`Query: OperationToGraphQL<${VALUETYPES}[query.name],Query>`);
+    const queryOperationName = query.operationName?.name || 'Query';
+    allOps.push(`Query: OperationToGraphQL<${VALUETYPES}["${queryOperationName}"],${queryOperationName}>`);
   }
   if (mutation.operations.length) {
-    allOps.push(`Mutation: OperationToGraphQL<${VALUETYPES}[mutation.name],Mutation>`);
+    const mutationOperationName = mutation.operationName?.name || 'Mutation';
+    allOps.push(`Mutation: OperationToGraphQL<${VALUETYPES}["${mutationOperationName}"],${mutationOperationName}>`);
   }
   if (subscription.operations.length) {
-    allOps.push(`Subscription: OperationToGraphQL<${VALUETYPES}[subscription.name],Subscription>`);
+    const subscriptionOperationName = subscription.operationName?.name || 'Subscription';
+    allOps.push(
+      `Subscription: OperationToGraphQL<${VALUETYPES}["${subscriptionOperationName}"],${subscriptionOperationName}>`,
+    );
   }
   return allOps;
 };
