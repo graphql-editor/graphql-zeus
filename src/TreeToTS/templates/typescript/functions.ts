@@ -1,6 +1,12 @@
-import { Environment } from '../../../Models/Environment';
+import { Environment } from '../../../Models';
+import { OperationName } from '../../index';
 
-export const typescriptFunctions = (env: Environment): string => `
+export const typescriptFunctions = (
+  env: Environment,
+  queryName: OperationName | undefined,
+  mutationName: OperationName | undefined,
+  subscription: OperationName | undefined,
+): string => `
 export const ZeusSelect = <T>() => ((t: any) => t) as SelectionFunction<T>;
 export const ScalarResolver = (scalar: string, value: any) => {
   switch (scalar) {
@@ -156,9 +162,12 @@ const traverseToSeekArrays = (parent: string[], a?: any): string => {
 const buildQuery = (type: string, a?: Record<any, any>) =>
   traverseToSeekArrays([type], a)
 
-const queryConstruct = (t: 'Query' | 'Mutation' | 'Subscription') => (o: Record<any, any>) => \`\${t.toLowerCase()}\${buildQuery(t, o)}\`;
+const queryConstruct = (t: '${queryName?.name || 'Query'}' | '${mutationName?.name ||
+  'Mutation'}' | '${subscription?.name ||
+  'Subscription'}') => (o: Record<any, any>) => \`\${t.toLowerCase()}\${buildQuery(t, o)}\`;
 
-const fullChainConstruct = (options: fetchOptions) => (t: 'Query' | 'Mutation' | 'Subscription') => (o: Record<any, any>) =>
+const fullChainConstruct = (options: fetchOptions) => (t: '${queryName?.name || 'Query'}' | '${mutationName?.name ||
+  'Mutation'}' | '${subscription?.name || 'Subscription'}') => (o: Record<any, any>) =>
   apiFetch(options, queryConstruct(t)(o));
 
 const seekForAliases = (o: any) => {
