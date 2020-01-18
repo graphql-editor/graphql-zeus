@@ -86,14 +86,14 @@ projects?: [{	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
 }>;
 	/** New source payload */
 ["NewSource"]: {
-	/** source file name */
-	filename?:string,
 	/** Length of source in bytes */
 	contentLength?:number,
 	/** Source mime type */
 	contentType?:string,
 	/** Source checksum */
-	checksum?:string
+	checksum?:string,
+	/** source file name */
+	filename?:string
 };
 	/** PageInfo contains information about connection page */
 ["PageInfo"]: AliasType<{
@@ -244,14 +244,14 @@ project?: [{	id:string},ValueTypes["ProjectOps"]]
 }>;
 	/** Update project payload */
 ["UpdateProject"]: {
+	/** ID of project to be updated */
+	project?:string,
 	/** New description for project */
 	description?:string,
 	/** List of tags for project */
 	tags?:string[],
 	/** Set project visiblity */
-	public?:boolean,
-	/** ID of project to be updated */
-	project?:string
+	public?:boolean
 };
 	/** Editor user */
 ["User"]: AliasType<{
@@ -384,14 +384,14 @@ limit sets a limit on how many objects can be returned */
 	},
 	/** New source payload */
 ["NewSource"]: {
-	/** source file name */
-	filename?:string,
 	/** Length of source in bytes */
 	contentLength?:number,
 	/** Source mime type */
 	contentType?:string,
 	/** Source checksum */
-	checksum?:string
+	checksum?:string,
+	/** source file name */
+	filename?:string
 },
 	/** PageInfo contains information about connection page */
 ["PageInfo"]: {
@@ -581,14 +581,14 @@ limit limits the number of returned projects */
 	},
 	/** Update project payload */
 ["UpdateProject"]: {
+	/** ID of project to be updated */
+	project?:string,
 	/** New description for project */
 	description?:string,
 	/** List of tags for project */
 	tags?:string[],
 	/** Set project visiblity */
-	public?:boolean,
-	/** ID of project to be updated */
-	project?:string
+	public?:boolean
 },
 	/** Editor user */
 ["User"]: {
@@ -733,14 +733,14 @@ limit sets a limit on how many objects can be returned */
 
 /** New source payload */
 export type NewSource = {
-		/** source file name */
-	filename?:string,
-	/** Length of source in bytes */
+		/** Length of source in bytes */
 	contentLength?:number,
 	/** Source mime type */
 	contentType?:string,
 	/** Source checksum */
-	checksum?:string
+	checksum?:string,
+	/** source file name */
+	filename?:string
 }
 
 /** PageInfo contains information about connection page */
@@ -949,14 +949,14 @@ export type TeamOps = {
 
 /** Update project payload */
 export type UpdateProject = {
-		/** New description for project */
+		/** ID of project to be updated */
+	project?:string,
+	/** New description for project */
 	description?:string,
 	/** List of tags for project */
 	tags?:string[],
 	/** Set project visiblity */
-	public?:boolean,
-	/** ID of project to be updated */
-	project?:string
+	public?:boolean
 }
 
 /** Editor user */
@@ -1109,12 +1109,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	NewSource:{
-		filename:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		contentLength:{
 			type:"Int",
 			array:false,
@@ -1128,6 +1122,12 @@ export const AllTypesProps: Record<string,any> = {
 			required:false
 		},
 		checksum:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		filename:{
 			type:"String",
 			array:false,
 			arrayRequired:false,
@@ -1354,6 +1354,12 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	UpdateProject:{
+		project:{
+			type:"ID",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
 		description:{
 			type:"String",
 			array:false,
@@ -1368,12 +1374,6 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		public:{
 			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		project:{
-			type:"ID",
 			array:false,
 			arrayRequired:false,
 			required:false
@@ -1802,14 +1802,15 @@ const traverseToSeekArrays = (parent: string[], a?: any): string => {
   return objectToTree(b);
 };
 
-const buildQuery = (type: string, a?: Record<any, any>) =>
-  traverseToSeekArrays([type], a)
+const buildQuery = (type: string, a?: Record<any, any>) => traverseToSeekArrays([type], a);
 
-const queryConstruct = (t: 'Query' | 'Mutation' | 'Subscription') => (o: Record<any, any>) => `${t.toLowerCase()}${buildQuery(t, o)}`;
+const queryConstruct = (t: 'query' | 'mutation' | 'subscription', tName: string) => (o: Record<any, any>) =>
+  `${t.toLowerCase()}${buildQuery(tName, o)}`;
 
-const fullChainConstruct = (options: fetchOptions) => (t: 'Query' | 'Mutation' | 'Subscription') => (o: Record<any, any>) =>
-  apiFetch(options, queryConstruct(t)(o));
-
+const fullChainConstruct = (options: fetchOptions) => (t: 'query' | 'mutation' | 'subscription', tName: string) => (
+  o: Record<any, any>,
+) => apiFetch(options, queryConstruct(t, tName)(o));
+  
 const seekForAliases = (o: any) => {
   if (typeof o === 'object' && o) {
     const keys = Object.keys(o);
@@ -1898,42 +1899,42 @@ const apiFetch = (options: fetchOptions, query: string) => {
 
 
 export const Chain = (...options: fetchOptions) => ({
-  Query: ((o: any) =>
-    fullChainConstruct(options)('Query')(o).then(
+  query: ((o: any) =>
+    fullChainConstruct(options)('query', 'Query')(o).then(
       (response: any) => response
     )) as OperationToGraphQL<ValueTypes["Query"],Query>,
-Mutation: ((o: any) =>
-    fullChainConstruct(options)('Mutation')(o).then(
+mutation: ((o: any) =>
+    fullChainConstruct(options)('mutation', 'Mutation')(o).then(
       (response: any) => response
     )) as OperationToGraphQL<ValueTypes["Mutation"],Mutation>,
-Subscription: ((o: any) =>
-    fullChainConstruct(options)('Subscription')(o).then(
+subscription: ((o: any) =>
+    fullChainConstruct(options)('subscription', 'Subscription')(o).then(
       (response: any) => response
     )) as OperationToGraphQL<ValueTypes["Subscription"],Subscription>
 });
 export const Zeus = {
-  Query: (o:ValueTypes["Query"]) => queryConstruct('Query')(o),
-Mutation: (o:ValueTypes["Mutation"]) => queryConstruct('Mutation')(o),
-Subscription: (o:ValueTypes["Subscription"]) => queryConstruct('Subscription')(o)
+  query: (o:ValueTypes["Query"]) => queryConstruct('query', 'Query')(o),
+mutation: (o:ValueTypes["Mutation"]) => queryConstruct('mutation', 'Mutation')(o),
+subscription: (o:ValueTypes["Subscription"]) => queryConstruct('subscription', 'Subscription')(o)
 };
 export const Cast = {
-  Query: ((o: any) => (b: any) => o) as CastToGraphQL<
+  query: ((o: any) => (b: any) => o) as CastToGraphQL<
   ValueTypes["Query"],
   Query
 >,
-Mutation: ((o: any) => (b: any) => o) as CastToGraphQL<
+mutation: ((o: any) => (b: any) => o) as CastToGraphQL<
   ValueTypes["Mutation"],
   Mutation
 >,
-Subscription: ((o: any) => (b: any) => o) as CastToGraphQL<
+subscription: ((o: any) => (b: any) => o) as CastToGraphQL<
   ValueTypes["Subscription"],
   Subscription
 >
 };
 export const Selectors = {
-  Query: ZeusSelect<ValueTypes["Query"]>(),
-Mutation: ZeusSelect<ValueTypes["Mutation"]>(),
-Subscription: ZeusSelect<ValueTypes["Subscription"]>()
+  query: ZeusSelect<ValueTypes["Query"]>(),
+mutation: ZeusSelect<ValueTypes["Mutation"]>(),
+subscription: ZeusSelect<ValueTypes["Subscription"]>()
 };
   
 

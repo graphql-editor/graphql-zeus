@@ -7,10 +7,10 @@ import { resolveReturnFromRoot } from './templates/returnedReturns';
 import { resolveTypeFromRoot } from './templates/returnedTypes';
 import { bodyTypeScript, constantTypesTypescript } from './templates/typescript';
 
-export type OperationName = {
+export interface OperationName {
   name: string;
   type: 'operation';
-};
+}
 
 export interface ResolvedOperations {
   query: OperationDetails;
@@ -44,7 +44,7 @@ export class TreeToTS {
 
     const operations = args.map((f: { name: string }) => f.name);
 
-    return { operationName: { name: node.name, type: 'operation' }, operations: operations };
+    return { operationName: { name: node.name, type: 'operation' }, operations };
   }
   static resolveOperations(tree: ParserTree): ResolvedOperations {
     const nodes = tree.nodes;

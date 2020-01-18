@@ -6,7 +6,7 @@ const createCards = async () => {
     console.log(`${chalk.greenBright(name)} result:\n${chalk.cyan(JSON.stringify(result, null, 4))}\n\n`);
   const printGQLString = (name, result) => console.log(`${chalk.blue(name)} query:\n${chalk.magenta(result)}\n\n`);
   // Query Gqling example
-  const listCardsAndDraw = await Gql.Query({
+  const listCardsAndDraw = await Gql.query({
     cardById: [
       {
         cardId: 'sdsd',
@@ -33,7 +33,7 @@ const createCards = async () => {
   });
   printQueryResult('Multiple queries', listCardsAndDraw);
   // mutation example
-  const addCard = await Gql.Mutation({
+  const addCard = await Gql.mutation({
     addCard: [
       {
         card: {
@@ -53,7 +53,7 @@ const createCards = async () => {
   });
   printQueryResult('addCard', addCard);
 
-  const { drawChangeCard } = await Gql.Query({
+  const { drawChangeCard } = await Gql.query({
     drawChangeCard: {
       __typename: true,
       '...on EffectCard': {
@@ -68,7 +68,7 @@ const createCards = async () => {
   });
   printQueryResult('drawChangeCard', drawChangeCard);
   // string example
-  const stringGql = Zeus.Query({
+  const stringGql = Zeus.query({
     listCards: {
       name: true,
       skills: true,

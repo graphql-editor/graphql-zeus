@@ -5,7 +5,7 @@ const printQueryResult = (name: string, result: any) =>
 const printGQLString = (name: string, result: string) =>
   console.log(`${chalk.blue(name)} query:\n${chalk.magenta(result)}\n\n`);
 const run = async () => {
-  const { addCard: ZeusCard } = await Gql.Mutation({
+  const { addCard: ZeusCard } = await Gql.mutation({
     addCard: [
       {
         card: {
@@ -38,7 +38,7 @@ const run = async () => {
   console.log(tryAssignToPlain.Attack);
   printQueryResult('ZeusCard', ZeusCard);
 
-  const blalba = await Gql.Query({
+  const blalba = await Gql.query({
     drawChangeCard: {
       __typename: true,
       '...on EffectCard': {
@@ -51,7 +51,7 @@ const run = async () => {
     },
   });
   printQueryResult('drawChangeCard', blalba.drawChangeCard);
-  // const { addCard: ZeusCard } = await chain.Mutation({
+  // const { addCard: ZeusCard } = await chain.mutation({
   //   addCard: [
   //     {
   //       card: {
@@ -78,7 +78,7 @@ const run = async () => {
   //
   // The way it should be returned
   // ZeusCard.__alias["myAlias"].Attack
-  const { listCards: stack, drawCard: newCard } = await Gql.Query({
+  const { listCards: stack, drawCard: newCard } = await Gql.query({
     listCards: {
       name: true,
       cardImage: {
@@ -93,7 +93,7 @@ const run = async () => {
   printQueryResult('stack', stack);
   printQueryResult('newCard', newCard);
 
-  const aliasedQuery = Zeus.Query({
+  const aliasedQuery = Zeus.query({
     __alias: {
       myCards: {
         listCards: {
@@ -121,7 +121,7 @@ const run = async () => {
     },
   });
   printGQLString('aliasedQuery', aliasedQuery);
-  const aliasedQueryExecute = await Gql.Query({
+  const aliasedQueryExecute = await Gql.query({
     listCards: {
       __alias: {
         atak: {
@@ -139,7 +139,7 @@ const run = async () => {
   });
   printQueryResult('aliasedQuery', aliasedQueryExecute);
 
-  const interfaceTest = await Gql.Query({
+  const interfaceTest = await Gql.query({
     nameables: {
       __typename: true,
       name: true,

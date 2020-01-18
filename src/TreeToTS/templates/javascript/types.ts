@@ -1,4 +1,5 @@
 import { OperationName, ResolvedOperations } from 'TreeToTS';
+import { OperationType } from '../../../Models';
 import { VALUETYPES } from '../resolveValueTypes';
 
 const generateOperationsJavascriptDefinitionsChaining = ({
@@ -9,22 +10,27 @@ const generateOperationsJavascriptDefinitionsChaining = ({
   const allOps = [];
   if (query.operations.length) {
     const queryOperationName = query.operationName?.name || 'Query';
-    allOps.push(`Query: OperationToGraphQL<${VALUETYPES}["${queryOperationName}"],${queryOperationName}>`);
+    allOps.push(
+      `${OperationType.query}: OperationToGraphQL<${VALUETYPES}["${queryOperationName}"],${queryOperationName}>`,
+    );
   }
   if (mutation.operations.length) {
     const mutationOperationName = mutation.operationName?.name || 'Mutation';
-    allOps.push(`Mutation: OperationToGraphQL<${VALUETYPES}["${mutationOperationName}"],${mutationOperationName}>`);
+    allOps.push(
+      `${OperationType.mutation}: OperationToGraphQL<${VALUETYPES}["${mutationOperationName}"],${mutationOperationName}>`,
+    );
   }
   if (subscription.operations.length) {
     const subscriptionOperationName = subscription.operationName?.name || 'Subscription';
     allOps.push(
-      `Subscription: OperationToGraphQL<${VALUETYPES}["${subscriptionOperationName}"],${subscriptionOperationName}>`,
+      `${OperationType.subscription}: OperationToGraphQL<${VALUETYPES}["${subscriptionOperationName}"],${subscriptionOperationName}>`,
     );
   }
   return allOps;
 };
 
-const ZeusOperations = (t: OperationName): string => `${t.name}: (o: ${VALUETYPES}["${t.name}"]) => string`;
+const ZeusOperations = (t: OperationName, ot: OperationType): string =>
+  `${ot}: (o: ${VALUETYPES}["${t.name}"]) => string`;
 
 const generateOperationsJavascriptDefinitionsZeus = ({
   query,
@@ -33,18 +39,18 @@ const generateOperationsJavascriptDefinitionsZeus = ({
 }: ResolvedOperations): string[] => {
   const allOps = [];
   if (query?.operationName?.name && query.operations.length) {
-    allOps.push(ZeusOperations(query.operationName));
+    allOps.push(ZeusOperations(query.operationName, OperationType.query));
   }
   if (mutation?.operationName?.name && mutation.operations.length) {
-    allOps.push(ZeusOperations(mutation.operationName));
+    allOps.push(ZeusOperations(mutation.operationName, OperationType.mutation));
   }
   if (subscription?.operationName?.name && subscription.operations.length) {
-    allOps.push(ZeusOperations(subscription.operationName));
+    allOps.push(ZeusOperations(subscription.operationName, OperationType.subscription));
   }
   return allOps;
 };
 
-const CastOperations = (t: OperationName): string => `${t.name}: CastToGraphQL<
+const CastOperations = (t: OperationName, ot: OperationType): string => `${ot}: CastToGraphQL<
   ValueTypes["${t.name}"],
   ${t.name}
 >`;
@@ -56,13 +62,13 @@ const generateOperationsJavascriptDefinitionsCast = ({
 }: ResolvedOperations): string[] => {
   const allOps = [];
   if (query?.operationName?.name && query.operations.length) {
-    allOps.push(CastOperations(query.operationName));
+    allOps.push(CastOperations(query.operationName, OperationType.query));
   }
   if (mutation?.operationName?.name && mutation.operations.length) {
-    allOps.push(CastOperations(mutation.operationName));
+    allOps.push(CastOperations(mutation.operationName, OperationType.mutation));
   }
   if (subscription?.operationName?.name && subscription.operations.length) {
-    allOps.push(CastOperations(subscription.operationName));
+    allOps.push(CastOperations(subscription.operationName, OperationType.subscription));
   }
   return allOps;
 };

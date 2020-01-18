@@ -2,397 +2,87 @@
 /* eslint-disable */
 
 export type ValueTypes = {
-    /** Card used in card game<br> */
-["Card"]: AliasType<{
-	/** The attack power<br> */
-	Attack?:true,
-	/** <div>How many children the greek god had</div> */
-	Children?:true,
-	/** The defense power<br> */
-	Defense?:true,
-attack?: [{	/** Attacked card/card ids<br> */
-	cardID:string[]},ValueTypes["Card"]],
-	/** Put your description here */
-	cardImage?:ValueTypes["S3Object"],
-	/** Description of a card<br> */
-	description?:true,
-	id?:true,
-	/** The name of a card<br> */
-	name?:true,
-	skills?:true
+    ["NotMutation"]: AliasType<{
+add?: [{	name?:string},ValueTypes["Person"]]
 		__typename?: true
 }>;
-	/** Stack of cards */
-["CardStack"]: AliasType<{
-	cards?:ValueTypes["Card"],
+	["NotQuery"]: AliasType<{
+	people?:ValueTypes["Person"]
+		__typename?: true
+}>;
+	["NotSubscription"]: AliasType<{
+	people?:ValueTypes["Person"]
+		__typename?: true
+}>;
+	["Person"]: AliasType<{
 	name?:true
 		__typename?: true
-}>;
-	["ChangeCard"]: AliasType<{		["...on SpecialCard"] : ValueTypes["SpecialCard"],
-		["...on EffectCard"] : ValueTypes["EffectCard"]
-		__typename?: true
-}>;
-	/** create card inputs<br> */
-["createCard"]: {
-	/** The attack power<br> */
-	Attack:number,
-	/** The defense power<br> */
-	Defense:number,
-	/** input skills */
-	skills?:ValueTypes["SpecialSkills"][],
-	/** The name of a card<br> */
-	name:string,
-	/** Description of a card<br> */
-	description:string,
-	/** <div>How many children the greek god had</div> */
-	Children?:number
-};
-	["EffectCard"]: AliasType<{
-	effectSize?:true,
-	name?:true
-		__typename?: true
-}>;
-	["Mutation"]: AliasType<{
-addCard?: [{	card:ValueTypes["createCard"]},ValueTypes["Card"]]
-		__typename?: true
-}>;
-	["Nameable"]:AliasType<{
-		name?:true;
-		['...on Card']: ValueTypes["Card"];
-		['...on CardStack']: ValueTypes["CardStack"];
-		['...on EffectCard']: ValueTypes["EffectCard"];
-		['...on SpecialCard']: ValueTypes["SpecialCard"];
-		__typename?: true
-}>;
-	["Query"]: AliasType<{
-cardById?: [{	cardId?:string},ValueTypes["Card"]],
-	/** Draw a card<br> */
-	drawCard?:ValueTypes["Card"],
-	drawChangeCard?:ValueTypes["ChangeCard"],
-	/** list All Cards availble<br> */
-	listCards?:ValueTypes["Card"],
-	myStacks?:ValueTypes["CardStack"],
-	nameables?:ValueTypes["Nameable"]
-		__typename?: true
-}>;
-	/** Aws S3 File */
-["S3Object"]: AliasType<{
-	bucket?:true,
-	key?:true,
-	region?:true
-		__typename?: true
-}>;
-	["SpecialCard"]: AliasType<{
-	effect?:true,
-	name?:true
-		__typename?: true
-}>;
-	["SpecialSkills"]:SpecialSkills
+}>
   }
 
 export type PartialObjects = {
-    /** Card used in card game<br> */
-["Card"]: {
-		__typename?: "Card";
-			/** The attack power<br> */
-	Attack?:number,
-			/** <div>How many children the greek god had</div> */
-	Children?:number,
-			/** The defense power<br> */
-	Defense?:number,
-			/** Attack other cards on the table , returns Cards after attack<br> */
-	attack?:PartialObjects["Card"][],
-			/** Put your description here */
-	cardImage?:PartialObjects["S3Object"],
-			/** Description of a card<br> */
-	description?:string,
-			id?:string,
-			/** The name of a card<br> */
-	name?:string,
-			skills?:PartialObjects["SpecialSkills"][]
+    ["NotMutation"]: {
+		__typename?: "NotMutation";
+			add?:PartialObjects["Person"]
 	},
-	/** Stack of cards */
-["CardStack"]: {
-		__typename?: "CardStack";
-			cards?:PartialObjects["Card"][],
+	["NotQuery"]: {
+		__typename?: "NotQuery";
+			people?:(PartialObjects["Person"] | undefined)[]
+	},
+	["NotSubscription"]: {
+		__typename?: "NotSubscription";
+			people?:(PartialObjects["Person"] | undefined)[]
+	},
+	["Person"]: {
+		__typename?: "Person";
 			name?:string
-	},
-	["ChangeCard"]: PartialObjects["SpecialCard"] | PartialObjects["EffectCard"],
-	/** create card inputs<br> */
-["createCard"]: {
-	/** The attack power<br> */
-	Attack:number,
-	/** The defense power<br> */
-	Defense:number,
-	/** input skills */
-	skills?:PartialObjects["SpecialSkills"][],
-	/** The name of a card<br> */
-	name:string,
-	/** Description of a card<br> */
-	description:string,
-	/** <div>How many children the greek god had</div> */
-	Children?:number
-},
-	["EffectCard"]: {
-		__typename?: "EffectCard";
-			effectSize?:number,
-			name?:string
-	},
-	["Mutation"]: {
-		__typename?: "Mutation";
-			/** add Card to Cards database<br> */
-	addCard?:PartialObjects["Card"]
-	},
-	["Nameable"]:{
-		name?:string
-} & (PartialObjects["Card"] | PartialObjects["CardStack"] | PartialObjects["EffectCard"] | PartialObjects["SpecialCard"]),
-	["Query"]: {
-		__typename?: "Query";
-			cardById?:PartialObjects["Card"],
-			/** Draw a card<br> */
-	drawCard?:PartialObjects["Card"],
-			drawChangeCard?:PartialObjects["ChangeCard"],
-			/** list All Cards availble<br> */
-	listCards?:PartialObjects["Card"][],
-			myStacks?:PartialObjects["CardStack"][],
-			nameables?:PartialObjects["Nameable"][]
-	},
-	/** Aws S3 File */
-["S3Object"]: {
-		__typename?: "S3Object";
-			bucket?:string,
-			key?:string,
-			region?:string
-	},
-	["SpecialCard"]: {
-		__typename?: "SpecialCard";
-			effect?:string,
-			name?:string
-	},
-	["SpecialSkills"]:SpecialSkills
+	}
   }
 
-/** Card used in card game<br> */
-export type Card = {
-	__typename?: "Card",
-	/** The attack power<br> */
-	Attack:number,
-	/** <div>How many children the greek god had</div> */
-	Children?:number,
-	/** The defense power<br> */
-	Defense:number,
-	/** Attack other cards on the table , returns Cards after attack<br> */
-	attack?:Card[],
-	/** Put your description here */
-	cardImage?:S3Object,
-	/** Description of a card<br> */
-	description:string,
-	id:string,
-	/** The name of a card<br> */
-	name:string,
-	skills?:SpecialSkills[]
+export type NotMutation = {
+	__typename?: "NotMutation",
+	add?:Person
 }
 
-/** Stack of cards */
-export type CardStack = {
-	__typename?: "CardStack",
-	cards?:Card[],
-	name:string
+export type NotQuery = {
+	__typename?: "NotQuery",
+	people?:(Person | undefined)[]
 }
 
-export type ChangeCard = {
-	__union:SpecialCard | EffectCard;
-	__resolve:{
-		['...on SpecialCard']: SpecialCard;
-		['...on EffectCard']: EffectCard;
-	}
+export type NotSubscription = {
+	__typename?: "NotSubscription",
+	people?:(Person | undefined)[]
 }
 
-/** create card inputs<br> */
-export type createCard = {
-		/** The attack power<br> */
-	Attack:number,
-	/** The defense power<br> */
-	Defense:number,
-	/** input skills */
-	skills?:SpecialSkills[],
-	/** The name of a card<br> */
-	name:string,
-	/** Description of a card<br> */
-	description:string,
-	/** <div>How many children the greek god had</div> */
-	Children?:number
-}
-
-export type EffectCard = {
-	__typename?: "EffectCard",
-	effectSize:number,
-	name:string
-}
-
-export type Mutation = {
-	__typename?: "Mutation",
-	/** add Card to Cards database<br> */
-	addCard:Card
-}
-
-export type Nameable = {
-	__interface:{
-			name:string
-	};
-	__resolve:{
-		['...on Card']: Card;
-		['...on CardStack']: CardStack;
-		['...on EffectCard']: EffectCard;
-		['...on SpecialCard']: SpecialCard;
-	}
-}
-
-export type Query = {
-	__typename?: "Query",
-	cardById?:Card,
-	/** Draw a card<br> */
-	drawCard:Card,
-	drawChangeCard:ChangeCard,
-	/** list All Cards availble<br> */
-	listCards:Card[],
-	myStacks?:CardStack[],
-	nameables:Nameable[]
-}
-
-/** Aws S3 File */
-export type S3Object = {
-	__typename?: "S3Object",
-	bucket:string,
-	key:string,
-	region:string
-}
-
-export type SpecialCard = {
-	__typename?: "SpecialCard",
-	effect:string,
-	name:string
-}
-
-export enum SpecialSkills {
-	FIRE = "FIRE",
-	THUNDER = "THUNDER",
-	RAIN = "RAIN"
+export type Person = {
+	__typename?: "Person",
+	name?:string
 }
 
 export const AllTypesProps: Record<string,any> = {
-	Card:{
-		attack:{
-			cardID:{
-				type:"String",
-				array:true,
-				arrayRequired:true,
-				required:true
-			}
-		}
-	},
-	createCard:{
-		Attack:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		Defense:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		skills:{
-			type:"SpecialSkills",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		description:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		Children:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	Mutation:{
-		addCard:{
-			card:{
-				type:"createCard",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		}
-	},
-	Query:{
-		cardById:{
-			cardId:{
+	NotMutation:{
+		add:{
+			name:{
 				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:false
 			}
 		}
-	},
-	SpecialSkills: "enum"
+	}
 }
 
 export const ReturnTypes: Record<string,any> = {
-	Card:{
-		Attack:"Int",
-		Children:"Int",
-		Defense:"Int",
-		attack:"Card",
-		cardImage:"S3Object",
-		description:"String",
-		id:"ID",
-		name:"String",
-		skills:"SpecialSkills"
+	NotMutation:{
+		add:"Person"
 	},
-	CardStack:{
-		cards:"Card",
-		name:"String"
+	NotQuery:{
+		people:"Person"
 	},
-	EffectCard:{
-		effectSize:"Float",
-		name:"String"
+	NotSubscription:{
+		people:"Person"
 	},
-	Mutation:{
-		addCard:"Card"
-	},
-	Nameable:{
-		name:"String"
-	},
-	Query:{
-		cardById:"Card",
-		drawCard:"Card",
-		drawChangeCard:"ChangeCard",
-		listCards:"Card",
-		myStacks:"CardStack",
-		nameables:"Nameable"
-	},
-	S3Object:{
-		bucket:"String",
-		key:"String",
-		region:"String"
-	},
-	SpecialCard:{
-		effect:"String",
+	Person:{
 		name:"String"
 	}
 }
@@ -778,32 +468,42 @@ const apiFetch = (options: fetchOptions, query: string) => {
 
 export const Chain = (...options: fetchOptions) => ({
   query: ((o: any) =>
-    fullChainConstruct(options)('query', 'Query')(o).then(
+    fullChainConstruct(options)('query', 'NotQuery')(o).then(
       (response: any) => response
-    )) as OperationToGraphQL<ValueTypes["Query"],Query>,
+    )) as OperationToGraphQL<ValueTypes["NotQuery"],NotQuery>,
 mutation: ((o: any) =>
-    fullChainConstruct(options)('mutation', 'Mutation')(o).then(
+    fullChainConstruct(options)('mutation', 'NotMutation')(o).then(
       (response: any) => response
-    )) as OperationToGraphQL<ValueTypes["Mutation"],Mutation>
+    )) as OperationToGraphQL<ValueTypes["NotMutation"],NotMutation>,
+subscription: ((o: any) =>
+    fullChainConstruct(options)('subscription', 'NotSubscription')(o).then(
+      (response: any) => response
+    )) as OperationToGraphQL<ValueTypes["NotSubscription"],NotSubscription>
 });
 export const Zeus = {
-  query: (o:ValueTypes["Query"]) => queryConstruct('query', 'Query')(o),
-mutation: (o:ValueTypes["Mutation"]) => queryConstruct('mutation', 'Mutation')(o)
+  query: (o:ValueTypes["NotQuery"]) => queryConstruct('query', 'NotQuery')(o),
+mutation: (o:ValueTypes["NotMutation"]) => queryConstruct('mutation', 'NotMutation')(o),
+subscription: (o:ValueTypes["NotSubscription"]) => queryConstruct('subscription', 'NotSubscription')(o)
 };
 export const Cast = {
   query: ((o: any) => (b: any) => o) as CastToGraphQL<
-  ValueTypes["Query"],
-  Query
+  ValueTypes["NotQuery"],
+  NotQuery
 >,
 mutation: ((o: any) => (b: any) => o) as CastToGraphQL<
-  ValueTypes["Mutation"],
-  Mutation
+  ValueTypes["NotMutation"],
+  NotMutation
+>,
+subscription: ((o: any) => (b: any) => o) as CastToGraphQL<
+  ValueTypes["NotSubscription"],
+  NotSubscription
 >
 };
 export const Selectors = {
-  query: ZeusSelect<ValueTypes["Query"]>(),
-mutation: ZeusSelect<ValueTypes["Mutation"]>()
+  query: ZeusSelect<ValueTypes["NotQuery"]>(),
+mutation: ZeusSelect<ValueTypes["NotMutation"]>(),
+subscription: ZeusSelect<ValueTypes["NotSubscription"]>()
 };
   
 
-export const Gql = Chain('https://faker.graphqleditor.com/aexol/olympus/graphql')
+export const Gql = Chain('https://faker.graphqleditor.com/a-team/custom-operations/graphql')

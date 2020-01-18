@@ -2,118 +2,29 @@
 /* eslint-disable */
 
 export const AllTypesProps = {
-	Card:{
-		attack:{
-			cardID:{
-				type:"String",
-				array:true,
-				arrayRequired:true,
-				required:true
-			}
-		}
-	},
-	createCard:{
-		skills:{
-			type:"SpecialSkills",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		description:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		Children:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		Attack:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		Defense:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
-		}
-	},
-	Mutation:{
-		addCard:{
-			card:{
-				type:"createCard",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		}
-	},
-	Query:{
-		cardById:{
-			cardId:{
+	NotMutation:{
+		add:{
+			name:{
 				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:false
 			}
 		}
-	},
-	SpecialSkills: "enum"
+	}
 }
 
 export const ReturnTypes = {
-	Card:{
-		Attack:"Int",
-		Children:"Int",
-		Defense:"Int",
-		attack:"Card",
-		cardImage:"S3Object",
-		description:"String",
-		id:"ID",
-		name:"String",
-		skills:"SpecialSkills"
+	NotMutation:{
+		add:"Person"
 	},
-	CardStack:{
-		cards:"Card",
-		name:"String"
+	NotQuery:{
+		people:"Person"
 	},
-	EffectCard:{
-		effectSize:"Float",
-		name:"String"
+	NotSubscription:{
+		people:"Person"
 	},
-	Mutation:{
-		addCard:"Card"
-	},
-	Nameable:{
-		name:"String"
-	},
-	Query:{
-		cardById:"Card",
-		drawCard:"Card",
-		drawChangeCard:"ChangeCard",
-		listCards:"Card",
-		myStacks:"CardStack",
-		nameables:"Nameable"
-	},
-	S3Object:{
-		bucket:"String",
-		key:"String",
-		region:"String"
-	},
-	SpecialCard:{
-		effect:"String",
+	Person:{
 		name:"String"
 	}
 }
@@ -366,22 +277,28 @@ const apiFetch = (options, query, name) => {
 
   export const Chain = (...options) => ({
     query: (o) =>
-    fullChainConstruct(options)('query', 'Query')(o).then(
+    fullChainConstruct(options)('query', 'NotQuery')(o).then(
       (response) => response
     ),
 mutation: (o) =>
-    fullChainConstruct(options)('mutation', 'Mutation')(o).then(
+    fullChainConstruct(options)('mutation', 'NotMutation')(o).then(
+      (response) => response
+    ),
+subscription: (o) =>
+    fullChainConstruct(options)('subscription', 'NotSubscription')(o).then(
       (response) => response
     )
   });
   export const Zeus = {
-    query: (o) => queryConstruct('query', 'Query')(o),
-mutation: (o) => queryConstruct('mutation', 'Mutation')(o)
+    query: (o) => queryConstruct('query', 'NotQuery')(o),
+mutation: (o) => queryConstruct('mutation', 'NotMutation')(o),
+subscription: (o) => queryConstruct('subscription', 'NotSubscription')(o)
   };
   export const Cast = {
     query: (o) => (b) => o,
-mutation: (o) => (b) => o
+mutation: (o) => (b) => o,
+subscription: (o) => (b) => o
   };
     
 
-export const Gql = Chain('https://faker.graphqleditor.com/aexol/olympus/graphql')
+export const Gql = Chain('https://faker.graphqleditor.com/a-team/custom-operations/graphql')

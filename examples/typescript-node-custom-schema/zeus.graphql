@@ -1,0 +1,21 @@
+schema {
+  query: NotQuery
+  mutation: NotMutation
+  subscription: NotSubscription
+}
+
+type NotMutation {
+  add(name: String): Person
+}
+
+type NotQuery {
+  people: [Person]
+}
+
+type NotSubscription {
+  people: [Person]
+}
+
+type Person {
+  name: String
+}

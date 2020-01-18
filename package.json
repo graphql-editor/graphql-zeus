@@ -14,10 +14,17 @@
     "build": "tsc",
     "start": "tsc --watch",
     "test": "jest",
-    "examples-generate": "zeus https://project-api.graphqleditor.com/graphql examples/typescript-node-big-schema/src --ts --n -g examples/typescript-node-big-schema/ && zeus https://faker.graphqleditor.com/aexol/olympus/graphql examples/typescript-node/src --ts --n -g examples/typescript-node/zeus.graphql && zeus https://faker.graphqleditor.com/aexol/olympus/graphql examples/javascript-node/src --n",
+    "examples-generate": "npm run generate-typescript-node-big-schema && npm run generate-typescript-node && npm run generate-javascript-node && npm run generate-javascript-node-custom-schema && npm run generate-typescript-node-custom-schema",
+    "generate-javascript-node":"zeus https://faker.graphqleditor.com/aexol/olympus/graphql examples/javascript-node/src --n",
+    "generate-javascript-node-custom-schema":"zeus https://faker.graphqleditor.com/a-team/custom-operations/graphql examples/javascript-node-custom-schema/src --n",
+    "generate-typescript-node":"zeus https://faker.graphqleditor.com/aexol/olympus/graphql examples/typescript-node/src --ts --n -g examples/typescript-node/zeus.graphql",
+    "generate-typescript-node-custom-schema":"zeus https://faker.graphqleditor.com/a-team/custom-operations/graphql examples/typescript-node-custom-schema/src --ts --n -g examples/typescript-node-custom-schema/zeus.graphql",
+    "generate-typescript-node-big-schema":"zeus https://project-api.graphqleditor.com/graphql examples/typescript-node-big-schema/src --ts --n -g examples/typescript-node-big-schema/",
     "run-example-typescript-node": "./run-example.sh examples/typescript-node",
     "run-example-typescript-node-big-schema": "./run-example.sh examples/typescript-node-big-schema",
+    "run-example-typescript-node-custom-schema": "./run-example.sh examples/typescript-node-custom-schema",
     "run-example-javascript-node": "./run-example.sh examples/javascript-node",
+    "run-example-javascript-node-custom-schema": "./run-example.sh examples/javascript-node-custom-schema",
     "lint": "tsc --noEmit && eslint \"./src/**/*.{ts,js}\" --quiet --fix"
   },
   "repository": {

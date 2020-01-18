@@ -1,0 +1,17 @@
+{
+  "name": "typescript-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node src/index.ts"
+  },
+  "author": "Aexol <aexol@aexol.com> (http://aexol.com)",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-node": "^8.3.0"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.0"
+  }
+}

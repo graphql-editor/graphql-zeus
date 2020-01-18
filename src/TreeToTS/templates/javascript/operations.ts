@@ -1,56 +1,56 @@
 import { OperationName, ResolvedOperations } from 'TreeToTS';
-import { Environment } from '../../../Models';
+import { Environment, OperationType } from '../../../Models';
 import { graphqlErrorJavascript, javascriptFunctions } from './';
 
-const generateOperationChainingJavascript = (t: OperationName): string =>
-  `${t.name}: (o) =>
-    fullChainConstruct(options)('${t.name}')(o).then(
+const generateOperationChainingJavascript = (ot: OperationType, on: OperationName): string =>
+  `${ot}: (o) =>
+    fullChainConstruct(options)('${ot}', '${on.name}')(o).then(
       (response) => response
     )`;
 
 const generateOperationsChainingJavascipt = ({ query, mutation, subscription }: ResolvedOperations): string[] => {
   const allOps: string[] = [];
   if (query?.operationName?.name && query.operations.length) {
-    allOps.push(generateOperationChainingJavascript(query.operationName));
+    allOps.push(generateOperationChainingJavascript(OperationType.query, query.operationName));
   }
   if (mutation?.operationName?.name && mutation.operations.length) {
-    allOps.push(generateOperationChainingJavascript(mutation.operationName));
+    allOps.push(generateOperationChainingJavascript(OperationType.mutation, mutation.operationName));
   }
   if (subscription?.operationName?.name && subscription.operations.length) {
-    allOps.push(generateOperationChainingJavascript(subscription.operationName));
+    allOps.push(generateOperationChainingJavascript(OperationType.subscription, subscription.operationName));
   }
   return allOps;
 };
 
-const generateOperationZeusJavascript = (t: OperationName): string =>
-  `${t.name}: (o) => queryConstruct('${t.name}')(o)`;
+const generateOperationZeusJavascript = (ot: OperationType, on: OperationName): string =>
+  `${ot}: (o) => queryConstruct('${ot}', '${on.name}')(o)`;
 
 const generateOperationsZeusJavascipt = ({ query, mutation, subscription }: ResolvedOperations): string[] => {
   const allOps: string[] = [];
   if (query?.operationName?.name && query.operations.length) {
-    allOps.push(generateOperationZeusJavascript(query.operationName));
+    allOps.push(generateOperationZeusJavascript(OperationType.query, query.operationName));
   }
   if (mutation?.operationName?.name && mutation.operations.length) {
-    allOps.push(generateOperationZeusJavascript(mutation.operationName));
+    allOps.push(generateOperationZeusJavascript(OperationType.mutation, mutation.operationName));
   }
   if (subscription?.operationName?.name && subscription.operations.length) {
-    allOps.push(generateOperationZeusJavascript(subscription.operationName));
+    allOps.push(generateOperationZeusJavascript(OperationType.subscription, subscription.operationName));
   }
   return allOps;
 };
 
-const generateOperationCastJavascript = (t: OperationName): string => `${t.name}: (o) => (b) => o`;
+const generateOperationCastJavascript = (t: OperationType): string => `${t}: (o) => (b) => o`;
 
 const generateOperationsCastJavascipt = ({ query, mutation, subscription }: ResolvedOperations): string[] => {
   const allOps: string[] = [];
   if (query?.operationName?.name && query.operations.length) {
-    allOps.push(generateOperationCastJavascript(query.operationName));
+    allOps.push(generateOperationCastJavascript(OperationType.query));
   }
   if (mutation?.operationName?.name && mutation.operations.length) {
-    allOps.push(generateOperationCastJavascript(mutation.operationName));
+    allOps.push(generateOperationCastJavascript(OperationType.mutation));
   }
   if (subscription?.operationName?.name && subscription.operations.length) {
-    allOps.push(generateOperationCastJavascript(subscription.operationName));
+    allOps.push(generateOperationCastJavascript(OperationType.subscription));
   }
   return allOps;
 };

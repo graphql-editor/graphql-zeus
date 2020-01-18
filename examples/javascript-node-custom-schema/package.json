@@ -1,0 +1,20 @@
+{
+  "name": "nodejs-example-zeus",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "babel-node src/index.js"
+  },
+  "author": "Artur Czemiel",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "node-fetch": "^2.6.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.4",
+    "@babel/node": "^7.5.0",
+    "@babel/preset-env": "^7.5.4"
+  }
+}
