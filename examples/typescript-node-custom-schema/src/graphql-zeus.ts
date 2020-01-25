@@ -6,16 +6,16 @@ export type ValueTypes = {
 add?: [{	name?:string},ValueTypes["Person"]]
 		__typename?: true
 }>;
-	["NotQuery"]: AliasType<{
-	people?:ValueTypes["Person"]
-		__typename?: true
-}>;
 	["NotSubscription"]: AliasType<{
 	people?:ValueTypes["Person"]
 		__typename?: true
 }>;
 	["Person"]: AliasType<{
 	name?:true
+		__typename?: true
+}>;
+	["Query"]: AliasType<{
+	people?:ValueTypes["Person"]
 		__typename?: true
 }>
   }
@@ -25,10 +25,6 @@ export type PartialObjects = {
 		__typename?: "NotMutation";
 			add?:PartialObjects["Person"]
 	},
-	["NotQuery"]: {
-		__typename?: "NotQuery";
-			people?:(PartialObjects["Person"] | undefined)[]
-	},
 	["NotSubscription"]: {
 		__typename?: "NotSubscription";
 			people?:(PartialObjects["Person"] | undefined)[]
@@ -36,17 +32,16 @@ export type PartialObjects = {
 	["Person"]: {
 		__typename?: "Person";
 			name?:string
+	},
+	["Query"]: {
+		__typename?: "Query";
+			people?:(PartialObjects["Person"] | undefined)[]
 	}
   }
 
 export type NotMutation = {
 	__typename?: "NotMutation",
 	add?:Person
-}
-
-export type NotQuery = {
-	__typename?: "NotQuery",
-	people?:(Person | undefined)[]
 }
 
 export type NotSubscription = {
@@ -57,6 +52,11 @@ export type NotSubscription = {
 export type Person = {
 	__typename?: "Person",
 	name?:string
+}
+
+export type Query = {
+	__typename?: "Query",
+	people?:(Person | undefined)[]
 }
 
 export const AllTypesProps: Record<string,any> = {
@@ -76,14 +76,14 @@ export const ReturnTypes: Record<string,any> = {
 	NotMutation:{
 		add:"Person"
 	},
-	NotQuery:{
-		people:"Person"
-	},
 	NotSubscription:{
 		people:"Person"
 	},
 	Person:{
 		name:"String"
+	},
+	Query:{
+		people:"Person"
 	}
 }
 
@@ -468,9 +468,9 @@ const apiFetch = (options: fetchOptions, query: string) => {
 
 export const Chain = (...options: fetchOptions) => ({
   query: ((o: any) =>
-    fullChainConstruct(options)('query', 'NotQuery')(o).then(
+    fullChainConstruct(options)('query', 'Query')(o).then(
       (response: any) => response
-    )) as OperationToGraphQL<ValueTypes["NotQuery"],NotQuery>,
+    )) as OperationToGraphQL<ValueTypes["Query"],Query>,
 mutation: ((o: any) =>
     fullChainConstruct(options)('mutation', 'NotMutation')(o).then(
       (response: any) => response
@@ -481,14 +481,14 @@ subscription: ((o: any) =>
     )) as OperationToGraphQL<ValueTypes["NotSubscription"],NotSubscription>
 });
 export const Zeus = {
-  query: (o:ValueTypes["NotQuery"]) => queryConstruct('query', 'NotQuery')(o),
+  query: (o:ValueTypes["Query"]) => queryConstruct('query', 'Query')(o),
 mutation: (o:ValueTypes["NotMutation"]) => queryConstruct('mutation', 'NotMutation')(o),
 subscription: (o:ValueTypes["NotSubscription"]) => queryConstruct('subscription', 'NotSubscription')(o)
 };
 export const Cast = {
   query: ((o: any) => (b: any) => o) as CastToGraphQL<
-  ValueTypes["NotQuery"],
-  NotQuery
+  ValueTypes["Query"],
+  Query
 >,
 mutation: ((o: any) => (b: any) => o) as CastToGraphQL<
   ValueTypes["NotMutation"],
@@ -500,7 +500,7 @@ subscription: ((o: any) => (b: any) => o) as CastToGraphQL<
 >
 };
 export const Selectors = {
-  query: ZeusSelect<ValueTypes["NotQuery"]>(),
+  query: ZeusSelect<ValueTypes["Query"]>(),
 mutation: ZeusSelect<ValueTypes["NotMutation"]>(),
 subscription: ZeusSelect<ValueTypes["NotSubscription"]>()
 };

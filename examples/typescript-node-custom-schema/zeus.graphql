@@ -1,5 +1,5 @@
 schema {
-  query: NotQuery
+  query: Query
   mutation: NotMutation
   subscription: NotSubscription
 }
@@ -8,14 +8,14 @@ type NotMutation {
   add(name: String): Person
 }
 
-type NotQuery {
-  people: [Person]
-}
-
 type NotSubscription {
   people: [Person]
 }
 
 type Person {
   name: String
+}
+
+type Query {
+  people: [Person]
 }

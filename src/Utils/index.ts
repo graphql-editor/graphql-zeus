@@ -1,5 +1,5 @@
 import fetch from 'cross-fetch';
-import { buildClientSchema, getIntrospectionQuery, IntrospectionQuery, printSchema } from 'graphql';
+import { buildClientSchema, getIntrospectionQuery, GraphQLSchema, printSchema } from 'graphql';
 /**
  * Class representing all graphql utils needed in Zeus
  */
@@ -31,12 +31,20 @@ export class Utils {
       throw new Error(JSON.stringify(errors, null, 2));
     }
     const c = buildClientSchema(data);
-    const { queryType, mutationType, subscriptionType } = (data as IntrospectionQuery).__schema;
-    let schemaClient = printSchema(c);
-    const isSchemaOfCommonNames =
-      queryType?.name === 'Query' && mutationType?.name === 'Mutation' && subscriptionType?.name === 'Subscription';
 
-    if (isSchemaOfCommonNames) {
+    return Utils.printFullSchema(c);
+  };
+  static printFullSchema = (schema: GraphQLSchema): string => {
+    const queryType = schema.getQueryType();
+    const mutationType = schema.getMutationType();
+    const subscriptionType = schema.getSubscriptionType();
+    let schemaClient = printSchema(schema);
+    const schemaPrintedAtTheBeginning =
+      (queryType && queryType.name !== 'Query') ||
+      (mutationType && mutationType.name !== 'Mutation') ||
+      (subscriptionType && subscriptionType.name !== 'Subscription');
+
+    if (!schemaPrintedAtTheBeginning) {
       const addons = [];
       if (queryType) {
         addons.push(`query: ${queryType.name}`);

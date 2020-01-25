@@ -7,11 +7,11 @@ import {
   isTypeSystemDefinitionNode,
   isTypeSystemExtensionNode,
   parse,
-  printSchema,
 } from 'graphql';
 import { AllTypes, ParserField, ParserTree, TypeDefinitionDisplayMap } from '../Models';
 import { Directive, Helpers, OperationType, TypeDefinition, TypeExtension } from '../Models/Spec';
 import { TreeToGraphQL } from '../TreeToGraphQL';
+import { Utils } from '../Utils';
 import { TypeResolver } from './typeResolver';
 export class Parser {
   static findComments(schema: string): string[] {
@@ -122,7 +122,7 @@ export class Parser {
     const schemaStringWithExtensionsOnly = TreeToGraphQL.parse({
       nodes: Extensions,
     });
-    const extendedSchemaString = printSchema(
+    const extendedSchemaString = Utils.printFullSchema(
       extendSchema(buildASTSchema(parse(schemaStringWithoutExtensions)), parse(schemaStringWithExtensionsOnly)),
     );
     return Parser.parse(extendedSchemaString);

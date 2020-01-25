@@ -4,7 +4,7 @@ import {
   ScalarTypes,
   TypeDefinition,
   TypeDefinitionDisplayStrings,
-  TypeSystemDefinition
+  TypeSystemDefinition,
 } from '../../src/Models';
 import { TreeToGraphQL } from '../../src/TreeToGraphQL';
 import { trimGraphQL } from '../TestUtils';
@@ -17,10 +17,10 @@ describe('Schema base operations in TreeToGraphQL', () => {
           name: 'Query',
           type: {
             name: TypeDefinitionDisplayStrings.type,
-            operations: [OperationType.query]
+            operations: [OperationType.query],
           },
           data: {
-            type: TypeDefinition.ObjectTypeDefinition
+            type: TypeDefinition.ObjectTypeDefinition,
           },
           interfaces: [],
           directives: [],
@@ -28,17 +28,17 @@ describe('Schema base operations in TreeToGraphQL', () => {
             {
               name: 'status',
               type: {
-                name: ScalarTypes.String
+                name: ScalarTypes.String,
               },
               data: {
-                type: TypeSystemDefinition.FieldDefinition
+                type: TypeSystemDefinition.FieldDefinition,
               },
               directives: [],
-              args: []
-            }
-          ]
-        }
-      ]
+              args: [],
+            },
+          ],
+        },
+      ],
     };
 
     const graphql = trimGraphQL(TreeToGraphQL.parse(treeMock));
@@ -51,16 +51,16 @@ describe('Schema base operations in TreeToGraphQL', () => {
           name: 'Query',
           type: {
             name: TypeDefinitionDisplayStrings.type,
-            operations: [OperationType.query]
+            operations: [OperationType.query],
           },
           data: {
-            type: TypeDefinition.ObjectTypeDefinition
+            type: TypeDefinition.ObjectTypeDefinition,
           },
           interfaces: [],
           directives: [],
-          args: []
-        }
-      ]
+          args: [],
+        },
+      ],
     };
 
     const graphql = trimGraphQL(TreeToGraphQL.parse(treeMock));
