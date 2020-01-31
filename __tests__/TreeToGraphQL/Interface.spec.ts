@@ -8,10 +8,10 @@ describe('Interfaces works as expected in TreeGraphQL', () => {
         {
           name: 'Person',
           type: {
-            name: 'type'
+            name: 'type',
           },
           data: {
-            type: TypeDefinition.ObjectTypeDefinition
+            type: TypeDefinition.ObjectTypeDefinition,
           },
           description: '',
           interfaces: ['HasName', 'HasAge'],
@@ -21,22 +21,22 @@ describe('Interfaces works as expected in TreeGraphQL', () => {
               name: 'name',
               args: [],
               type: {
-                name: ScalarTypes.String
+                name: ScalarTypes.String,
               },
               directives: [],
               data: {
-                type: TypeSystemDefinition.FieldDefinition
-              }
-            }
-          ]
+                type: TypeSystemDefinition.FieldDefinition,
+              },
+            },
+          ],
         },
         {
           name: 'HasName',
           type: {
-            name: 'interface'
+            name: 'interface',
           },
           data: {
-            type: TypeDefinition.InterfaceTypeDefinition
+            type: TypeDefinition.InterfaceTypeDefinition,
           },
           description: '',
           directives: [],
@@ -45,22 +45,22 @@ describe('Interfaces works as expected in TreeGraphQL', () => {
               name: 'name',
               args: [],
               type: {
-                name: ScalarTypes.String
+                name: ScalarTypes.String,
               },
               directives: [],
               data: {
-                type: TypeSystemDefinition.FieldDefinition
-              }
-            }
-          ]
+                type: TypeSystemDefinition.FieldDefinition,
+              },
+            },
+          ],
         },
         {
           name: 'HasAge',
           type: {
-            name: 'interface'
+            name: 'interface',
           },
           data: {
-            type: TypeDefinition.InterfaceTypeDefinition
+            type: TypeDefinition.InterfaceTypeDefinition,
           },
           description: '',
           directives: [],
@@ -69,16 +69,16 @@ describe('Interfaces works as expected in TreeGraphQL', () => {
               name: 'age',
               args: [],
               type: {
-                name: ScalarTypes.Int
+                name: ScalarTypes.Int,
               },
               directives: [],
               data: {
-                type: TypeSystemDefinition.FieldDefinition
-              }
-            }
-          ]
-        }
-      ]
+                type: TypeSystemDefinition.FieldDefinition,
+              },
+            },
+          ],
+        },
+      ],
     };
     const graphql = TreeToGraphQL.parse(treeMock);
     expect(graphql).toContain(`type Person implements HasName & HasAge`);

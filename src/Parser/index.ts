@@ -15,7 +15,11 @@ import { Utils } from '../Utils';
 import { TypeResolver } from './typeResolver';
 export class Parser {
   static findComments(schema: string): string[] {
-    return schema
+    const stripDocs = schema
+      .split(`"""`)
+      .filter((e, i) => i % 2 !== 1)
+      .join('');
+    return stripDocs
       .split('\n')
       .filter((s) => s.startsWith('#'))
       .map((s) => s.slice(1).trimStart());

@@ -13,13 +13,7 @@ describe('Fields tests on TypeScript code', () => {
     }`;
     const tree = Parser.parse(schema);
     const typeScriptCode = TreeToTS.resolveTree(tree);
-    const mockFields = [
-      `id?:string`,
-      `name?:string`,
-      `age?:number`,
-      `weight?:number`,
-      `verified?:boolean`
-    ];
+    const mockFields = [`id?:string`, `name?:string`, `age?:number`, `weight?:number`, `verified?:boolean`];
     mockFields.forEach((mf) => expect(typeScriptCode).toContain(mf));
   });
   test('Type objects', () => {

@@ -9,16 +9,16 @@ describe('TypeDefintion declarations tests on TreeToGraphQL', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.type
+            name: TypeDefinitionDisplayStrings.type,
           },
           data: {
-            type: TypeDefinition.ObjectTypeDefinition
+            type: TypeDefinition.ObjectTypeDefinition,
           },
           interfaces: [],
           directives: [],
-          args: []
-        }
-      ]
+          args: [],
+        },
+      ],
     };
     const graphql = TreeToGraphQL.parse(treeMock);
     expect(graphql).toContain(schema);
@@ -30,15 +30,15 @@ describe('TypeDefintion declarations tests on TreeToGraphQL', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.interface
+            name: TypeDefinitionDisplayStrings.interface,
           },
           data: {
-            type: TypeDefinition.InterfaceTypeDefinition
+            type: TypeDefinition.InterfaceTypeDefinition,
           },
           directives: [],
-          args: []
-        }
-      ]
+          args: [],
+        },
+      ],
     };
     const graphql = TreeToGraphQL.parse(treeMock);
     expect(graphql).toContain(schema);
@@ -50,15 +50,15 @@ describe('TypeDefintion declarations tests on TreeToGraphQL', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.input
+            name: TypeDefinitionDisplayStrings.input,
           },
           data: {
-            type: TypeDefinition.InputObjectTypeDefinition
+            type: TypeDefinition.InputObjectTypeDefinition,
           },
           directives: [],
-          args: []
-        }
-      ]
+          args: [],
+        },
+      ],
     };
     const graphql = TreeToGraphQL.parse(treeMock);
     expect(graphql).toContain(schema);
@@ -70,15 +70,15 @@ describe('TypeDefintion declarations tests on TreeToGraphQL', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.enum
+            name: TypeDefinitionDisplayStrings.enum,
           },
           data: {
-            type: TypeDefinition.EnumTypeDefinition
+            type: TypeDefinition.EnumTypeDefinition,
           },
           directives: [],
-          args: []
-        }
-      ]
+          args: [],
+        },
+      ],
     };
     const graphql = TreeToGraphQL.parse(treeMock);
     expect(graphql).toContain(schema);
@@ -90,15 +90,15 @@ describe('TypeDefintion declarations tests on TreeToGraphQL', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.union
+            name: TypeDefinitionDisplayStrings.union,
           },
           data: {
-            type: TypeDefinition.UnionTypeDefinition
+            type: TypeDefinition.UnionTypeDefinition,
           },
           directives: [],
-          args: []
-        }
-      ]
+          args: [],
+        },
+      ],
     };
     const graphql = TreeToGraphQL.parse(treeMock);
     expect(graphql).toContain(schema);
@@ -110,14 +110,14 @@ describe('TypeDefintion declarations tests on TreeToGraphQL', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.scalar
+            name: TypeDefinitionDisplayStrings.scalar,
           },
           data: {
-            type: TypeDefinition.ScalarTypeDefinition
+            type: TypeDefinition.ScalarTypeDefinition,
           },
-          directives: []
-        }
-      ]
+          directives: [],
+        },
+      ],
     };
     const graphql = TreeToGraphQL.parse(treeMock);
     expect(graphql).toContain(schema);

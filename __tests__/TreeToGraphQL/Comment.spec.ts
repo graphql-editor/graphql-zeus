@@ -1,7 +1,4 @@
-import {
-  Helpers,
-  ParserTree,
-} from '../../src/Models';
+import { Helpers, ParserTree } from '../../src/Models';
 import { TreeToGraphQL } from '../../src/TreeToGraphQL';
 
 describe('Comment tests on TreeToGraphQL', () => {
@@ -11,14 +8,14 @@ describe('Comment tests on TreeToGraphQL', () => {
         {
           name: 'comment',
           type: {
-            name: 'comment'
+            name: 'comment',
           },
           data: {
-            type: Helpers.Comment
+            type: Helpers.Comment,
           },
-          description: 'hello world'
-        }
-      ]
+          description: 'hello world',
+        },
+      ],
     };
     const graphql = TreeToGraphQL.parse(treeMock);
     expect(graphql).toContain(`# hello world`);

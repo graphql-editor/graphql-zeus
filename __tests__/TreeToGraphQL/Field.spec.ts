@@ -4,7 +4,7 @@ import {
   ScalarTypes,
   TypeDefinition,
   TypeDefinitionDisplayStrings,
-  TypeSystemDefinition
+  TypeSystemDefinition,
 } from '../../src/Models';
 import { TreeToGraphQL } from '../../src/TreeToGraphQL';
 
@@ -15,10 +15,10 @@ describe('Fields tests on parser', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.type
+            name: TypeDefinitionDisplayStrings.type,
           },
           data: {
-            type: TypeDefinition.ObjectTypeDefinition
+            type: TypeDefinition.ObjectTypeDefinition,
           },
           interfaces: [],
           directives: [],
@@ -26,61 +26,61 @@ describe('Fields tests on parser', () => {
             {
               name: 'id',
               type: {
-                name: ScalarTypes.ID
+                name: ScalarTypes.ID,
               },
               data: {
-                type: TypeSystemDefinition.FieldDefinition
+                type: TypeSystemDefinition.FieldDefinition,
               },
               directives: [],
-              args: []
+              args: [],
             },
             {
               name: 'name',
               type: {
-                name: ScalarTypes.String
+                name: ScalarTypes.String,
               },
               data: {
-                type: TypeSystemDefinition.FieldDefinition
+                type: TypeSystemDefinition.FieldDefinition,
               },
               directives: [],
-              args: []
+              args: [],
             },
             {
               name: 'age',
               type: {
-                name: ScalarTypes.Int
+                name: ScalarTypes.Int,
               },
               data: {
-                type: TypeSystemDefinition.FieldDefinition
+                type: TypeSystemDefinition.FieldDefinition,
               },
               directives: [],
-              args: []
+              args: [],
             },
             {
               name: 'weight',
               type: {
-                name: ScalarTypes.Float
+                name: ScalarTypes.Float,
               },
               data: {
-                type: TypeSystemDefinition.FieldDefinition
+                type: TypeSystemDefinition.FieldDefinition,
               },
               directives: [],
-              args: []
+              args: [],
             },
             {
               name: 'verified',
               type: {
-                name: ScalarTypes.Boolean
+                name: ScalarTypes.Boolean,
               },
               data: {
-                type: TypeSystemDefinition.FieldDefinition
+                type: TypeSystemDefinition.FieldDefinition,
               },
               directives: [],
-              args: []
-            }
-          ]
-        }
-      ]
+              args: [],
+            },
+          ],
+        },
+      ],
     };
 
     const graphql = TreeToGraphQL.parse(treeMock);
@@ -96,22 +96,22 @@ describe('Fields tests on parser', () => {
         {
           name: 'Car',
           type: {
-            name: TypeDefinitionDisplayStrings.type
+            name: TypeDefinitionDisplayStrings.type,
           },
           data: {
-            type: TypeDefinition.ObjectTypeDefinition
+            type: TypeDefinition.ObjectTypeDefinition,
           },
           interfaces: [],
           directives: [],
-          args: []
+          args: [],
         },
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.type
+            name: TypeDefinitionDisplayStrings.type,
           },
           data: {
-            type: TypeDefinition.ObjectTypeDefinition
+            type: TypeDefinition.ObjectTypeDefinition,
           },
           interfaces: [],
           directives: [],
@@ -119,17 +119,17 @@ describe('Fields tests on parser', () => {
             {
               name: 'car',
               type: {
-                name: 'Car'
+                name: 'Car',
               },
               data: {
-                type: TypeSystemDefinition.FieldDefinition
+                type: TypeSystemDefinition.FieldDefinition,
               },
               directives: [],
-              args: []
-            }
-          ]
-        }
-      ]
+              args: [],
+            },
+          ],
+        },
+      ],
     };
 
     const graphql = TreeToGraphQL.parse(treeMock);
@@ -141,21 +141,21 @@ describe('Fields tests on parser', () => {
         {
           name: 'Car',
           type: {
-            name: TypeDefinitionDisplayStrings.interface
+            name: TypeDefinitionDisplayStrings.interface,
           },
           data: {
-            type: TypeDefinition.InterfaceTypeDefinition
+            type: TypeDefinition.InterfaceTypeDefinition,
           },
           directives: [],
-          args: []
+          args: [],
         },
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.type
+            name: TypeDefinitionDisplayStrings.type,
           },
           data: {
-            type: TypeDefinition.ObjectTypeDefinition
+            type: TypeDefinition.ObjectTypeDefinition,
           },
           interfaces: [],
           directives: [],
@@ -163,17 +163,17 @@ describe('Fields tests on parser', () => {
             {
               name: 'car',
               type: {
-                name: 'Car'
+                name: 'Car',
               },
               data: {
-                type: TypeSystemDefinition.FieldDefinition
+                type: TypeSystemDefinition.FieldDefinition,
               },
               directives: [],
-              args: []
-            }
-          ]
-        }
-      ]
+              args: [],
+            },
+          ],
+        },
+      ],
     };
 
     const graphql = TreeToGraphQL.parse(treeMock);
@@ -185,21 +185,21 @@ describe('Fields tests on parser', () => {
         {
           name: 'Car',
           type: {
-            name: TypeDefinitionDisplayStrings.enum
+            name: TypeDefinitionDisplayStrings.enum,
           },
           data: {
-            type: TypeDefinition.EnumTypeDefinition
+            type: TypeDefinition.EnumTypeDefinition,
           },
           directives: [],
-          args: []
+          args: [],
         },
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.type
+            name: TypeDefinitionDisplayStrings.type,
           },
           data: {
-            type: TypeDefinition.ObjectTypeDefinition
+            type: TypeDefinition.ObjectTypeDefinition,
           },
           interfaces: [],
           directives: [],
@@ -207,17 +207,17 @@ describe('Fields tests on parser', () => {
             {
               name: 'car',
               type: {
-                name: 'Car'
+                name: 'Car',
               },
               data: {
-                type: TypeSystemDefinition.FieldDefinition
+                type: TypeSystemDefinition.FieldDefinition,
               },
               directives: [],
-              args: []
-            }
-          ]
-        }
-      ]
+              args: [],
+            },
+          ],
+        },
+      ],
     };
 
     const graphql = TreeToGraphQL.parse(treeMock);
@@ -229,20 +229,20 @@ describe('Fields tests on parser', () => {
         {
           name: 'Car',
           type: {
-            name: TypeDefinitionDisplayStrings.scalar
+            name: TypeDefinitionDisplayStrings.scalar,
           },
           data: {
-            type: TypeDefinition.ScalarTypeDefinition
+            type: TypeDefinition.ScalarTypeDefinition,
           },
-          directives: []
+          directives: [],
         },
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.type
+            name: TypeDefinitionDisplayStrings.type,
           },
           data: {
-            type: TypeDefinition.ObjectTypeDefinition
+            type: TypeDefinition.ObjectTypeDefinition,
           },
           interfaces: [],
           directives: [],
@@ -250,17 +250,17 @@ describe('Fields tests on parser', () => {
             {
               name: 'car',
               type: {
-                name: 'Car'
+                name: 'Car',
               },
               data: {
-                type: TypeSystemDefinition.FieldDefinition
+                type: TypeSystemDefinition.FieldDefinition,
               },
               directives: [],
-              args: []
-            }
-          ]
-        }
-      ]
+              args: [],
+            },
+          ],
+        },
+      ],
     };
 
     const graphql = TreeToGraphQL.parse(treeMock);
@@ -272,64 +272,64 @@ describe('Fields tests on parser', () => {
         {
           name: 'Car',
           type: {
-            name: TypeDefinitionDisplayStrings.type
+            name: TypeDefinitionDisplayStrings.type,
           },
           data: {
-            type: TypeDefinition.ObjectTypeDefinition
+            type: TypeDefinition.ObjectTypeDefinition,
           },
           interfaces: [],
           directives: [],
-          args: []
+          args: [],
         },
         {
           name: 'Plane',
           type: {
-            name: TypeDefinitionDisplayStrings.type
+            name: TypeDefinitionDisplayStrings.type,
           },
           data: {
-            type: TypeDefinition.ObjectTypeDefinition
+            type: TypeDefinition.ObjectTypeDefinition,
           },
           interfaces: [],
           directives: [],
-          args: []
+          args: [],
         },
         {
           name: 'Machine',
           type: {
-            name: TypeDefinitionDisplayStrings.union
+            name: TypeDefinitionDisplayStrings.union,
           },
           data: {
-            type: TypeDefinition.UnionTypeDefinition
+            type: TypeDefinition.UnionTypeDefinition,
           },
           directives: [],
           args: [
             {
               name: 'Car',
               type: {
-                name: 'Car'
+                name: 'Car',
               },
               data: {
-                type: TypeSystemDefinition.UnionMemberDefinition
-              }
+                type: TypeSystemDefinition.UnionMemberDefinition,
+              },
             },
             {
               name: 'Plane',
               type: {
-                name: 'Plane'
+                name: 'Plane',
               },
               data: {
-                type: TypeSystemDefinition.UnionMemberDefinition
-              }
-            }
-          ]
+                type: TypeSystemDefinition.UnionMemberDefinition,
+              },
+            },
+          ],
         },
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.type
+            name: TypeDefinitionDisplayStrings.type,
           },
           data: {
-            type: TypeDefinition.ObjectTypeDefinition
+            type: TypeDefinition.ObjectTypeDefinition,
           },
           interfaces: [],
           directives: [],
@@ -337,17 +337,17 @@ describe('Fields tests on parser', () => {
             {
               name: 'machine',
               type: {
-                name: 'Machine'
+                name: 'Machine',
               },
               data: {
-                type: TypeSystemDefinition.FieldDefinition
+                type: TypeSystemDefinition.FieldDefinition,
               },
               directives: [],
-              args: []
-            }
-          ]
-        }
-      ]
+              args: [],
+            },
+          ],
+        },
+      ],
     };
 
     const graphql = TreeToGraphQL.parse(treeMock);
@@ -359,10 +359,10 @@ describe('Fields tests on parser', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.type
+            name: TypeDefinitionDisplayStrings.type,
           },
           data: {
-            type: TypeDefinition.ObjectTypeDefinition
+            type: TypeDefinition.ObjectTypeDefinition,
           },
           interfaces: [],
           directives: [],
@@ -371,17 +371,17 @@ describe('Fields tests on parser', () => {
               name: 'id',
               type: {
                 name: ScalarTypes.ID,
-                options: [Options.required]
+                options: [Options.required],
               },
               data: {
-                type: TypeSystemDefinition.FieldDefinition
+                type: TypeSystemDefinition.FieldDefinition,
               },
               directives: [],
-              args: []
-            }
-          ]
-        }
-      ]
+              args: [],
+            },
+          ],
+        },
+      ],
     };
 
     const graphql = TreeToGraphQL.parse(treeMock);
@@ -393,10 +393,10 @@ describe('Fields tests on parser', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.type
+            name: TypeDefinitionDisplayStrings.type,
           },
           data: {
-            type: TypeDefinition.ObjectTypeDefinition
+            type: TypeDefinition.ObjectTypeDefinition,
           },
           interfaces: [],
           directives: [],
@@ -405,41 +405,41 @@ describe('Fields tests on parser', () => {
               name: 'id',
               type: {
                 name: ScalarTypes.ID,
-                options: [Options.required]
+                options: [Options.required],
               },
               data: {
-                type: TypeSystemDefinition.FieldDefinition
+                type: TypeSystemDefinition.FieldDefinition,
               },
               directives: [],
-              args: []
+              args: [],
             },
             {
               name: 'name',
               type: {
                 name: ScalarTypes.String,
-                options: [Options.array]
+                options: [Options.array],
               },
               data: {
-                type: TypeSystemDefinition.FieldDefinition
+                type: TypeSystemDefinition.FieldDefinition,
               },
               directives: [],
-              args: []
+              args: [],
             },
             {
               name: 'friends',
               type: {
                 name: 'Person',
-                options: [Options.array, Options.arrayRequired, Options.required]
+                options: [Options.array, Options.arrayRequired, Options.required],
               },
               data: {
-                type: TypeSystemDefinition.FieldDefinition
+                type: TypeSystemDefinition.FieldDefinition,
               },
               directives: [],
-              args: []
-            }
-          ]
-        }
-      ]
+              args: [],
+            },
+          ],
+        },
+      ],
     };
 
     const graphql = TreeToGraphQL.parse(treeMock);

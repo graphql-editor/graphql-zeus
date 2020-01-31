@@ -4,7 +4,7 @@ import {
   TypeDefinition,
   TypeDefinitionDisplayStrings,
   TypeExtension,
-  TypeSystemDefinition
+  TypeSystemDefinition,
 } from '../../src/Models';
 import { TreeToGraphQL } from '../../src/TreeToGraphQL';
 
@@ -15,10 +15,10 @@ describe('Extend tests on TreeToGraphQL', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.type
+            name: TypeDefinitionDisplayStrings.type,
           },
           data: {
-            type: TypeDefinition.ObjectTypeDefinition
+            type: TypeDefinition.ObjectTypeDefinition,
           },
           description: '',
           interfaces: [],
@@ -28,22 +28,22 @@ describe('Extend tests on TreeToGraphQL', () => {
               name: 'name',
               args: [],
               type: {
-                name: ScalarTypes.String
+                name: ScalarTypes.String,
               },
               directives: [],
               data: {
-                type: TypeSystemDefinition.FieldDefinition
-              }
-            }
-          ]
+                type: TypeSystemDefinition.FieldDefinition,
+              },
+            },
+          ],
         },
         {
           name: 'Person',
           type: {
-            name: 'type'
+            name: 'type',
           },
           data: {
-            type: TypeExtension.ObjectTypeExtension
+            type: TypeExtension.ObjectTypeExtension,
           },
           description: '',
           interfaces: [],
@@ -53,16 +53,16 @@ describe('Extend tests on TreeToGraphQL', () => {
               name: 'age',
               args: [],
               type: {
-                name: ScalarTypes.Int
+                name: ScalarTypes.Int,
               },
               directives: [],
               data: {
-                type: TypeSystemDefinition.FieldDefinition
-              }
-            }
-          ]
-        }
-      ]
+                type: TypeSystemDefinition.FieldDefinition,
+              },
+            },
+          ],
+        },
+      ],
     };
     const graphql = TreeToGraphQL.parse(treeMock);
     expect(graphql).toContain(`extend type Person`);
