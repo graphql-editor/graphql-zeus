@@ -16,6 +16,6 @@ export class DirectiveTemplate {
         .map((a) => `\t${a}`)
         .join('\n')}\n)`;
     }
-    return `${TemplateUtils.descriptionResolver(f.description)}@${f.type.name}${argsString}`;
+    return `@${f.type.name}${argsString}`;
   }
 }
