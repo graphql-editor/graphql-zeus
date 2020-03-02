@@ -34,7 +34,7 @@ export class Parser {
     if (isTypeSystemDefinitionNode(d) || isTypeSystemExtensionNode(d)) {
       if ('name' in d) {
         return {
-          name: d.name!.value,
+          name: d.name.value,
           type:
             d.kind === 'DirectiveDefinition'
               ? {
@@ -47,9 +47,9 @@ export class Parser {
           data: {
             type: d.kind as AllTypes,
           },
-          description: 'description' in d && d.description ? d.description!.value : '',
-          interfaces: 'interfaces' in d && d.interfaces ? d.interfaces!.map((i) => i.name.value) : undefined,
-          directives: 'directives' in d && d.directives ? TypeResolver.iterateDirectives(d.directives!) : undefined,
+          description: 'description' in d && d.description ? d.description.value : '',
+          interfaces: 'interfaces' in d && d.interfaces ? d.interfaces.map((i) => i.name.value) : undefined,
+          directives: 'directives' in d && d.directives ? TypeResolver.iterateDirectives(d.directives) : undefined,
           args: TypeResolver.resolveFieldsFromDefinition(d),
         };
       }
@@ -63,8 +63,8 @@ export class Parser {
    * @returns
    */
   static parse = (schema: string, excludeRoots: string[] = [], libraries = ''): ParserTree => {
-    let parsedSchema: DocumentNode;
-    let astSchema: GraphQLSchema;
+    let parsedSchema: DocumentNode | undefined;
+    let astSchema: GraphQLSchema | undefined;
     const compiledSchema = [libraries, schema].join('\n');
 
     try {
@@ -73,12 +73,18 @@ export class Parser {
     } catch (error) {
       /* tslint:disable */ console.log(compiledSchema); /* tslint:disable */
     }
+    if (!astSchema) {
+      throw new Error('Cannot find astSchema');
+    }
+    if (!parsedSchema) {
+      throw new Error('Cannot parse the schema');
+    }
     const operations = {
-      Query: astSchema!.getQueryType(),
-      Mutation: astSchema!.getMutationType(),
-      Subscription: astSchema!.getSubscriptionType(),
+      Query: astSchema.getQueryType(),
+      Mutation: astSchema.getMutationType(),
+      Subscription: astSchema.getSubscriptionType(),
     };
-    const nodes = parsedSchema!.definitions
+    const nodes = parsedSchema.definitions
       .filter((t) => 'name' in t && t.name && !excludeRoots.includes(t.name.value))
       .map(Parser.documentDefinitionToSerializedNodeTree)
       .filter((d) => !!d) as ParserField[];
@@ -99,7 +105,7 @@ export class Parser {
       nodes: [...comments, ...nodes],
     };
     nodeTree.nodes.forEach((n) => {
-      if (n.data!.type! === TypeDefinition.ObjectTypeDefinition) {
+      if (n.data?.type === TypeDefinition.ObjectTypeDefinition) {
         if (operations.Query && operations.Query.name === n.name) {
           n.type.operations = [OperationType.query];
         }
@@ -115,20 +121,21 @@ export class Parser {
   };
   static parseAddExtensions = (schema: string, excludeRoots: string[] = []): ParserTree => {
     const parsed = Parser.parse(schema, excludeRoots);
-    const Extensions = parsed.nodes.filter((n) => n.data && n.data.type! in TypeExtension);
+    const Extensions = parsed.nodes.filter((n) => n.data?.type && n.data.type in TypeExtension);
     if (!Extensions || Extensions.length === 0) {
       return parsed;
     }
-    const wihtoutExtensions = parsed.nodes.filter((n) => !(n.data && n.data.type! in TypeExtension));
+    const wihtoutExtensions = parsed.nodes.filter((n) => !(n.data?.type && n.data.type in TypeExtension));
     const schemaStringWithoutExtensions = TreeToGraphQL.parse({
       nodes: wihtoutExtensions,
     });
     const schemaStringWithExtensionsOnly = TreeToGraphQL.parse({
       nodes: Extensions,
     });
-    const extendedSchemaString = Utils.printFullSchema(
-      extendSchema(buildASTSchema(parse(schemaStringWithoutExtensions)), parse(schemaStringWithExtensionsOnly)),
-    );
+    const parsedSchemaWithoutExtensions = parse(schemaStringWithoutExtensions);
+    const parsedSchemaWithExtensionsOnly = parse(schemaStringWithExtensionsOnly);
+    const baseAstSchema = buildASTSchema(parsedSchemaWithoutExtensions);
+    const extendedSchemaString = Utils.printFullSchema(extendSchema(baseAstSchema, parsedSchemaWithExtensionsOnly));
     return Parser.parse(extendedSchemaString);
   };
 }

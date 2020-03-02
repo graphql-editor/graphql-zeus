@@ -8,7 +8,7 @@ export class ArgumentTemplate {
   static resolve({ args, type }: ParserField): string {
     let argsString = '';
     if (args && args.length) {
-      if (type.options && type.options!.includes(Options.array)) {
+      if (type.options && type.options.includes(Options.array)) {
         argsString = `[${args.map(TemplateUtils.resolverForConnection).join(',\n')}]`;
       } else {
         argsString = `${args.map(TemplateUtils.resolverForConnection).join('\n')}`;

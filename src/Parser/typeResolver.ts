@@ -315,7 +315,10 @@ export class TypeResolver {
       n.kind === 'InterfaceTypeDefinition' ||
       n.kind === 'InterfaceTypeExtension'
     ) {
-      return TypeResolver.iterateObjectTypeFields(n.fields!);
+      if (!n.fields) {
+        throw new Error('Type object should have fields');
+      }
+      return TypeResolver.iterateObjectTypeFields(n.fields);
     }
   }
 }
