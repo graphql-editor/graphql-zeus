@@ -12,7 +12,7 @@ export class DirectiveTemplate {
     let argsString = '';
     if (f.args && f.args.length) {
       argsString = `(\n${f.args
-        .map(TemplateUtils.resolverForConnection)
+        .map((a) => TemplateUtils.resolverForConnection(a))
         .map((a) => `\t${a}`)
         .join('\n')}\n)`;
     }

@@ -20,7 +20,7 @@ export class TypeDefinitionsTemplates {
   }) =>
     TypeDefinitionsTemplates.extendedDefinitionTemplate({ name, description, data }) +
     `${TemplateUtils.resolveImplements(interfaces)}${TemplateUtils.resolveDirectives(directives)}${
-      args && args.length ? `{\n${args.map(TemplateUtils.resolverForConnection).join('\n')}\n}` : ''
+      args && args.length ? `{\n${args.map((a) => TemplateUtils.resolverForConnection(a)).join('\n')}\n}` : ''
     }`;
   /**
    * Basic TypeDefinition template with mapping to display `type` instead of `ObjectTypeDefinition`
@@ -50,14 +50,14 @@ export class TypeDefinitionsTemplates {
   static resolve = ({ name, description, interfaces, args, directives, data }: ParserField): string =>
     TypeDefinitionsTemplates.definitionTemplate({ name, description, data }) +
     `${TemplateUtils.resolveImplements(interfaces)}${TemplateUtils.resolveDirectives(directives)}${
-      args && args.length ? `{\n${args.map(TemplateUtils.resolverForConnection).join('\n')}\n}` : ''
+      args && args.length ? `{\n${args.map((a) => TemplateUtils.resolverForConnection(a, '\t')).join('\n')}\n}` : ''
     }`;
   /**
    * Resolve directive
    */
   static resolveDirective = ({ name, description, type, args }: ParserField): string =>
     `${TemplateUtils.descriptionResolver(description)}${TypeSystemDefinitionDisplayStrings.directive} @${name}${
-      args && args.length ? `(\n${args.map(TemplateUtils.resolverForConnection).join('\n')}\n)` : ''
+      args && args.length ? `(\n${args.map((a) => TemplateUtils.resolverForConnection(a, '\t')).join('\n')}\n)` : ''
     } on ${(type.directiveOptions || []).join(' | ')}`;
   /**
    * Resolve union
@@ -65,6 +65,6 @@ export class TypeDefinitionsTemplates {
   static resolveUnion = ({ name, description, args, directives, data }: ParserField): string =>
     TypeDefinitionsTemplates.definitionTemplate({ name, description, data }) +
     `${TemplateUtils.resolveDirectives(directives)}${
-      args && args.length ? ` = ${args.map(TemplateUtils.resolverForConnection).join(' | ')}` : ''
+      args && args.length ? ` = ${args.map((a) => TemplateUtils.resolverForConnection(a)).join(' | ')}` : ''
     }`;
 }

@@ -15,7 +15,7 @@ export class ValueTemplate {
         returnedValue = `"${f.name}"`;
       }
       if (f.data.type === Value.ObjectValue) {
-        returnedValue = `{ ${(f.args || []).map(TemplateUtils.resolverForConnection)}}`;
+        returnedValue = `{ ${(f.args || []).map((a) => TemplateUtils.resolverForConnection(a))}}`;
       }
     }
     return returnedValue;

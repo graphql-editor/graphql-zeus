@@ -112,7 +112,7 @@ export class TemplateUtils {
    * @param f
    * @returns {string}
    */
-  static resolverForConnection = (f: ParserField): string => {
+  static resolverForConnection = (f: ParserField, prefix = ''): string => {
     if (f.data) {
       const { type = '' } = f.data;
       if (type === TypeDefinition.UnionTypeDefinition) {
@@ -129,7 +129,7 @@ export class TemplateUtils {
       }
       switch (type) {
         case TypeSystemDefinition.FieldDefinition:
-          return FieldTemplate.resolve(f);
+          return FieldTemplate.resolve(f, prefix);
         case TypeSystemDefinition.DirectiveDefinition:
           return TypeDefinitionsTemplates.resolveDirective(f);
         case TypeSystemDefinition.UnionMemberDefinition:
@@ -137,7 +137,7 @@ export class TemplateUtils {
         case ValueDefinition.EnumValueDefinition:
           return EnumValueDefinitionTemplate.resolve(f);
         case ValueDefinition.InputValueDefinition:
-          return InputValueTemplate.resolve(f);
+          return InputValueTemplate.resolve(f, prefix);
         case Helpers.Extend:
           return ExtendTemplate.resolve(f);
         case Helpers.Comment:
