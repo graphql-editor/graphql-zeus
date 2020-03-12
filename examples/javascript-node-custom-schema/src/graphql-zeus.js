@@ -18,20 +18,21 @@ export const ReturnTypes = {
 	NotMutation:{
 		add:"Person"
 	},
-	NotQuery:{
-		people:"Person"
-	},
 	NotSubscription:{
 		people:"Person"
 	},
 	Person:{
 		name:"String"
+	},
+	Query:{
+		people:"Person"
 	}
 }
 
 export class GraphQLError extends Error {
     constructor(response) {
       super("");
+      this.response = response;
       console.error(response);
     }
     toString() {
@@ -190,7 +191,7 @@ const buildQuery = (type, a) =>
 
 const queryConstruct = (t, tName) => (o) => `${t.toLowerCase()}${buildQuery(tName, o)}`;
 
-const fullChainConstruct = (options) => (t,tName) => (o) => apiFetch(options, queryConstruct(t, tName)(o));
+const fullChainConstruct = (fn) => (t,tName) => (o) => fn(queryConstruct(t, tName)(o));
 
 const seekForAliases = (o) => {
   if (typeof o === 'object' && o) {
@@ -231,7 +232,7 @@ const handleFetchResponse = response => {
   return response.json();
 };
 
-const apiFetch = (options, query, name) => {
+const apiFetch = (options) => (query) => {
     let fetchFunction;
     let queryString = query;
     let fetchOptions = options[1] || {};
@@ -274,31 +275,45 @@ const apiFetch = (options, query, name) => {
       });
   };
   
+export const Thunder = (fn) => ({
+  query: ((o) =>
+      fullChainConstruct(fn)('query', 'Query')(o).then(
+        (response) => response
+      )),
+mutation: ((o) =>
+      fullChainConstruct(fn)('mutation', 'NotMutation')(o).then(
+        (response) => response
+      )),
+subscription: ((o) =>
+      fullChainConstruct(fn)('subscription', 'NotSubscription')(o).then(
+        (response) => response
+      ))
+});
 
-  export const Chain = (...options) => ({
-    query: (o) =>
-    fullChainConstruct(options)('query', 'NotQuery')(o).then(
+export const Chain = (...options) => ({
+  query: (o) =>
+    fullChainConstruct(apiFetch(options))('query', 'Query')(o).then(
       (response) => response
     ),
 mutation: (o) =>
-    fullChainConstruct(options)('mutation', 'NotMutation')(o).then(
+    fullChainConstruct(apiFetch(options))('mutation', 'NotMutation')(o).then(
       (response) => response
     ),
 subscription: (o) =>
-    fullChainConstruct(options)('subscription', 'NotSubscription')(o).then(
+    fullChainConstruct(apiFetch(options))('subscription', 'NotSubscription')(o).then(
       (response) => response
     )
-  });
-  export const Zeus = {
-    query: (o) => queryConstruct('query', 'NotQuery')(o),
+});
+export const Zeus = {
+  query: (o) => queryConstruct('query', 'Query')(o),
 mutation: (o) => queryConstruct('mutation', 'NotMutation')(o),
 subscription: (o) => queryConstruct('subscription', 'NotSubscription')(o)
-  };
-  export const Cast = {
-    query: (o) => (b) => o,
+};
+export const Cast = {
+  query: (o) => (b) => o,
 mutation: (o) => (b) => o,
 subscription: (o) => (b) => o
-  };
+};
     
 
 export const Gql = Chain('https://faker.graphqleditor.com/a-team/custom-operations/graphql')

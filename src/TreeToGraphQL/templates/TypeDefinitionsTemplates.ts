@@ -31,7 +31,7 @@ export class TypeDefinitionsTemplates {
     data,
   }: Pick<ParserField, 'description' | 'name' | 'data'>): string =>
     `${TemplateUtils.descriptionResolver(description)}extend ${
-      TypeDefinitionDisplayMap[data!.type as TypeDefinition]
+      TypeDefinitionDisplayMap[data.type as TypeDefinition]
     } ${name}`;
   /**
    * Basic TypeDefinition template with mapping to display `type` instead of `ObjectTypeDefinition`
@@ -41,9 +41,7 @@ export class TypeDefinitionsTemplates {
     name,
     data,
   }: Pick<ParserField, 'description' | 'name' | 'data'>): string =>
-    `${TemplateUtils.descriptionResolver(description)}${
-      TypeDefinitionDisplayMap[data!.type as TypeDefinition]
-    } ${name}`;
+    `${TemplateUtils.descriptionResolver(description)}${TypeDefinitionDisplayMap[data.type as TypeDefinition]} ${name}`;
   /**
    * Resolve type
    */

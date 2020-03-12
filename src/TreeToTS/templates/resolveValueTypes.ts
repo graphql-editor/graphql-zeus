@@ -61,29 +61,29 @@ const resolveField = (f: ParserField, enumsAndScalars: string[]): string => {
 const AliasType = (code: string): string => `AliasType<${code}>`;
 
 const resolveValueTypeFromRoot = (i: ParserField, rootNodes: ParserField[], enumsAndScalars: string[]): string => {
-  if (i.data!.type === TypeSystemDefinition.DirectiveDefinition) {
+  if (i.data.type === TypeSystemDefinition.DirectiveDefinition) {
     return '';
   }
-  if (i.data!.type === Helpers.Comment) {
+  if (i.data.type === Helpers.Comment) {
     return '';
   }
   if (!i.args || !i.args.length) {
     return `${plusDescription(i.description)}["${i.name}"]:unknown`;
   }
-  if (i.data!.type === TypeDefinition.UnionTypeDefinition) {
+  if (i.data.type === TypeDefinition.UnionTypeDefinition) {
     return `${plusDescription(i.description)}["${i.name}"]: ${AliasType(
       `{${i.args
         .map((f) => `\t\t["...on ${f.type.name}"] : ${resolveValueType(f.type.name)}`)
         .join(',\n')}\n\t\t__typename?: true\n}`,
     )}`;
   }
-  if (i.data!.type === TypeDefinition.EnumTypeDefinition) {
+  if (i.data.type === TypeDefinition.EnumTypeDefinition) {
     return `${plusDescription(i.description)}["${i.name}"]:${i.name}`;
   }
-  if (i.data!.type === TypeDefinition.InputObjectTypeDefinition) {
+  if (i.data.type === TypeDefinition.InputObjectTypeDefinition) {
     return `${plusDescription(i.description)}["${i.name}"]: {\n${i.args.map((f) => resolveArg(f)).join(',\n')}\n}`;
   }
-  if (i.data!.type === TypeDefinition.InterfaceTypeDefinition) {
+  if (i.data.type === TypeDefinition.InterfaceTypeDefinition) {
     const typesImplementing = rootNodes.filter((rn) => rn.interfaces && rn.interfaces.includes(i.name));
     return `${plusDescription(i.description)}["${i.name}"]:${AliasType(
       `{

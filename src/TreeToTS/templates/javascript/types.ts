@@ -74,6 +74,12 @@ const generateOperationsJavascriptDefinitionsCast = ({
 };
 
 export const generateOperationsJavascript = (operationsBody: ResolvedOperations): string => `
+export declare function Thunder(
+  fn: FetchFunction
+):{
+  ${generateOperationsJavascriptDefinitionsChaining(operationsBody)}
+}
+
 export declare function Chain(
   ...options: fetchOptions
 ):{

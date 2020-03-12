@@ -6,16 +6,16 @@ export type ValueTypes = {
 add?: [{	name?:string},ValueTypes["Person"]]
 		__typename?: true
 }>;
-	["NotQuery"]: AliasType<{
-	people?:ValueTypes["Person"]
-		__typename?: true
-}>;
 	["NotSubscription"]: AliasType<{
 	people?:ValueTypes["Person"]
 		__typename?: true
 }>;
 	["Person"]: AliasType<{
 	name?:true
+		__typename?: true
+}>;
+	["Query"]: AliasType<{
+	people?:ValueTypes["Person"]
 		__typename?: true
 }>
   }
@@ -25,10 +25,6 @@ export type PartialObjects = {
 		__typename?: "NotMutation";
 			add?:PartialObjects["Person"]
 	},
-	["NotQuery"]: {
-		__typename?: "NotQuery";
-			people?:(PartialObjects["Person"] | undefined)[]
-	},
 	["NotSubscription"]: {
 		__typename?: "NotSubscription";
 			people?:(PartialObjects["Person"] | undefined)[]
@@ -36,17 +32,16 @@ export type PartialObjects = {
 	["Person"]: {
 		__typename?: "Person";
 			name?:string
+	},
+	["Query"]: {
+		__typename?: "Query";
+			people?:(PartialObjects["Person"] | undefined)[]
 	}
   }
 
 export type NotMutation = {
 	__typename?: "NotMutation",
 	add?:Person
-}
-
-export type NotQuery = {
-	__typename?: "NotQuery",
-	people?:(Person | undefined)[]
 }
 
 export type NotSubscription = {
@@ -57,6 +52,11 @@ export type NotSubscription = {
 export type Person = {
 	__typename?: "Person",
 	name?:string
+}
+
+export type Query = {
+	__typename?: "Query",
+	people?:(Person | undefined)[]
 }
 
 
@@ -177,22 +177,29 @@ type CastToGraphQL<V, T> = (
 type fetchOptions = ArgsType<typeof fetch>;
 
 export type SelectionFunction<V> = <T>(t: T | V) => T;
+type FetchFunction = (query: string) => any;
 
+
+export declare function Thunder(
+  fn: FetchFunction
+):{
+  query: OperationToGraphQL<ValueTypes["Query"],Query>,mutation: OperationToGraphQL<ValueTypes["NotMutation"],NotMutation>,subscription: OperationToGraphQL<ValueTypes["NotSubscription"],NotSubscription>
+}
 
 export declare function Chain(
   ...options: fetchOptions
 ):{
-  query: OperationToGraphQL<ValueTypes["NotQuery"],NotQuery>,mutation: OperationToGraphQL<ValueTypes["NotMutation"],NotMutation>,subscription: OperationToGraphQL<ValueTypes["NotSubscription"],NotSubscription>
+  query: OperationToGraphQL<ValueTypes["Query"],Query>,mutation: OperationToGraphQL<ValueTypes["NotMutation"],NotMutation>,subscription: OperationToGraphQL<ValueTypes["NotSubscription"],NotSubscription>
 }
 
 export declare const Zeus: {
-  query: (o: ValueTypes["NotQuery"]) => string,mutation: (o: ValueTypes["NotMutation"]) => string,subscription: (o: ValueTypes["NotSubscription"]) => string
+  query: (o: ValueTypes["Query"]) => string,mutation: (o: ValueTypes["NotMutation"]) => string,subscription: (o: ValueTypes["NotSubscription"]) => string
 }
 
 export declare const Cast: {
   query: CastToGraphQL<
-  ValueTypes["NotQuery"],
-  NotQuery
+  ValueTypes["Query"],
+  Query
 >,mutation: CastToGraphQL<
   ValueTypes["NotMutation"],
   NotMutation

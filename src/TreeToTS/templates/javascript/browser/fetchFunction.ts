@@ -11,7 +11,7 @@ const handleFetchResponse = response => {
   return response.json();
 };
 
-const apiFetch = (options, query) => {
+const apiFetch = (options) => (query) => {
     const fetchFunction = fetch;
     let queryString = query;
     let fetchOptions = options[1] || {};

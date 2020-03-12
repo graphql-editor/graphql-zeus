@@ -151,7 +151,7 @@ const buildQuery = (type, a) =>
 
 const queryConstruct = (t, tName) => (o) => \`\${t.toLowerCase()}\${buildQuery(tName, o)}\`;
 
-const fullChainConstruct = (options) => (t,tName) => (o) => apiFetch(options, queryConstruct(t, tName)(o));
+const fullChainConstruct = (fn) => (t,tName) => (o) => fn(queryConstruct(t, tName)(o));
 
 const seekForAliases = (o) => {
   if (typeof o === 'object' && o) {

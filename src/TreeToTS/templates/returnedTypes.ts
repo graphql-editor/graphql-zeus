@@ -50,31 +50,31 @@ const resolveField = (f: ParserField): string => {
 };
 
 export const resolveTypeFromRoot = (i: ParserField, rootNodes: ParserField[]): string => {
-  if (i.data!.type === TypeSystemDefinition.DirectiveDefinition) {
+  if (i.data.type === TypeSystemDefinition.DirectiveDefinition) {
     return '';
   }
-  if (i.data!.type === Helpers.Comment) {
+  if (i.data.type === Helpers.Comment) {
     return `// ${i.description}`;
   }
   if (!i.args || !i.args.length) {
     return `${plusDescription(i.description)}export type ${i.name} = any`;
   }
-  if (i.data!.type === TypeDefinition.UnionTypeDefinition) {
+  if (i.data.type === TypeDefinition.UnionTypeDefinition) {
     return `${plusDescription(i.description)}export type ${i.name} = {
 \t__union:${i.args.map((f) => f.type.name).join(' | ')};
 \t__resolve:{\n\t\t${i.args.map((f) => `['...on ${f.type.name}']: ${f.type.name};`).join('\n\t\t')}\n\t}\n}`;
   }
-  if (i.data!.type === TypeDefinition.EnumTypeDefinition) {
+  if (i.data.type === TypeDefinition.EnumTypeDefinition) {
     return `${plusDescription(i.description)}export enum ${i.name} {\n${i.args
       .map((f) => `\t${f.name} = "${f.name}"`)
       .join(',\n')}\n}`;
   }
-  if (i.data!.type === TypeDefinition.InputObjectTypeDefinition) {
+  if (i.data.type === TypeDefinition.InputObjectTypeDefinition) {
     return `${plusDescription(i.description)}export type ${i.name} = {\n\t${i.args
       .map((f) => resolveField(f))
       .join(',\n')}\n}`;
   }
-  if (i.data!.type === TypeDefinition.InterfaceTypeDefinition) {
+  if (i.data.type === TypeDefinition.InterfaceTypeDefinition) {
     const typesImplementing = rootNodes.filter((rn) => rn.interfaces && rn.interfaces.includes(i.name));
     return `${plusDescription(i.description)}export type ${i.name} = {
 \t__interface:{\n\t\t${i.args.map((f) => resolveField(f)).join(',\n')}\n\t};

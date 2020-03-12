@@ -54,27 +54,27 @@ const resolveField = (f: ParserField, optional = false): string => {
 };
 
 const resolveValueTypeFromRoot = (i: ParserField, rootNodes: ParserField[]): string => {
-  if (i.data!.type === TypeSystemDefinition.DirectiveDefinition) {
+  if (i.data.type === TypeSystemDefinition.DirectiveDefinition) {
     return '';
   }
-  if (i.data!.type === Helpers.Comment) {
+  if (i.data.type === Helpers.Comment) {
     return '';
   }
   if (!i.args || !i.args.length) {
     return `${plusDescription(i.description)}["${i.name}"]:any`;
   }
-  if (i.data!.type === TypeDefinition.UnionTypeDefinition) {
+  if (i.data.type === TypeDefinition.UnionTypeDefinition) {
     return `${plusDescription(i.description)}["${i.name}"]: ${i.args.map((a) => resolveValueType(a.name)).join(' | ')}`;
   }
-  if (i.data!.type === TypeDefinition.EnumTypeDefinition) {
+  if (i.data.type === TypeDefinition.EnumTypeDefinition) {
     return `${plusDescription(i.description)}["${i.name}"]:${i.name}`;
   }
-  if (i.data!.type === TypeDefinition.InputObjectTypeDefinition) {
+  if (i.data.type === TypeDefinition.InputObjectTypeDefinition) {
     return `${plusDescription(i.description)}["${i.name}"]: {\n${i.args
       .map((f) => resolveField(f, false))
       .join(',\n')}\n}`;
   }
-  if (i.data!.type === TypeDefinition.InterfaceTypeDefinition) {
+  if (i.data.type === TypeDefinition.InterfaceTypeDefinition) {
     const typesImplementing = rootNodes.filter((rn) => rn.interfaces && rn.interfaces.includes(i.name));
     return `${plusDescription(i.description)}["${i.name}"]:{
 \t${i.args.map((f) => resolveField(f, true)).join(';\n')}\n} & (${`${typesImplementing

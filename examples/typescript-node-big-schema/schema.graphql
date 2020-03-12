@@ -124,7 +124,7 @@ type Namespace {
   
   limit sets a limit on how many objects can be returned
   """
-  projects(last: String, limit: Int): ProjectConnection
+  projects(limit: Int, last: String): ProjectConnection
 
   """True if namespace is public"""
   public: Boolean
@@ -250,7 +250,7 @@ type Query {
   
   limit limits the number of returned projects
   """
-  findProjects(last: String, limit: Int, query: String!): ProjectConnection
+  findProjects(query: String!, last: String, limit: Int): ProjectConnection
 
   """
   Find projects which contain tag
@@ -284,7 +284,7 @@ type Query {
   
   limit limits the number of returned projects
   """
-  listProjects(last: String, limit: Int, owned: Boolean): ProjectConnection
+  listProjects(owned: Boolean, last: String, limit: Int): ProjectConnection
 
   """List of current user teams"""
   myTeams(last: String, limit: Int): TeamConnection
@@ -367,7 +367,7 @@ type Team {
   member(username: String!): Member
 
   """Paginated list of members in team"""
-  members(last: String, limit: Int): MemberConnection
+  members(limit: Int, last: String): MemberConnection
 
   """Team name"""
   name: String!
@@ -403,7 +403,7 @@ type TeamOps {
   member(username: String!): MemberOps
 
   """Paginated list of members in team"""
-  members(limit: Int, last: String): MemberConnection
+  members(last: String, limit: Int): MemberConnection
 
   """Team name"""
   name: String
@@ -417,17 +417,17 @@ type TeamOps {
 
 """Update project payload"""
 input UpdateProject {
-  """ID of project to be updated"""
-  project: ID
-
-  """New description for project"""
-  description: String
-
   """List of tags for project"""
   tags: [String!]
 
   """Set project visiblity"""
   public: Boolean
+
+  """ID of project to be updated"""
+  project: ID
+
+  """New description for project"""
+  description: String
 }
 
 """Editor user"""
@@ -454,4 +454,9 @@ type UserConnection {
 
   """List of projects in connection"""
   users: [User!]
+}
+
+schema{
+	query: Query,
+	mutation: Mutation
 }

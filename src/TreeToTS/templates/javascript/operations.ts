@@ -4,9 +4,33 @@ import { graphqlErrorJavascript, javascriptFunctions } from './';
 
 const generateOperationChainingJavascript = (ot: OperationType, on: OperationName): string =>
   `${ot}: (o) =>
-    fullChainConstruct(options)('${ot}', '${on.name}')(o).then(
+    fullChainConstruct(apiFetch(options))('${ot}', '${on.name}')(o).then(
       (response) => response
     )`;
+
+const generateOperationThunder = (t: OperationName, ot: OperationType): string =>
+  `${ot}: ((o) =>
+      fullChainConstruct(fn)('${ot}', '${t.name}')(o).then(
+        (response) => response
+      ))`;
+
+const generateOperationsThunderJavascript = ({
+  query,
+  mutation,
+  subscription,
+}: Partial<ResolvedOperations>): string[] => {
+  const allOps: string[] = [];
+  if (query?.operationName?.name && query.operations.length) {
+    allOps.push(generateOperationThunder(query.operationName, OperationType.query));
+  }
+  if (mutation?.operationName?.name && mutation.operations.length) {
+    allOps.push(generateOperationThunder(mutation.operationName, OperationType.mutation));
+  }
+  if (subscription?.operationName?.name && subscription.operations.length) {
+    allOps.push(generateOperationThunder(subscription.operationName, OperationType.subscription));
+  }
+  return allOps;
+};
 
 const generateOperationsChainingJavascipt = ({ query, mutation, subscription }: ResolvedOperations): string[] => {
   const allOps: string[] = [];
@@ -57,14 +81,17 @@ const generateOperationsCastJavascipt = ({ query, mutation, subscription }: Reso
 export const bodyJavascript = (env: Environment, resolvedOperations: ResolvedOperations): string => `
 ${graphqlErrorJavascript}
 ${javascriptFunctions(env)}
+export const Thunder = (fn) => ({
+  ${generateOperationsThunderJavascript(resolvedOperations).join(',\n')}
+});
 
-  export const Chain = (...options) => ({
-    ${generateOperationsChainingJavascipt(resolvedOperations).join(',\n')}
-  });
-  export const Zeus = {
-    ${generateOperationsZeusJavascipt(resolvedOperations).join(',\n')}
-  };
-  export const Cast = {
-    ${generateOperationsCastJavascipt(resolvedOperations).join(',\n')}
-  };
+export const Chain = (...options) => ({
+  ${generateOperationsChainingJavascipt(resolvedOperations).join(',\n')}
+});
+export const Zeus = {
+  ${generateOperationsZeusJavascipt(resolvedOperations).join(',\n')}
+};
+export const Cast = {
+  ${generateOperationsCastJavascipt(resolvedOperations).join(',\n')}
+};
     `;

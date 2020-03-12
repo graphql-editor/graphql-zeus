@@ -10,7 +10,7 @@ export interface ParserField {
     operations?: OperationType[];
     directiveOptions?: Directive[];
   };
-  data?: GraphQLNodeParams;
+  data: GraphQLNodeParams;
   args?: ParserField[];
   interfaces?: string[];
   directives?: ParserField[];

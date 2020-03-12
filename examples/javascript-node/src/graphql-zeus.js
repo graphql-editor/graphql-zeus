@@ -13,18 +13,6 @@ export const AllTypesProps = {
 		}
 	},
 	createCard:{
-		skills:{
-			type:"SpecialSkills",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
 		description:{
 			type:"String",
 			array:false,
@@ -45,6 +33,18 @@ export const AllTypesProps = {
 		},
 		Defense:{
 			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		skills:{
+			type:"SpecialSkills",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		name:{
+			type:"String",
 			array:false,
 			arrayRequired:false,
 			required:true
@@ -82,6 +82,7 @@ export const ReturnTypes = {
 		cardImage:"S3Object",
 		description:"String",
 		id:"ID",
+		image:"String",
 		name:"String",
 		skills:"SpecialSkills"
 	},
@@ -121,6 +122,7 @@ export const ReturnTypes = {
 export class GraphQLError extends Error {
     constructor(response) {
       super("");
+      this.response = response;
       console.error(response);
     }
     toString() {
@@ -279,7 +281,7 @@ const buildQuery = (type, a) =>
 
 const queryConstruct = (t, tName) => (o) => `${t.toLowerCase()}${buildQuery(tName, o)}`;
 
-const fullChainConstruct = (options) => (t,tName) => (o) => apiFetch(options, queryConstruct(t, tName)(o));
+const fullChainConstruct = (fn) => (t,tName) => (o) => fn(queryConstruct(t, tName)(o));
 
 const seekForAliases = (o) => {
   if (typeof o === 'object' && o) {
@@ -320,7 +322,7 @@ const handleFetchResponse = response => {
   return response.json();
 };
 
-const apiFetch = (options, query, name) => {
+const apiFetch = (options) => (query) => {
     let fetchFunction;
     let queryString = query;
     let fetchOptions = options[1] || {};
@@ -363,25 +365,35 @@ const apiFetch = (options, query, name) => {
       });
   };
   
+export const Thunder = (fn) => ({
+  query: ((o) =>
+      fullChainConstruct(fn)('query', 'Query')(o).then(
+        (response) => response
+      )),
+mutation: ((o) =>
+      fullChainConstruct(fn)('mutation', 'Mutation')(o).then(
+        (response) => response
+      ))
+});
 
-  export const Chain = (...options) => ({
-    query: (o) =>
-    fullChainConstruct(options)('query', 'Query')(o).then(
+export const Chain = (...options) => ({
+  query: (o) =>
+    fullChainConstruct(apiFetch(options))('query', 'Query')(o).then(
       (response) => response
     ),
 mutation: (o) =>
-    fullChainConstruct(options)('mutation', 'Mutation')(o).then(
+    fullChainConstruct(apiFetch(options))('mutation', 'Mutation')(o).then(
       (response) => response
     )
-  });
-  export const Zeus = {
-    query: (o) => queryConstruct('query', 'Query')(o),
+});
+export const Zeus = {
+  query: (o) => queryConstruct('query', 'Query')(o),
 mutation: (o) => queryConstruct('mutation', 'Mutation')(o)
-  };
-  export const Cast = {
-    query: (o) => (b) => o,
+};
+export const Cast = {
+  query: (o) => (b) => o,
 mutation: (o) => (b) => o
-  };
+};
     
 
-export const Gql = Chain('https://faker.graphqleditor.com/aexol/olympus/graphql')
+export const Gql = Chain('https://faker.graphqleditor.com/a-team/olympus/graphql')

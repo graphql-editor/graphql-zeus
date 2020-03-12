@@ -158,10 +158,10 @@ const buildQuery = (type: string, a?: Record<any, any>) => traverseToSeekArrays(
 const queryConstruct = (t: 'query' | 'mutation' | 'subscription', tName: string) => (o: Record<any, any>) =>
   \`\${t.toLowerCase()}\${buildQuery(tName, o)}\`;
 
-const fullChainConstruct = (options: fetchOptions) => (t: 'query' | 'mutation' | 'subscription', tName: string) => (
+const fullChainConstruct = (fn: FetchFunction) => (t: 'query' | 'mutation' | 'subscription', tName: string) => (
   o: Record<any, any>,
-) => apiFetch(options, queryConstruct(t, tName)(o));
-  
+) => fn(queryConstruct(t, tName)(o));
+
 const seekForAliases = (o: any) => {
   if (typeof o === 'object' && o) {
     const keys = Object.keys(o);

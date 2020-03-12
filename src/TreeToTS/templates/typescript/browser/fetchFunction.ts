@@ -13,7 +13,7 @@ const handleFetchResponse = (
   return response.json();
 };
 
-const apiFetch = (options: fetchOptions, query: string) => {
+const apiFetch = (options: fetchOptions) => (query: string) => {
     let fetchFunction = fetch;
     let queryString = query;
     let fetchOptions = options[1] || {};

@@ -7,7 +7,7 @@ import { TemplateUtils } from './TemplateUtils';
 export class ValueTemplate {
   static resolve(f: ParserField): string {
     let returnedValue = `${f.name}`;
-    if (f.data && f.data.type) {
+    if (f.data.type) {
       if (f.data.type === Value.EnumValue) {
         returnedValue = `${f.type.name}`;
       }

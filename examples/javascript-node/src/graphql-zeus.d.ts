@@ -17,6 +17,7 @@ attack?: [{	/** Attacked card/card ids<br> */
 	/** Description of a card<br> */
 	description?:true,
 	id?:true,
+	image?:true,
 	/** The name of a card<br> */
 	name?:true,
 	skills?:true
@@ -34,10 +35,6 @@ attack?: [{	/** Attacked card/card ids<br> */
 }>;
 	/** create card inputs<br> */
 ["createCard"]: {
-	/** input skills */
-	skills?:ValueTypes["SpecialSkills"][],
-	/** The name of a card<br> */
-	name:string,
 	/** Description of a card<br> */
 	description:string,
 	/** <div>How many children the greek god had</div> */
@@ -45,7 +42,11 @@ attack?: [{	/** Attacked card/card ids<br> */
 	/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
-	Defense:number
+	Defense:number,
+	/** input skills */
+	skills?:ValueTypes["SpecialSkills"][],
+	/** The name of a card<br> */
+	name:string
 };
 	["EffectCard"]: AliasType<{
 	effectSize?:true,
@@ -107,6 +108,7 @@ export type PartialObjects = {
 			/** Description of a card<br> */
 	description?:string,
 			id?:string,
+			image?:string,
 			/** The name of a card<br> */
 	name?:string,
 			skills?:PartialObjects["SpecialSkills"][]
@@ -120,10 +122,6 @@ export type PartialObjects = {
 	["ChangeCard"]: PartialObjects["SpecialCard"] | PartialObjects["EffectCard"],
 	/** create card inputs<br> */
 ["createCard"]: {
-	/** input skills */
-	skills?:PartialObjects["SpecialSkills"][],
-	/** The name of a card<br> */
-	name:string,
 	/** Description of a card<br> */
 	description:string,
 	/** <div>How many children the greek god had</div> */
@@ -131,7 +129,11 @@ export type PartialObjects = {
 	/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
-	Defense:number
+	Defense:number,
+	/** input skills */
+	skills?:PartialObjects["SpecialSkills"][],
+	/** The name of a card<br> */
+	name:string
 },
 	["EffectCard"]: {
 		__typename?: "EffectCard";
@@ -188,6 +190,7 @@ export type Card = {
 	/** Description of a card<br> */
 	description:string,
 	id:string,
+	image:string,
 	/** The name of a card<br> */
 	name:string,
 	skills?:SpecialSkills[]
@@ -210,18 +213,18 @@ export type ChangeCard = {
 
 /** create card inputs<br> */
 export type createCard = {
-		/** input skills */
-	skills?:SpecialSkills[],
-	/** The name of a card<br> */
-	name:string,
-	/** Description of a card<br> */
+		/** Description of a card<br> */
 	description:string,
 	/** <div>How many children the greek god had</div> */
 	Children?:number,
 	/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
-	Defense:number
+	Defense:number,
+	/** input skills */
+	skills?:SpecialSkills[],
+	/** The name of a card<br> */
+	name:string
 }
 
 export type EffectCard = {
@@ -275,9 +278,9 @@ export type SpecialCard = {
 }
 
 export enum SpecialSkills {
-	FIRE = "FIRE",
 	THUNDER = "THUNDER",
-	RAIN = "RAIN"
+	RAIN = "RAIN",
+	FIRE = "FIRE"
 }
 
 
@@ -398,7 +401,14 @@ type CastToGraphQL<V, T> = (
 type fetchOptions = ArgsType<typeof fetch>;
 
 export type SelectionFunction<V> = <T>(t: T | V) => T;
+type FetchFunction = (query: string) => any;
 
+
+export declare function Thunder(
+  fn: FetchFunction
+):{
+  query: OperationToGraphQL<ValueTypes["Query"],Query>,mutation: OperationToGraphQL<ValueTypes["Mutation"],Mutation>
+}
 
 export declare function Chain(
   ...options: fetchOptions

@@ -4,11 +4,31 @@ import { OperationType } from '../../../Models';
 import { VALUETYPES } from '../resolveValueTypes';
 import { constantTypesTypescript, graphqlErrorTypeScript, typescriptFunctions } from './';
 
-const generateOperationChaining = (t: OperationName, ot: OperationType): string =>
+const generateOperationThunder = (t: OperationName, ot: OperationType): string =>
   `${ot}: ((o: any) =>
-    fullChainConstruct(options)('${ot}', '${t.name}')(o).then(
+    fullChainConstruct(fn)('${ot}', '${t.name}')(o).then(
       (response: any) => response
     )) as OperationToGraphQL<${VALUETYPES}["${t.name}"],${t.name}>`;
+
+const generateOperationChaining = (t: OperationName, ot: OperationType): string =>
+  `${ot}: ((o: any) =>
+    fullChainConstruct(apiFetch(options))('${ot}', '${t.name}')(o).then(
+      (response: any) => response
+    )) as OperationToGraphQL<${VALUETYPES}["${t.name}"],${t.name}>`;
+
+const generateOperationsThunder = ({ query, mutation, subscription }: Partial<ResolvedOperations>): string[] => {
+  const allOps: string[] = [];
+  if (query?.operationName?.name && query.operations.length) {
+    allOps.push(generateOperationThunder(query.operationName, OperationType.query));
+  }
+  if (mutation?.operationName?.name && mutation.operations.length) {
+    allOps.push(generateOperationThunder(mutation.operationName, OperationType.mutation));
+  }
+  if (subscription?.operationName?.name && subscription.operations.length) {
+    allOps.push(generateOperationThunder(subscription.operationName, OperationType.subscription));
+  }
+  return allOps;
+};
 
 const generateOperationsChaining = ({ query, mutation, subscription }: Partial<ResolvedOperations>): string[] => {
   const allOps: string[] = [];
@@ -82,6 +102,10 @@ export const bodyTypeScript = (env: Environment, resolvedOperations: ResolvedOpe
 ${graphqlErrorTypeScript}
 ${constantTypesTypescript}
 ${typescriptFunctions(env)}
+
+export const Thunder = (fn: FetchFunction) => ({
+  ${generateOperationsThunder(resolvedOperations).join(',\n')}
+});
 
 export const Chain = (...options: fetchOptions) => ({
   ${generateOperationsChaining(resolvedOperations).join(',\n')}

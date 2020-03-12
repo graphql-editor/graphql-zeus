@@ -17,7 +17,7 @@ export class ExtendTemplate {
             ...e,
             type: {
               ...e.type,
-              name: e.data!.type!,
+              name: e.data.type!,
             },
           }),
         )

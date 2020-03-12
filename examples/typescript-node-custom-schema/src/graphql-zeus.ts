@@ -215,6 +215,7 @@ type CastToGraphQL<V, T> = (
 type fetchOptions = ArgsType<typeof fetch>;
 
 export type SelectionFunction<V> = <T>(t: T | V) => T;
+type FetchFunction = (query: string) => any;
 
 
 
@@ -375,10 +376,10 @@ const buildQuery = (type: string, a?: Record<any, any>) => traverseToSeekArrays(
 const queryConstruct = (t: 'query' | 'mutation' | 'subscription', tName: string) => (o: Record<any, any>) =>
   `${t.toLowerCase()}${buildQuery(tName, o)}`;
 
-const fullChainConstruct = (options: fetchOptions) => (t: 'query' | 'mutation' | 'subscription', tName: string) => (
+const fullChainConstruct = (fn: FetchFunction) => (t: 'query' | 'mutation' | 'subscription', tName: string) => (
   o: Record<any, any>,
-) => apiFetch(options, queryConstruct(t, tName)(o));
-  
+) => fn(queryConstruct(t, tName)(o));
+
 const seekForAliases = (o: any) => {
   if (typeof o === 'object' && o) {
     const keys = Object.keys(o);
@@ -421,7 +422,7 @@ const handleFetchResponse = (
   return response.json();
 };
 
-const apiFetch = (options: fetchOptions, query: string) => {
+const apiFetch = (options: fetchOptions) => (query: string) => {
     let fetchFunction;
     let queryString = query;
     let fetchOptions = options[1] || {};
@@ -466,17 +467,32 @@ const apiFetch = (options: fetchOptions, query: string) => {
   
 
 
-export const Chain = (...options: fetchOptions) => ({
+export const Thunder = (fn: FetchFunction) => ({
   query: ((o: any) =>
-    fullChainConstruct(options)('query', 'Query')(o).then(
+    fullChainConstruct(fn)('query', 'Query')(o).then(
       (response: any) => response
     )) as OperationToGraphQL<ValueTypes["Query"],Query>,
 mutation: ((o: any) =>
-    fullChainConstruct(options)('mutation', 'NotMutation')(o).then(
+    fullChainConstruct(fn)('mutation', 'NotMutation')(o).then(
       (response: any) => response
     )) as OperationToGraphQL<ValueTypes["NotMutation"],NotMutation>,
 subscription: ((o: any) =>
-    fullChainConstruct(options)('subscription', 'NotSubscription')(o).then(
+    fullChainConstruct(fn)('subscription', 'NotSubscription')(o).then(
+      (response: any) => response
+    )) as OperationToGraphQL<ValueTypes["NotSubscription"],NotSubscription>
+});
+
+export const Chain = (...options: fetchOptions) => ({
+  query: ((o: any) =>
+    fullChainConstruct(apiFetch(options))('query', 'Query')(o).then(
+      (response: any) => response
+    )) as OperationToGraphQL<ValueTypes["Query"],Query>,
+mutation: ((o: any) =>
+    fullChainConstruct(apiFetch(options))('mutation', 'NotMutation')(o).then(
+      (response: any) => response
+    )) as OperationToGraphQL<ValueTypes["NotMutation"],NotMutation>,
+subscription: ((o: any) =>
+    fullChainConstruct(apiFetch(options))('subscription', 'NotSubscription')(o).then(
       (response: any) => response
     )) as OperationToGraphQL<ValueTypes["NotSubscription"],NotSubscription>
 });

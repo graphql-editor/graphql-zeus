@@ -19,7 +19,7 @@ Supported Languages:
   - React Native
 ## How it works
 
-Given the following schema [Olympus Cards](https://app.graphqleditor.com/aexol/olympus)
+Given the following schema [Olympus Cards](https://app.graphqleditor.com/a-team/olympus)
 
 ![](images/zeusexample.gif)
 
@@ -37,6 +37,7 @@ Given the following schema [Olympus Cards](https://app.graphqleditor.com/aexol/o
     - [Load from URL](#load-from-url)
   - [Use generated client example](#use-generated-client-example)
     - [Perform query with Chain](#perform-query-with-chain)
+    - [Perform query with Thunder - Abstracted Fetch function](#perform-query-with-thunder---abstracted-fetch-function)
     - [Unions](#unions)
     - [Interfaces](#interfaces)
     - [Perform query with aliases](#perform-query-with-aliases)
@@ -99,19 +100,19 @@ $ zeus schema.graphql ./
 #### Load from URL
 
 ```sh
-$ zeus https://faker.graphqleditor.com/aexol/olympus/graphql ./generated
+$ zeus https://faker.graphqleditor.com/a-team/olympus/graphql ./generated
 ```
 
 With Authorization header
 
 ```sh
-$ zeus https://faker.graphqleditor.com/aexol/olympus/graphql ./generated --header=Authorization:dsadasdASsad
+$ zeus https://faker.graphqleditor.com/a-team/olympus/graphql ./generated --header=Authorization:dsadasdASsad
 ```
 
 ### Use generated client example
 
 ```sh
-$ zeus https://faker.graphqleditor.com/aexol/olympus/graphql ./generated
+$ zeus https://faker.graphqleditor.com/a-team/olympus/graphql ./generated
 ```
 
 #### Perform query with Chain
@@ -119,8 +120,121 @@ $ zeus https://faker.graphqleditor.com/aexol/olympus/graphql ./generated
 ```js
 import { Chain } from './graphql-zeus';
 const createCards = async () => {
-  const chain = Chain('https://faker.graphqleditor.com/aexol/olympus/graphql');
+  const chain = Chain('https://faker.graphqleditor.com/a-team/olympus/graphql');
   const listCardsAndDraw = await chain.Query({
+    cardById: [
+      {
+        cardId: 'sdsd'
+      },
+      {
+        description: true
+      }
+    ],
+    listCards: {
+      name: true,
+      skills: true,
+      attack: [
+        { cardID: ['s', 'sd'] },
+        {
+          name: true
+        }
+      ]
+    },
+    drawCard: {
+      name: true,
+      skills: true,
+      Attack: true
+    }
+  });
+};
+createCards();
+// Result of a query
+// {
+//     "drawCard": {
+//         "Attack": 83920,
+//         "name": "Raphaelle",
+//         "skills": [
+//             "RAIN",
+//             "THUNDER",
+//         ]
+//     },
+//     "cardById": {
+//         "description": "Customer"
+//     },
+//     "listCards": [
+//         {
+//             "name": "Lon",
+//             "skills": [
+//                 "THUNDER"
+//             ],
+//             "attack": [
+//                 {
+//                     "name": "Christop"
+//                 },
+//                 {
+//                     "name": "Theodore"
+//                 },
+//                 {
+//                     "name": "Marcelle"
+//                 }
+//             ]
+//         },
+//         {
+//             "name": "Etha",
+//             "skills": null,
+//             "attack": [
+               
+//                 {
+//                     "name": "Naomie"
+//                 }
+//             ]
+//         },
+//         {
+//             "attack": [
+//                 {
+//                     "name": "Kyle"
+//                 },
+//             ],
+//             "name": "Arlene",
+//             "skills": [
+//                 "FIRE",
+//             ]
+//         }
+//     ]
+// }
+```
+#### Perform query with Thunder - Abstracted Fetch function
+With thunder you have total control of fetch function not losing the result format the same time.
+
+```js
+import { Thunder } from './graphql-zeus';
+const createCards = async () => {
+  const thunder = Thunder(async (query) => {
+    const response = await fetch('https://faker.graphqleditor.com/a-team/olympus/graphql', {
+      body: JSON.stringify({ query }),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (!response.ok) {
+      return new Promise((resolve, reject) => {
+        response
+          .text()
+          .then((text) => {
+            try {
+              reject(JSON.parse(text));
+            } catch (err) {
+              reject(text);
+            }
+          })
+          .catch(reject);
+      });
+    }
+    const json = await response.json();
+    return json;
+  });
+  const listCardsAndDraw = await thunder.Query({
     cardById: [
       {
         cardId: 'sdsd'
@@ -365,7 +479,7 @@ In TypeScript you can make type-safe selection sets to reuse them across queries
 You can use Selectors on operations or ZeusSelect on concrete type
 ```ts
 import { ZeusSelect, Selectors, Chain, ValueTypes } from './graphql-zeus';
-const chain = Chain('https://faker.graphqleditor.com/aexol/olympus/graphql');
+const chain = Chain('https://faker.graphqleditor.com/a-team/olympus/graphql');
 
 const { drawCard: cardSelector } = Selectors.Query({
   drawCard: {
@@ -487,7 +601,7 @@ This is useful when you need some schema fetched from your GraphQL endpoint
 ```js
 import { Utils } from 'graphql-zeus';
 
-Utils.getFromUrl("https://faker.graphqleditor.com/aexol/olympus/graphql").then(schemaContent => {
+Utils.getFromUrl("https://faker.graphqleditor.com/a-team/olympus/graphql").then(schemaContent => {
   // Use schema content here
 })
 

@@ -77,7 +77,7 @@ updateSources?: [{	project:string,	sources?:ValueTypes["NewSource"][]},ValueType
 to a team or user */
 ["Namespace"]: AliasType<{
 project?: [{	name:string},ValueTypes["Project"]],
-projects?: [{	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
+projects?: [{	limit?:number,	last?:string},ValueTypes["ProjectConnection"]],
 	/** True if namespace is public */
 	public?:true,
 	/** Namespace part of the slug */
@@ -157,13 +157,13 @@ update?: [{	in?:ValueTypes["UpdateProject"]},true]
 }>;
 	/** Root query type */
 ["Query"]: AliasType<{
-findProjects?: [{	last?:string,	limit?:number,	query:string},ValueTypes["ProjectConnection"]],
+findProjects?: [{	query:string,	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
 findProjectsByTag?: [{	tag:string,	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
 getNamespace?: [{	slug:string},ValueTypes["Namespace"]],
 getProject?: [{	project:string},ValueTypes["Project"]],
 getTeam?: [{	name:string},ValueTypes["Team"]],
 getUser?: [{	username:string},ValueTypes["User"]],
-listProjects?: [{	last?:string,	limit?:number,	owned?:boolean},ValueTypes["ProjectConnection"]],
+listProjects?: [{	owned?:boolean,	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
 myTeams?: [{	last?:string,	limit?:number},ValueTypes["TeamConnection"]]
 		__typename?: true
 }>;
@@ -210,7 +210,7 @@ myTeams?: [{	last?:string,	limit?:number},ValueTypes["TeamConnection"]]
 	/** Unique team id */
 	id?:true,
 member?: [{	username:string},ValueTypes["Member"]],
-members?: [{	last?:string,	limit?:number},ValueTypes["MemberConnection"]],
+members?: [{	limit?:number,	last?:string},ValueTypes["MemberConnection"]],
 	/** Team name */
 	name?:true,
 	/** Team's namespace */
@@ -234,7 +234,7 @@ createProject?: [{	public?:boolean,	name:string},ValueTypes["Project"]],
 	/** Unique team id */
 	id?:true,
 member?: [{	username:string},ValueTypes["MemberOps"]],
-members?: [{	limit?:number,	last?:string},ValueTypes["MemberConnection"]],
+members?: [{	last?:string,	limit?:number},ValueTypes["MemberConnection"]],
 	/** Team name */
 	name?:true,
 	/** Team's namespace */
@@ -244,14 +244,14 @@ project?: [{	id:string},ValueTypes["ProjectOps"]]
 }>;
 	/** Update project payload */
 ["UpdateProject"]: {
-	/** ID of project to be updated */
-	project?:string,
-	/** New description for project */
-	description?:string,
 	/** List of tags for project */
 	tags?:string[],
 	/** Set project visiblity */
-	public?:boolean
+	public?:boolean,
+	/** ID of project to be updated */
+	project?:string,
+	/** New description for project */
+	description?:string
 };
 	/** Editor user */
 ["User"]: AliasType<{
@@ -581,14 +581,14 @@ limit limits the number of returned projects */
 	},
 	/** Update project payload */
 ["UpdateProject"]: {
-	/** ID of project to be updated */
-	project?:string,
-	/** New description for project */
-	description?:string,
 	/** List of tags for project */
 	tags?:string[],
 	/** Set project visiblity */
-	public?:boolean
+	public?:boolean,
+	/** ID of project to be updated */
+	project?:string,
+	/** New description for project */
+	description?:string
 },
 	/** Editor user */
 ["User"]: {
@@ -949,14 +949,14 @@ export type TeamOps = {
 
 /** Update project payload */
 export type UpdateProject = {
-		/** ID of project to be updated */
-	project?:string,
-	/** New description for project */
-	description?:string,
-	/** List of tags for project */
+		/** List of tags for project */
 	tags?:string[],
 	/** Set project visiblity */
-	public?:boolean
+	public?:boolean,
+	/** ID of project to be updated */
+	project?:string,
+	/** New description for project */
+	description?:string
 }
 
 /** Editor user */
@@ -1094,14 +1094,14 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		projects:{
-			last:{
-				type:"String",
+			limit:{
+				type:"Int",
 				array:false,
 				arrayRequired:false,
 				required:false
 			},
-			limit:{
-				type:"Int",
+			last:{
+				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -1162,6 +1162,12 @@ export const AllTypesProps: Record<string,any> = {
 	},
 	Query:{
 		findProjects:{
+			query:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:true
+			},
 			last:{
 				type:"String",
 				array:false,
@@ -1173,12 +1179,6 @@ export const AllTypesProps: Record<string,any> = {
 				array:false,
 				arrayRequired:false,
 				required:false
-			},
-			query:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
 			}
 		},
 		findProjectsByTag:{
@@ -1234,6 +1234,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		listProjects:{
+			owned:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			last:{
 				type:"String",
 				array:false,
@@ -1242,12 +1248,6 @@ export const AllTypesProps: Record<string,any> = {
 			},
 			limit:{
 				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			owned:{
-				type:"Boolean",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -1279,14 +1279,14 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		members:{
-			last:{
-				type:"String",
+			limit:{
+				type:"Int",
 				array:false,
 				arrayRequired:false,
 				required:false
 			},
-			limit:{
-				type:"Int",
+			last:{
+				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -1331,14 +1331,14 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		members:{
-			limit:{
-				type:"Int",
+			last:{
+				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:false
 			},
-			last:{
-				type:"String",
+			limit:{
+				type:"Int",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -1354,18 +1354,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	UpdateProject:{
-		project:{
-			type:"ID",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		description:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		tags:{
 			type:"String",
 			array:true,
@@ -1374,6 +1362,18 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		public:{
 			type:"Boolean",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		project:{
+			type:"ID",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		description:{
+			type:"String",
 			array:false,
 			arrayRequired:false,
 			required:false
@@ -1647,6 +1647,7 @@ type CastToGraphQL<V, T> = (
 type fetchOptions = ArgsType<typeof fetch>;
 
 export type SelectionFunction<V> = <T>(t: T | V) => T;
+type FetchFunction = (query: string) => any;
 
 
 
@@ -1807,10 +1808,10 @@ const buildQuery = (type: string, a?: Record<any, any>) => traverseToSeekArrays(
 const queryConstruct = (t: 'query' | 'mutation' | 'subscription', tName: string) => (o: Record<any, any>) =>
   `${t.toLowerCase()}${buildQuery(tName, o)}`;
 
-const fullChainConstruct = (options: fetchOptions) => (t: 'query' | 'mutation' | 'subscription', tName: string) => (
+const fullChainConstruct = (fn: FetchFunction) => (t: 'query' | 'mutation' | 'subscription', tName: string) => (
   o: Record<any, any>,
-) => apiFetch(options, queryConstruct(t, tName)(o));
-  
+) => fn(queryConstruct(t, tName)(o));
+
 const seekForAliases = (o: any) => {
   if (typeof o === 'object' && o) {
     const keys = Object.keys(o);
@@ -1853,7 +1854,7 @@ const handleFetchResponse = (
   return response.json();
 };
 
-const apiFetch = (options: fetchOptions, query: string) => {
+const apiFetch = (options: fetchOptions) => (query: string) => {
     let fetchFunction;
     let queryString = query;
     let fetchOptions = options[1] || {};
@@ -1898,24 +1899,30 @@ const apiFetch = (options: fetchOptions, query: string) => {
   
 
 
-export const Chain = (...options: fetchOptions) => ({
+export const Thunder = (fn: FetchFunction) => ({
   query: ((o: any) =>
-    fullChainConstruct(options)('query', 'Query')(o).then(
+    fullChainConstruct(fn)('query', 'Query')(o).then(
       (response: any) => response
     )) as OperationToGraphQL<ValueTypes["Query"],Query>,
 mutation: ((o: any) =>
-    fullChainConstruct(options)('mutation', 'Mutation')(o).then(
+    fullChainConstruct(fn)('mutation', 'Mutation')(o).then(
       (response: any) => response
-    )) as OperationToGraphQL<ValueTypes["Mutation"],Mutation>,
-subscription: ((o: any) =>
-    fullChainConstruct(options)('subscription', 'Subscription')(o).then(
+    )) as OperationToGraphQL<ValueTypes["Mutation"],Mutation>
+});
+
+export const Chain = (...options: fetchOptions) => ({
+  query: ((o: any) =>
+    fullChainConstruct(apiFetch(options))('query', 'Query')(o).then(
       (response: any) => response
-    )) as OperationToGraphQL<ValueTypes["Subscription"],Subscription>
+    )) as OperationToGraphQL<ValueTypes["Query"],Query>,
+mutation: ((o: any) =>
+    fullChainConstruct(apiFetch(options))('mutation', 'Mutation')(o).then(
+      (response: any) => response
+    )) as OperationToGraphQL<ValueTypes["Mutation"],Mutation>
 });
 export const Zeus = {
   query: (o:ValueTypes["Query"]) => queryConstruct('query', 'Query')(o),
-mutation: (o:ValueTypes["Mutation"]) => queryConstruct('mutation', 'Mutation')(o),
-subscription: (o:ValueTypes["Subscription"]) => queryConstruct('subscription', 'Subscription')(o)
+mutation: (o:ValueTypes["Mutation"]) => queryConstruct('mutation', 'Mutation')(o)
 };
 export const Cast = {
   query: ((o: any) => (b: any) => o) as CastToGraphQL<
@@ -1925,16 +1932,11 @@ export const Cast = {
 mutation: ((o: any) => (b: any) => o) as CastToGraphQL<
   ValueTypes["Mutation"],
   Mutation
->,
-subscription: ((o: any) => (b: any) => o) as CastToGraphQL<
-  ValueTypes["Subscription"],
-  Subscription
 >
 };
 export const Selectors = {
   query: ZeusSelect<ValueTypes["Query"]>(),
-mutation: ZeusSelect<ValueTypes["Mutation"]>(),
-subscription: ZeusSelect<ValueTypes["Subscription"]>()
+mutation: ZeusSelect<ValueTypes["Mutation"]>()
 };
   
 

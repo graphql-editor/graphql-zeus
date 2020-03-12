@@ -1,5 +1,6 @@
-import { Gql, Zeus } from './graphql-zeus';
+import { Gql, Zeus, Thunder } from './graphql-zeus';
 import chalk from 'chalk';
+import fetch from 'node-fetch';
 // This will return Card object with ID only
 const createCards = async () => {
   const printQueryResult = (name, result) =>
@@ -32,6 +33,60 @@ const createCards = async () => {
     },
   });
   printQueryResult('Multiple queries', listCardsAndDraw);
+
+  //Thunder example
+  const thunder = Thunder(async (query) => {
+    const response = await fetch('https://faker.graphqleditor.com/a-team/olympus/graphql', {
+      body: JSON.stringify({ query }),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (!response.ok) {
+      return new Promise((resolve, reject) => {
+        response
+          .text()
+          .then((text) => {
+            try {
+              reject(JSON.parse(text));
+            } catch (err) {
+              reject(text);
+            }
+          })
+          .catch(reject);
+      });
+    }
+    const json = await response.json();
+    return json;
+  });
+  const listCardsAndDrawThunder = await thunder.query({
+    cardById: [
+      {
+        cardId: 'sdsd',
+      },
+      {
+        description: true,
+      },
+    ],
+    listCards: {
+      name: true,
+      skills: true,
+      attack: [
+        { cardID: ['s', 'sd'] },
+        {
+          name: true,
+        },
+      ],
+    },
+    drawCard: {
+      name: true,
+      skills: true,
+      Attack: true,
+    },
+  });
+
+  printQueryResult('Multiple queries thunder', listCardsAndDrawThunder);
   // mutation example
   const addCard = await Gql.mutation({
     addCard: [

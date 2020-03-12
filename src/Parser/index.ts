@@ -121,11 +121,11 @@ export class Parser {
   };
   static parseAddExtensions = (schema: string, excludeRoots: string[] = []): ParserTree => {
     const parsed = Parser.parse(schema, excludeRoots);
-    const Extensions = parsed.nodes.filter((n) => n.data?.type && n.data.type in TypeExtension);
+    const Extensions = parsed.nodes.filter((n) => n.data.type && n.data.type in TypeExtension);
     if (!Extensions || Extensions.length === 0) {
       return parsed;
     }
-    const wihtoutExtensions = parsed.nodes.filter((n) => !(n.data?.type && n.data.type in TypeExtension));
+    const wihtoutExtensions = parsed.nodes.filter((n) => !(n.data.type && n.data.type in TypeExtension));
     const schemaStringWithoutExtensions = TreeToGraphQL.parse({
       nodes: wihtoutExtensions,
     });

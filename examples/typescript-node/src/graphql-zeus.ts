@@ -17,6 +17,7 @@ attack?: [{	/** Attacked card/card ids<br> */
 	/** Description of a card<br> */
 	description?:true,
 	id?:true,
+	image?:true,
 	/** The name of a card<br> */
 	name?:true,
 	skills?:true
@@ -34,6 +35,10 @@ attack?: [{	/** Attacked card/card ids<br> */
 }>;
 	/** create card inputs<br> */
 ["createCard"]: {
+	/** input skills */
+	skills?:ValueTypes["SpecialSkills"][],
+	/** The name of a card<br> */
+	name:string,
 	/** Description of a card<br> */
 	description:string,
 	/** <div>How many children the greek god had</div> */
@@ -41,11 +46,7 @@ attack?: [{	/** Attacked card/card ids<br> */
 	/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
-	Defense:number,
-	/** input skills */
-	skills?:ValueTypes["SpecialSkills"][],
-	/** The name of a card<br> */
-	name:string
+	Defense:number
 };
 	["EffectCard"]: AliasType<{
 	effectSize?:true,
@@ -107,6 +108,7 @@ export type PartialObjects = {
 			/** Description of a card<br> */
 	description?:string,
 			id?:string,
+			image?:string,
 			/** The name of a card<br> */
 	name?:string,
 			skills?:PartialObjects["SpecialSkills"][]
@@ -120,6 +122,10 @@ export type PartialObjects = {
 	["ChangeCard"]: PartialObjects["SpecialCard"] | PartialObjects["EffectCard"],
 	/** create card inputs<br> */
 ["createCard"]: {
+	/** input skills */
+	skills?:PartialObjects["SpecialSkills"][],
+	/** The name of a card<br> */
+	name:string,
 	/** Description of a card<br> */
 	description:string,
 	/** <div>How many children the greek god had</div> */
@@ -127,11 +133,7 @@ export type PartialObjects = {
 	/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
-	Defense:number,
-	/** input skills */
-	skills?:PartialObjects["SpecialSkills"][],
-	/** The name of a card<br> */
-	name:string
+	Defense:number
 },
 	["EffectCard"]: {
 		__typename?: "EffectCard";
@@ -188,6 +190,7 @@ export type Card = {
 	/** Description of a card<br> */
 	description:string,
 	id:string,
+	image:string,
 	/** The name of a card<br> */
 	name:string,
 	skills?:SpecialSkills[]
@@ -210,18 +213,18 @@ export type ChangeCard = {
 
 /** create card inputs<br> */
 export type createCard = {
-		/** Description of a card<br> */
+		/** input skills */
+	skills?:SpecialSkills[],
+	/** The name of a card<br> */
+	name:string,
+	/** Description of a card<br> */
 	description:string,
 	/** <div>How many children the greek god had</div> */
 	Children?:number,
 	/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
-	Defense:number,
-	/** input skills */
-	skills?:SpecialSkills[],
-	/** The name of a card<br> */
-	name:string
+	Defense:number
 }
 
 export type EffectCard = {
@@ -292,6 +295,18 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	createCard:{
+		skills:{
+			type:"SpecialSkills",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		name:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
 		description:{
 			type:"String",
 			array:false,
@@ -312,18 +327,6 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		Defense:{
 			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		skills:{
-			type:"SpecialSkills",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		name:{
-			type:"String",
 			array:false,
 			arrayRequired:false,
 			required:true
@@ -361,6 +364,7 @@ export const ReturnTypes: Record<string,any> = {
 		cardImage:"S3Object",
 		description:"String",
 		id:"ID",
+		image:"String",
 		name:"String",
 		skills:"SpecialSkills"
 	},
@@ -525,6 +529,7 @@ type CastToGraphQL<V, T> = (
 type fetchOptions = ArgsType<typeof fetch>;
 
 export type SelectionFunction<V> = <T>(t: T | V) => T;
+type FetchFunction = (query: string) => any;
 
 
 
@@ -685,10 +690,10 @@ const buildQuery = (type: string, a?: Record<any, any>) => traverseToSeekArrays(
 const queryConstruct = (t: 'query' | 'mutation' | 'subscription', tName: string) => (o: Record<any, any>) =>
   `${t.toLowerCase()}${buildQuery(tName, o)}`;
 
-const fullChainConstruct = (options: fetchOptions) => (t: 'query' | 'mutation' | 'subscription', tName: string) => (
+const fullChainConstruct = (fn: FetchFunction) => (t: 'query' | 'mutation' | 'subscription', tName: string) => (
   o: Record<any, any>,
-) => apiFetch(options, queryConstruct(t, tName)(o));
-  
+) => fn(queryConstruct(t, tName)(o));
+
 const seekForAliases = (o: any) => {
   if (typeof o === 'object' && o) {
     const keys = Object.keys(o);
@@ -731,7 +736,7 @@ const handleFetchResponse = (
   return response.json();
 };
 
-const apiFetch = (options: fetchOptions, query: string) => {
+const apiFetch = (options: fetchOptions) => (query: string) => {
     let fetchFunction;
     let queryString = query;
     let fetchOptions = options[1] || {};
@@ -776,13 +781,24 @@ const apiFetch = (options: fetchOptions, query: string) => {
   
 
 
-export const Chain = (...options: fetchOptions) => ({
+export const Thunder = (fn: FetchFunction) => ({
   query: ((o: any) =>
-    fullChainConstruct(options)('query', 'Query')(o).then(
+    fullChainConstruct(fn)('query', 'Query')(o).then(
       (response: any) => response
     )) as OperationToGraphQL<ValueTypes["Query"],Query>,
 mutation: ((o: any) =>
-    fullChainConstruct(options)('mutation', 'Mutation')(o).then(
+    fullChainConstruct(fn)('mutation', 'Mutation')(o).then(
+      (response: any) => response
+    )) as OperationToGraphQL<ValueTypes["Mutation"],Mutation>
+});
+
+export const Chain = (...options: fetchOptions) => ({
+  query: ((o: any) =>
+    fullChainConstruct(apiFetch(options))('query', 'Query')(o).then(
+      (response: any) => response
+    )) as OperationToGraphQL<ValueTypes["Query"],Query>,
+mutation: ((o: any) =>
+    fullChainConstruct(apiFetch(options))('mutation', 'Mutation')(o).then(
       (response: any) => response
     )) as OperationToGraphQL<ValueTypes["Mutation"],Mutation>
 });
@@ -806,4 +822,4 @@ mutation: ZeusSelect<ValueTypes["Mutation"]>()
 };
   
 
-export const Gql = Chain('https://faker.graphqleditor.com/aexol/olympus/graphql')
+export const Gql = Chain('https://faker.graphqleditor.com/a-team/olympus/graphql')
