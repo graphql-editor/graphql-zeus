@@ -274,6 +274,8 @@ const apiFetch = (options) => (query) => {
         return response.data;
       });
   };
+
+const ZeusSelect = () => (t) => t
   
 export const Thunder = (fn) => ({
   query: ((o) =>
@@ -313,6 +315,11 @@ export const Cast = {
   query: (o) => (b) => o,
 mutation: (o) => (b) => o,
 subscription: (o) => (b) => o
+};
+export const Selectors = {
+  query: ZeusSelect(),
+mutation: ZeusSelect(),
+subscription: ZeusSelect()
 };
     
 

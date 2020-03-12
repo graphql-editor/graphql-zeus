@@ -180,4 +180,6 @@ const seekForAliases = (o) => {
   }
 };
 ${require(`./${env}/fetchFunction`).default}
+
+const ZeusSelect = () => (t) => t
   `;

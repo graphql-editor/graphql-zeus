@@ -209,4 +209,9 @@ export declare const Cast: {
 >
 }
 
+export declare const Selectors: {
+  query: SelectionFunction<ValueTypes["Query"]>,mutation: SelectionFunction<ValueTypes["NotMutation"]>,subscription: SelectionFunction<ValueTypes["NotSubscription"]>
+}
+
+
 export declare const Gql: ReturnType<typeof Chain>

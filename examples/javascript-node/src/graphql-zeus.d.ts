@@ -35,6 +35,8 @@ attack?: [{	/** Attacked card/card ids<br> */
 }>;
 	/** create card inputs<br> */
 ["createCard"]: {
+	/** The name of a card<br> */
+	name:string,
 	/** Description of a card<br> */
 	description:string,
 	/** <div>How many children the greek god had</div> */
@@ -44,9 +46,7 @@ attack?: [{	/** Attacked card/card ids<br> */
 	/** The defense power<br> */
 	Defense:number,
 	/** input skills */
-	skills?:ValueTypes["SpecialSkills"][],
-	/** The name of a card<br> */
-	name:string
+	skills?:ValueTypes["SpecialSkills"][]
 };
 	["EffectCard"]: AliasType<{
 	effectSize?:true,
@@ -122,6 +122,8 @@ export type PartialObjects = {
 	["ChangeCard"]: PartialObjects["SpecialCard"] | PartialObjects["EffectCard"],
 	/** create card inputs<br> */
 ["createCard"]: {
+	/** The name of a card<br> */
+	name:string,
 	/** Description of a card<br> */
 	description:string,
 	/** <div>How many children the greek god had</div> */
@@ -131,9 +133,7 @@ export type PartialObjects = {
 	/** The defense power<br> */
 	Defense:number,
 	/** input skills */
-	skills?:PartialObjects["SpecialSkills"][],
-	/** The name of a card<br> */
-	name:string
+	skills?:PartialObjects["SpecialSkills"][]
 },
 	["EffectCard"]: {
 		__typename?: "EffectCard";
@@ -213,7 +213,9 @@ export type ChangeCard = {
 
 /** create card inputs<br> */
 export type createCard = {
-		/** Description of a card<br> */
+		/** The name of a card<br> */
+	name:string,
+	/** Description of a card<br> */
 	description:string,
 	/** <div>How many children the greek god had</div> */
 	Children?:number,
@@ -222,9 +224,7 @@ export type createCard = {
 	/** The defense power<br> */
 	Defense:number,
 	/** input skills */
-	skills?:SpecialSkills[],
-	/** The name of a card<br> */
-	name:string
+	skills?:SpecialSkills[]
 }
 
 export type EffectCard = {
@@ -278,9 +278,9 @@ export type SpecialCard = {
 }
 
 export enum SpecialSkills {
-	THUNDER = "THUNDER",
 	RAIN = "RAIN",
-	FIRE = "FIRE"
+	FIRE = "FIRE",
+	THUNDER = "THUNDER"
 }
 
 
@@ -429,5 +429,10 @@ export declare const Cast: {
   Mutation
 >
 }
+
+export declare const Selectors: {
+  query: SelectionFunction<ValueTypes["Query"]>,mutation: SelectionFunction<ValueTypes["Mutation"]>
+}
+
 
 export declare const Gql: ReturnType<typeof Chain>

@@ -1,4 +1,4 @@
-import { Gql, Zeus, Thunder } from './graphql-zeus';
+import { Gql, Zeus, Thunder, Selectors } from './graphql-zeus';
 import chalk from 'chalk';
 import fetch from 'node-fetch';
 // This will return Card object with ID only
@@ -7,6 +7,7 @@ const createCards = async () => {
     console.log(`${chalk.greenBright(name)} result:\n${chalk.cyan(JSON.stringify(result, null, 4))}\n\n`);
   const printGQLString = (name, result) => console.log(`${chalk.blue(name)} query:\n${chalk.magenta(result)}\n\n`);
   // Query Gqling example
+
   const listCardsAndDraw = await Gql.query({
     cardById: [
       {
@@ -88,6 +89,14 @@ const createCards = async () => {
 
   printQueryResult('Multiple queries thunder', listCardsAndDrawThunder);
   // mutation example
+
+  const { drawCard: card } = Selectors.query({
+    drawCard: {
+      name: true,
+      id: true,
+      description: true,
+    },
+  });
   const addCard = await Gql.mutation({
     addCard: [
       {
@@ -99,11 +108,7 @@ const createCards = async () => {
           Defense: 1,
         },
       },
-      {
-        name: true,
-        description: true,
-        skills: true,
-      },
+      card,
     ],
   });
   printQueryResult('addCard', addCard);

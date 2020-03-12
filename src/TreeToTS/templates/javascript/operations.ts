@@ -78,6 +78,23 @@ const generateOperationsCastJavascipt = ({ query, mutation, subscription }: Reso
   }
   return allOps;
 };
+
+const generateSelectorZeus = (ot: OperationType): string => `${ot}: ZeusSelect()`;
+
+const generateSelectorsZeusJavascript = ({ query, mutation, subscription }: Partial<ResolvedOperations>): string[] => {
+  const allOps: string[] = [];
+  if (query?.operationName?.name && query.operations.length) {
+    allOps.push(generateSelectorZeus(OperationType.query));
+  }
+  if (mutation?.operationName?.name && mutation.operations.length) {
+    allOps.push(generateSelectorZeus(OperationType.mutation));
+  }
+  if (subscription?.operationName?.name && subscription.operations.length) {
+    allOps.push(generateSelectorZeus(OperationType.subscription));
+  }
+  return allOps;
+};
+
 export const bodyJavascript = (env: Environment, resolvedOperations: ResolvedOperations): string => `
 ${graphqlErrorJavascript}
 ${javascriptFunctions(env)}
@@ -93,5 +110,8 @@ export const Zeus = {
 };
 export const Cast = {
   ${generateOperationsCastJavascipt(resolvedOperations).join(',\n')}
+};
+export const Selectors = {
+  ${generateSelectorsZeusJavascript(resolvedOperations).join(',\n')}
 };
     `;

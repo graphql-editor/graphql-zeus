@@ -13,6 +13,12 @@ export const AllTypesProps = {
 		}
 	},
 	createCard:{
+		name:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
 		description:{
 			type:"String",
 			array:false,
@@ -40,12 +46,6 @@ export const AllTypesProps = {
 		skills:{
 			type:"SpecialSkills",
 			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		name:{
-			type:"String",
-			array:false,
 			arrayRequired:false,
 			required:true
 		}
@@ -364,6 +364,8 @@ const apiFetch = (options) => (query) => {
         return response.data;
       });
   };
+
+const ZeusSelect = () => (t) => t
   
 export const Thunder = (fn) => ({
   query: ((o) =>
@@ -393,6 +395,10 @@ mutation: (o) => queryConstruct('mutation', 'Mutation')(o)
 export const Cast = {
   query: (o) => (b) => o,
 mutation: (o) => (b) => o
+};
+export const Selectors = {
+  query: ZeusSelect(),
+mutation: ZeusSelect()
 };
     
 

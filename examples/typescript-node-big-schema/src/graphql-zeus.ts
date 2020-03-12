@@ -86,14 +86,14 @@ projects?: [{	limit?:number,	last?:string},ValueTypes["ProjectConnection"]],
 }>;
 	/** New source payload */
 ["NewSource"]: {
-	/** Length of source in bytes */
-	contentLength?:number,
-	/** Source mime type */
-	contentType?:string,
 	/** Source checksum */
 	checksum?:string,
 	/** source file name */
-	filename?:string
+	filename?:string,
+	/** Length of source in bytes */
+	contentLength?:number,
+	/** Source mime type */
+	contentType?:string
 };
 	/** PageInfo contains information about connection page */
 ["PageInfo"]: AliasType<{
@@ -244,14 +244,14 @@ project?: [{	id:string},ValueTypes["ProjectOps"]]
 }>;
 	/** Update project payload */
 ["UpdateProject"]: {
-	/** List of tags for project */
-	tags?:string[],
-	/** Set project visiblity */
-	public?:boolean,
 	/** ID of project to be updated */
 	project?:string,
 	/** New description for project */
-	description?:string
+	description?:string,
+	/** List of tags for project */
+	tags?:string[],
+	/** Set project visiblity */
+	public?:boolean
 };
 	/** Editor user */
 ["User"]: AliasType<{
@@ -384,14 +384,14 @@ limit sets a limit on how many objects can be returned */
 	},
 	/** New source payload */
 ["NewSource"]: {
-	/** Length of source in bytes */
-	contentLength?:number,
-	/** Source mime type */
-	contentType?:string,
 	/** Source checksum */
 	checksum?:string,
 	/** source file name */
-	filename?:string
+	filename?:string,
+	/** Length of source in bytes */
+	contentLength?:number,
+	/** Source mime type */
+	contentType?:string
 },
 	/** PageInfo contains information about connection page */
 ["PageInfo"]: {
@@ -581,14 +581,14 @@ limit limits the number of returned projects */
 	},
 	/** Update project payload */
 ["UpdateProject"]: {
-	/** List of tags for project */
-	tags?:string[],
-	/** Set project visiblity */
-	public?:boolean,
 	/** ID of project to be updated */
 	project?:string,
 	/** New description for project */
-	description?:string
+	description?:string,
+	/** List of tags for project */
+	tags?:string[],
+	/** Set project visiblity */
+	public?:boolean
 },
 	/** Editor user */
 ["User"]: {
@@ -733,14 +733,14 @@ limit sets a limit on how many objects can be returned */
 
 /** New source payload */
 export type NewSource = {
-		/** Length of source in bytes */
-	contentLength?:number,
-	/** Source mime type */
-	contentType?:string,
-	/** Source checksum */
+		/** Source checksum */
 	checksum?:string,
 	/** source file name */
-	filename?:string
+	filename?:string,
+	/** Length of source in bytes */
+	contentLength?:number,
+	/** Source mime type */
+	contentType?:string
 }
 
 /** PageInfo contains information about connection page */
@@ -949,14 +949,14 @@ export type TeamOps = {
 
 /** Update project payload */
 export type UpdateProject = {
-		/** List of tags for project */
-	tags?:string[],
-	/** Set project visiblity */
-	public?:boolean,
-	/** ID of project to be updated */
+		/** ID of project to be updated */
 	project?:string,
 	/** New description for project */
-	description?:string
+	description?:string,
+	/** List of tags for project */
+	tags?:string[],
+	/** Set project visiblity */
+	public?:boolean
 }
 
 /** Editor user */
@@ -1109,18 +1109,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	NewSource:{
-		contentLength:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		contentType:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		checksum:{
 			type:"String",
 			array:false,
@@ -1128,6 +1116,18 @@ export const AllTypesProps: Record<string,any> = {
 			required:false
 		},
 		filename:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		contentLength:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		contentType:{
 			type:"String",
 			array:false,
 			arrayRequired:false,
@@ -1354,18 +1354,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	UpdateProject:{
-		tags:{
-			type:"String",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		public:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		project:{
 			type:"ID",
 			array:false,
@@ -1374,6 +1362,18 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		description:{
 			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		tags:{
+			type:"String",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		public:{
+			type:"Boolean",
 			array:false,
 			arrayRequired:false,
 			required:false

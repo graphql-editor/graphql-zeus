@@ -135,17 +135,17 @@ type Namespace {
 
 """New source payload"""
 input NewSource {
-  """Length of source in bytes"""
-  contentLength: Int
-
-  """Source mime type"""
-  contentType: String
-
   """Source checksum"""
   checksum: String
 
   """source file name"""
   filename: String
+
+  """Length of source in bytes"""
+  contentLength: Int
+
+  """Source mime type"""
+  contentType: String
 }
 
 """PageInfo contains information about connection page"""
@@ -417,17 +417,17 @@ type TeamOps {
 
 """Update project payload"""
 input UpdateProject {
-  """List of tags for project"""
-  tags: [String!]
-
-  """Set project visiblity"""
-  public: Boolean
-
   """ID of project to be updated"""
   project: ID
 
   """New description for project"""
   description: String
+
+  """List of tags for project"""
+  tags: [String!]
+
+  """Set project visiblity"""
+  public: Boolean
 }
 
 """Editor user"""

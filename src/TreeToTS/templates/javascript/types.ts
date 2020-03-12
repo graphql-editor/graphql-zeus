@@ -73,6 +73,27 @@ const generateOperationsJavascriptDefinitionsCast = ({
   return allOps;
 };
 
+const ZeusSelector = (t: OperationName, ot: OperationType): string =>
+  `${ot}: SelectionFunction<${VALUETYPES}["${t.name}"]>`;
+
+const generateOperationsJavascriptDefinitionsSelector = ({
+  query,
+  mutation,
+  subscription,
+}: ResolvedOperations): string[] => {
+  const allOps = [];
+  if (query?.operationName?.name && query.operations.length) {
+    allOps.push(ZeusSelector(query.operationName, OperationType.query));
+  }
+  if (mutation?.operationName?.name && mutation.operations.length) {
+    allOps.push(ZeusSelector(mutation.operationName, OperationType.mutation));
+  }
+  if (subscription?.operationName?.name && subscription.operations.length) {
+    allOps.push(ZeusSelector(subscription.operationName, OperationType.subscription));
+  }
+  return allOps;
+};
+
 export const generateOperationsJavascript = (operationsBody: ResolvedOperations): string => `
 export declare function Thunder(
   fn: FetchFunction
@@ -93,6 +114,11 @@ export declare const Zeus: {
 export declare const Cast: {
   ${generateOperationsJavascriptDefinitionsCast(operationsBody)}
 }
+
+export declare const Selectors: {
+  ${generateOperationsJavascriptDefinitionsSelector(operationsBody)}
+}
+
 
 export declare const Gql: ReturnType<typeof Chain>
 `;

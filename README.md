@@ -121,7 +121,7 @@ $ zeus https://faker.graphqleditor.com/a-team/olympus/graphql ./generated
 import { Chain } from './graphql-zeus';
 const createCards = async () => {
   const chain = Chain('https://faker.graphqleditor.com/a-team/olympus/graphql');
-  const listCardsAndDraw = await chain.Query({
+  const listCardsAndDraw = await chain.query({
     cardById: [
       {
         cardId: 'sdsd'
@@ -234,7 +234,7 @@ const createCards = async () => {
     const json = await response.json();
     return json;
   });
-  const listCardsAndDraw = await thunder.Query({
+  const listCardsAndDraw = await thunder.query({
     cardById: [
       {
         cardId: 'sdsd'
@@ -322,7 +322,7 @@ createCards();
 You can use Zeus with unions:
 
 ```js
-const { drawChangeCard } = await chain.Query({
+const { drawChangeCard } = await chain.query({
     drawChangeCard: {
       __typename: true,
       '...on EffectCard': {
@@ -347,7 +347,7 @@ const { drawChangeCard } = await chain.Query({
 And interfaces.
 
 ```ts
-const {nameables} = await Gql.Query({
+const {nameables} = await Gql.query({
     nameables: {
       "__typename": true,
       "name": true,
@@ -395,7 +395,7 @@ const {nameables} = await Gql.Query({
 #### Perform query with aliases
 
 ```js
-const aliasedQueryExecute = await chain.Query({
+const aliasedQueryExecute = await chain.query({
     listCards: {
       __alias: {
         atak: {
@@ -439,7 +439,7 @@ Use Zeus to generate gql string
 ```js
 import { Zeus } from './graphql-zeus';
 const createCards = async () => {
-  const stringGql = Zeus.Query({
+  const stringGql = Zeus.query({
     listCards: {
       name: true,
       skills: true,
@@ -470,18 +470,18 @@ You can cast your response from fetch/apollo/other-lib  to correct type even if 
 
 ```js
 import { Cast } from './graphql-zeus';
-const myQuery = Cast.Query(myLib("somegraphqlendpoint"))
+const myQuery = Cast.query(myLib("somegraphqlendpoint"))
 ```
 
 #### Typescript SelectionSet
 
 In TypeScript you can make type-safe selection sets to reuse them across queries
-You can use Selectors on operations or ZeusSelect on concrete type
+You can use Selectors on operations or ZeusSelect on concrete type. Only `Selectors` make sense in JS as usage of `ZeusSelect` on type is impossible without type support :)
 ```ts
 import { ZeusSelect, Selectors, Chain, ValueTypes } from './graphql-zeus';
 const chain = Chain('https://faker.graphqleditor.com/a-team/olympus/graphql');
 
-const { drawCard: cardSelector } = Selectors.Query({
+const { drawCard: cardSelector } = Selectors.query({
   drawCard: {
     name: true,
     description: true,
@@ -507,7 +507,7 @@ const cardSelector2 = ZeusSelect<ValueTypes["Card"]>()({
   }
 });
 
-const queryWithSelectionSet = await chain.Query({
+const queryWithSelectionSet = await chain.query({
   drawCard: cardSelector,
   listCards: cardSelector2,
 });
