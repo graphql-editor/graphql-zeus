@@ -5,14 +5,14 @@ import { VALUETYPES } from '../resolveValueTypes';
 import { constantTypesTypescript, graphqlErrorTypeScript, typescriptFunctions } from './';
 
 const generateOperationThunder = (t: OperationName, ot: OperationType): string =>
-  `${ot}: ((o: any) =>
-    fullChainConstruct(fn)('${ot}', '${t.name}')(o).then(
+  `${ot}: ((o: any, variables) =>
+    fullChainConstruct(fn)('${ot}', '${t.name}')(o, variables).then(
       (response: any) => response
     )) as OperationToGraphQL<${VALUETYPES}["${t.name}"],${t.name}>`;
 
 const generateOperationChaining = (t: OperationName, ot: OperationType): string =>
-  `${ot}: ((o: any) =>
-    fullChainConstruct(apiFetch(options))('${ot}', '${t.name}')(o).then(
+  `${ot}: ((o: any, variables) =>
+    fullChainConstruct(apiFetch(options))('${ot}', '${t.name}')(o, variables).then(
       (response: any) => response
     )) as OperationToGraphQL<${VALUETYPES}["${t.name}"],${t.name}>`;
 

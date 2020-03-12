@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import fetch from 'node-fetch';
-import { Gql, PartialObjects, SpecialSkills, Thunder, Zeus } from './graphql-zeus';
+import { $, Gql, PartialObjects, SpecialSkills, Thunder, Zeus } from './graphql-zeus';
 const printQueryResult = (name: string, result: any) =>
   console.log(`${chalk.greenBright(name)} result:\n${chalk.cyan(JSON.stringify(result, null, 4))}\n\n`);
 const printGQLString = (name: string, result: string) =>
@@ -12,7 +12,7 @@ const run = async () => {
         card: {
           Attack: 1,
           Defense: 2,
-          description: 'aa',
+          description: '$myVar',
           name: 'SADSD',
           skills: [SpecialSkills.FIRE],
         },
@@ -196,5 +196,39 @@ const run = async () => {
     },
   });
   printQueryResult('interfaceTest', interfaceTest);
+
+  // Variable test
+  const test = await Gql.mutation(
+    {
+      addCard: [
+        {
+          card: $`card`,
+        },
+        {
+          id: true,
+          description: true,
+          name: true,
+          Attack: true,
+          skills: true,
+          Children: true,
+          Defense: true,
+          cardImage: {
+            bucket: true,
+            region: true,
+            key: true,
+          },
+        },
+      ],
+    },
+    {
+      card: {
+        Attack: 2,
+        Defense: 3,
+        description: 'Lord of the mountains',
+        name: 'Golrog',
+      },
+    },
+  );
+  printQueryResult('variable Test', test);
 };
 run();

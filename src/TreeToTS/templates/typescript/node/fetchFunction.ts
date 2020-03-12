@@ -13,7 +13,7 @@ const handleFetchResponse = (
   return response.json();
 };
 
-const apiFetch = (options: fetchOptions) => (query: string) => {
+const apiFetch = (options: fetchOptions) => (query: string, variables: Record<string, any> = {}) => {
     let fetchFunction;
     let queryString = query;
     let fetchOptions = options[1] || {};
@@ -39,7 +39,7 @@ const apiFetch = (options: fetchOptions) => (query: string) => {
         });
     }
     return fetchFunction(\`\${options[0]}\`, {
-      body: JSON.stringify({ query: queryString }),
+      body: JSON.stringify({ query: queryString, variables }),
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

@@ -1,7 +1,7 @@
 """Defines user's account type"""
 enum AccountType {
-  FREE
   PREMIUM
+  FREE
 }
 
 """Endpoint returnes a full path to the project without host"""
@@ -124,7 +124,7 @@ type Namespace {
   
   limit sets a limit on how many objects can be returned
   """
-  projects(limit: Int, last: String): ProjectConnection
+  projects(last: String, limit: Int): ProjectConnection
 
   """True if namespace is public"""
   public: Boolean
@@ -135,9 +135,6 @@ type Namespace {
 
 """New source payload"""
 input NewSource {
-  """Source checksum"""
-  checksum: String
-
   """source file name"""
   filename: String
 
@@ -146,6 +143,9 @@ input NewSource {
 
   """Source mime type"""
   contentType: String
+
+  """Source checksum"""
+  checksum: String
 }
 
 """PageInfo contains information about connection page"""
@@ -292,6 +292,9 @@ type Query {
 
 """Team member role"""
 enum Role {
+  """Team contributor can edit projects in team"""
+  CONTRIBUTOR
+
   """
   Team owner owner can add/remove/edit/view projects and members to a team. Only owner can delete team
   """
@@ -307,9 +310,6 @@ enum Role {
 
   """Team viewer can view projects in team"""
   VIEWER
-
-  """Team contributor can edit projects in team"""
-  CONTRIBUTOR
 }
 
 """Source upload info object"""
@@ -367,7 +367,7 @@ type Team {
   member(username: String!): Member
 
   """Paginated list of members in team"""
-  members(limit: Int, last: String): MemberConnection
+  members(last: String, limit: Int): MemberConnection
 
   """Team name"""
   name: String!
@@ -417,9 +417,6 @@ type TeamOps {
 
 """Update project payload"""
 input UpdateProject {
-  """ID of project to be updated"""
-  project: ID
-
   """New description for project"""
   description: String
 
@@ -428,6 +425,9 @@ input UpdateProject {
 
   """Set project visiblity"""
   public: Boolean
+
+  """ID of project to be updated"""
+  project: ID
 }
 
 """Editor user"""

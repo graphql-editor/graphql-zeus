@@ -97,14 +97,14 @@ type SpecialCard implements Nameable {
 }
 
 enum SpecialSkills {
+  """Lower enemy defense -5<br>"""
+  THUNDER
+
   """Attack multiple Cards at once<br>"""
   RAIN
 
   """50% chance to avoid any attack<br>"""
   FIRE
-
-  """Lower enemy defense -5<br>"""
-  THUNDER
 }
 
 schema{

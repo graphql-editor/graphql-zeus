@@ -48,6 +48,10 @@ export const TypesPropsResolver = ({
   }
   const typeResolved = resolvedValue.type;
   const isArray: boolean = resolvedValue.array;
+  if (typeof value === 'string' && value.startsWith(\`ZEUS_VAR$\`)) {
+    const isRequired = resolvedValue.required ? '!' : ''
+    return \`\\\$\${value.split(\`ZEUS_VAR$\`)[1]}__ZEUS_VAR__\${typeResolved}\${isRequired}\`;
+  }
   if (isArray && !blockArrays) {
     return \`[\${value
       .map((v: any) => TypesPropsResolver({ value: v, type, name, key, blockArrays: true }))
@@ -155,12 +159,32 @@ const traverseToSeekArrays = (parent: string[], a?: any): string => {
 
 const buildQuery = (type: string, a?: Record<any, any>) => traverseToSeekArrays([type], a);
 
-const queryConstruct = (t: 'query' | 'mutation' | 'subscription', tName: string) => (o: Record<any, any>) =>
-  \`\${t.toLowerCase()}\${buildQuery(tName, o)}\`;
+const inspectVariables = (query: string) => {
+  const regex = /\\\$\\b\\w*ZEUS_VAR\\w*\\b[!]?/g;
+  let result;
+  const AllVariables = [];
+  while ((result = regex.exec(query))) {
+    AllVariables.push(result[0]);
+  }
+  if (!AllVariables.length) {
+    return query;
+  }
+  let filteredQuery = query;
+  AllVariables.forEach((variable) => {
+    filteredQuery = filteredQuery.replace(variable, variable.split('__ZEUS_VAR__')[0]);
+  });
+  return \`(\${AllVariables.map((a) => a.split('__ZEUS_VAR__'))
+    .map(([variableName, variableType]) => \`\${variableName}:\${variableType}\`)
+    .join(', ')})\${filteredQuery}\`;
+};
 
+const queryConstruct = (t: 'query' | 'mutation' | 'subscription', tName: string) => (o: Record<any, any>) =>
+  \`\${t.toLowerCase()}\${inspectVariables(buildQuery(tName, o))}\`;
+  
 const fullChainConstruct = (fn: FetchFunction) => (t: 'query' | 'mutation' | 'subscription', tName: string) => (
   o: Record<any, any>,
-) => fn(queryConstruct(t, tName)(o));
+  variables?: Record<string, any>,
+) => fn(queryConstruct(t, tName)(o), variables);
 
 const seekForAliases = (o: any) => {
   if (typeof o === 'object' && o) {
@@ -188,6 +212,8 @@ const seekForAliases = (o: any) => {
     });
   }
 };
+
+export const \$ = (t: TemplateStringsArray): any => \`ZEUS_VAR\$\${t.join('')}\`;
 
 ${require(`./${env}/fetchFunction`).default}
 `;

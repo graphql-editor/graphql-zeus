@@ -35,6 +35,8 @@ attack?: [{	/** Attacked card/card ids<br> */
 }>;
 	/** create card inputs<br> */
 ["createCard"]: {
+	/** input skills */
+	skills?:ValueTypes["SpecialSkills"][],
 	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
@@ -44,9 +46,7 @@ attack?: [{	/** Attacked card/card ids<br> */
 	/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
-	Defense:number,
-	/** input skills */
-	skills?:ValueTypes["SpecialSkills"][]
+	Defense:number
 };
 	["EffectCard"]: AliasType<{
 	effectSize?:true,
@@ -122,6 +122,8 @@ export type PartialObjects = {
 	["ChangeCard"]: PartialObjects["SpecialCard"] | PartialObjects["EffectCard"],
 	/** create card inputs<br> */
 ["createCard"]: {
+	/** input skills */
+	skills?:PartialObjects["SpecialSkills"][],
 	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
@@ -131,9 +133,7 @@ export type PartialObjects = {
 	/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
-	Defense:number,
-	/** input skills */
-	skills?:PartialObjects["SpecialSkills"][]
+	Defense:number
 },
 	["EffectCard"]: {
 		__typename?: "EffectCard";
@@ -213,7 +213,9 @@ export type ChangeCard = {
 
 /** create card inputs<br> */
 export type createCard = {
-		/** The name of a card<br> */
+		/** input skills */
+	skills?:SpecialSkills[],
+	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
 	description:string,
@@ -222,9 +224,7 @@ export type createCard = {
 	/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
-	Defense:number,
-	/** input skills */
-	skills?:SpecialSkills[]
+	Defense:number
 }
 
 export type EffectCard = {
@@ -278,9 +278,9 @@ export type SpecialCard = {
 }
 
 export enum SpecialSkills {
+	THUNDER = "THUNDER",
 	RAIN = "RAIN",
-	FIRE = "FIRE",
-	THUNDER = "THUNDER"
+	FIRE = "FIRE"
 }
 
 
@@ -392,7 +392,7 @@ type MapType<SRC extends Anify<DST>, DST> = DST extends boolean
         : LastMapTypeSRCResolver<SRC[Key], DST[Key]>;
     };
 
-type OperationToGraphQL<V, T> = <Z>(o: Z | V) => Promise<MapType<T, Z>>;
+type OperationToGraphQL<V, T> = <Z>(o: Z | V, variables?: Record<string, any>) => Promise<MapType<T, Z>>;
 
 type CastToGraphQL<V, T> = (
   resultOfYourQuery: any
@@ -401,7 +401,7 @@ type CastToGraphQL<V, T> = (
 type fetchOptions = ArgsType<typeof fetch>;
 
 export type SelectionFunction<V> = <T>(t: T | V) => T;
-type FetchFunction = (query: string) => any;
+type FetchFunction = (query: string, variables?: Record<string, any>) => any;
 
 
 export declare function Thunder(

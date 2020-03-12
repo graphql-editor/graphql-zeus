@@ -168,7 +168,7 @@ type MapType<SRC extends Anify<DST>, DST> = DST extends boolean
         : LastMapTypeSRCResolver<SRC[Key], DST[Key]>;
     };
 
-type OperationToGraphQL<V, T> = <Z>(o: Z | V) => Promise<MapType<T, Z>>;
+type OperationToGraphQL<V, T> = <Z>(o: Z | V, variables?: Record<string, any>) => Promise<MapType<T, Z>>;
 
 type CastToGraphQL<V, T> = (
   resultOfYourQuery: any
@@ -177,7 +177,7 @@ type CastToGraphQL<V, T> = (
 type fetchOptions = ArgsType<typeof fetch>;
 
 export type SelectionFunction<V> = <T>(t: T | V) => T;
-type FetchFunction = (query: string) => any;
+type FetchFunction = (query: string, variables?: Record<string, any>) => any;
 
 
 export declare function Thunder(

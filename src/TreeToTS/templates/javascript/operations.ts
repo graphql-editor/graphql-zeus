@@ -3,14 +3,14 @@ import { Environment, OperationType } from '../../../Models';
 import { graphqlErrorJavascript, javascriptFunctions } from './';
 
 const generateOperationChainingJavascript = (ot: OperationType, on: OperationName): string =>
-  `${ot}: (o) =>
-    fullChainConstruct(apiFetch(options))('${ot}', '${on.name}')(o).then(
+  `${ot}: (o, variables) =>
+    fullChainConstruct(apiFetch(options))('${ot}', '${on.name}')(o, variables).then(
       (response) => response
     )`;
 
 const generateOperationThunder = (t: OperationName, ot: OperationType): string =>
-  `${ot}: ((o) =>
-      fullChainConstruct(fn)('${ot}', '${t.name}')(o).then(
+  `${ot}: ((o, variables) =>
+      fullChainConstruct(fn)('${ot}', '${t.name}')(o, variables).then(
         (response) => response
       ))`;
 

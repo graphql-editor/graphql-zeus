@@ -13,6 +13,12 @@ export const AllTypesProps = {
 		}
 	},
 	createCard:{
+		skills:{
+			type:"SpecialSkills",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
 		name:{
 			type:"String",
 			array:false,
@@ -40,12 +46,6 @@ export const AllTypesProps = {
 		Defense:{
 			type:"Int",
 			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		skills:{
-			type:"SpecialSkills",
-			array:true,
 			arrayRequired:false,
 			required:true
 		}
@@ -171,6 +171,10 @@ export const TypesPropsResolver = ({
   }
   const typeResolved = resolvedValue.type;
   const isArray = resolvedValue.array;
+  if (typeof value === 'string' && value.startsWith(`ZEUS_VAR$`)) {
+    const isRequired = resolvedValue.required ? '!' : ''
+    return `\$${value.split(`ZEUS_VAR$`)[1]}__ZEUS_VAR__${typeResolved}${isRequired}`;
+  }
   if (isArray && !blockArrays) {
     return `[${value
       .map((v) => TypesPropsResolver({ value: v, type, name, key, blockArrays: true }))
@@ -279,9 +283,28 @@ return objectToTree(b);
 const buildQuery = (type, a) =>
   traverseToSeekArrays([type], a)
 
-const queryConstruct = (t, tName) => (o) => `${t.toLowerCase()}${buildQuery(tName, o)}`;
+const inspectVariables = (query) => {
+  const regex = /\$\b\w*ZEUS_VAR\w*\b[!]?/g;
+  let result;
+  const AllVariables = [];
+  while ((result = regex.exec(query))) {
+    AllVariables.push(result[0]);
+  }
+  if (!AllVariables.length) {
+    return query;
+  }
+  let filteredQuery = query;
+  AllVariables.forEach((variable) => {
+    filteredQuery = filteredQuery.replace(variable, variable.split('__ZEUS_VAR__')[0]);
+  });
+  return `(${AllVariables.map((a) => a.split('__ZEUS_VAR__'))
+    .map(([variableName, variableType]) => `${variableName}:${variableType}`)
+    .join(', ')})${filteredQuery}`;
+};
 
-const fullChainConstruct = (fn) => (t,tName) => (o) => fn(queryConstruct(t, tName)(o));
+const queryConstruct = (t, tName) => (o) => `${t.toLowerCase()}${inspectVariables(buildQuery(tName, o))}`;
+
+const fullChainConstruct = (fn) => (t,tName) => (o, variables) => fn(queryConstruct(t, tName)(o), variables);
 
 const seekForAliases = (o) => {
   if (typeof o === 'object' && o) {
@@ -310,6 +333,9 @@ const seekForAliases = (o) => {
   }
 };
 
+export const $ = (t) => `ZEUS_VAR$${t.join('')}`;
+
+
 const handleFetchResponse = response => {
   if (!response.ok) {
     return new Promise((resolve, reject) => {
@@ -322,7 +348,7 @@ const handleFetchResponse = response => {
   return response.json();
 };
 
-const apiFetch = (options) => (query) => {
+const apiFetch = (options) => (query, variables = {}) => {
     let fetchFunction;
     let queryString = query;
     let fetchOptions = options[1] || {};
@@ -348,7 +374,7 @@ const apiFetch = (options) => (query) => {
         });
     }
     return fetchFunction(`${options[0]}`, {
-      body: JSON.stringify({ query: queryString }),
+      body: JSON.stringify({ query: queryString, variables }),
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -368,23 +394,23 @@ const apiFetch = (options) => (query) => {
 const ZeusSelect = () => (t) => t
   
 export const Thunder = (fn) => ({
-  query: ((o) =>
-      fullChainConstruct(fn)('query', 'Query')(o).then(
+  query: ((o, variables) =>
+      fullChainConstruct(fn)('query', 'Query')(o, variables).then(
         (response) => response
       )),
-mutation: ((o) =>
-      fullChainConstruct(fn)('mutation', 'Mutation')(o).then(
+mutation: ((o, variables) =>
+      fullChainConstruct(fn)('mutation', 'Mutation')(o, variables).then(
         (response) => response
       ))
 });
 
 export const Chain = (...options) => ({
-  query: (o) =>
-    fullChainConstruct(apiFetch(options))('query', 'Query')(o).then(
+  query: (o, variables) =>
+    fullChainConstruct(apiFetch(options))('query', 'Query')(o, variables).then(
       (response) => response
     ),
-mutation: (o) =>
-    fullChainConstruct(apiFetch(options))('mutation', 'Mutation')(o).then(
+mutation: (o, variables) =>
+    fullChainConstruct(apiFetch(options))('mutation', 'Mutation')(o, variables).then(
       (response) => response
     )
 });

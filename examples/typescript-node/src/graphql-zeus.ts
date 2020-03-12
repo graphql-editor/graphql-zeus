@@ -278,9 +278,9 @@ export type SpecialCard = {
 }
 
 export enum SpecialSkills {
+	THUNDER = "THUNDER",
 	RAIN = "RAIN",
-	FIRE = "FIRE",
-	THUNDER = "THUNDER"
+	FIRE = "FIRE"
 }
 
 export const AllTypesProps: Record<string,any> = {
@@ -520,7 +520,7 @@ type MapType<SRC extends Anify<DST>, DST> = DST extends boolean
         : LastMapTypeSRCResolver<SRC[Key], DST[Key]>;
     };
 
-type OperationToGraphQL<V, T> = <Z>(o: Z | V) => Promise<MapType<T, Z>>;
+type OperationToGraphQL<V, T> = <Z>(o: Z | V, variables?: Record<string, any>) => Promise<MapType<T, Z>>;
 
 type CastToGraphQL<V, T> = (
   resultOfYourQuery: any
@@ -529,7 +529,7 @@ type CastToGraphQL<V, T> = (
 type fetchOptions = ArgsType<typeof fetch>;
 
 export type SelectionFunction<V> = <T>(t: T | V) => T;
-type FetchFunction = (query: string) => any;
+type FetchFunction = (query: string, variables?: Record<string, any>) => any;
 
 
 
@@ -580,6 +580,10 @@ export const TypesPropsResolver = ({
   }
   const typeResolved = resolvedValue.type;
   const isArray: boolean = resolvedValue.array;
+  if (typeof value === 'string' && value.startsWith(`ZEUS_VAR$`)) {
+    const isRequired = resolvedValue.required ? '!' : ''
+    return `\$${value.split(`ZEUS_VAR$`)[1]}__ZEUS_VAR__${typeResolved}${isRequired}`;
+  }
   if (isArray && !blockArrays) {
     return `[${value
       .map((v: any) => TypesPropsResolver({ value: v, type, name, key, blockArrays: true }))
@@ -687,12 +691,32 @@ const traverseToSeekArrays = (parent: string[], a?: any): string => {
 
 const buildQuery = (type: string, a?: Record<any, any>) => traverseToSeekArrays([type], a);
 
-const queryConstruct = (t: 'query' | 'mutation' | 'subscription', tName: string) => (o: Record<any, any>) =>
-  `${t.toLowerCase()}${buildQuery(tName, o)}`;
+const inspectVariables = (query: string) => {
+  const regex = /\$\b\w*ZEUS_VAR\w*\b[!]?/g;
+  let result;
+  const AllVariables = [];
+  while ((result = regex.exec(query))) {
+    AllVariables.push(result[0]);
+  }
+  if (!AllVariables.length) {
+    return query;
+  }
+  let filteredQuery = query;
+  AllVariables.forEach((variable) => {
+    filteredQuery = filteredQuery.replace(variable, variable.split('__ZEUS_VAR__')[0]);
+  });
+  return `(${AllVariables.map((a) => a.split('__ZEUS_VAR__'))
+    .map(([variableName, variableType]) => `${variableName}:${variableType}`)
+    .join(', ')})${filteredQuery}`;
+};
 
+const queryConstruct = (t: 'query' | 'mutation' | 'subscription', tName: string) => (o: Record<any, any>) =>
+  `${t.toLowerCase()}${inspectVariables(buildQuery(tName, o))}`;
+  
 const fullChainConstruct = (fn: FetchFunction) => (t: 'query' | 'mutation' | 'subscription', tName: string) => (
   o: Record<any, any>,
-) => fn(queryConstruct(t, tName)(o));
+  variables?: Record<string, any>,
+) => fn(queryConstruct(t, tName)(o), variables);
 
 const seekForAliases = (o: any) => {
   if (typeof o === 'object' && o) {
@@ -721,6 +745,8 @@ const seekForAliases = (o: any) => {
   }
 };
 
+export const $ = (t: TemplateStringsArray): any => `ZEUS_VAR$${t.join('')}`;
+
 
 const handleFetchResponse = (
   response: Parameters<Extract<Parameters<ReturnType<typeof fetch>['then']>[0], Function>>[0]
@@ -736,7 +762,7 @@ const handleFetchResponse = (
   return response.json();
 };
 
-const apiFetch = (options: fetchOptions) => (query: string) => {
+const apiFetch = (options: fetchOptions) => (query: string, variables: Record<string, any> = {}) => {
     let fetchFunction;
     let queryString = query;
     let fetchOptions = options[1] || {};
@@ -762,7 +788,7 @@ const apiFetch = (options: fetchOptions) => (query: string) => {
         });
     }
     return fetchFunction(`${options[0]}`, {
-      body: JSON.stringify({ query: queryString }),
+      body: JSON.stringify({ query: queryString, variables }),
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -782,23 +808,23 @@ const apiFetch = (options: fetchOptions) => (query: string) => {
 
 
 export const Thunder = (fn: FetchFunction) => ({
-  query: ((o: any) =>
-    fullChainConstruct(fn)('query', 'Query')(o).then(
+  query: ((o: any, variables) =>
+    fullChainConstruct(fn)('query', 'Query')(o, variables).then(
       (response: any) => response
     )) as OperationToGraphQL<ValueTypes["Query"],Query>,
-mutation: ((o: any) =>
-    fullChainConstruct(fn)('mutation', 'Mutation')(o).then(
+mutation: ((o: any, variables) =>
+    fullChainConstruct(fn)('mutation', 'Mutation')(o, variables).then(
       (response: any) => response
     )) as OperationToGraphQL<ValueTypes["Mutation"],Mutation>
 });
 
 export const Chain = (...options: fetchOptions) => ({
-  query: ((o: any) =>
-    fullChainConstruct(apiFetch(options))('query', 'Query')(o).then(
+  query: ((o: any, variables) =>
+    fullChainConstruct(apiFetch(options))('query', 'Query')(o, variables).then(
       (response: any) => response
     )) as OperationToGraphQL<ValueTypes["Query"],Query>,
-mutation: ((o: any) =>
-    fullChainConstruct(apiFetch(options))('mutation', 'Mutation')(o).then(
+mutation: ((o: any, variables) =>
+    fullChainConstruct(apiFetch(options))('mutation', 'Mutation')(o, variables).then(
       (response: any) => response
     )) as OperationToGraphQL<ValueTypes["Mutation"],Mutation>
 });
