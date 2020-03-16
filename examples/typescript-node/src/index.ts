@@ -12,7 +12,7 @@ const run = async () => {
         card: {
           Attack: 1,
           Defense: 2,
-          description: '$myVar',
+          description: 'a',
           name: 'SADSD',
           skills: [SpecialSkills.FIRE],
         },
@@ -80,6 +80,9 @@ const run = async () => {
     return json;
   });
   const blalbaThunder = await thunder.query({
+    drawCard: {
+      Attack: true,
+    },
     drawChangeCard: {
       __typename: true,
       '...on EffectCard': {
@@ -192,6 +195,12 @@ const run = async () => {
       },
       '...on Card': {
         Attack: true,
+      },
+      '...on EffectCard': {
+        name: true,
+      },
+      '...on SpecialCard': {
+        name: true,
       },
     },
   });

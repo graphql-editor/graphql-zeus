@@ -1,7 +1,7 @@
 """Defines user's account type"""
 enum AccountType {
-  PREMIUM
   FREE
+  PREMIUM
 }
 
 """Endpoint returnes a full path to the project without host"""
@@ -82,7 +82,7 @@ type Mutation {
   createProject(public: Boolean, name: String!): Project!
 
   """Create new team"""
-  createTeam(namespace: String!, name: String!): TeamOps
+  createTeam(name: String!, namespace: String!): TeamOps
 
   """
   Create new user
@@ -135,6 +135,9 @@ type Namespace {
 
 """New source payload"""
 input NewSource {
+  """Source checksum"""
+  checksum: String
+
   """source file name"""
   filename: String
 
@@ -143,9 +146,6 @@ input NewSource {
 
   """Source mime type"""
   contentType: String
-
-  """Source checksum"""
-  checksum: String
 }
 
 """PageInfo contains information about connection page"""
@@ -250,7 +250,7 @@ type Query {
   
   limit limits the number of returned projects
   """
-  findProjects(query: String!, last: String, limit: Int): ProjectConnection
+  findProjects(last: String, limit: Int, query: String!): ProjectConnection
 
   """
   Find projects which contain tag
@@ -284,7 +284,7 @@ type Query {
   
   limit limits the number of returned projects
   """
-  listProjects(owned: Boolean, last: String, limit: Int): ProjectConnection
+  listProjects(limit: Int, owned: Boolean, last: String): ProjectConnection
 
   """List of current user teams"""
   myTeams(last: String, limit: Int): TeamConnection
@@ -292,9 +292,6 @@ type Query {
 
 """Team member role"""
 enum Role {
-  """Team contributor can edit projects in team"""
-  CONTRIBUTOR
-
   """
   Team owner owner can add/remove/edit/view projects and members to a team. Only owner can delete team
   """
@@ -310,6 +307,9 @@ enum Role {
 
   """Team viewer can view projects in team"""
   VIEWER
+
+  """Team contributor can edit projects in team"""
+  CONTRIBUTOR
 }
 
 """Source upload info object"""

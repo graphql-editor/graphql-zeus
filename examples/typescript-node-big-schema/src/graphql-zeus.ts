@@ -64,7 +64,7 @@ update?: [{	role?:ValueTypes["Role"]},true]
 }>;
 	["Mutation"]: AliasType<{
 createProject?: [{	public?:boolean,	name:string},ValueTypes["Project"]],
-createTeam?: [{	namespace:string,	name:string},ValueTypes["TeamOps"]],
+createTeam?: [{	name:string,	namespace:string},ValueTypes["TeamOps"]],
 createUser?: [{	namespace:string,	public?:boolean},ValueTypes["User"]],
 deployToFaker?: [{	id:string},true],
 removeProject?: [{	project:string},true],
@@ -86,14 +86,14 @@ projects?: [{	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
 }>;
 	/** New source payload */
 ["NewSource"]: {
+	/** Source checksum */
+	checksum?:string,
 	/** source file name */
 	filename?:string,
 	/** Length of source in bytes */
 	contentLength?:number,
 	/** Source mime type */
-	contentType?:string,
-	/** Source checksum */
-	checksum?:string
+	contentType?:string
 };
 	/** PageInfo contains information about connection page */
 ["PageInfo"]: AliasType<{
@@ -157,13 +157,13 @@ update?: [{	in?:ValueTypes["UpdateProject"]},true]
 }>;
 	/** Root query type */
 ["Query"]: AliasType<{
-findProjects?: [{	query:string,	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
+findProjects?: [{	last?:string,	limit?:number,	query:string},ValueTypes["ProjectConnection"]],
 findProjectsByTag?: [{	tag:string,	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
 getNamespace?: [{	slug:string},ValueTypes["Namespace"]],
 getProject?: [{	project:string},ValueTypes["Project"]],
 getTeam?: [{	name:string},ValueTypes["Team"]],
 getUser?: [{	username:string},ValueTypes["User"]],
-listProjects?: [{	owned?:boolean,	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
+listProjects?: [{	limit?:number,	owned?:boolean,	last?:string},ValueTypes["ProjectConnection"]],
 myTeams?: [{	last?:string,	limit?:number},ValueTypes["TeamConnection"]]
 		__typename?: true
 }>;
@@ -384,14 +384,14 @@ limit sets a limit on how many objects can be returned */
 	},
 	/** New source payload */
 ["NewSource"]: {
+	/** Source checksum */
+	checksum?:string,
 	/** source file name */
 	filename?:string,
 	/** Length of source in bytes */
 	contentLength?:number,
 	/** Source mime type */
-	contentType?:string,
-	/** Source checksum */
-	checksum?:string
+	contentType?:string
 },
 	/** PageInfo contains information about connection page */
 ["PageInfo"]: {
@@ -615,8 +615,8 @@ limit limits the number of returned projects */
 
 /** Defines user's account type */
 export enum AccountType {
-	PREMIUM = "PREMIUM",
-	FREE = "FREE"
+	FREE = "FREE",
+	PREMIUM = "PREMIUM"
 }
 
 /** Endpoint returnes a full path to the project without host */
@@ -733,14 +733,14 @@ limit sets a limit on how many objects can be returned */
 
 /** New source payload */
 export type NewSource = {
-		/** source file name */
+		/** Source checksum */
+	checksum?:string,
+	/** source file name */
 	filename?:string,
 	/** Length of source in bytes */
 	contentLength?:number,
 	/** Source mime type */
-	contentType?:string,
-	/** Source checksum */
-	checksum?:string
+	contentType?:string
 }
 
 /** PageInfo contains information about connection page */
@@ -854,11 +854,11 @@ limit limits the number of returned projects */
 
 /** Team member role */
 export enum Role {
-	CONTRIBUTOR = "CONTRIBUTOR",
 	OWNER = "OWNER",
 	ADMIN = "ADMIN",
 	EDITOR = "EDITOR",
-	VIEWER = "VIEWER"
+	VIEWER = "VIEWER",
+	CONTRIBUTOR = "CONTRIBUTOR"
 }
 
 /** Source upload info object */
@@ -1010,13 +1010,13 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		createTeam:{
-			namespace:{
+			name:{
 				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:true
 			},
-			name:{
+			namespace:{
 				type:"String",
 				array:false,
 				arrayRequired:false,
@@ -1109,6 +1109,12 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	NewSource:{
+		checksum:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
 		filename:{
 			type:"String",
 			array:false,
@@ -1122,12 +1128,6 @@ export const AllTypesProps: Record<string,any> = {
 			required:false
 		},
 		contentType:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		checksum:{
 			type:"String",
 			array:false,
 			arrayRequired:false,
@@ -1162,12 +1162,6 @@ export const AllTypesProps: Record<string,any> = {
 	},
 	Query:{
 		findProjects:{
-			query:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
-			},
 			last:{
 				type:"String",
 				array:false,
@@ -1179,6 +1173,12 @@ export const AllTypesProps: Record<string,any> = {
 				array:false,
 				arrayRequired:false,
 				required:false
+			},
+			query:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:true
 			}
 		},
 		findProjectsByTag:{
@@ -1234,6 +1234,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		listProjects:{
+			limit:{
+				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			owned:{
 				type:"Boolean",
 				array:false,
@@ -1242,12 +1248,6 @@ export const AllTypesProps: Record<string,any> = {
 			},
 			last:{
 				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			limit:{
-				type:"Int",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -1638,11 +1638,11 @@ type MapType<SRC extends Anify<DST>, DST> = DST extends boolean
         : LastMapTypeSRCResolver<SRC[Key], DST[Key]>;
     };
 
-type OperationToGraphQL<V, T> = <Z>(o: Z | V, variables?: Record<string, any>) => Promise<MapType<T, Z>>;
+type OperationToGraphQL<V, T> = <Z extends V>(o: Z | V, variables?: Record<string, any>) => Promise<MapType<T, Z>>;
 
 type CastToGraphQL<V, T> = (
   resultOfYourQuery: any
-) => <Z>(o: Z | V) => MapType<T, Z>;
+) => <Z extends V>(o: Z | V) => MapType<T, Z>;
 
 type fetchOptions = ArgsType<typeof fetch>;
 

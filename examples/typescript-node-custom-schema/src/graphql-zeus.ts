@@ -206,11 +206,11 @@ type MapType<SRC extends Anify<DST>, DST> = DST extends boolean
         : LastMapTypeSRCResolver<SRC[Key], DST[Key]>;
     };
 
-type OperationToGraphQL<V, T> = <Z>(o: Z | V, variables?: Record<string, any>) => Promise<MapType<T, Z>>;
+type OperationToGraphQL<V, T> = <Z extends V>(o: Z | V, variables?: Record<string, any>) => Promise<MapType<T, Z>>;
 
 type CastToGraphQL<V, T> = (
   resultOfYourQuery: any
-) => <Z>(o: Z | V) => MapType<T, Z>;
+) => <Z extends V>(o: Z | V) => MapType<T, Z>;
 
 type fetchOptions = ArgsType<typeof fetch>;
 
