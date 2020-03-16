@@ -25,7 +25,7 @@
     "run-example-typescript-node-custom-schema": "./run-example.sh examples/typescript-node-custom-schema",
     "run-example-javascript-node": "./run-example.sh examples/javascript-node",
     "run-example-javascript-node-custom-schema": "./run-example.sh examples/javascript-node-custom-schema",
-    "lint": "tsc --noEmit && eslint \"./src/**/*.{ts,js}\" --quiet --fix"
+    "lint": "tsc  && eslint \"./src/**/*.{ts,js}\" --quiet --fix"
   },
   "repository": {
     "type": "git",
