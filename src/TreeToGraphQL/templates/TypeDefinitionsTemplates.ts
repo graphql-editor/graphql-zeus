@@ -48,14 +48,14 @@ export class TypeDefinitionsTemplates {
   static resolve = ({ name, description, interfaces, args, directives, data }: ParserField): string =>
     TypeDefinitionsTemplates.definitionTemplate({ name, description, data }) +
     `${TemplateUtils.resolveImplements(interfaces)}${TemplateUtils.resolveDirectives(directives)}${
-      args && args.length ? `{\n${args.map((a) => TemplateUtils.resolverForConnection(a, '\t')).join('\n')}\n}` : ''
+      args && args.length ? `{\n${args.map((a) => TemplateUtils.resolverForConnection(a, 1)).join('\n')}\n}` : ''
     }`;
   /**
    * Resolve directive
    */
   static resolveDirective = ({ name, description, type, args }: ParserField): string =>
     `${TemplateUtils.descriptionResolver(description)}${TypeSystemDefinitionDisplayStrings.directive} @${name}${
-      args && args.length ? `(\n${args.map((a) => TemplateUtils.resolverForConnection(a, '\t')).join('\n')}\n)` : ''
+      args && args.length ? `(\n${args.map((a) => TemplateUtils.resolverForConnection(a, 1)).join('\n')}\n)` : ''
     } on ${(type.directiveOptions || []).join(' | ')}`;
   /**
    * Resolve union
