@@ -20,6 +20,8 @@ import { TypeDefinitionsTemplates } from './TypeDefinitionsTemplates';
 import { UnionMemberTemplate } from './UnionMemberTemplate';
 import { ValueTemplate } from './ValueTemplate';
 
+const dedent = new RegExp('\n([\t ]*)', 'gm');
+
 /**
  * Class for solving GraphQL Types and directing them to a right resolver
  *
@@ -82,8 +84,18 @@ export class TemplateUtils {
    * @returns {string}
    * @memberof TemplateUtils
    */
-  static descriptionResolver = (description?: string, prefix = ''): string =>
-    description ? `${prefix}"""\n${prefix}${description}\n${prefix}"""\n` : '';
+  static descriptionResolver = (description?: string, prefix = 0): string => {
+    if (description) {
+      const indent = '\t'.repeat(prefix);
+      const removedIndents = `${description.replace(/^([\t ]*)/g, indent).replace(dedent, `\n${indent}`)}`;
+      const d = `${indent}"""\n${removedIndents}\n${indent}"""\n`;
+      // Calculate how many indents already
+      // how many - prefix
+      // indent
+      return d;
+    }
+    return '';
+  };
   /**
    * Creates implements for GraphQL types
    *
@@ -112,7 +124,7 @@ export class TemplateUtils {
    * @param f
    * @returns {string}
    */
-  static resolverForConnection = (f: ParserField, prefix = ''): string => {
+  static resolverForConnection = (f: ParserField, prefix = 0): string => {
     if (f.data) {
       const { type = '' } = f.data;
       if (type === TypeDefinition.UnionTypeDefinition) {
