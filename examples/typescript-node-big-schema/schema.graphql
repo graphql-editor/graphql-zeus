@@ -82,7 +82,7 @@ type Mutation {
   createProject(public: Boolean, name: String!): Project!
 
   """Create new team"""
-  createTeam(name: String!, namespace: String!): TeamOps
+  createTeam(namespace: String!, name: String!): TeamOps
 
   """
   Create new user
@@ -91,7 +91,7 @@ type Mutation {
   
   public is user namespace public
   """
-  createUser(namespace: String!, public: Boolean): User!
+  createUser(public: Boolean, namespace: String!): User!
 
   """deploy project to faker"""
   deployToFaker(id: ID!): Boolean
@@ -135,9 +135,6 @@ type Namespace {
 
 """New source payload"""
 input NewSource {
-  """Source checksum"""
-  checksum: String
-
   """source file name"""
   filename: String
 
@@ -146,6 +143,9 @@ input NewSource {
 
   """Source mime type"""
   contentType: String
+
+  """Source checksum"""
+  checksum: String
 }
 
 """PageInfo contains information about connection page"""
@@ -250,7 +250,7 @@ type Query {
   
   limit limits the number of returned projects
   """
-  findProjects(last: String, limit: Int, query: String!): ProjectConnection
+  findProjects(query: String!, last: String, limit: Int): ProjectConnection
 
   """
   Find projects which contain tag
@@ -284,7 +284,7 @@ type Query {
   
   limit limits the number of returned projects
   """
-  listProjects(limit: Int, owned: Boolean, last: String): ProjectConnection
+  listProjects(owned: Boolean, last: String, limit: Int): ProjectConnection
 
   """List of current user teams"""
   myTeams(last: String, limit: Int): TeamConnection
@@ -388,7 +388,7 @@ type TeamConnection {
 """Team operations"""
 type TeamOps {
   """Add member to the team"""
-  addMember(username: String!, role: Role!): Member
+  addMember(role: Role!, username: String!): Member
 
   """Create new team project"""
   createProject(public: Boolean, name: String!): Project
@@ -403,7 +403,7 @@ type TeamOps {
   member(username: String!): MemberOps
 
   """Paginated list of members in team"""
-  members(last: String, limit: Int): MemberConnection
+  members(limit: Int, last: String): MemberConnection
 
   """Team name"""
   name: String
@@ -417,6 +417,9 @@ type TeamOps {
 
 """Update project payload"""
 input UpdateProject {
+  """ID of project to be updated"""
+  project: ID
+
   """New description for project"""
   description: String
 
@@ -425,9 +428,6 @@ input UpdateProject {
 
   """Set project visiblity"""
   public: Boolean
-
-  """ID of project to be updated"""
-  project: ID
 }
 
 """Editor user"""

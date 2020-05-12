@@ -1,4 +1,4 @@
-import { Environment, OperationType, ParserField, ParserTree } from '../Models';
+import { Environment, OperationType, ParserField, ParserTree, TypeDefinition } from '../Models';
 import { bodyJavascript, generateOperationsJavascript } from './templates/javascript';
 import { resolveValueTypes } from './templates/resolveValueTypes';
 import { resolvePartialObjects } from './templates/returnedPartialObjects';
@@ -63,7 +63,14 @@ export class TreeToTS {
       .filter((pt) => pt)
       .join(',\n')}\n}`;
     const returnTypes = `export const ReturnTypes = {\n${tree.nodes
-      .map(resolveReturnFromRoot)
+      .map((f) =>
+        resolveReturnFromRoot(
+          f,
+          f.data.type === TypeDefinition.InterfaceTypeDefinition
+            ? tree.nodes.filter((n) => n.interfaces?.includes(f.name)).map((n) => n.name)
+            : undefined,
+        ),
+      )
       .filter((pt) => pt)
       .join(',\n')}\n}`;
     return propTypes.concat('\n\n').concat(returnTypes);
@@ -74,7 +81,14 @@ export class TreeToTS {
       .filter((pt) => pt)
       .join(',\n')}\n}`;
     const returnTypes = `export const ReturnTypes: Record<string,any> = {\n${tree.nodes
-      .map(resolveReturnFromRoot)
+      .map((f) =>
+        resolveReturnFromRoot(
+          f,
+          f.data.type === TypeDefinition.InterfaceTypeDefinition
+            ? tree.nodes.filter((n) => n.interfaces?.includes(f.name)).map((n) => n.name)
+            : undefined,
+        ),
+      )
       .filter((pt) => pt)
       .join(',\n')}\n}`;
     return propTypes.concat('\n\n').concat(returnTypes);
@@ -83,11 +97,7 @@ export class TreeToTS {
     const rootTypes = tree.nodes.map((n) => resolveTypeFromRoot(n, tree.nodes));
     const valueTypes = resolveValueTypes(tree.nodes);
     const objectTypes = resolvePartialObjects(tree.nodes, tree.nodes);
-    return valueTypes
-      .concat('\n\n')
-      .concat(objectTypes)
-      .concat('\n\n')
-      .concat(rootTypes.join('\n\n'));
+    return valueTypes.concat('\n\n').concat(objectTypes).concat('\n\n').concat(rootTypes.join('\n\n'));
   }
   /**
    * Generate javascript and ts declaration file

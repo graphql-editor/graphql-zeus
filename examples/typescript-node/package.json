@@ -9,7 +9,8 @@
   "author": "Aexol <aexol@aexol.com> (http://aexol.com)",
   "license": "ISC",
   "devDependencies": {
-    "ts-node": "^8.3.0"
+    "ts-node": "^8.3.0",
+    "typescript": "3.8.3"
   },
   "dependencies": {
     "node-fetch": "^2.6.0"

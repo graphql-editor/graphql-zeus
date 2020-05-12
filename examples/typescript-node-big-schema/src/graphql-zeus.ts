@@ -64,8 +64,8 @@ update?: [{	role?:ValueTypes["Role"]},true]
 }>;
 	["Mutation"]: AliasType<{
 createProject?: [{	public?:boolean,	name:string},ValueTypes["Project"]],
-createTeam?: [{	name:string,	namespace:string},ValueTypes["TeamOps"]],
-createUser?: [{	namespace:string,	public?:boolean},ValueTypes["User"]],
+createTeam?: [{	namespace:string,	name:string},ValueTypes["TeamOps"]],
+createUser?: [{	public?:boolean,	namespace:string},ValueTypes["User"]],
 deployToFaker?: [{	id:string},true],
 removeProject?: [{	project:string},true],
 team?: [{	id:string},ValueTypes["TeamOps"]],
@@ -86,14 +86,14 @@ projects?: [{	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
 }>;
 	/** New source payload */
 ["NewSource"]: {
-	/** Source checksum */
-	checksum?:string,
 	/** source file name */
 	filename?:string,
 	/** Length of source in bytes */
 	contentLength?:number,
 	/** Source mime type */
-	contentType?:string
+	contentType?:string,
+	/** Source checksum */
+	checksum?:string
 };
 	/** PageInfo contains information about connection page */
 ["PageInfo"]: AliasType<{
@@ -157,13 +157,13 @@ update?: [{	in?:ValueTypes["UpdateProject"]},true]
 }>;
 	/** Root query type */
 ["Query"]: AliasType<{
-findProjects?: [{	last?:string,	limit?:number,	query:string},ValueTypes["ProjectConnection"]],
+findProjects?: [{	query:string,	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
 findProjectsByTag?: [{	tag:string,	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
 getNamespace?: [{	slug:string},ValueTypes["Namespace"]],
 getProject?: [{	project:string},ValueTypes["Project"]],
 getTeam?: [{	name:string},ValueTypes["Team"]],
 getUser?: [{	username:string},ValueTypes["User"]],
-listProjects?: [{	limit?:number,	owned?:boolean,	last?:string},ValueTypes["ProjectConnection"]],
+listProjects?: [{	owned?:boolean,	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
 myTeams?: [{	last?:string,	limit?:number},ValueTypes["TeamConnection"]]
 		__typename?: true
 }>;
@@ -227,14 +227,14 @@ members?: [{	last?:string,	limit?:number},ValueTypes["MemberConnection"]],
 }>;
 	/** Team operations */
 ["TeamOps"]: AliasType<{
-addMember?: [{	username:string,	role:ValueTypes["Role"]},ValueTypes["Member"]],
+addMember?: [{	role:ValueTypes["Role"],	username:string},ValueTypes["Member"]],
 createProject?: [{	public?:boolean,	name:string},ValueTypes["Project"]],
 	/** Delete team */
 	delete?:true,
 	/** Unique team id */
 	id?:true,
 member?: [{	username:string},ValueTypes["MemberOps"]],
-members?: [{	last?:string,	limit?:number},ValueTypes["MemberConnection"]],
+members?: [{	limit?:number,	last?:string},ValueTypes["MemberConnection"]],
 	/** Team name */
 	name?:true,
 	/** Team's namespace */
@@ -244,14 +244,14 @@ project?: [{	id:string},ValueTypes["ProjectOps"]]
 }>;
 	/** Update project payload */
 ["UpdateProject"]: {
+	/** ID of project to be updated */
+	project?:string,
 	/** New description for project */
 	description?:string,
 	/** List of tags for project */
 	tags?:string[],
 	/** Set project visiblity */
-	public?:boolean,
-	/** ID of project to be updated */
-	project?:string
+	public?:boolean
 };
 	/** Editor user */
 ["User"]: AliasType<{
@@ -384,14 +384,14 @@ limit sets a limit on how many objects can be returned */
 	},
 	/** New source payload */
 ["NewSource"]: {
-	/** Source checksum */
-	checksum?:string,
 	/** source file name */
 	filename?:string,
 	/** Length of source in bytes */
 	contentLength?:number,
 	/** Source mime type */
-	contentType?:string
+	contentType?:string,
+	/** Source checksum */
+	checksum?:string
 },
 	/** PageInfo contains information about connection page */
 ["PageInfo"]: {
@@ -581,14 +581,14 @@ limit limits the number of returned projects */
 	},
 	/** Update project payload */
 ["UpdateProject"]: {
+	/** ID of project to be updated */
+	project?:string,
 	/** New description for project */
 	description?:string,
 	/** List of tags for project */
 	tags?:string[],
 	/** Set project visiblity */
-	public?:boolean,
-	/** ID of project to be updated */
-	project?:string
+	public?:boolean
 },
 	/** Editor user */
 ["User"]: {
@@ -733,14 +733,14 @@ limit sets a limit on how many objects can be returned */
 
 /** New source payload */
 export type NewSource = {
-		/** Source checksum */
-	checksum?:string,
-	/** source file name */
+		/** source file name */
 	filename?:string,
 	/** Length of source in bytes */
 	contentLength?:number,
 	/** Source mime type */
-	contentType?:string
+	contentType?:string,
+	/** Source checksum */
+	checksum?:string
 }
 
 /** PageInfo contains information about connection page */
@@ -949,14 +949,14 @@ export type TeamOps = {
 
 /** Update project payload */
 export type UpdateProject = {
-		/** New description for project */
+		/** ID of project to be updated */
+	project?:string,
+	/** New description for project */
 	description?:string,
 	/** List of tags for project */
 	tags?:string[],
 	/** Set project visiblity */
-	public?:boolean,
-	/** ID of project to be updated */
-	project?:string
+	public?:boolean
 }
 
 /** Editor user */
@@ -1010,13 +1010,13 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		createTeam:{
-			name:{
+			namespace:{
 				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:true
 			},
-			namespace:{
+			name:{
 				type:"String",
 				array:false,
 				arrayRequired:false,
@@ -1024,17 +1024,17 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		createUser:{
-			namespace:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
-			},
 			public:{
 				type:"Boolean",
 				array:false,
 				arrayRequired:false,
 				required:false
+			},
+			namespace:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:true
 			}
 		},
 		deployToFaker:{
@@ -1109,12 +1109,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	NewSource:{
-		checksum:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		filename:{
 			type:"String",
 			array:false,
@@ -1128,6 +1122,12 @@ export const AllTypesProps: Record<string,any> = {
 			required:false
 		},
 		contentType:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		checksum:{
 			type:"String",
 			array:false,
 			arrayRequired:false,
@@ -1162,6 +1162,12 @@ export const AllTypesProps: Record<string,any> = {
 	},
 	Query:{
 		findProjects:{
+			query:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:true
+			},
 			last:{
 				type:"String",
 				array:false,
@@ -1173,12 +1179,6 @@ export const AllTypesProps: Record<string,any> = {
 				array:false,
 				arrayRequired:false,
 				required:false
-			},
-			query:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
 			}
 		},
 		findProjectsByTag:{
@@ -1234,12 +1234,6 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		listProjects:{
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
 			owned:{
 				type:"Boolean",
 				array:false,
@@ -1248,6 +1242,12 @@ export const AllTypesProps: Record<string,any> = {
 			},
 			last:{
 				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
+			limit:{
+				type:"Int",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -1295,14 +1295,14 @@ export const AllTypesProps: Record<string,any> = {
 	},
 	TeamOps:{
 		addMember:{
-			username:{
-				type:"String",
+			role:{
+				type:"Role",
 				array:false,
 				arrayRequired:false,
 				required:true
 			},
-			role:{
-				type:"Role",
+			username:{
+				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:true
@@ -1331,14 +1331,14 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		members:{
-			last:{
-				type:"String",
+			limit:{
+				type:"Int",
 				array:false,
 				arrayRequired:false,
 				required:false
 			},
-			limit:{
-				type:"Int",
+			last:{
+				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -1354,6 +1354,12 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	UpdateProject:{
+		project:{
+			type:"ID",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
 		description:{
 			type:"String",
 			array:false,
@@ -1368,12 +1374,6 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		public:{
 			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		project:{
-			type:"ID",
 			array:false,
 			arrayRequired:false,
 			required:false

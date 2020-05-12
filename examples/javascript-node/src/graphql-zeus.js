@@ -13,6 +13,12 @@ export const AllTypesProps = {
 		}
 	},
 	createCard:{
+		name:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
 		description:{
 			type:"String",
 			array:false,
@@ -40,12 +46,6 @@ export const AllTypesProps = {
 		skills:{
 			type:"SpecialSkills",
 			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		name:{
-			type:"String",
-			array:false,
 			arrayRequired:false,
 			required:true
 		}
@@ -90,6 +90,10 @@ export const ReturnTypes = {
 		cards:"Card",
 		name:"String"
 	},
+	ChangeCard:{
+		"...on SpecialCard":"SpecialCard",
+		"...on EffectCard":"EffectCard"
+	},
 	EffectCard:{
 		effectSize:"Float",
 		name:"String"
@@ -98,6 +102,10 @@ export const ReturnTypes = {
 		addCard:"Card"
 	},
 	Nameable:{
+		"...on Card": "Card",
+		"...on CardStack": "CardStack",
+		"...on EffectCard": "EffectCard",
+		"...on SpecialCard": "SpecialCard",
 		name:"String"
 	},
 	Query:{
