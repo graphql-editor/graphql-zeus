@@ -4,6 +4,53 @@ enum AccountType {
   PREMIUM
 }
 
+input ChangeSubscriptionInput {
+  subscriptionID: Int!
+  subscriptionPlanID: Int
+}
+
+"""Checkout data needed to begin payment process"""
+input CheckoutDataInput {
+  """Quantity of subscriptions that user wants"""
+  quantity: Int
+
+  """Customer data"""
+  customer: CustomerInput
+
+  """Vat data"""
+  vat: VatInput
+
+  """Optional discount coupon"""
+  coupon: String
+
+  """URL to which user should be redirected after successful transaction"""
+  successURL: String
+
+  """URL to which user should be redirected after failed transaction"""
+  cancelURL: String
+
+  """An id of a chosen subscription plan"""
+  planID: ID!
+}
+
+"""Customer data for checkout information"""
+input CustomerInput {
+  """User's email address"""
+  email: String
+
+  """User's country"""
+  country: String
+
+  """User's post code"""
+  postCode: String
+
+  """Must be true for marketing to be allowed"""
+  marketingConsent: Boolean
+}
+
+"""Amount is a number that gives precise representation of real numbers"""
+scalar Decimal
+
 """Endpoint returnes a full path to the project without host"""
 type Endpoint {
   """Full project uri without host"""
@@ -31,6 +78,8 @@ type FakerSourceConnection {
   """List of sources returned by connection"""
   sources: [FakerSource!]
 }
+
+scalar FileServerCredentials
 
 """Request header"""
 type Header {
@@ -72,6 +121,9 @@ type MemberOps {
 }
 
 type Mutation {
+  """Changes subscription settings for user"""
+  changeSubscription(in: ChangeSubscriptionInput!): Boolean
+
   """
   Create new user project
   
@@ -91,7 +143,7 @@ type Mutation {
   
   public is user namespace public
   """
-  createUser(public: Boolean, namespace: String!): User!
+  createUser(namespace: String!, public: Boolean): User!
 
   """deploy project to faker"""
   deployToFaker(id: ID!): Boolean
@@ -160,10 +212,36 @@ type PageInfo {
   next: Boolean
 }
 
+type Payment {
+  """Amount paid"""
+  amount: Decimal
+
+  """Currency in which payment was made"""
+  currency: String
+
+  """Date indicates a when the payment was made"""
+  date: PaymentDate
+
+  """URL from which user can download invoice"""
+  receiptURL: String
+
+  """ID of subscription for which payment was made"""
+  subscriptionID: Int
+}
+
+"""PaymentDate is a string in a format 'YYYY-MM-DD'"""
+scalar PaymentDate
+
 """Project type"""
 type Project {
+  """Return creation time stamp of a project"""
+  createdAt: RFC3339Date
+
   """Project description"""
   description: String
+
+  """Is project enabled"""
+  enabled: Boolean
 
   """
   Project endpoint contains a slug under which project can be reached
@@ -239,8 +317,52 @@ type ProjectOps {
   update(in: UpdateProject): Boolean
 }
 
+"""
+ProjectsSortInput defines how projects from listProjects should be sorted.
+"""
+input ProjectsSortInput {
+  """Sort by tag"""
+  tags: SortOrder
+
+  """
+  Sorts projects by team.
+  
+  Sort behaviour for projects by team is implemenation depednant.
+  """
+  team: SortOrder
+
+  """Sort projects by creation date"""
+  createdAt: SortOrder
+
+  """Sort by name"""
+  name: SortOrder
+
+  """Sort by id"""
+  id: SortOrder
+
+  """Sort by owner"""
+  owner: SortOrder
+
+  """Sort by visisbility"""
+  public: SortOrder
+
+  """Sort by slug"""
+  slug: SortOrder
+}
+
 """Root query type"""
 type Query {
+  """Data needed by the current user to start payment flow"""
+  checkoutData(data: CheckoutDataInput!): String
+
+  """
+  Returns credentials to file server. If project ID is not provided returns a 
+  credentials that grants access to all projects owned by user, otherwise creates a
+  credentials that grants access to one project only if the project is public or
+  belongs to a user.
+  """
+  fileServerCredentials(project: ID): FileServerCredentials
+
   """
   Returns a project connection
   
@@ -250,7 +372,7 @@ type Query {
   
   limit limits the number of returned projects
   """
-  findProjects(query: String!, last: String, limit: Int): ProjectConnection
+  findProjects(last: String, limit: Int, query: String!): ProjectConnection
 
   """
   Find projects which contain tag
@@ -277,21 +399,36 @@ type Query {
 
   """
   Returns a project connection
-  	
+  
   If owned is true, returns only project belonging to currently logged user
   
   last is an id of the last project returned by previous call
   
   limit limits the number of returned projects
   """
-  listProjects(owned: Boolean, last: String, limit: Int): ProjectConnection
+  listProjects(sort: [ProjectsSortInput], owned: Boolean, last: String, limit: Int): ProjectConnection
 
   """List of current user teams"""
   myTeams(last: String, limit: Int): TeamConnection
+
+  """List user payments"""
+  payments: [Payment]
 }
+
+"""RFC3339Date is a RFC3339 formated date-time string"""
+scalar RFC3339Date
 
 """Team member role"""
 enum Role {
+  """Team editor can add/edit projects in team"""
+  EDITOR
+
+  """Team viewer can view projects in team"""
+  VIEWER
+
+  """Team contributor can edit projects in team"""
+  CONTRIBUTOR
+
   """
   Team owner owner can add/remove/edit/view projects and members to a team. Only owner can delete team
   """
@@ -301,15 +438,12 @@ enum Role {
   Team admin can add/remove/edit/view projects and members(except owner) to a team
   """
   ADMIN
+}
 
-  """Team editor can add/edit projects in team"""
-  EDITOR
-
-  """Team viewer can view projects in team"""
-  VIEWER
-
-  """Team contributor can edit projects in team"""
-  CONTRIBUTOR
+"""Sort order defines possible ordering of sorted outputs"""
+enum SortOrder {
+  Descending
+  Ascending
 }
 
 """Source upload info object"""
@@ -388,10 +522,10 @@ type TeamConnection {
 """Team operations"""
 type TeamOps {
   """Add member to the team"""
-  addMember(role: Role!, username: String!): Member
+  addMember(username: String!, role: Role!): Member
 
   """Create new team project"""
-  createProject(public: Boolean, name: String!): Project
+  createProject(name: String!, public: Boolean): Project
 
   """Delete team"""
   delete: Boolean
@@ -403,7 +537,7 @@ type TeamOps {
   member(username: String!): MemberOps
 
   """Paginated list of members in team"""
-  members(limit: Int, last: String): MemberConnection
+  members(last: String, limit: Int): MemberConnection
 
   """Team name"""
   name: String
@@ -417,6 +551,9 @@ type TeamOps {
 
 """Update project payload"""
 input UpdateProject {
+  """Set project visiblity"""
+  public: Boolean
+
   """ID of project to be updated"""
   project: ID
 
@@ -425,9 +562,6 @@ input UpdateProject {
 
   """List of tags for project"""
   tags: [String!]
-
-  """Set project visiblity"""
-  public: Boolean
 }
 
 """Editor user"""
@@ -454,6 +588,30 @@ type UserConnection {
 
   """List of projects in connection"""
   users: [User!]
+}
+
+"""Vat information of a user"""
+input VatInput {
+  """Vat company post code address."""
+  postCode: String
+
+  """Vat number"""
+  number: String
+
+  """Vat company name"""
+  companyName: String
+
+  """Vat company street address"""
+  street: String
+
+  """Vat company city address"""
+  city: String
+
+  """Vat company state address. Optional."""
+  state: String
+
+  """Vat company country address."""
+  country: String
 }
 
 schema{

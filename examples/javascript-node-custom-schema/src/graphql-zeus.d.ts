@@ -142,7 +142,7 @@ type LastMapTypeSRCResolver<SRC, DST> = SRC extends undefined
   ? SRC
   : MapType<SRC, DST>;
 
-type MapType<SRC extends Anify<DST>, DST> = DST extends boolean
+export type MapType<SRC extends Anify<DST>, DST> = DST extends boolean
   ? SRC
   : DST extends {
       __alias: any;
