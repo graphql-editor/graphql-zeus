@@ -720,7 +720,7 @@ const inspectVariables = (query: string) => {
 
 const queryConstruct = (t: 'query' | 'mutation' | 'subscription', tName: string) => (o: Record<any, any>) =>
   `${t.toLowerCase()}${inspectVariables(buildQuery(tName, o))}`;
-  
+
 const fullChainConstruct = (fn: FetchFunction) => (t: 'query' | 'mutation' | 'subscription', tName: string) => (
   o: Record<any, any>,
   variables?: Record<string, any>,
@@ -795,14 +795,15 @@ const apiFetch = (options: fetchOptions) => (query: string, variables: Record<st
           return response.data;
         });
     }
-    return fetchFunction(`${options[0]}`, {
+    return fetchFunction(`${options[0]}`, Object.assign({
       body: JSON.stringify({ query: queryString, variables }),
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      ...fetchOptions
-    })
+    },
+      fetchOptions
+    ))
       .then(handleFetchResponse)
       .then((response: GraphQLResponse) => {
         if (response.errors) {
@@ -812,7 +813,7 @@ const apiFetch = (options: fetchOptions) => (query: string, variables: Record<st
         return response.data;
       });
   };
-  
+
 
 
 export const Thunder = (fn: FetchFunction) => ({
@@ -826,7 +827,7 @@ mutation: ((o: any, variables) =>
     )) as OperationToGraphQL<ValueTypes["Mutation"],Mutation>
 });
 
-export const Chain = (...options: fetchOptions) => ({
+export const Chain = (options: fetchOptions) => ({
   query: ((o: any, variables) =>
     fullChainConstruct(apiFetch(options))('query', 'Query')(o, variables).then(
       (response: any) => response
@@ -854,6 +855,6 @@ export const Selectors = {
   query: ZeusSelect<ValueTypes["Query"]>(),
 mutation: ZeusSelect<ValueTypes["Mutation"]>()
 };
-  
 
-export const Gql = Chain('https://faker.graphqleditor.com/a-team/olympus/graphql')
+
+export const Gql = Chain(['https://faker.graphqleditor.com/a-team/olympus/graphql'])

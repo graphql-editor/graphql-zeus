@@ -13,7 +13,7 @@ describe('Chain tests', () => {
         `;
     const tree = Parser.parseAddExtensions(schema);
     const typeScriptCode = TreeToTS.resolveTree(tree);
-    expect(typeScriptCode).toContain(`Chain = (...options: fetchOptions)`);
+    expect(typeScriptCode).toContain(`Chain = (options: fetchOptions)`);
   });
   it('Javascript: ChainDefinitions', () => {
     const schema = `
@@ -25,7 +25,7 @@ describe('Chain tests', () => {
         `;
     const tree = Parser.parseAddExtensions(schema);
     const { javascript, definitions } = TreeToTS.javascript(tree);
-    expect(javascript).toContain(`Chain = (...options)`);
+    expect(javascript).toContain(`Chain = (options)`);
     expect(definitions).toContain(`export declare function Chain`);
   });
   it('TypeScript: Normal schema Query generation', () => {

@@ -58,7 +58,7 @@ Given the following schema [Olympus Cards](https://app.graphqleditor.com/a-team/
 
 MIT
 
-## How to use 
+## How to use
 
 Main usage of graphql zeus should be as a CLI.
 
@@ -83,12 +83,12 @@ It will also generate corresponding out.d.ts file so you can have autocompletion
 
 #### Usage with TypeScript
 ```sh
-$ zeus schema.graphql ./  --ts 
+$ zeus schema.graphql ./  --ts
 ```
 
 #### Usage with NodeJS
 ```sh
-$ zeus schema.graphql ./  --node 
+$ zeus schema.graphql ./  --node
 ```
 
 #### Usage with React Native
@@ -96,7 +96,7 @@ $ zeus schema.graphql ./  --node
 Same as browser
 
 ```sh
-$ zeus schema.graphql ./ 
+$ zeus schema.graphql ./
 ```
 #### Load from URL
 
@@ -121,7 +121,7 @@ $ zeus https://faker.graphqleditor.com/a-team/olympus/graphql ./generated
 ```js
 import { Chain } from './graphql-zeus';
 const createCards = async () => {
-  const chain = Chain('https://faker.graphqleditor.com/a-team/olympus/graphql');
+  const chain = Chain(['https://faker.graphqleditor.com/a-team/olympus/graphql']);
   const listCardsAndDraw = await chain.query({
     cardById: [
       {
@@ -184,7 +184,7 @@ createCards();
 //             "name": "Etha",
 //             "skills": null,
 //             "attack": [
-               
+
 //                 {
 //                     "name": "Naomie"
 //                 }
@@ -297,7 +297,7 @@ createCards();
 //             "name": "Etha",
 //             "skills": null,
 //             "attack": [
-               
+
 //                 {
 //                     "name": "Naomie"
 //                 }
@@ -496,7 +496,7 @@ To run the example navigate to: `./example` and run
 $ npm i
 ```
 
-then run 
+then run
 
 ```
 $ npm run start
@@ -518,7 +518,7 @@ In TypeScript you can make type-safe selection sets to reuse them across queries
 You can use Selectors on operations or ZeusSelect on concrete type. Only `Selectors` make sense in JS as usage of `ZeusSelect` on type is impossible without type support :)
 ```ts
 import { ZeusSelect, Selectors, Chain, ValueTypes } from './graphql-zeus';
-const chain = Chain('https://faker.graphqleditor.com/a-team/olympus/graphql');
+const chain = Chain(['https://faker.graphqleditor.com/a-team/olympus/graphql']);
 
 const { drawCard: cardSelector } = Selectors.query({
   drawCard: {
@@ -571,7 +571,7 @@ FUNCTION_FIELD_PARAMS = {
 }
 ```
 
-Query object 
+Query object
 
 ```
 QUERY_OBJECT = {
@@ -612,7 +612,7 @@ Access aliased operation type-safe
 PROMISE_RETURNING_OBJECT[ALIAS_STRING][OPERATION_NAME]
 ```
 
-### Use In your Project to generate code 
+### Use In your Project to generate code
 
 This will be rarely used, but here you are!
 
@@ -646,7 +646,7 @@ Utils.getFromUrl("https://faker.graphqleditor.com/a-team/olympus/graphql").then(
 
 ```
 
-## Support 
+## Support
 
 [Join our GraphQL Editor Channel](https://join.slack.com/t/graphqleditor/shared_invite/enQtNDkwOTgyOTM5OTc1LWI4YjU3N2U5NGVkNzQ2NzY5MGUxMTJiNjFlZDM1Zjc2OWRmNTI0NDM3OWUxYTk4Yjk3MzZlY2QwOWUzZmM2NDI)
 

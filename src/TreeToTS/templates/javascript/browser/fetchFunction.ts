@@ -27,14 +27,15 @@ const apiFetch = (options) => (query, variables = {}) => {
           return response.data;
         });
     }
-    return fetchFunction(\`\${options[0]}\`, {
+    return fetchFunction(\`\${options[0]}\`, Object.assign({
       body: JSON.stringify({ query: queryString, variables }),
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      ...fetchOptions
-    })
+    },
+      fetchOptions
+    ))
       .then(handleFetchResponse)
       .then((response) => {
         if (response.errors) {

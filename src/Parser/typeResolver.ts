@@ -25,14 +25,14 @@ export class TypeResolver {
    */
   static resolveSingleField(n: TypeNode, options: Options[] = []): ParserField['type'] {
     if (n.kind === 'ListType') {
-      const opts = [...options, Options.array];
+      const opts = Object.assign(options, Options.array);
       return {
         options: opts,
         ...TypeResolver.resolveSingleField(n.type, opts),
       };
     }
     if (n.kind === 'NonNullType') {
-      const opts = [...options];
+      const opts = options;
       if (opts.indexOf(Options.required) >= 0 && opts.indexOf(Options.array) >= 0) {
         opts.push(Options.arrayRequired);
       } else {
