@@ -107,7 +107,7 @@ export const Thunder = (fn: FetchFunction) => ({
   ${generateOperationsThunder(resolvedOperations).join(',\n')}
 });
 
-export const Chain = (...options: fetchOptions) => ({
+export const Chain = (options: fetchOptions) => ({
   ${generateOperationsChaining(resolvedOperations).join(',\n')}
 });
 export const Zeus = {

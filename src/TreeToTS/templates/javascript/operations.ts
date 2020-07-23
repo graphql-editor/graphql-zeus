@@ -102,7 +102,7 @@ export const Thunder = (fn) => ({
   ${generateOperationsThunderJavascript(resolvedOperations).join(',\n')}
 });
 
-export const Chain = (...options) => ({
+export const Chain = (options) => ({
   ${generateOperationsChainingJavascipt(resolvedOperations).join(',\n')}
 });
 export const Zeus = {

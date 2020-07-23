@@ -187,7 +187,7 @@ export declare function Thunder(
 }
 
 export declare function Chain(
-  ...options: fetchOptions
+  options: fetchOptions
 ):{
   query: OperationToGraphQL<ValueTypes["Query"],Query>,mutation: OperationToGraphQL<ValueTypes["NotMutation"],NotMutation>,subscription: OperationToGraphQL<ValueTypes["NotSubscription"],NotSubscription>
 }

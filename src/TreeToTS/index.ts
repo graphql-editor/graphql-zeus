@@ -111,7 +111,7 @@ export class TreeToTS {
         .concat(TreeToTS.resolveBasisCodeJavascript(tree))
         .concat(operations)
         .concat(host ? '\n\n' : '')
-        .concat(host ? `export const Gql = Chain('${host}')` : ''),
+        .concat(host ? `export const Gql = Chain(['${host}'])` : ''),
       definitions: TreeToTS.resolveBasisHeader()
         .concat(TreeToTS.resolveBasisTypes(tree))
         .concat('\n\n')
@@ -131,6 +131,6 @@ export class TreeToTS {
       .concat(TreeToTS.resolveBasisCode(tree))
       .concat(operations)
       .concat(host ? '\n\n' : '')
-      .concat(host ? `export const Gql = Chain('${host}')` : '');
+      .concat(host ? `export const Gql = Chain(['${host}'])` : '');
   }
 }

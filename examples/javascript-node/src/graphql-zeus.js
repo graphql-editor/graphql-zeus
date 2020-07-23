@@ -381,14 +381,15 @@ const apiFetch = (options) => (query, variables = {}) => {
           return response.data;
         });
     }
-    return fetchFunction(`${options[0]}`, {
+    return fetchFunction(`${options[0]}`, Object.assign({
       body: JSON.stringify({ query: queryString, variables }),
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      ...fetchOptions
-    })
+    }
+     ,fetchOptions)
+    )
       .then(handleFetchResponse)
       .then((response) => {
         if (response.errors) {
@@ -400,7 +401,7 @@ const apiFetch = (options) => (query, variables = {}) => {
   };
 
 const ZeusSelect = () => (t) => t
-  
+
 export const Thunder = (fn) => ({
   query: ((o, variables) =>
       fullChainConstruct(fn)('query', 'Query')(o, variables).then(
@@ -412,7 +413,7 @@ mutation: ((o, variables) =>
       ))
 });
 
-export const Chain = (...options) => ({
+export const Chain = (options) => ({
   query: (o, variables) =>
     fullChainConstruct(apiFetch(options))('query', 'Query')(o, variables).then(
       (response) => response
@@ -434,6 +435,6 @@ export const Selectors = {
   query: ZeusSelect(),
 mutation: ZeusSelect()
 };
-    
 
-export const Gql = Chain('https://faker.graphqleditor.com/a-team/olympus/graphql')
+
+export const Gql = Chain(['https://faker.graphqleditor.com/a-team/olympus/graphql'])

@@ -23,7 +23,7 @@ const projectPayload = ZeusSelect<ValueTypes['Project']>()({
   ],
 });
 const run = async () => {
-  const chain = Chain('https://project-api.graphqleditor.com/graphql');
+  const chain = Chain(['https://project-api.graphqleditor.com/graphql']);
   const exQuery2 = async () =>
     chain.query({
       getNamespace: [
