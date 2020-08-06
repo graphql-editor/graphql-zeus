@@ -3,7 +3,7 @@ const handleFetchResponse = (
   response: Parameters<Extract<Parameters<ReturnType<typeof fetch>['then']>[0], Function>>[0]
 ): Promise<GraphQLResponse> => {
   if (!response.ok) {
-    return new Promise((resolve, reject) => {
+    return new Promise((_, reject) => {
       response.text().then(text => {
         try { reject(JSON.parse(text)); }
         catch (err) { reject(text); }

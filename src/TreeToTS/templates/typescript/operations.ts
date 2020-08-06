@@ -79,7 +79,7 @@ const generateSelectorsZeusTypeScript = ({ query, mutation, subscription }: Part
 };
 
 const generateOperationCast = (t: OperationName, ot: OperationType): string =>
-  `${ot}: ((o: any) => (b: any) => o) as CastToGraphQL<
+  `${ot}: ((o: any) => (_: any) => o) as CastToGraphQL<
   ValueTypes["${t.name}"],
   ${t.name}
 >`;

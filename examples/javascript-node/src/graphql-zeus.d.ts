@@ -35,8 +35,6 @@ attack?: [{	/** Attacked card/card ids<br> */
 }>;
 	/** create card inputs<br> */
 ["createCard"]: {
-	/** The name of a card<br> */
-	name:string,
 	/** Description of a card<br> */
 	description:string,
 	/** <div>How many children the greek god had</div> */
@@ -46,7 +44,9 @@ attack?: [{	/** Attacked card/card ids<br> */
 	/** The defense power<br> */
 	Defense:number,
 	/** input skills */
-	skills?:ValueTypes["SpecialSkills"][]
+	skills?:ValueTypes["SpecialSkills"][],
+	/** The name of a card<br> */
+	name:string
 };
 	["EffectCard"]: AliasType<{
 	effectSize?:true,
@@ -122,8 +122,6 @@ export type PartialObjects = {
 	["ChangeCard"]: PartialObjects["SpecialCard"] | PartialObjects["EffectCard"],
 	/** create card inputs<br> */
 ["createCard"]: {
-	/** The name of a card<br> */
-	name:string,
 	/** Description of a card<br> */
 	description:string,
 	/** <div>How many children the greek god had</div> */
@@ -133,7 +131,9 @@ export type PartialObjects = {
 	/** The defense power<br> */
 	Defense:number,
 	/** input skills */
-	skills?:PartialObjects["SpecialSkills"][]
+	skills?:PartialObjects["SpecialSkills"][],
+	/** The name of a card<br> */
+	name:string
 },
 	["EffectCard"]: {
 		__typename?: "EffectCard";
@@ -213,9 +213,7 @@ export type ChangeCard = {
 
 /** create card inputs<br> */
 export type createCard = {
-		/** The name of a card<br> */
-	name:string,
-	/** Description of a card<br> */
+		/** Description of a card<br> */
 	description:string,
 	/** <div>How many children the greek god had</div> */
 	Children?:number,
@@ -224,7 +222,9 @@ export type createCard = {
 	/** The defense power<br> */
 	Defense:number,
 	/** input skills */
-	skills?:SpecialSkills[]
+	skills?:SpecialSkills[],
+	/** The name of a card<br> */
+	name:string
 }
 
 export type EffectCard = {
@@ -366,7 +366,7 @@ type LastMapTypeSRCResolver<SRC, DST> = SRC extends undefined
   ? SRC
   : MapType<SRC, DST>;
 
-type MapType<SRC extends Anify<DST>, DST> = DST extends boolean
+export type MapType<SRC extends Anify<DST>, DST> = DST extends boolean
   ? SRC
   : DST extends {
       __alias: any;
