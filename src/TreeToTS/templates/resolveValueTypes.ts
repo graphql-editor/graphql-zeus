@@ -69,12 +69,7 @@ const resolveValueTypeFromRoot = (i: ParserField, rootNodes: ParserField[], enum
   }
 
   if (!i.args || !i.args.length) {
-    if (!i.interfaces || !i.interfaces.length) {
-      return `${plusDescription(i.description)}["${i.name}"]:unknown`;
-    }
-
-    // if an object implements an interface but has no unique fields
-    return `${plusDescription(i.description)}["${i.name}"]: ${AliasType(`{\n\t\t__typename?: true\n}`)}`;
+    return `${plusDescription(i.description)}["${i.name}"]:unknown`;
   }
   if (i.data.type === TypeDefinition.UnionTypeDefinition) {
     return `${plusDescription(i.description)}["${i.name}"]: ${AliasType(
@@ -99,7 +94,7 @@ const resolveValueTypeFromRoot = (i: ParserField, rootNodes: ParserField[], enum
     )}`;
   }
   return `${plusDescription(i.description)}["${i.name}"]: ${AliasType(
-    `{\n${i.args.map((f) => resolveField(f, enumsAndScalars)).join(',\n')}\n\t\t__typename?: true\n}`,
+    `{\n${i.args.map((f) => resolveField(f, enumsAndScalars)).join(',\n')},\n\t\t__typename?: true\n}`,
   )}`;
 };
 export const resolveValueTypes = (rootNodes: ParserField[]): string => {
