@@ -29,10 +29,6 @@ type Car implements Vehicle {
 type Motorcycle implements Vehicle {
   wheels: Int
 }
-
-type Garage {
-  vehicles: [Vehicle!]!
-}
 `;
 describe('Interface tests', () => {
   it('TypeScript: Interfaces with Unique Fields', () => {
