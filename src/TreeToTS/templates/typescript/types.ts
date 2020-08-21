@@ -23,35 +23,35 @@ interface GraphQLResponse {
   }>;
 }
 export type MapInterface<SRC, DST> = SRC extends {
-  __interface: infer INTERFACE;
-  __resolve: infer IMPLEMENTORS;
-}
-  ? [Key in keyof DST]: Key extends keyof INTERFACE ? INTERFACE[Key] :
-    Key extends keyof IMPLEMENTORS ? ObjectToUnion<
-      Omit<
-        {
-          [Key in keyof Omit<DST, keyof INTERFACE | '__typename'>]: Key extends keyof IMPLEMENTORS
+    __interface: infer INTERFACE;
+    __resolve: infer IMPLEMENTORS;
+  }
+  ? { [Key in keyof DST]: Key extends keyof INTERFACE ? INTERFACE[Key] :
+      Key extends keyof IMPLEMENTORS ? ObjectToUnion<
+        Omit<
+          {
+            [Key in keyof Omit<DST, keyof INTERFACE | '__typename'>]: Key extends keyof IMPLEMENTORS
             ? MapType<IMPLEMENTORS[Key], DST[Key]> &
-                Omit<
-                  {
-                    [Key in keyof Omit<
-                      DST,
-                      keyof IMPLEMENTORS | '__typename'
-                    >]: Key extends keyof INTERFACE
-                      ? LastMapTypeSRCResolver<INTERFACE[Key], DST[Key]>
-                      : never;
-                  },
-                  keyof IMPLEMENTORS
-                > &
-                (DST extends { __typename: any }
-                  ? MapType<IMPLEMENTORS[Key], { __typename: true }>
-                  : {})
+            Omit<
+              {
+                [Key in keyof Omit<
+                DST,
+                keyof IMPLEMENTORS | '__typename'
+                >]: Key extends keyof INTERFACE
+                ? LastMapTypeSRCResolver<INTERFACE[Key], DST[Key]>
+                : never;
+              },
+              keyof IMPLEMENTORS
+              > &
+            (DST extends { __typename: any }
+              ? MapType<IMPLEMENTORS[Key], { __typename: true }>
+              : {})
             : never;
-        },
-        keyof INTERFACE | '__typename'
-      >
-    > : never
-  : never;
+          },
+          keyof INTERFACE | '__typename'
+          >
+        > : never
+  } : never;
 
 export type ValueToUnion<T> = T extends {
   __typename: infer R;
