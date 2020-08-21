@@ -37,17 +37,7 @@ describe('Interface tests', () => {
 
     // should have wheels as a field on vehicle
     expect(typeScriptCode).toContain(
-      `["Vehicle"]:AliasType<{ wheels?:true; ['...on Car']?: ValueTypes["Car"]; ['...on Motorcycle']?: ValueTypes["Motorcycle"]; __typename?: true }>;`,
-    );
-
-    // since wheels already exists on vehicle and is common, should not be on subtypes
-    expect(typeScriptCode).toContain(`["Car"]: AliasType<{color?:true __typename?: true }>`);
-    expect(typeScriptCode).toContain(`["Motorcycle"]: AliasType<{visor?:true __typename?: true }>`);
-
-    // however we still want them to be copied over to the standard types
-    expect(typeScriptCode).toContain(`export type Car = {__typename?: "Car",wheels?:number,color?:string }`);
-    expect(typeScriptCode).toContain(
-      `export type Motorcycle = {__typename?: "Motorcycle",wheels?:number,visor?:boolean }`
+      `["Vehicle"]:AliasType<{ wheels?:true; ['...on Car']?: Omit<ValueTypes["Car"],ValueTypes["Vehicle"]>; ['...on Motorcycle']?: Omit<ValueTypes["Motorcycle"],ValueTypes["Vehicle"]>; __typename?: true }>;`,
     );
   });
 
@@ -57,17 +47,7 @@ describe('Interface tests', () => {
 
     // should have wheels as a field on vehicle
     expect(typeScriptCode).toContain(
-      `["Vehicle"]:AliasType<{ wheels?:true; ['...on Car']?: ValueTypes["Car"]; ['...on Motorcycle']?: ValueTypes["Motorcycle"]; __typename?: true }>;`,
-    );
-
-    // since wheels already exists on vehicle and is common, should not be on subtypes
-    expect(typeScriptCode).toContain(`["Car"]: AliasType<{ __typename?: true }>`);
-    expect(typeScriptCode).toContain(`["Motorcycle"]: AliasType<{ __typename?: true }>`);
-
-    // however we still want them to be copied over to the standard types
-    expect(typeScriptCode).toContain(`export type Car = {__typename?: "Car",wheels?:number }`);
-    expect(typeScriptCode).toContain(
-      `export type Motorcycle = {__typename?: "Motorcycle",wheels?:number }`
+      `["Vehicle"]:AliasType<{ wheels?:true; ['...on Car']?: Omit<ValueTypes["Car"],ValueTypes["Vehicle"]>; ['...on Motorcycle']?: Omit<ValueTypes["Motorcycle"],ValueTypes["Vehicle"]>; __typename?: true }>;`,
     );
   });
 

@@ -68,27 +68,7 @@ const resolveValueTypeFromRoot = (i: ParserField, rootNodes: ParserField[], enum
     return '';
   }
 
-  let args = i.args || [];
-
-  if (i.data.type === 'ObjectTypeDefinition' || i.data.type === 'ObjectTypeExtension') {
-    const interfaces = (i.interfaces || []).map((i) => {
-      return rootNodes.find((n) => n.data.type === 'InterfaceTypeDefinition' && n.name === i);
-    });
-
-    if (interfaces.length) {
-      args = args.filter((field) => {
-        const isInterfaceField = interfaces.some((i) => {
-          const ifields = (i && i.data.type === 'InterfaceTypeDefinition' && i.args) || [];
-
-          return ifields.some((f) => f.name === field.name);
-        });
-
-        return !isInterfaceField;
-      });
-    }
-  }
-
-  if (!args.length) {
+  if (!i.args || !i.args.length) {
     if (!i.interfaces || !i.interfaces.length) {
       return `${plusDescription(i.description)}["${i.name}"]:unknown`;
     }
@@ -98,7 +78,7 @@ const resolveValueTypeFromRoot = (i: ParserField, rootNodes: ParserField[], enum
   }
   if (i.data.type === TypeDefinition.UnionTypeDefinition) {
     return `${plusDescription(i.description)}["${i.name}"]: ${AliasType(
-      `{${args
+      `{${i.args
         .map((f) => `\t\t["...on ${f.type.name}"] : ${resolveValueType(f.type.name)}`)
         .join(',\n')}\n\t\t__typename?: true\n}`,
     )}`;
@@ -107,19 +87,19 @@ const resolveValueTypeFromRoot = (i: ParserField, rootNodes: ParserField[], enum
     return `${plusDescription(i.description)}["${i.name}"]:${i.name}`;
   }
   if (i.data.type === TypeDefinition.InputObjectTypeDefinition) {
-    return `${plusDescription(i.description)}["${i.name}"]: {\n${args.map((f) => resolveArg(f)).join(',\n')}\n}`;
+    return `${plusDescription(i.description)}["${i.name}"]: {\n${i.args.map((f) => resolveArg(f)).join(',\n')}\n}`;
   }
   if (i.data.type === TypeDefinition.InterfaceTypeDefinition) {
     const typesImplementing = rootNodes.filter((rn) => rn.interfaces && rn.interfaces.includes(i.name));
     return `${plusDescription(i.description)}["${i.name}"]:${AliasType(
       `{
-\t${args.map((f) => resolveField(f, enumsAndScalars)).join(',\n')};\n\t\t${typesImplementing
-        .map((f) => `['...on ${f.name}']?: ${resolveValueType(f.name)};`)
+\t${i.args.map((f) => resolveField(f, enumsAndScalars)).join(',\n')};\n\t\t${typesImplementing
+        .map((f) => `['...on ${f.name}']?: Omit<${resolveValueType(f.name)},${resolveValueType(i.name)}>;`)
         .join('\n\t\t')}\n\t\t__typename?: true\n}`,
     )}`;
   }
   return `${plusDescription(i.description)}["${i.name}"]: ${AliasType(
-    `{\n${args.map((f) => resolveField(f, enumsAndScalars)).join(',\n')}\n\t\t__typename?: true\n}`,
+    `{\n${i.args.map((f) => resolveField(f, enumsAndScalars)).join(',\n')}\n\t\t__typename?: true\n}`,
   )}`;
 };
 export const resolveValueTypes = (rootNodes: ParserField[]): string => {
