@@ -94,7 +94,7 @@ const resolveValueTypeFromRoot = (i: ParserField, rootNodes: ParserField[], enum
     return `${plusDescription(i.description)}["${i.name}"]:${AliasType(
       `{
 \t${i.args.map((f) => resolveField(f, enumsAndScalars)).join(',\n')};\n\t\t${typesImplementing
-        .map((f) => `['...on ${f.name}']?: Omit<${resolveValueType(f.name)},${resolveValueType(i.name)}>;`)
+        .map((f) => `['...on ${f.name}']?: Omit<${resolveValueType(f.name)},keyof ${resolveValueType(i.name)}>;`)
         .join('\n\t\t')}\n\t\t__typename?: true\n}`,
     )}`;
   }

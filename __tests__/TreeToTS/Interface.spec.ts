@@ -37,7 +37,7 @@ describe('Interface tests', () => {
 
     // should have wheels as a field on vehicle
     expect(typeScriptCode).toContain(
-      `["Vehicle"]:AliasType<{ wheels?:true; ['...on Car']?: Omit<ValueTypes["Car"],ValueTypes["Vehicle"]>; ['...on Motorcycle']?: Omit<ValueTypes["Motorcycle"],ValueTypes["Vehicle"]>; __typename?: true }>;`,
+      `["Vehicle"]:AliasType<{ wheels?:true; ['...on Car']?: Omit<ValueTypes["Car"],keyof ValueTypes["Vehicle"]>; ['...on Motorcycle']?: Omit<ValueTypes["Motorcycle"],keyof ValueTypes["Vehicle"]>; __typename?: true }>;`,
     );
   });
 
@@ -47,7 +47,7 @@ describe('Interface tests', () => {
 
     // should have wheels as a field on vehicle
     expect(typeScriptCode).toContain(
-      `["Vehicle"]:AliasType<{ wheels?:true; ['...on Car']?: Omit<ValueTypes["Car"],ValueTypes["Vehicle"]>; ['...on Motorcycle']?: Omit<ValueTypes["Motorcycle"],ValueTypes["Vehicle"]>; __typename?: true }>;`,
+      `["Vehicle"]:AliasType<{ wheels?:true; ['...on Car']?: Omit<ValueTypes["Car"],keyof ValueTypes["Vehicle"]>; ['...on Motorcycle']?: Omit<ValueTypes["Motorcycle"],keyof ValueTypes["Vehicle"]>; __typename?: true }>;`,
     );
   });
 
