@@ -26,7 +26,7 @@ export type MapInterface<SRC, DST> = SRC extends {
   __interface: infer INTERFACE;
   __resolve: infer IMPLEMENTORS;
 }
-  ? ObjectToUnion<
+  ? [Key in keyof DST]: Key extends keyof INTERFACE ? INTERFACE[Key] : ObjectToUnion<
       Omit<
         {
           [Key in keyof Omit<DST, keyof INTERFACE | '__typename'>]: Key extends keyof IMPLEMENTORS
