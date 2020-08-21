@@ -1,6 +1,5 @@
 import {
   ArgumentNode,
-  DefinitionNode,
   DirectiveNode,
   FieldDefinitionNode,
   InputValueDefinitionNode,
@@ -287,10 +286,7 @@ export class TypeResolver {
     return fields;
   }
 
-  static resolveFieldsFromDefinition(
-    n: TypeSystemDefinitionNode | TypeSystemExtensionNode,
-    nodes: readonly DefinitionNode[],
-  ): ParserField[] | undefined {
+  static resolveFieldsFromDefinition(n: TypeSystemDefinitionNode | TypeSystemExtensionNode): ParserField[] | undefined {
     if ('values' in n && n.values) {
       return n.values.map(
         (v) =>
@@ -333,27 +329,7 @@ export class TypeResolver {
         throw new Error('Type object should have fields');
       }
 
-      let fields = TypeResolver.iterateObjectTypeFields(n.fields);
-
-      if (n.kind === 'ObjectTypeDefinition' || n.kind === 'ObjectTypeExtension') {
-        const interfaces = (n.interfaces || []).map((i) => {
-          return nodes.find((n) => n.kind === 'InterfaceTypeDefinition' && n.name.value === i.name.value);
-        });
-
-        if (interfaces.length) {
-          fields = fields.filter((field) => {
-            const isInterfaceField = interfaces.some((i) => {
-              const ifields = (i && i.kind === 'InterfaceTypeDefinition' && i.fields) || [];
-
-              return ifields.some((f) => f.name.value === field.name);
-            });
-
-            return !isInterfaceField;
-          });
-        }
-      }
-
-      return fields;
+      return TypeResolver.iterateObjectTypeFields(n.fields);
     }
   }
 }

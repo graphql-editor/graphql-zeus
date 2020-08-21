@@ -43,6 +43,12 @@ describe('Interface tests', () => {
     // since wheels already exists on vehicle and is common, should not be on subtypes
     expect(typeScriptCode).toContain(`["Car"]: AliasType<{color?:true __typename?: true }>`);
     expect(typeScriptCode).toContain(`["Motorcycle"]: AliasType<{visor?:true __typename?: true }>`);
+
+    // however we still want them to be copied over to the standard types
+    expect(typeScriptCode).toContain(`export type Car = {__typename?: "Car",wheels?:number,color?:string }`);
+    expect(typeScriptCode).toContain(
+      `export type Motorcycle = {__typename?: "Motorcycle",wheels?:number,visor?:boolean }`
+    );
   });
 
   it('TypeScript: Interfaces without Unique Fields', () => {
@@ -57,6 +63,12 @@ describe('Interface tests', () => {
     // since wheels already exists on vehicle and is common, should not be on subtypes
     expect(typeScriptCode).toContain(`["Car"]: AliasType<{ __typename?: true }>`);
     expect(typeScriptCode).toContain(`["Motorcycle"]: AliasType<{ __typename?: true }>`);
+
+    // however we still want them to be copied over to the standard types
+    expect(typeScriptCode).toContain(`export type Car = {__typename?: "Car",wheels?:number }`);
+    expect(typeScriptCode).toContain(
+      `export type Motorcycle = {__typename?: "Motorcycle",wheels?:number }`
+    );
   });
 
 });

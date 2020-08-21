@@ -30,10 +30,7 @@ export class Parser {
    * @param schema
    */
   static importSchema = (schema: string): GraphQLSchema => buildASTSchema(parse(schema));
-  static documentDefinitionToSerializedNodeTree = (
-    d: DefinitionNode,
-    nodes: readonly DefinitionNode[],
-  ): ParserField | undefined => {
+  static documentDefinitionToSerializedNodeTree = (d: DefinitionNode): ParserField | undefined => {
     if (isTypeSystemDefinitionNode(d) || isTypeSystemExtensionNode(d)) {
       if ('name' in d) {
         return {
@@ -53,7 +50,7 @@ export class Parser {
           description: 'description' in d && d.description ? d.description.value : '',
           interfaces: 'interfaces' in d && d.interfaces ? d.interfaces.map((i) => i.name.value) : undefined,
           directives: 'directives' in d && d.directives ? TypeResolver.iterateDirectives(d.directives) : undefined,
-          args: TypeResolver.resolveFieldsFromDefinition(d, nodes),
+          args: TypeResolver.resolveFieldsFromDefinition(d),
         };
       }
     }
@@ -87,11 +84,10 @@ export class Parser {
       Mutation: astSchema.getMutationType(),
       Subscription: astSchema.getSubscriptionType(),
     };
-    const definitions = parsedSchema.definitions || [];
 
-    const nodes = definitions
+    const nodes = parsedSchema.definitions
       .filter((t) => 'name' in t && t.name && !excludeRoots.includes(t.name.value))
-      .map((node) => Parser.documentDefinitionToSerializedNodeTree(node, definitions))
+      .map(Parser.documentDefinitionToSerializedNodeTree)
       .filter((d) => !!d) as ParserField[];
     const comments: ParserField[] = Parser.findComments(schema).map(
       (description) =>
