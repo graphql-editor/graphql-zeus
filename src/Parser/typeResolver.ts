@@ -1,5 +1,6 @@
 import {
-  ArgumentNode, DefinitionNode,
+  ArgumentNode,
+  DefinitionNode,
   DirectiveNode,
   FieldDefinitionNode,
   InputValueDefinitionNode,
