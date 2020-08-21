@@ -29,6 +29,10 @@ type Car implements Vehicle {
 type Motorcycle implements Vehicle {
   wheels: Int
 }
+
+type Garage {
+  vehicles: [Vehicle!]!
+}
 `;
 describe('Interface tests', () => {
   it('TypeScript: Interfaces with Unique Fields', () => {
@@ -37,7 +41,7 @@ describe('Interface tests', () => {
 
     // should have wheels as a field on vehicle
     expect(typeScriptCode).toContain(
-      `["Vehicle"]:AliasType<{ wheels?:true; ['...on Car']: ValueTypes["Car"]; ['...on Motorcycle']: ValueTypes["Motorcycle"]; __typename?: true }>;`,
+      `["Vehicle"]:AliasType<{ wheels?:true; ['...on Car']?: ValueTypes["Car"]; ['...on Motorcycle']?: ValueTypes["Motorcycle"]; __typename?: true }>;`,
     );
 
     // since wheels already exists on vehicle and is common, should not be on subtypes
@@ -57,7 +61,7 @@ describe('Interface tests', () => {
 
     // should have wheels as a field on vehicle
     expect(typeScriptCode).toContain(
-      `["Vehicle"]:AliasType<{ wheels?:true; ['...on Car']: ValueTypes["Car"]; ['...on Motorcycle']: ValueTypes["Motorcycle"]; __typename?: true }>;`,
+      `["Vehicle"]:AliasType<{ wheels?:true; ['...on Car']?: ValueTypes["Car"]; ['...on Motorcycle']?: ValueTypes["Motorcycle"]; __typename?: true }>;`,
     );
 
     // since wheels already exists on vehicle and is common, should not be on subtypes
