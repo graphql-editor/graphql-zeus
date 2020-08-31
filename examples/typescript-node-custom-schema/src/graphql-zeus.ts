@@ -265,10 +265,21 @@ export const TypesPropsResolver = ({
     throw new Error(`Cannot resolve ${type} ${name}${key ? ` ${key}` : ''}`)
   }
   const typeResolved = resolvedValue.type;
-  const isArray: boolean = resolvedValue.array;
+  const isArray = resolvedValue.array;
+  const isArrayRequired = resolvedValue.arrayRequired;
   if (typeof value === 'string' && value.startsWith(`ZEUS_VAR$`)) {
-    const isRequired = resolvedValue.required ? '!' : ''
-    return `\$${value.split(`ZEUS_VAR$`)[1]}__ZEUS_VAR__${typeResolved}${isRequired}`;
+    const isRequired = resolvedValue.required ? '!' : '';
+    let t = `${typeResolved}`;
+    if (isArray) {
+      if (isArrayRequired) {
+        t = `${t}!`;
+      }
+      t = `[${t}]`;
+    }
+    if (isRequired) {
+      t = `${t}!`;
+    }
+    return `\$${value.split(`ZEUS_VAR$`)[1]}__ZEUS_VAR__${t}`;
   }
   if (isArray && !blockArrays) {
     return `[${value
@@ -380,10 +391,13 @@ const traverseToSeekArrays = (parent: string[], a?: any): string => {
 const buildQuery = (type: string, a?: Record<any, any>) => traverseToSeekArrays([type], a);
 
 const inspectVariables = (query: string) => {
-  const regex = /\$\b\w*ZEUS_VAR\w*\b[!]?/g;
+  const regex = /\$\b\w*__ZEUS_VAR__\[?[^!^\]^\s^,^\)]*[!]?[\]]?[!]?/g;
   let result;
-  const AllVariables = [];
+  const AllVariables: string[] = [];
   while ((result = regex.exec(query))) {
+    if (AllVariables.includes(result[0])) {
+      continue;
+    }
     AllVariables.push(result[0]);
   }
   if (!AllVariables.length) {
@@ -391,7 +405,9 @@ const inspectVariables = (query: string) => {
   }
   let filteredQuery = query;
   AllVariables.forEach((variable) => {
-    filteredQuery = filteredQuery.replace(variable, variable.split('__ZEUS_VAR__')[0]);
+    while (filteredQuery.includes(variable)) {
+      filteredQuery = filteredQuery.replace(variable, variable.split('__ZEUS_VAR__')[0]);
+    }  
   });
   return `(${AllVariables.map((a) => a.split('__ZEUS_VAR__'))
     .map(([variableName, variableType]) => `${variableName}:${variableType}`)

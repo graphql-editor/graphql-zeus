@@ -5,15 +5,12 @@ enum AccountType {
 }
 
 input ChangeSubscriptionInput {
-  subscriptionID: Int!
   subscriptionPlanID: Int
+  subscriptionID: Int!
 }
 
 """Checkout data needed to begin payment process"""
 input CheckoutDataInput {
-  """Optional discount coupon"""
-  coupon: String
-
   """URL to which user should be redirected after successful transaction"""
   successURL: String
 
@@ -31,6 +28,9 @@ input CheckoutDataInput {
 
   """Vat data"""
   vat: VatInput
+
+  """Optional discount coupon"""
+  coupon: String
 }
 
 """Customer data for checkout information"""
@@ -187,17 +187,17 @@ type Namespace {
 
 """New source payload"""
 input NewSource {
-  """source file name"""
-  filename: String
-
-  """Length of source in bytes"""
-  contentLength: Int
-
   """Source mime type"""
   contentType: String
 
   """Source checksum"""
   checksum: String
+
+  """source file name"""
+  filename: String
+
+  """Length of source in bytes"""
+  contentLength: Int
 }
 
 """PageInfo contains information about connection page"""
@@ -321,6 +321,19 @@ type ProjectOps {
 ProjectsSortInput defines how projects from listProjects should be sorted.
 """
 input ProjectsSortInput {
+  """Sort by tag"""
+  tags: SortOrder
+
+  """
+  Sorts projects by team.
+  
+  Sort behaviour for projects by team is implemenation depednant.
+  """
+  team: SortOrder
+
+  """Sort projects by creation date"""
+  createdAt: SortOrder
+
   """Sort by name"""
   name: SortOrder
 
@@ -335,19 +348,6 @@ input ProjectsSortInput {
 
   """Sort by slug"""
   slug: SortOrder
-
-  """Sort by tag"""
-  tags: SortOrder
-
-  """
-  Sorts projects by team.
-  
-  Sort behaviour for projects by team is implemenation depednant.
-  """
-  team: SortOrder
-
-  """Sort projects by creation date"""
-  createdAt: SortOrder
 }
 
 """Root query type"""
@@ -592,15 +592,6 @@ type UserConnection {
 
 """Vat information of a user"""
 input VatInput {
-  """Vat company state address. Optional."""
-  state: String
-
-  """Vat company country address."""
-  country: String
-
-  """Vat company post code address."""
-  postCode: String
-
   """Vat number"""
   number: String
 
@@ -612,6 +603,15 @@ input VatInput {
 
   """Vat company city address"""
   city: String
+
+  """Vat company state address. Optional."""
+  state: String
+
+  """Vat company country address."""
+  country: String
+
+  """Vat company post code address."""
+  postCode: String
 }
 
 schema{

@@ -5,13 +5,11 @@ export type ValueTypes = {
     /** Defines user's account type */
 ["AccountType"]:AccountType;
 	["ChangeSubscriptionInput"]: {
-	subscriptionID:number,
-	subscriptionPlanID?:number
+	subscriptionPlanID?:number,
+	subscriptionID:number
 };
 	/** Checkout data needed to begin payment process */
 ["CheckoutDataInput"]: {
-	/** Optional discount coupon */
-	coupon?:string,
 	/** URL to which user should be redirected after successful transaction */
 	successURL?:string,
 	/** URL to which user should be redirected after failed transaction */
@@ -23,7 +21,9 @@ export type ValueTypes = {
 	/** Customer data */
 	customer?:ValueTypes["CustomerInput"],
 	/** Vat data */
-	vat?:ValueTypes["VatInput"]
+	vat?:ValueTypes["VatInput"],
+	/** Optional discount coupon */
+	coupon?:string
 };
 	/** Customer data for checkout information */
 ["CustomerInput"]: {
@@ -122,14 +122,14 @@ projects?: [{	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
 }>;
 	/** New source payload */
 ["NewSource"]: {
-	/** source file name */
-	filename?:string,
-	/** Length of source in bytes */
-	contentLength?:number,
 	/** Source mime type */
 	contentType?:string,
 	/** Source checksum */
-	checksum?:string
+	checksum?:string,
+	/** source file name */
+	filename?:string,
+	/** Length of source in bytes */
+	contentLength?:number
 };
 	/** PageInfo contains information about connection page */
 ["PageInfo"]: AliasType<{
@@ -212,6 +212,14 @@ update?: [{	in?:ValueTypes["UpdateProject"]},true]
 }>;
 	/** ProjectsSortInput defines how projects from listProjects should be sorted. */
 ["ProjectsSortInput"]: {
+	/** Sort by tag */
+	tags?:ValueTypes["SortOrder"],
+	/** Sorts projects by team.
+
+Sort behaviour for projects by team is implemenation depednant. */
+	team?:ValueTypes["SortOrder"],
+	/** Sort projects by creation date */
+	createdAt?:ValueTypes["SortOrder"],
 	/** Sort by name */
 	name?:ValueTypes["SortOrder"],
 	/** Sort by id */
@@ -221,15 +229,7 @@ update?: [{	in?:ValueTypes["UpdateProject"]},true]
 	/** Sort by visisbility */
 	public?:ValueTypes["SortOrder"],
 	/** Sort by slug */
-	slug?:ValueTypes["SortOrder"],
-	/** Sort by tag */
-	tags?:ValueTypes["SortOrder"],
-	/** Sorts projects by team.
-
-Sort behaviour for projects by team is implemenation depednant. */
-	team?:ValueTypes["SortOrder"],
-	/** Sort projects by creation date */
-	createdAt?:ValueTypes["SortOrder"]
+	slug?:ValueTypes["SortOrder"]
 };
 	/** Root query type */
 ["Query"]: AliasType<{
@@ -360,12 +360,6 @@ project?: [{	id:string},ValueTypes["ProjectOps"]]
 }>;
 	/** Vat information of a user */
 ["VatInput"]: {
-	/** Vat company state address. Optional. */
-	state?:string,
-	/** Vat company country address. */
-	country?:string,
-	/** Vat company post code address. */
-	postCode?:string,
 	/** Vat number */
 	number?:string,
 	/** Vat company name */
@@ -373,7 +367,13 @@ project?: [{	id:string},ValueTypes["ProjectOps"]]
 	/** Vat company street address */
 	street?:string,
 	/** Vat company city address */
-	city?:string
+	city?:string,
+	/** Vat company state address. Optional. */
+	state?:string,
+	/** Vat company country address. */
+	country?:string,
+	/** Vat company post code address. */
+	postCode?:string
 }
   }
 
@@ -381,13 +381,11 @@ export type PartialObjects = {
     /** Defines user's account type */
 ["AccountType"]:AccountType,
 	["ChangeSubscriptionInput"]: {
-	subscriptionID:number,
-	subscriptionPlanID?:number
+	subscriptionPlanID?:number,
+	subscriptionID:number
 },
 	/** Checkout data needed to begin payment process */
 ["CheckoutDataInput"]: {
-	/** Optional discount coupon */
-	coupon?:string,
 	/** URL to which user should be redirected after successful transaction */
 	successURL?:string,
 	/** URL to which user should be redirected after failed transaction */
@@ -399,7 +397,9 @@ export type PartialObjects = {
 	/** Customer data */
 	customer?:PartialObjects["CustomerInput"],
 	/** Vat data */
-	vat?:PartialObjects["VatInput"]
+	vat?:PartialObjects["VatInput"],
+	/** Optional discount coupon */
+	coupon?:string
 },
 	/** Customer data for checkout information */
 ["CustomerInput"]: {
@@ -522,14 +522,14 @@ limit sets a limit on how many objects can be returned */
 	},
 	/** New source payload */
 ["NewSource"]: {
-	/** source file name */
-	filename?:string,
-	/** Length of source in bytes */
-	contentLength?:number,
 	/** Source mime type */
 	contentType?:string,
 	/** Source checksum */
-	checksum?:string
+	checksum?:string,
+	/** source file name */
+	filename?:string,
+	/** Length of source in bytes */
+	contentLength?:number
 },
 	/** PageInfo contains information about connection page */
 ["PageInfo"]: {
@@ -618,6 +618,14 @@ Used with paginated listing of projects */
 	},
 	/** ProjectsSortInput defines how projects from listProjects should be sorted. */
 ["ProjectsSortInput"]: {
+	/** Sort by tag */
+	tags?:PartialObjects["SortOrder"],
+	/** Sorts projects by team.
+
+Sort behaviour for projects by team is implemenation depednant. */
+	team?:PartialObjects["SortOrder"],
+	/** Sort projects by creation date */
+	createdAt?:PartialObjects["SortOrder"],
 	/** Sort by name */
 	name?:PartialObjects["SortOrder"],
 	/** Sort by id */
@@ -627,15 +635,7 @@ Used with paginated listing of projects */
 	/** Sort by visisbility */
 	public?:PartialObjects["SortOrder"],
 	/** Sort by slug */
-	slug?:PartialObjects["SortOrder"],
-	/** Sort by tag */
-	tags?:PartialObjects["SortOrder"],
-	/** Sorts projects by team.
-
-Sort behaviour for projects by team is implemenation depednant. */
-	team?:PartialObjects["SortOrder"],
-	/** Sort projects by creation date */
-	createdAt?:PartialObjects["SortOrder"]
+	slug?:PartialObjects["SortOrder"]
 },
 	/** Root query type */
 ["Query"]: {
@@ -804,12 +804,6 @@ limit limits the number of returned projects */
 	},
 	/** Vat information of a user */
 ["VatInput"]: {
-	/** Vat company state address. Optional. */
-	state?:string,
-	/** Vat company country address. */
-	country?:string,
-	/** Vat company post code address. */
-	postCode?:string,
 	/** Vat number */
 	number?:string,
 	/** Vat company name */
@@ -817,7 +811,13 @@ limit limits the number of returned projects */
 	/** Vat company street address */
 	street?:string,
 	/** Vat company city address */
-	city?:string
+	city?:string,
+	/** Vat company state address. Optional. */
+	state?:string,
+	/** Vat company country address. */
+	country?:string,
+	/** Vat company post code address. */
+	postCode?:string
 }
   }
 
@@ -828,15 +828,13 @@ export enum AccountType {
 }
 
 export type ChangeSubscriptionInput = {
-		subscriptionID:number,
-	subscriptionPlanID?:number
+		subscriptionPlanID?:number,
+	subscriptionID:number
 }
 
 /** Checkout data needed to begin payment process */
 export type CheckoutDataInput = {
-		/** Optional discount coupon */
-	coupon?:string,
-	/** URL to which user should be redirected after successful transaction */
+		/** URL to which user should be redirected after successful transaction */
 	successURL?:string,
 	/** URL to which user should be redirected after failed transaction */
 	cancelURL?:string,
@@ -847,7 +845,9 @@ export type CheckoutDataInput = {
 	/** Customer data */
 	customer?:CustomerInput,
 	/** Vat data */
-	vat?:VatInput
+	vat?:VatInput,
+	/** Optional discount coupon */
+	coupon?:string
 }
 
 /** Customer data for checkout information */
@@ -983,14 +983,14 @@ limit sets a limit on how many objects can be returned */
 
 /** New source payload */
 export type NewSource = {
-		/** source file name */
-	filename?:string,
-	/** Length of source in bytes */
-	contentLength?:number,
-	/** Source mime type */
+		/** Source mime type */
 	contentType?:string,
 	/** Source checksum */
-	checksum?:string
+	checksum?:string,
+	/** source file name */
+	filename?:string,
+	/** Length of source in bytes */
+	contentLength?:number
 }
 
 /** PageInfo contains information about connection page */
@@ -1086,7 +1086,15 @@ export type ProjectOps = {
 
 /** ProjectsSortInput defines how projects from listProjects should be sorted. */
 export type ProjectsSortInput = {
-		/** Sort by name */
+		/** Sort by tag */
+	tags?:SortOrder,
+	/** Sorts projects by team.
+
+Sort behaviour for projects by team is implemenation depednant. */
+	team?:SortOrder,
+	/** Sort projects by creation date */
+	createdAt?:SortOrder,
+	/** Sort by name */
 	name?:SortOrder,
 	/** Sort by id */
 	id?:SortOrder,
@@ -1095,15 +1103,7 @@ export type ProjectsSortInput = {
 	/** Sort by visisbility */
 	public?:SortOrder,
 	/** Sort by slug */
-	slug?:SortOrder,
-	/** Sort by tag */
-	tags?:SortOrder,
-	/** Sorts projects by team.
-
-Sort behaviour for projects by team is implemenation depednant. */
-	team?:SortOrder,
-	/** Sort projects by creation date */
-	createdAt?:SortOrder
+	slug?:SortOrder
 }
 
 /** Root query type */
@@ -1295,45 +1295,39 @@ export type UserConnection = {
 
 /** Vat information of a user */
 export type VatInput = {
-		/** Vat company state address. Optional. */
-	state?:string,
-	/** Vat company country address. */
-	country?:string,
-	/** Vat company post code address. */
-	postCode?:string,
-	/** Vat number */
+		/** Vat number */
 	number?:string,
 	/** Vat company name */
 	companyName?:string,
 	/** Vat company street address */
 	street?:string,
 	/** Vat company city address */
-	city?:string
+	city?:string,
+	/** Vat company state address. Optional. */
+	state?:string,
+	/** Vat company country address. */
+	country?:string,
+	/** Vat company post code address. */
+	postCode?:string
 }
 
 export const AllTypesProps: Record<string,any> = {
 	AccountType: "enum",
 	ChangeSubscriptionInput:{
-		subscriptionID:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
 		subscriptionPlanID:{
 			type:"Int",
 			array:false,
 			arrayRequired:false,
 			required:false
+		},
+		subscriptionID:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:true
 		}
 	},
 	CheckoutDataInput:{
-		coupon:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		successURL:{
 			type:"String",
 			array:false,
@@ -1366,6 +1360,12 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		vat:{
 			type:"VatInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		coupon:{
+			type:"String",
 			array:false,
 			arrayRequired:false,
 			required:false
@@ -1532,18 +1532,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	NewSource:{
-		filename:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		contentLength:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		contentType:{
 			type:"String",
 			array:false,
@@ -1552,6 +1540,18 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		checksum:{
 			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		filename:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		contentLength:{
+			type:"Int",
 			array:false,
 			arrayRequired:false,
 			required:false
@@ -1585,6 +1585,24 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	ProjectsSortInput:{
+		tags:{
+			type:"SortOrder",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		team:{
+			type:"SortOrder",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		createdAt:{
+			type:"SortOrder",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
 		name:{
 			type:"SortOrder",
 			array:false,
@@ -1610,24 +1628,6 @@ export const AllTypesProps: Record<string,any> = {
 			required:false
 		},
 		slug:{
-			type:"SortOrder",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tags:{
-			type:"SortOrder",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		team:{
-			type:"SortOrder",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		createdAt:{
 			type:"SortOrder",
 			array:false,
 			arrayRequired:false,
@@ -1878,24 +1878,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	VatInput:{
-		state:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		country:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		postCode:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		number:{
 			type:"String",
 			array:false,
@@ -1915,6 +1897,24 @@ export const AllTypesProps: Record<string,any> = {
 			required:false
 		},
 		city:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		state:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		country:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		postCode:{
 			type:"String",
 			array:false,
 			arrayRequired:false,
@@ -2252,10 +2252,21 @@ export const TypesPropsResolver = ({
     throw new Error(`Cannot resolve ${type} ${name}${key ? ` ${key}` : ''}`)
   }
   const typeResolved = resolvedValue.type;
-  const isArray: boolean = resolvedValue.array;
+  const isArray = resolvedValue.array;
+  const isArrayRequired = resolvedValue.arrayRequired;
   if (typeof value === 'string' && value.startsWith(`ZEUS_VAR$`)) {
-    const isRequired = resolvedValue.required ? '!' : ''
-    return `\$${value.split(`ZEUS_VAR$`)[1]}__ZEUS_VAR__${typeResolved}${isRequired}`;
+    const isRequired = resolvedValue.required ? '!' : '';
+    let t = `${typeResolved}`;
+    if (isArray) {
+      if (isArrayRequired) {
+        t = `${t}!`;
+      }
+      t = `[${t}]`;
+    }
+    if (isRequired) {
+      t = `${t}!`;
+    }
+    return `\$${value.split(`ZEUS_VAR$`)[1]}__ZEUS_VAR__${t}`;
   }
   if (isArray && !blockArrays) {
     return `[${value
@@ -2367,10 +2378,13 @@ const traverseToSeekArrays = (parent: string[], a?: any): string => {
 const buildQuery = (type: string, a?: Record<any, any>) => traverseToSeekArrays([type], a);
 
 const inspectVariables = (query: string) => {
-  const regex = /\$\b\w*ZEUS_VAR\w*\b[!]?/g;
+  const regex = /\$\b\w*__ZEUS_VAR__\[?[^!^\]^\s^,^\)]*[!]?[\]]?[!]?/g;
   let result;
-  const AllVariables = [];
+  const AllVariables: string[] = [];
   while ((result = regex.exec(query))) {
+    if (AllVariables.includes(result[0])) {
+      continue;
+    }
     AllVariables.push(result[0]);
   }
   if (!AllVariables.length) {
@@ -2378,7 +2392,9 @@ const inspectVariables = (query: string) => {
   }
   let filteredQuery = query;
   AllVariables.forEach((variable) => {
-    filteredQuery = filteredQuery.replace(variable, variable.split('__ZEUS_VAR__')[0]);
+    while (filteredQuery.includes(variable)) {
+      filteredQuery = filteredQuery.replace(variable, variable.split('__ZEUS_VAR__')[0]);
+    }  
   });
   return `(${AllVariables.map((a) => a.split('__ZEUS_VAR__'))
     .map(([variableName, variableType]) => `${variableName}:${variableType}`)

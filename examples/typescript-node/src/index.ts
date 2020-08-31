@@ -166,22 +166,27 @@ const run = async () => {
     },
   });
   printGQLString('aliasedQuery', aliasedQuery);
-  const aliasedQueryExecute = await Gql.query({
-    listCards: {
-      __alias: {
-        atak: {
-          attack: [
-            { cardID: ['1'] },
-            {
-              name: true,
-              Defense: true,
-            },
-          ],
+  const aliasedQueryExecute = await Gql.query(
+    {
+      listCards: {
+        __alias: {
+          atak: {
+            attack: [
+              { cardID: $`cardIds` },
+              {
+                name: true,
+                Defense: true,
+              },
+            ],
+          },
         },
+        id: true,
       },
-      id: true,
     },
-  });
+    {
+      cardIds: ['1', '2'],
+    },
+  );
   printQueryResult('aliasedQuery', aliasedQueryExecute);
   const Children = undefined;
   const emptyTestMutation = Zeus.mutation({
@@ -241,7 +246,12 @@ const run = async () => {
     {
       addCard: [
         {
-          card: $`card`,
+          card: {
+            Attack: $`Attack`,
+            Defense: $`Attack`,
+            name: 'aa',
+            description: 'aa',
+          },
         },
         {
           id: true,
@@ -260,12 +270,7 @@ const run = async () => {
       ],
     },
     {
-      card: {
-        Attack: 2,
-        Defense: 3,
-        description: 'Lord of the mountains',
-        name: 'Golrog',
-      },
+      Attack: 4,
     },
   );
   printQueryResult('variable Test', test);

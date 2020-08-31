@@ -13,18 +13,6 @@ export const AllTypesProps = {
 		}
 	},
 	createCard:{
-		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		description:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
 		Children:{
 			type:"Int",
 			array:false,
@@ -46,6 +34,18 @@ export const AllTypesProps = {
 		skills:{
 			type:"SpecialSkills",
 			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		name:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		description:{
+			type:"String",
+			array:false,
 			arrayRequired:false,
 			required:true
 		}
@@ -179,9 +179,20 @@ export const TypesPropsResolver = ({
   }
   const typeResolved = resolvedValue.type;
   const isArray = resolvedValue.array;
+  const isArrayRequired = resolvedValue.arrayRequired;
   if (typeof value === 'string' && value.startsWith(`ZEUS_VAR$`)) {
-    const isRequired = resolvedValue.required ? '!' : ''
-    return `\$${value.split(`ZEUS_VAR$`)[1]}__ZEUS_VAR__${typeResolved}${isRequired}`;
+    const isRequired = resolvedValue.required ? '!' : '';
+    let t = `${typeResolved}`;
+    if (isArray) {
+      if (isArrayRequired) {
+        t = `${t}!`;
+      }
+      t = `[${t}]`;
+    }
+    if (isRequired) {
+      t = `${t}!`;
+    }
+    return `\$${value.split(`ZEUS_VAR$`)[1]}__ZEUS_VAR__${t}`;
   }
   if (isArray && !blockArrays) {
     return `[${value
@@ -294,10 +305,13 @@ const buildQuery = (type, a) =>
   traverseToSeekArrays([type], a)
 
 const inspectVariables = (query) => {
-  const regex = /\$\b\w*ZEUS_VAR\w*\b[!]?/g;
+  const regex = /\$\b\w*__ZEUS_VAR__\[?[^!^\]^\s^,^\)]*[!]?[\]]?[!]?/g;
   let result;
   const AllVariables = [];
   while ((result = regex.exec(query))) {
+    if (AllVariables.includes(result[0])) {
+      continue;
+    }
     AllVariables.push(result[0]);
   }
   if (!AllVariables.length) {
@@ -305,7 +319,9 @@ const inspectVariables = (query) => {
   }
   let filteredQuery = query;
   AllVariables.forEach((variable) => {
-    filteredQuery = filteredQuery.replace(variable, variable.split('__ZEUS_VAR__')[0]);
+    while (filteredQuery.includes(variable)) {
+      filteredQuery = filteredQuery.replace(variable, variable.split('__ZEUS_VAR__')[0]);
+    }
   });
   return `(${AllVariables.map((a) => a.split('__ZEUS_VAR__'))
     .map(([variableName, variableType]) => `${variableName}:${variableType}`)
