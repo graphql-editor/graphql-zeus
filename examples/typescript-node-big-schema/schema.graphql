@@ -1,16 +1,25 @@
 """Defines user's account type"""
 enum AccountType {
-  PREMIUM
   FREE
+  PREMIUM
 }
 
 input ChangeSubscriptionInput {
-  subscriptionPlanID: Int
   subscriptionID: Int!
+  subscriptionPlanID: Int
 }
 
 """Checkout data needed to begin payment process"""
 input CheckoutDataInput {
+  """Optional discount coupon"""
+  coupon: String
+
+  """URL to which user should be redirected after successful transaction"""
+  successURL: String
+
+  """URL to which user should be redirected after failed transaction"""
+  cancelURL: String
+
   """An id of a chosen subscription plan"""
   planID: ID!
 
@@ -22,15 +31,6 @@ input CheckoutDataInput {
 
   """Vat data"""
   vat: VatInput
-
-  """Optional discount coupon"""
-  coupon: String
-
-  """URL to which user should be redirected after successful transaction"""
-  successURL: String
-
-  """URL to which user should be redirected after failed transaction"""
-  cancelURL: String
 }
 
 """Customer data for checkout information"""
@@ -321,6 +321,15 @@ type ProjectOps {
 ProjectsSortInput defines how projects from listProjects should be sorted.
 """
 input ProjectsSortInput {
+  """Sort by name"""
+  name: SortOrder
+
+  """Sort by id"""
+  id: SortOrder
+
+  """Sort by owner"""
+  owner: SortOrder
+
   """Sort by visisbility"""
   public: SortOrder
 
@@ -339,15 +348,6 @@ input ProjectsSortInput {
 
   """Sort projects by creation date"""
   createdAt: SortOrder
-
-  """Sort by name"""
-  name: SortOrder
-
-  """Sort by id"""
-  id: SortOrder
-
-  """Sort by owner"""
-  owner: SortOrder
 }
 
 """Root query type"""
@@ -383,7 +383,7 @@ type Query {
   
   limit limits the number of returned projects
   """
-  findProjectsByTag(last: String, limit: Int, tag: String!): ProjectConnection
+  findProjectsByTag(tag: String!, last: String, limit: Int): ProjectConnection
 
   """Return namespace matching slug"""
   getNamespace(slug: String!): Namespace
@@ -406,7 +406,7 @@ type Query {
   
   limit limits the number of returned projects
   """
-  listProjects(sort: [ProjectsSortInput], owned: Boolean, last: String, limit: Int): ProjectConnection
+  listProjects(last: String, limit: Int, sort: [ProjectsSortInput], owned: Boolean): ProjectConnection
 
   """List of current user teams"""
   myTeams(last: String, limit: Int): TeamConnection
@@ -551,6 +551,9 @@ type TeamOps {
 
 """Update project payload"""
 input UpdateProject {
+  """ID of project to be updated"""
+  project: ID
+
   """New description for project"""
   description: String
 
@@ -559,9 +562,6 @@ input UpdateProject {
 
   """Set project visiblity"""
   public: Boolean
-
-  """ID of project to be updated"""
-  project: ID
 }
 
 """Editor user"""
@@ -592,6 +592,15 @@ type UserConnection {
 
 """Vat information of a user"""
 input VatInput {
+  """Vat company state address. Optional."""
+  state: String
+
+  """Vat company country address."""
+  country: String
+
+  """Vat company post code address."""
+  postCode: String
+
   """Vat number"""
   number: String
 
@@ -603,15 +612,6 @@ input VatInput {
 
   """Vat company city address"""
   city: String
-
-  """Vat company state address. Optional."""
-  state: String
-
-  """Vat company country address."""
-  country: String
-
-  """Vat company post code address."""
-  postCode: String
 }
 
 schema{

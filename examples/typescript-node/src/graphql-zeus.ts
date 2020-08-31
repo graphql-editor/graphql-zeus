@@ -35,6 +35,10 @@ attack?: [{	/** Attacked card/card ids<br> */
 }>;
 	/** create card inputs<br> */
 ["createCard"]: {
+	/** input skills */
+	skills?:ValueTypes["SpecialSkills"][],
+	/** The name of a card<br> */
+	name:string,
 	/** Description of a card<br> */
 	description:string,
 	/** <div>How many children the greek god had</div> */
@@ -42,11 +46,7 @@ attack?: [{	/** Attacked card/card ids<br> */
 	/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
-	Defense:number,
-	/** input skills */
-	skills?:ValueTypes["SpecialSkills"][],
-	/** The name of a card<br> */
-	name:string
+	Defense:number
 };
 	["EffectCard"]: AliasType<{
 	effectSize?:true,
@@ -122,6 +122,10 @@ export type PartialObjects = {
 	["ChangeCard"]: PartialObjects["SpecialCard"] | PartialObjects["EffectCard"],
 	/** create card inputs<br> */
 ["createCard"]: {
+	/** input skills */
+	skills?:PartialObjects["SpecialSkills"][],
+	/** The name of a card<br> */
+	name:string,
 	/** Description of a card<br> */
 	description:string,
 	/** <div>How many children the greek god had</div> */
@@ -129,11 +133,7 @@ export type PartialObjects = {
 	/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
-	Defense:number,
-	/** input skills */
-	skills?:PartialObjects["SpecialSkills"][],
-	/** The name of a card<br> */
-	name:string
+	Defense:number
 },
 	["EffectCard"]: {
 		__typename?: "EffectCard";
@@ -213,18 +213,18 @@ export type ChangeCard = {
 
 /** create card inputs<br> */
 export type createCard = {
-		/** Description of a card<br> */
+		/** input skills */
+	skills?:SpecialSkills[],
+	/** The name of a card<br> */
+	name:string,
+	/** Description of a card<br> */
 	description:string,
 	/** <div>How many children the greek god had</div> */
 	Children?:number,
 	/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
-	Defense:number,
-	/** input skills */
-	skills?:SpecialSkills[],
-	/** The name of a card<br> */
-	name:string
+	Defense:number
 }
 
 export type EffectCard = {
@@ -295,6 +295,18 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	createCard:{
+		skills:{
+			type:"SpecialSkills",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		name:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
 		description:{
 			type:"String",
 			array:false,
@@ -315,18 +327,6 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		Defense:{
 			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		skills:{
-			type:"SpecialSkills",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		name:{
-			type:"String",
 			array:false,
 			arrayRequired:false,
 			required:true
@@ -619,7 +619,7 @@ const isArrayFunction = (
 ) => {
   const [values, r] = a;
   const [mainKey, key, ...keys] = parent;
-  const keyValues = Object.keys(values);
+  const keyValues = Object.keys(values).filter((k) => typeof values[k] !== 'undefined');
 
   if (!keys.length) {
       return keyValues.length > 0
@@ -676,7 +676,9 @@ const traverseToSeekArrays = (parent: string[], a?: any): string => {
     return isArrayFunction([...parent], a);
   } else {
     if (typeof a === 'object') {
-      Object.keys(a).map((k) => {
+      Object.keys(a)
+        .filter((k) => typeof a[k] !== 'undefined')
+        .map((k) => {
         if (k === '__alias') {
           Object.keys(a[k]).map((aliasKey) => {
             const aliasOperations = a[k][aliasKey];

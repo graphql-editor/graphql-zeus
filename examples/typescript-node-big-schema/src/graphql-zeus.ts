@@ -5,11 +5,17 @@ export type ValueTypes = {
     /** Defines user's account type */
 ["AccountType"]:AccountType;
 	["ChangeSubscriptionInput"]: {
-	subscriptionPlanID?:number,
-	subscriptionID:number
+	subscriptionID:number,
+	subscriptionPlanID?:number
 };
 	/** Checkout data needed to begin payment process */
 ["CheckoutDataInput"]: {
+	/** Optional discount coupon */
+	coupon?:string,
+	/** URL to which user should be redirected after successful transaction */
+	successURL?:string,
+	/** URL to which user should be redirected after failed transaction */
+	cancelURL?:string,
 	/** An id of a chosen subscription plan */
 	planID:string,
 	/** Quantity of subscriptions that user wants */
@@ -17,13 +23,7 @@ export type ValueTypes = {
 	/** Customer data */
 	customer?:ValueTypes["CustomerInput"],
 	/** Vat data */
-	vat?:ValueTypes["VatInput"],
-	/** Optional discount coupon */
-	coupon?:string,
-	/** URL to which user should be redirected after successful transaction */
-	successURL?:string,
-	/** URL to which user should be redirected after failed transaction */
-	cancelURL?:string
+	vat?:ValueTypes["VatInput"]
 };
 	/** Customer data for checkout information */
 ["CustomerInput"]: {
@@ -212,6 +212,12 @@ update?: [{	in?:ValueTypes["UpdateProject"]},true]
 }>;
 	/** ProjectsSortInput defines how projects from listProjects should be sorted. */
 ["ProjectsSortInput"]: {
+	/** Sort by name */
+	name?:ValueTypes["SortOrder"],
+	/** Sort by id */
+	id?:ValueTypes["SortOrder"],
+	/** Sort by owner */
+	owner?:ValueTypes["SortOrder"],
 	/** Sort by visisbility */
 	public?:ValueTypes["SortOrder"],
 	/** Sort by slug */
@@ -223,25 +229,19 @@ update?: [{	in?:ValueTypes["UpdateProject"]},true]
 Sort behaviour for projects by team is implemenation depednant. */
 	team?:ValueTypes["SortOrder"],
 	/** Sort projects by creation date */
-	createdAt?:ValueTypes["SortOrder"],
-	/** Sort by name */
-	name?:ValueTypes["SortOrder"],
-	/** Sort by id */
-	id?:ValueTypes["SortOrder"],
-	/** Sort by owner */
-	owner?:ValueTypes["SortOrder"]
+	createdAt?:ValueTypes["SortOrder"]
 };
 	/** Root query type */
 ["Query"]: AliasType<{
 checkoutData?: [{	data:ValueTypes["CheckoutDataInput"]},true],
 fileServerCredentials?: [{	project?:string},true],
 findProjects?: [{	query:string,	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
-findProjectsByTag?: [{	last?:string,	limit?:number,	tag:string},ValueTypes["ProjectConnection"]],
+findProjectsByTag?: [{	tag:string,	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
 getNamespace?: [{	slug:string},ValueTypes["Namespace"]],
 getProject?: [{	project:string},ValueTypes["Project"]],
 getTeam?: [{	name:string},ValueTypes["Team"]],
 getUser?: [{	username:string},ValueTypes["User"]],
-listProjects?: [{	sort?:(ValueTypes["ProjectsSortInput"] | undefined)[],	owned?:boolean,	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
+listProjects?: [{	last?:string,	limit?:number,	sort?:(ValueTypes["ProjectsSortInput"] | undefined)[],	owned?:boolean},ValueTypes["ProjectConnection"]],
 myTeams?: [{	last?:string,	limit?:number},ValueTypes["TeamConnection"]],
 	/** List user payments */
 	payments?:ValueTypes["Payment"]
@@ -328,14 +328,14 @@ project?: [{	id:string},ValueTypes["ProjectOps"]]
 }>;
 	/** Update project payload */
 ["UpdateProject"]: {
+	/** ID of project to be updated */
+	project?:string,
 	/** New description for project */
 	description?:string,
 	/** List of tags for project */
 	tags?:string[],
 	/** Set project visiblity */
-	public?:boolean,
-	/** ID of project to be updated */
-	project?:string
+	public?:boolean
 };
 	/** Editor user */
 ["User"]: AliasType<{
@@ -360,6 +360,12 @@ project?: [{	id:string},ValueTypes["ProjectOps"]]
 }>;
 	/** Vat information of a user */
 ["VatInput"]: {
+	/** Vat company state address. Optional. */
+	state?:string,
+	/** Vat company country address. */
+	country?:string,
+	/** Vat company post code address. */
+	postCode?:string,
 	/** Vat number */
 	number?:string,
 	/** Vat company name */
@@ -367,13 +373,7 @@ project?: [{	id:string},ValueTypes["ProjectOps"]]
 	/** Vat company street address */
 	street?:string,
 	/** Vat company city address */
-	city?:string,
-	/** Vat company state address. Optional. */
-	state?:string,
-	/** Vat company country address. */
-	country?:string,
-	/** Vat company post code address. */
-	postCode?:string
+	city?:string
 }
   }
 
@@ -381,11 +381,17 @@ export type PartialObjects = {
     /** Defines user's account type */
 ["AccountType"]:AccountType,
 	["ChangeSubscriptionInput"]: {
-	subscriptionPlanID?:number,
-	subscriptionID:number
+	subscriptionID:number,
+	subscriptionPlanID?:number
 },
 	/** Checkout data needed to begin payment process */
 ["CheckoutDataInput"]: {
+	/** Optional discount coupon */
+	coupon?:string,
+	/** URL to which user should be redirected after successful transaction */
+	successURL?:string,
+	/** URL to which user should be redirected after failed transaction */
+	cancelURL?:string,
 	/** An id of a chosen subscription plan */
 	planID:string,
 	/** Quantity of subscriptions that user wants */
@@ -393,13 +399,7 @@ export type PartialObjects = {
 	/** Customer data */
 	customer?:PartialObjects["CustomerInput"],
 	/** Vat data */
-	vat?:PartialObjects["VatInput"],
-	/** Optional discount coupon */
-	coupon?:string,
-	/** URL to which user should be redirected after successful transaction */
-	successURL?:string,
-	/** URL to which user should be redirected after failed transaction */
-	cancelURL?:string
+	vat?:PartialObjects["VatInput"]
 },
 	/** Customer data for checkout information */
 ["CustomerInput"]: {
@@ -618,6 +618,12 @@ Used with paginated listing of projects */
 	},
 	/** ProjectsSortInput defines how projects from listProjects should be sorted. */
 ["ProjectsSortInput"]: {
+	/** Sort by name */
+	name?:PartialObjects["SortOrder"],
+	/** Sort by id */
+	id?:PartialObjects["SortOrder"],
+	/** Sort by owner */
+	owner?:PartialObjects["SortOrder"],
 	/** Sort by visisbility */
 	public?:PartialObjects["SortOrder"],
 	/** Sort by slug */
@@ -629,13 +635,7 @@ Used with paginated listing of projects */
 Sort behaviour for projects by team is implemenation depednant. */
 	team?:PartialObjects["SortOrder"],
 	/** Sort projects by creation date */
-	createdAt?:PartialObjects["SortOrder"],
-	/** Sort by name */
-	name?:PartialObjects["SortOrder"],
-	/** Sort by id */
-	id?:PartialObjects["SortOrder"],
-	/** Sort by owner */
-	owner?:PartialObjects["SortOrder"]
+	createdAt?:PartialObjects["SortOrder"]
 },
 	/** Root query type */
 ["Query"]: {
@@ -772,14 +772,14 @@ limit limits the number of returned projects */
 	},
 	/** Update project payload */
 ["UpdateProject"]: {
+	/** ID of project to be updated */
+	project?:string,
 	/** New description for project */
 	description?:string,
 	/** List of tags for project */
 	tags?:string[],
 	/** Set project visiblity */
-	public?:boolean,
-	/** ID of project to be updated */
-	project?:string
+	public?:boolean
 },
 	/** Editor user */
 ["User"]: {
@@ -804,6 +804,12 @@ limit limits the number of returned projects */
 	},
 	/** Vat information of a user */
 ["VatInput"]: {
+	/** Vat company state address. Optional. */
+	state?:string,
+	/** Vat company country address. */
+	country?:string,
+	/** Vat company post code address. */
+	postCode?:string,
 	/** Vat number */
 	number?:string,
 	/** Vat company name */
@@ -811,43 +817,37 @@ limit limits the number of returned projects */
 	/** Vat company street address */
 	street?:string,
 	/** Vat company city address */
-	city?:string,
-	/** Vat company state address. Optional. */
-	state?:string,
-	/** Vat company country address. */
-	country?:string,
-	/** Vat company post code address. */
-	postCode?:string
+	city?:string
 }
   }
 
 /** Defines user's account type */
 export enum AccountType {
-	PREMIUM = "PREMIUM",
-	FREE = "FREE"
+	FREE = "FREE",
+	PREMIUM = "PREMIUM"
 }
 
 export type ChangeSubscriptionInput = {
-		subscriptionPlanID?:number,
-	subscriptionID:number
+		subscriptionID:number,
+	subscriptionPlanID?:number
 }
 
 /** Checkout data needed to begin payment process */
 export type CheckoutDataInput = {
-		/** An id of a chosen subscription plan */
+		/** Optional discount coupon */
+	coupon?:string,
+	/** URL to which user should be redirected after successful transaction */
+	successURL?:string,
+	/** URL to which user should be redirected after failed transaction */
+	cancelURL?:string,
+	/** An id of a chosen subscription plan */
 	planID:string,
 	/** Quantity of subscriptions that user wants */
 	quantity?:number,
 	/** Customer data */
 	customer?:CustomerInput,
 	/** Vat data */
-	vat?:VatInput,
-	/** Optional discount coupon */
-	coupon?:string,
-	/** URL to which user should be redirected after successful transaction */
-	successURL?:string,
-	/** URL to which user should be redirected after failed transaction */
-	cancelURL?:string
+	vat?:VatInput
 }
 
 /** Customer data for checkout information */
@@ -1086,7 +1086,13 @@ export type ProjectOps = {
 
 /** ProjectsSortInput defines how projects from listProjects should be sorted. */
 export type ProjectsSortInput = {
-		/** Sort by visisbility */
+		/** Sort by name */
+	name?:SortOrder,
+	/** Sort by id */
+	id?:SortOrder,
+	/** Sort by owner */
+	owner?:SortOrder,
+	/** Sort by visisbility */
 	public?:SortOrder,
 	/** Sort by slug */
 	slug?:SortOrder,
@@ -1097,13 +1103,7 @@ export type ProjectsSortInput = {
 Sort behaviour for projects by team is implemenation depednant. */
 	team?:SortOrder,
 	/** Sort projects by creation date */
-	createdAt?:SortOrder,
-	/** Sort by name */
-	name?:SortOrder,
-	/** Sort by id */
-	id?:SortOrder,
-	/** Sort by owner */
-	owner?:SortOrder
+	createdAt?:SortOrder
 }
 
 /** Root query type */
@@ -1260,14 +1260,14 @@ export type TeamOps = {
 
 /** Update project payload */
 export type UpdateProject = {
-		/** New description for project */
+		/** ID of project to be updated */
+	project?:string,
+	/** New description for project */
 	description?:string,
 	/** List of tags for project */
 	tags?:string[],
 	/** Set project visiblity */
-	public?:boolean,
-	/** ID of project to be updated */
-	project?:string
+	public?:boolean
 }
 
 /** Editor user */
@@ -1295,39 +1295,57 @@ export type UserConnection = {
 
 /** Vat information of a user */
 export type VatInput = {
-		/** Vat number */
+		/** Vat company state address. Optional. */
+	state?:string,
+	/** Vat company country address. */
+	country?:string,
+	/** Vat company post code address. */
+	postCode?:string,
+	/** Vat number */
 	number?:string,
 	/** Vat company name */
 	companyName?:string,
 	/** Vat company street address */
 	street?:string,
 	/** Vat company city address */
-	city?:string,
-	/** Vat company state address. Optional. */
-	state?:string,
-	/** Vat company country address. */
-	country?:string,
-	/** Vat company post code address. */
-	postCode?:string
+	city?:string
 }
 
 export const AllTypesProps: Record<string,any> = {
 	AccountType: "enum",
 	ChangeSubscriptionInput:{
-		subscriptionPlanID:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		subscriptionID:{
 			type:"Int",
 			array:false,
 			arrayRequired:false,
 			required:true
+		},
+		subscriptionPlanID:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
 		}
 	},
 	CheckoutDataInput:{
+		coupon:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		successURL:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		cancelURL:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
 		planID:{
 			type:"ID",
 			array:false,
@@ -1348,24 +1366,6 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		vat:{
 			type:"VatInput",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		coupon:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		successURL:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		cancelURL:{
-			type:"String",
 			array:false,
 			arrayRequired:false,
 			required:false
@@ -1585,6 +1585,24 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	ProjectsSortInput:{
+		name:{
+			type:"SortOrder",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		id:{
+			type:"SortOrder",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		owner:{
+			type:"SortOrder",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
 		public:{
 			type:"SortOrder",
 			array:false,
@@ -1610,24 +1628,6 @@ export const AllTypesProps: Record<string,any> = {
 			required:false
 		},
 		createdAt:{
-			type:"SortOrder",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		name:{
-			type:"SortOrder",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"SortOrder",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		owner:{
 			type:"SortOrder",
 			array:false,
 			arrayRequired:false,
@@ -1672,6 +1672,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		findProjectsByTag:{
+			tag:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:true
+			},
 			last:{
 				type:"String",
 				array:false,
@@ -1683,12 +1689,6 @@ export const AllTypesProps: Record<string,any> = {
 				array:false,
 				arrayRequired:false,
 				required:false
-			},
-			tag:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
 			}
 		},
 		getNamespace:{
@@ -1724,18 +1724,6 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		listProjects:{
-			sort:{
-				type:"ProjectsSortInput",
-				array:true,
-				arrayRequired:false,
-				required:false
-			},
-			owned:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
 			last:{
 				type:"String",
 				array:false,
@@ -1744,6 +1732,18 @@ export const AllTypesProps: Record<string,any> = {
 			},
 			limit:{
 				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
+			sort:{
+				type:"ProjectsSortInput",
+				array:true,
+				arrayRequired:false,
+				required:false
+			},
+			owned:{
+				type:"Boolean",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -1852,6 +1852,12 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	UpdateProject:{
+		project:{
+			type:"ID",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
 		description:{
 			type:"String",
 			array:false,
@@ -1869,15 +1875,27 @@ export const AllTypesProps: Record<string,any> = {
 			array:false,
 			arrayRequired:false,
 			required:false
-		},
-		project:{
-			type:"ID",
-			array:false,
-			arrayRequired:false,
-			required:false
 		}
 	},
 	VatInput:{
+		state:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		country:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		postCode:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
 		number:{
 			type:"String",
 			array:false,
@@ -1897,24 +1915,6 @@ export const AllTypesProps: Record<string,any> = {
 			required:false
 		},
 		city:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		state:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		country:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		postCode:{
 			type:"String",
 			array:false,
 			arrayRequired:false,
@@ -2284,7 +2284,7 @@ const isArrayFunction = (
 ) => {
   const [values, r] = a;
   const [mainKey, key, ...keys] = parent;
-  const keyValues = Object.keys(values);
+  const keyValues = Object.keys(values).filter((k) => typeof values[k] !== 'undefined');
 
   if (!keys.length) {
       return keyValues.length > 0
@@ -2341,7 +2341,9 @@ const traverseToSeekArrays = (parent: string[], a?: any): string => {
     return isArrayFunction([...parent], a);
   } else {
     if (typeof a === 'object') {
-      Object.keys(a).map((k) => {
+      Object.keys(a)
+        .filter((k) => typeof a[k] !== 'undefined')
+        .map((k) => {
         if (k === '__alias') {
           Object.keys(a[k]).map((aliasKey) => {
             const aliasOperations = a[k][aliasKey];

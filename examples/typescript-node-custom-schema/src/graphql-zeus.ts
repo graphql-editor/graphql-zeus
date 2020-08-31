@@ -297,7 +297,7 @@ const isArrayFunction = (
 ) => {
   const [values, r] = a;
   const [mainKey, key, ...keys] = parent;
-  const keyValues = Object.keys(values);
+  const keyValues = Object.keys(values).filter((k) => typeof values[k] !== 'undefined');
 
   if (!keys.length) {
       return keyValues.length > 0
@@ -354,7 +354,9 @@ const traverseToSeekArrays = (parent: string[], a?: any): string => {
     return isArrayFunction([...parent], a);
   } else {
     if (typeof a === 'object') {
-      Object.keys(a).map((k) => {
+      Object.keys(a)
+        .filter((k) => typeof a[k] !== 'undefined')
+        .map((k) => {
         if (k === '__alias') {
           Object.keys(a[k]).map((aliasKey) => {
             const aliasOperations = a[k][aliasKey];

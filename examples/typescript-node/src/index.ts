@@ -183,6 +183,36 @@ const run = async () => {
     },
   });
   printQueryResult('aliasedQuery', aliasedQueryExecute);
+  const Children = undefined;
+  const emptyTestMutation = Zeus.mutation({
+    addCard: [
+      {
+        card: {
+          Attack: 1,
+          Defense: 2,
+          description: 'a',
+          name: 'SADSD',
+          Children,
+          skills: [SpecialSkills.FIRE],
+        },
+      },
+      {
+        id: true,
+        description: true,
+        name: true,
+        Attack: true,
+        skills: true,
+        Children,
+        Defense: true,
+        cardImage: {
+          bucket: true,
+          region: true,
+          key: true,
+        },
+      },
+    ],
+  });
+  printQueryResult('emptyTestMutation', emptyTestMutation);
 
   const interfaceTest = await Gql.query({
     nameables: {
