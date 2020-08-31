@@ -438,7 +438,7 @@ const handleFetchResponse = (
   response: Parameters<Extract<Parameters<ReturnType<typeof fetch>['then']>[0], Function>>[0]
 ): Promise<GraphQLResponse> => {
   if (!response.ok) {
-    return new Promise((resolve, reject) => {
+    return new Promise((_, reject) => {
       response.text().then(text => {
         try { reject(JSON.parse(text)); }
         catch (err) { reject(text); }
@@ -528,15 +528,15 @@ mutation: (o:ValueTypes["NotMutation"]) => queryConstruct('mutation', 'NotMutati
 subscription: (o:ValueTypes["NotSubscription"]) => queryConstruct('subscription', 'NotSubscription')(o)
 };
 export const Cast = {
-  query: ((o: any) => (b: any) => o) as CastToGraphQL<
+  query: ((o: any) => (_: any) => o) as CastToGraphQL<
   ValueTypes["Query"],
   Query
 >,
-mutation: ((o: any) => (b: any) => o) as CastToGraphQL<
+mutation: ((o: any) => (_: any) => o) as CastToGraphQL<
   ValueTypes["NotMutation"],
   NotMutation
 >,
-subscription: ((o: any) => (b: any) => o) as CastToGraphQL<
+subscription: ((o: any) => (_: any) => o) as CastToGraphQL<
   ValueTypes["NotSubscription"],
   NotSubscription
 >

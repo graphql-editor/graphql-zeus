@@ -1,16 +1,19 @@
 """Defines user's account type"""
 enum AccountType {
-  FREE
   PREMIUM
+  FREE
 }
 
 input ChangeSubscriptionInput {
-  subscriptionID: Int!
   subscriptionPlanID: Int
+  subscriptionID: Int!
 }
 
 """Checkout data needed to begin payment process"""
 input CheckoutDataInput {
+  """An id of a chosen subscription plan"""
+  planID: ID!
+
   """Quantity of subscriptions that user wants"""
   quantity: Int
 
@@ -28,13 +31,13 @@ input CheckoutDataInput {
 
   """URL to which user should be redirected after failed transaction"""
   cancelURL: String
-
-  """An id of a chosen subscription plan"""
-  planID: ID!
 }
 
 """Customer data for checkout information"""
 input CustomerInput {
+  """Must be true for marketing to be allowed"""
+  marketingConsent: Boolean
+
   """User's email address"""
   email: String
 
@@ -43,9 +46,6 @@ input CustomerInput {
 
   """User's post code"""
   postCode: String
-
-  """Must be true for marketing to be allowed"""
-  marketingConsent: Boolean
 }
 
 """Amount is a number that gives precise representation of real numbers"""
@@ -321,6 +321,12 @@ type ProjectOps {
 ProjectsSortInput defines how projects from listProjects should be sorted.
 """
 input ProjectsSortInput {
+  """Sort by visisbility"""
+  public: SortOrder
+
+  """Sort by slug"""
+  slug: SortOrder
+
   """Sort by tag"""
   tags: SortOrder
 
@@ -342,12 +348,6 @@ input ProjectsSortInput {
 
   """Sort by owner"""
   owner: SortOrder
-
-  """Sort by visisbility"""
-  public: SortOrder
-
-  """Sort by slug"""
-  slug: SortOrder
 }
 
 """Root query type"""
@@ -372,7 +372,7 @@ type Query {
   
   limit limits the number of returned projects
   """
-  findProjects(last: String, limit: Int, query: String!): ProjectConnection
+  findProjects(query: String!, last: String, limit: Int): ProjectConnection
 
   """
   Find projects which contain tag
@@ -383,7 +383,7 @@ type Query {
   
   limit limits the number of returned projects
   """
-  findProjectsByTag(tag: String!, last: String, limit: Int): ProjectConnection
+  findProjectsByTag(last: String, limit: Int, tag: String!): ProjectConnection
 
   """Return namespace matching slug"""
   getNamespace(slug: String!): Namespace
@@ -420,15 +420,6 @@ scalar RFC3339Date
 
 """Team member role"""
 enum Role {
-  """Team editor can add/edit projects in team"""
-  EDITOR
-
-  """Team viewer can view projects in team"""
-  VIEWER
-
-  """Team contributor can edit projects in team"""
-  CONTRIBUTOR
-
   """
   Team owner owner can add/remove/edit/view projects and members to a team. Only owner can delete team
   """
@@ -438,12 +429,21 @@ enum Role {
   Team admin can add/remove/edit/view projects and members(except owner) to a team
   """
   ADMIN
+
+  """Team editor can add/edit projects in team"""
+  EDITOR
+
+  """Team viewer can view projects in team"""
+  VIEWER
+
+  """Team contributor can edit projects in team"""
+  CONTRIBUTOR
 }
 
 """Sort order defines possible ordering of sorted outputs"""
 enum SortOrder {
-  Descending
   Ascending
+  Descending
 }
 
 """Source upload info object"""
@@ -525,7 +525,7 @@ type TeamOps {
   addMember(username: String!, role: Role!): Member
 
   """Create new team project"""
-  createProject(name: String!, public: Boolean): Project
+  createProject(public: Boolean, name: String!): Project
 
   """Delete team"""
   delete: Boolean
@@ -551,17 +551,17 @@ type TeamOps {
 
 """Update project payload"""
 input UpdateProject {
-  """Set project visiblity"""
-  public: Boolean
-
-  """ID of project to be updated"""
-  project: ID
-
   """New description for project"""
   description: String
 
   """List of tags for project"""
   tags: [String!]
+
+  """Set project visiblity"""
+  public: Boolean
+
+  """ID of project to be updated"""
+  project: ID
 }
 
 """Editor user"""
@@ -592,9 +592,6 @@ type UserConnection {
 
 """Vat information of a user"""
 input VatInput {
-  """Vat company post code address."""
-  postCode: String
-
   """Vat number"""
   number: String
 
@@ -612,6 +609,9 @@ input VatInput {
 
   """Vat company country address."""
   country: String
+
+  """Vat company post code address."""
+  postCode: String
 }
 
 schema{

@@ -35,6 +35,8 @@ attack?: [{	/** Attacked card/card ids<br> */
 }>;
 	/** create card inputs<br> */
 ["createCard"]: {
+	/** Description of a card<br> */
+	description:string,
 	/** <div>How many children the greek god had</div> */
 	Children?:number,
 	/** The attack power<br> */
@@ -44,9 +46,7 @@ attack?: [{	/** Attacked card/card ids<br> */
 	/** input skills */
 	skills?:ValueTypes["SpecialSkills"][],
 	/** The name of a card<br> */
-	name:string,
-	/** Description of a card<br> */
-	description:string
+	name:string
 };
 	["EffectCard"]: AliasType<{
 	effectSize?:true,
@@ -122,6 +122,8 @@ export type PartialObjects = {
 	["ChangeCard"]: PartialObjects["SpecialCard"] | PartialObjects["EffectCard"],
 	/** create card inputs<br> */
 ["createCard"]: {
+	/** Description of a card<br> */
+	description:string,
 	/** <div>How many children the greek god had</div> */
 	Children?:number,
 	/** The attack power<br> */
@@ -131,9 +133,7 @@ export type PartialObjects = {
 	/** input skills */
 	skills?:PartialObjects["SpecialSkills"][],
 	/** The name of a card<br> */
-	name:string,
-	/** Description of a card<br> */
-	description:string
+	name:string
 },
 	["EffectCard"]: {
 		__typename?: "EffectCard";
@@ -213,7 +213,9 @@ export type ChangeCard = {
 
 /** create card inputs<br> */
 export type createCard = {
-		/** <div>How many children the greek god had</div> */
+		/** Description of a card<br> */
+	description:string,
+	/** <div>How many children the greek god had</div> */
 	Children?:number,
 	/** The attack power<br> */
 	Attack:number,
@@ -222,9 +224,7 @@ export type createCard = {
 	/** input skills */
 	skills?:SpecialSkills[],
 	/** The name of a card<br> */
-	name:string,
-	/** Description of a card<br> */
-	description:string
+	name:string
 }
 
 export type EffectCard = {
@@ -278,9 +278,9 @@ export type SpecialCard = {
 }
 
 export enum SpecialSkills {
-	FIRE = "FIRE",
 	THUNDER = "THUNDER",
-	RAIN = "RAIN"
+	RAIN = "RAIN",
+	FIRE = "FIRE"
 }
 
 export const AllTypesProps: Record<string,any> = {
@@ -295,6 +295,12 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	createCard:{
+		description:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
 		Children:{
 			type:"Int",
 			array:false,
@@ -320,12 +326,6 @@ export const AllTypesProps: Record<string,any> = {
 			required:true
 		},
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		description:{
 			type:"String",
 			array:false,
 			arrayRequired:false,
@@ -760,7 +760,7 @@ const handleFetchResponse = (
   response: Parameters<Extract<Parameters<ReturnType<typeof fetch>['then']>[0], Function>>[0]
 ): Promise<GraphQLResponse> => {
   if (!response.ok) {
-    return new Promise((resolve, reject) => {
+    return new Promise((_, reject) => {
       response.text().then(text => {
         try { reject(JSON.parse(text)); }
         catch (err) { reject(text); }
@@ -841,11 +841,11 @@ export const Zeus = {
 mutation: (o:ValueTypes["Mutation"]) => queryConstruct('mutation', 'Mutation')(o)
 };
 export const Cast = {
-  query: ((o: any) => (b: any) => o) as CastToGraphQL<
+  query: ((o: any) => (_: any) => o) as CastToGraphQL<
   ValueTypes["Query"],
   Query
 >,
-mutation: ((o: any) => (b: any) => o) as CastToGraphQL<
+mutation: ((o: any) => (_: any) => o) as CastToGraphQL<
   ValueTypes["Mutation"],
   Mutation
 >

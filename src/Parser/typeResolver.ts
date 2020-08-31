@@ -104,9 +104,9 @@ export class TypeResolver {
    *
    * @param value
    */
-  static resolveValue(value: ValueNode): ParserField[] {
+  static resolveValue(value: ValueNode): ParserField[] | undefined {
     if (value.kind === 'ListValue') {
-      return value.values.map(TypeResolver.resolveValue).reduce((a, b) => [...a, ...b], []);
+      return value.values.map(TypeResolver.resolveValue).reduce((a, b) => [...(a || []), ...(b || [])], []);
     }
     if (value.kind === 'ObjectValue') {
       return [
@@ -148,7 +148,7 @@ export class TypeResolver {
         },
       ];
     }
-    return [];
+    return undefined;
   }
   /**
    * Iterate directives
@@ -207,7 +207,7 @@ export class TypeResolver {
           data: {
             type: ValueDefinition.InputValueDefinition,
           },
-          args: n.defaultValue ? TypeResolver.resolveValue(n.defaultValue) : [],
+          args: n.defaultValue ? TypeResolver.resolveValue(n.defaultValue) : undefined,
         } as ParserField),
     );
   }
