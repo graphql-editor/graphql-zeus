@@ -1,22 +1,16 @@
 """Defines user's account type"""
 enum AccountType {
-  FREE
   PREMIUM
+  FREE
 }
 
 input ChangeSubscriptionInput {
-  subscriptionID: Int!
   subscriptionPlanID: Int
+  subscriptionID: Int!
 }
 
 """Checkout data needed to begin payment process"""
 input CheckoutDataInput {
-  """An id of a chosen subscription plan"""
-  planID: ID!
-
-  """Quantity of subscriptions that user wants"""
-  quantity: Int
-
   """Customer data"""
   customer: CustomerInput
 
@@ -31,10 +25,19 @@ input CheckoutDataInput {
 
   """URL to which user should be redirected after failed transaction"""
   cancelURL: String
+
+  """An id of a chosen subscription plan"""
+  planID: ID!
+
+  """Quantity of subscriptions that user wants"""
+  quantity: Int
 }
 
 """Customer data for checkout information"""
 input CustomerInput {
+  """User's post code"""
+  postCode: String
+
   """Must be true for marketing to be allowed"""
   marketingConsent: Boolean
 
@@ -43,9 +46,6 @@ input CustomerInput {
 
   """User's country"""
   country: String
-
-  """User's post code"""
-  postCode: String
 }
 
 """Amount is a number that gives precise representation of real numbers"""
@@ -187,17 +187,17 @@ type Namespace {
 
 """New source payload"""
 input NewSource {
-  """Source mime type"""
-  contentType: String
-
-  """Source checksum"""
-  checksum: String
-
   """source file name"""
   filename: String
 
   """Length of source in bytes"""
   contentLength: Int
+
+  """Source mime type"""
+  contentType: String
+
+  """Source checksum"""
+  checksum: String
 }
 
 """PageInfo contains information about connection page"""
@@ -321,12 +321,6 @@ type ProjectOps {
 ProjectsSortInput defines how projects from listProjects should be sorted.
 """
 input ProjectsSortInput {
-  """Sort projects by creation date"""
-  createdAt: SortOrder
-
-  """Sort by name"""
-  name: SortOrder
-
   """Sort by id"""
   id: SortOrder
 
@@ -348,6 +342,12 @@ input ProjectsSortInput {
   Sort behaviour for projects by team is implemenation depednant.
   """
   team: SortOrder
+
+  """Sort projects by creation date"""
+  createdAt: SortOrder
+
+  """Sort by name"""
+  name: SortOrder
 }
 
 """Root query type"""
@@ -383,7 +383,7 @@ type Query {
   
   limit limits the number of returned projects
   """
-  findProjectsByTag(tag: String!, last: String, limit: Int): ProjectConnection
+  findProjectsByTag(last: String, limit: Int, tag: String!): ProjectConnection
 
   """Return namespace matching slug"""
   getNamespace(slug: String!): Namespace
@@ -406,7 +406,7 @@ type Query {
   
   limit limits the number of returned projects
   """
-  listProjects(owned: Boolean, last: String, limit: Int, sort: [ProjectsSortInput]): ProjectConnection
+  listProjects(sort: [ProjectsSortInput], owned: Boolean, last: String, limit: Int): ProjectConnection
 
   """List of current user teams"""
   myTeams(last: String, limit: Int): TeamConnection
@@ -501,7 +501,7 @@ type Team {
   member(username: String!): Member
 
   """Paginated list of members in team"""
-  members(limit: Int, last: String): MemberConnection
+  members(last: String, limit: Int): MemberConnection
 
   """Team name"""
   name: String!
@@ -522,10 +522,10 @@ type TeamConnection {
 """Team operations"""
 type TeamOps {
   """Add member to the team"""
-  addMember(role: Role!, username: String!): Member
+  addMember(username: String!, role: Role!): Member
 
   """Create new team project"""
-  createProject(name: String!, public: Boolean): Project
+  createProject(public: Boolean, name: String!): Project
 
   """Delete team"""
   delete: Boolean
@@ -551,17 +551,17 @@ type TeamOps {
 
 """Update project payload"""
 input UpdateProject {
-  """ID of project to be updated"""
-  project: ID
-
-  """New description for project"""
-  description: String
-
   """List of tags for project"""
   tags: [String!]
 
   """Set project visiblity"""
   public: Boolean
+
+  """ID of project to be updated"""
+  project: ID
+
+  """New description for project"""
+  description: String
 }
 
 """Editor user"""

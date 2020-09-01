@@ -166,6 +166,12 @@ const run = async () => {
     },
   });
   printGQLString('aliasedQuery', aliasedQuery);
+  const operationName = Zeus.query({
+    listCards: {
+      Attack: true,
+    },
+  });
+  printGQLString('operationName', operationName);
   const aliasedQueryExecute = await Gql.query(
     {
       listCards: {

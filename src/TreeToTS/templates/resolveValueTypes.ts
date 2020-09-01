@@ -1,5 +1,5 @@
-import { Options, ParserField } from '../../Models';
-import { Helpers, TypeDefinition, TypeSystemDefinition } from '../../Models/Spec';
+import { Options, ParserField } from '@/Models';
+import { Helpers, TypeDefinition, TypeSystemDefinition } from '@/Models/Spec';
 
 export const VALUETYPES = 'ValueTypes';
 

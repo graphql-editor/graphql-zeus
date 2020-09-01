@@ -1,8 +1,8 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { Environment } from '../Models/Environment';
-import { TranslateGraphQL } from '../TranslateGraphQL';
-import { Utils } from '../Utils';
+import { Environment } from '@/Models';
+import { TranslateGraphQL } from '@/TranslateGraphQL';
+import { Utils } from '@/Utils';
 
 /**
  * basic yargs interface

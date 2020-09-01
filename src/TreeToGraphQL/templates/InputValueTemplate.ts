@@ -1,4 +1,4 @@
-import { Options, ParserField } from '../../Models';
+import { Options, ParserField } from '@/Models';
 import { TemplateUtils } from './TemplateUtils';
 
 /**

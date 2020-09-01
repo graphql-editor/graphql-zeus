@@ -1,5 +1,5 @@
 import { OperationName, ResolvedOperations } from 'TreeToTS';
-import { OperationType } from '../../../Models';
+import { OperationType } from '@/Models';
 import { VALUETYPES } from '../resolveValueTypes';
 
 const generateOperationsJavascriptDefinitionsChaining = ({

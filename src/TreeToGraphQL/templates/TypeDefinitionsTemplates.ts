@@ -1,9 +1,4 @@
-import {
-  ParserField,
-  TypeDefinition,
-  TypeDefinitionDisplayMap,
-  TypeSystemDefinitionDisplayStrings,
-} from '../../Models';
+import { ParserField, TypeDefinition, TypeDefinitionDisplayMap, TypeSystemDefinitionDisplayStrings } from '@/Models';
 import { TemplateUtils } from './TemplateUtils';
 
 /**

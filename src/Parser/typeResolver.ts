@@ -10,8 +10,8 @@ import {
   TypeSystemExtensionNode,
   ValueNode,
 } from 'graphql';
-import { AllTypes, Options, ParserField } from '../Models';
-import { Instances, TypeSystemDefinition, Value, ValueDefinition } from '../Models/Spec';
+import { AllTypes, Options, ParserField } from '@/Models';
+import { Instances, TypeSystemDefinition, Value, ValueDefinition } from '@/Models/Spec';
 
 /**
  * Class for resolving Types to ParserFields

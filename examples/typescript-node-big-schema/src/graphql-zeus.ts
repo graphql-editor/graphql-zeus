@@ -5,15 +5,11 @@ export type ValueTypes = {
     /** Defines user's account type */
 ["AccountType"]:AccountType;
 	["ChangeSubscriptionInput"]: {
-	subscriptionID:number,
-	subscriptionPlanID?:number
+	subscriptionPlanID?:number,
+	subscriptionID:number
 };
 	/** Checkout data needed to begin payment process */
 ["CheckoutDataInput"]: {
-	/** An id of a chosen subscription plan */
-	planID:string,
-	/** Quantity of subscriptions that user wants */
-	quantity?:number,
 	/** Customer data */
 	customer?:ValueTypes["CustomerInput"],
 	/** Vat data */
@@ -23,18 +19,22 @@ export type ValueTypes = {
 	/** URL to which user should be redirected after successful transaction */
 	successURL?:string,
 	/** URL to which user should be redirected after failed transaction */
-	cancelURL?:string
+	cancelURL?:string,
+	/** An id of a chosen subscription plan */
+	planID:string,
+	/** Quantity of subscriptions that user wants */
+	quantity?:number
 };
 	/** Customer data for checkout information */
 ["CustomerInput"]: {
+	/** User's post code */
+	postCode?:string,
 	/** Must be true for marketing to be allowed */
 	marketingConsent?:boolean,
 	/** User's email address */
 	email?:string,
 	/** User's country */
-	country?:string,
-	/** User's post code */
-	postCode?:string
+	country?:string
 };
 	/** Amount is a number that gives precise representation of real numbers */
 ["Decimal"]:unknown;
@@ -122,14 +122,14 @@ projects?: [{	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
 }>;
 	/** New source payload */
 ["NewSource"]: {
-	/** Source mime type */
-	contentType?:string,
-	/** Source checksum */
-	checksum?:string,
 	/** source file name */
 	filename?:string,
 	/** Length of source in bytes */
-	contentLength?:number
+	contentLength?:number,
+	/** Source mime type */
+	contentType?:string,
+	/** Source checksum */
+	checksum?:string
 };
 	/** PageInfo contains information about connection page */
 ["PageInfo"]: AliasType<{
@@ -212,10 +212,6 @@ update?: [{	in?:ValueTypes["UpdateProject"]},true],
 }>;
 	/** ProjectsSortInput defines how projects from listProjects should be sorted. */
 ["ProjectsSortInput"]: {
-	/** Sort projects by creation date */
-	createdAt?:ValueTypes["SortOrder"],
-	/** Sort by name */
-	name?:ValueTypes["SortOrder"],
 	/** Sort by id */
 	id?:ValueTypes["SortOrder"],
 	/** Sort by owner */
@@ -229,19 +225,23 @@ update?: [{	in?:ValueTypes["UpdateProject"]},true],
 	/** Sorts projects by team.
 
 Sort behaviour for projects by team is implemenation depednant. */
-	team?:ValueTypes["SortOrder"]
+	team?:ValueTypes["SortOrder"],
+	/** Sort projects by creation date */
+	createdAt?:ValueTypes["SortOrder"],
+	/** Sort by name */
+	name?:ValueTypes["SortOrder"]
 };
 	/** Root query type */
 ["Query"]: AliasType<{
 checkoutData?: [{	data:ValueTypes["CheckoutDataInput"]},true],
 fileServerCredentials?: [{	project?:string},true],
 findProjects?: [{	query:string,	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
-findProjectsByTag?: [{	tag:string,	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
+findProjectsByTag?: [{	last?:string,	limit?:number,	tag:string},ValueTypes["ProjectConnection"]],
 getNamespace?: [{	slug:string},ValueTypes["Namespace"]],
 getProject?: [{	project:string},ValueTypes["Project"]],
 getTeam?: [{	name:string},ValueTypes["Team"]],
 getUser?: [{	username:string},ValueTypes["User"]],
-listProjects?: [{	owned?:boolean,	last?:string,	limit?:number,	sort?:(ValueTypes["ProjectsSortInput"] | undefined)[]},ValueTypes["ProjectConnection"]],
+listProjects?: [{	sort?:(ValueTypes["ProjectsSortInput"] | undefined)[],	owned?:boolean,	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
 myTeams?: [{	last?:string,	limit?:number},ValueTypes["TeamConnection"]],
 	/** List user payments */
 	payments?:ValueTypes["Payment"],
@@ -294,7 +294,7 @@ myTeams?: [{	last?:string,	limit?:number},ValueTypes["TeamConnection"]],
 	/** Unique team id */
 	id?:true,
 member?: [{	username:string},ValueTypes["Member"]],
-members?: [{	limit?:number,	last?:string},ValueTypes["MemberConnection"]],
+members?: [{	last?:string,	limit?:number},ValueTypes["MemberConnection"]],
 	/** Team name */
 	name?:true,
 	/** Team's namespace */
@@ -311,8 +311,8 @@ members?: [{	limit?:number,	last?:string},ValueTypes["MemberConnection"]],
 }>;
 	/** Team operations */
 ["TeamOps"]: AliasType<{
-addMember?: [{	role:ValueTypes["Role"],	username:string},ValueTypes["Member"]],
-createProject?: [{	name:string,	public?:boolean},ValueTypes["Project"]],
+addMember?: [{	username:string,	role:ValueTypes["Role"]},ValueTypes["Member"]],
+createProject?: [{	public?:boolean,	name:string},ValueTypes["Project"]],
 	/** Delete team */
 	delete?:true,
 	/** Unique team id */
@@ -328,14 +328,14 @@ project?: [{	id:string},ValueTypes["ProjectOps"]],
 }>;
 	/** Update project payload */
 ["UpdateProject"]: {
-	/** ID of project to be updated */
-	project?:string,
-	/** New description for project */
-	description?:string,
 	/** List of tags for project */
 	tags?:string[],
 	/** Set project visiblity */
-	public?:boolean
+	public?:boolean,
+	/** ID of project to be updated */
+	project?:string,
+	/** New description for project */
+	description?:string
 };
 	/** Editor user */
 ["User"]: AliasType<{
@@ -381,15 +381,11 @@ export type PartialObjects = {
     /** Defines user's account type */
 ["AccountType"]:AccountType,
 	["ChangeSubscriptionInput"]: {
-	subscriptionID:number,
-	subscriptionPlanID?:number
+	subscriptionPlanID?:number,
+	subscriptionID:number
 },
 	/** Checkout data needed to begin payment process */
 ["CheckoutDataInput"]: {
-	/** An id of a chosen subscription plan */
-	planID:string,
-	/** Quantity of subscriptions that user wants */
-	quantity?:number,
 	/** Customer data */
 	customer?:PartialObjects["CustomerInput"],
 	/** Vat data */
@@ -399,18 +395,22 @@ export type PartialObjects = {
 	/** URL to which user should be redirected after successful transaction */
 	successURL?:string,
 	/** URL to which user should be redirected after failed transaction */
-	cancelURL?:string
+	cancelURL?:string,
+	/** An id of a chosen subscription plan */
+	planID:string,
+	/** Quantity of subscriptions that user wants */
+	quantity?:number
 },
 	/** Customer data for checkout information */
 ["CustomerInput"]: {
+	/** User's post code */
+	postCode?:string,
 	/** Must be true for marketing to be allowed */
 	marketingConsent?:boolean,
 	/** User's email address */
 	email?:string,
 	/** User's country */
-	country?:string,
-	/** User's post code */
-	postCode?:string
+	country?:string
 },
 	/** Amount is a number that gives precise representation of real numbers */
 ["Decimal"]:any,
@@ -522,14 +522,14 @@ limit sets a limit on how many objects can be returned */
 	},
 	/** New source payload */
 ["NewSource"]: {
-	/** Source mime type */
-	contentType?:string,
-	/** Source checksum */
-	checksum?:string,
 	/** source file name */
 	filename?:string,
 	/** Length of source in bytes */
-	contentLength?:number
+	contentLength?:number,
+	/** Source mime type */
+	contentType?:string,
+	/** Source checksum */
+	checksum?:string
 },
 	/** PageInfo contains information about connection page */
 ["PageInfo"]: {
@@ -618,10 +618,6 @@ Used with paginated listing of projects */
 	},
 	/** ProjectsSortInput defines how projects from listProjects should be sorted. */
 ["ProjectsSortInput"]: {
-	/** Sort projects by creation date */
-	createdAt?:PartialObjects["SortOrder"],
-	/** Sort by name */
-	name?:PartialObjects["SortOrder"],
 	/** Sort by id */
 	id?:PartialObjects["SortOrder"],
 	/** Sort by owner */
@@ -635,7 +631,11 @@ Used with paginated listing of projects */
 	/** Sorts projects by team.
 
 Sort behaviour for projects by team is implemenation depednant. */
-	team?:PartialObjects["SortOrder"]
+	team?:PartialObjects["SortOrder"],
+	/** Sort projects by creation date */
+	createdAt?:PartialObjects["SortOrder"],
+	/** Sort by name */
+	name?:PartialObjects["SortOrder"]
 },
 	/** Root query type */
 ["Query"]: {
@@ -772,14 +772,14 @@ limit limits the number of returned projects */
 	},
 	/** Update project payload */
 ["UpdateProject"]: {
-	/** ID of project to be updated */
-	project?:string,
-	/** New description for project */
-	description?:string,
 	/** List of tags for project */
 	tags?:string[],
 	/** Set project visiblity */
-	public?:boolean
+	public?:boolean,
+	/** ID of project to be updated */
+	project?:string,
+	/** New description for project */
+	description?:string
 },
 	/** Editor user */
 ["User"]: {
@@ -823,22 +823,18 @@ limit limits the number of returned projects */
 
 /** Defines user's account type */
 export enum AccountType {
-	FREE = "FREE",
-	PREMIUM = "PREMIUM"
+	PREMIUM = "PREMIUM",
+	FREE = "FREE"
 }
 
 export type ChangeSubscriptionInput = {
-		subscriptionID:number,
-	subscriptionPlanID?:number
+		subscriptionPlanID?:number,
+	subscriptionID:number
 }
 
 /** Checkout data needed to begin payment process */
 export type CheckoutDataInput = {
-		/** An id of a chosen subscription plan */
-	planID:string,
-	/** Quantity of subscriptions that user wants */
-	quantity?:number,
-	/** Customer data */
+		/** Customer data */
 	customer?:CustomerInput,
 	/** Vat data */
 	vat?:VatInput,
@@ -847,19 +843,23 @@ export type CheckoutDataInput = {
 	/** URL to which user should be redirected after successful transaction */
 	successURL?:string,
 	/** URL to which user should be redirected after failed transaction */
-	cancelURL?:string
+	cancelURL?:string,
+	/** An id of a chosen subscription plan */
+	planID:string,
+	/** Quantity of subscriptions that user wants */
+	quantity?:number
 }
 
 /** Customer data for checkout information */
 export type CustomerInput = {
-		/** Must be true for marketing to be allowed */
+		/** User's post code */
+	postCode?:string,
+	/** Must be true for marketing to be allowed */
 	marketingConsent?:boolean,
 	/** User's email address */
 	email?:string,
 	/** User's country */
-	country?:string,
-	/** User's post code */
-	postCode?:string
+	country?:string
 }
 
 /** Amount is a number that gives precise representation of real numbers */
@@ -983,14 +983,14 @@ limit sets a limit on how many objects can be returned */
 
 /** New source payload */
 export type NewSource = {
-		/** Source mime type */
-	contentType?:string,
-	/** Source checksum */
-	checksum?:string,
-	/** source file name */
+		/** source file name */
 	filename?:string,
 	/** Length of source in bytes */
-	contentLength?:number
+	contentLength?:number,
+	/** Source mime type */
+	contentType?:string,
+	/** Source checksum */
+	checksum?:string
 }
 
 /** PageInfo contains information about connection page */
@@ -1086,11 +1086,7 @@ export type ProjectOps = {
 
 /** ProjectsSortInput defines how projects from listProjects should be sorted. */
 export type ProjectsSortInput = {
-		/** Sort projects by creation date */
-	createdAt?:SortOrder,
-	/** Sort by name */
-	name?:SortOrder,
-	/** Sort by id */
+		/** Sort by id */
 	id?:SortOrder,
 	/** Sort by owner */
 	owner?:SortOrder,
@@ -1103,7 +1099,11 @@ export type ProjectsSortInput = {
 	/** Sorts projects by team.
 
 Sort behaviour for projects by team is implemenation depednant. */
-	team?:SortOrder
+	team?:SortOrder,
+	/** Sort projects by creation date */
+	createdAt?:SortOrder,
+	/** Sort by name */
+	name?:SortOrder
 }
 
 /** Root query type */
@@ -1260,14 +1260,14 @@ export type TeamOps = {
 
 /** Update project payload */
 export type UpdateProject = {
-		/** ID of project to be updated */
-	project?:string,
-	/** New description for project */
-	description?:string,
-	/** List of tags for project */
+		/** List of tags for project */
 	tags?:string[],
 	/** Set project visiblity */
-	public?:boolean
+	public?:boolean,
+	/** ID of project to be updated */
+	project?:string,
+	/** New description for project */
+	description?:string
 }
 
 /** Editor user */
@@ -1314,32 +1314,20 @@ export type VatInput = {
 export const AllTypesProps: Record<string,any> = {
 	AccountType: "enum",
 	ChangeSubscriptionInput:{
-		subscriptionID:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
 		subscriptionPlanID:{
 			type:"Int",
 			array:false,
 			arrayRequired:false,
 			required:false
-		}
-	},
-	CheckoutDataInput:{
-		planID:{
-			type:"ID",
-			array:false,
-			arrayRequired:false,
-			required:true
 		},
-		quantity:{
+		subscriptionID:{
 			type:"Int",
 			array:false,
 			arrayRequired:false,
-			required:false
-		},
+			required:true
+		}
+	},
+	CheckoutDataInput:{
 		customer:{
 			type:"CustomerInput",
 			array:false,
@@ -1369,9 +1357,27 @@ export const AllTypesProps: Record<string,any> = {
 			array:false,
 			arrayRequired:false,
 			required:false
+		},
+		planID:{
+			type:"ID",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		quantity:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
 		}
 	},
 	CustomerInput:{
+		postCode:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
 		marketingConsent:{
 			type:"Boolean",
 			array:false,
@@ -1385,12 +1391,6 @@ export const AllTypesProps: Record<string,any> = {
 			required:false
 		},
 		country:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		postCode:{
 			type:"String",
 			array:false,
 			arrayRequired:false,
@@ -1532,18 +1532,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	NewSource:{
-		contentType:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		checksum:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		filename:{
 			type:"String",
 			array:false,
@@ -1552,6 +1540,18 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		contentLength:{
 			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		contentType:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		checksum:{
+			type:"String",
 			array:false,
 			arrayRequired:false,
 			required:false
@@ -1585,18 +1585,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	ProjectsSortInput:{
-		createdAt:{
-			type:"SortOrder",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		name:{
-			type:"SortOrder",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		id:{
 			type:"SortOrder",
 			array:false,
@@ -1628,6 +1616,18 @@ export const AllTypesProps: Record<string,any> = {
 			required:false
 		},
 		team:{
+			type:"SortOrder",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		createdAt:{
+			type:"SortOrder",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		name:{
 			type:"SortOrder",
 			array:false,
 			arrayRequired:false,
@@ -1672,12 +1672,6 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		findProjectsByTag:{
-			tag:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
-			},
 			last:{
 				type:"String",
 				array:false,
@@ -1689,6 +1683,12 @@ export const AllTypesProps: Record<string,any> = {
 				array:false,
 				arrayRequired:false,
 				required:false
+			},
+			tag:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:true
 			}
 		},
 		getNamespace:{
@@ -1724,6 +1724,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		listProjects:{
+			sort:{
+				type:"ProjectsSortInput",
+				array:true,
+				arrayRequired:false,
+				required:false
+			},
 			owned:{
 				type:"Boolean",
 				array:false,
@@ -1739,12 +1745,6 @@ export const AllTypesProps: Record<string,any> = {
 			limit:{
 				type:"Int",
 				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			sort:{
-				type:"ProjectsSortInput",
-				array:true,
 				arrayRequired:false,
 				required:false
 			}
@@ -1777,14 +1777,14 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		members:{
-			limit:{
-				type:"Int",
+			last:{
+				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:false
 			},
-			last:{
-				type:"String",
+			limit:{
+				type:"Int",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -1793,31 +1793,31 @@ export const AllTypesProps: Record<string,any> = {
 	},
 	TeamOps:{
 		addMember:{
-			role:{
-				type:"Role",
+			username:{
+				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:true
 			},
-			username:{
-				type:"String",
+			role:{
+				type:"Role",
 				array:false,
 				arrayRequired:false,
 				required:true
 			}
 		},
 		createProject:{
-			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
-			},
 			public:{
 				type:"Boolean",
 				array:false,
 				arrayRequired:false,
 				required:false
+			},
+			name:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:true
 			}
 		},
 		member:{
@@ -1852,18 +1852,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	UpdateProject:{
-		project:{
-			type:"ID",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		description:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		tags:{
 			type:"String",
 			array:true,
@@ -1872,6 +1860,18 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		public:{
 			type:"Boolean",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		project:{
+			type:"ID",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		description:{
+			type:"String",
 			array:false,
 			arrayRequired:false,
 			required:false
@@ -2208,6 +2208,7 @@ type FetchFunction = (query: string, variables?: Record<string, any>) => any;
 
 
 export const ZeusSelect = <T>() => ((t: any) => t) as SelectionFunction<T>;
+
 export const ScalarResolver = (scalar: string, value: any) => {
   switch (scalar) {
     case 'String':
@@ -2229,66 +2230,68 @@ export const ScalarResolver = (scalar: string, value: any) => {
   }
 };
 
+
 export const TypesPropsResolver = ({
-  value,
-  type,
-  name,
-  key,
-  blockArrays
+    value,
+    type,
+    name,
+    key,
+    blockArrays
 }: {
-  value: any;
-  type: string;
-  name: string;
-  key?: string;
-  blockArrays?: boolean;
+    value: any;
+    type: string;
+    name: string;
+    key?: string;
+    blockArrays?: boolean;
 }): string => {
-  if (value === null) {
-    return `null`;
-  }
-  let resolvedValue = AllTypesProps[type][name];
-  if (key) {
-    resolvedValue = resolvedValue[key];
-  }
-  if (!resolvedValue) {
-    throw new Error(`Cannot resolve ${type} ${name}${key ? ` ${key}` : ''}`)
-  }
-  const typeResolved = resolvedValue.type;
-  const isArray = resolvedValue.array;
-  const isArrayRequired = resolvedValue.arrayRequired;
-  if (typeof value === 'string' && value.startsWith(`ZEUS_VAR$`)) {
-    const isRequired = resolvedValue.required ? '!' : '';
-    let t = `${typeResolved}`;
-    if (isArray) {
-      if (isArrayRequired) {
+    if (value === null) {
+        return `null`;
+    }
+    let resolvedValue = AllTypesProps[type][name];
+    if (key) {
+        resolvedValue = resolvedValue[key];
+    }
+    if (!resolvedValue) {
+        throw new Error(`Cannot resolve ${type} ${name}${key ? ` ${key}` : ''}`)
+    }
+    const typeResolved = resolvedValue.type;
+    const isArray = resolvedValue.array;
+    const isArrayRequired = resolvedValue.arrayRequired;
+    if (typeof value === 'string' && value.startsWith(`ZEUS_VAR$`)) {
+        const isRequired = resolvedValue.required ? '!' : '';
+        let t = `${typeResolved}`;
+        if (isArray) {
+        if (isArrayRequired) {
+            t = `${t}!`;
+        }
+        t = `[${t}]`;
+        }
+        if (isRequired) {
         t = `${t}!`;
-      }
-      t = `[${t}]`;
+        }
+        return `\$${value.split(`ZEUS_VAR$`)[1]}__ZEUS_VAR__${t}`;
     }
-    if (isRequired) {
-      t = `${t}!`;
+    if (isArray && !blockArrays) {
+        return `[${value
+        .map((v: any) => TypesPropsResolver({ value: v, type, name, key, blockArrays: true }))
+        .join(',')}]`;
     }
-    return `\$${value.split(`ZEUS_VAR$`)[1]}__ZEUS_VAR__${t}`;
-  }
-  if (isArray && !blockArrays) {
-    return `[${value
-      .map((v: any) => TypesPropsResolver({ value: v, type, name, key, blockArrays: true }))
-      .join(',')}]`;
-  }
-  const reslovedScalar = ScalarResolver(typeResolved, value);
-  if (!reslovedScalar) {
-    const resolvedType = AllTypesProps[typeResolved];
-    if (typeof resolvedType === 'object') {
-      const argsKeys = Object.keys(resolvedType);
-      return `{${argsKeys
-        .filter((ak) => value[ak] !== undefined)
-        .map(
-          (ak) => `${ak}:${TypesPropsResolver({ value: value[ak], type: typeResolved, name: ak })}`
-        )}}`;
+    const reslovedScalar = ScalarResolver(typeResolved, value);
+    if (!reslovedScalar) {
+        const resolvedType = AllTypesProps[typeResolved];
+        if (typeof resolvedType === 'object') {
+        const argsKeys = Object.keys(resolvedType);
+        return `{${argsKeys
+            .filter((ak) => value[ak] !== undefined)
+            .map(
+            (ak) => `${ak}:${TypesPropsResolver({ value: value[ak], type: typeResolved, name: ak })}`
+            )}}`;
+        }
+        return ScalarResolver(AllTypesProps[typeResolved], value) as string;
     }
-    return ScalarResolver(AllTypesProps[typeResolved], value) as string;
-  }
-  return reslovedScalar;
+    return reslovedScalar;
 };
+
 
 const isArrayFunction = (
   parent: string[],
@@ -2337,11 +2340,14 @@ const isArrayFunction = (
   return argumentString;
 };
 
+
 const resolveKV = (k: string, v: boolean | string | { [x: string]: boolean | string }) =>
   typeof v === 'boolean' ? k : typeof v === 'object' ? `${k}{${objectToTree(v)}}` : `${k}${v}`;
 
+
 const objectToTree = (o: { [x: string]: boolean | string }): string =>
   `{${Object.keys(o).map((k) => `${resolveKV(k, o[k])}`).join(' ')}}`;
+
 
 const traverseToSeekArrays = (parent: string[], a?: any): string => {
   if (!a) return '';
@@ -2374,9 +2380,12 @@ const traverseToSeekArrays = (parent: string[], a?: any): string => {
     }
   }
   return objectToTree(b);
-};
+};  
 
-const buildQuery = (type: string, a?: Record<any, any>) => traverseToSeekArrays([type], a);
+
+const buildQuery = (type: string, a?: Record<any, any>) => 
+  traverseToSeekArrays([type], a);
+
 
 const inspectVariables = (query: string) => {
   const regex = /\$\b\w*__ZEUS_VAR__\[?[^!^\]^\s^,^\)]*[!]?[\]]?[!]?/g;
@@ -2402,13 +2411,16 @@ const inspectVariables = (query: string) => {
     .join(', ')})${filteredQuery}`;
 };
 
+
 const queryConstruct = (t: 'query' | 'mutation' | 'subscription', tName: string) => (o: Record<any, any>) =>
   `${t.toLowerCase()}${inspectVariables(buildQuery(tName, o))}`;
   
+
 const fullChainConstruct = (fn: FetchFunction) => (t: 'query' | 'mutation' | 'subscription', tName: string) => (
   o: Record<any, any>,
   variables?: Record<string, any>,
 ) => fn(queryConstruct(t, tName)(o), variables);
+
 
 const seekForAliases = (o: any) => {
   if (typeof o === 'object' && o) {
@@ -2436,6 +2448,7 @@ const seekForAliases = (o: any) => {
     });
   }
 };
+
 
 export const $ = (t: TemplateStringsArray): any => `ZEUS_VAR$${t.join('')}`;
 

@@ -8,10 +8,10 @@ import {
   isTypeSystemExtensionNode,
   parse,
 } from 'graphql';
-import { AllTypes, ParserField, ParserTree, TypeDefinitionDisplayMap } from '../Models';
-import { Directive, Helpers, OperationType, TypeDefinition, TypeExtension } from '../Models/Spec';
-import { TreeToGraphQL } from '../TreeToGraphQL';
-import { Utils } from '../Utils';
+import { AllTypes, ParserField, ParserTree, TypeDefinitionDisplayMap } from '@/Models';
+import { Directive, Helpers, OperationType, TypeDefinition, TypeExtension } from '@/Models/Spec';
+import { TreeToGraphQL } from '@/TreeToGraphQL';
+import { Utils } from '@/Utils';
 import { TypeResolver } from './typeResolver';
 export class Parser {
   static findComments(schema: string): string[] {

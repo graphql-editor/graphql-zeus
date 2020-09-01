@@ -1,5 +1,5 @@
-import { Options, ParserField } from '../../Models';
-import { TypeDefinition } from '../../Models/Spec';
+import { Options, ParserField } from '@/Models';
+import { TypeDefinition } from '@/Models/Spec';
 const resolveArg = (f: ParserField, tabs = '\t\t\t'): string => {
   const {
     type: { options },

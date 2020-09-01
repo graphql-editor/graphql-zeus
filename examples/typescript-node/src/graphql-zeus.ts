@@ -35,10 +35,6 @@ attack?: [{	/** Attacked card/card ids<br> */
 }>;
 	/** create card inputs<br> */
 ["createCard"]: {
-	/** <div>How many children the greek god had</div> */
-	Children?:number,
-	/** The attack power<br> */
-	Attack:number,
 	/** The defense power<br> */
 	Defense:number,
 	/** input skills */
@@ -46,7 +42,11 @@ attack?: [{	/** Attacked card/card ids<br> */
 	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
-	description:string
+	description:string,
+	/** <div>How many children the greek god had</div> */
+	Children?:number,
+	/** The attack power<br> */
+	Attack:number
 };
 	["EffectCard"]: AliasType<{
 	effectSize?:true,
@@ -122,10 +122,6 @@ export type PartialObjects = {
 	["ChangeCard"]: PartialObjects["SpecialCard"] | PartialObjects["EffectCard"],
 	/** create card inputs<br> */
 ["createCard"]: {
-	/** <div>How many children the greek god had</div> */
-	Children?:number,
-	/** The attack power<br> */
-	Attack:number,
 	/** The defense power<br> */
 	Defense:number,
 	/** input skills */
@@ -133,7 +129,11 @@ export type PartialObjects = {
 	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
-	description:string
+	description:string,
+	/** <div>How many children the greek god had</div> */
+	Children?:number,
+	/** The attack power<br> */
+	Attack:number
 },
 	["EffectCard"]: {
 		__typename?: "EffectCard";
@@ -213,18 +213,18 @@ export type ChangeCard = {
 
 /** create card inputs<br> */
 export type createCard = {
-		/** <div>How many children the greek god had</div> */
-	Children?:number,
-	/** The attack power<br> */
-	Attack:number,
-	/** The defense power<br> */
+		/** The defense power<br> */
 	Defense:number,
 	/** input skills */
 	skills?:SpecialSkills[],
 	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
-	description:string
+	description:string,
+	/** <div>How many children the greek god had</div> */
+	Children?:number,
+	/** The attack power<br> */
+	Attack:number
 }
 
 export type EffectCard = {
@@ -278,9 +278,9 @@ export type SpecialCard = {
 }
 
 export enum SpecialSkills {
+	FIRE = "FIRE",
 	THUNDER = "THUNDER",
-	RAIN = "RAIN",
-	FIRE = "FIRE"
+	RAIN = "RAIN"
 }
 
 export const AllTypesProps: Record<string,any> = {
@@ -295,18 +295,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	createCard:{
-		Children:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		Attack:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
 		Defense:{
 			type:"Int",
 			array:false,
@@ -327,6 +315,18 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		description:{
 			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		Children:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		Attack:{
+			type:"Int",
 			array:false,
 			arrayRequired:false,
 			required:true
@@ -543,6 +543,7 @@ type FetchFunction = (query: string, variables?: Record<string, any>) => any;
 
 
 export const ZeusSelect = <T>() => ((t: any) => t) as SelectionFunction<T>;
+
 export const ScalarResolver = (scalar: string, value: any) => {
   switch (scalar) {
     case 'String':
@@ -564,66 +565,68 @@ export const ScalarResolver = (scalar: string, value: any) => {
   }
 };
 
+
 export const TypesPropsResolver = ({
-  value,
-  type,
-  name,
-  key,
-  blockArrays
+    value,
+    type,
+    name,
+    key,
+    blockArrays
 }: {
-  value: any;
-  type: string;
-  name: string;
-  key?: string;
-  blockArrays?: boolean;
+    value: any;
+    type: string;
+    name: string;
+    key?: string;
+    blockArrays?: boolean;
 }): string => {
-  if (value === null) {
-    return `null`;
-  }
-  let resolvedValue = AllTypesProps[type][name];
-  if (key) {
-    resolvedValue = resolvedValue[key];
-  }
-  if (!resolvedValue) {
-    throw new Error(`Cannot resolve ${type} ${name}${key ? ` ${key}` : ''}`)
-  }
-  const typeResolved = resolvedValue.type;
-  const isArray = resolvedValue.array;
-  const isArrayRequired = resolvedValue.arrayRequired;
-  if (typeof value === 'string' && value.startsWith(`ZEUS_VAR$`)) {
-    const isRequired = resolvedValue.required ? '!' : '';
-    let t = `${typeResolved}`;
-    if (isArray) {
-      if (isArrayRequired) {
+    if (value === null) {
+        return `null`;
+    }
+    let resolvedValue = AllTypesProps[type][name];
+    if (key) {
+        resolvedValue = resolvedValue[key];
+    }
+    if (!resolvedValue) {
+        throw new Error(`Cannot resolve ${type} ${name}${key ? ` ${key}` : ''}`)
+    }
+    const typeResolved = resolvedValue.type;
+    const isArray = resolvedValue.array;
+    const isArrayRequired = resolvedValue.arrayRequired;
+    if (typeof value === 'string' && value.startsWith(`ZEUS_VAR$`)) {
+        const isRequired = resolvedValue.required ? '!' : '';
+        let t = `${typeResolved}`;
+        if (isArray) {
+        if (isArrayRequired) {
+            t = `${t}!`;
+        }
+        t = `[${t}]`;
+        }
+        if (isRequired) {
         t = `${t}!`;
-      }
-      t = `[${t}]`;
+        }
+        return `\$${value.split(`ZEUS_VAR$`)[1]}__ZEUS_VAR__${t}`;
     }
-    if (isRequired) {
-      t = `${t}!`;
+    if (isArray && !blockArrays) {
+        return `[${value
+        .map((v: any) => TypesPropsResolver({ value: v, type, name, key, blockArrays: true }))
+        .join(',')}]`;
     }
-    return `\$${value.split(`ZEUS_VAR$`)[1]}__ZEUS_VAR__${t}`;
-  }
-  if (isArray && !blockArrays) {
-    return `[${value
-      .map((v: any) => TypesPropsResolver({ value: v, type, name, key, blockArrays: true }))
-      .join(',')}]`;
-  }
-  const reslovedScalar = ScalarResolver(typeResolved, value);
-  if (!reslovedScalar) {
-    const resolvedType = AllTypesProps[typeResolved];
-    if (typeof resolvedType === 'object') {
-      const argsKeys = Object.keys(resolvedType);
-      return `{${argsKeys
-        .filter((ak) => value[ak] !== undefined)
-        .map(
-          (ak) => `${ak}:${TypesPropsResolver({ value: value[ak], type: typeResolved, name: ak })}`
-        )}}`;
+    const reslovedScalar = ScalarResolver(typeResolved, value);
+    if (!reslovedScalar) {
+        const resolvedType = AllTypesProps[typeResolved];
+        if (typeof resolvedType === 'object') {
+        const argsKeys = Object.keys(resolvedType);
+        return `{${argsKeys
+            .filter((ak) => value[ak] !== undefined)
+            .map(
+            (ak) => `${ak}:${TypesPropsResolver({ value: value[ak], type: typeResolved, name: ak })}`
+            )}}`;
+        }
+        return ScalarResolver(AllTypesProps[typeResolved], value) as string;
     }
-    return ScalarResolver(AllTypesProps[typeResolved], value) as string;
-  }
-  return reslovedScalar;
+    return reslovedScalar;
 };
+
 
 const isArrayFunction = (
   parent: string[],
@@ -672,11 +675,14 @@ const isArrayFunction = (
   return argumentString;
 };
 
+
 const resolveKV = (k: string, v: boolean | string | { [x: string]: boolean | string }) =>
   typeof v === 'boolean' ? k : typeof v === 'object' ? `${k}{${objectToTree(v)}}` : `${k}${v}`;
 
+
 const objectToTree = (o: { [x: string]: boolean | string }): string =>
   `{${Object.keys(o).map((k) => `${resolveKV(k, o[k])}`).join(' ')}}`;
+
 
 const traverseToSeekArrays = (parent: string[], a?: any): string => {
   if (!a) return '';
@@ -709,9 +715,12 @@ const traverseToSeekArrays = (parent: string[], a?: any): string => {
     }
   }
   return objectToTree(b);
-};
+};  
 
-const buildQuery = (type: string, a?: Record<any, any>) => traverseToSeekArrays([type], a);
+
+const buildQuery = (type: string, a?: Record<any, any>) => 
+  traverseToSeekArrays([type], a);
+
 
 const inspectVariables = (query: string) => {
   const regex = /\$\b\w*__ZEUS_VAR__\[?[^!^\]^\s^,^\)]*[!]?[\]]?[!]?/g;
@@ -737,13 +746,16 @@ const inspectVariables = (query: string) => {
     .join(', ')})${filteredQuery}`;
 };
 
+
 const queryConstruct = (t: 'query' | 'mutation' | 'subscription', tName: string) => (o: Record<any, any>) =>
   `${t.toLowerCase()}${inspectVariables(buildQuery(tName, o))}`;
   
+
 const fullChainConstruct = (fn: FetchFunction) => (t: 'query' | 'mutation' | 'subscription', tName: string) => (
   o: Record<any, any>,
   variables?: Record<string, any>,
 ) => fn(queryConstruct(t, tName)(o), variables);
+
 
 const seekForAliases = (o: any) => {
   if (typeof o === 'object' && o) {
@@ -771,6 +783,7 @@ const seekForAliases = (o: any) => {
     });
   }
 };
+
 
 export const $ = (t: TemplateStringsArray): any => `ZEUS_VAR$${t.join('')}`;
 

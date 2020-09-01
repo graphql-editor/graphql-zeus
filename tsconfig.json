@@ -10,6 +10,7 @@
     "removeComments": true,
     "noUnusedLocals": true,
     "strictNullChecks": true,
+    "skipLibCheck": true,
     "strict": true,
     "outDir": "./lib",
     "lib": ["es6", "es7", "esnext", "dom"],
@@ -18,7 +19,19 @@
     "typeRoots": [
       "./node_modules/@types",
       "./types"
-    ]
+    ],
+    "paths": {
+      "@/*":["./*"]
+    },
+    "plugins": [
+      {
+        "transform": "typescript-transform-paths",
+      },
+      {
+        "transform": "typescript-transform-paths",
+        "afterDeclarations": true
+      }
+    ],
   },
   "exclude": ["lib", "node_modules", "docs", "__tests__", "generated", "examples"]
 }

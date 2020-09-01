@@ -1,5 +1,5 @@
 import { OperationName, ResolvedOperations } from 'TreeToTS';
-import { Environment, OperationType } from '../../../Models';
+import { Environment, OperationType } from '@/Models';
 import { graphqlErrorJavascript, javascriptFunctions } from './';
 
 const generateOperationChainingJavascript = (ot: OperationType, on: OperationName): string =>
