@@ -84,6 +84,7 @@ export class Parser {
       Mutation: astSchema.getMutationType(),
       Subscription: astSchema.getSubscriptionType(),
     };
+
     const nodes = parsedSchema.definitions
       .filter((t) => 'name' in t && t.name && !excludeRoots.includes(t.name.value))
       .map(Parser.documentDefinitionToSerializedNodeTree)
