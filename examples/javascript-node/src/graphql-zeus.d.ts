@@ -20,13 +20,13 @@ attack?: [{	/** Attacked card/card ids<br> */
 	image?:true,
 	/** The name of a card<br> */
 	name?:true,
-	skills?:true
+	skills?:true,
 		__typename?: true
 }>;
 	/** Stack of cards */
 ["CardStack"]: AliasType<{
 	cards?:ValueTypes["Card"],
-	name?:true
+	name?:true,
 		__typename?: true
 }>;
 	["ChangeCard"]: AliasType<{		["...on SpecialCard"] : ValueTypes["SpecialCard"],
@@ -50,19 +50,19 @@ attack?: [{	/** Attacked card/card ids<br> */
 };
 	["EffectCard"]: AliasType<{
 	effectSize?:true,
-	name?:true
+	name?:true,
 		__typename?: true
 }>;
 	["Mutation"]: AliasType<{
-addCard?: [{	card:ValueTypes["createCard"]},ValueTypes["Card"]]
+addCard?: [{	card:ValueTypes["createCard"]},ValueTypes["Card"]],
 		__typename?: true
 }>;
 	["Nameable"]:AliasType<{
 		name?:true;
-		['...on Card']: ValueTypes["Card"];
-		['...on CardStack']: ValueTypes["CardStack"];
-		['...on EffectCard']: ValueTypes["EffectCard"];
-		['...on SpecialCard']: ValueTypes["SpecialCard"];
+		['...on Card']?: Omit<ValueTypes["Card"],keyof ValueTypes["Nameable"]>;
+		['...on CardStack']?: Omit<ValueTypes["CardStack"],keyof ValueTypes["Nameable"]>;
+		['...on EffectCard']?: Omit<ValueTypes["EffectCard"],keyof ValueTypes["Nameable"]>;
+		['...on SpecialCard']?: Omit<ValueTypes["SpecialCard"],keyof ValueTypes["Nameable"]>;
 		__typename?: true
 }>;
 	["Query"]: AliasType<{
@@ -73,19 +73,19 @@ cardById?: [{	cardId?:string},ValueTypes["Card"]],
 	/** list All Cards availble<br> */
 	listCards?:ValueTypes["Card"],
 	myStacks?:ValueTypes["CardStack"],
-	nameables?:ValueTypes["Nameable"]
+	nameables?:ValueTypes["Nameable"],
 		__typename?: true
 }>;
 	/** Aws S3 File */
 ["S3Object"]: AliasType<{
 	bucket?:true,
 	key?:true,
-	region?:true
+	region?:true,
 		__typename?: true
 }>;
 	["SpecialCard"]: AliasType<{
 	effect?:true,
-	name?:true
+	name?:true,
 		__typename?: true
 }>;
 	["SpecialSkills"]:SpecialSkills
@@ -278,9 +278,9 @@ export type SpecialCard = {
 }
 
 export enum SpecialSkills {
-	THUNDER = "THUNDER",
 	RAIN = "RAIN",
-	FIRE = "FIRE"
+	FIRE = "FIRE",
+	THUNDER = "THUNDER"
 }
 
 
@@ -308,34 +308,35 @@ interface GraphQLResponse {
   }>;
 }
 export type MapInterface<SRC, DST> = SRC extends {
-  __interface: infer INTERFACE;
-  __resolve: infer IMPLEMENTORS;
-}
-  ? ObjectToUnion<
-      Omit<
-        {
-          [Key in keyof Omit<DST, keyof INTERFACE | '__typename'>]: Key extends keyof IMPLEMENTORS
+    __interface: infer INTERFACE;
+    __resolve: infer IMPLEMENTORS;
+  }
+  ? { [Key in keyof DST]: Key extends keyof INTERFACE ? INTERFACE[Key] :
+      Key extends keyof IMPLEMENTORS ? ObjectToUnion<
+        Omit<
+          {
+            [Key in keyof Omit<DST, keyof INTERFACE | '__typename'>]: Key extends keyof IMPLEMENTORS
             ? MapType<IMPLEMENTORS[Key], DST[Key]> &
-                Omit<
-                  {
-                    [Key in keyof Omit<
-                      DST,
-                      keyof IMPLEMENTORS | '__typename'
-                    >]: Key extends keyof INTERFACE
-                      ? LastMapTypeSRCResolver<INTERFACE[Key], DST[Key]>
-                      : never;
-                  },
-                  keyof IMPLEMENTORS
-                > &
-                (DST extends { __typename: any }
-                  ? MapType<IMPLEMENTORS[Key], { __typename: true }>
-                  : {})
+            Omit<
+              {
+                [Key in keyof Omit<
+                DST,
+                keyof IMPLEMENTORS | '__typename'
+                >]: Key extends keyof INTERFACE
+                ? LastMapTypeSRCResolver<INTERFACE[Key], DST[Key]>
+                : never;
+              },
+              keyof IMPLEMENTORS
+              > &
+            (DST extends { __typename: any }
+              ? MapType<IMPLEMENTORS[Key], { __typename: true }>
+              : {})
             : never;
-        },
-        keyof INTERFACE | '__typename'
-      >
-    >
-  : never;
+          },
+          keyof INTERFACE | '__typename'
+          >
+        > : never
+  } : never;
 
 export type ValueToUnion<T> = T extends {
   __typename: infer R;

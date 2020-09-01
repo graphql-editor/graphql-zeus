@@ -223,20 +223,6 @@ const run = async () => {
     nameables: {
       __typename: true,
       name: true,
-      '...on CardStack': {
-        cards: {
-          Defense: true,
-        },
-      },
-      '...on Card': {
-        Attack: true,
-      },
-      '...on EffectCard': {
-        name: true,
-      },
-      '...on SpecialCard': {
-        name: true,
-      },
     },
   });
   printQueryResult('interfaceTest', interfaceTest);

@@ -5,18 +5,12 @@ enum AccountType {
 }
 
 input ChangeSubscriptionInput {
-  subscriptionPlanID: Int
   subscriptionID: Int!
+  subscriptionPlanID: Int
 }
 
 """Checkout data needed to begin payment process"""
 input CheckoutDataInput {
-  """URL to which user should be redirected after successful transaction"""
-  successURL: String
-
-  """URL to which user should be redirected after failed transaction"""
-  cancelURL: String
-
   """An id of a chosen subscription plan"""
   planID: ID!
 
@@ -31,6 +25,12 @@ input CheckoutDataInput {
 
   """Optional discount coupon"""
   coupon: String
+
+  """URL to which user should be redirected after successful transaction"""
+  successURL: String
+
+  """URL to which user should be redirected after failed transaction"""
+  cancelURL: String
 }
 
 """Customer data for checkout information"""
@@ -321,16 +321,6 @@ type ProjectOps {
 ProjectsSortInput defines how projects from listProjects should be sorted.
 """
 input ProjectsSortInput {
-  """Sort by tag"""
-  tags: SortOrder
-
-  """
-  Sorts projects by team.
-  
-  Sort behaviour for projects by team is implemenation depednant.
-  """
-  team: SortOrder
-
   """Sort projects by creation date"""
   createdAt: SortOrder
 
@@ -348,6 +338,16 @@ input ProjectsSortInput {
 
   """Sort by slug"""
   slug: SortOrder
+
+  """Sort by tag"""
+  tags: SortOrder
+
+  """
+  Sorts projects by team.
+  
+  Sort behaviour for projects by team is implemenation depednant.
+  """
+  team: SortOrder
 }
 
 """Root query type"""
@@ -406,7 +406,7 @@ type Query {
   
   limit limits the number of returned projects
   """
-  listProjects(last: String, limit: Int, sort: [ProjectsSortInput], owned: Boolean): ProjectConnection
+  listProjects(owned: Boolean, last: String, limit: Int, sort: [ProjectsSortInput]): ProjectConnection
 
   """List of current user teams"""
   myTeams(last: String, limit: Int): TeamConnection
@@ -501,7 +501,7 @@ type Team {
   member(username: String!): Member
 
   """Paginated list of members in team"""
-  members(last: String, limit: Int): MemberConnection
+  members(limit: Int, last: String): MemberConnection
 
   """Team name"""
   name: String!
@@ -522,10 +522,10 @@ type TeamConnection {
 """Team operations"""
 type TeamOps {
   """Add member to the team"""
-  addMember(username: String!, role: Role!): Member
+  addMember(role: Role!, username: String!): Member
 
   """Create new team project"""
-  createProject(public: Boolean, name: String!): Project
+  createProject(name: String!, public: Boolean): Project
 
   """Delete team"""
   delete: Boolean
@@ -592,15 +592,6 @@ type UserConnection {
 
 """Vat information of a user"""
 input VatInput {
-  """Vat number"""
-  number: String
-
-  """Vat company name"""
-  companyName: String
-
-  """Vat company street address"""
-  street: String
-
   """Vat company city address"""
   city: String
 
@@ -612,6 +603,15 @@ input VatInput {
 
   """Vat company post code address."""
   postCode: String
+
+  """Vat number"""
+  number: String
+
+  """Vat company name"""
+  companyName: String
+
+  """Vat company street address"""
+  street: String
 }
 
 schema{

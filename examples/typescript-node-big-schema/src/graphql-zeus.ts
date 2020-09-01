@@ -5,15 +5,11 @@ export type ValueTypes = {
     /** Defines user's account type */
 ["AccountType"]:AccountType;
 	["ChangeSubscriptionInput"]: {
-	subscriptionPlanID?:number,
-	subscriptionID:number
+	subscriptionID:number,
+	subscriptionPlanID?:number
 };
 	/** Checkout data needed to begin payment process */
 ["CheckoutDataInput"]: {
-	/** URL to which user should be redirected after successful transaction */
-	successURL?:string,
-	/** URL to which user should be redirected after failed transaction */
-	cancelURL?:string,
 	/** An id of a chosen subscription plan */
 	planID:string,
 	/** Quantity of subscriptions that user wants */
@@ -23,7 +19,11 @@ export type ValueTypes = {
 	/** Vat data */
 	vat?:ValueTypes["VatInput"],
 	/** Optional discount coupon */
-	coupon?:string
+	coupon?:string,
+	/** URL to which user should be redirected after successful transaction */
+	successURL?:string,
+	/** URL to which user should be redirected after failed transaction */
+	cancelURL?:string
 };
 	/** Customer data for checkout information */
 ["CustomerInput"]: {
@@ -41,7 +41,7 @@ export type ValueTypes = {
 	/** Endpoint returnes a full path to the project without host */
 ["Endpoint"]: AliasType<{
 	/** Full project uri without host */
-	uri?:true
+	uri?:true,
 		__typename?: true
 }>;
 	/** A source object */
@@ -52,7 +52,7 @@ export type ValueTypes = {
 	/** Name of source file */
 	filename?:true,
 	/** Return an url by which source file can be accessed */
-	getUrl?:true
+	getUrl?:true,
 		__typename?: true
 }>;
 	/** Connection object containing list of faker sources */
@@ -60,7 +60,7 @@ export type ValueTypes = {
 	/** Connection pageInfo */
 	pageInfo?:ValueTypes["PageInfo"],
 	/** List of sources returned by connection */
-	sources?:ValueTypes["FakerSource"]
+	sources?:ValueTypes["FakerSource"],
 		__typename?: true
 }>;
 	["FileServerCredentials"]:unknown;
@@ -69,7 +69,7 @@ export type ValueTypes = {
 	/** Header name */
 	key?:true,
 	/** Header value */
-	value?:true
+	value?:true,
 		__typename?: true
 }>;
 	/** Team member */
@@ -79,7 +79,7 @@ export type ValueTypes = {
 	/** Member role */
 	role?:true,
 	/** Member username */
-	username?:true
+	username?:true,
 		__typename?: true
 }>;
 	/** Paginated members list */
@@ -87,14 +87,14 @@ export type ValueTypes = {
 	/** List of members in this connection */
 	members?:ValueTypes["Member"],
 	/** pageInfo for member connection */
-	pageInfo?:ValueTypes["PageInfo"]
+	pageInfo?:ValueTypes["PageInfo"],
 		__typename?: true
 }>;
 	/** Team member ops */
 ["MemberOps"]: AliasType<{
 	/** Boolean object node */
 	delete?:true,
-update?: [{	role?:ValueTypes["Role"]},true]
+update?: [{	role?:ValueTypes["Role"]},true],
 		__typename?: true
 }>;
 	["Mutation"]: AliasType<{
@@ -106,7 +106,7 @@ deployToFaker?: [{	id:string},true],
 removeProject?: [{	project:string},true],
 team?: [{	id:string},ValueTypes["TeamOps"]],
 updateProject?: [{	in?:ValueTypes["UpdateProject"]},true],
-updateSources?: [{	project:string,	sources?:ValueTypes["NewSource"][]},ValueTypes["SourceUploadInfo"]]
+updateSources?: [{	project:string,	sources?:ValueTypes["NewSource"][]},ValueTypes["SourceUploadInfo"]],
 		__typename?: true
 }>;
 	/** Namespace is a root object containing projects belonging
@@ -117,7 +117,7 @@ projects?: [{	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
 	/** True if namespace is public */
 	public?:true,
 	/** Namespace part of the slug */
-	slug?:true
+	slug?:true,
 		__typename?: true
 }>;
 	/** New source payload */
@@ -138,7 +138,7 @@ projects?: [{	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
 	/** limit set while quering */
 	limit?:true,
 	/** if next is false then client recieved all available data */
-	next?:true
+	next?:true,
 		__typename?: true
 }>;
 	["Payment"]: AliasType<{
@@ -151,7 +151,7 @@ projects?: [{	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
 	/** URL from which user can download invoice */
 	receiptURL?:true,
 	/** ID of subscription for which payment was made */
-	subscriptionID?:true
+	subscriptionID?:true,
 		__typename?: true
 }>;
 	/** PaymentDate is a string in a format 'YYYY-MM-DD' */
@@ -188,7 +188,7 @@ sources?: [{	last?:string,	limit?:number},ValueTypes["FakerSourceConnection"]],
 	/** Team to which project belongs
 
 Can be null if project belongs to a user */
-	team?:ValueTypes["Team"]
+	team?:ValueTypes["Team"],
 		__typename?: true
 }>;
 	/** Project connection object
@@ -198,7 +198,7 @@ Used with paginated listing of projects */
 	/** Current connection page info */
 	pageInfo?:ValueTypes["PageInfo"],
 	/** List of projects in connection */
-	projects?:ValueTypes["Project"]
+	projects?:ValueTypes["Project"],
 		__typename?: true
 }>;
 	/** type object node */
@@ -207,17 +207,11 @@ Used with paginated listing of projects */
 	delete?:true,
 	/** deploy project to faker */
 	deployToFaker?:true,
-update?: [{	in?:ValueTypes["UpdateProject"]},true]
+update?: [{	in?:ValueTypes["UpdateProject"]},true],
 		__typename?: true
 }>;
 	/** ProjectsSortInput defines how projects from listProjects should be sorted. */
 ["ProjectsSortInput"]: {
-	/** Sort by tag */
-	tags?:ValueTypes["SortOrder"],
-	/** Sorts projects by team.
-
-Sort behaviour for projects by team is implemenation depednant. */
-	team?:ValueTypes["SortOrder"],
 	/** Sort projects by creation date */
 	createdAt?:ValueTypes["SortOrder"],
 	/** Sort by name */
@@ -229,7 +223,13 @@ Sort behaviour for projects by team is implemenation depednant. */
 	/** Sort by visisbility */
 	public?:ValueTypes["SortOrder"],
 	/** Sort by slug */
-	slug?:ValueTypes["SortOrder"]
+	slug?:ValueTypes["SortOrder"],
+	/** Sort by tag */
+	tags?:ValueTypes["SortOrder"],
+	/** Sorts projects by team.
+
+Sort behaviour for projects by team is implemenation depednant. */
+	team?:ValueTypes["SortOrder"]
 };
 	/** Root query type */
 ["Query"]: AliasType<{
@@ -241,10 +241,10 @@ getNamespace?: [{	slug:string},ValueTypes["Namespace"]],
 getProject?: [{	project:string},ValueTypes["Project"]],
 getTeam?: [{	name:string},ValueTypes["Team"]],
 getUser?: [{	username:string},ValueTypes["User"]],
-listProjects?: [{	last?:string,	limit?:number,	sort?:(ValueTypes["ProjectsSortInput"] | undefined)[],	owned?:boolean},ValueTypes["ProjectConnection"]],
+listProjects?: [{	owned?:boolean,	last?:string,	limit?:number,	sort?:(ValueTypes["ProjectsSortInput"] | undefined)[]},ValueTypes["ProjectConnection"]],
 myTeams?: [{	last?:string,	limit?:number},ValueTypes["TeamConnection"]],
 	/** List user payments */
-	payments?:ValueTypes["Payment"]
+	payments?:ValueTypes["Payment"],
 		__typename?: true
 }>;
 	/** RFC3339Date is a RFC3339 formated date-time string */
@@ -260,7 +260,7 @@ myTeams?: [{	last?:string,	limit?:number},ValueTypes["TeamConnection"]],
 	/** List of headers that must be included in PUT request */
 	headers?:ValueTypes["Header"],
 	/** String with url used in PUT request */
-	putUrl?:true
+	putUrl?:true,
 		__typename?: true
 }>;
 	["Subscription"]: AliasType<{
@@ -279,14 +279,14 @@ myTeams?: [{	last?:string,	limit?:number},ValueTypes["TeamConnection"]],
 	/** Subscription unique id */
 	subscriptionPlanID?:true,
 	/** Update subscription URL */
-	updateURL?:true
+	updateURL?:true,
 		__typename?: true
 }>;
 	["SubscriptionConnection"]: AliasType<{
 	/** Current conenction page info */
 	pageInfo?:ValueTypes["PageInfo"],
 	/** List of subscriptions in connection */
-	subscriptions?:ValueTypes["Subscription"]
+	subscriptions?:ValueTypes["Subscription"],
 		__typename?: true
 }>;
 	/** Team object */
@@ -294,11 +294,11 @@ myTeams?: [{	last?:string,	limit?:number},ValueTypes["TeamConnection"]],
 	/** Unique team id */
 	id?:true,
 member?: [{	username:string},ValueTypes["Member"]],
-members?: [{	last?:string,	limit?:number},ValueTypes["MemberConnection"]],
+members?: [{	limit?:number,	last?:string},ValueTypes["MemberConnection"]],
 	/** Team name */
 	name?:true,
 	/** Team's namespace */
-	namespace?:ValueTypes["Namespace"]
+	namespace?:ValueTypes["Namespace"],
 		__typename?: true
 }>;
 	/** Teams connection */
@@ -306,13 +306,13 @@ members?: [{	last?:string,	limit?:number},ValueTypes["MemberConnection"]],
 	/** Pagination info used in next fetch */
 	pageInfo?:ValueTypes["PageInfo"],
 	/** List of teams returned by current page in connection */
-	teams?:ValueTypes["Team"]
+	teams?:ValueTypes["Team"],
 		__typename?: true
 }>;
 	/** Team operations */
 ["TeamOps"]: AliasType<{
-addMember?: [{	username:string,	role:ValueTypes["Role"]},ValueTypes["Member"]],
-createProject?: [{	public?:boolean,	name:string},ValueTypes["Project"]],
+addMember?: [{	role:ValueTypes["Role"],	username:string},ValueTypes["Member"]],
+createProject?: [{	name:string,	public?:boolean},ValueTypes["Project"]],
 	/** Delete team */
 	delete?:true,
 	/** Unique team id */
@@ -323,7 +323,7 @@ members?: [{	last?:string,	limit?:number},ValueTypes["MemberConnection"]],
 	name?:true,
 	/** Team's namespace */
 	namespace?:ValueTypes["Namespace"],
-project?: [{	id:string},ValueTypes["ProjectOps"]]
+project?: [{	id:string},ValueTypes["ProjectOps"]],
 		__typename?: true
 }>;
 	/** Update project payload */
@@ -348,24 +348,18 @@ project?: [{	id:string},ValueTypes["ProjectOps"]]
 	/** User's subscriptions */
 	subscriptions?:ValueTypes["SubscriptionConnection"],
 	/** Unique username */
-	username?:true
+	username?:true,
 		__typename?: true
 }>;
 	["UserConnection"]: AliasType<{
 	/** Current connection page info */
 	pageInfo?:ValueTypes["PageInfo"],
 	/** List of projects in connection */
-	users?:ValueTypes["User"]
+	users?:ValueTypes["User"],
 		__typename?: true
 }>;
 	/** Vat information of a user */
 ["VatInput"]: {
-	/** Vat number */
-	number?:string,
-	/** Vat company name */
-	companyName?:string,
-	/** Vat company street address */
-	street?:string,
 	/** Vat company city address */
 	city?:string,
 	/** Vat company state address. Optional. */
@@ -373,7 +367,13 @@ project?: [{	id:string},ValueTypes["ProjectOps"]]
 	/** Vat company country address. */
 	country?:string,
 	/** Vat company post code address. */
-	postCode?:string
+	postCode?:string,
+	/** Vat number */
+	number?:string,
+	/** Vat company name */
+	companyName?:string,
+	/** Vat company street address */
+	street?:string
 }
   }
 
@@ -381,15 +381,11 @@ export type PartialObjects = {
     /** Defines user's account type */
 ["AccountType"]:AccountType,
 	["ChangeSubscriptionInput"]: {
-	subscriptionPlanID?:number,
-	subscriptionID:number
+	subscriptionID:number,
+	subscriptionPlanID?:number
 },
 	/** Checkout data needed to begin payment process */
 ["CheckoutDataInput"]: {
-	/** URL to which user should be redirected after successful transaction */
-	successURL?:string,
-	/** URL to which user should be redirected after failed transaction */
-	cancelURL?:string,
 	/** An id of a chosen subscription plan */
 	planID:string,
 	/** Quantity of subscriptions that user wants */
@@ -399,7 +395,11 @@ export type PartialObjects = {
 	/** Vat data */
 	vat?:PartialObjects["VatInput"],
 	/** Optional discount coupon */
-	coupon?:string
+	coupon?:string,
+	/** URL to which user should be redirected after successful transaction */
+	successURL?:string,
+	/** URL to which user should be redirected after failed transaction */
+	cancelURL?:string
 },
 	/** Customer data for checkout information */
 ["CustomerInput"]: {
@@ -618,12 +618,6 @@ Used with paginated listing of projects */
 	},
 	/** ProjectsSortInput defines how projects from listProjects should be sorted. */
 ["ProjectsSortInput"]: {
-	/** Sort by tag */
-	tags?:PartialObjects["SortOrder"],
-	/** Sorts projects by team.
-
-Sort behaviour for projects by team is implemenation depednant. */
-	team?:PartialObjects["SortOrder"],
 	/** Sort projects by creation date */
 	createdAt?:PartialObjects["SortOrder"],
 	/** Sort by name */
@@ -635,7 +629,13 @@ Sort behaviour for projects by team is implemenation depednant. */
 	/** Sort by visisbility */
 	public?:PartialObjects["SortOrder"],
 	/** Sort by slug */
-	slug?:PartialObjects["SortOrder"]
+	slug?:PartialObjects["SortOrder"],
+	/** Sort by tag */
+	tags?:PartialObjects["SortOrder"],
+	/** Sorts projects by team.
+
+Sort behaviour for projects by team is implemenation depednant. */
+	team?:PartialObjects["SortOrder"]
 },
 	/** Root query type */
 ["Query"]: {
@@ -804,12 +804,6 @@ limit limits the number of returned projects */
 	},
 	/** Vat information of a user */
 ["VatInput"]: {
-	/** Vat number */
-	number?:string,
-	/** Vat company name */
-	companyName?:string,
-	/** Vat company street address */
-	street?:string,
 	/** Vat company city address */
 	city?:string,
 	/** Vat company state address. Optional. */
@@ -817,7 +811,13 @@ limit limits the number of returned projects */
 	/** Vat company country address. */
 	country?:string,
 	/** Vat company post code address. */
-	postCode?:string
+	postCode?:string,
+	/** Vat number */
+	number?:string,
+	/** Vat company name */
+	companyName?:string,
+	/** Vat company street address */
+	street?:string
 }
   }
 
@@ -828,17 +828,13 @@ export enum AccountType {
 }
 
 export type ChangeSubscriptionInput = {
-		subscriptionPlanID?:number,
-	subscriptionID:number
+		subscriptionID:number,
+	subscriptionPlanID?:number
 }
 
 /** Checkout data needed to begin payment process */
 export type CheckoutDataInput = {
-		/** URL to which user should be redirected after successful transaction */
-	successURL?:string,
-	/** URL to which user should be redirected after failed transaction */
-	cancelURL?:string,
-	/** An id of a chosen subscription plan */
+		/** An id of a chosen subscription plan */
 	planID:string,
 	/** Quantity of subscriptions that user wants */
 	quantity?:number,
@@ -847,7 +843,11 @@ export type CheckoutDataInput = {
 	/** Vat data */
 	vat?:VatInput,
 	/** Optional discount coupon */
-	coupon?:string
+	coupon?:string,
+	/** URL to which user should be redirected after successful transaction */
+	successURL?:string,
+	/** URL to which user should be redirected after failed transaction */
+	cancelURL?:string
 }
 
 /** Customer data for checkout information */
@@ -1086,13 +1086,7 @@ export type ProjectOps = {
 
 /** ProjectsSortInput defines how projects from listProjects should be sorted. */
 export type ProjectsSortInput = {
-		/** Sort by tag */
-	tags?:SortOrder,
-	/** Sorts projects by team.
-
-Sort behaviour for projects by team is implemenation depednant. */
-	team?:SortOrder,
-	/** Sort projects by creation date */
+		/** Sort projects by creation date */
 	createdAt?:SortOrder,
 	/** Sort by name */
 	name?:SortOrder,
@@ -1103,7 +1097,13 @@ Sort behaviour for projects by team is implemenation depednant. */
 	/** Sort by visisbility */
 	public?:SortOrder,
 	/** Sort by slug */
-	slug?:SortOrder
+	slug?:SortOrder,
+	/** Sort by tag */
+	tags?:SortOrder,
+	/** Sorts projects by team.
+
+Sort behaviour for projects by team is implemenation depednant. */
+	team?:SortOrder
 }
 
 /** Root query type */
@@ -1295,51 +1295,39 @@ export type UserConnection = {
 
 /** Vat information of a user */
 export type VatInput = {
-		/** Vat number */
-	number?:string,
-	/** Vat company name */
-	companyName?:string,
-	/** Vat company street address */
-	street?:string,
-	/** Vat company city address */
+		/** Vat company city address */
 	city?:string,
 	/** Vat company state address. Optional. */
 	state?:string,
 	/** Vat company country address. */
 	country?:string,
 	/** Vat company post code address. */
-	postCode?:string
+	postCode?:string,
+	/** Vat number */
+	number?:string,
+	/** Vat company name */
+	companyName?:string,
+	/** Vat company street address */
+	street?:string
 }
 
 export const AllTypesProps: Record<string,any> = {
 	AccountType: "enum",
 	ChangeSubscriptionInput:{
-		subscriptionPlanID:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		subscriptionID:{
 			type:"Int",
 			array:false,
 			arrayRequired:false,
 			required:true
+		},
+		subscriptionPlanID:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
 		}
 	},
 	CheckoutDataInput:{
-		successURL:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		cancelURL:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		planID:{
 			type:"ID",
 			array:false,
@@ -1365,6 +1353,18 @@ export const AllTypesProps: Record<string,any> = {
 			required:false
 		},
 		coupon:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		successURL:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		cancelURL:{
 			type:"String",
 			array:false,
 			arrayRequired:false,
@@ -1585,18 +1585,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	ProjectsSortInput:{
-		tags:{
-			type:"SortOrder",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		team:{
-			type:"SortOrder",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		createdAt:{
 			type:"SortOrder",
 			array:false,
@@ -1628,6 +1616,18 @@ export const AllTypesProps: Record<string,any> = {
 			required:false
 		},
 		slug:{
+			type:"SortOrder",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		tags:{
+			type:"SortOrder",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		team:{
 			type:"SortOrder",
 			array:false,
 			arrayRequired:false,
@@ -1724,6 +1724,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		listProjects:{
+			owned:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			last:{
 				type:"String",
 				array:false,
@@ -1739,12 +1745,6 @@ export const AllTypesProps: Record<string,any> = {
 			sort:{
 				type:"ProjectsSortInput",
 				array:true,
-				arrayRequired:false,
-				required:false
-			},
-			owned:{
-				type:"Boolean",
-				array:false,
 				arrayRequired:false,
 				required:false
 			}
@@ -1777,14 +1777,14 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		members:{
-			last:{
-				type:"String",
+			limit:{
+				type:"Int",
 				array:false,
 				arrayRequired:false,
 				required:false
 			},
-			limit:{
-				type:"Int",
+			last:{
+				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -1793,31 +1793,31 @@ export const AllTypesProps: Record<string,any> = {
 	},
 	TeamOps:{
 		addMember:{
-			username:{
-				type:"String",
+			role:{
+				type:"Role",
 				array:false,
 				arrayRequired:false,
 				required:true
 			},
-			role:{
-				type:"Role",
+			username:{
+				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:true
 			}
 		},
 		createProject:{
-			public:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
 			name:{
 				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:true
+			},
+			public:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
 			}
 		},
 		member:{
@@ -1878,24 +1878,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	VatInput:{
-		number:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		companyName:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		street:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		city:{
 			type:"String",
 			array:false,
@@ -1915,6 +1897,24 @@ export const AllTypesProps: Record<string,any> = {
 			required:false
 		},
 		postCode:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		number:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		companyName:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		street:{
 			type:"String",
 			array:false,
 			arrayRequired:false,
@@ -2109,34 +2109,35 @@ interface GraphQLResponse {
   }>;
 }
 export type MapInterface<SRC, DST> = SRC extends {
-  __interface: infer INTERFACE;
-  __resolve: infer IMPLEMENTORS;
-}
-  ? ObjectToUnion<
-      Omit<
-        {
-          [Key in keyof Omit<DST, keyof INTERFACE | '__typename'>]: Key extends keyof IMPLEMENTORS
+    __interface: infer INTERFACE;
+    __resolve: infer IMPLEMENTORS;
+  }
+  ? { [Key in keyof DST]: Key extends keyof INTERFACE ? INTERFACE[Key] :
+      Key extends keyof IMPLEMENTORS ? ObjectToUnion<
+        Omit<
+          {
+            [Key in keyof Omit<DST, keyof INTERFACE | '__typename'>]: Key extends keyof IMPLEMENTORS
             ? MapType<IMPLEMENTORS[Key], DST[Key]> &
-                Omit<
-                  {
-                    [Key in keyof Omit<
-                      DST,
-                      keyof IMPLEMENTORS | '__typename'
-                    >]: Key extends keyof INTERFACE
-                      ? LastMapTypeSRCResolver<INTERFACE[Key], DST[Key]>
-                      : never;
-                  },
-                  keyof IMPLEMENTORS
-                > &
-                (DST extends { __typename: any }
-                  ? MapType<IMPLEMENTORS[Key], { __typename: true }>
-                  : {})
+            Omit<
+              {
+                [Key in keyof Omit<
+                DST,
+                keyof IMPLEMENTORS | '__typename'
+                >]: Key extends keyof INTERFACE
+                ? LastMapTypeSRCResolver<INTERFACE[Key], DST[Key]>
+                : never;
+              },
+              keyof IMPLEMENTORS
+              > &
+            (DST extends { __typename: any }
+              ? MapType<IMPLEMENTORS[Key], { __typename: true }>
+              : {})
             : never;
-        },
-        keyof INTERFACE | '__typename'
-      >
-    >
-  : never;
+          },
+          keyof INTERFACE | '__typename'
+          >
+        > : never
+  } : never;
 
 export type ValueToUnion<T> = T extends {
   __typename: infer R;
