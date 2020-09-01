@@ -47,6 +47,7 @@ export class TypeResolver {
       name: n.name.value,
     };
   }
+
   /**
    * Iterate fields and return them as ParserFields
    *
@@ -67,6 +68,7 @@ export class TypeResolver {
         } as ParserField),
     );
   }
+
   /**
    * Resolve default ValueNode options
    *
@@ -79,6 +81,7 @@ export class TypeResolver {
     }
     return options;
   };
+
   /**
    * Resolve object field
    *
@@ -99,6 +102,7 @@ export class TypeResolver {
       },
     ];
   }
+
   /**
    * Resolve GraphQL ValueNode
    *
@@ -150,6 +154,7 @@ export class TypeResolver {
     }
     return undefined;
   }
+
   /**
    * Iterate directives
    * @param directives GraphQL Directive nodes
@@ -169,6 +174,7 @@ export class TypeResolver {
         } as ParserField),
     );
   }
+
   /**
    * Iterate argument fields
    *
@@ -191,6 +197,7 @@ export class TypeResolver {
         } as ParserField),
     );
   }
+
   /**
    * Iterate fields of input
    *
@@ -211,6 +218,7 @@ export class TypeResolver {
         } as ParserField),
     );
   }
+
   /**
    * Resolve interfaces on Object Type
    *
@@ -222,6 +230,7 @@ export class TypeResolver {
     }
     return n.interfaces.map((i) => i.name.value);
   }
+
   /**
    * Resolve fields of Type Defintiion node
    *
@@ -276,6 +285,7 @@ export class TypeResolver {
     const fields = TypeResolver.iterateObjectTypeFields(n.fields);
     return fields;
   }
+
   static resolveFieldsFromDefinition(n: TypeSystemDefinitionNode | TypeSystemExtensionNode): ParserField[] | undefined {
     if ('values' in n && n.values) {
       return n.values.map(
@@ -318,6 +328,7 @@ export class TypeResolver {
       if (!n.fields) {
         throw new Error('Type object should have fields');
       }
+
       return TypeResolver.iterateObjectTypeFields(n.fields);
     }
   }
