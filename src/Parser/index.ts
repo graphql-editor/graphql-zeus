@@ -73,7 +73,7 @@ export class Parser {
     } catch (error) {
       /* tslint:disable */
       console.error(error);
-      /* tslint:disable */
+      /* tslint:enable */
     }
     if (!astSchema) {
       throw new Error('Cannot find astSchema');
