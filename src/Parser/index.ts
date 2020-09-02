@@ -71,7 +71,9 @@ export class Parser {
       parsedSchema = parse(compiledSchema);
       astSchema = buildASTSchema(parsedSchema);
     } catch (error) {
-      /* tslint:disable */ console.log(compiledSchema); /* tslint:disable */
+      /* tslint:disable */
+      console.error(error);
+      /* tslint:enable */
     }
     if (!astSchema) {
       throw new Error('Cannot find astSchema');
