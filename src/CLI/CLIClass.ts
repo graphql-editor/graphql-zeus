@@ -51,19 +51,28 @@ export class CLI {
         args.graphql.endsWith('.graphql') || args.graphql.endsWith('.gql')
           ? args.graphql
           : path.join(args.graphql, 'schema.graphql');
-      fs.writeFileSync(schemaPath, schemaFileContents);
+
+      const pathToSchema = path.dirname(schemaPath);
+      const schemaFile = path.basename(schemaPath);
+
+      writeFileRecursive(pathToSchema, schemaFile, schemaFileContents);
     }
     if (args.typescript) {
       const outFile = `${outputFilename}.ts`;
       const typeScriptDefinition = TranslateGraphQL.typescript(schemaFileContents, env, host);
-      fs.writeFileSync(path.join(pathToFile, outFile), typeScriptDefinition.code);
+      writeFileRecursive(pathToFile, outFile, typeScriptDefinition.code);
     } else {
       const outFile = `${outputFilename}.js`;
       const outFileDefinitions = `${outputFilename}.d.ts`;
       const jsDefinition = TranslateGraphQL.javascript(schemaFileContents, env, host);
 
-      fs.writeFileSync(path.join(pathToFile, outFile), jsDefinition.code);
-      fs.writeFileSync(path.join(pathToFile, outFileDefinitions), jsDefinition.typings);
+      writeFileRecursive(pathToFile, outFile, jsDefinition.code);
+      writeFileRecursive(pathToFile, outFileDefinitions, jsDefinition.typings);
     }
   };
+}
+
+function writeFileRecursive(pathToFile: string, filename: string, data?: string): void {
+  fs.mkdirSync(pathToFile, { recursive: true });
+  fs.writeFileSync(path.join(pathToFile, filename), data);
 }
