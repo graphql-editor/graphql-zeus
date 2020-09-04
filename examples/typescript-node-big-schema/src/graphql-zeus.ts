@@ -27,14 +27,14 @@ export type ValueTypes = {
 };
 	/** Customer data for checkout information */
 ["CustomerInput"]: {
+	/** Must be true for marketing to be allowed */
+	marketingConsent?:boolean,
 	/** User's email address */
 	email?:string,
 	/** User's country */
 	country?:string,
 	/** User's post code */
-	postCode?:string,
-	/** Must be true for marketing to be allowed */
-	marketingConsent?:boolean
+	postCode?:string
 };
 	/** Amount is a number that gives precise representation of real numbers */
 ["Decimal"]:unknown;
@@ -156,6 +156,23 @@ projects?: [{	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
 }>;
 	/** PaymentDate is a string in a format 'YYYY-MM-DD' */
 ["PaymentDate"]:unknown;
+	/** PredictCheckout represents payment prediction for checkout data */
+["PredictCheckout"]: AliasType<{
+	/** Predicted checkout price */
+	price?:true,
+	/** Predicted number of trial days */
+	trialDays?:true
+		__typename?: true
+}>;
+	/** Checkout data needed to begin payment process */
+["PredictCheckoutInput"]: {
+	/** An id of a chosen subscription plan */
+	planID:string,
+	/** Quantity of subscriptions that user wants */
+	quantity?:number,
+	/** Optional discount coupon */
+	coupon?:string
+};
 	/** Project type */
 ["Project"]: AliasType<{
 	/** Return creation time stamp of a project */
@@ -212,6 +229,10 @@ update?: [{	in?:ValueTypes["UpdateProject"]},true]
 }>;
 	/** ProjectsSortInput defines how projects from listProjects should be sorted. */
 ["ProjectsSortInput"]: {
+	/** Sort by visisbility */
+	public?:ValueTypes["SortOrder"],
+	/** Sort by slug */
+	slug?:ValueTypes["SortOrder"],
 	/** Sort by tag */
 	tags?:ValueTypes["SortOrder"],
 	/** Sorts projects by team.
@@ -225,26 +246,23 @@ Sort behaviour for projects by team is implemenation depednant. */
 	/** Sort by id */
 	id?:ValueTypes["SortOrder"],
 	/** Sort by owner */
-	owner?:ValueTypes["SortOrder"],
-	/** Sort by visisbility */
-	public?:ValueTypes["SortOrder"],
-	/** Sort by slug */
-	slug?:ValueTypes["SortOrder"]
+	owner?:ValueTypes["SortOrder"]
 };
 	/** Root query type */
 ["Query"]: AliasType<{
 checkoutData?: [{	data:ValueTypes["CheckoutDataInput"]},true],
 fileServerCredentials?: [{	project?:string},true],
 findProjects?: [{	last?:string,	limit?:number,	query:string},ValueTypes["ProjectConnection"]],
-findProjectsByTag?: [{	tag:string,	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
+findProjectsByTag?: [{	limit?:number,	tag:string,	last?:string},ValueTypes["ProjectConnection"]],
 getNamespace?: [{	slug:string},ValueTypes["Namespace"]],
 getProject?: [{	project:string},ValueTypes["Project"]],
 getTeam?: [{	name:string},ValueTypes["Team"]],
 getUser?: [{	username:string},ValueTypes["User"]],
-listProjects?: [{	sort?:(ValueTypes["ProjectsSortInput"] | undefined)[],	owned?:boolean,	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
+listProjects?: [{	owned?:boolean,	last?:string,	limit?:number,	sort?:(ValueTypes["ProjectsSortInput"] | undefined)[]},ValueTypes["ProjectConnection"]],
 myTeams?: [{	last?:string,	limit?:number},ValueTypes["TeamConnection"]],
 	/** List user payments */
-	payments?:ValueTypes["Payment"]
+	payments?:ValueTypes["Payment"],
+predictCheckout?: [{	data:ValueTypes["PredictCheckoutInput"]},ValueTypes["PredictCheckout"]]
 		__typename?: true
 }>;
 	/** RFC3339Date is a RFC3339 formated date-time string */
@@ -312,7 +330,7 @@ members?: [{	last?:string,	limit?:number},ValueTypes["MemberConnection"]],
 	/** Team operations */
 ["TeamOps"]: AliasType<{
 addMember?: [{	username:string,	role:ValueTypes["Role"]},ValueTypes["Member"]],
-createProject?: [{	name:string,	public?:boolean},ValueTypes["Project"]],
+createProject?: [{	public?:boolean,	name:string},ValueTypes["Project"]],
 	/** Delete team */
 	delete?:true,
 	/** Unique team id */
@@ -360,12 +378,6 @@ project?: [{	id:string},ValueTypes["ProjectOps"]]
 }>;
 	/** Vat information of a user */
 ["VatInput"]: {
-	/** Vat company post code address. */
-	postCode?:string,
-	/** Vat number */
-	number?:string,
-	/** Vat company name */
-	companyName?:string,
 	/** Vat company street address */
 	street?:string,
 	/** Vat company city address */
@@ -373,7 +385,13 @@ project?: [{	id:string},ValueTypes["ProjectOps"]]
 	/** Vat company state address. Optional. */
 	state?:string,
 	/** Vat company country address. */
-	country?:string
+	country?:string,
+	/** Vat company post code address. */
+	postCode?:string,
+	/** Vat number */
+	number?:string,
+	/** Vat company name */
+	companyName?:string
 }
   }
 
@@ -403,14 +421,14 @@ export type PartialObjects = {
 },
 	/** Customer data for checkout information */
 ["CustomerInput"]: {
+	/** Must be true for marketing to be allowed */
+	marketingConsent?:boolean,
 	/** User's email address */
 	email?:string,
 	/** User's country */
 	country?:string,
 	/** User's post code */
-	postCode?:string,
-	/** Must be true for marketing to be allowed */
-	marketingConsent?:boolean
+	postCode?:string
 },
 	/** Amount is a number that gives precise representation of real numbers */
 ["Decimal"]:any,
@@ -556,6 +574,23 @@ limit sets a limit on how many objects can be returned */
 	},
 	/** PaymentDate is a string in a format 'YYYY-MM-DD' */
 ["PaymentDate"]:any,
+	/** PredictCheckout represents payment prediction for checkout data */
+["PredictCheckout"]: {
+		__typename?: "PredictCheckout";
+			/** Predicted checkout price */
+	price?:number,
+			/** Predicted number of trial days */
+	trialDays?:number
+	},
+	/** Checkout data needed to begin payment process */
+["PredictCheckoutInput"]: {
+	/** An id of a chosen subscription plan */
+	planID:string,
+	/** Quantity of subscriptions that user wants */
+	quantity?:number,
+	/** Optional discount coupon */
+	coupon?:string
+},
 	/** Project type */
 ["Project"]: {
 		__typename?: "Project";
@@ -618,6 +653,10 @@ Used with paginated listing of projects */
 	},
 	/** ProjectsSortInput defines how projects from listProjects should be sorted. */
 ["ProjectsSortInput"]: {
+	/** Sort by visisbility */
+	public?:PartialObjects["SortOrder"],
+	/** Sort by slug */
+	slug?:PartialObjects["SortOrder"],
 	/** Sort by tag */
 	tags?:PartialObjects["SortOrder"],
 	/** Sorts projects by team.
@@ -631,11 +670,7 @@ Sort behaviour for projects by team is implemenation depednant. */
 	/** Sort by id */
 	id?:PartialObjects["SortOrder"],
 	/** Sort by owner */
-	owner?:PartialObjects["SortOrder"],
-	/** Sort by visisbility */
-	public?:PartialObjects["SortOrder"],
-	/** Sort by slug */
-	slug?:PartialObjects["SortOrder"]
+	owner?:PartialObjects["SortOrder"]
 },
 	/** Root query type */
 ["Query"]: {
@@ -682,7 +717,9 @@ limit limits the number of returned projects */
 			/** List of current user teams */
 	myTeams?:PartialObjects["TeamConnection"],
 			/** List user payments */
-	payments?:(PartialObjects["Payment"] | undefined)[]
+	payments?:(PartialObjects["Payment"] | undefined)[],
+			/** Calculate checkout information */
+	predictCheckout?:PartialObjects["PredictCheckout"]
 	},
 	/** RFC3339Date is a RFC3339 formated date-time string */
 ["RFC3339Date"]:any,
@@ -804,12 +841,6 @@ limit limits the number of returned projects */
 	},
 	/** Vat information of a user */
 ["VatInput"]: {
-	/** Vat company post code address. */
-	postCode?:string,
-	/** Vat number */
-	number?:string,
-	/** Vat company name */
-	companyName?:string,
 	/** Vat company street address */
 	street?:string,
 	/** Vat company city address */
@@ -817,7 +848,13 @@ limit limits the number of returned projects */
 	/** Vat company state address. Optional. */
 	state?:string,
 	/** Vat company country address. */
-	country?:string
+	country?:string,
+	/** Vat company post code address. */
+	postCode?:string,
+	/** Vat number */
+	number?:string,
+	/** Vat company name */
+	companyName?:string
 }
   }
 
@@ -852,14 +889,14 @@ export type CheckoutDataInput = {
 
 /** Customer data for checkout information */
 export type CustomerInput = {
-		/** User's email address */
+		/** Must be true for marketing to be allowed */
+	marketingConsent?:boolean,
+	/** User's email address */
 	email?:string,
 	/** User's country */
 	country?:string,
 	/** User's post code */
-	postCode?:string,
-	/** Must be true for marketing to be allowed */
-	marketingConsent?:boolean
+	postCode?:string
 }
 
 /** Amount is a number that gives precise representation of real numbers */
@@ -1021,6 +1058,25 @@ export type Payment = {
 /** PaymentDate is a string in a format 'YYYY-MM-DD' */
 export type PaymentDate = any
 
+/** PredictCheckout represents payment prediction for checkout data */
+export type PredictCheckout = {
+	__typename?: "PredictCheckout",
+	/** Predicted checkout price */
+	price:number,
+	/** Predicted number of trial days */
+	trialDays?:number
+}
+
+/** Checkout data needed to begin payment process */
+export type PredictCheckoutInput = {
+		/** An id of a chosen subscription plan */
+	planID:string,
+	/** Quantity of subscriptions that user wants */
+	quantity?:number,
+	/** Optional discount coupon */
+	coupon?:string
+}
+
 /** Project type */
 export type Project = {
 	__typename?: "Project",
@@ -1086,7 +1142,11 @@ export type ProjectOps = {
 
 /** ProjectsSortInput defines how projects from listProjects should be sorted. */
 export type ProjectsSortInput = {
-		/** Sort by tag */
+		/** Sort by visisbility */
+	public?:SortOrder,
+	/** Sort by slug */
+	slug?:SortOrder,
+	/** Sort by tag */
 	tags?:SortOrder,
 	/** Sorts projects by team.
 
@@ -1099,11 +1159,7 @@ Sort behaviour for projects by team is implemenation depednant. */
 	/** Sort by id */
 	id?:SortOrder,
 	/** Sort by owner */
-	owner?:SortOrder,
-	/** Sort by visisbility */
-	public?:SortOrder,
-	/** Sort by slug */
-	slug?:SortOrder
+	owner?:SortOrder
 }
 
 /** Root query type */
@@ -1151,7 +1207,9 @@ limit limits the number of returned projects */
 	/** List of current user teams */
 	myTeams?:TeamConnection,
 	/** List user payments */
-	payments?:(Payment | undefined)[]
+	payments?:(Payment | undefined)[],
+	/** Calculate checkout information */
+	predictCheckout?:PredictCheckout
 }
 
 /** RFC3339Date is a RFC3339 formated date-time string */
@@ -1159,17 +1217,17 @@ export type RFC3339Date = any
 
 /** Team member role */
 export enum Role {
+	OWNER = "OWNER",
+	ADMIN = "ADMIN",
 	EDITOR = "EDITOR",
 	VIEWER = "VIEWER",
-	CONTRIBUTOR = "CONTRIBUTOR",
-	OWNER = "OWNER",
-	ADMIN = "ADMIN"
+	CONTRIBUTOR = "CONTRIBUTOR"
 }
 
 /** Sort order defines possible ordering of sorted outputs */
 export enum SortOrder {
-	Descending = "Descending",
-	Ascending = "Ascending"
+	Ascending = "Ascending",
+	Descending = "Descending"
 }
 
 /** Source upload info object */
@@ -1295,20 +1353,20 @@ export type UserConnection = {
 
 /** Vat information of a user */
 export type VatInput = {
-		/** Vat company post code address. */
-	postCode?:string,
-	/** Vat number */
-	number?:string,
-	/** Vat company name */
-	companyName?:string,
-	/** Vat company street address */
+		/** Vat company street address */
 	street?:string,
 	/** Vat company city address */
 	city?:string,
 	/** Vat company state address. Optional. */
 	state?:string,
 	/** Vat company country address. */
-	country?:string
+	country?:string,
+	/** Vat company post code address. */
+	postCode?:string,
+	/** Vat number */
+	number?:string,
+	/** Vat company name */
+	companyName?:string
 }
 
 export const AllTypesProps: Record<string,any> = {
@@ -1372,6 +1430,12 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	CustomerInput:{
+		marketingConsent:{
+			type:"Boolean",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
 		email:{
 			type:"String",
 			array:false,
@@ -1386,12 +1450,6 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		postCode:{
 			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		marketingConsent:{
-			type:"Boolean",
 			array:false,
 			arrayRequired:false,
 			required:false
@@ -1558,6 +1616,26 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	PaymentDate: "String",
+	PredictCheckoutInput:{
+		planID:{
+			type:"ID",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		quantity:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		coupon:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
 	Project:{
 		sources:{
 			last:{
@@ -1585,6 +1663,18 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	ProjectsSortInput:{
+		public:{
+			type:"SortOrder",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		slug:{
+			type:"SortOrder",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
 		tags:{
 			type:"SortOrder",
 			array:false,
@@ -1616,18 +1706,6 @@ export const AllTypesProps: Record<string,any> = {
 			required:false
 		},
 		owner:{
-			type:"SortOrder",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		public:{
-			type:"SortOrder",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		slug:{
 			type:"SortOrder",
 			array:false,
 			arrayRequired:false,
@@ -1672,6 +1750,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		findProjectsByTag:{
+			limit:{
+				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			tag:{
 				type:"String",
 				array:false,
@@ -1680,12 +1764,6 @@ export const AllTypesProps: Record<string,any> = {
 			},
 			last:{
 				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			limit:{
-				type:"Int",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -1724,12 +1802,6 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		listProjects:{
-			sort:{
-				type:"ProjectsSortInput",
-				array:true,
-				arrayRequired:false,
-				required:false
-			},
 			owned:{
 				type:"Boolean",
 				array:false,
@@ -1747,6 +1819,12 @@ export const AllTypesProps: Record<string,any> = {
 				array:false,
 				arrayRequired:false,
 				required:false
+			},
+			sort:{
+				type:"ProjectsSortInput",
+				array:true,
+				arrayRequired:false,
+				required:false
 			}
 		},
 		myTeams:{
@@ -1761,6 +1839,14 @@ export const AllTypesProps: Record<string,any> = {
 				array:false,
 				arrayRequired:false,
 				required:false
+			}
+		},
+		predictCheckout:{
+			data:{
+				type:"PredictCheckoutInput",
+				array:false,
+				arrayRequired:false,
+				required:true
 			}
 		}
 	},
@@ -1807,17 +1893,17 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		createProject:{
-			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
-			},
 			public:{
 				type:"Boolean",
 				array:false,
 				arrayRequired:false,
 				required:false
+			},
+			name:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:true
 			}
 		},
 		member:{
@@ -1878,24 +1964,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	VatInput:{
-		postCode:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		number:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		companyName:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		street:{
 			type:"String",
 			array:false,
@@ -1915,6 +1983,24 @@ export const AllTypesProps: Record<string,any> = {
 			required:false
 		},
 		country:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		postCode:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		number:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		companyName:{
 			type:"String",
 			array:false,
 			arrayRequired:false,
@@ -1983,6 +2069,10 @@ export const ReturnTypes: Record<string,any> = {
 		receiptURL:"String",
 		subscriptionID:"Int"
 	},
+	PredictCheckout:{
+		price:"Float",
+		trialDays:"Int"
+	},
 	Project:{
 		createdAt:"RFC3339Date",
 		description:"String",
@@ -2018,7 +2108,8 @@ export const ReturnTypes: Record<string,any> = {
 		getUser:"User",
 		listProjects:"ProjectConnection",
 		myTeams:"TeamConnection",
-		payments:"Payment"
+		payments:"Payment",
+		predictCheckout:"PredictCheckout"
 	},
 	SourceUploadInfo:{
 		filename:"String",
@@ -2108,35 +2199,32 @@ interface GraphQLResponse {
     message: string;
   }>;
 }
+
+export type ValuesOf<T> = T[keyof T];
+
+export type MapResolve<SRC, DST> = SRC extends {
+    __interface: infer INTERFACE;
+    __resolve: Record<string, { __typename?: string }> & infer IMPLEMENTORS;
+  }
+  ?
+  ValuesOf<{
+    [k in (keyof SRC['__resolve'] & keyof DST)]: ({
+      [rk in (keyof SRC['__resolve'][k] & keyof DST[k])]: LastMapTypeSRCResolver<SRC['__resolve'][k][rk], DST[k][rk]>
+    } & {
+      __typename: SRC['__resolve'][k]['__typename']
+    })
+  }>
+  :
+  never;
+
 export type MapInterface<SRC, DST> = SRC extends {
-  __interface: infer INTERFACE;
-  __resolve: infer IMPLEMENTORS;
-}
-  ? ObjectToUnion<
-      Omit<
-        {
-          [Key in keyof Omit<DST, keyof INTERFACE | '__typename'>]: Key extends keyof IMPLEMENTORS
-            ? MapType<IMPLEMENTORS[Key], DST[Key]> &
-                Omit<
-                  {
-                    [Key in keyof Omit<
-                      DST,
-                      keyof IMPLEMENTORS | '__typename'
-                    >]: Key extends keyof INTERFACE
-                      ? LastMapTypeSRCResolver<INTERFACE[Key], DST[Key]>
-                      : never;
-                  },
-                  keyof IMPLEMENTORS
-                > &
-                (DST extends { __typename: any }
-                  ? MapType<IMPLEMENTORS[Key], { __typename: true }>
-                  : {})
-            : never;
-        },
-        keyof INTERFACE | '__typename'
-      >
-    >
-  : never;
+    __interface: infer INTERFACE;
+    __resolve: Record<string, { __typename?: string }> & infer IMPLEMENTORS;
+  }
+  ?
+  (MapResolve<SRC, DST> extends never ? {} : MapResolve<SRC, DST>) & {
+  [k in (keyof SRC['__interface'] & keyof DST)]: LastMapTypeSRCResolver<SRC['__interface'][k], DST[k]>
+} : never;
 
 export type ValueToUnion<T> = T extends {
   __typename: infer R;
@@ -2425,7 +2513,7 @@ const handleFetchResponse = (
   response: Parameters<Extract<Parameters<ReturnType<typeof fetch>['then']>[0], Function>>[0]
 ): Promise<GraphQLResponse> => {
   if (!response.ok) {
-    return new Promise((resolve, reject) => {
+    return new Promise((_, reject) => {
       response.text().then(text => {
         try { reject(JSON.parse(text)); }
         catch (err) { reject(text); }
@@ -2506,11 +2594,11 @@ export const Zeus = {
 mutation: (o:ValueTypes["Mutation"]) => queryConstruct('mutation', 'Mutation')(o)
 };
 export const Cast = {
-  query: ((o: any) => (b: any) => o) as CastToGraphQL<
+  query: ((o: any) => (_: any) => o) as CastToGraphQL<
   ValueTypes["Query"],
   Query
 >,
-mutation: ((o: any) => (b: any) => o) as CastToGraphQL<
+mutation: ((o: any) => (_: any) => o) as CastToGraphQL<
   ValueTypes["Mutation"],
   Mutation
 >

@@ -121,35 +121,32 @@ interface GraphQLResponse {
     message: string;
   }>;
 }
+
+export type ValuesOf<T> = T[keyof T];
+
+export type MapResolve<SRC, DST> = SRC extends {
+    __interface: infer INTERFACE;
+    __resolve: Record<string, { __typename?: string }> & infer IMPLEMENTORS;
+  }
+  ?
+  ValuesOf<{
+    [k in (keyof SRC['__resolve'] & keyof DST)]: ({
+      [rk in (keyof SRC['__resolve'][k] & keyof DST[k])]: LastMapTypeSRCResolver<SRC['__resolve'][k][rk], DST[k][rk]>
+    } & {
+      __typename: SRC['__resolve'][k]['__typename']
+    })
+  }>
+  :
+  never;
+
 export type MapInterface<SRC, DST> = SRC extends {
-  __interface: infer INTERFACE;
-  __resolve: infer IMPLEMENTORS;
-}
-  ? ObjectToUnion<
-      Omit<
-        {
-          [Key in keyof Omit<DST, keyof INTERFACE | '__typename'>]: Key extends keyof IMPLEMENTORS
-            ? MapType<IMPLEMENTORS[Key], DST[Key]> &
-                Omit<
-                  {
-                    [Key in keyof Omit<
-                      DST,
-                      keyof IMPLEMENTORS | '__typename'
-                    >]: Key extends keyof INTERFACE
-                      ? LastMapTypeSRCResolver<INTERFACE[Key], DST[Key]>
-                      : never;
-                  },
-                  keyof IMPLEMENTORS
-                > &
-                (DST extends { __typename: any }
-                  ? MapType<IMPLEMENTORS[Key], { __typename: true }>
-                  : {})
-            : never;
-        },
-        keyof INTERFACE | '__typename'
-      >
-    >
-  : never;
+    __interface: infer INTERFACE;
+    __resolve: Record<string, { __typename?: string }> & infer IMPLEMENTORS;
+  }
+  ?
+  (MapResolve<SRC, DST> extends never ? {} : MapResolve<SRC, DST>) & {
+  [k in (keyof SRC['__interface'] & keyof DST)]: LastMapTypeSRCResolver<SRC['__interface'][k], DST[k]>
+} : never;
 
 export type ValueToUnion<T> = T extends {
   __typename: infer R;
@@ -438,7 +435,7 @@ const handleFetchResponse = (
   response: Parameters<Extract<Parameters<ReturnType<typeof fetch>['then']>[0], Function>>[0]
 ): Promise<GraphQLResponse> => {
   if (!response.ok) {
-    return new Promise((resolve, reject) => {
+    return new Promise((_, reject) => {
       response.text().then(text => {
         try { reject(JSON.parse(text)); }
         catch (err) { reject(text); }
@@ -528,15 +525,15 @@ mutation: (o:ValueTypes["NotMutation"]) => queryConstruct('mutation', 'NotMutati
 subscription: (o:ValueTypes["NotSubscription"]) => queryConstruct('subscription', 'NotSubscription')(o)
 };
 export const Cast = {
-  query: ((o: any) => (b: any) => o) as CastToGraphQL<
+  query: ((o: any) => (_: any) => o) as CastToGraphQL<
   ValueTypes["Query"],
   Query
 >,
-mutation: ((o: any) => (b: any) => o) as CastToGraphQL<
+mutation: ((o: any) => (_: any) => o) as CastToGraphQL<
   ValueTypes["NotMutation"],
   NotMutation
 >,
-subscription: ((o: any) => (b: any) => o) as CastToGraphQL<
+subscription: ((o: any) => (_: any) => o) as CastToGraphQL<
   ValueTypes["NotSubscription"],
   NotSubscription
 >

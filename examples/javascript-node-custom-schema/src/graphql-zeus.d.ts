@@ -83,35 +83,32 @@ interface GraphQLResponse {
     message: string;
   }>;
 }
+
+export type ValuesOf<T> = T[keyof T];
+
+export type MapResolve<SRC, DST> = SRC extends {
+    __interface: infer INTERFACE;
+    __resolve: Record<string, { __typename?: string }> & infer IMPLEMENTORS;
+  }
+  ?
+  ValuesOf<{
+    [k in (keyof SRC['__resolve'] & keyof DST)]: ({
+      [rk in (keyof SRC['__resolve'][k] & keyof DST[k])]: LastMapTypeSRCResolver<SRC['__resolve'][k][rk], DST[k][rk]>
+    } & {
+      __typename: SRC['__resolve'][k]['__typename']
+    })
+  }>
+  :
+  never;
+
 export type MapInterface<SRC, DST> = SRC extends {
-  __interface: infer INTERFACE;
-  __resolve: infer IMPLEMENTORS;
-}
-  ? ObjectToUnion<
-      Omit<
-        {
-          [Key in keyof Omit<DST, keyof INTERFACE | '__typename'>]: Key extends keyof IMPLEMENTORS
-            ? MapType<IMPLEMENTORS[Key], DST[Key]> &
-                Omit<
-                  {
-                    [Key in keyof Omit<
-                      DST,
-                      keyof IMPLEMENTORS | '__typename'
-                    >]: Key extends keyof INTERFACE
-                      ? LastMapTypeSRCResolver<INTERFACE[Key], DST[Key]>
-                      : never;
-                  },
-                  keyof IMPLEMENTORS
-                > &
-                (DST extends { __typename: any }
-                  ? MapType<IMPLEMENTORS[Key], { __typename: true }>
-                  : {})
-            : never;
-        },
-        keyof INTERFACE | '__typename'
-      >
-    >
-  : never;
+    __interface: infer INTERFACE;
+    __resolve: Record<string, { __typename?: string }> & infer IMPLEMENTORS;
+  }
+  ?
+  (MapResolve<SRC, DST> extends never ? {} : MapResolve<SRC, DST>) & {
+  [k in (keyof SRC['__interface'] & keyof DST)]: LastMapTypeSRCResolver<SRC['__interface'][k], DST[k]>
+} : never;
 
 export type ValueToUnion<T> = T extends {
   __typename: infer R;

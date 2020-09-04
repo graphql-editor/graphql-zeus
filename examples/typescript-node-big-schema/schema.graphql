@@ -35,6 +35,9 @@ input CheckoutDataInput {
 
 """Customer data for checkout information"""
 input CustomerInput {
+  """Must be true for marketing to be allowed"""
+  marketingConsent: Boolean
+
   """User's email address"""
   email: String
 
@@ -43,9 +46,6 @@ input CustomerInput {
 
   """User's post code"""
   postCode: String
-
-  """Must be true for marketing to be allowed"""
-  marketingConsent: Boolean
 }
 
 """Amount is a number that gives precise representation of real numbers"""
@@ -232,6 +232,27 @@ type Payment {
 """PaymentDate is a string in a format 'YYYY-MM-DD'"""
 scalar PaymentDate
 
+"""PredictCheckout represents payment prediction for checkout data"""
+type PredictCheckout {
+  """Predicted checkout price"""
+  price: Float!
+
+  """Predicted number of trial days"""
+  trialDays: Int
+}
+
+"""Checkout data needed to begin payment process"""
+input PredictCheckoutInput {
+  """An id of a chosen subscription plan"""
+  planID: ID!
+
+  """Quantity of subscriptions that user wants"""
+  quantity: Int
+
+  """Optional discount coupon"""
+  coupon: String
+}
+
 """Project type"""
 type Project {
   """Return creation time stamp of a project"""
@@ -321,6 +342,12 @@ type ProjectOps {
 ProjectsSortInput defines how projects from listProjects should be sorted.
 """
 input ProjectsSortInput {
+  """Sort by visisbility"""
+  public: SortOrder
+
+  """Sort by slug"""
+  slug: SortOrder
+
   """Sort by tag"""
   tags: SortOrder
 
@@ -342,12 +369,6 @@ input ProjectsSortInput {
 
   """Sort by owner"""
   owner: SortOrder
-
-  """Sort by visisbility"""
-  public: SortOrder
-
-  """Sort by slug"""
-  slug: SortOrder
 }
 
 """Root query type"""
@@ -383,7 +404,7 @@ type Query {
   
   limit limits the number of returned projects
   """
-  findProjectsByTag(tag: String!, last: String, limit: Int): ProjectConnection
+  findProjectsByTag(limit: Int, tag: String!, last: String): ProjectConnection
 
   """Return namespace matching slug"""
   getNamespace(slug: String!): Namespace
@@ -406,13 +427,16 @@ type Query {
   
   limit limits the number of returned projects
   """
-  listProjects(sort: [ProjectsSortInput], owned: Boolean, last: String, limit: Int): ProjectConnection
+  listProjects(owned: Boolean, last: String, limit: Int, sort: [ProjectsSortInput]): ProjectConnection
 
   """List of current user teams"""
   myTeams(last: String, limit: Int): TeamConnection
 
   """List user payments"""
   payments: [Payment]
+
+  """Calculate checkout information"""
+  predictCheckout(data: PredictCheckoutInput!): PredictCheckout
 }
 
 """RFC3339Date is a RFC3339 formated date-time string"""
@@ -420,15 +444,6 @@ scalar RFC3339Date
 
 """Team member role"""
 enum Role {
-  """Team editor can add/edit projects in team"""
-  EDITOR
-
-  """Team viewer can view projects in team"""
-  VIEWER
-
-  """Team contributor can edit projects in team"""
-  CONTRIBUTOR
-
   """
   Team owner owner can add/remove/edit/view projects and members to a team. Only owner can delete team
   """
@@ -438,12 +453,21 @@ enum Role {
   Team admin can add/remove/edit/view projects and members(except owner) to a team
   """
   ADMIN
+
+  """Team editor can add/edit projects in team"""
+  EDITOR
+
+  """Team viewer can view projects in team"""
+  VIEWER
+
+  """Team contributor can edit projects in team"""
+  CONTRIBUTOR
 }
 
 """Sort order defines possible ordering of sorted outputs"""
 enum SortOrder {
-  Descending
   Ascending
+  Descending
 }
 
 """Source upload info object"""
@@ -525,7 +549,7 @@ type TeamOps {
   addMember(username: String!, role: Role!): Member
 
   """Create new team project"""
-  createProject(name: String!, public: Boolean): Project
+  createProject(public: Boolean, name: String!): Project
 
   """Delete team"""
   delete: Boolean
@@ -592,15 +616,6 @@ type UserConnection {
 
 """Vat information of a user"""
 input VatInput {
-  """Vat company post code address."""
-  postCode: String
-
-  """Vat number"""
-  number: String
-
-  """Vat company name"""
-  companyName: String
-
   """Vat company street address"""
   street: String
 
@@ -612,6 +627,15 @@ input VatInput {
 
   """Vat company country address."""
   country: String
+
+  """Vat company post code address."""
+  postCode: String
+
+  """Vat number"""
+  number: String
+
+  """Vat company name"""
+  companyName: String
 }
 
 schema{
