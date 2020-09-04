@@ -35,8 +35,6 @@ attack?: [{	/** Attacked card/card ids<br> */
 }>;
 	/** create card inputs<br> */
 ["createCard"]: {
-	/** The defense power<br> */
-	Defense:number,
 	/** input skills */
 	skills?:ValueTypes["SpecialSkills"][],
 	/** The name of a card<br> */
@@ -46,7 +44,9 @@ attack?: [{	/** Attacked card/card ids<br> */
 	/** <div>How many children the greek god had</div> */
 	Children?:number,
 	/** The attack power<br> */
-	Attack:number
+	Attack:number,
+	/** The defense power<br> */
+	Defense:number
 };
 	["EffectCard"]: AliasType<{
 	effectSize?:true,
@@ -122,8 +122,6 @@ export type PartialObjects = {
 	["ChangeCard"]: PartialObjects["SpecialCard"] | PartialObjects["EffectCard"],
 	/** create card inputs<br> */
 ["createCard"]: {
-	/** The defense power<br> */
-	Defense:number,
 	/** input skills */
 	skills?:PartialObjects["SpecialSkills"][],
 	/** The name of a card<br> */
@@ -133,7 +131,9 @@ export type PartialObjects = {
 	/** <div>How many children the greek god had</div> */
 	Children?:number,
 	/** The attack power<br> */
-	Attack:number
+	Attack:number,
+	/** The defense power<br> */
+	Defense:number
 },
 	["EffectCard"]: {
 		__typename?: "EffectCard";
@@ -213,9 +213,7 @@ export type ChangeCard = {
 
 /** create card inputs<br> */
 export type createCard = {
-		/** The defense power<br> */
-	Defense:number,
-	/** input skills */
+		/** input skills */
 	skills?:SpecialSkills[],
 	/** The name of a card<br> */
 	name:string,
@@ -224,7 +222,9 @@ export type createCard = {
 	/** <div>How many children the greek god had</div> */
 	Children?:number,
 	/** The attack power<br> */
-	Attack:number
+	Attack:number,
+	/** The defense power<br> */
+	Defense:number
 }
 
 export type EffectCard = {
