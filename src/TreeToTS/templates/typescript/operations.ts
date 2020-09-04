@@ -1,6 +1,5 @@
-import { Environment } from 'Models/Environment';
 import { OperationName, ResolvedOperations } from 'TreeToTS';
-import { OperationType } from '../../../Models';
+import { OperationType, Environment } from '@/Models';
 import { VALUETYPES } from '../resolveValueTypes';
 import { constantTypesTypescript, graphqlErrorTypeScript, typescriptFunctions } from './';
 

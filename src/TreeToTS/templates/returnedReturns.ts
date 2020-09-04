@@ -1,5 +1,5 @@
-import { ParserField } from '../../Models';
-import { TypeDefinition } from '../../Models/Spec';
+import { ParserField } from '@/Models';
+import { TypeDefinition } from '@/Models/Spec';
 
 const resolveField = (f: ParserField): string => {
   const { type, name } = f;

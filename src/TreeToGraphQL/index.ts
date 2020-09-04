@@ -1,4 +1,4 @@
-import { OperationType, ParserTree } from '../Models';
+import { OperationType, ParserTree } from '@/Models';
 import { TemplateUtils } from './templates/TemplateUtils';
 
 export class TreeToGraphQL {

@@ -95,7 +95,7 @@ export type MapResolve<SRC, DST> = SRC extends {
     [k in (keyof SRC['__resolve'] & keyof DST)]: ({
       [rk in (keyof SRC['__resolve'][k] & keyof DST[k])]: LastMapTypeSRCResolver<SRC['__resolve'][k][rk], DST[k][rk]>
     } & {
-      __typename: SRC['__resolve'][k]['__typename']
+      __typename?: SRC['__resolve'][k]['__typename']
     })
   }>
   :

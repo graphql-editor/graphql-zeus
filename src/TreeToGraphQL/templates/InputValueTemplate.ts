@@ -1,4 +1,4 @@
-import { Options, ParserField } from '../../Models';
+import { Options, ParserField } from '@/Models';
 import { TemplateUtils } from './TemplateUtils';
 
 /**
@@ -7,11 +7,18 @@ import { TemplateUtils } from './TemplateUtils';
 export class InputValueTemplate {
   static resolve(f: ParserField, prefix = 0): string {
     let argsString = '';
-    if (f.args && f.args.length) {
-      if (f.type.options && f.type.options.includes(Options.array)) {
-        argsString = ` = [${f.args.map((a) => TemplateUtils.resolverForConnection(a, prefix + 1)).join(',\n')}]`;
+    if (f.args) {
+      const isArray = f.type.options?.includes(Options.array);
+      if (f.args.length) {
+        if (f.type.options && isArray) {
+          argsString = ` = [${f.args.map((a) => TemplateUtils.resolverForConnection(a, prefix + 1)).join(',\n')}]`;
+        } else {
+          argsString = ` = ${f.args.map((a) => TemplateUtils.resolverForConnection(a, prefix + 1)).join('\n')}`;
+        }
       } else {
-        argsString = ` = ${f.args.map((a) => TemplateUtils.resolverForConnection(a, prefix + 1)).join('\n')}`;
+        if (isArray) {
+          argsString = ` = []`;
+        }
       }
     }
     return `${TemplateUtils.descriptionResolver(f.description, prefix)}${'\t'.repeat(prefix)}${

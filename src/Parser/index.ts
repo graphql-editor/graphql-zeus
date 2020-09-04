@@ -8,10 +8,10 @@ import {
   isTypeSystemExtensionNode,
   parse,
 } from 'graphql';
-import { AllTypes, ParserField, ParserTree, TypeDefinitionDisplayMap } from '../Models';
-import { Directive, Helpers, OperationType, TypeDefinition, TypeExtension } from '../Models/Spec';
-import { TreeToGraphQL } from '../TreeToGraphQL';
-import { Utils } from '../Utils';
+import { AllTypes, ParserField, ParserTree, TypeDefinitionDisplayMap } from '@/Models';
+import { Directive, Helpers, OperationType, TypeDefinition, TypeExtension } from '@/Models/Spec';
+import { TreeToGraphQL } from '@/TreeToGraphQL';
+import { Utils } from '@/Utils';
 import { TypeResolver } from './typeResolver';
 export class Parser {
   static findComments(schema: string): string[] {
@@ -71,7 +71,9 @@ export class Parser {
       parsedSchema = parse(compiledSchema);
       astSchema = buildASTSchema(parsedSchema);
     } catch (error) {
-      /* tslint:disable */ console.log(compiledSchema); /* tslint:disable */
+      /* tslint:disable */
+      console.error(error);
+      /* tslint:enable */
     }
     if (!astSchema) {
       throw new Error('Cannot find astSchema');
@@ -84,6 +86,7 @@ export class Parser {
       Mutation: astSchema.getMutationType(),
       Subscription: astSchema.getSubscriptionType(),
     };
+
     const nodes = parsedSchema.definitions
       .filter((t) => 'name' in t && t.name && !excludeRoots.includes(t.name.value))
       .map(Parser.documentDefinitionToSerializedNodeTree)

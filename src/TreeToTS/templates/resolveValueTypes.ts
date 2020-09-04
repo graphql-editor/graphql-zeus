@@ -1,5 +1,5 @@
-import { Options, ParserField } from '../../Models';
-import { Helpers, TypeDefinition, TypeSystemDefinition } from '../../Models/Spec';
+import { Options, ParserField } from '@/Models';
+import { Helpers, TypeDefinition, TypeSystemDefinition } from '@/Models/Spec';
 
 export const VALUETYPES = 'ValueTypes';
 
@@ -67,6 +67,7 @@ const resolveValueTypeFromRoot = (i: ParserField, rootNodes: ParserField[], enum
   if (i.data.type === Helpers.Comment) {
     return '';
   }
+
   if (!i.args || !i.args.length) {
     return `${plusDescription(i.description)}["${i.name}"]:unknown`;
   }
@@ -88,12 +89,12 @@ const resolveValueTypeFromRoot = (i: ParserField, rootNodes: ParserField[], enum
     return `${plusDescription(i.description)}["${i.name}"]:${AliasType(
       `{
 \t${i.args.map((f) => resolveField(f, enumsAndScalars)).join(',\n')};\n\t\t${typesImplementing
-        .map((f) => `['...on ${f.name}']: ${resolveValueType(f.name)};`)
+        .map((f) => `['...on ${f.name}']?: Omit<${resolveValueType(f.name)},keyof ${resolveValueType(i.name)}>;`)
         .join('\n\t\t')}\n\t\t__typename?: true\n}`,
     )}`;
   }
   return `${plusDescription(i.description)}["${i.name}"]: ${AliasType(
-    `{\n${i.args.map((f) => resolveField(f, enumsAndScalars)).join(',\n')}\n\t\t__typename?: true\n}`,
+    `{\n${i.args.map((f) => resolveField(f, enumsAndScalars)).join(',\n')},\n\t\t__typename?: true\n}`,
   )}`;
 };
 export const resolveValueTypes = (rootNodes: ParserField[]): string => {

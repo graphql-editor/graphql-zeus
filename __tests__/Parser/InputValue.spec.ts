@@ -5,7 +5,8 @@ import {
   TypeDefinition,
   TypeDefinitionDisplayStrings,
   Value,
-  ValueDefinition
+  ValueDefinition,
+  Options,
 } from '../../src/Models';
 import { Parser, ParserUtils } from '../../src/Parser';
 
@@ -24,71 +25,71 @@ describe('Input Values tests on parser', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.input
+            name: TypeDefinitionDisplayStrings.input,
           },
           data: {
-            type: TypeDefinition.InputObjectTypeDefinition
+            type: TypeDefinition.InputObjectTypeDefinition,
           },
           directives: [],
           args: [
             {
               name: 'id',
               type: {
-                name: ScalarTypes.ID
+                name: ScalarTypes.ID,
               },
               data: {
-                type: ValueDefinition.InputValueDefinition
+                type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
-              args: []
+              args: [],
             },
             {
               name: 'name',
               type: {
-                name: ScalarTypes.String
+                name: ScalarTypes.String,
               },
               data: {
-                type: ValueDefinition.InputValueDefinition
+                type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
-              args: []
+              args: [],
             },
             {
               name: 'age',
               type: {
-                name: ScalarTypes.Int
+                name: ScalarTypes.Int,
               },
               data: {
-                type: ValueDefinition.InputValueDefinition
+                type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
-              args: []
+              args: [],
             },
             {
               name: 'weight',
               type: {
-                name: ScalarTypes.Float
+                name: ScalarTypes.Float,
               },
               data: {
-                type: ValueDefinition.InputValueDefinition
+                type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
-              args: []
+              args: [],
             },
             {
               name: 'verified',
               type: {
-                name: ScalarTypes.Boolean
+                name: ScalarTypes.Boolean,
               },
               data: {
-                type: ValueDefinition.InputValueDefinition
+                type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
-              args: []
-            }
-          ]
-        }
-      ]
+              args: [],
+            },
+          ],
+        },
+      ],
     };
     expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
   });
@@ -104,38 +105,38 @@ describe('Input Values tests on parser', () => {
         {
           name: 'Car',
           type: {
-            name: TypeDefinitionDisplayStrings.enum
+            name: TypeDefinitionDisplayStrings.enum,
           },
           data: {
-            type: TypeDefinition.EnumTypeDefinition
+            type: TypeDefinition.EnumTypeDefinition,
           },
           directives: [],
-          args: []
+          args: [],
         },
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.input
+            name: TypeDefinitionDisplayStrings.input,
           },
           data: {
-            type: TypeDefinition.InputObjectTypeDefinition
+            type: TypeDefinition.InputObjectTypeDefinition,
           },
           directives: [],
           args: [
             {
               name: 'car',
               type: {
-                name: 'Car'
+                name: 'Car',
               },
               data: {
-                type: ValueDefinition.InputValueDefinition
+                type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
-              args: []
-            }
-          ]
-        }
-      ]
+              args: [],
+            },
+          ],
+        },
+      ],
     };
     expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
   });
@@ -153,50 +154,50 @@ describe('Input Values tests on parser', () => {
         {
           name: 'Car',
           type: {
-            name: TypeDefinitionDisplayStrings.input
+            name: TypeDefinitionDisplayStrings.input,
           },
           data: {
-            type: TypeDefinition.InputObjectTypeDefinition
+            type: TypeDefinition.InputObjectTypeDefinition,
           },
           directives: [],
           args: [
             {
               name: 'year',
               type: {
-                name: ScalarTypes.Int
+                name: ScalarTypes.Int,
               },
               data: {
-                type: ValueDefinition.InputValueDefinition
+                type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
-              args: []
-            }
-          ]
+              args: [],
+            },
+          ],
         },
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.input
+            name: TypeDefinitionDisplayStrings.input,
           },
           data: {
-            type: TypeDefinition.InputObjectTypeDefinition
+            type: TypeDefinition.InputObjectTypeDefinition,
           },
           directives: [],
           args: [
             {
               name: 'car',
               type: {
-                name: 'Car'
+                name: 'Car',
               },
               data: {
-                type: ValueDefinition.InputValueDefinition
+                type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
-              args: []
-            }
-          ]
-        }
-      ]
+              args: [],
+            },
+          ],
+        },
+      ],
     };
     expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
   });
@@ -212,37 +213,37 @@ describe('Input Values tests on parser', () => {
         {
           name: 'Car',
           type: {
-            name: TypeDefinitionDisplayStrings.scalar
+            name: TypeDefinitionDisplayStrings.scalar,
           },
           data: {
-            type: TypeDefinition.ScalarTypeDefinition
+            type: TypeDefinition.ScalarTypeDefinition,
           },
-          directives: []
+          directives: [],
         },
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.input
+            name: TypeDefinitionDisplayStrings.input,
           },
           data: {
-            type: TypeDefinition.InputObjectTypeDefinition
+            type: TypeDefinition.InputObjectTypeDefinition,
           },
           directives: [],
           args: [
             {
               name: 'car',
               type: {
-                name: 'Car'
+                name: 'Car',
               },
               data: {
-                type: ValueDefinition.InputValueDefinition
+                type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
-              args: []
-            }
-          ]
-        }
-      ]
+              args: [],
+            },
+          ],
+        },
+      ],
     };
     expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
   });
@@ -250,6 +251,10 @@ describe('Input Values tests on parser', () => {
     const schema = `input Person{
         id: ${ScalarTypes.ID} = "abcdef"
         name: ${ScalarTypes.String} = "Artur"
+        emptyName: ${ScalarTypes.String} = ""
+        noName: ${ScalarTypes.String}
+        emptyArray: [${ScalarTypes.String}] = []
+        noArray: [${ScalarTypes.String}]
         age: ${ScalarTypes.Int} = 28
         weight: ${ScalarTypes.Float} = 73.0
         verified: ${ScalarTypes.Boolean} = true
@@ -260,121 +265,175 @@ describe('Input Values tests on parser', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.input
+            name: TypeDefinitionDisplayStrings.input,
           },
           data: {
-            type: TypeDefinition.InputObjectTypeDefinition
+            type: TypeDefinition.InputObjectTypeDefinition,
           },
           directives: [],
           args: [
             {
               name: 'id',
               type: {
-                name: ScalarTypes.ID
+                name: ScalarTypes.ID,
               },
               data: {
-                type: ValueDefinition.InputValueDefinition
+                type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
               args: [
                 {
                   name: 'abcdef',
                   type: {
-                    name: Value.StringValue
+                    name: Value.StringValue,
                   },
                   data: {
-                    type: Value.StringValue
-                  }
-                }
-              ]
+                    type: Value.StringValue,
+                  },
+                },
+              ],
             },
             {
               name: 'name',
               type: {
-                name: ScalarTypes.String
+                name: ScalarTypes.String,
               },
               data: {
-                type: ValueDefinition.InputValueDefinition
+                type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
               args: [
                 {
                   name: 'Artur',
                   type: {
-                    name: Value.StringValue
+                    name: Value.StringValue,
                   },
                   data: {
-                    type: Value.StringValue
-                  }
-                }
-              ]
+                    type: Value.StringValue,
+                  },
+                },
+              ],
+            },
+            {
+              name: 'emptyName',
+              type: {
+                name: ScalarTypes.String,
+              },
+              data: {
+                type: ValueDefinition.InputValueDefinition,
+              },
+              directives: [],
+              args: [
+                {
+                  name: '',
+                  type: {
+                    name: Value.StringValue,
+                  },
+                  data: {
+                    type: Value.StringValue,
+                  },
+                },
+              ],
+            },
+            {
+              name: 'noName',
+              type: {
+                name: ScalarTypes.String,
+              },
+              data: {
+                type: ValueDefinition.InputValueDefinition,
+              },
+              directives: [],
+            },
+            {
+              name: 'emptyArray',
+              type: {
+                name: ScalarTypes.String,
+                options: [Options.array],
+              },
+              data: {
+                type: ValueDefinition.InputValueDefinition,
+              },
+              directives: [],
+              args: [],
+            },
+            {
+              name: 'noArray',
+              type: {
+                name: ScalarTypes.String,
+                options: [Options.array],
+              },
+              data: {
+                type: ValueDefinition.InputValueDefinition,
+              },
+              directives: [],
             },
             {
               name: 'age',
               type: {
-                name: ScalarTypes.Int
+                name: ScalarTypes.Int,
               },
               data: {
-                type: ValueDefinition.InputValueDefinition
+                type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
               args: [
                 {
                   name: '28',
                   type: {
-                    name: Value.IntValue
+                    name: Value.IntValue,
                   },
                   data: {
-                    type: Value.IntValue
-                  }
-                }
-              ]
+                    type: Value.IntValue,
+                  },
+                },
+              ],
             },
             {
               name: 'weight',
               type: {
-                name: ScalarTypes.Float
+                name: ScalarTypes.Float,
               },
               data: {
-                type: ValueDefinition.InputValueDefinition
+                type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
               args: [
                 {
                   name: '73.0',
                   type: {
-                    name: Value.FloatValue
+                    name: Value.FloatValue,
                   },
                   data: {
-                    type: Value.FloatValue
-                  }
-                }
-              ]
+                    type: Value.FloatValue,
+                  },
+                },
+              ],
             },
             {
               name: 'verified',
               type: {
-                name: ScalarTypes.Boolean
+                name: ScalarTypes.Boolean,
               },
               data: {
-                type: ValueDefinition.InputValueDefinition
+                type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
               args: [
                 {
                   name: 'true',
                   type: {
-                    name: Value.BooleanValue
+                    name: Value.BooleanValue,
                   },
                   data: {
-                    type: Value.BooleanValue
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ]
+                    type: Value.BooleanValue,
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
     };
     expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
   });
@@ -395,83 +454,83 @@ describe('Input Values tests on parser', () => {
         {
           name: 'Car',
           type: {
-            name: TypeDefinitionDisplayStrings.input
+            name: TypeDefinitionDisplayStrings.input,
           },
           data: {
-            type: TypeDefinition.InputObjectTypeDefinition
+            type: TypeDefinition.InputObjectTypeDefinition,
           },
           directives: [],
           args: [
             {
               name: 'year',
               type: {
-                name: ScalarTypes.Int
+                name: ScalarTypes.Int,
               },
               data: {
-                type: ValueDefinition.InputValueDefinition
+                type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
-              args: []
-            }
-          ]
+              args: [],
+            },
+          ],
         },
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.input
+            name: TypeDefinitionDisplayStrings.input,
           },
           data: {
-            type: TypeDefinition.InputObjectTypeDefinition
+            type: TypeDefinition.InputObjectTypeDefinition,
           },
           directives: [],
           args: [
             {
               name: 'car',
               type: {
-                name: 'Car'
+                name: 'Car',
               },
               data: {
-                type: ValueDefinition.InputValueDefinition
+                type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
               args: [
                 {
                   name: Value.ObjectValue,
                   type: {
-                    name: Value.ObjectValue
+                    name: Value.ObjectValue,
                   },
                   data: {
-                    type: Value.ObjectValue
+                    type: Value.ObjectValue,
                   },
                   args: [
                     {
                       name: 'year',
                       type: {
                         name: 'year',
-                        options: []
+                        options: [],
                       },
                       data: {
-                        type: Instances.Argument
+                        type: Instances.Argument,
                       },
                       args: [
                         {
                           name: '2010',
                           type: {
-                            name: Value.IntValue
+                            name: Value.IntValue,
                           },
                           data: {
-                            type: Value.IntValue
-                          }
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ]
+                            type: Value.IntValue,
+                          },
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
     };
     expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
   });
@@ -490,69 +549,69 @@ describe('Input Values tests on parser', () => {
         {
           name: 'Car',
           type: {
-            name: TypeDefinitionDisplayStrings.enum
+            name: TypeDefinitionDisplayStrings.enum,
           },
           data: {
-            type: TypeDefinition.EnumTypeDefinition
+            type: TypeDefinition.EnumTypeDefinition,
           },
           directives: [],
           args: [
             {
               name: 'HONDA',
               data: {
-                type: ValueDefinition.EnumValueDefinition
+                type: ValueDefinition.EnumValueDefinition,
               },
               type: {
-                name: ValueDefinition.EnumValueDefinition
+                name: ValueDefinition.EnumValueDefinition,
               },
-              directives: []
+              directives: [],
             },
             {
               name: 'YAMAHA',
               data: {
-                type: ValueDefinition.EnumValueDefinition
+                type: ValueDefinition.EnumValueDefinition,
               },
               type: {
-                name: ValueDefinition.EnumValueDefinition
+                name: ValueDefinition.EnumValueDefinition,
               },
-              directives: []
-            }
-          ]
+              directives: [],
+            },
+          ],
         },
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.input
+            name: TypeDefinitionDisplayStrings.input,
           },
           data: {
-            type: TypeDefinition.InputObjectTypeDefinition
+            type: TypeDefinition.InputObjectTypeDefinition,
           },
           directives: [],
           args: [
             {
               name: 'car',
               type: {
-                name: 'Car'
+                name: 'Car',
               },
               data: {
-                type: ValueDefinition.InputValueDefinition
+                type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
               args: [
                 {
                   name: 'HONDA',
                   type: {
-                    name: 'HONDA'
+                    name: 'HONDA',
                   },
                   data: {
-                    type: Value.EnumValue
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ]
+                    type: Value.EnumValue,
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
     };
     expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
   });

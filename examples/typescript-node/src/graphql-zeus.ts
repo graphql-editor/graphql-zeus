@@ -35,6 +35,10 @@ attack?: [{	/** Attacked card/card ids<br> */
 }>;
 	/** create card inputs<br> */
 ["createCard"]: {
+	/** <div>How many children the greek god had</div> */
+	Children?:number,
+	/** The attack power<br> */
+	Attack:number,
 	/** The defense power<br> */
 	Defense:number,
 	/** input skills */
@@ -42,11 +46,7 @@ attack?: [{	/** Attacked card/card ids<br> */
 	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
-	description:string,
-	/** <div>How many children the greek god had</div> */
-	Children?:number,
-	/** The attack power<br> */
-	Attack:number
+	description:string
 };
 	["EffectCard"]: AliasType<{
 	effectSize?:true,
@@ -122,6 +122,10 @@ export type PartialObjects = {
 	["ChangeCard"]: PartialObjects["SpecialCard"] | PartialObjects["EffectCard"],
 	/** create card inputs<br> */
 ["createCard"]: {
+	/** <div>How many children the greek god had</div> */
+	Children?:number,
+	/** The attack power<br> */
+	Attack:number,
 	/** The defense power<br> */
 	Defense:number,
 	/** input skills */
@@ -129,11 +133,7 @@ export type PartialObjects = {
 	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
-	description:string,
-	/** <div>How many children the greek god had</div> */
-	Children?:number,
-	/** The attack power<br> */
-	Attack:number
+	description:string
 },
 	["EffectCard"]: {
 		__typename?: "EffectCard";
@@ -213,18 +213,18 @@ export type ChangeCard = {
 
 /** create card inputs<br> */
 export type createCard = {
-		/** The defense power<br> */
+		/** <div>How many children the greek god had</div> */
+	Children?:number,
+	/** The attack power<br> */
+	Attack:number,
+	/** The defense power<br> */
 	Defense:number,
 	/** input skills */
 	skills?:SpecialSkills[],
 	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
-	description:string,
-	/** <div>How many children the greek god had</div> */
-	Children?:number,
-	/** The attack power<br> */
-	Attack:number
+	description:string
 }
 
 export type EffectCard = {
@@ -295,6 +295,18 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	createCard:{
+		Children:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		Attack:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
 		Defense:{
 			type:"Int",
 			array:false,
@@ -315,18 +327,6 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		description:{
 			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		Children:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		Attack:{
-			type:"Int",
 			array:false,
 			arrayRequired:false,
 			required:true
@@ -455,7 +455,7 @@ export type MapResolve<SRC, DST> = SRC extends {
     [k in (keyof SRC['__resolve'] & keyof DST)]: ({
       [rk in (keyof SRC['__resolve'][k] & keyof DST[k])]: LastMapTypeSRCResolver<SRC['__resolve'][k][rk], DST[k][rk]>
     } & {
-      __typename: SRC['__resolve'][k]['__typename']
+      __typename?: SRC['__resolve'][k]['__typename']
     })
   }>
   :

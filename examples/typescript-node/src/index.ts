@@ -166,42 +166,69 @@ const run = async () => {
     },
   });
   printGQLString('aliasedQuery', aliasedQuery);
-  const aliasedQueryExecute = await Gql.query({
+  const operationName = Zeus.query({
     listCards: {
-      __alias: {
-        atak: {
-          attack: [
-            { cardID: ['1'] },
-            {
-              name: true,
-              Defense: true,
-            },
-          ],
-        },
-      },
-      id: true,
+      Attack: true,
     },
   });
+  printGQLString('operationName', operationName);
+  const aliasedQueryExecute = await Gql.query(
+    {
+      listCards: {
+        __alias: {
+          atak: {
+            attack: [
+              { cardID: $`cardIds` },
+              {
+                name: true,
+                Defense: true,
+              },
+            ],
+          },
+        },
+        id: true,
+      },
+    },
+    {
+      cardIds: ['1', '2'],
+    },
+  );
   printQueryResult('aliasedQuery', aliasedQueryExecute);
+  const Children = undefined;
+  const emptyTestMutation = Zeus.mutation({
+    addCard: [
+      {
+        card: {
+          Attack: 1,
+          Defense: 2,
+          description: 'a',
+          name: 'SADSD',
+          Children,
+          skills: [SpecialSkills.FIRE],
+        },
+      },
+      {
+        id: true,
+        description: true,
+        name: true,
+        Attack: true,
+        skills: true,
+        Children,
+        Defense: true,
+        cardImage: {
+          bucket: true,
+          region: true,
+          key: true,
+        },
+      },
+    ],
+  });
+  printQueryResult('emptyTestMutation', emptyTestMutation);
 
   const interfaceTest = await Gql.query({
     nameables: {
       __typename: true,
       name: true,
-      '...on CardStack': {
-        cards: {
-          Defense: true,
-        },
-      },
-      '...on Card': {
-        Attack: true,
-      },
-      '...on EffectCard': {
-        name: true,
-      },
-      '...on SpecialCard': {
-        name: true,
-      },
     },
   });
   printQueryResult('interfaceTest', interfaceTest);
@@ -211,7 +238,12 @@ const run = async () => {
     {
       addCard: [
         {
-          card: $`card`,
+          card: {
+            Attack: $`Attack`,
+            Defense: $`Attack`,
+            name: 'aa',
+            description: 'aa',
+          },
         },
         {
           id: true,
@@ -230,12 +262,7 @@ const run = async () => {
       ],
     },
     {
-      card: {
-        Attack: 2,
-        Defense: 3,
-        description: 'Lord of the mountains',
-        name: 'Golrog',
-      },
+      Attack: 4,
     },
   );
   printQueryResult('variable Test', test);

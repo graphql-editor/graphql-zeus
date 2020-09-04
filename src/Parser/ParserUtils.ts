@@ -1,4 +1,4 @@
-import { ParserField } from '../Models';
+import { ParserField } from '@/Models';
 
 const compareArrays = (a1: any[] = [], a2: any[] = []): boolean =>
   a1.length === a2.length &&

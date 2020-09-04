@@ -1,6 +1,6 @@
-import { Environment, TranslatedCode } from 'Models';
-import { Parser } from '../Parser';
-import { TreeToTS } from '../TreeToTS';
+import { Environment, TranslatedCode } from '@/Models';
+import { Parser } from '@/Parser';
+import { TreeToTS } from '@/TreeToTS';
 
 export class TranslateGraphQL {
   static typescript = (schema: string, env: Environment = 'browser', host?: string): TranslatedCode => {
