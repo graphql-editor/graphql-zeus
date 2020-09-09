@@ -20,13 +20,13 @@ attack?: [{	/** Attacked card/card ids<br> */
 	image?:true,
 	/** The name of a card<br> */
 	name?:true,
-	skills?:true,
+	skills?:true
 		__typename?: true
 }>;
 	/** Stack of cards */
 ["CardStack"]: AliasType<{
 	cards?:ValueTypes["Card"],
-	name?:true,
+	name?:true
 		__typename?: true
 }>;
 	["ChangeCard"]: AliasType<{		["...on SpecialCard"] : ValueTypes["SpecialCard"],
@@ -50,19 +50,19 @@ attack?: [{	/** Attacked card/card ids<br> */
 };
 	["EffectCard"]: AliasType<{
 	effectSize?:true,
-	name?:true,
+	name?:true
 		__typename?: true
 }>;
 	["Mutation"]: AliasType<{
-addCard?: [{	card:ValueTypes["createCard"]},ValueTypes["Card"]],
+addCard?: [{	card:ValueTypes["createCard"]},ValueTypes["Card"]]
 		__typename?: true
 }>;
 	["Nameable"]:AliasType<{
 		name?:true;
-		['...on Card']?: Omit<ValueTypes["Card"],keyof ValueTypes["Nameable"]>;
-		['...on CardStack']?: Omit<ValueTypes["CardStack"],keyof ValueTypes["Nameable"]>;
-		['...on EffectCard']?: Omit<ValueTypes["EffectCard"],keyof ValueTypes["Nameable"]>;
-		['...on SpecialCard']?: Omit<ValueTypes["SpecialCard"],keyof ValueTypes["Nameable"]>;
+		['...on Card']: ValueTypes["Card"];
+		['...on CardStack']: ValueTypes["CardStack"];
+		['...on EffectCard']: ValueTypes["EffectCard"];
+		['...on SpecialCard']: ValueTypes["SpecialCard"];
 		__typename?: true
 }>;
 	["Query"]: AliasType<{
@@ -73,19 +73,19 @@ cardById?: [{	cardId?:string},ValueTypes["Card"]],
 	/** list All Cards availble<br> */
 	listCards?:ValueTypes["Card"],
 	myStacks?:ValueTypes["CardStack"],
-	nameables?:ValueTypes["Nameable"],
+	nameables?:ValueTypes["Nameable"]
 		__typename?: true
 }>;
 	/** Aws S3 File */
 ["S3Object"]: AliasType<{
 	bucket?:true,
 	key?:true,
-	region?:true,
+	region?:true
 		__typename?: true
 }>;
 	["SpecialCard"]: AliasType<{
 	effect?:true,
-	name?:true,
+	name?:true
 		__typename?: true
 }>;
 	["SpecialSkills"]:SpecialSkills
@@ -278,9 +278,9 @@ export type SpecialCard = {
 }
 
 export enum SpecialSkills {
-	FIRE = "FIRE",
 	THUNDER = "THUNDER",
-	RAIN = "RAIN"
+	RAIN = "RAIN",
+	FIRE = "FIRE"
 }
 
 export const AllTypesProps: Record<string,any> = {
@@ -443,36 +443,32 @@ interface GraphQLResponse {
     message: string;
   }>;
 }
+
+export type ValuesOf<T> = T[keyof T];
+
+export type MapResolve<SRC, DST> = SRC extends {
+    __interface: infer INTERFACE;
+    __resolve: Record<string, { __typename?: string }> & infer IMPLEMENTORS;
+  }
+  ?
+  ValuesOf<{
+    [k in (keyof SRC['__resolve'] & keyof DST)]: ({
+      [rk in (keyof SRC['__resolve'][k] & keyof DST[k])]: LastMapTypeSRCResolver<SRC['__resolve'][k][rk], DST[k][rk]>
+    } & {
+      __typename?: SRC['__resolve'][k]['__typename']
+    })
+  }>
+  :
+  never;
+
 export type MapInterface<SRC, DST> = SRC extends {
     __interface: infer INTERFACE;
-    __resolve: infer IMPLEMENTORS;
+    __resolve: Record<string, { __typename?: string }> & infer IMPLEMENTORS;
   }
-  ? { [Key in keyof DST]: Key extends keyof INTERFACE ? INTERFACE[Key] :
-      Key extends keyof IMPLEMENTORS ? ObjectToUnion<
-        Omit<
-          {
-            [Key in keyof Omit<DST, keyof INTERFACE | '__typename'>]: Key extends keyof IMPLEMENTORS
-            ? MapType<IMPLEMENTORS[Key], DST[Key]> &
-            Omit<
-              {
-                [Key in keyof Omit<
-                DST,
-                keyof IMPLEMENTORS | '__typename'
-                >]: Key extends keyof INTERFACE
-                ? LastMapTypeSRCResolver<INTERFACE[Key], DST[Key]>
-                : never;
-              },
-              keyof IMPLEMENTORS
-              > &
-            (DST extends { __typename: any }
-              ? MapType<IMPLEMENTORS[Key], { __typename: true }>
-              : {})
-            : never;
-          },
-          keyof INTERFACE | '__typename'
-          >
-        > : never
-  } : never;
+  ?
+  (MapResolve<SRC, DST> extends never ? {} : MapResolve<SRC, DST>) & {
+  [k in (keyof SRC['__interface'] & keyof DST)]: LastMapTypeSRCResolver<SRC['__interface'][k], DST[k]>
+} : never;
 
 export type ValueToUnion<T> = T extends {
   __typename: infer R;
@@ -543,7 +539,6 @@ type FetchFunction = (query: string, variables?: Record<string, any>) => any;
 
 
 export const ZeusSelect = <T>() => ((t: any) => t) as SelectionFunction<T>;
-
 export const ScalarResolver = (scalar: string, value: any) => {
   switch (scalar) {
     case 'String':
@@ -565,68 +560,55 @@ export const ScalarResolver = (scalar: string, value: any) => {
   }
 };
 
-
 export const TypesPropsResolver = ({
-    value,
-    type,
-    name,
-    key,
-    blockArrays
+  value,
+  type,
+  name,
+  key,
+  blockArrays
 }: {
-    value: any;
-    type: string;
-    name: string;
-    key?: string;
-    blockArrays?: boolean;
+  value: any;
+  type: string;
+  name: string;
+  key?: string;
+  blockArrays?: boolean;
 }): string => {
-    if (value === null) {
-        return `null`;
+  if (value === null) {
+    return `null`;
+  }
+  let resolvedValue = AllTypesProps[type][name];
+  if (key) {
+    resolvedValue = resolvedValue[key];
+  }
+  if (!resolvedValue) {
+    throw new Error(`Cannot resolve ${type} ${name}${key ? ` ${key}` : ''}`)
+  }
+  const typeResolved = resolvedValue.type;
+  const isArray: boolean = resolvedValue.array;
+  if (typeof value === 'string' && value.startsWith(`ZEUS_VAR$`)) {
+    const isRequired = resolvedValue.required ? '!' : ''
+    return `\$${value.split(`ZEUS_VAR$`)[1]}__ZEUS_VAR__${typeResolved}${isRequired}`;
+  }
+  if (isArray && !blockArrays) {
+    return `[${value
+      .map((v: any) => TypesPropsResolver({ value: v, type, name, key, blockArrays: true }))
+      .join(',')}]`;
+  }
+  const reslovedScalar = ScalarResolver(typeResolved, value);
+  if (!reslovedScalar) {
+    const resolvedType = AllTypesProps[typeResolved];
+    if (typeof resolvedType === 'object') {
+      const argsKeys = Object.keys(resolvedType);
+      return `{${argsKeys
+        .filter((ak) => value[ak] !== undefined)
+        .map(
+          (ak) => `${ak}:${TypesPropsResolver({ value: value[ak], type: typeResolved, name: ak })}`
+        )}}`;
     }
-    let resolvedValue = AllTypesProps[type][name];
-    if (key) {
-        resolvedValue = resolvedValue[key];
-    }
-    if (!resolvedValue) {
-        throw new Error(`Cannot resolve ${type} ${name}${key ? ` ${key}` : ''}`)
-    }
-    const typeResolved = resolvedValue.type;
-    const isArray = resolvedValue.array;
-    const isArrayRequired = resolvedValue.arrayRequired;
-    if (typeof value === 'string' && value.startsWith(`ZEUS_VAR$`)) {
-        const isRequired = resolvedValue.required ? '!' : '';
-        let t = `${typeResolved}`;
-        if (isArray) {
-        if (isArrayRequired) {
-            t = `${t}!`;
-        }
-        t = `[${t}]`;
-        }
-        if (isRequired) {
-        t = `${t}!`;
-        }
-        return `\$${value.split(`ZEUS_VAR$`)[1]}__ZEUS_VAR__${t}`;
-    }
-    if (isArray && !blockArrays) {
-        return `[${value
-        .map((v: any) => TypesPropsResolver({ value: v, type, name, key, blockArrays: true }))
-        .join(',')}]`;
-    }
-    const reslovedScalar = ScalarResolver(typeResolved, value);
-    if (!reslovedScalar) {
-        const resolvedType = AllTypesProps[typeResolved];
-        if (typeof resolvedType === 'object') {
-        const argsKeys = Object.keys(resolvedType);
-        return `{${argsKeys
-            .filter((ak) => value[ak] !== undefined)
-            .map(
-            (ak) => `${ak}:${TypesPropsResolver({ value: value[ak], type: typeResolved, name: ak })}`
-            )}}`;
-        }
-        return ScalarResolver(AllTypesProps[typeResolved], value) as string;
-    }
-    return reslovedScalar;
+    return ScalarResolver(AllTypesProps[typeResolved], value) as string;
+  }
+  return reslovedScalar;
 };
-
 
 const isArrayFunction = (
   parent: string[],
@@ -634,7 +616,7 @@ const isArrayFunction = (
 ) => {
   const [values, r] = a;
   const [mainKey, key, ...keys] = parent;
-  const keyValues = Object.keys(values).filter((k) => typeof values[k] !== 'undefined');
+  const keyValues = Object.keys(values);
 
   if (!keys.length) {
       return keyValues.length > 0
@@ -675,14 +657,11 @@ const isArrayFunction = (
   return argumentString;
 };
 
-
 const resolveKV = (k: string, v: boolean | string | { [x: string]: boolean | string }) =>
   typeof v === 'boolean' ? k : typeof v === 'object' ? `${k}{${objectToTree(v)}}` : `${k}${v}`;
 
-
 const objectToTree = (o: { [x: string]: boolean | string }): string =>
   `{${Object.keys(o).map((k) => `${resolveKV(k, o[k])}`).join(' ')}}`;
-
 
 const traverseToSeekArrays = (parent: string[], a?: any): string => {
   if (!a) return '';
@@ -694,9 +673,7 @@ const traverseToSeekArrays = (parent: string[], a?: any): string => {
     return isArrayFunction([...parent], a);
   } else {
     if (typeof a === 'object') {
-      Object.keys(a)
-        .filter((k) => typeof a[k] !== 'undefined')
-        .map((k) => {
+      Object.keys(a).map((k) => {
         if (k === '__alias') {
           Object.keys(a[k]).map((aliasKey) => {
             const aliasOperations = a[k][aliasKey];
@@ -715,21 +692,15 @@ const traverseToSeekArrays = (parent: string[], a?: any): string => {
     }
   }
   return objectToTree(b);
-};  
+};
 
-
-const buildQuery = (type: string, a?: Record<any, any>) => 
-  traverseToSeekArrays([type], a);
-
+const buildQuery = (type: string, a?: Record<any, any>) => traverseToSeekArrays([type], a);
 
 const inspectVariables = (query: string) => {
-  const regex = /\$\b\w*__ZEUS_VAR__\[?[^!^\]^\s^,^\)]*[!]?[\]]?[!]?/g;
+  const regex = /\$\b\w*ZEUS_VAR\w*\b[!]?/g;
   let result;
-  const AllVariables: string[] = [];
+  const AllVariables = [];
   while ((result = regex.exec(query))) {
-    if (AllVariables.includes(result[0])) {
-      continue;
-    }
     AllVariables.push(result[0]);
   }
   if (!AllVariables.length) {
@@ -737,25 +708,20 @@ const inspectVariables = (query: string) => {
   }
   let filteredQuery = query;
   AllVariables.forEach((variable) => {
-    while (filteredQuery.includes(variable)) {
-      filteredQuery = filteredQuery.replace(variable, variable.split('__ZEUS_VAR__')[0]);
-    }  
+    filteredQuery = filteredQuery.replace(variable, variable.split('__ZEUS_VAR__')[0]);
   });
   return `(${AllVariables.map((a) => a.split('__ZEUS_VAR__'))
     .map(([variableName, variableType]) => `${variableName}:${variableType}`)
     .join(', ')})${filteredQuery}`;
 };
 
-
 const queryConstruct = (t: 'query' | 'mutation' | 'subscription', tName: string) => (o: Record<any, any>) =>
   `${t.toLowerCase()}${inspectVariables(buildQuery(tName, o))}`;
   
-
 const fullChainConstruct = (fn: FetchFunction) => (t: 'query' | 'mutation' | 'subscription', tName: string) => (
   o: Record<any, any>,
   variables?: Record<string, any>,
 ) => fn(queryConstruct(t, tName)(o), variables);
-
 
 const seekForAliases = (o: any) => {
   if (typeof o === 'object' && o) {
@@ -783,7 +749,6 @@ const seekForAliases = (o: any) => {
     });
   }
 };
-
 
 export const $ = (t: TemplateStringsArray): any => `ZEUS_VAR$${t.join('')}`;
 

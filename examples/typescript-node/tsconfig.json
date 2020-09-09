@@ -4,6 +4,7 @@
     "target": "es6",
     "module": "commonjs",
     "moduleResolution": "node",
+    "esModuleInterop": true,
     "experimentalDecorators": true,
     "declaration": true,
     "incremental": true,

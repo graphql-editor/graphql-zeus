@@ -8,7 +8,9 @@ const projectPayload = ZeusSelect<ValueTypes['Project']>()({
   description: true,
   tags: true,
   mocked: true,
-  team: true,
+  team: {
+    name: true,
+  },
   endpoint: {
     uri: true,
   },

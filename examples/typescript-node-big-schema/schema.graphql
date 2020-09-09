@@ -1,16 +1,25 @@
 """Defines user's account type"""
 enum AccountType {
-  PREMIUM
   FREE
+  PREMIUM
 }
 
 input ChangeSubscriptionInput {
-  subscriptionPlanID: Int
   subscriptionID: Int!
+  subscriptionPlanID: Int
 }
 
 """Checkout data needed to begin payment process"""
 input CheckoutDataInput {
+  """URL to which user should be redirected after failed transaction"""
+  cancelURL: String
+
+  """An id of a chosen subscription plan"""
+  planID: ID!
+
+  """Quantity of subscriptions that user wants"""
+  quantity: Int
+
   """Customer data"""
   customer: CustomerInput
 
@@ -22,30 +31,21 @@ input CheckoutDataInput {
 
   """URL to which user should be redirected after successful transaction"""
   successURL: String
-
-  """URL to which user should be redirected after failed transaction"""
-  cancelURL: String
-
-  """An id of a chosen subscription plan"""
-  planID: ID!
-
-  """Quantity of subscriptions that user wants"""
-  quantity: Int
 }
 
 """Customer data for checkout information"""
 input CustomerInput {
-  """User's post code"""
-  postCode: String
-
-  """Must be true for marketing to be allowed"""
-  marketingConsent: Boolean
-
   """User's email address"""
   email: String
 
   """User's country"""
   country: String
+
+  """User's post code"""
+  postCode: String
+
+  """Must be true for marketing to be allowed"""
+  marketingConsent: Boolean
 }
 
 """Amount is a number that gives precise representation of real numbers"""
@@ -187,6 +187,9 @@ type Namespace {
 
 """New source payload"""
 input NewSource {
+  """Source checksum"""
+  checksum: String
+
   """source file name"""
   filename: String
 
@@ -195,9 +198,6 @@ input NewSource {
 
   """Source mime type"""
   contentType: String
-
-  """Source checksum"""
-  checksum: String
 }
 
 """PageInfo contains information about connection page"""
@@ -231,6 +231,27 @@ type Payment {
 
 """PaymentDate is a string in a format 'YYYY-MM-DD'"""
 scalar PaymentDate
+
+"""PredictCheckout represents payment prediction for checkout data"""
+type PredictCheckout {
+  """Predicted checkout price"""
+  price: Float!
+
+  """Predicted number of trial days"""
+  trialDays: Int
+}
+
+"""Checkout data needed to begin payment process"""
+input PredictCheckoutInput {
+  """An id of a chosen subscription plan"""
+  planID: ID!
+
+  """Quantity of subscriptions that user wants"""
+  quantity: Int
+
+  """Optional discount coupon"""
+  coupon: String
+}
 
 """Project type"""
 type Project {
@@ -372,7 +393,7 @@ type Query {
   
   limit limits the number of returned projects
   """
-  findProjects(query: String!, last: String, limit: Int): ProjectConnection
+  findProjects(last: String, limit: Int, query: String!): ProjectConnection
 
   """
   Find projects which contain tag
@@ -383,7 +404,7 @@ type Query {
   
   limit limits the number of returned projects
   """
-  findProjectsByTag(last: String, limit: Int, tag: String!): ProjectConnection
+  findProjectsByTag(limit: Int, tag: String!, last: String): ProjectConnection
 
   """Return namespace matching slug"""
   getNamespace(slug: String!): Namespace
@@ -406,13 +427,16 @@ type Query {
   
   limit limits the number of returned projects
   """
-  listProjects(sort: [ProjectsSortInput], owned: Boolean, last: String, limit: Int): ProjectConnection
+  listProjects(owned: Boolean, last: String, limit: Int, sort: [ProjectsSortInput]): ProjectConnection
 
   """List of current user teams"""
   myTeams(last: String, limit: Int): TeamConnection
 
   """List user payments"""
   payments: [Payment]
+
+  """Calculate checkout information"""
+  predictCheckout(data: PredictCheckoutInput!): PredictCheckout
 }
 
 """RFC3339Date is a RFC3339 formated date-time string"""
@@ -551,17 +575,17 @@ type TeamOps {
 
 """Update project payload"""
 input UpdateProject {
-  """List of tags for project"""
-  tags: [String!]
-
-  """Set project visiblity"""
-  public: Boolean
-
   """ID of project to be updated"""
   project: ID
 
   """New description for project"""
   description: String
+
+  """List of tags for project"""
+  tags: [String!]
+
+  """Set project visiblity"""
+  public: Boolean
 }
 
 """Editor user"""
@@ -592,6 +616,12 @@ type UserConnection {
 
 """Vat information of a user"""
 input VatInput {
+  """Vat company name"""
+  companyName: String
+
+  """Vat company street address"""
+  street: String
+
   """Vat company city address"""
   city: String
 
@@ -606,12 +636,6 @@ input VatInput {
 
   """Vat number"""
   number: String
-
-  """Vat company name"""
-  companyName: String
-
-  """Vat company street address"""
-  street: String
 }
 
 schema{
