@@ -3,19 +3,19 @@
 
 export type ValueTypes = {
     ["NotMutation"]: AliasType<{
-add?: [{	name?:string},ValueTypes["Person"]]
+add?: [{	name?:string},ValueTypes["Person"]],
 		__typename?: true
 }>;
 	["NotSubscription"]: AliasType<{
-	people?:ValueTypes["Person"]
+	people?:ValueTypes["Person"],
 		__typename?: true
 }>;
 	["Person"]: AliasType<{
-	name?:true
+	name?:true,
 		__typename?: true
 }>;
 	["Query"]: AliasType<{
-	people?:ValueTypes["Person"]
+	people?:ValueTypes["Person"],
 		__typename?: true
 }>
   }
@@ -95,7 +95,7 @@ export type MapResolve<SRC, DST> = SRC extends {
     [k in (keyof SRC['__resolve'] & keyof DST)]: ({
       [rk in (keyof SRC['__resolve'][k] & keyof DST[k])]: LastMapTypeSRCResolver<SRC['__resolve'][k][rk], DST[k][rk]>
     } & {
-      __typename?: SRC['__resolve'][k]['__typename']
+      __typename: SRC['__resolve'][k]['__typename']
     })
   }>
   :

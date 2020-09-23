@@ -201,7 +201,7 @@ const run = async () => {
         card: {
           Attack: 1,
           Defense: 2,
-          description: 'a',
+          description: 'lorem ipsum \n lorem ipsum',
           name: 'SADSD',
           Children,
           skills: [SpecialSkills.FIRE],
@@ -212,7 +212,7 @@ const run = async () => {
         description: true,
         name: true,
         Attack: true,
-        skills: true,
+        // // skills: true,
         Children,
         Defense: true,
         cardImage: {
@@ -250,7 +250,7 @@ const run = async () => {
           description: true,
           name: true,
           Attack: true,
-          skills: true,
+          // skills: true,
           Children: true,
           Defense: true,
           cardImage: {

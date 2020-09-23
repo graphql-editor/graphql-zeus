@@ -35,6 +35,9 @@ input CheckoutDataInput {
 
 """Customer data for checkout information"""
 input CustomerInput {
+  """Must be true for marketing to be allowed"""
+  marketingConsent: Boolean
+
   """User's email address"""
   email: String
 
@@ -43,9 +46,6 @@ input CustomerInput {
 
   """User's post code"""
   postCode: String
-
-  """Must be true for marketing to be allowed"""
-  marketingConsent: Boolean
 }
 
 """Amount is a number that gives precise representation of real numbers"""
@@ -187,17 +187,17 @@ type Namespace {
 
 """New source payload"""
 input NewSource {
-  """Source checksum"""
-  checksum: String
-
-  """source file name"""
-  filename: String
-
   """Length of source in bytes"""
   contentLength: Int
 
   """Source mime type"""
   contentType: String
+
+  """Source checksum"""
+  checksum: String
+
+  """source file name"""
+  filename: String
 }
 
 """PageInfo contains information about connection page"""
@@ -243,14 +243,14 @@ type PredictCheckout {
 
 """Checkout data needed to begin payment process"""
 input PredictCheckoutInput {
-  """An id of a chosen subscription plan"""
-  planID: ID!
-
   """Quantity of subscriptions that user wants"""
   quantity: Int
 
   """Optional discount coupon"""
   coupon: String
+
+  """An id of a chosen subscription plan"""
+  planID: ID!
 }
 
 """Project type"""
@@ -300,7 +300,7 @@ type Project {
   
   limit sets a limit on how many objects can be returned
   """
-  sources(last: String, limit: Int): FakerSourceConnection
+  sources(limit: Int, last: String): FakerSourceConnection
 
   """Project tags"""
   tags: [String!]
@@ -393,7 +393,7 @@ type Query {
   
   limit limits the number of returned projects
   """
-  findProjects(last: String, limit: Int, query: String!): ProjectConnection
+  findProjects(limit: Int, query: String!, last: String): ProjectConnection
 
   """
   Find projects which contain tag
@@ -404,7 +404,7 @@ type Query {
   
   limit limits the number of returned projects
   """
-  findProjectsByTag(limit: Int, tag: String!, last: String): ProjectConnection
+  findProjectsByTag(tag: String!, last: String, limit: Int): ProjectConnection
 
   """Return namespace matching slug"""
   getNamespace(slug: String!): Namespace
@@ -427,7 +427,7 @@ type Query {
   
   limit limits the number of returned projects
   """
-  listProjects(owned: Boolean, last: String, limit: Int, sort: [ProjectsSortInput]): ProjectConnection
+  listProjects(limit: Int, sort: [ProjectsSortInput], owned: Boolean, last: String): ProjectConnection
 
   """List of current user teams"""
   myTeams(last: String, limit: Int): TeamConnection
@@ -575,9 +575,6 @@ type TeamOps {
 
 """Update project payload"""
 input UpdateProject {
-  """ID of project to be updated"""
-  project: ID
-
   """New description for project"""
   description: String
 
@@ -586,6 +583,9 @@ input UpdateProject {
 
   """Set project visiblity"""
   public: Boolean
+
+  """ID of project to be updated"""
+  project: ID
 }
 
 """Editor user"""

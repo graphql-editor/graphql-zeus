@@ -38,15 +38,6 @@ union ChangeCard = SpecialCard | EffectCard
 
 """create card inputs<br>"""
 input createCard {
-  """The defense power<br>"""
-  Defense: Int!
-
-  """input skills"""
-  skills: [SpecialSkills!]
-
-  """The name of a card<br>"""
-  name: String!
-
   """Description of a card<br>"""
   description: String!
 
@@ -55,6 +46,15 @@ input createCard {
 
   """The attack power<br>"""
   Attack: Int!
+
+  """The defense power<br>"""
+  Defense: Int!
+
+  """input skills"""
+  skills: [SpecialSkills!]
+
+  """The name of a card<br>"""
+  name: String!
 }
 
 type EffectCard implements Nameable {
