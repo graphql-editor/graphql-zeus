@@ -45,7 +45,7 @@ export class GraphQLError extends Error {
 export const ScalarResolver = (scalar, value) => {
   switch (scalar) {
     case 'String':
-      return  `"${value.replace(/"/g, '\\\"')}"`;
+      return  `"${value.replace(/"/g, '\\\"').replace(/\\/g,"\\\\")}"`;
     case 'Int':
       return `${value}`;
     case 'Float':
@@ -88,13 +88,17 @@ export const TypesPropsResolver = ({
         const isRequired = resolvedValue.required ? '!' : '';
         let t = `${typeResolved}`;
         if (isArray) {
-        if (isArrayRequired) {
+          if (isRequired) {
+              t = `${t}!`;
+          }
+          t = `[${t}]`;
+          if(isArrayRequired){
             t = `${t}!`;
-        }
-        t = `[${t}]`;
-        }
-        if (isRequired) {
-        t = `${t}!`;
+          }
+        }else{
+          if (isRequired) {
+                t = `${t}!`;
+          }
         }
         return `\$${value.split(`ZEUS_VAR$`)[1]}__ZEUS_VAR__${t}`;
     }

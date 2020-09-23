@@ -36,9 +36,13 @@ export const TypesPropsResolver = ({
               t = \`\${t}!\`;
           }
           t = \`[\${t}]\`;
-        }
-        f (isRequired || isArrayRequired) {
-              t = \`\${t}!\`;
+          if(isArrayRequired){
+            t = \`\${t}!\`;
+          }
+        }else{
+          if (isRequired) {
+                t = \`\${t}!\`;
+          }
         }
         return \`\\\$\${value.split(\`ZEUS_VAR$\`)[1]}__ZEUS_VAR__\${t}\`;
     }
@@ -88,13 +92,17 @@ export const TypesPropsResolver = ({
         const isRequired = resolvedValue.required ? '!' : '';
         let t = \`\${typeResolved}\`;
         if (isArray) {
-        if (isArrayRequired) {
+          if (isRequired) {
+              t = \`\${t}!\`;
+          }
+          t = \`[\${t}]\`;
+          if(isArrayRequired){
             t = \`\${t}!\`;
-        }
-        t = \`[\${t}]\`;
-        }
-        if (isRequired) {
-        t = \`\${t}!\`;
+          }
+        }else{
+          if (isRequired) {
+                t = \`\${t}!\`;
+          }
         }
         return \`\\\$\${value.split(\`ZEUS_VAR$\`)[1]}__ZEUS_VAR__\${t}\`;
     }
