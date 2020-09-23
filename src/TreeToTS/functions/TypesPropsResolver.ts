@@ -32,13 +32,13 @@ export const TypesPropsResolver = ({
         const isRequired = resolvedValue.required ? '!' : '';
         let t = \`\${typeResolved}\`;
         if (isArray) {
-        if (isArrayRequired) {
-            t = \`\${t}!\`;
+          if (isRequired) {
+              t = \`\${t}!\`;
+          }
+          t = \`[\${t}]\`;
         }
-        t = \`[\${t}]\`;
-        }
-        if (isRequired) {
-        t = \`\${t}!\`;
+        f (isRequired || isArrayRequired) {
+              t = \`\${t}!\`;
         }
         return \`\\\$\${value.split(\`ZEUS_VAR$\`)[1]}__ZEUS_VAR__\${t}\`;
     }
