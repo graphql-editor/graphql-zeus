@@ -35,6 +35,10 @@ attack?: [{	/** Attacked card/card ids<br> */
 }>;
 	/** create card inputs<br> */
 ["createCard"]: {
+	/** Description of a card<br> */
+	description:string,
+	/** <div>How many children the greek god had</div> */
+	Children?:number,
 	/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
@@ -42,11 +46,7 @@ attack?: [{	/** Attacked card/card ids<br> */
 	/** input skills */
 	skills?:ValueTypes["SpecialSkills"][],
 	/** The name of a card<br> */
-	name:string,
-	/** Description of a card<br> */
-	description:string,
-	/** <div>How many children the greek god had</div> */
-	Children?:number
+	name:string
 };
 	["EffectCard"]: AliasType<{
 	effectSize?:true,
@@ -122,6 +122,10 @@ export type PartialObjects = {
 	["ChangeCard"]: PartialObjects["SpecialCard"] | PartialObjects["EffectCard"],
 	/** create card inputs<br> */
 ["createCard"]: {
+	/** Description of a card<br> */
+	description:string,
+	/** <div>How many children the greek god had</div> */
+	Children?:number,
 	/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
@@ -129,11 +133,7 @@ export type PartialObjects = {
 	/** input skills */
 	skills?:PartialObjects["SpecialSkills"][],
 	/** The name of a card<br> */
-	name:string,
-	/** Description of a card<br> */
-	description:string,
-	/** <div>How many children the greek god had</div> */
-	Children?:number
+	name:string
 },
 	["EffectCard"]: {
 		__typename?: "EffectCard";
@@ -213,18 +213,18 @@ export type ChangeCard = {
 
 /** create card inputs<br> */
 export type createCard = {
-		/** The attack power<br> */
+		/** Description of a card<br> */
+	description:string,
+	/** <div>How many children the greek god had</div> */
+	Children?:number,
+	/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
 	Defense:number,
 	/** input skills */
 	skills?:SpecialSkills[],
 	/** The name of a card<br> */
-	name:string,
-	/** Description of a card<br> */
-	description:string,
-	/** <div>How many children the greek god had</div> */
-	Children?:number
+	name:string
 }
 
 export type EffectCard = {
@@ -278,9 +278,9 @@ export type SpecialCard = {
 }
 
 export enum SpecialSkills {
-	THUNDER = "THUNDER",
 	RAIN = "RAIN",
-	FIRE = "FIRE"
+	FIRE = "FIRE",
+	THUNDER = "THUNDER"
 }
 
 export const AllTypesProps: Record<string,any> = {
@@ -295,6 +295,18 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	createCard:{
+		description:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		Children:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
 		Attack:{
 			type:"Int",
 			array:false,
@@ -318,18 +330,6 @@ export const AllTypesProps: Record<string,any> = {
 			array:false,
 			arrayRequired:false,
 			required:true
-		},
-		description:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		Children:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
 		}
 	},
 	Mutation:{
@@ -543,7 +543,7 @@ export const ZeusSelect = <T>() => ((t: any) => t) as SelectionFunction<T>;
 export const ScalarResolver = (scalar: string, value: any) => {
   switch (scalar) {
     case 'String':
-      return  `"${value.replace(/"/g, '\\\"').replace(/\\/g,"\\\\")}"`;
+      return  `${JSON.stringify(value)}`;
     case 'Int':
       return `${value}`;
     case 'Float':

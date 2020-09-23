@@ -221,7 +221,7 @@ export const ZeusSelect = <T>() => ((t: any) => t) as SelectionFunction<T>;
 export const ScalarResolver = (scalar: string, value: any) => {
   switch (scalar) {
     case 'String':
-      return  `"${value.replace(/"/g, '\\\"').replace(/\\/g,"\\\\")}"`;
+      return  `${JSON.stringify(value)}`;
     case 'Int':
       return `${value}`;
     case 'Float':

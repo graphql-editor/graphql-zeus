@@ -100,8 +100,8 @@ update?: [{	role?:ValueTypes["Role"]},true],
 	["Mutation"]: AliasType<{
 changeSubscription?: [{	in:ValueTypes["ChangeSubscriptionInput"]},true],
 createProject?: [{	public?:boolean,	name:string},ValueTypes["Project"]],
-createTeam?: [{	name:string,	namespace:string},ValueTypes["TeamOps"]],
-createUser?: [{	namespace:string,	public?:boolean},ValueTypes["User"]],
+createTeam?: [{	namespace:string,	name:string},ValueTypes["TeamOps"]],
+createUser?: [{	public?:boolean,	namespace:string},ValueTypes["User"]],
 deployToFaker?: [{	id:string},true],
 removeProject?: [{	project:string},true],
 team?: [{	id:string},ValueTypes["TeamOps"]],
@@ -122,14 +122,14 @@ projects?: [{	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
 }>;
 	/** New source payload */
 ["NewSource"]: {
-	/** source file name */
-	filename?:string,
 	/** Length of source in bytes */
 	contentLength?:number,
 	/** Source mime type */
 	contentType?:string,
 	/** Source checksum */
-	checksum?:string
+	checksum?:string,
+	/** source file name */
+	filename?:string
 };
 	/** PageInfo contains information about connection page */
 ["PageInfo"]: AliasType<{
@@ -166,12 +166,12 @@ projects?: [{	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
 }>;
 	/** Checkout data needed to begin payment process */
 ["PredictCheckoutInput"]: {
-	/** An id of a chosen subscription plan */
-	planID:string,
 	/** Quantity of subscriptions that user wants */
 	quantity?:number,
 	/** Optional discount coupon */
-	coupon?:string
+	coupon?:string,
+	/** An id of a chosen subscription plan */
+	planID:string
 };
 	/** Project type */
 ["Project"]: AliasType<{
@@ -229,6 +229,12 @@ update?: [{	in?:ValueTypes["UpdateProject"]},true],
 }>;
 	/** ProjectsSortInput defines how projects from listProjects should be sorted. */
 ["ProjectsSortInput"]: {
+	/** Sorts projects by team.
+
+Sort behaviour for projects by team is implemenation depednant. */
+	team?:ValueTypes["SortOrder"],
+	/** Sort projects by creation date */
+	createdAt?:ValueTypes["SortOrder"],
 	/** Sort by name */
 	name?:ValueTypes["SortOrder"],
 	/** Sort by id */
@@ -240,13 +246,7 @@ update?: [{	in?:ValueTypes["UpdateProject"]},true],
 	/** Sort by slug */
 	slug?:ValueTypes["SortOrder"],
 	/** Sort by tag */
-	tags?:ValueTypes["SortOrder"],
-	/** Sorts projects by team.
-
-Sort behaviour for projects by team is implemenation depednant. */
-	team?:ValueTypes["SortOrder"],
-	/** Sort projects by creation date */
-	createdAt?:ValueTypes["SortOrder"]
+	tags?:ValueTypes["SortOrder"]
 };
 	/** Root query type */
 ["Query"]: AliasType<{
@@ -258,7 +258,7 @@ getNamespace?: [{	slug:string},ValueTypes["Namespace"]],
 getProject?: [{	project:string},ValueTypes["Project"]],
 getTeam?: [{	name:string},ValueTypes["Team"]],
 getUser?: [{	username:string},ValueTypes["User"]],
-listProjects?: [{	owned?:boolean,	last?:string,	limit?:number,	sort?:(ValueTypes["ProjectsSortInput"] | undefined)[]},ValueTypes["ProjectConnection"]],
+listProjects?: [{	last?:string,	limit?:number,	sort?:(ValueTypes["ProjectsSortInput"] | undefined)[],	owned?:boolean},ValueTypes["ProjectConnection"]],
 myTeams?: [{	last?:string,	limit?:number},ValueTypes["TeamConnection"]],
 	/** List user payments */
 	payments?:ValueTypes["Payment"],
@@ -346,14 +346,14 @@ project?: [{	id:string},ValueTypes["ProjectOps"]],
 }>;
 	/** Update project payload */
 ["UpdateProject"]: {
-	/** ID of project to be updated */
-	project?:string,
 	/** New description for project */
 	description?:string,
 	/** List of tags for project */
 	tags?:string[],
 	/** Set project visiblity */
-	public?:boolean
+	public?:boolean,
+	/** ID of project to be updated */
+	project?:string
 };
 	/** Editor user */
 ["User"]: AliasType<{
@@ -540,14 +540,14 @@ limit sets a limit on how many objects can be returned */
 	},
 	/** New source payload */
 ["NewSource"]: {
-	/** source file name */
-	filename?:string,
 	/** Length of source in bytes */
 	contentLength?:number,
 	/** Source mime type */
 	contentType?:string,
 	/** Source checksum */
-	checksum?:string
+	checksum?:string,
+	/** source file name */
+	filename?:string
 },
 	/** PageInfo contains information about connection page */
 ["PageInfo"]: {
@@ -584,12 +584,12 @@ limit sets a limit on how many objects can be returned */
 	},
 	/** Checkout data needed to begin payment process */
 ["PredictCheckoutInput"]: {
-	/** An id of a chosen subscription plan */
-	planID:string,
 	/** Quantity of subscriptions that user wants */
 	quantity?:number,
 	/** Optional discount coupon */
-	coupon?:string
+	coupon?:string,
+	/** An id of a chosen subscription plan */
+	planID:string
 },
 	/** Project type */
 ["Project"]: {
@@ -653,6 +653,12 @@ Used with paginated listing of projects */
 	},
 	/** ProjectsSortInput defines how projects from listProjects should be sorted. */
 ["ProjectsSortInput"]: {
+	/** Sorts projects by team.
+
+Sort behaviour for projects by team is implemenation depednant. */
+	team?:PartialObjects["SortOrder"],
+	/** Sort projects by creation date */
+	createdAt?:PartialObjects["SortOrder"],
 	/** Sort by name */
 	name?:PartialObjects["SortOrder"],
 	/** Sort by id */
@@ -664,13 +670,7 @@ Used with paginated listing of projects */
 	/** Sort by slug */
 	slug?:PartialObjects["SortOrder"],
 	/** Sort by tag */
-	tags?:PartialObjects["SortOrder"],
-	/** Sorts projects by team.
-
-Sort behaviour for projects by team is implemenation depednant. */
-	team?:PartialObjects["SortOrder"],
-	/** Sort projects by creation date */
-	createdAt?:PartialObjects["SortOrder"]
+	tags?:PartialObjects["SortOrder"]
 },
 	/** Root query type */
 ["Query"]: {
@@ -809,14 +809,14 @@ limit limits the number of returned projects */
 	},
 	/** Update project payload */
 ["UpdateProject"]: {
-	/** ID of project to be updated */
-	project?:string,
 	/** New description for project */
 	description?:string,
 	/** List of tags for project */
 	tags?:string[],
 	/** Set project visiblity */
-	public?:boolean
+	public?:boolean,
+	/** ID of project to be updated */
+	project?:string
 },
 	/** Editor user */
 ["User"]: {
@@ -860,8 +860,8 @@ limit limits the number of returned projects */
 
 /** Defines user's account type */
 export enum AccountType {
-	PREMIUM = "PREMIUM",
-	FREE = "FREE"
+	FREE = "FREE",
+	PREMIUM = "PREMIUM"
 }
 
 export type ChangeSubscriptionInput = {
@@ -1020,14 +1020,14 @@ limit sets a limit on how many objects can be returned */
 
 /** New source payload */
 export type NewSource = {
-		/** source file name */
-	filename?:string,
-	/** Length of source in bytes */
+		/** Length of source in bytes */
 	contentLength?:number,
 	/** Source mime type */
 	contentType?:string,
 	/** Source checksum */
-	checksum?:string
+	checksum?:string,
+	/** source file name */
+	filename?:string
 }
 
 /** PageInfo contains information about connection page */
@@ -1069,12 +1069,12 @@ export type PredictCheckout = {
 
 /** Checkout data needed to begin payment process */
 export type PredictCheckoutInput = {
-		/** An id of a chosen subscription plan */
-	planID:string,
-	/** Quantity of subscriptions that user wants */
+		/** Quantity of subscriptions that user wants */
 	quantity?:number,
 	/** Optional discount coupon */
-	coupon?:string
+	coupon?:string,
+	/** An id of a chosen subscription plan */
+	planID:string
 }
 
 /** Project type */
@@ -1142,7 +1142,13 @@ export type ProjectOps = {
 
 /** ProjectsSortInput defines how projects from listProjects should be sorted. */
 export type ProjectsSortInput = {
-		/** Sort by name */
+		/** Sorts projects by team.
+
+Sort behaviour for projects by team is implemenation depednant. */
+	team?:SortOrder,
+	/** Sort projects by creation date */
+	createdAt?:SortOrder,
+	/** Sort by name */
 	name?:SortOrder,
 	/** Sort by id */
 	id?:SortOrder,
@@ -1153,13 +1159,7 @@ export type ProjectsSortInput = {
 	/** Sort by slug */
 	slug?:SortOrder,
 	/** Sort by tag */
-	tags?:SortOrder,
-	/** Sorts projects by team.
-
-Sort behaviour for projects by team is implemenation depednant. */
-	team?:SortOrder,
-	/** Sort projects by creation date */
-	createdAt?:SortOrder
+	tags?:SortOrder
 }
 
 /** Root query type */
@@ -1217,11 +1217,11 @@ export type RFC3339Date = any
 
 /** Team member role */
 export enum Role {
-	OWNER = "OWNER",
-	ADMIN = "ADMIN",
 	EDITOR = "EDITOR",
 	VIEWER = "VIEWER",
-	CONTRIBUTOR = "CONTRIBUTOR"
+	CONTRIBUTOR = "CONTRIBUTOR",
+	OWNER = "OWNER",
+	ADMIN = "ADMIN"
 }
 
 /** Sort order defines possible ordering of sorted outputs */
@@ -1318,14 +1318,14 @@ export type TeamOps = {
 
 /** Update project payload */
 export type UpdateProject = {
-		/** ID of project to be updated */
-	project?:string,
-	/** New description for project */
+		/** New description for project */
 	description?:string,
 	/** List of tags for project */
 	tags?:string[],
 	/** Set project visiblity */
-	public?:boolean
+	public?:boolean,
+	/** ID of project to be updated */
+	project?:string
 }
 
 /** Editor user */
@@ -1491,13 +1491,13 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		createTeam:{
-			name:{
+			namespace:{
 				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:true
 			},
-			namespace:{
+			name:{
 				type:"String",
 				array:false,
 				arrayRequired:false,
@@ -1505,17 +1505,17 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		createUser:{
-			namespace:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
-			},
 			public:{
 				type:"Boolean",
 				array:false,
 				arrayRequired:false,
 				required:false
+			},
+			namespace:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:true
 			}
 		},
 		deployToFaker:{
@@ -1590,12 +1590,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	NewSource:{
-		filename:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		contentLength:{
 			type:"Int",
 			array:false,
@@ -1613,16 +1607,16 @@ export const AllTypesProps: Record<string,any> = {
 			array:false,
 			arrayRequired:false,
 			required:false
+		},
+		filename:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
 		}
 	},
 	PaymentDate: "String",
 	PredictCheckoutInput:{
-		planID:{
-			type:"ID",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
 		quantity:{
 			type:"Int",
 			array:false,
@@ -1634,6 +1628,12 @@ export const AllTypesProps: Record<string,any> = {
 			array:false,
 			arrayRequired:false,
 			required:false
+		},
+		planID:{
+			type:"ID",
+			array:false,
+			arrayRequired:false,
+			required:true
 		}
 	},
 	Project:{
@@ -1663,6 +1663,18 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	ProjectsSortInput:{
+		team:{
+			type:"SortOrder",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		createdAt:{
+			type:"SortOrder",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
 		name:{
 			type:"SortOrder",
 			array:false,
@@ -1694,18 +1706,6 @@ export const AllTypesProps: Record<string,any> = {
 			required:false
 		},
 		tags:{
-			type:"SortOrder",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		team:{
-			type:"SortOrder",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		createdAt:{
 			type:"SortOrder",
 			array:false,
 			arrayRequired:false,
@@ -1802,12 +1802,6 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		listProjects:{
-			owned:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
 			last:{
 				type:"String",
 				array:false,
@@ -1823,6 +1817,12 @@ export const AllTypesProps: Record<string,any> = {
 			sort:{
 				type:"ProjectsSortInput",
 				array:true,
+				arrayRequired:false,
+				required:false
+			},
+			owned:{
+				type:"Boolean",
+				array:false,
 				arrayRequired:false,
 				required:false
 			}
@@ -1938,12 +1938,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	UpdateProject:{
-		project:{
-			type:"ID",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		description:{
 			type:"String",
 			array:false,
@@ -1958,6 +1952,12 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		public:{
 			type:"Boolean",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		project:{
+			type:"ID",
 			array:false,
 			arrayRequired:false,
 			required:false
@@ -2299,7 +2299,7 @@ export const ZeusSelect = <T>() => ((t: any) => t) as SelectionFunction<T>;
 export const ScalarResolver = (scalar: string, value: any) => {
   switch (scalar) {
     case 'String':
-      return  `"${value.replace(/"/g, '\\\"').replace(/\\/g,"\\\\")}"`;
+      return  `${JSON.stringify(value)}`;
     case 'Int':
       return `${value}`;
     case 'Float':

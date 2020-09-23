@@ -13,18 +13,6 @@ export const AllTypesProps = {
 		}
 	},
 	createCard:{
-		Children:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		Attack:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
 		Defense:{
 			type:"Int",
 			array:false,
@@ -45,6 +33,18 @@ export const AllTypesProps = {
 		},
 		description:{
 			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		Children:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		Attack:{
+			type:"Int",
 			array:false,
 			arrayRequired:false,
 			required:true
@@ -143,7 +143,7 @@ export class GraphQLError extends Error {
 export const ScalarResolver = (scalar, value) => {
   switch (scalar) {
     case 'String':
-      return  `"${value.replace(/"/g, '\\\"').replace(/\\/g,"\\\\")}"`;
+      return  `${JSON.stringify(value)}`;
     case 'Int':
       return `${value}`;
     case 'Float':

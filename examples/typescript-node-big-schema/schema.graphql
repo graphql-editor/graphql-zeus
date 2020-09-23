@@ -1,7 +1,7 @@
 """Defines user's account type"""
 enum AccountType {
-  PREMIUM
   FREE
+  PREMIUM
 }
 
 input ChangeSubscriptionInput {
@@ -134,7 +134,7 @@ type Mutation {
   createProject(public: Boolean, name: String!): Project!
 
   """Create new team"""
-  createTeam(name: String!, namespace: String!): TeamOps
+  createTeam(namespace: String!, name: String!): TeamOps
 
   """
   Create new user
@@ -143,7 +143,7 @@ type Mutation {
   
   public is user namespace public
   """
-  createUser(namespace: String!, public: Boolean): User!
+  createUser(public: Boolean, namespace: String!): User!
 
   """deploy project to faker"""
   deployToFaker(id: ID!): Boolean
@@ -187,9 +187,6 @@ type Namespace {
 
 """New source payload"""
 input NewSource {
-  """source file name"""
-  filename: String
-
   """Length of source in bytes"""
   contentLength: Int
 
@@ -198,6 +195,9 @@ input NewSource {
 
   """Source checksum"""
   checksum: String
+
+  """source file name"""
+  filename: String
 }
 
 """PageInfo contains information about connection page"""
@@ -243,14 +243,14 @@ type PredictCheckout {
 
 """Checkout data needed to begin payment process"""
 input PredictCheckoutInput {
-  """An id of a chosen subscription plan"""
-  planID: ID!
-
   """Quantity of subscriptions that user wants"""
   quantity: Int
 
   """Optional discount coupon"""
   coupon: String
+
+  """An id of a chosen subscription plan"""
+  planID: ID!
 }
 
 """Project type"""
@@ -342,6 +342,16 @@ type ProjectOps {
 ProjectsSortInput defines how projects from listProjects should be sorted.
 """
 input ProjectsSortInput {
+  """
+  Sorts projects by team.
+  
+  Sort behaviour for projects by team is implemenation depednant.
+  """
+  team: SortOrder
+
+  """Sort projects by creation date"""
+  createdAt: SortOrder
+
   """Sort by name"""
   name: SortOrder
 
@@ -359,16 +369,6 @@ input ProjectsSortInput {
 
   """Sort by tag"""
   tags: SortOrder
-
-  """
-  Sorts projects by team.
-  
-  Sort behaviour for projects by team is implemenation depednant.
-  """
-  team: SortOrder
-
-  """Sort projects by creation date"""
-  createdAt: SortOrder
 }
 
 """Root query type"""
@@ -427,7 +427,7 @@ type Query {
   
   limit limits the number of returned projects
   """
-  listProjects(owned: Boolean, last: String, limit: Int, sort: [ProjectsSortInput]): ProjectConnection
+  listProjects(last: String, limit: Int, sort: [ProjectsSortInput], owned: Boolean): ProjectConnection
 
   """List of current user teams"""
   myTeams(last: String, limit: Int): TeamConnection
@@ -444,6 +444,15 @@ scalar RFC3339Date
 
 """Team member role"""
 enum Role {
+  """Team editor can add/edit projects in team"""
+  EDITOR
+
+  """Team viewer can view projects in team"""
+  VIEWER
+
+  """Team contributor can edit projects in team"""
+  CONTRIBUTOR
+
   """
   Team owner owner can add/remove/edit/view projects and members to a team. Only owner can delete team
   """
@@ -453,15 +462,6 @@ enum Role {
   Team admin can add/remove/edit/view projects and members(except owner) to a team
   """
   ADMIN
-
-  """Team editor can add/edit projects in team"""
-  EDITOR
-
-  """Team viewer can view projects in team"""
-  VIEWER
-
-  """Team contributor can edit projects in team"""
-  CONTRIBUTOR
 }
 
 """Sort order defines possible ordering of sorted outputs"""
@@ -575,9 +575,6 @@ type TeamOps {
 
 """Update project payload"""
 input UpdateProject {
-  """ID of project to be updated"""
-  project: ID
-
   """New description for project"""
   description: String
 
@@ -586,6 +583,9 @@ input UpdateProject {
 
   """Set project visiblity"""
   public: Boolean
+
+  """ID of project to be updated"""
+  project: ID
 }
 
 """Editor user"""

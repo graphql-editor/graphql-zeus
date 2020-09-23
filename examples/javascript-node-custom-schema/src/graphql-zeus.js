@@ -45,7 +45,7 @@ export class GraphQLError extends Error {
 export const ScalarResolver = (scalar, value) => {
   switch (scalar) {
     case 'String':
-      return  `"${value.replace(/"/g, '\\\"').replace(/\\/g,"\\\\")}"`;
+      return  `${JSON.stringify(value)}`;
     case 'Int':
       return `${value}`;
     case 'Float':
