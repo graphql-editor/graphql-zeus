@@ -13,24 +13,6 @@ export const AllTypesProps = {
 		}
 	},
 	createCard:{
-		Defense:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		skills:{
-			type:"SpecialSkills",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
 		description:{
 			type:"String",
 			array:false,
@@ -45,6 +27,24 @@ export const AllTypesProps = {
 		},
 		Attack:{
 			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		Defense:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		skills:{
+			type:"SpecialSkills",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		name:{
+			type:"String",
 			array:false,
 			arrayRequired:false,
 			required:true
@@ -348,6 +348,15 @@ const fullChainConstruct = (fn) => (t,tName) => (o, variables) => fn(queryConstr
 
 
 const seekForAliases = (o) => {
+  const traverseAlias = (value) => {
+    if (Array.isArray(value)) {
+      value.forEach(seekForAliases);
+    } else {
+      if (typeof value === 'object') {
+        seekForAliases(value);
+      }
+    }
+  };
   if (typeof o === 'object' && o) {
     const keys = Object.keys(o);
     if (keys.length < 1) {
@@ -361,15 +370,8 @@ const seekForAliases = (o) => {
           [operation]: value
         };
         delete o[k];
-      } else {
-        if (Array.isArray(value)) {
-          value.forEach(seekForAliases);
-        } else {
-          if (typeof value === 'object') {
-            seekForAliases(value);
-          }
-        }
       }
+      traverseAlias(value);
     });
   }
 };

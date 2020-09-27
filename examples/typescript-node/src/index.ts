@@ -181,7 +181,14 @@ const run = async () => {
               { cardID: $`cardIds` },
               {
                 name: true,
-                Defense: true,
+                __alias: {
+                  bbb: {
+                    Defense: true,
+                  },
+                  ccc: {
+                    Children: true,
+                  },
+                },
               },
             ],
           },

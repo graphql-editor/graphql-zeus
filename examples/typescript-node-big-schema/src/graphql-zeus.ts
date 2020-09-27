@@ -10,10 +10,6 @@ export type ValueTypes = {
 };
 	/** Checkout data needed to begin payment process */
 ["CheckoutDataInput"]: {
-	/** URL to which user should be redirected after failed transaction */
-	cancelURL?:string,
-	/** An id of a chosen subscription plan */
-	planID:string,
 	/** Quantity of subscriptions that user wants */
 	quantity?:number,
 	/** Customer data */
@@ -23,18 +19,22 @@ export type ValueTypes = {
 	/** Optional discount coupon */
 	coupon?:string,
 	/** URL to which user should be redirected after successful transaction */
-	successURL?:string
+	successURL?:string,
+	/** URL to which user should be redirected after failed transaction */
+	cancelURL?:string,
+	/** An id of a chosen subscription plan */
+	planID:string
 };
 	/** Customer data for checkout information */
 ["CustomerInput"]: {
+	/** Must be true for marketing to be allowed */
+	marketingConsent?:boolean,
 	/** User's email address */
 	email?:string,
 	/** User's country */
 	country?:string,
 	/** User's post code */
-	postCode?:string,
-	/** Must be true for marketing to be allowed */
-	marketingConsent?:boolean
+	postCode?:string
 };
 	/** Amount is a number that gives precise representation of real numbers */
 ["Decimal"]:unknown;
@@ -101,7 +101,7 @@ update?: [{	role?:ValueTypes["Role"]},true],
 changeSubscription?: [{	in:ValueTypes["ChangeSubscriptionInput"]},true],
 createProject?: [{	public?:boolean,	name:string},ValueTypes["Project"]],
 createTeam?: [{	namespace:string,	name:string},ValueTypes["TeamOps"]],
-createUser?: [{	public?:boolean,	namespace:string},ValueTypes["User"]],
+createUser?: [{	namespace:string,	public?:boolean},ValueTypes["User"]],
 deployToFaker?: [{	id:string},true],
 removeProject?: [{	project:string},true],
 team?: [{	id:string},ValueTypes["TeamOps"]],
@@ -122,14 +122,14 @@ projects?: [{	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
 }>;
 	/** New source payload */
 ["NewSource"]: {
-	/** Length of source in bytes */
-	contentLength?:number,
 	/** Source mime type */
 	contentType?:string,
 	/** Source checksum */
 	checksum?:string,
 	/** source file name */
-	filename?:string
+	filename?:string,
+	/** Length of source in bytes */
+	contentLength?:number
 };
 	/** PageInfo contains information about connection page */
 ["PageInfo"]: AliasType<{
@@ -166,12 +166,12 @@ projects?: [{	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
 }>;
 	/** Checkout data needed to begin payment process */
 ["PredictCheckoutInput"]: {
+	/** An id of a chosen subscription plan */
+	planID:string,
 	/** Quantity of subscriptions that user wants */
 	quantity?:number,
 	/** Optional discount coupon */
-	coupon?:string,
-	/** An id of a chosen subscription plan */
-	planID:string
+	coupon?:string
 };
 	/** Project type */
 ["Project"]: AliasType<{
@@ -199,7 +199,7 @@ Can be null if project belongs to a team */
 	public?:true,
 	/** Project part of the slug */
 	slug?:true,
-sources?: [{	last?:string,	limit?:number},ValueTypes["FakerSourceConnection"]],
+sources?: [{	limit?:number,	last?:string},ValueTypes["FakerSourceConnection"]],
 	/** Project tags */
 	tags?:true,
 	/** Team to which project belongs
@@ -229,6 +229,12 @@ update?: [{	in?:ValueTypes["UpdateProject"]},true],
 }>;
 	/** ProjectsSortInput defines how projects from listProjects should be sorted. */
 ["ProjectsSortInput"]: {
+	/** Sort by visisbility */
+	public?:ValueTypes["SortOrder"],
+	/** Sort by slug */
+	slug?:ValueTypes["SortOrder"],
+	/** Sort by tag */
+	tags?:ValueTypes["SortOrder"],
 	/** Sorts projects by team.
 
 Sort behaviour for projects by team is implemenation depednant. */
@@ -240,25 +246,19 @@ Sort behaviour for projects by team is implemenation depednant. */
 	/** Sort by id */
 	id?:ValueTypes["SortOrder"],
 	/** Sort by owner */
-	owner?:ValueTypes["SortOrder"],
-	/** Sort by visisbility */
-	public?:ValueTypes["SortOrder"],
-	/** Sort by slug */
-	slug?:ValueTypes["SortOrder"],
-	/** Sort by tag */
-	tags?:ValueTypes["SortOrder"]
+	owner?:ValueTypes["SortOrder"]
 };
 	/** Root query type */
 ["Query"]: AliasType<{
 checkoutData?: [{	data:ValueTypes["CheckoutDataInput"]},true],
 fileServerCredentials?: [{	project?:string},true],
-findProjects?: [{	query:string,	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
+findProjects?: [{	limit?:number,	query:string,	last?:string},ValueTypes["ProjectConnection"]],
 findProjectsByTag?: [{	tag:string,	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
 getNamespace?: [{	slug:string},ValueTypes["Namespace"]],
 getProject?: [{	project:string},ValueTypes["Project"]],
 getTeam?: [{	name:string},ValueTypes["Team"]],
 getUser?: [{	username:string},ValueTypes["User"]],
-listProjects?: [{	last?:string,	limit?:number,	sort?:(ValueTypes["ProjectsSortInput"] | undefined)[],	owned?:boolean},ValueTypes["ProjectConnection"]],
+listProjects?: [{	limit?:number,	sort?:(ValueTypes["ProjectsSortInput"] | undefined)[],	owned?:boolean,	last?:string},ValueTypes["ProjectConnection"]],
 myTeams?: [{	last?:string,	limit?:number},ValueTypes["TeamConnection"]],
 	/** List user payments */
 	payments?:ValueTypes["Payment"],
@@ -346,14 +346,14 @@ project?: [{	id:string},ValueTypes["ProjectOps"]],
 }>;
 	/** Update project payload */
 ["UpdateProject"]: {
+	/** ID of project to be updated */
+	project?:string,
 	/** New description for project */
 	description?:string,
 	/** List of tags for project */
 	tags?:string[],
 	/** Set project visiblity */
-	public?:boolean,
-	/** ID of project to be updated */
-	project?:string
+	public?:boolean
 };
 	/** Editor user */
 ["User"]: AliasType<{
@@ -378,10 +378,6 @@ project?: [{	id:string},ValueTypes["ProjectOps"]],
 }>;
 	/** Vat information of a user */
 ["VatInput"]: {
-	/** Vat company post code address. */
-	postCode?:string,
-	/** Vat number */
-	number?:string,
 	/** Vat company name */
 	companyName?:string,
 	/** Vat company street address */
@@ -391,7 +387,11 @@ project?: [{	id:string},ValueTypes["ProjectOps"]],
 	/** Vat company state address. Optional. */
 	state?:string,
 	/** Vat company country address. */
-	country?:string
+	country?:string,
+	/** Vat company post code address. */
+	postCode?:string,
+	/** Vat number */
+	number?:string
 }
   }
 
@@ -404,10 +404,6 @@ export type PartialObjects = {
 },
 	/** Checkout data needed to begin payment process */
 ["CheckoutDataInput"]: {
-	/** URL to which user should be redirected after failed transaction */
-	cancelURL?:string,
-	/** An id of a chosen subscription plan */
-	planID:string,
 	/** Quantity of subscriptions that user wants */
 	quantity?:number,
 	/** Customer data */
@@ -417,18 +413,22 @@ export type PartialObjects = {
 	/** Optional discount coupon */
 	coupon?:string,
 	/** URL to which user should be redirected after successful transaction */
-	successURL?:string
+	successURL?:string,
+	/** URL to which user should be redirected after failed transaction */
+	cancelURL?:string,
+	/** An id of a chosen subscription plan */
+	planID:string
 },
 	/** Customer data for checkout information */
 ["CustomerInput"]: {
+	/** Must be true for marketing to be allowed */
+	marketingConsent?:boolean,
 	/** User's email address */
 	email?:string,
 	/** User's country */
 	country?:string,
 	/** User's post code */
-	postCode?:string,
-	/** Must be true for marketing to be allowed */
-	marketingConsent?:boolean
+	postCode?:string
 },
 	/** Amount is a number that gives precise representation of real numbers */
 ["Decimal"]:any,
@@ -540,14 +540,14 @@ limit sets a limit on how many objects can be returned */
 	},
 	/** New source payload */
 ["NewSource"]: {
-	/** Length of source in bytes */
-	contentLength?:number,
 	/** Source mime type */
 	contentType?:string,
 	/** Source checksum */
 	checksum?:string,
 	/** source file name */
-	filename?:string
+	filename?:string,
+	/** Length of source in bytes */
+	contentLength?:number
 },
 	/** PageInfo contains information about connection page */
 ["PageInfo"]: {
@@ -584,12 +584,12 @@ limit sets a limit on how many objects can be returned */
 	},
 	/** Checkout data needed to begin payment process */
 ["PredictCheckoutInput"]: {
+	/** An id of a chosen subscription plan */
+	planID:string,
 	/** Quantity of subscriptions that user wants */
 	quantity?:number,
 	/** Optional discount coupon */
-	coupon?:string,
-	/** An id of a chosen subscription plan */
-	planID:string
+	coupon?:string
 },
 	/** Project type */
 ["Project"]: {
@@ -653,6 +653,12 @@ Used with paginated listing of projects */
 	},
 	/** ProjectsSortInput defines how projects from listProjects should be sorted. */
 ["ProjectsSortInput"]: {
+	/** Sort by visisbility */
+	public?:PartialObjects["SortOrder"],
+	/** Sort by slug */
+	slug?:PartialObjects["SortOrder"],
+	/** Sort by tag */
+	tags?:PartialObjects["SortOrder"],
 	/** Sorts projects by team.
 
 Sort behaviour for projects by team is implemenation depednant. */
@@ -664,13 +670,7 @@ Sort behaviour for projects by team is implemenation depednant. */
 	/** Sort by id */
 	id?:PartialObjects["SortOrder"],
 	/** Sort by owner */
-	owner?:PartialObjects["SortOrder"],
-	/** Sort by visisbility */
-	public?:PartialObjects["SortOrder"],
-	/** Sort by slug */
-	slug?:PartialObjects["SortOrder"],
-	/** Sort by tag */
-	tags?:PartialObjects["SortOrder"]
+	owner?:PartialObjects["SortOrder"]
 },
 	/** Root query type */
 ["Query"]: {
@@ -809,14 +809,14 @@ limit limits the number of returned projects */
 	},
 	/** Update project payload */
 ["UpdateProject"]: {
+	/** ID of project to be updated */
+	project?:string,
 	/** New description for project */
 	description?:string,
 	/** List of tags for project */
 	tags?:string[],
 	/** Set project visiblity */
-	public?:boolean,
-	/** ID of project to be updated */
-	project?:string
+	public?:boolean
 },
 	/** Editor user */
 ["User"]: {
@@ -841,10 +841,6 @@ limit limits the number of returned projects */
 	},
 	/** Vat information of a user */
 ["VatInput"]: {
-	/** Vat company post code address. */
-	postCode?:string,
-	/** Vat number */
-	number?:string,
 	/** Vat company name */
 	companyName?:string,
 	/** Vat company street address */
@@ -854,7 +850,11 @@ limit limits the number of returned projects */
 	/** Vat company state address. Optional. */
 	state?:string,
 	/** Vat company country address. */
-	country?:string
+	country?:string,
+	/** Vat company post code address. */
+	postCode?:string,
+	/** Vat number */
+	number?:string
 }
   }
 
@@ -871,11 +871,7 @@ export type ChangeSubscriptionInput = {
 
 /** Checkout data needed to begin payment process */
 export type CheckoutDataInput = {
-		/** URL to which user should be redirected after failed transaction */
-	cancelURL?:string,
-	/** An id of a chosen subscription plan */
-	planID:string,
-	/** Quantity of subscriptions that user wants */
+		/** Quantity of subscriptions that user wants */
 	quantity?:number,
 	/** Customer data */
 	customer?:CustomerInput,
@@ -884,19 +880,23 @@ export type CheckoutDataInput = {
 	/** Optional discount coupon */
 	coupon?:string,
 	/** URL to which user should be redirected after successful transaction */
-	successURL?:string
+	successURL?:string,
+	/** URL to which user should be redirected after failed transaction */
+	cancelURL?:string,
+	/** An id of a chosen subscription plan */
+	planID:string
 }
 
 /** Customer data for checkout information */
 export type CustomerInput = {
-		/** User's email address */
+		/** Must be true for marketing to be allowed */
+	marketingConsent?:boolean,
+	/** User's email address */
 	email?:string,
 	/** User's country */
 	country?:string,
 	/** User's post code */
-	postCode?:string,
-	/** Must be true for marketing to be allowed */
-	marketingConsent?:boolean
+	postCode?:string
 }
 
 /** Amount is a number that gives precise representation of real numbers */
@@ -1020,14 +1020,14 @@ limit sets a limit on how many objects can be returned */
 
 /** New source payload */
 export type NewSource = {
-		/** Length of source in bytes */
-	contentLength?:number,
-	/** Source mime type */
+		/** Source mime type */
 	contentType?:string,
 	/** Source checksum */
 	checksum?:string,
 	/** source file name */
-	filename?:string
+	filename?:string,
+	/** Length of source in bytes */
+	contentLength?:number
 }
 
 /** PageInfo contains information about connection page */
@@ -1069,12 +1069,12 @@ export type PredictCheckout = {
 
 /** Checkout data needed to begin payment process */
 export type PredictCheckoutInput = {
-		/** Quantity of subscriptions that user wants */
+		/** An id of a chosen subscription plan */
+	planID:string,
+	/** Quantity of subscriptions that user wants */
 	quantity?:number,
 	/** Optional discount coupon */
-	coupon?:string,
-	/** An id of a chosen subscription plan */
-	planID:string
+	coupon?:string
 }
 
 /** Project type */
@@ -1142,7 +1142,13 @@ export type ProjectOps = {
 
 /** ProjectsSortInput defines how projects from listProjects should be sorted. */
 export type ProjectsSortInput = {
-		/** Sorts projects by team.
+		/** Sort by visisbility */
+	public?:SortOrder,
+	/** Sort by slug */
+	slug?:SortOrder,
+	/** Sort by tag */
+	tags?:SortOrder,
+	/** Sorts projects by team.
 
 Sort behaviour for projects by team is implemenation depednant. */
 	team?:SortOrder,
@@ -1153,13 +1159,7 @@ Sort behaviour for projects by team is implemenation depednant. */
 	/** Sort by id */
 	id?:SortOrder,
 	/** Sort by owner */
-	owner?:SortOrder,
-	/** Sort by visisbility */
-	public?:SortOrder,
-	/** Sort by slug */
-	slug?:SortOrder,
-	/** Sort by tag */
-	tags?:SortOrder
+	owner?:SortOrder
 }
 
 /** Root query type */
@@ -1217,11 +1217,11 @@ export type RFC3339Date = any
 
 /** Team member role */
 export enum Role {
+	OWNER = "OWNER",
+	ADMIN = "ADMIN",
 	EDITOR = "EDITOR",
 	VIEWER = "VIEWER",
-	CONTRIBUTOR = "CONTRIBUTOR",
-	OWNER = "OWNER",
-	ADMIN = "ADMIN"
+	CONTRIBUTOR = "CONTRIBUTOR"
 }
 
 /** Sort order defines possible ordering of sorted outputs */
@@ -1318,14 +1318,14 @@ export type TeamOps = {
 
 /** Update project payload */
 export type UpdateProject = {
-		/** New description for project */
+		/** ID of project to be updated */
+	project?:string,
+	/** New description for project */
 	description?:string,
 	/** List of tags for project */
 	tags?:string[],
 	/** Set project visiblity */
-	public?:boolean,
-	/** ID of project to be updated */
-	project?:string
+	public?:boolean
 }
 
 /** Editor user */
@@ -1353,11 +1353,7 @@ export type UserConnection = {
 
 /** Vat information of a user */
 export type VatInput = {
-		/** Vat company post code address. */
-	postCode?:string,
-	/** Vat number */
-	number?:string,
-	/** Vat company name */
+		/** Vat company name */
 	companyName?:string,
 	/** Vat company street address */
 	street?:string,
@@ -1366,7 +1362,11 @@ export type VatInput = {
 	/** Vat company state address. Optional. */
 	state?:string,
 	/** Vat company country address. */
-	country?:string
+	country?:string,
+	/** Vat company post code address. */
+	postCode?:string,
+	/** Vat number */
+	number?:string
 }
 
 export const AllTypesProps: Record<string,any> = {
@@ -1386,18 +1386,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	CheckoutDataInput:{
-		cancelURL:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		planID:{
-			type:"ID",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
 		quantity:{
 			type:"Int",
 			array:false,
@@ -1427,9 +1415,27 @@ export const AllTypesProps: Record<string,any> = {
 			array:false,
 			arrayRequired:false,
 			required:false
+		},
+		cancelURL:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		planID:{
+			type:"ID",
+			array:false,
+			arrayRequired:false,
+			required:true
 		}
 	},
 	CustomerInput:{
+		marketingConsent:{
+			type:"Boolean",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
 		email:{
 			type:"String",
 			array:false,
@@ -1444,12 +1450,6 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		postCode:{
 			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		marketingConsent:{
-			type:"Boolean",
 			array:false,
 			arrayRequired:false,
 			required:false
@@ -1505,17 +1505,17 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		createUser:{
-			public:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
 			namespace:{
 				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:true
+			},
+			public:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
 			}
 		},
 		deployToFaker:{
@@ -1590,12 +1590,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	NewSource:{
-		contentLength:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		contentType:{
 			type:"String",
 			array:false,
@@ -1613,10 +1607,22 @@ export const AllTypesProps: Record<string,any> = {
 			array:false,
 			arrayRequired:false,
 			required:false
+		},
+		contentLength:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
 		}
 	},
 	PaymentDate: "String",
 	PredictCheckoutInput:{
+		planID:{
+			type:"ID",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
 		quantity:{
 			type:"Int",
 			array:false,
@@ -1628,24 +1634,18 @@ export const AllTypesProps: Record<string,any> = {
 			array:false,
 			arrayRequired:false,
 			required:false
-		},
-		planID:{
-			type:"ID",
-			array:false,
-			arrayRequired:false,
-			required:true
 		}
 	},
 	Project:{
 		sources:{
-			last:{
-				type:"String",
+			limit:{
+				type:"Int",
 				array:false,
 				arrayRequired:false,
 				required:false
 			},
-			limit:{
-				type:"Int",
+			last:{
+				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -1663,6 +1663,24 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	ProjectsSortInput:{
+		public:{
+			type:"SortOrder",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		slug:{
+			type:"SortOrder",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		tags:{
+			type:"SortOrder",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
 		team:{
 			type:"SortOrder",
 			array:false,
@@ -1692,24 +1710,6 @@ export const AllTypesProps: Record<string,any> = {
 			array:false,
 			arrayRequired:false,
 			required:false
-		},
-		public:{
-			type:"SortOrder",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		slug:{
-			type:"SortOrder",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tags:{
-			type:"SortOrder",
-			array:false,
-			arrayRequired:false,
-			required:false
 		}
 	},
 	Query:{
@@ -1730,6 +1730,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		findProjects:{
+			limit:{
+				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			query:{
 				type:"String",
 				array:false,
@@ -1738,12 +1744,6 @@ export const AllTypesProps: Record<string,any> = {
 			},
 			last:{
 				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			limit:{
-				type:"Int",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -1802,12 +1802,6 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		listProjects:{
-			last:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
 			limit:{
 				type:"Int",
 				array:false,
@@ -1822,6 +1816,12 @@ export const AllTypesProps: Record<string,any> = {
 			},
 			owned:{
 				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
+			last:{
+				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -1938,6 +1938,12 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	UpdateProject:{
+		project:{
+			type:"ID",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
 		description:{
 			type:"String",
 			array:false,
@@ -1955,27 +1961,9 @@ export const AllTypesProps: Record<string,any> = {
 			array:false,
 			arrayRequired:false,
 			required:false
-		},
-		project:{
-			type:"ID",
-			array:false,
-			arrayRequired:false,
-			required:false
 		}
 	},
 	VatInput:{
-		postCode:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		number:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		companyName:{
 			type:"String",
 			array:false,
@@ -2001,6 +1989,18 @@ export const AllTypesProps: Record<string,any> = {
 			required:false
 		},
 		country:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		postCode:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		number:{
 			type:"String",
 			array:false,
 			arrayRequired:false,
@@ -2513,29 +2513,31 @@ const fullChainConstruct = (fn: FetchFunction) => (t: 'query' | 'mutation' | 'su
 ) => fn(queryConstruct(t, tName)(o), variables);
 
 
-const seekForAliases = (o: any) => {
-  if (typeof o === 'object' && o) {
-    const keys = Object.keys(o);
+const seekForAliases = (response: any) => {
+  const traverseAlias = (value: any) => {
+    if (Array.isArray(value)) {
+      value.forEach(seekForAliases);
+    } else {
+      if (typeof value === 'object') {
+        seekForAliases(value);
+      }
+    }
+  };
+  if (typeof response === 'object' && response) {
+    const keys = Object.keys(response);
     if (keys.length < 1) {
       return;
     }
     keys.forEach((k) => {
-      const value = o[k];
+      const value = response[k];
       if (k.indexOf('__alias__') !== -1) {
         const [operation, alias] = k.split('__alias__');
-        o[alias] = {
-          [operation]: value
+        response[alias] = {
+          [operation]: value,
         };
-        delete o[k];
-      } else {
-        if (Array.isArray(value)) {
-          value.forEach(seekForAliases);
-        } else {
-          if (typeof value === 'object') {
-            seekForAliases(value);
-          }
-        }
+        delete response[k];
       }
+      traverseAlias(value);
     });
   }
 };

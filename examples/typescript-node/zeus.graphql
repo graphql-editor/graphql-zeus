@@ -38,6 +38,9 @@ union ChangeCard = SpecialCard | EffectCard
 
 """create card inputs<br>"""
 input createCard {
+  """The name of a card<br>"""
+  name: String!
+
   """Description of a card<br>"""
   description: String!
 
@@ -52,9 +55,6 @@ input createCard {
 
   """input skills"""
   skills: [SpecialSkills!]
-
-  """The name of a card<br>"""
-  name: String!
 }
 
 type EffectCard implements Nameable {
@@ -97,14 +97,14 @@ type SpecialCard implements Nameable {
 }
 
 enum SpecialSkills {
+  """Lower enemy defense -5<br>"""
+  THUNDER
+
   """Attack multiple Cards at once<br>"""
   RAIN
 
   """50% chance to avoid any attack<br>"""
   FIRE
-
-  """Lower enemy defense -5<br>"""
-  THUNDER
 }
 
 schema{

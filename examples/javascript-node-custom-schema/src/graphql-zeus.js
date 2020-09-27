@@ -250,6 +250,15 @@ const fullChainConstruct = (fn) => (t,tName) => (o, variables) => fn(queryConstr
 
 
 const seekForAliases = (o) => {
+  const traverseAlias = (value) => {
+    if (Array.isArray(value)) {
+      value.forEach(seekForAliases);
+    } else {
+      if (typeof value === 'object') {
+        seekForAliases(value);
+      }
+    }
+  };
   if (typeof o === 'object' && o) {
     const keys = Object.keys(o);
     if (keys.length < 1) {
@@ -263,15 +272,8 @@ const seekForAliases = (o) => {
           [operation]: value
         };
         delete o[k];
-      } else {
-        if (Array.isArray(value)) {
-          value.forEach(seekForAliases);
-        } else {
-          if (typeof value === 'object') {
-            seekForAliases(value);
-          }
-        }
       }
+      traverseAlias(value);
     });
   }
 };

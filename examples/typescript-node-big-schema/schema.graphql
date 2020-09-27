@@ -11,12 +11,6 @@ input ChangeSubscriptionInput {
 
 """Checkout data needed to begin payment process"""
 input CheckoutDataInput {
-  """URL to which user should be redirected after failed transaction"""
-  cancelURL: String
-
-  """An id of a chosen subscription plan"""
-  planID: ID!
-
   """Quantity of subscriptions that user wants"""
   quantity: Int
 
@@ -31,10 +25,19 @@ input CheckoutDataInput {
 
   """URL to which user should be redirected after successful transaction"""
   successURL: String
+
+  """URL to which user should be redirected after failed transaction"""
+  cancelURL: String
+
+  """An id of a chosen subscription plan"""
+  planID: ID!
 }
 
 """Customer data for checkout information"""
 input CustomerInput {
+  """Must be true for marketing to be allowed"""
+  marketingConsent: Boolean
+
   """User's email address"""
   email: String
 
@@ -43,9 +46,6 @@ input CustomerInput {
 
   """User's post code"""
   postCode: String
-
-  """Must be true for marketing to be allowed"""
-  marketingConsent: Boolean
 }
 
 """Amount is a number that gives precise representation of real numbers"""
@@ -143,7 +143,7 @@ type Mutation {
   
   public is user namespace public
   """
-  createUser(public: Boolean, namespace: String!): User!
+  createUser(namespace: String!, public: Boolean): User!
 
   """deploy project to faker"""
   deployToFaker(id: ID!): Boolean
@@ -187,9 +187,6 @@ type Namespace {
 
 """New source payload"""
 input NewSource {
-  """Length of source in bytes"""
-  contentLength: Int
-
   """Source mime type"""
   contentType: String
 
@@ -198,6 +195,9 @@ input NewSource {
 
   """source file name"""
   filename: String
+
+  """Length of source in bytes"""
+  contentLength: Int
 }
 
 """PageInfo contains information about connection page"""
@@ -243,14 +243,14 @@ type PredictCheckout {
 
 """Checkout data needed to begin payment process"""
 input PredictCheckoutInput {
+  """An id of a chosen subscription plan"""
+  planID: ID!
+
   """Quantity of subscriptions that user wants"""
   quantity: Int
 
   """Optional discount coupon"""
   coupon: String
-
-  """An id of a chosen subscription plan"""
-  planID: ID!
 }
 
 """Project type"""
@@ -300,7 +300,7 @@ type Project {
   
   limit sets a limit on how many objects can be returned
   """
-  sources(last: String, limit: Int): FakerSourceConnection
+  sources(limit: Int, last: String): FakerSourceConnection
 
   """Project tags"""
   tags: [String!]
@@ -342,6 +342,15 @@ type ProjectOps {
 ProjectsSortInput defines how projects from listProjects should be sorted.
 """
 input ProjectsSortInput {
+  """Sort by visisbility"""
+  public: SortOrder
+
+  """Sort by slug"""
+  slug: SortOrder
+
+  """Sort by tag"""
+  tags: SortOrder
+
   """
   Sorts projects by team.
   
@@ -360,15 +369,6 @@ input ProjectsSortInput {
 
   """Sort by owner"""
   owner: SortOrder
-
-  """Sort by visisbility"""
-  public: SortOrder
-
-  """Sort by slug"""
-  slug: SortOrder
-
-  """Sort by tag"""
-  tags: SortOrder
 }
 
 """Root query type"""
@@ -393,7 +393,7 @@ type Query {
   
   limit limits the number of returned projects
   """
-  findProjects(query: String!, last: String, limit: Int): ProjectConnection
+  findProjects(limit: Int, query: String!, last: String): ProjectConnection
 
   """
   Find projects which contain tag
@@ -427,7 +427,7 @@ type Query {
   
   limit limits the number of returned projects
   """
-  listProjects(last: String, limit: Int, sort: [ProjectsSortInput], owned: Boolean): ProjectConnection
+  listProjects(limit: Int, sort: [ProjectsSortInput], owned: Boolean, last: String): ProjectConnection
 
   """List of current user teams"""
   myTeams(last: String, limit: Int): TeamConnection
@@ -444,15 +444,6 @@ scalar RFC3339Date
 
 """Team member role"""
 enum Role {
-  """Team editor can add/edit projects in team"""
-  EDITOR
-
-  """Team viewer can view projects in team"""
-  VIEWER
-
-  """Team contributor can edit projects in team"""
-  CONTRIBUTOR
-
   """
   Team owner owner can add/remove/edit/view projects and members to a team. Only owner can delete team
   """
@@ -462,6 +453,15 @@ enum Role {
   Team admin can add/remove/edit/view projects and members(except owner) to a team
   """
   ADMIN
+
+  """Team editor can add/edit projects in team"""
+  EDITOR
+
+  """Team viewer can view projects in team"""
+  VIEWER
+
+  """Team contributor can edit projects in team"""
+  CONTRIBUTOR
 }
 
 """Sort order defines possible ordering of sorted outputs"""
@@ -575,6 +575,9 @@ type TeamOps {
 
 """Update project payload"""
 input UpdateProject {
+  """ID of project to be updated"""
+  project: ID
+
   """New description for project"""
   description: String
 
@@ -583,9 +586,6 @@ input UpdateProject {
 
   """Set project visiblity"""
   public: Boolean
-
-  """ID of project to be updated"""
-  project: ID
 }
 
 """Editor user"""
@@ -616,12 +616,6 @@ type UserConnection {
 
 """Vat information of a user"""
 input VatInput {
-  """Vat company post code address."""
-  postCode: String
-
-  """Vat number"""
-  number: String
-
   """Vat company name"""
   companyName: String
 
@@ -636,6 +630,12 @@ input VatInput {
 
   """Vat company country address."""
   country: String
+
+  """Vat company post code address."""
+  postCode: String
+
+  """Vat number"""
+  number: String
 }
 
 schema{
