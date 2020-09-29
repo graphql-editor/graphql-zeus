@@ -13,18 +13,6 @@ export const AllTypesProps = {
 		}
 	},
 	createCard:{
-		description:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		Children:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		Attack:{
 			type:"Int",
 			array:false,
@@ -48,6 +36,18 @@ export const AllTypesProps = {
 			array:false,
 			arrayRequired:false,
 			required:true
+		},
+		description:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		Children:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
 		}
 	},
 	Mutation:{
@@ -344,7 +344,10 @@ const inspectVariables = (query) => {
 const queryConstruct = (t, tName) => (o) => `${t.toLowerCase()}${inspectVariables(buildQuery(tName, o))}`;  
 
 
-const fullChainConstruct = (fn) => (t,tName) => (o, variables) => fn(queryConstruct(t, tName)(o), variables);
+const fullChainConstruct = (fn) => (t,tName) => (o, variables) => fn(queryConstruct(t, tName)(o), variables).then(r => { 
+  seekForAliases(r)
+  return r
+});
 
 
 const seekForAliases = (o) => {

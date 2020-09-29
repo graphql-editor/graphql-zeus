@@ -113,6 +113,6 @@ type CastToGraphQL<V, T> = (
 type fetchOptions = ArgsType<typeof fetch>;
 
 export type SelectionFunction<V> = <T>(t: T | V) => T;
-type FetchFunction = (query: string, variables?: Record<string, any>) => any;
+type FetchFunction = (query: string, variables?: Record<string, any>) => Promise<any>;
 
 `;

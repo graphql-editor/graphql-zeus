@@ -1,7 +1,7 @@
 """Defines user's account type"""
 enum AccountType {
-  FREE
   PREMIUM
+  FREE
 }
 
 input ChangeSubscriptionInput {
@@ -11,6 +11,12 @@ input ChangeSubscriptionInput {
 
 """Checkout data needed to begin payment process"""
 input CheckoutDataInput {
+  """URL to which user should be redirected after failed transaction"""
+  cancelURL: String
+
+  """An id of a chosen subscription plan"""
+  planID: ID!
+
   """Quantity of subscriptions that user wants"""
   quantity: Int
 
@@ -25,19 +31,10 @@ input CheckoutDataInput {
 
   """URL to which user should be redirected after successful transaction"""
   successURL: String
-
-  """URL to which user should be redirected after failed transaction"""
-  cancelURL: String
-
-  """An id of a chosen subscription plan"""
-  planID: ID!
 }
 
 """Customer data for checkout information"""
 input CustomerInput {
-  """Must be true for marketing to be allowed"""
-  marketingConsent: Boolean
-
   """User's email address"""
   email: String
 
@@ -46,6 +43,9 @@ input CustomerInput {
 
   """User's post code"""
   postCode: String
+
+  """Must be true for marketing to be allowed"""
+  marketingConsent: Boolean
 }
 
 """Amount is a number that gives precise representation of real numbers"""
@@ -134,7 +134,7 @@ type Mutation {
   createProject(public: Boolean, name: String!): Project!
 
   """Create new team"""
-  createTeam(namespace: String!, name: String!): TeamOps
+  createTeam(name: String!, namespace: String!): TeamOps
 
   """
   Create new user
@@ -187,6 +187,9 @@ type Namespace {
 
 """New source payload"""
 input NewSource {
+  """Length of source in bytes"""
+  contentLength: Int
+
   """Source mime type"""
   contentType: String
 
@@ -195,9 +198,6 @@ input NewSource {
 
   """source file name"""
   filename: String
-
-  """Length of source in bytes"""
-  contentLength: Int
 }
 
 """PageInfo contains information about connection page"""
@@ -300,7 +300,7 @@ type Project {
   
   limit sets a limit on how many objects can be returned
   """
-  sources(limit: Int, last: String): FakerSourceConnection
+  sources(last: String, limit: Int): FakerSourceConnection
 
   """Project tags"""
   tags: [String!]
@@ -342,6 +342,12 @@ type ProjectOps {
 ProjectsSortInput defines how projects from listProjects should be sorted.
 """
 input ProjectsSortInput {
+  """Sort by id"""
+  id: SortOrder
+
+  """Sort by owner"""
+  owner: SortOrder
+
   """Sort by visisbility"""
   public: SortOrder
 
@@ -363,12 +369,6 @@ input ProjectsSortInput {
 
   """Sort by name"""
   name: SortOrder
-
-  """Sort by id"""
-  id: SortOrder
-
-  """Sort by owner"""
-  owner: SortOrder
 }
 
 """Root query type"""
@@ -393,7 +393,7 @@ type Query {
   
   limit limits the number of returned projects
   """
-  findProjects(limit: Int, query: String!, last: String): ProjectConnection
+  findProjects(query: String!, last: String, limit: Int): ProjectConnection
 
   """
   Find projects which contain tag
@@ -427,7 +427,7 @@ type Query {
   
   limit limits the number of returned projects
   """
-  listProjects(limit: Int, sort: [ProjectsSortInput], owned: Boolean, last: String): ProjectConnection
+  listProjects(owned: Boolean, last: String, limit: Int, sort: [ProjectsSortInput]): ProjectConnection
 
   """List of current user teams"""
   myTeams(last: String, limit: Int): TeamConnection
@@ -575,17 +575,17 @@ type TeamOps {
 
 """Update project payload"""
 input UpdateProject {
-  """ID of project to be updated"""
-  project: ID
-
-  """New description for project"""
-  description: String
-
   """List of tags for project"""
   tags: [String!]
 
   """Set project visiblity"""
   public: Boolean
+
+  """ID of project to be updated"""
+  project: ID
+
+  """New description for project"""
+  description: String
 }
 
 """Editor user"""
@@ -616,15 +616,6 @@ type UserConnection {
 
 """Vat information of a user"""
 input VatInput {
-  """Vat company name"""
-  companyName: String
-
-  """Vat company street address"""
-  street: String
-
-  """Vat company city address"""
-  city: String
-
   """Vat company state address. Optional."""
   state: String
 
@@ -636,6 +627,15 @@ input VatInput {
 
   """Vat number"""
   number: String
+
+  """Vat company name"""
+  companyName: String
+
+  """Vat company street address"""
+  street: String
+
+  """Vat company city address"""
+  city: String
 }
 
 schema{

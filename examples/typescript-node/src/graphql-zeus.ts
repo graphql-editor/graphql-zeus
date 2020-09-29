@@ -35,6 +35,10 @@ attack?: [{	/** Attacked card/card ids<br> */
 }>;
 	/** create card inputs<br> */
 ["createCard"]: {
+	/** The defense power<br> */
+	Defense:number,
+	/** input skills */
+	skills?:ValueTypes["SpecialSkills"][],
 	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
@@ -42,11 +46,7 @@ attack?: [{	/** Attacked card/card ids<br> */
 	/** <div>How many children the greek god had</div> */
 	Children?:number,
 	/** The attack power<br> */
-	Attack:number,
-	/** The defense power<br> */
-	Defense:number,
-	/** input skills */
-	skills?:ValueTypes["SpecialSkills"][]
+	Attack:number
 };
 	["EffectCard"]: AliasType<{
 	effectSize?:true,
@@ -122,6 +122,10 @@ export type PartialObjects = {
 	["ChangeCard"]: PartialObjects["SpecialCard"] | PartialObjects["EffectCard"],
 	/** create card inputs<br> */
 ["createCard"]: {
+	/** The defense power<br> */
+	Defense:number,
+	/** input skills */
+	skills?:PartialObjects["SpecialSkills"][],
 	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
@@ -129,11 +133,7 @@ export type PartialObjects = {
 	/** <div>How many children the greek god had</div> */
 	Children?:number,
 	/** The attack power<br> */
-	Attack:number,
-	/** The defense power<br> */
-	Defense:number,
-	/** input skills */
-	skills?:PartialObjects["SpecialSkills"][]
+	Attack:number
 },
 	["EffectCard"]: {
 		__typename?: "EffectCard";
@@ -213,18 +213,18 @@ export type ChangeCard = {
 
 /** create card inputs<br> */
 export type createCard = {
-		/** The name of a card<br> */
+		/** The defense power<br> */
+	Defense:number,
+	/** input skills */
+	skills?:SpecialSkills[],
+	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
 	description:string,
 	/** <div>How many children the greek god had</div> */
 	Children?:number,
 	/** The attack power<br> */
-	Attack:number,
-	/** The defense power<br> */
-	Defense:number,
-	/** input skills */
-	skills?:SpecialSkills[]
+	Attack:number
 }
 
 export type EffectCard = {
@@ -278,9 +278,9 @@ export type SpecialCard = {
 }
 
 export enum SpecialSkills {
-	THUNDER = "THUNDER",
 	RAIN = "RAIN",
-	FIRE = "FIRE"
+	FIRE = "FIRE",
+	THUNDER = "THUNDER"
 }
 
 export const AllTypesProps: Record<string,any> = {
@@ -295,6 +295,18 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	createCard:{
+		Defense:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		skills:{
+			type:"SpecialSkills",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
 		name:{
 			type:"String",
 			array:false,
@@ -316,18 +328,6 @@ export const AllTypesProps: Record<string,any> = {
 		Attack:{
 			type:"Int",
 			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		Defense:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		skills:{
-			type:"SpecialSkills",
-			array:true,
 			arrayRequired:false,
 			required:true
 		}
@@ -534,7 +534,7 @@ type CastToGraphQL<V, T> = (
 type fetchOptions = ArgsType<typeof fetch>;
 
 export type SelectionFunction<V> = <T>(t: T | V) => T;
-type FetchFunction = (query: string, variables?: Record<string, any>) => any;
+type FetchFunction = (query: string, variables?: Record<string, any>) => Promise<any>;
 
 
 
@@ -754,7 +754,10 @@ const queryConstruct = (t: 'query' | 'mutation' | 'subscription', tName: string)
 const fullChainConstruct = (fn: FetchFunction) => (t: 'query' | 'mutation' | 'subscription', tName: string) => (
   o: Record<any, any>,
   variables?: Record<string, any>,
-) => fn(queryConstruct(t, tName)(o), variables);
+) => fn(queryConstruct(t, tName)(o), variables).then((r:any) => { 
+  seekForAliases(r)
+  return r
+});
 
 
 const seekForAliases = (response: any) => {
@@ -825,7 +828,6 @@ const apiFetch = (options: fetchOptions) => (query: string, variables: Record<st
           if (response.errors) {
             throw new GraphQLError(response);
           }
-          seekForAliases(response.data);
           return response.data;
         });
     }
@@ -842,7 +844,6 @@ const apiFetch = (options: fetchOptions) => (query: string, variables: Record<st
         if (response.errors) {
           throw new GraphQLError(response);
         }
-        seekForAliases(response.data);
         return response.data;
       });
   };

@@ -35,10 +35,6 @@ attack?: [{	/** Attacked card/card ids<br> */
 }>;
 	/** create card inputs<br> */
 ["createCard"]: {
-	/** Description of a card<br> */
-	description:string,
-	/** <div>How many children the greek god had</div> */
-	Children?:number,
 	/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
@@ -46,7 +42,11 @@ attack?: [{	/** Attacked card/card ids<br> */
 	/** input skills */
 	skills?:ValueTypes["SpecialSkills"][],
 	/** The name of a card<br> */
-	name:string
+	name:string,
+	/** Description of a card<br> */
+	description:string,
+	/** <div>How many children the greek god had</div> */
+	Children?:number
 };
 	["EffectCard"]: AliasType<{
 	effectSize?:true,
@@ -122,10 +122,6 @@ export type PartialObjects = {
 	["ChangeCard"]: PartialObjects["SpecialCard"] | PartialObjects["EffectCard"],
 	/** create card inputs<br> */
 ["createCard"]: {
-	/** Description of a card<br> */
-	description:string,
-	/** <div>How many children the greek god had</div> */
-	Children?:number,
 	/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
@@ -133,7 +129,11 @@ export type PartialObjects = {
 	/** input skills */
 	skills?:PartialObjects["SpecialSkills"][],
 	/** The name of a card<br> */
-	name:string
+	name:string,
+	/** Description of a card<br> */
+	description:string,
+	/** <div>How many children the greek god had</div> */
+	Children?:number
 },
 	["EffectCard"]: {
 		__typename?: "EffectCard";
@@ -213,18 +213,18 @@ export type ChangeCard = {
 
 /** create card inputs<br> */
 export type createCard = {
-		/** Description of a card<br> */
-	description:string,
-	/** <div>How many children the greek god had</div> */
-	Children?:number,
-	/** The attack power<br> */
+		/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
 	Defense:number,
 	/** input skills */
 	skills?:SpecialSkills[],
 	/** The name of a card<br> */
-	name:string
+	name:string,
+	/** Description of a card<br> */
+	description:string,
+	/** <div>How many children the greek god had</div> */
+	Children?:number
 }
 
 export type EffectCard = {
@@ -398,7 +398,7 @@ type CastToGraphQL<V, T> = (
 type fetchOptions = ArgsType<typeof fetch>;
 
 export type SelectionFunction<V> = <T>(t: T | V) => T;
-type FetchFunction = (query: string, variables?: Record<string, any>) => any;
+type FetchFunction = (query: string, variables?: Record<string, any>) => Promise<any>;
 
 
 export declare function Thunder(

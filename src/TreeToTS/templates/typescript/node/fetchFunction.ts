@@ -34,7 +34,6 @@ const apiFetch = (options: fetchOptions) => (query: string, variables: Record<st
           if (response.errors) {
             throw new GraphQLError(response);
           }
-          seekForAliases(response.data);
           return response.data;
         });
     }
@@ -51,7 +50,6 @@ const apiFetch = (options: fetchOptions) => (query: string, variables: Record<st
         if (response.errors) {
           throw new GraphQLError(response);
         }
-        seekForAliases(response.data);
         return response.data;
       });
   };

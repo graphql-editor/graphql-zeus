@@ -246,7 +246,10 @@ const inspectVariables = (query) => {
 const queryConstruct = (t, tName) => (o) => `${t.toLowerCase()}${inspectVariables(buildQuery(tName, o))}`;  
 
 
-const fullChainConstruct = (fn) => (t,tName) => (o, variables) => fn(queryConstruct(t, tName)(o), variables);
+const fullChainConstruct = (fn) => (t,tName) => (o, variables) => fn(queryConstruct(t, tName)(o), variables).then(r => { 
+  seekForAliases(r)
+  return r
+});
 
 
 const seekForAliases = (o) => {

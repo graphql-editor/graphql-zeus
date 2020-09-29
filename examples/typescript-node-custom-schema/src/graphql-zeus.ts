@@ -212,7 +212,7 @@ type CastToGraphQL<V, T> = (
 type fetchOptions = ArgsType<typeof fetch>;
 
 export type SelectionFunction<V> = <T>(t: T | V) => T;
-type FetchFunction = (query: string, variables?: Record<string, any>) => any;
+type FetchFunction = (query: string, variables?: Record<string, any>) => Promise<any>;
 
 
 
@@ -432,7 +432,10 @@ const queryConstruct = (t: 'query' | 'mutation' | 'subscription', tName: string)
 const fullChainConstruct = (fn: FetchFunction) => (t: 'query' | 'mutation' | 'subscription', tName: string) => (
   o: Record<any, any>,
   variables?: Record<string, any>,
-) => fn(queryConstruct(t, tName)(o), variables);
+) => fn(queryConstruct(t, tName)(o), variables).then((r:any) => { 
+  seekForAliases(r)
+  return r
+});
 
 
 const seekForAliases = (response: any) => {
@@ -503,7 +506,6 @@ const apiFetch = (options: fetchOptions) => (query: string, variables: Record<st
           if (response.errors) {
             throw new GraphQLError(response);
           }
-          seekForAliases(response.data);
           return response.data;
         });
     }
@@ -520,7 +522,6 @@ const apiFetch = (options: fetchOptions) => (query: string, variables: Record<st
         if (response.errors) {
           throw new GraphQLError(response);
         }
-        seekForAliases(response.data);
         return response.data;
       });
   };
