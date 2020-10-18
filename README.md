@@ -156,7 +156,8 @@ createCards();
 //         "name": "Raphaelle",
 //         "skills": [
 //             "RAIN",
-//             "THUNDER",
+//             "
+",
 //         ]
 //     },
 //     "cardById": {
@@ -233,7 +234,7 @@ const createCards = async () => {
       });
     }
     const json = await response.json();
-    return json;
+    return json.data;
   });
   const listCardsAndDraw = await thunder.query({
     cardById: [
