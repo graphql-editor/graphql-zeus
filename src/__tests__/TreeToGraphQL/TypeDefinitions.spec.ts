@@ -1,5 +1,5 @@
-import { ParserTree, TypeDefinition, TypeDefinitionDisplayStrings } from '../../src/Models';
-import { TreeToGraphQL } from '../../src/TreeToGraphQL';
+import { ParserTree, TypeDefinition, TypeDefinitionDisplayStrings } from '../../Models';
+import { TreeToGraphQL } from '../../TreeToGraphQL';
 
 describe('TypeDefintion declarations tests on TreeToGraphQL', () => {
   test('ObjectTypeDefinition - type keyword', () => {

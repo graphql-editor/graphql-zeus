@@ -1,5 +1,5 @@
-import { Parser } from '../../src/Parser';
-import { TreeToTS } from '../../src/TreeToTS';
+import { Parser } from '../../Parser';
+import { TreeToTS } from '../../TreeToTS';
 
 const schemaWithUnique = `
 interface Vehicle {
@@ -47,7 +47,7 @@ describe('Interface tests', () => {
     // full type should have all the fields
     expect(typeScriptCode).toContain(`export type Car = {__typename?: "Car",wheels?:number,color?:string }`);
     expect(typeScriptCode).toContain(
-      `export type Motorcycle = {__typename?: "Motorcycle",wheels?:number,visor?:boolean }`
+      `export type Motorcycle = {__typename?: "Motorcycle",wheels?:number,visor?:boolean }`,
     );
   });
 
@@ -66,9 +66,6 @@ describe('Interface tests', () => {
 
     // full type should have all the fields
     expect(typeScriptCode).toContain(`export type Car = {__typename?: "Car",wheels?:number }`);
-    expect(typeScriptCode).toContain(
-      `export type Motorcycle = {__typename?: "Motorcycle",wheels?:number }`
-    );
+    expect(typeScriptCode).toContain(`export type Motorcycle = {__typename?: "Motorcycle",wheels?:number }`);
   });
-
 });

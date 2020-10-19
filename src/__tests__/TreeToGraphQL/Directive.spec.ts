@@ -8,135 +8,123 @@ import {
   TypeSystemDefinition,
   TypeSystemDefinitionDisplayStrings,
   Value,
-  ValueDefinition
-} from '../../src/Models';
-import { Parser, ParserUtils } from '../../src/Parser';
+  ValueDefinition,
+} from '../../Models';
+import { TreeToGraphQL } from '../../TreeToGraphQL';
+import { trimGraphQL } from '../TestUtils';
 
 // TODO: Add schema directive test
 // TODO: Add directive with arguments test
 
-describe('Directive tests on parser', () => {
+describe('Directive tests on TreeToGraphQL', () => {
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.OBJECT}`, () => {
-    const schema = `
-    directive @model on ${Directive.OBJECT}
-    type Person @model
-    `;
-    const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.type
+            name: TypeDefinitionDisplayStrings.type,
           },
           data: {
-            type: TypeDefinition.ObjectTypeDefinition
+            type: TypeDefinition.ObjectTypeDefinition,
           },
           interfaces: [],
           directives: [
             {
               name: 'model',
               data: {
-                type: Instances.Directive
+                type: Instances.Directive,
               },
               type: {
-                name: 'model'
+                name: 'model',
               },
-              args: []
-            }
+              args: [],
+            },
           ],
-          args: []
+          args: [],
         },
         {
           name: 'model',
           type: {
             name: TypeSystemDefinitionDisplayStrings.directive,
-            directiveOptions: [Directive.OBJECT]
+            directiveOptions: [Directive.OBJECT],
           },
           data: {
-            type: TypeSystemDefinition.DirectiveDefinition
-          }
-        }
-      ]
+            type: TypeSystemDefinition.DirectiveDefinition,
+          },
+        },
+      ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+
+    const graphql = TreeToGraphQL.parse(treeMock);
+    expect(graphql).toContain(`directive @model on ${Directive.OBJECT}`);
+    expect(graphql).toContain(`type Person @model`);
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.FIELD_DEFINITION}`, () => {
-    const schema = `
-    directive @model on ${Directive.FIELD_DEFINITION}
-    type Person {
-      name: String @model
-    }
-    `;
-    const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.type
+            name: TypeDefinitionDisplayStrings.type,
           },
           data: {
-            type: TypeDefinition.ObjectTypeDefinition
+            type: TypeDefinition.ObjectTypeDefinition,
           },
           interfaces: [],
           args: [
             {
               name: 'name',
               type: {
-                name: ScalarTypes.String
+                name: ScalarTypes.String,
               },
               data: {
-                type: TypeSystemDefinition.FieldDefinition
+                type: TypeSystemDefinition.FieldDefinition,
               },
               args: [],
               directives: [
                 {
                   name: 'model',
                   data: {
-                    type: Instances.Directive
+                    type: Instances.Directive,
                   },
                   type: {
-                    name: 'model'
+                    name: 'model',
                   },
-                  args: []
-                }
-              ]
-            }
+                  args: [],
+                },
+              ],
+            },
           ],
-          directives: []
+          directives: [],
         },
         {
           name: 'model',
           type: {
             name: TypeSystemDefinitionDisplayStrings.directive,
-            directiveOptions: [Directive.FIELD_DEFINITION]
+            directiveOptions: [Directive.FIELD_DEFINITION],
           },
           data: {
-            type: TypeSystemDefinition.DirectiveDefinition
-          }
-        }
-      ]
+            type: TypeSystemDefinition.DirectiveDefinition,
+          },
+        },
+      ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+
+    const graphql = TreeToGraphQL.parse(treeMock);
+    expect(graphql).toContain(`directive @model on ${Directive.FIELD_DEFINITION}`);
+    expect(graphql).toContain(`name: String @model`);
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.ARGUMENT_DEFINITION}`, () => {
-    const schema = `
-    directive @model on ${Directive.ARGUMENT_DEFINITION}
-    type Person {
-      name(override:String @model): String
-    }
-    `;
-    const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.type
+            name: TypeDefinitionDisplayStrings.type,
           },
           data: {
-            type: TypeDefinition.ObjectTypeDefinition
+            type: TypeDefinition.ObjectTypeDefinition,
           },
           interfaces: [],
           args: [
@@ -146,66 +134,64 @@ describe('Directive tests on parser', () => {
                 {
                   name: 'override',
                   type: {
-                    name: ScalarTypes.String
+                    name: ScalarTypes.String,
                   },
                   data: {
-                    type: ValueDefinition.InputValueDefinition
+                    type: ValueDefinition.InputValueDefinition,
                   },
                   args: [],
                   directives: [
                     {
                       name: 'model',
                       data: {
-                        type: Instances.Directive
+                        type: Instances.Directive,
                       },
                       type: {
-                        name: 'model'
+                        name: 'model',
                       },
-                      args: []
-                    }
-                  ]
-                }
+                      args: [],
+                    },
+                  ],
+                },
               ],
               type: {
-                name: ScalarTypes.String
+                name: ScalarTypes.String,
               },
               data: {
-                type: TypeSystemDefinition.FieldDefinition
+                type: TypeSystemDefinition.FieldDefinition,
               },
-              directives: []
-            }
+              directives: [],
+            },
           ],
-          directives: []
+          directives: [],
         },
         {
           name: 'model',
           type: {
             name: TypeSystemDefinitionDisplayStrings.directive,
-            directiveOptions: [Directive.ARGUMENT_DEFINITION]
+            directiveOptions: [Directive.ARGUMENT_DEFINITION],
           },
           data: {
-            type: TypeSystemDefinition.DirectiveDefinition
-          }
-        }
-      ]
+            type: TypeSystemDefinition.DirectiveDefinition,
+          },
+        },
+      ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+
+    const graphql = TreeToGraphQL.parse(treeMock);
+    expect(graphql).toContain(`directive @model on ${Directive.ARGUMENT_DEFINITION}`);
+    expect(graphql).toContain(`override: String @model`);
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.INTERFACE}`, () => {
-    const schema = `
-    directive @model on ${Directive.INTERFACE}
-    interface Person @model
-    `;
-    const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.interface
+            name: TypeDefinitionDisplayStrings.interface,
           },
           data: {
-            type: TypeDefinition.InterfaceTypeDefinition
+            type: TypeDefinition.InterfaceTypeDefinition,
           },
           interfaces: [],
           args: [],
@@ -213,465 +199,434 @@ describe('Directive tests on parser', () => {
             {
               name: 'model',
               data: {
-                type: Instances.Directive
+                type: Instances.Directive,
               },
               type: {
-                name: 'model'
+                name: 'model',
               },
-              args: []
-            }
-          ]
+              args: [],
+            },
+          ],
         },
         {
           name: 'model',
           type: {
             name: TypeSystemDefinitionDisplayStrings.directive,
-            directiveOptions: [Directive.INTERFACE]
+            directiveOptions: [Directive.INTERFACE],
           },
           data: {
-            type: TypeSystemDefinition.DirectiveDefinition
-          }
-        }
-      ]
+            type: TypeSystemDefinition.DirectiveDefinition,
+          },
+        },
+      ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+
+    const graphql = TreeToGraphQL.parse(treeMock);
+    expect(graphql).toContain(`directive @model on ${Directive.INTERFACE}`);
+    expect(graphql).toContain(`interface Person @model`);
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.UNION}`, () => {
-    const schema = `
-    directive @model on ${Directive.UNION}
-    type Car
-    type Plane
-    union Machine @model = Car | Plane
-    `;
-    const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
         {
           name: 'model',
           type: {
             name: TypeSystemDefinitionDisplayStrings.directive,
-            directiveOptions: [Directive.UNION]
+            directiveOptions: [Directive.UNION],
           },
           data: {
-            type: TypeSystemDefinition.DirectiveDefinition
-          }
+            type: TypeSystemDefinition.DirectiveDefinition,
+          },
         },
         {
           name: 'Car',
           type: {
-            name: TypeDefinitionDisplayStrings.type
+            name: TypeDefinitionDisplayStrings.type,
           },
           data: {
-            type: TypeDefinition.ObjectTypeDefinition
+            type: TypeDefinition.ObjectTypeDefinition,
           },
           interfaces: [],
           directives: [],
-          args: []
+          args: [],
         },
         {
           name: 'Plane',
           type: {
-            name: TypeDefinitionDisplayStrings.type
+            name: TypeDefinitionDisplayStrings.type,
           },
           data: {
-            type: TypeDefinition.ObjectTypeDefinition
+            type: TypeDefinition.ObjectTypeDefinition,
           },
           interfaces: [],
           directives: [],
-          args: []
+          args: [],
         },
         {
           name: 'Machine',
           type: {
-            name: TypeDefinitionDisplayStrings.union
+            name: TypeDefinitionDisplayStrings.union,
           },
           data: {
-            type: TypeDefinition.UnionTypeDefinition
+            type: TypeDefinition.UnionTypeDefinition,
           },
           directives: [
             {
               name: 'model',
               data: {
-                type: Instances.Directive
+                type: Instances.Directive,
               },
               type: {
-                name: 'model'
+                name: 'model',
               },
-              args: []
-            }
+              args: [],
+            },
           ],
           args: [
             {
               name: 'Car',
               type: {
-                name: 'Car'
+                name: 'Car',
               },
               data: {
-                type: TypeSystemDefinition.UnionMemberDefinition
-              }
+                type: TypeSystemDefinition.UnionMemberDefinition,
+              },
             },
             {
               name: 'Plane',
               type: {
-                name: 'Plane'
+                name: 'Plane',
               },
               data: {
-                type: TypeSystemDefinition.UnionMemberDefinition
-              }
-            }
-          ]
-        }
-      ]
+                type: TypeSystemDefinition.UnionMemberDefinition,
+              },
+            },
+          ],
+        },
+      ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+
+    const graphql = TreeToGraphQL.parse(treeMock);
+    expect(graphql).toContain(`directive @model on ${Directive.UNION}`);
+    expect(graphql).toContain(`union Machine @model`);
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.ENUM}`, () => {
-    const schema = `
-    directive @model on ${Directive.ENUM}
-    enum Person @model
-    `;
-    const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.enum
+            name: TypeDefinitionDisplayStrings.enum,
           },
           data: {
-            type: TypeDefinition.EnumTypeDefinition
+            type: TypeDefinition.EnumTypeDefinition,
           },
           args: [],
           directives: [
             {
               name: 'model',
               data: {
-                type: Instances.Directive
+                type: Instances.Directive,
               },
               type: {
-                name: 'model'
+                name: 'model',
               },
-              args: []
-            }
-          ]
+              args: [],
+            },
+          ],
         },
         {
           name: 'model',
           type: {
             name: TypeSystemDefinitionDisplayStrings.directive,
-            directiveOptions: [Directive.ENUM]
+            directiveOptions: [Directive.ENUM],
           },
           data: {
-            type: TypeSystemDefinition.DirectiveDefinition
-          }
-        }
-      ]
+            type: TypeSystemDefinition.DirectiveDefinition,
+          },
+        },
+      ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+
+    const graphql = TreeToGraphQL.parse(treeMock);
+    expect(graphql).toContain(`directive @model on ${Directive.ENUM}`);
+    expect(graphql).toContain(`enum Person @model`);
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.ENUM_VALUE}`, () => {
-    const schema = `
-    directive @model on ${Directive.ENUM_VALUE}
-    enum Person{
-      SMART @model
-      DUMB
-    }
-    `;
-    const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.enum
+            name: TypeDefinitionDisplayStrings.enum,
           },
           data: {
-            type: TypeDefinition.EnumTypeDefinition
+            type: TypeDefinition.EnumTypeDefinition,
           },
           args: [
             {
               name: 'SMART',
               type: {
-                name: ValueDefinition.EnumValueDefinition
+                name: ValueDefinition.EnumValueDefinition,
               },
               data: {
-                type: ValueDefinition.EnumValueDefinition
+                type: ValueDefinition.EnumValueDefinition,
               },
               directives: [
                 {
                   name: 'model',
                   data: {
-                    type: Instances.Directive
+                    type: Instances.Directive,
                   },
                   type: {
-                    name: 'model'
+                    name: 'model',
                   },
-                  args: []
-                }
-              ]
+                  args: [],
+                },
+              ],
             },
             {
               name: 'DUMB',
               type: {
-                name: ValueDefinition.EnumValueDefinition
+                name: ValueDefinition.EnumValueDefinition,
               },
               data: {
-                type: ValueDefinition.EnumValueDefinition
+                type: ValueDefinition.EnumValueDefinition,
               },
-              directives: []
-            }
+              directives: [],
+            },
           ],
-          directives: []
+          directives: [],
         },
         {
           name: 'model',
           type: {
             name: TypeSystemDefinitionDisplayStrings.directive,
-            directiveOptions: [Directive.ENUM_VALUE]
+            directiveOptions: [Directive.ENUM_VALUE],
           },
           data: {
-            type: TypeSystemDefinition.DirectiveDefinition
-          }
-        }
-      ]
+            type: TypeSystemDefinition.DirectiveDefinition,
+          },
+        },
+      ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+
+    const graphql = TreeToGraphQL.parse(treeMock);
+    expect(graphql).toContain(`directive @model on ${Directive.ENUM_VALUE}`);
+    expect(graphql).toContain(`SMART @model`);
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.INPUT_OBJECT}`, () => {
-    const schema = `
-    directive @model on ${Directive.INPUT_OBJECT}
-    input Person @model
-    `;
-    const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.input
+            name: TypeDefinitionDisplayStrings.input,
           },
           data: {
-            type: TypeDefinition.InputObjectTypeDefinition
+            type: TypeDefinition.InputObjectTypeDefinition,
           },
           args: [],
           directives: [
             {
               name: 'model',
               data: {
-                type: Instances.Directive
+                type: Instances.Directive,
               },
               type: {
-                name: 'model'
+                name: 'model',
               },
-              args: []
-            }
-          ]
+              args: [],
+            },
+          ],
         },
         {
           name: 'model',
           type: {
             name: TypeSystemDefinitionDisplayStrings.directive,
-            directiveOptions: [Directive.INPUT_OBJECT]
+            directiveOptions: [Directive.INPUT_OBJECT],
           },
           data: {
-            type: TypeSystemDefinition.DirectiveDefinition
-          }
-        }
-      ]
+            type: TypeSystemDefinition.DirectiveDefinition,
+          },
+        },
+      ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+
+    const graphql = TreeToGraphQL.parse(treeMock);
+    expect(graphql).toContain(`directive @model on ${Directive.INPUT_OBJECT}`);
+    expect(graphql).toContain(`input Person @model`);
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.INPUT_FIELD_DEFINITION}`, () => {
-    const schema = `
-    directive @model on ${Directive.INPUT_FIELD_DEFINITION}
-    input Person{
-      name: String
-    }
-    `;
-    const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.input
+            name: TypeDefinitionDisplayStrings.input,
           },
           data: {
-            type: TypeDefinition.InputObjectTypeDefinition
+            type: TypeDefinition.InputObjectTypeDefinition,
           },
           args: [
             {
               name: 'name',
               type: {
-                name: ScalarTypes.String
+                name: ScalarTypes.String,
               },
               data: {
-                type: ValueDefinition.InputValueDefinition
+                type: ValueDefinition.InputValueDefinition,
               },
               args: [],
               directives: [
                 {
                   name: 'model',
                   data: {
-                    type: Instances.Directive
+                    type: Instances.Directive,
                   },
                   type: {
-                    name: 'model'
+                    name: 'model',
                   },
-                  args: []
-                }
-              ]
-            }
+                  args: [],
+                },
+              ],
+            },
           ],
-          directives: []
+          directives: [],
         },
         {
           name: 'model',
           type: {
             name: TypeSystemDefinitionDisplayStrings.directive,
-            directiveOptions: [Directive.INPUT_FIELD_DEFINITION]
+            directiveOptions: [Directive.INPUT_FIELD_DEFINITION],
           },
           data: {
-            type: TypeSystemDefinition.DirectiveDefinition
-          }
-        }
-      ]
+            type: TypeSystemDefinition.DirectiveDefinition,
+          },
+        },
+      ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+
+    const graphql = TreeToGraphQL.parse(treeMock);
+    expect(graphql).toContain(`directive @model on ${Directive.INPUT_FIELD_DEFINITION}`);
+    expect(graphql).toContain(`name: String @model`);
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.SCALAR}`, () => {
-    const schema = `
-    directive @model on ${Directive.SCALAR}
-    scalar Person @model
-    `;
-    const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.scalar
+            name: TypeDefinitionDisplayStrings.scalar,
           },
           data: {
-            type: TypeDefinition.ScalarTypeDefinition
+            type: TypeDefinition.ScalarTypeDefinition,
           },
           directives: [
             {
               name: 'model',
               data: {
-                type: Instances.Directive
+                type: Instances.Directive,
               },
               type: {
-                name: 'model'
+                name: 'model',
               },
-              args: []
-            }
-          ]
+              args: [],
+            },
+          ],
         },
         {
           name: 'model',
           type: {
             name: TypeSystemDefinitionDisplayStrings.directive,
-            directiveOptions: [Directive.SCALAR]
+            directiveOptions: [Directive.SCALAR],
           },
           data: {
-            type: TypeSystemDefinition.DirectiveDefinition
-          }
-        }
-      ]
+            type: TypeSystemDefinition.DirectiveDefinition,
+          },
+        },
+      ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+
+    const graphql = TreeToGraphQL.parse(treeMock);
+    expect(graphql).toContain(`directive @model on ${Directive.SCALAR}`);
+    expect(graphql).toContain(`scalar Person @model`);
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.OBJECT} with input arguments`, () => {
-    const schema = `
-    directive @model(
-      address: Address = { age: 2010 }
-    ) on ${Directive.OBJECT}
-    type Person @model(address:{
-      name: "Artur",
-      weight: 22.3
-    })
-    input Address{
-      name: ${ScalarTypes.String}
-      age: ${ScalarTypes.Int}
-      weight: ${ScalarTypes.Float}
-    }
-    `;
-    const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
         {
           name: 'Address',
           type: {
-            name: TypeDefinitionDisplayStrings.input
+            name: TypeDefinitionDisplayStrings.input,
           },
           data: {
-            type: TypeDefinition.InputObjectTypeDefinition
+            type: TypeDefinition.InputObjectTypeDefinition,
           },
           args: [
             {
               name: 'name',
               type: {
-                name: ScalarTypes.String
+                name: ScalarTypes.String,
               },
               data: {
-                type: TypeSystemDefinition.FieldDefinition
+                type: TypeSystemDefinition.FieldDefinition,
               },
               directives: [],
-              args: []
+              args: [],
             },
             {
               name: 'age',
               type: {
-                name: ScalarTypes.Int
+                name: ScalarTypes.Int,
               },
               data: {
-                type: TypeSystemDefinition.FieldDefinition
+                type: TypeSystemDefinition.FieldDefinition,
               },
               directives: [],
-              args: []
+              args: [],
             },
             {
               name: 'weight',
               type: {
-                name: ScalarTypes.Float
+                name: ScalarTypes.Float,
               },
               data: {
-                type: TypeSystemDefinition.FieldDefinition
+                type: TypeSystemDefinition.FieldDefinition,
               },
               directives: [],
-              args: []
-            }
+              args: [],
+            },
           ],
-          directives: []
+          directives: [],
         },
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.type
+            name: TypeDefinitionDisplayStrings.type,
           },
           data: {
-            type: TypeDefinition.ObjectTypeDefinition
+            type: TypeDefinition.ObjectTypeDefinition,
           },
           interfaces: [],
           directives: [
             {
               name: 'model',
               data: {
-                type: Instances.Directive
+                type: Instances.Directive,
               },
               type: {
-                name: 'model'
+                name: 'model',
               },
               args: [
                 {
                   name: 'address',
                   type: {
                     name: 'address',
-                    options: []
+                    options: [],
                   },
                   data: {
-                    type: Instances.Argument
+                    type: Instances.Argument,
                   },
                   args: [
                     {
@@ -681,117 +636,120 @@ describe('Directive tests on parser', () => {
                           name: 'name',
                           type: {
                             name: 'name',
-                            options: []
+                            options: [],
                           },
                           data: {
-                            type: Instances.Argument
+                            type: Instances.Argument,
                           },
                           args: [
                             {
                               name: 'Artur',
                               type: {
-                                name: Value.StringValue
+                                name: Value.StringValue,
                               },
                               data: {
-                                type: Value.StringValue
-                              }
-                            }
-                          ]
+                                type: Value.StringValue,
+                              },
+                            },
+                          ],
                         },
                         {
                           name: 'weight',
                           type: {
                             name: 'weight',
-                            options: []
+                            options: [],
                           },
                           data: {
-                            type: Instances.Argument
+                            type: Instances.Argument,
                           },
                           args: [
                             {
                               name: '22.3',
                               type: {
-                                name: Value.FloatValue
+                                name: Value.FloatValue,
                               },
                               data: {
-                                type: Value.FloatValue
-                              }
-                            }
-                          ]
-                        }
+                                type: Value.FloatValue,
+                              },
+                            },
+                          ],
+                        },
                       ],
                       data: {
-                        type: Value.ObjectValue
+                        type: Value.ObjectValue,
                       },
                       type: {
-                        name: Value.ObjectValue
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
+                        name: Value.ObjectValue,
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
           ],
-          args: []
+          args: [],
         },
         {
           name: 'model',
           type: {
             name: TypeSystemDefinitionDisplayStrings.directive,
-            directiveOptions: [Directive.OBJECT]
+            directiveOptions: [Directive.OBJECT],
           },
           data: {
-            type: TypeSystemDefinition.DirectiveDefinition
+            type: TypeSystemDefinition.DirectiveDefinition,
           },
           args: [
             {
               name: 'address',
               type: {
-                name: 'Address'
+                name: 'Address',
               },
               data: {
-                type: ValueDefinition.InputValueDefinition
+                type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
               args: [
                 {
                   name: Value.ObjectValue,
                   type: {
-                    name: Value.ObjectValue
+                    name: Value.ObjectValue,
                   },
                   data: {
-                    type: Value.ObjectValue
+                    type: Value.ObjectValue,
                   },
                   args: [
                     {
                       name: 'age',
                       type: {
                         name: 'age',
-                        options: []
+                        options: [],
                       },
                       data: {
-                        type: Instances.Argument
+                        type: Instances.Argument,
                       },
                       args: [
                         {
                           name: '2010',
                           type: {
-                            name: Value.IntValue
+                            name: Value.IntValue,
                           },
                           data: {
-                            type: Value.IntValue
-                          }
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ]
+                            type: Value.IntValue,
+                          },
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+
+    const graphql = trimGraphQL(TreeToGraphQL.parse(treeMock));
+    expect(graphql).toContain(`@model( address: Address = { age: 2010})`);
+    expect(graphql).toContain(`@model( address: { name: \"Artur\",weight: 22.3})`);
   });
 });

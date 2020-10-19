@@ -1,5 +1,5 @@
-import { ParserTree, TypeDefinition, TypeDefinitionDisplayStrings } from '../../src/Models';
-import { Parser, ParserUtils } from '../../src/Parser';
+import { ParserTree, TypeDefinition, TypeDefinitionDisplayStrings } from '../../Models';
+import { Parser, ParserUtils } from '../../Parser';
 
 describe('TypeDefintion declarations tests on parser', () => {
   test('ObjectTypeDefinition - type keyword', () => {
@@ -10,16 +10,16 @@ describe('TypeDefintion declarations tests on parser', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.type
+            name: TypeDefinitionDisplayStrings.type,
           },
           data: {
-            type: TypeDefinition.ObjectTypeDefinition
+            type: TypeDefinition.ObjectTypeDefinition,
           },
           interfaces: [],
           directives: [],
-          args: []
-        }
-      ]
+          args: [],
+        },
+      ],
     };
     expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
   });
@@ -31,15 +31,15 @@ describe('TypeDefintion declarations tests on parser', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.interface
+            name: TypeDefinitionDisplayStrings.interface,
           },
           data: {
-            type: TypeDefinition.InterfaceTypeDefinition
+            type: TypeDefinition.InterfaceTypeDefinition,
           },
           directives: [],
-          args: []
-        }
-      ]
+          args: [],
+        },
+      ],
     };
     expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
   });
@@ -51,15 +51,15 @@ describe('TypeDefintion declarations tests on parser', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.input
+            name: TypeDefinitionDisplayStrings.input,
           },
           data: {
-            type: TypeDefinition.InputObjectTypeDefinition
+            type: TypeDefinition.InputObjectTypeDefinition,
           },
           directives: [],
-          args: []
-        }
-      ]
+          args: [],
+        },
+      ],
     };
     expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
   });
@@ -71,15 +71,15 @@ describe('TypeDefintion declarations tests on parser', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.enum
+            name: TypeDefinitionDisplayStrings.enum,
           },
           data: {
-            type: TypeDefinition.EnumTypeDefinition
+            type: TypeDefinition.EnumTypeDefinition,
           },
           directives: [],
-          args: []
-        }
-      ]
+          args: [],
+        },
+      ],
     };
     expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
   });
@@ -91,15 +91,15 @@ describe('TypeDefintion declarations tests on parser', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.union
+            name: TypeDefinitionDisplayStrings.union,
           },
           data: {
-            type: TypeDefinition.UnionTypeDefinition
+            type: TypeDefinition.UnionTypeDefinition,
           },
           directives: [],
-          args: []
-        }
-      ]
+          args: [],
+        },
+      ],
     };
     expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
   });
@@ -111,14 +111,14 @@ describe('TypeDefintion declarations tests on parser', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.scalar
+            name: TypeDefinitionDisplayStrings.scalar,
           },
           data: {
-            type: TypeDefinition.ScalarTypeDefinition
+            type: TypeDefinition.ScalarTypeDefinition,
           },
-          directives: []
-        }
-      ]
+          directives: [],
+        },
+      ],
     };
     expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
   });

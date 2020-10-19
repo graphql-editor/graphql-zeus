@@ -278,9 +278,9 @@ export type SpecialCard = {
 }
 
 export enum SpecialSkills {
-	THUNDER = "THUNDER",
 	RAIN = "RAIN",
-	FIRE = "FIRE"
+	FIRE = "FIRE",
+	THUNDER = "THUNDER"
 }
 
 

@@ -1,5 +1,5 @@
-import { Helpers, ParserTree } from '../../src/Models';
-import { TreeToGraphQL } from '../../src/TreeToGraphQL';
+import { Helpers, ParserTree } from '../../Models';
+import { TreeToGraphQL } from '../../TreeToGraphQL';
 
 describe('Comment tests on TreeToGraphQL', () => {
   it('Creates comment node and parse it back', () => {

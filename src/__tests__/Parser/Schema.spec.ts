@@ -4,9 +4,9 @@ import {
   ScalarTypes,
   TypeDefinition,
   TypeDefinitionDisplayStrings,
-  TypeSystemDefinition
-} from '../../src/Models';
-import { Parser, ParserUtils } from '../../src/Parser';
+  TypeSystemDefinition,
+} from '../../Models';
+import { Parser, ParserUtils } from '../../Parser';
 
 describe('Schema base operations', () => {
   test(`query`, () => {
@@ -24,10 +24,10 @@ describe('Schema base operations', () => {
           name: 'Query',
           type: {
             name: TypeDefinitionDisplayStrings.type,
-            operations: [OperationType.query]
+            operations: [OperationType.query],
           },
           data: {
-            type: TypeDefinition.ObjectTypeDefinition
+            type: TypeDefinition.ObjectTypeDefinition,
           },
           interfaces: [],
           directives: [],
@@ -35,17 +35,17 @@ describe('Schema base operations', () => {
             {
               name: 'status',
               type: {
-                name: ScalarTypes.String
+                name: ScalarTypes.String,
               },
               data: {
-                type: TypeSystemDefinition.FieldDefinition
+                type: TypeSystemDefinition.FieldDefinition,
               },
               directives: [],
-              args: []
-            }
-          ]
-        }
-      ]
+              args: [],
+            },
+          ],
+        },
+      ],
     };
     expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
   });
@@ -63,16 +63,16 @@ describe('Schema base operations', () => {
           name: 'Query',
           type: {
             name: TypeDefinitionDisplayStrings.type,
-            operations: [OperationType.query]
+            operations: [OperationType.query],
           },
           data: {
-            type: TypeDefinition.ObjectTypeDefinition
+            type: TypeDefinition.ObjectTypeDefinition,
           },
           interfaces: [],
           directives: [],
-          args: []
-        }
-      ]
+          args: [],
+        },
+      ],
     };
     expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
   });

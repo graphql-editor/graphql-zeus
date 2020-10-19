@@ -5,8 +5,8 @@ import {
   TypeDefinition,
   TypeDefinitionDisplayStrings,
   TypeSystemDefinition,
-} from '../../src/Models';
-import { TreeToGraphQL } from '../../src/TreeToGraphQL';
+} from '../../Models';
+import { TreeToGraphQL } from '../../TreeToGraphQL';
 
 describe('Fields tests on parser', () => {
   test(`Built in ScalarTypes - ${Object.keys(ScalarTypes).join(', ')}`, () => {

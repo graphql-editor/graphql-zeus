@@ -1,7 +1,7 @@
 """Defines user's account type"""
 enum AccountType {
-  PREMIUM
   FREE
+  PREMIUM
 }
 
 input ChangeSubscriptionInput {
@@ -11,6 +11,9 @@ input ChangeSubscriptionInput {
 
 """Checkout data needed to begin payment process"""
 input CheckoutDataInput {
+  """URL to which user should be redirected after successful transaction"""
+  successURL: String
+
   """URL to which user should be redirected after failed transaction"""
   cancelURL: String
 
@@ -28,13 +31,13 @@ input CheckoutDataInput {
 
   """Optional discount coupon"""
   coupon: String
-
-  """URL to which user should be redirected after successful transaction"""
-  successURL: String
 }
 
 """Customer data for checkout information"""
 input CustomerInput {
+  """Must be true for marketing to be allowed"""
+  marketingConsent: Boolean
+
   """User's email address"""
   email: String
 
@@ -43,9 +46,6 @@ input CustomerInput {
 
   """User's post code"""
   postCode: String
-
-  """Must be true for marketing to be allowed"""
-  marketingConsent: Boolean
 }
 
 """Amount is a number that gives precise representation of real numbers"""
@@ -131,10 +131,10 @@ type Mutation {
   
   name is project name
   """
-  createProject(public: Boolean, name: String!): Project!
+  createProject(name: String!, public: Boolean): Project!
 
   """Create new team"""
-  createTeam(name: String!, namespace: String!): TeamOps
+  createTeam(namespace: String!, name: String!): TeamOps
 
   """
   Create new user
@@ -187,17 +187,17 @@ type Namespace {
 
 """New source payload"""
 input NewSource {
-  """Length of source in bytes"""
-  contentLength: Int
-
-  """Source mime type"""
-  contentType: String
-
   """Source checksum"""
   checksum: String
 
   """source file name"""
   filename: String
+
+  """Length of source in bytes"""
+  contentLength: Int
+
+  """Source mime type"""
+  contentType: String
 }
 
 """PageInfo contains information about connection page"""
@@ -342,6 +342,12 @@ type ProjectOps {
 ProjectsSortInput defines how projects from listProjects should be sorted.
 """
 input ProjectsSortInput {
+  """Sort projects by creation date"""
+  createdAt: SortOrder
+
+  """Sort by name"""
+  name: SortOrder
+
   """Sort by id"""
   id: SortOrder
 
@@ -363,12 +369,6 @@ input ProjectsSortInput {
   Sort behaviour for projects by team is implemenation depednant.
   """
   team: SortOrder
-
-  """Sort projects by creation date"""
-  createdAt: SortOrder
-
-  """Sort by name"""
-  name: SortOrder
 }
 
 """Root query type"""
@@ -430,7 +430,7 @@ type Query {
   listProjects(owned: Boolean, last: String, limit: Int, sort: [ProjectsSortInput]): ProjectConnection
 
   """List of current user teams"""
-  myTeams(last: String, limit: Int): TeamConnection
+  myTeams(limit: Int, last: String): TeamConnection
 
   """List user payments"""
   payments: [Payment]
@@ -561,7 +561,7 @@ type TeamOps {
   member(username: String!): MemberOps
 
   """Paginated list of members in team"""
-  members(last: String, limit: Int): MemberConnection
+  members(limit: Int, last: String): MemberConnection
 
   """Team name"""
   name: String
@@ -575,6 +575,9 @@ type TeamOps {
 
 """Update project payload"""
 input UpdateProject {
+  """New description for project"""
+  description: String
+
   """List of tags for project"""
   tags: [String!]
 
@@ -583,9 +586,6 @@ input UpdateProject {
 
   """ID of project to be updated"""
   project: ID
-
-  """New description for project"""
-  description: String
 }
 
 """Editor user"""
@@ -616,15 +616,6 @@ type UserConnection {
 
 """Vat information of a user"""
 input VatInput {
-  """Vat company state address. Optional."""
-  state: String
-
-  """Vat company country address."""
-  country: String
-
-  """Vat company post code address."""
-  postCode: String
-
   """Vat number"""
   number: String
 
@@ -636,6 +627,15 @@ input VatInput {
 
   """Vat company city address"""
   city: String
+
+  """Vat company state address. Optional."""
+  state: String
+
+  """Vat company country address."""
+  country: String
+
+  """Vat company post code address."""
+  postCode: String
 }
 
 schema{

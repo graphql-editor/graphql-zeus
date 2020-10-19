@@ -1,5 +1,5 @@
-import { ParserTree, ScalarTypes, TypeDefinition, TypeSystemDefinition } from '../../src/Models';
-import { TreeToGraphQL } from '../../src/TreeToGraphQL';
+import { ParserTree, ScalarTypes, TypeDefinition, TypeSystemDefinition } from '../../Models';
+import { TreeToGraphQL } from '../../TreeToGraphQL';
 
 describe('Interfaces works as expected in TreeGraphQL', () => {
   it('Implements HasName Person type', () => {

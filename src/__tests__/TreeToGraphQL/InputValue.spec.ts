@@ -6,20 +6,11 @@ import {
   TypeDefinitionDisplayStrings,
   Value,
   ValueDefinition,
-  Options,
-} from '../../src/Models';
-import { Parser, ParserUtils } from '../../src/Parser';
+} from '../../Models';
+import { TreeToGraphQL } from '../../TreeToGraphQL';
 
-describe('Input Values tests on parser', () => {
+describe('Input Values tests on TreeToGraphQL', () => {
   test(`Built in ScalarTypes - ${Object.keys(ScalarTypes).join(', ')}`, () => {
-    const schema = `input Person{
-        id: ${ScalarTypes.ID}
-        name: ${ScalarTypes.String}
-        age: ${ScalarTypes.Int}
-        weight: ${ScalarTypes.Float}
-        verified: ${ScalarTypes.Boolean}
-    }`;
-    const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
         {
@@ -91,15 +82,14 @@ describe('Input Values tests on parser', () => {
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+    const graphql = TreeToGraphQL.parse(treeMock);
+    expect(graphql).toContain(`id: ${ScalarTypes.ID}`);
+    expect(graphql).toContain(`name: ${ScalarTypes.String}`);
+    expect(graphql).toContain(`age: ${ScalarTypes.Int}`);
+    expect(graphql).toContain(`weight: ${ScalarTypes.Float}`);
+    expect(graphql).toContain(`verified: ${ScalarTypes.Boolean}`);
   });
   test('Enum objects', () => {
-    const schema = `
-    enum Car
-    input Person{
-        car: Car
-    }`;
-    const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
         {
@@ -138,17 +128,11 @@ describe('Input Values tests on parser', () => {
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+
+    const graphql = TreeToGraphQL.parse(treeMock);
+    expect(graphql).toContain(`car: Car`);
   });
   test('Input objects', () => {
-    const schema = `
-    input Car{
-        year:Int
-    }
-    input Person{
-        car: Car
-    }`;
-    const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
         {
@@ -199,15 +183,11 @@ describe('Input Values tests on parser', () => {
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+
+    const graphql = TreeToGraphQL.parse(treeMock);
+    expect(graphql).toContain(`car: Car`);
   });
   test('Custom scalar objects', () => {
-    const schema = `
-    scalar Car
-    input Person{
-        car: Car
-    }`;
-    const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
         {
@@ -245,21 +225,11 @@ describe('Input Values tests on parser', () => {
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+
+    const graphql = TreeToGraphQL.parse(treeMock);
+    expect(graphql).toContain(`car: Car`);
   });
   test(`Default ScalarTypes values - ${Object.keys(ScalarTypes).join(', ')}`, () => {
-    const schema = `input Person{
-        id: ${ScalarTypes.ID} = "abcdef"
-        name: ${ScalarTypes.String} = "Artur"
-        emptyName: ${ScalarTypes.String} = ""
-        noName: ${ScalarTypes.String}
-        emptyArray: [${ScalarTypes.String}] = []
-        noArray: [${ScalarTypes.String}]
-        age: ${ScalarTypes.Int} = 28
-        weight: ${ScalarTypes.Float} = 73.0
-        verified: ${ScalarTypes.Boolean} = true
-    }`;
-    const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
         {
@@ -313,60 +283,6 @@ describe('Input Values tests on parser', () => {
                   },
                 },
               ],
-            },
-            {
-              name: 'emptyName',
-              type: {
-                name: ScalarTypes.String,
-              },
-              data: {
-                type: ValueDefinition.InputValueDefinition,
-              },
-              directives: [],
-              args: [
-                {
-                  name: '',
-                  type: {
-                    name: Value.StringValue,
-                  },
-                  data: {
-                    type: Value.StringValue,
-                  },
-                },
-              ],
-            },
-            {
-              name: 'noName',
-              type: {
-                name: ScalarTypes.String,
-              },
-              data: {
-                type: ValueDefinition.InputValueDefinition,
-              },
-              directives: [],
-            },
-            {
-              name: 'emptyArray',
-              type: {
-                name: ScalarTypes.String,
-                options: [Options.array],
-              },
-              data: {
-                type: ValueDefinition.InputValueDefinition,
-              },
-              directives: [],
-              args: [],
-            },
-            {
-              name: 'noArray',
-              type: {
-                name: ScalarTypes.String,
-                options: [Options.array],
-              },
-              data: {
-                type: ValueDefinition.InputValueDefinition,
-              },
-              directives: [],
             },
             {
               name: 'age',
@@ -435,20 +351,16 @@ describe('Input Values tests on parser', () => {
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+
+    const graphql = TreeToGraphQL.parse(treeMock);
+    expect(graphql).toContain(`id: ${ScalarTypes.ID} = "abcdef"`);
+    expect(graphql).toContain(`name: ${ScalarTypes.String} = "Artur"`);
+    expect(graphql).toContain(`age: ${ScalarTypes.Int} = 28`);
+    expect(graphql).toContain(`weight: ${ScalarTypes.Float} = 73.0`);
+    expect(graphql).toContain(`verified: ${ScalarTypes.Boolean} = true`);
   });
 
   test('Default Input objects', () => {
-    const schema = `
-    input Car{
-        year:Int
-    }
-    input Person{
-        car: Car = {
-            year: 2010
-        }
-    }`;
-    const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
         {
@@ -532,18 +444,11 @@ describe('Input Values tests on parser', () => {
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+    const graphql = TreeToGraphQL.parse(treeMock);
+    expect(graphql).toContain(`car: Car = {`);
+    expect(graphql).toContain(`year: 2010`);
   });
   test('Default Enum objects', () => {
-    const schema = `
-    enum Car {
-        HONDA
-        YAMAHA
-    }
-    input Person{
-        car: Car = HONDA
-    }`;
-    const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
         {
@@ -613,6 +518,7 @@ describe('Input Values tests on parser', () => {
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+    const graphql = TreeToGraphQL.parse(treeMock);
+    expect(graphql).toContain(`car: Car = HONDA`);
   });
 });

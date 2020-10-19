@@ -1,5 +1,5 @@
-import { ParserTree, ScalarTypes, TypeDefinition, TypeSystemDefinition } from '../../src/Models';
-import { Parser, ParserUtils } from '../../src/Parser';
+import { ParserTree, ScalarTypes, TypeDefinition, TypeSystemDefinition } from '../../Models';
+import { Parser, ParserUtils } from '../../Parser';
 
 describe('Interfaces works as expected', () => {
   it('Implements HasName Person type', () => {
@@ -15,10 +15,10 @@ describe('Interfaces works as expected', () => {
         {
           name: 'Person',
           type: {
-            name: 'type'
+            name: 'type',
           },
           data: {
-            type: TypeDefinition.ObjectTypeDefinition
+            type: TypeDefinition.ObjectTypeDefinition,
           },
           description: '',
           interfaces: ['HasName'],
@@ -28,22 +28,22 @@ describe('Interfaces works as expected', () => {
               name: 'name',
               args: [],
               type: {
-                name: ScalarTypes.String
+                name: ScalarTypes.String,
               },
               directives: [],
               data: {
-                type: TypeSystemDefinition.FieldDefinition
-              }
-            }
-          ]
+                type: TypeSystemDefinition.FieldDefinition,
+              },
+            },
+          ],
         },
         {
           name: 'HasName',
           type: {
-            name: 'interface'
+            name: 'interface',
           },
           data: {
-            type: TypeDefinition.InterfaceTypeDefinition
+            type: TypeDefinition.InterfaceTypeDefinition,
           },
           description: '',
           directives: [],
@@ -52,16 +52,16 @@ describe('Interfaces works as expected', () => {
               name: 'name',
               args: [],
               type: {
-                name: ScalarTypes.String
+                name: ScalarTypes.String,
               },
               directives: [],
               data: {
-                type: TypeSystemDefinition.FieldDefinition
-              }
-            }
-          ]
-        }
-      ]
+                type: TypeSystemDefinition.FieldDefinition,
+              },
+            },
+          ],
+        },
+      ],
     };
     expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
   });

@@ -1,21 +1,22 @@
+import { TreeToGraphQL } from '../../TreeToGraphQL';
 import {
-  Helpers,
   ParserTree,
   ScalarTypes,
   TypeDefinition,
   TypeDefinitionDisplayStrings,
+  TypeExtension,
   TypeSystemDefinition,
-} from '../../src/Models';
-import { Parser, ParserUtils } from '../../src/Parser';
+} from '../../Models';
+import { Parser, ParserUtils } from '../../Parser';
 
-describe('Comment tests on parser', () => {
-  it('Creates comment node from graphql', () => {
+describe('Extend tests on parser', () => {
+  it('Extends Person type', () => {
     const schema = `
-          type Person{
-              name:String
-          }
-          # hello world
-          `;
+        type Person{ name:String }
+        extend type Person {
+            age: Int
+        }
+        `;
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
@@ -45,49 +46,22 @@ describe('Comment tests on parser', () => {
           ],
         },
         {
-          name: Helpers.Comment,
-          type: {
-            name: Helpers.Comment,
-          },
-          data: {
-            type: Helpers.Comment,
-          },
-          description: 'hello world',
-        },
-      ],
-    };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
-  });
-  it('Doesnt create a comment node from markdown in description', () => {
-    const schema = `
-"""
-# My header
-"""
-type Person{
-    name:String
-}
-# hello world
-          `;
-    const tree = Parser.parse(schema);
-    const treeMock: ParserTree = {
-      nodes: [
-        {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.type,
+            name: 'type',
           },
           data: {
-            type: TypeDefinition.ObjectTypeDefinition,
+            type: TypeExtension.ObjectTypeExtension,
           },
-          description: `# My header`,
+          description: '',
           interfaces: [],
           directives: [],
           args: [
             {
-              name: 'name',
+              name: 'age',
               args: [],
               type: {
-                name: ScalarTypes.String,
+                name: ScalarTypes.Int,
               },
               directives: [],
               data: {
@@ -96,18 +70,23 @@ type Person{
             },
           ],
         },
-        {
-          name: Helpers.Comment,
-          type: {
-            name: Helpers.Comment,
-          },
-          data: {
-            type: Helpers.Comment,
-          },
-          description: 'hello world',
-        },
       ],
     };
     expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+  });
+  it('Extends Person type and correctly join extensions', () => {
+    const schema = `
+        directive @model on OBJECT
+        type Person @model { name:String }
+        extend type Person {
+            age: Int
+        }
+    `;
+    const extendedSchema = TreeToGraphQL.parse(Parser.parseAddExtensions(schema));
+    console.log(extendedSchema);
+    expect(extendedSchema).toContain('type Person @model');
+    expect(extendedSchema).toContain('name: String');
+    expect(extendedSchema).toContain('age: Int');
+    expect(extendedSchema).not.toContain('extend type Person');
   });
 });

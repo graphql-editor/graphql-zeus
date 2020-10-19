@@ -1,6 +1,6 @@
-import { OperationType } from '../../src/Models';
-import { Parser } from '../../src/Parser';
-import { TreeToTS } from '../../src/TreeToTS';
+import { OperationType } from '../../Models';
+import { Parser } from '../../Parser';
+import { TreeToTS } from '../../TreeToTS';
 
 const schema = `
 type Person{ name:String }

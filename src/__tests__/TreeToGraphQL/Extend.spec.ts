@@ -5,8 +5,8 @@ import {
   TypeDefinitionDisplayStrings,
   TypeExtension,
   TypeSystemDefinition,
-} from '../../src/Models';
-import { TreeToGraphQL } from '../../src/TreeToGraphQL';
+} from '../../Models';
+import { TreeToGraphQL } from '../../TreeToGraphQL';
 
 describe('Extend tests on TreeToGraphQL', () => {
   it('Extends Person TreeToGraphQL', () => {

@@ -5,8 +5,8 @@ import {
   TypeDefinition,
   TypeDefinitionDisplayStrings,
   TypeSystemDefinition,
-} from '../../src/Models';
-import { TreeToGraphQL } from '../../src/TreeToGraphQL';
+} from '../../Models';
+import { TreeToGraphQL } from '../../TreeToGraphQL';
 import { trimGraphQL } from '../TestUtils';
 
 describe('Schema base operations in TreeToGraphQL', () => {

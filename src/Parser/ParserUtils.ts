@@ -1,4 +1,4 @@
-import { ParserField } from '@/Models';
+import { ParserField, TypeDefinition, TypeExtension } from '@/Models';
 
 const compareArrays = (a1: any[] = [], a2: any[] = []): boolean =>
   a1.length === a2.length &&
@@ -6,6 +6,14 @@ const compareArrays = (a1: any[] = [], a2: any[] = []): boolean =>
     return value === a2.sort()[index];
   });
 
+const extensionMap: Record<TypeExtension, TypeDefinition> = {
+  EnumTypeExtension: TypeDefinition.EnumTypeDefinition,
+  InputObjectTypeExtension: TypeDefinition.InputObjectTypeDefinition,
+  InterfaceTypeExtension: TypeDefinition.InterfaceTypeDefinition,
+  ObjectTypeExtension: TypeDefinition.ObjectTypeDefinition,
+  ScalarTypeExtension: TypeDefinition.ScalarTypeDefinition,
+  UnionTypeExtension: TypeDefinition.UnionTypeDefinition,
+};
 /**
  * Class used mainly for comparison of ParserFields
  */
@@ -52,6 +60,15 @@ export class ParserUtils {
       if (!compareResult) {
         return false;
       }
+    }
+    return true;
+  };
+  static isExtensionOf = (extensionNode: ParserField, extendedNode: ParserField): boolean => {
+    if (extendedNode.name !== extensionNode.name) {
+      return false;
+    }
+    if (extensionMap[extensionNode.data.type as TypeExtension] !== extendedNode.data.type) {
+      return false;
     }
     return true;
   };

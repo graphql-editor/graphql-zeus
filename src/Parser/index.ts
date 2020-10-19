@@ -2,7 +2,6 @@ import {
   buildASTSchema,
   DefinitionNode,
   DocumentNode,
-  extendSchema,
   GraphQLSchema,
   isTypeSystemDefinitionNode,
   isTypeSystemExtensionNode,
@@ -10,9 +9,8 @@ import {
 } from 'graphql';
 import { AllTypes, ParserField, ParserTree, TypeDefinitionDisplayMap } from '@/Models';
 import { Directive, Helpers, OperationType, TypeDefinition, TypeExtension } from '@/Models/Spec';
-import { TreeToGraphQL } from '@/TreeToGraphQL';
-import { Utils } from '@/Utils';
 import { TypeResolver } from './typeResolver';
+import { ParserUtils } from './ParserUtils';
 export class Parser {
   static findComments(schema: string): string[] {
     const stripDocs = schema
@@ -128,18 +126,24 @@ export class Parser {
     if (!Extensions || Extensions.length === 0) {
       return parsed;
     }
-    const wihtoutExtensions = parsed.nodes.filter((n) => !(n.data.type && n.data.type in TypeExtension));
-    const schemaStringWithoutExtensions = TreeToGraphQL.parse({
-      nodes: wihtoutExtensions,
+    const nodes = parsed.nodes.filter((n) => !(n.data.type && n.data.type in TypeExtension));
+    Extensions.forEach((e) => {
+      const extendedNode = nodes.find((we) => ParserUtils.isExtensionOf(e, we));
+      if (!extendedNode) {
+        throw new Error(`Invalid extension node`);
+      }
+      if (e.directives) {
+        extendedNode.directives = [...(extendedNode.directives || []), ...e.directives];
+      }
+      if (e.interfaces) {
+        extendedNode.interfaces = [...(extendedNode.interfaces || []), ...e.interfaces];
+      }
+      if (e.args) {
+        extendedNode.args = [...(extendedNode.args || []), ...e.args];
+      }
     });
-    const schemaStringWithExtensionsOnly = TreeToGraphQL.parse({
-      nodes: Extensions,
-    });
-    const parsedSchemaWithoutExtensions = parse(schemaStringWithoutExtensions);
-    const parsedSchemaWithExtensionsOnly = parse(schemaStringWithExtensionsOnly);
-    const baseAstSchema = buildASTSchema(parsedSchemaWithoutExtensions);
-    const extendedSchemaString = Utils.printFullSchema(extendSchema(baseAstSchema, parsedSchemaWithExtensionsOnly));
-    return Parser.parse(extendedSchemaString);
+
+    return { nodes };
   };
 }
 export * from './ParserUtils';

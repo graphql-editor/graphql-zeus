@@ -1,6 +1,6 @@
-import { ScalarTypes } from '../../src/Models';
-import { Parser } from '../../src/Parser';
-import { TreeToTS } from '../../src/TreeToTS';
+import { ScalarTypes } from '../../Models';
+import { Parser } from '../../Parser';
+import { TreeToTS } from '../../TreeToTS';
 
 describe('Fields tests on TypeScript code', () => {
   test(`Built in ScalarTypes - ${Object.keys(ScalarTypes).join(', ')}`, () => {
