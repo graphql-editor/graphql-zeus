@@ -13,6 +13,12 @@ export const AllTypesProps = {
 		}
 	},
 	createCard:{
+		Children:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
 		Attack:{
 			type:"Int",
 			array:false,
@@ -42,12 +48,6 @@ export const AllTypesProps = {
 			array:false,
 			arrayRequired:false,
 			required:true
-		},
-		Children:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
 		}
 	},
 	Mutation:{

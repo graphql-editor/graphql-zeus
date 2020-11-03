@@ -18,13 +18,6 @@ const run = async () => {
         },
       },
       {
-        id: true,
-        description: true,
-        name: true,
-        Attack: true,
-        skills: true,
-        Children: true,
-        Defense: true,
         cardImage: {
           bucket: true,
           region: true,

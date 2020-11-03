@@ -35,8 +35,6 @@ attack?: [{	/** Attacked card/card ids<br> */
 }>;
 	/** create card inputs<br> */
 ["createCard"]: {
-	/** input skills */
-	skills?:ValueTypes["SpecialSkills"][],
 	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
@@ -46,7 +44,9 @@ attack?: [{	/** Attacked card/card ids<br> */
 	/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
-	Defense:number
+	Defense:number,
+	/** input skills */
+	skills?:ValueTypes["SpecialSkills"][]
 };
 	["EffectCard"]: AliasType<{
 	effectSize?:true,
@@ -122,8 +122,6 @@ export type PartialObjects = {
 	["ChangeCard"]: PartialObjects["SpecialCard"] | PartialObjects["EffectCard"],
 	/** create card inputs<br> */
 ["createCard"]: {
-	/** input skills */
-	skills?:PartialObjects["SpecialSkills"][],
 	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
@@ -133,7 +131,9 @@ export type PartialObjects = {
 	/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
-	Defense:number
+	Defense:number,
+	/** input skills */
+	skills?:PartialObjects["SpecialSkills"][]
 },
 	["EffectCard"]: {
 		__typename?: "EffectCard";
@@ -213,9 +213,7 @@ export type ChangeCard = {
 
 /** create card inputs<br> */
 export type createCard = {
-		/** input skills */
-	skills?:SpecialSkills[],
-	/** The name of a card<br> */
+		/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
 	description:string,
@@ -224,7 +222,9 @@ export type createCard = {
 	/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
-	Defense:number
+	Defense:number,
+	/** input skills */
+	skills?:SpecialSkills[]
 }
 
 export type EffectCard = {
@@ -278,9 +278,9 @@ export type SpecialCard = {
 }
 
 export enum SpecialSkills {
+	FIRE = "FIRE",
 	THUNDER = "THUNDER",
-	RAIN = "RAIN",
-	FIRE = "FIRE"
+	RAIN = "RAIN"
 }
 
 export const AllTypesProps: Record<string,any> = {
@@ -295,12 +295,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	createCard:{
-		skills:{
-			type:"SpecialSkills",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
 		name:{
 			type:"String",
 			array:false,
@@ -328,6 +322,12 @@ export const AllTypesProps: Record<string,any> = {
 		Defense:{
 			type:"Int",
 			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		skills:{
+			type:"SpecialSkills",
+			array:true,
 			arrayRequired:false,
 			required:true
 		}
@@ -420,122 +420,44 @@ export class GraphQLError extends Error {
   }
 
 
-type Func<P extends any[], R> = (...args: P) => R;
-type AnyFunc = Func<any, any>;
-
 type WithTypeNameValue<T> = T & {
   __typename?: true;
 };
-
 type AliasType<T> = WithTypeNameValue<T> & {
   __alias?: Record<string, WithTypeNameValue<T>>;
 };
-
-type NotUndefined<T> = T extends undefined ? never : T;
-
-export type ResolverType<F> = NotUndefined<F extends [infer ARGS, any] ? ARGS : undefined>;
-
-export type ArgsType<F extends AnyFunc> = F extends Func<infer P, any> ? P : never;
-
 interface GraphQLResponse {
   data?: Record<string, any>;
   errors?: Array<{
     message: string;
   }>;
 }
-
-export type ValuesOf<T> = T[keyof T];
-
-export type MapResolve<SRC, DST> = SRC extends {
-    __interface: infer INTERFACE;
-    __resolve: Record<string, { __typename?: string }> & infer IMPLEMENTORS;
-  }
-  ?
-  ValuesOf<{
-    [k in (keyof SRC['__resolve'] & keyof DST)]: ({
-      [rk in (keyof SRC['__resolve'][k] & keyof DST[k])]: LastMapTypeSRCResolver<SRC['__resolve'][k][rk], DST[k][rk]>
-    } & {
-      __typename: SRC['__resolve'][k]['__typename']
-    })
-  }>
-  :
-  never;
-
-export type MapInterface<SRC, DST> = SRC extends {
-    __interface: infer INTERFACE;
-    __resolve: Record<string, { __typename?: string }> & infer IMPLEMENTORS;
-  }
-  ?
-  (MapResolve<SRC, DST> extends never ? {} : MapResolve<SRC, DST>) & {
-  [k in (keyof SRC['__interface'] & keyof DST)]: LastMapTypeSRCResolver<SRC['__interface'][k], DST[k]>
-} : never;
-
-export type ValueToUnion<T> = T extends {
-  __typename: infer R;
-}
+type DeepAnify<T> = {
+  [P in keyof T]?: any;
+};
+type IsPayLoad<T> = T extends [any, infer PayLoad] ? PayLoad : T;
+type IsArray<T, U> = T extends Array<infer R> ? InputType<R, U>[] : InputType<T, U>;
+type MapType<SRC, DST> = SRC extends DeepAnify<DST>
   ? {
-      [P in keyof Omit<T, '__typename'>]: T[P] & {
-        __typename: R;
-      };
+      [P in keyof DST]: DST[P] extends true ? SRC[P] : IsArray<SRC[P], DST[P]>;
     }
-  : T;
-
-export type ObjectToUnion<T> = {
-  [P in keyof T]: T[P];
-}[keyof T];
-
-type Anify<T> = { [P in keyof T]?: any };
-
-
-type LastMapTypeSRCResolver<SRC, DST> = SRC extends undefined
-  ? undefined
-  : SRC extends Array<infer AR>
-  ? LastMapTypeSRCResolver<AR, DST>[]
-  : SRC extends { __interface: any; __resolve: any }
-  ? MapInterface<SRC, DST>
-  : SRC extends { __union: any; __resolve: infer RESOLVE }
-  ? ObjectToUnion<MapType<RESOLVE, ValueToUnion<DST>>>
-  : DST extends boolean
-  ? SRC
-  : MapType<SRC, DST>;
-
-export type MapType<SRC extends Anify<DST>, DST> = DST extends boolean
-  ? SRC
-  : DST extends {
-      __alias: any;
-    }
+  : never;
+type InputType<SRC, DST> = IsPayLoad<DST> extends { __alias: infer R }
   ? {
-      [A in keyof DST["__alias"]]: Required<SRC> extends Anify<
-        DST["__alias"][A]
-      >
-        ? MapType<Required<SRC>, DST["__alias"][A]>
-        : never;
+      [P in keyof R]: MapType<SRC, R[P]>;
     } &
-      {
-        [Key in keyof Omit<DST, "__alias">]: DST[Key] extends [
-          any,
-          infer PAYLOAD
-        ]
-          ? LastMapTypeSRCResolver<SRC[Key], PAYLOAD>
-          : LastMapTypeSRCResolver<SRC[Key], DST[Key]>;
-      }
-  : {
-      [Key in keyof DST]: DST[Key] extends [any, infer PAYLOAD]
-        ? LastMapTypeSRCResolver<SRC[Key], PAYLOAD>
-        : LastMapTypeSRCResolver<SRC[Key], DST[Key]>;
-    };
-
-type OperationToGraphQL<V, T> = <Z extends V>(o: Z | V, variables?: Record<string, any>) => Promise<MapType<T, Z>>;
-
-type CastToGraphQL<V, T> = (
-  resultOfYourQuery: any
-) => <Z extends V>(o: Z | V) => MapType<T, Z>;
-
+      MapType<SRC, Omit<IsPayLoad<DST>, '__alias'>>
+  : MapType<SRC, IsPayLoad<DST>>;
+type Func<P extends any[], R> = (...args: P) => R;
+type AnyFunc = Func<any, any>;
+export type ArgsType<F extends AnyFunc> = F extends Func<infer P, any> ? P : never;
+type OperationToGraphQL<V, T> = <Z extends V>(o: Z | V, variables?: Record<string, any>) => Promise<InputType<T, Z>>;
+type CastToGraphQL<V, T> = (resultOfYourQuery: any) => <Z extends V>(o: Z | V) => InputType<T, Z>;
+type SelectionFunction<V> = <T>(t: T | V) => T;
 type fetchOptions = ArgsType<typeof fetch>;
-
-export type SelectionFunction<V> = <T>(t: T | V) => T;
 type FetchFunction = (query: string, variables?: Record<string, any>) => Promise<any>;
-
+type NotUndefined<T> = T extends undefined ? never : T;
+export type ResolverType<F> = NotUndefined<F extends [infer ARGS, any] ? ARGS : undefined>;
 
 
 export const ZeusSelect = <T>() => ((t: any) => t) as SelectionFunction<T>;

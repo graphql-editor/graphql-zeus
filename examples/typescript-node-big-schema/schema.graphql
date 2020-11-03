@@ -5,12 +5,18 @@ enum AccountType {
 }
 
 input ChangeSubscriptionInput {
-  subscriptionID: Int!
   subscriptionPlanID: Int
+  subscriptionID: Int!
 }
 
 """Checkout data needed to begin payment process"""
 input CheckoutDataInput {
+  """Vat data"""
+  vat: VatInput
+
+  """Optional discount coupon"""
+  coupon: String
+
   """URL to which user should be redirected after successful transaction"""
   successURL: String
 
@@ -25,12 +31,6 @@ input CheckoutDataInput {
 
   """Customer data"""
   customer: CustomerInput
-
-  """Vat data"""
-  vat: VatInput
-
-  """Optional discount coupon"""
-  coupon: String
 }
 
 """Customer data for checkout information"""
@@ -151,6 +151,13 @@ type Mutation {
   """Remove project by id"""
   removeProject(project: ID!): Boolean
 
+  """
+  Synhronises the target project with source. It overrides existing files
+  of target with files of sources. It does not remove files from target that do not
+  exist in source.
+  """
+  sync(source: ID!, target: ID!): Boolean
+
   """type object node"""
   team(id: ID!): TeamOps
 
@@ -187,6 +194,9 @@ type Namespace {
 
 """New source payload"""
 input NewSource {
+  """Source mime type"""
+  contentType: String
+
   """Source checksum"""
   checksum: String
 
@@ -195,9 +205,6 @@ input NewSource {
 
   """Length of source in bytes"""
   contentLength: Int
-
-  """Source mime type"""
-  contentType: String
 }
 
 """PageInfo contains information about connection page"""
@@ -243,14 +250,14 @@ type PredictCheckout {
 
 """Checkout data needed to begin payment process"""
 input PredictCheckoutInput {
-  """An id of a chosen subscription plan"""
-  planID: ID!
-
   """Quantity of subscriptions that user wants"""
   quantity: Int
 
   """Optional discount coupon"""
   coupon: String
+
+  """An id of a chosen subscription plan"""
+  planID: ID!
 }
 
 """Project type"""
@@ -342,18 +349,6 @@ type ProjectOps {
 ProjectsSortInput defines how projects from listProjects should be sorted.
 """
 input ProjectsSortInput {
-  """Sort projects by creation date"""
-  createdAt: SortOrder
-
-  """Sort by name"""
-  name: SortOrder
-
-  """Sort by id"""
-  id: SortOrder
-
-  """Sort by owner"""
-  owner: SortOrder
-
   """Sort by visisbility"""
   public: SortOrder
 
@@ -369,6 +364,18 @@ input ProjectsSortInput {
   Sort behaviour for projects by team is implemenation depednant.
   """
   team: SortOrder
+
+  """Sort projects by creation date"""
+  createdAt: SortOrder
+
+  """Sort by name"""
+  name: SortOrder
+
+  """Sort by id"""
+  id: SortOrder
+
+  """Sort by owner"""
+  owner: SortOrder
 }
 
 """Root query type"""
@@ -393,7 +400,7 @@ type Query {
   
   limit limits the number of returned projects
   """
-  findProjects(query: String!, last: String, limit: Int): ProjectConnection
+  findProjects(limit: Int, query: String!, last: String): ProjectConnection
 
   """
   Find projects which contain tag
@@ -430,7 +437,7 @@ type Query {
   listProjects(owned: Boolean, last: String, limit: Int, sort: [ProjectsSortInput]): ProjectConnection
 
   """List of current user teams"""
-  myTeams(limit: Int, last: String): TeamConnection
+  myTeams(last: String, limit: Int): TeamConnection
 
   """List user payments"""
   payments: [Payment]
@@ -501,7 +508,7 @@ type Subscription {
   """Subscription unique id"""
   subscriptionID: Int
 
-  """Subscription unique id"""
+  """Subscription plan unique id"""
   subscriptionPlanID: Int
 
   """Update subscription URL"""
@@ -546,7 +553,7 @@ type TeamConnection {
 """Team operations"""
 type TeamOps {
   """Add member to the team"""
-  addMember(username: String!, role: Role!): Member
+  addMember(username: String!, role: Role!, loginCallback: String): Member
 
   """Create new team project"""
   createProject(public: Boolean, name: String!): Project
@@ -561,7 +568,7 @@ type TeamOps {
   member(username: String!): MemberOps
 
   """Paginated list of members in team"""
-  members(limit: Int, last: String): MemberConnection
+  members(last: String, limit: Int): MemberConnection
 
   """Team name"""
   name: String
@@ -575,17 +582,17 @@ type TeamOps {
 
 """Update project payload"""
 input UpdateProject {
-  """New description for project"""
-  description: String
-
-  """List of tags for project"""
-  tags: [String!]
-
   """Set project visiblity"""
   public: Boolean
 
   """ID of project to be updated"""
   project: ID
+
+  """New description for project"""
+  description: String
+
+  """List of tags for project"""
+  tags: [String!]
 }
 
 """Editor user"""
@@ -616,6 +623,12 @@ type UserConnection {
 
 """Vat information of a user"""
 input VatInput {
+  """Vat company country address."""
+  country: String
+
+  """Vat company post code address."""
+  postCode: String
+
   """Vat number"""
   number: String
 
@@ -630,12 +643,6 @@ input VatInput {
 
   """Vat company state address. Optional."""
   state: String
-
-  """Vat company country address."""
-  country: String
-
-  """Vat company post code address."""
-  postCode: String
 }
 
 schema{
