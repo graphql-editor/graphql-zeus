@@ -227,8 +227,11 @@ const run = async () => {
 
   const interfaceTest = await Gql.query({
     nameables: {
-      __typename: true,
       name: true,
+      __typename: true,
+      '...on Card': {
+        Attack: true,
+      },
     },
   });
   printQueryResult('interfaceTest', interfaceTest);

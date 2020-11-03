@@ -35,8 +35,6 @@ attack?: [{	/** Attacked card/card ids<br> */
 }>;
 	/** create card inputs<br> */
 ["createCard"]: {
-	/** <div>How many children the greek god had</div> */
-	Children?:number,
 	/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
@@ -46,7 +44,9 @@ attack?: [{	/** Attacked card/card ids<br> */
 	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
-	description:string
+	description:string,
+	/** <div>How many children the greek god had</div> */
+	Children?:number
 };
 	["EffectCard"]: AliasType<{
 	effectSize?:true,
@@ -122,8 +122,6 @@ export type PartialObjects = {
 	["ChangeCard"]: PartialObjects["SpecialCard"] | PartialObjects["EffectCard"],
 	/** create card inputs<br> */
 ["createCard"]: {
-	/** <div>How many children the greek god had</div> */
-	Children?:number,
 	/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
@@ -133,7 +131,9 @@ export type PartialObjects = {
 	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
-	description:string
+	description:string,
+	/** <div>How many children the greek god had</div> */
+	Children?:number
 },
 	["EffectCard"]: {
 		__typename?: "EffectCard";
@@ -176,7 +176,7 @@ export type PartialObjects = {
 
 /** Card used in card game<br> */
 export type Card = {
-	__typename?: "Card",
+	__typename: "Card",
 	/** The attack power<br> */
 	Attack:number,
 	/** <div>How many children the greek god had</div> */
@@ -198,24 +198,19 @@ export type Card = {
 
 /** Stack of cards */
 export type CardStack = {
-	__typename?: "CardStack",
+	__typename: "CardStack",
 	cards?:Card[],
 	name:string
 }
 
 export type ChangeCard = {
-	__union:SpecialCard | EffectCard;
-	__resolve:{
-		['...on SpecialCard']: SpecialCard;
-		['...on EffectCard']: EffectCard;
-	}
+	['...on SpecialCard']: SpecialCard;
+	['...on EffectCard']: EffectCard;
 }
 
 /** create card inputs<br> */
 export type createCard = {
-		/** <div>How many children the greek god had</div> */
-	Children?:number,
-	/** The attack power<br> */
+		/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
 	Defense:number,
@@ -224,35 +219,34 @@ export type createCard = {
 	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
-	description:string
+	description:string,
+	/** <div>How many children the greek god had</div> */
+	Children?:number
 }
 
 export type EffectCard = {
-	__typename?: "EffectCard",
+	__typename: "EffectCard",
 	effectSize:number,
 	name:string
 }
 
 export type Mutation = {
-	__typename?: "Mutation",
+	__typename: "Mutation",
 	/** add Card to Cards database<br> */
 	addCard:Card
 }
 
 export type Nameable = {
-	__interface:{
-			name:string
-	};
-	__resolve:{
-		['...on Card']: Card;
-		['...on CardStack']: CardStack;
-		['...on EffectCard']: EffectCard;
-		['...on SpecialCard']: SpecialCard;
-	}
+	__typename:"Card" | "CardStack" | "EffectCard" | "SpecialCard"
+	name:string
+	['...on Card']: Card;
+	['...on CardStack']: CardStack;
+	['...on EffectCard']: EffectCard;
+	['...on SpecialCard']: SpecialCard;
 }
 
 export type Query = {
-	__typename?: "Query",
+	__typename: "Query",
 	cardById?:Card,
 	/** Draw a card<br> */
 	drawCard:Card,
@@ -265,14 +259,14 @@ export type Query = {
 
 /** Aws S3 File */
 export type S3Object = {
-	__typename?: "S3Object",
+	__typename: "S3Object",
 	bucket:string,
 	key:string,
 	region:string
 }
 
 export type SpecialCard = {
-	__typename?: "SpecialCard",
+	__typename: "SpecialCard",
 	effect:string,
 	name:string
 }

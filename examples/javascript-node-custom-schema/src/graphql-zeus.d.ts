@@ -40,22 +40,22 @@ export type PartialObjects = {
   }
 
 export type NotMutation = {
-	__typename?: "NotMutation",
+	__typename: "NotMutation",
 	add?:Person
 }
 
 export type NotSubscription = {
-	__typename?: "NotSubscription",
+	__typename: "NotSubscription",
 	people?:(Person | undefined)[]
 }
 
 export type Person = {
-	__typename?: "Person",
+	__typename: "Person",
 	name?:string
 }
 
 export type Query = {
-	__typename?: "Query",
+	__typename: "Query",
 	people?:(Person | undefined)[]
 }
 
