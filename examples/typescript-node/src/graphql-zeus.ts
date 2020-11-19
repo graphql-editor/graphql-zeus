@@ -1,6 +1,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
+type ZEUS_INTERFACES = Nameable
+type ZEUS_UNIONS = ChangeCard
+
 export type ValueTypes = {
     /** Card used in card game<br> */
 ["Card"]: AliasType<{
@@ -35,6 +38,8 @@ attack?: [{	/** Attacked card/card ids<br> */
 }>;
 	/** create card inputs<br> */
 ["createCard"]: {
+	/** input skills */
+	skills?:ValueTypes["SpecialSkills"][],
 	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
@@ -44,9 +49,7 @@ attack?: [{	/** Attacked card/card ids<br> */
 	/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
-	Defense:number,
-	/** input skills */
-	skills?:ValueTypes["SpecialSkills"][]
+	Defense:number
 };
 	["EffectCard"]: AliasType<{
 	effectSize?:true,
@@ -122,6 +125,8 @@ export type PartialObjects = {
 	["ChangeCard"]: PartialObjects["SpecialCard"] | PartialObjects["EffectCard"],
 	/** create card inputs<br> */
 ["createCard"]: {
+	/** input skills */
+	skills?:PartialObjects["SpecialSkills"][],
 	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
@@ -131,9 +136,7 @@ export type PartialObjects = {
 	/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
-	Defense:number,
-	/** input skills */
-	skills?:PartialObjects["SpecialSkills"][]
+	Defense:number
 },
 	["EffectCard"]: {
 		__typename?: "EffectCard";
@@ -210,7 +213,9 @@ export type ChangeCard = {
 
 /** create card inputs<br> */
 export type createCard = {
-		/** The name of a card<br> */
+		/** input skills */
+	skills?:SpecialSkills[],
+	/** The name of a card<br> */
 	name:string,
 	/** Description of a card<br> */
 	description:string,
@@ -219,9 +224,7 @@ export type createCard = {
 	/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
-	Defense:number,
-	/** input skills */
-	skills?:SpecialSkills[]
+	Defense:number
 }
 
 export type EffectCard = {
@@ -289,6 +292,12 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	createCard:{
+		skills:{
+			type:"SpecialSkills",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
 		name:{
 			type:"String",
 			array:false,
@@ -316,12 +325,6 @@ export const AllTypesProps: Record<string,any> = {
 		Defense:{
 			type:"Int",
 			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		skills:{
-			type:"SpecialSkills",
-			array:true,
 			arrayRequired:false,
 			required:true
 		}
@@ -414,6 +417,17 @@ export class GraphQLError extends Error {
   }
 
 
+export type UnwrapPromise<T> = T extends Promise<infer R> ? R : T;
+export type ZeusState<T extends (...args: any[]) => Promise<any>> = NonNullable<
+  UnwrapPromise<ReturnType<T>>
+>;
+export type ZeusHook<
+  T extends (
+    ...args: any[]
+  ) => Record<string, (...args: any[]) => Promise<any>>,
+  N extends keyof ReturnType<T>
+> = ZeusState<ReturnType<T>[N]>;
+
 type WithTypeNameValue<T> = T & {
   __typename?: true;
 };
@@ -431,11 +445,26 @@ type DeepAnify<T> = {
 };
 type IsPayLoad<T> = T extends [any, infer PayLoad] ? PayLoad : T;
 type IsArray<T, U> = T extends Array<infer R> ? InputType<R, U>[] : InputType<T, U>;
-type MapType<SRC, DST> = SRC extends DeepAnify<DST>
-  ? {
+type FlattenArray<T> = T extends Array<infer R> ? R : T;
+
+type FilterFlags<Base, Condition> = {
+  [Key in keyof Base]: Base[Key] extends Condition ? Key : never;
+};
+type AllowedNames<Base, Condition> = FilterFlags<Base, Condition>[keyof Base];
+type SubType<Base, Condition> = Pick<Base, AllowedNames<Base, Condition>>;
+
+type UnionTypes<SRC extends DeepAnify<DST>, DST> = {
+  [P in keyof DST]: DST[P] extends true ? never : IsArray<SRC[P], DST[P]>;
+}[keyof DST];
+type IsInterfaced<SRC extends DeepAnify<DST>, DST> = FlattenArray<SRC> extends ZEUS_INTERFACES | ZEUS_UNIONS
+  ? UnionTypes<SRC, DST> &
+      {
+        [P in keyof SubType<DST, true>]: SRC[P];
+      }
+  : {
       [P in keyof DST]: DST[P] extends true ? SRC[P] : IsArray<SRC[P], DST[P]>;
-    }
-  : never;
+    };
+type MapType<SRC, DST> = SRC extends DeepAnify<DST> ? IsInterfaced<SRC, DST> : never;
 type InputType<SRC, DST> = IsPayLoad<DST> extends { __alias: infer R }
   ? {
       [P in keyof R]: MapType<SRC, R[P]>;

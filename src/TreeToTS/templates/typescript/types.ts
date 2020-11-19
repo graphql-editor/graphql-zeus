@@ -27,11 +27,26 @@ type DeepAnify<T> = {
 };
 type IsPayLoad<T> = T extends [any, infer PayLoad] ? PayLoad : T;
 type IsArray<T, U> = T extends Array<infer R> ? InputType<R, U>[] : InputType<T, U>;
-type MapType<SRC, DST> = SRC extends DeepAnify<DST>
-  ? {
+type FlattenArray<T> = T extends Array<infer R> ? R : T;
+
+type FilterFlags<Base, Condition> = {
+  [Key in keyof Base]: Base[Key] extends Condition ? Key : never;
+};
+type AllowedNames<Base, Condition> = FilterFlags<Base, Condition>[keyof Base];
+type SubType<Base, Condition> = Pick<Base, AllowedNames<Base, Condition>>;
+
+type UnionTypes<SRC extends DeepAnify<DST>, DST> = {
+  [P in keyof DST]: DST[P] extends true ? never : IsArray<SRC[P], DST[P]>;
+}[keyof DST];
+type IsInterfaced<SRC extends DeepAnify<DST>, DST> = FlattenArray<SRC> extends ZEUS_INTERFACES | ZEUS_UNIONS
+  ? UnionTypes<SRC, DST> &
+      {
+        [P in keyof SubType<DST, true>]: SRC[P];
+      }
+  : {
       [P in keyof DST]: DST[P] extends true ? SRC[P] : IsArray<SRC[P], DST[P]>;
-    }
-  : never;
+    };
+type MapType<SRC, DST> = SRC extends DeepAnify<DST> ? IsInterfaced<SRC, DST> : never;
 type InputType<SRC, DST> = IsPayLoad<DST> extends { __alias: infer R }
   ? {
       [P in keyof R]: MapType<SRC, R[P]>;

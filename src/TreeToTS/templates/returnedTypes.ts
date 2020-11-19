@@ -48,7 +48,20 @@ const resolveField = (f: ParserField): string => {
     toTypeScriptPrimitive(f.type.name),
   )}`;
 };
-
+export const resolveUnions = (rootNodes: ParserField[]): string => {
+  const unionTypes = rootNodes
+    .filter((rn) => rn.data.type === TypeDefinition.UnionTypeDefinition)
+    .map((rn) => rn.name)
+    .join(' | ');
+  return `type ZEUS_UNIONS = ${unionTypes}`;
+};
+export const resolveInterfaces = (rootNodes: ParserField[]): string => {
+  const interfaceTypes = rootNodes
+    .filter((rn) => rn.data.type === TypeDefinition.InterfaceTypeDefinition)
+    .map((rn) => rn.name)
+    .join(' | ');
+  return `type ZEUS_INTERFACES = ${interfaceTypes}`;
+};
 export const resolveTypeFromRoot = (i: ParserField, rootNodes: ParserField[]): string => {
   if (i.data.type === TypeSystemDefinition.DirectiveDefinition) {
     return '';

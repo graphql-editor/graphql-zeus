@@ -116,7 +116,7 @@ const run = async () => {
   //
   // The way it should be returned
   // ZeusCard.__alias["myAlias"].Attack
-  const { listCards: stack, drawCard: newCard } = await Gql.query({
+  const { listCards: stack, drawCard: newCard, drawChangeCard } = await Gql.query({
     listCards: {
       name: true,
       cardImage: {
@@ -126,10 +126,19 @@ const run = async () => {
     drawCard: {
       Attack: true,
     },
+    drawChangeCard: {
+      '...on SpecialCard': {
+        name: true,
+      },
+      '...on EffectCard': {
+        effectSize: true,
+      },
+    },
   });
 
   printQueryResult('stack', stack);
   printQueryResult('newCard', newCard);
+  printQueryResult('changeCard', drawChangeCard);
 
   const aliasedQuery = Zeus.query({
     __alias: {
@@ -227,15 +236,22 @@ const run = async () => {
 
   const interfaceTest = await Gql.query({
     nameables: {
-      name: true,
       __typename: true,
       '...on Card': {
         Attack: true,
       },
+      '...on SpecialCard': {
+        effect: true,
+      },
+      '...on CardStack': {
+        cards: {
+          name: true,
+        },
+      },
     },
   });
   printQueryResult('interfaceTest', interfaceTest);
-
+  interfaceTest.nameables.map((i) => i.__typename);
   // Variable test
   const test = await Gql.mutation(
     {
