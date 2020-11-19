@@ -1,4 +1,15 @@
 export const constantTypesTypescript = `
+export type UnwrapPromise<T> = T extends Promise<infer R> ? R : T;
+export type ZeusState<T extends (...args: any[]) => Promise<any>> = NonNullable<
+  UnwrapPromise<ReturnType<T>>
+>;
+export type ZeusHook<
+  T extends (
+    ...args: any[]
+  ) => Record<string, (...args: any[]) => Promise<any>>,
+  N extends keyof ReturnType<T>
+> = ZeusState<ReturnType<T>[N]>;
+
 type WithTypeNameValue<T> = T & {
   __typename?: true;
 };
