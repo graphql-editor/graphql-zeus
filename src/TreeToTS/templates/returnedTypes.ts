@@ -55,14 +55,14 @@ export const resolveUnions = (rootNodes: ParserField[]): string => {
     .filter((rn) => rn.data.type === TypeDefinition.UnionTypeDefinition)
     .map((rn) => `${TYPES}["${rn.name}"]`)
     .join(' | ');
-  return `type ZEUS_UNIONS = ${unionTypes}`;
+  return `type ZEUS_UNIONS = ${unionTypes || 'never'}`;
 };
 export const resolveInterfaces = (rootNodes: ParserField[]): string => {
   const interfaceTypes = rootNodes
     .filter((rn) => rn.data.type === TypeDefinition.InterfaceTypeDefinition)
     .map((rn) => `${TYPES}["${rn.name}"]`)
     .join(' | ');
-  return `type ZEUS_INTERFACES = ${interfaceTypes}`;
+  return `type ZEUS_INTERFACES = ${interfaceTypes || 'never'}`;
 };
 const resolveEnum = (i: ParserField): string => {
   if (!i.args) {
