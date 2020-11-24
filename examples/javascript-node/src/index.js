@@ -1,4 +1,4 @@
-import { Gql, Zeus, Thunder, Selectors } from './graphql-zeus';
+import { Gql, Zeus, Thunder, Selectors, resolverFor } from './graphql-zeus';
 import chalk from 'chalk';
 import fetch from 'node-fetch';
 // This will return Card object with ID only
@@ -124,6 +124,21 @@ const createCards = async () => {
         effect: true,
         name: true,
       },
+    },
+  });
+  const resolverTest = resolverFor('Query', 'cardById', ({ args }) => {
+    return {
+      Attack: 1,
+      Defense: 2,
+      description: 'Card',
+      id: args.cardId,
+      image: '13',
+      name: 'Cardsuper',
+    };
+  });
+  resolverTest({
+    args: {
+      cardId: '12',
     },
   });
   printQueryResult('drawChangeCard', drawChangeCard);

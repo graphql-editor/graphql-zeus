@@ -4,7 +4,7 @@ import { resolveValueTypes } from './templates/resolveValueTypes';
 import { resolvePartialObjects } from './templates/returnedPartialObjects';
 import { resolvePropTypeFromRoot } from './templates/returnedPropTypes';
 import { resolveReturnFromRoot } from './templates/returnedReturns';
-import { resolveTypeFromRoot, resolveInterfaces, resolveUnions } from './templates/returnedTypes';
+import { resolveInterfaces, resolveUnions, resolveTypes } from './templates/returnedTypes';
 import { bodyTypeScript, constantTypesTypescript } from './templates/typescript';
 
 export interface OperationName {
@@ -94,7 +94,7 @@ export class TreeToTS {
     return propTypes.concat('\n\n').concat(returnTypes);
   }
   static resolveBasisTypes(tree: ParserTree): string {
-    const rootTypes = tree.nodes.map((n) => resolveTypeFromRoot(n, tree.nodes));
+    const rootTypes = resolveTypes(tree.nodes);
     const valueTypes = resolveValueTypes(tree.nodes);
     const objectTypes = resolvePartialObjects(tree.nodes, tree.nodes);
     const unionTypes = resolveUnions(tree.nodes);
@@ -107,7 +107,7 @@ export class TreeToTS {
       .concat('\n\n')
       .concat(objectTypes)
       .concat('\n\n')
-      .concat(rootTypes.join('\n\n'));
+      .concat(rootTypes);
   }
   /**
    * Generate javascript and ts declaration file

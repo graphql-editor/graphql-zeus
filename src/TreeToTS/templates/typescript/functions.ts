@@ -13,6 +13,7 @@ import {
   buildQueryFunction,
   fullChainConstructFunction,
   VariableFunction,
+  resolverForFunction,
 } from '@/TreeToTS/functions';
 
 export const typescriptFunctions = (env: Environment): string => `
@@ -29,5 +30,6 @@ ${queryConstructFunction.ts}
 ${fullChainConstructFunction.ts}
 ${seekForAliasesFunction.ts}
 ${VariableFunction.ts}
+${resolverForFunction.ts}
 ${require(`./${env}/fetchFunction`).default}
 `;

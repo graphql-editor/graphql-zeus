@@ -42,25 +42,25 @@ export type PartialObjects = {
 	}
   }
 
-export type NotMutation = {
+export type GraphQLTypes = {
+    ["NotMutation"]: {
 	__typename: "NotMutation",
-	add?:Person
-}
-
-export type NotSubscription = {
+	add?:GraphQLTypes["Person"]
+};
+	["NotSubscription"]: {
 	__typename: "NotSubscription",
-	people?:(Person | undefined)[]
-}
-
-export type Person = {
+	people?:(GraphQLTypes["Person"] | undefined)[]
+};
+	["Person"]: {
 	__typename: "Person",
 	name?:string
-}
-
-export type Query = {
+};
+	["Query"]: {
 	__typename: "Query",
-	people?:(Person | undefined)[]
+	people?:(GraphQLTypes["Person"] | undefined)[]
 }
+    }
+
 
 
 export type UnwrapPromise<T> = T extends Promise<infer R> ? R : T;
@@ -131,13 +131,13 @@ export type ResolverType<F> = NotUndefined<F extends [infer ARGS, any] ? ARGS : 
 export declare function Thunder(
   fn: FetchFunction
 ):{
-  query: OperationToGraphQL<ValueTypes["Query"],Query>,mutation: OperationToGraphQL<ValueTypes["NotMutation"],NotMutation>,subscription: OperationToGraphQL<ValueTypes["NotSubscription"],NotSubscription>
+  query: OperationToGraphQL<ValueTypes["Query"],GraphQLTypes["Query"]>,mutation: OperationToGraphQL<ValueTypes["NotMutation"],GraphQLTypes["NotMutation"]>,subscription: OperationToGraphQL<ValueTypes["NotSubscription"],GraphQLTypes["NotSubscription"]>
 }
 
 export declare function Chain(
   ...options: fetchOptions
 ):{
-  query: OperationToGraphQL<ValueTypes["Query"],Query>,mutation: OperationToGraphQL<ValueTypes["NotMutation"],NotMutation>,subscription: OperationToGraphQL<ValueTypes["NotSubscription"],NotSubscription>
+  query: OperationToGraphQL<ValueTypes["Query"],GraphQLTypes["Query"]>,mutation: OperationToGraphQL<ValueTypes["NotMutation"],GraphQLTypes["NotMutation"]>,subscription: OperationToGraphQL<ValueTypes["NotSubscription"],GraphQLTypes["NotSubscription"]>
 }
 
 export declare const Zeus: {
@@ -147,13 +147,13 @@ export declare const Zeus: {
 export declare const Cast: {
   query: CastToGraphQL<
   ValueTypes["Query"],
-  Query
+  GraphQLTypes["Query"]
 >,mutation: CastToGraphQL<
   ValueTypes["NotMutation"],
-  NotMutation
+  GraphQLTypes["NotMutation"]
 >,subscription: CastToGraphQL<
   ValueTypes["NotSubscription"],
-  NotSubscription
+  GraphQLTypes["NotSubscription"]
 >
 }
 
@@ -161,5 +161,17 @@ export declare const Selectors: {
   query: SelectionFunction<ValueTypes["Query"]>,mutation: SelectionFunction<ValueTypes["NotMutation"]>,subscription: SelectionFunction<ValueTypes["NotSubscription"]>
 }
 
+export declare const resolverFor: <
+  T extends keyof ValueTypes,
+  Z extends keyof ValueTypes[T],
+  Y extends (props: {
+    args: Required<ValueTypes[T]>[Z] extends [infer Input, any] ? Input : never;
+    source?: unknown;
+  }) => Z extends keyof GraphQLTypes[T] ? Omit<GraphQLTypes[T][Z], '__typename'> : never
+>(
+  type: T,
+  field: Z,
+  fn: Y,
+) => Y
 
 export declare const Gql: ReturnType<typeof Chain>

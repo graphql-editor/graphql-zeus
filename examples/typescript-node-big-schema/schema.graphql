@@ -11,6 +11,9 @@ input ChangeSubscriptionInput {
 
 """Checkout data needed to begin payment process"""
 input CheckoutDataInput {
+  """Quantity of subscriptions that user wants"""
+  quantity: Int
+
   """Customer data"""
   customer: CustomerInput
 
@@ -28,16 +31,10 @@ input CheckoutDataInput {
 
   """An id of a chosen subscription plan"""
   planID: ID!
-
-  """Quantity of subscriptions that user wants"""
-  quantity: Int
 }
 
 """Customer data for checkout information"""
 input CustomerInput {
-  """User's post code"""
-  postCode: String
-
   """Must be true for marketing to be allowed"""
   marketingConsent: Boolean
 
@@ -46,6 +43,9 @@ input CustomerInput {
 
   """User's country"""
   country: String
+
+  """User's post code"""
+  postCode: String
 }
 
 """Amount is a number that gives precise representation of real numbers"""
@@ -131,10 +131,10 @@ type Mutation {
   
   name is project name
   """
-  createProject(name: String!, public: Boolean): Project!
+  createProject(public: Boolean, name: String!): Project!
 
   """Create new team"""
-  createTeam(namespace: String!, name: String!): TeamOps
+  createTeam(name: String!, namespace: String!): TeamOps
 
   """
   Create new user
@@ -143,7 +143,7 @@ type Mutation {
   
   public is user namespace public
   """
-  createUser(namespace: String!, public: Boolean): User!
+  createUser(public: Boolean, namespace: String!): User!
 
   """deploy project to faker"""
   deployToFaker(id: ID!): Boolean
@@ -183,7 +183,7 @@ type Namespace {
   
   limit sets a limit on how many objects can be returned
   """
-  projects(limit: Int, last: String): ProjectConnection
+  projects(last: String, limit: Int): ProjectConnection
 
   """True if namespace is public"""
   public: Boolean
@@ -194,9 +194,6 @@ type Namespace {
 
 """New source payload"""
 input NewSource {
-  """Source checksum"""
-  checksum: String
-
   """source file name"""
   filename: String
 
@@ -205,6 +202,9 @@ input NewSource {
 
   """Source mime type"""
   contentType: String
+
+  """Source checksum"""
+  checksum: String
 }
 
 """PageInfo contains information about connection page"""
@@ -250,14 +250,14 @@ type PredictCheckout {
 
 """Checkout data needed to begin payment process"""
 input PredictCheckoutInput {
-  """Optional discount coupon"""
-  coupon: String
-
   """An id of a chosen subscription plan"""
   planID: ID!
 
   """Quantity of subscriptions that user wants"""
   quantity: Int
+
+  """Optional discount coupon"""
+  coupon: String
 }
 
 """Project type"""
@@ -411,7 +411,7 @@ type Query {
   
   limit limits the number of returned projects
   """
-  findProjectsByTag(limit: Int, tag: String!, last: String): ProjectConnection
+  findProjectsByTag(last: String, limit: Int, tag: String!): ProjectConnection
 
   """Return namespace matching slug"""
   getNamespace(slug: String!): Namespace
@@ -553,7 +553,7 @@ type TeamConnection {
 """Team operations"""
 type TeamOps {
   """Add member to the team"""
-  addMember(role: Role!, loginCallback: String, username: String!): Member
+  addMember(loginCallback: String, username: String!, role: Role!): Member
 
   """Create new team project"""
   createProject(public: Boolean, name: String!): Project
@@ -582,9 +582,6 @@ type TeamOps {
 
 """Update project payload"""
 input UpdateProject {
-  """Set project visiblity"""
-  public: Boolean
-
   """ID of project to be updated"""
   project: ID
 
@@ -593,6 +590,9 @@ input UpdateProject {
 
   """List of tags for project"""
   tags: [String!]
+
+  """Set project visiblity"""
+  public: Boolean
 }
 
 """Editor user"""
@@ -623,9 +623,6 @@ type UserConnection {
 
 """Vat information of a user"""
 input VatInput {
-  """Vat company street address"""
-  street: String
-
   """Vat company city address"""
   city: String
 
@@ -643,6 +640,9 @@ input VatInput {
 
   """Vat company name"""
   companyName: String
+
+  """Vat company street address"""
+  street: String
 }
 
 schema{

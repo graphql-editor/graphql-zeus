@@ -1,8 +1,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-type ZEUS_INTERFACES = Nameable
-type ZEUS_UNIONS = ChangeCard
+type ZEUS_INTERFACES = GraphQLTypes["Nameable"]
+type ZEUS_UNIONS = GraphQLTypes["ChangeCard"]
 
 export type ValueTypes = {
     /** Card used in card game<br> */
@@ -38,10 +38,6 @@ attack?: [{	/** Attacked card/card ids<br> */
 }>;
 	/** create card inputs<br> */
 ["createCard"]: {
-	/** input skills */
-	skills?:ValueTypes["SpecialSkills"][],
-	/** The name of a card<br> */
-	name:string,
 	/** Description of a card<br> */
 	description:string,
 	/** <div>How many children the greek god had</div> */
@@ -49,7 +45,11 @@ attack?: [{	/** Attacked card/card ids<br> */
 	/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
-	Defense:number
+	Defense:number,
+	/** input skills */
+	skills?:ValueTypes["SpecialSkills"][],
+	/** The name of a card<br> */
+	name:string
 };
 	["EffectCard"]: AliasType<{
 	effectSize?:true,
@@ -125,10 +125,6 @@ export type PartialObjects = {
 	["ChangeCard"]: PartialObjects["SpecialCard"] | PartialObjects["EffectCard"],
 	/** create card inputs<br> */
 ["createCard"]: {
-	/** input skills */
-	skills?:PartialObjects["SpecialSkills"][],
-	/** The name of a card<br> */
-	name:string,
 	/** Description of a card<br> */
 	description:string,
 	/** <div>How many children the greek god had</div> */
@@ -136,7 +132,11 @@ export type PartialObjects = {
 	/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
-	Defense:number
+	Defense:number,
+	/** input skills */
+	skills?:PartialObjects["SpecialSkills"][],
+	/** The name of a card<br> */
+	name:string
 },
 	["EffectCard"]: {
 		__typename?: "EffectCard";
@@ -177,8 +177,9 @@ export type PartialObjects = {
 	["SpecialSkills"]:SpecialSkills
   }
 
-/** Card used in card game<br> */
-export type Card = {
+export type GraphQLTypes = {
+    /** Card used in card game<br> */
+["Card"]: {
 	__typename: "Card",
 	/** The attack power<br> */
 	Attack:number,
@@ -187,97 +188,89 @@ export type Card = {
 	/** The defense power<br> */
 	Defense:number,
 	/** Attack other cards on the table , returns Cards after attack<br> */
-	attack?:Card[],
+	attack?:GraphQLTypes["Card"][],
 	/** Put your description here */
-	cardImage?:S3Object,
+	cardImage?:GraphQLTypes["S3Object"],
 	/** Description of a card<br> */
 	description:string,
 	id:string,
 	image:string,
 	/** The name of a card<br> */
 	name:string,
-	skills?:SpecialSkills[]
-}
-
-/** Stack of cards */
-export type CardStack = {
+	skills?:GraphQLTypes["SpecialSkills"][]
+};
+	/** Stack of cards */
+["CardStack"]: {
 	__typename: "CardStack",
-	cards?:Card[],
+	cards?:GraphQLTypes["Card"][],
 	name:string
-}
-
-export type ChangeCard = {
-	['...on SpecialCard']: SpecialCard;
-	['...on EffectCard']: EffectCard;
-}
-
-/** create card inputs<br> */
-export type createCard = {
-		/** input skills */
-	skills?:SpecialSkills[],
-	/** The name of a card<br> */
-	name:string,
-	/** Description of a card<br> */
+};
+	["ChangeCard"]:{
+	['...on SpecialCard']: GraphQLTypes["SpecialCard"];
+	['...on EffectCard']: GraphQLTypes["EffectCard"];
+};
+	/** create card inputs<br> */
+["createCard"]: {
+		/** Description of a card<br> */
 	description:string,
 	/** <div>How many children the greek god had</div> */
 	Children?:number,
 	/** The attack power<br> */
 	Attack:number,
 	/** The defense power<br> */
-	Defense:number
-}
-
-export type EffectCard = {
+	Defense:number,
+	/** input skills */
+	skills?:GraphQLTypes["SpecialSkills"][],
+	/** The name of a card<br> */
+	name:string
+};
+	["EffectCard"]: {
 	__typename: "EffectCard",
 	effectSize:number,
 	name:string
-}
-
-export type Mutation = {
+};
+	["Mutation"]: {
 	__typename: "Mutation",
 	/** add Card to Cards database<br> */
-	addCard:Card
-}
-
-export type Nameable = {
+	addCard:GraphQLTypes["Card"]
+};
+	["Nameable"]: {
 	__typename:"Card" | "CardStack" | "EffectCard" | "SpecialCard"
 	name:string
-	['...on Card']: Card;
-	['...on CardStack']: CardStack;
-	['...on EffectCard']: EffectCard;
-	['...on SpecialCard']: SpecialCard;
-}
-
-export type Query = {
+	['...on Card']: GraphQLTypes["Card"];
+	['...on CardStack']: GraphQLTypes["CardStack"];
+	['...on EffectCard']: GraphQLTypes["EffectCard"];
+	['...on SpecialCard']: GraphQLTypes["SpecialCard"];
+};
+	["Query"]: {
 	__typename: "Query",
-	cardById?:Card,
+	cardById?:GraphQLTypes["Card"],
 	/** Draw a card<br> */
-	drawCard:Card,
-	drawChangeCard:ChangeCard,
+	drawCard:GraphQLTypes["Card"],
+	drawChangeCard:GraphQLTypes["ChangeCard"],
 	/** list All Cards availble<br> */
-	listCards:Card[],
-	myStacks?:CardStack[],
-	nameables:Nameable[]
-}
-
-/** Aws S3 File */
-export type S3Object = {
+	listCards:GraphQLTypes["Card"][],
+	myStacks?:GraphQLTypes["CardStack"][],
+	nameables:GraphQLTypes["Nameable"][]
+};
+	/** Aws S3 File */
+["S3Object"]: {
 	__typename: "S3Object",
 	bucket:string,
 	key:string,
 	region:string
-}
-
-export type SpecialCard = {
+};
+	["SpecialCard"]: {
 	__typename: "SpecialCard",
 	effect:string,
 	name:string
-}
-
+};
+	["SpecialSkills"]: SpecialSkills
+    }
 export enum SpecialSkills {
+	FIRE = "FIRE",
 	THUNDER = "THUNDER",
-	RAIN = "RAIN",
-	FIRE = "FIRE"
+	RAIN = "RAIN"
 }
 
 export const AllTypesProps: Record<string,any> = {
@@ -292,18 +285,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	createCard:{
-		skills:{
-			type:"SpecialSkills",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
 		description:{
 			type:"String",
 			array:false,
@@ -324,6 +305,18 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		Defense:{
 			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		skills:{
+			type:"SpecialSkills",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		name:{
+			type:"String",
 			array:false,
 			arrayRequired:false,
 			required:true
@@ -738,6 +731,20 @@ const seekForAliases = (response: any) => {
 export const $ = (t: TemplateStringsArray): any => `ZEUS_VAR$${t.join('')}`;
 
 
+export const resolverFor = <
+  T extends keyof ValueTypes,
+  Z extends keyof ValueTypes[T],
+  Y extends (props: {
+    args: Required<ValueTypes[T]>[Z] extends [infer Input, any] ? Input : never;
+    source?: unknown;
+  }) => Z extends keyof GraphQLTypes[T] ? Omit<GraphQLTypes[T][Z], '__typename'> : never
+>(
+  type: T,
+  field: Z,
+  fn: Y,
+) => fn;
+
+
 const handleFetchResponse = (
   response: Parameters<Extract<Parameters<ReturnType<typeof fetch>['then']>[0], Function>>[0]
 ): Promise<GraphQLResponse> => {
@@ -799,22 +806,22 @@ export const Thunder = (fn: FetchFunction) => ({
   query: ((o: any, variables) =>
     fullChainConstruct(fn)('query', 'Query')(o, variables).then(
       (response: any) => response
-    )) as OperationToGraphQL<ValueTypes["Query"],Query>,
+    )) as OperationToGraphQL<ValueTypes["Query"],GraphQLTypes["Query"]>,
 mutation: ((o: any, variables) =>
     fullChainConstruct(fn)('mutation', 'Mutation')(o, variables).then(
       (response: any) => response
-    )) as OperationToGraphQL<ValueTypes["Mutation"],Mutation>
+    )) as OperationToGraphQL<ValueTypes["Mutation"],GraphQLTypes["Mutation"]>
 });
 
 export const Chain = (...options: fetchOptions) => ({
   query: ((o: any, variables) =>
     fullChainConstruct(apiFetch(options))('query', 'Query')(o, variables).then(
       (response: any) => response
-    )) as OperationToGraphQL<ValueTypes["Query"],Query>,
+    )) as OperationToGraphQL<ValueTypes["Query"],GraphQLTypes["Query"]>,
 mutation: ((o: any, variables) =>
     fullChainConstruct(apiFetch(options))('mutation', 'Mutation')(o, variables).then(
       (response: any) => response
-    )) as OperationToGraphQL<ValueTypes["Mutation"],Mutation>
+    )) as OperationToGraphQL<ValueTypes["Mutation"],GraphQLTypes["Mutation"]>
 });
 export const Zeus = {
   query: (o:ValueTypes["Query"]) => queryConstruct('query', 'Query')(o),
@@ -823,11 +830,11 @@ mutation: (o:ValueTypes["Mutation"]) => queryConstruct('mutation', 'Mutation')(o
 export const Cast = {
   query: ((o: any) => (_: any) => o) as CastToGraphQL<
   ValueTypes["Query"],
-  Query
+  GraphQLTypes["Query"]
 >,
 mutation: ((o: any) => (_: any) => o) as CastToGraphQL<
   ValueTypes["Mutation"],
-  Mutation
+  GraphQLTypes["Mutation"]
 >
 };
 export const Selectors = {

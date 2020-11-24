@@ -2,18 +2,19 @@ import { OperationName, ResolvedOperations } from 'TreeToTS';
 import { OperationType, Environment } from '@/Models';
 import { VALUETYPES } from '../resolveValueTypes';
 import { constantTypesTypescript, graphqlErrorTypeScript, typescriptFunctions } from './';
+import { TYPES } from '../returnedTypes';
 
 const generateOperationThunder = (t: OperationName, ot: OperationType): string =>
   `${ot}: ((o: any, variables) =>
     fullChainConstruct(fn)('${ot}', '${t.name}')(o, variables).then(
       (response: any) => response
-    )) as OperationToGraphQL<${VALUETYPES}["${t.name}"],${t.name}>`;
+    )) as OperationToGraphQL<${VALUETYPES}["${t.name}"],${TYPES}["${t.name}"]>`;
 
 const generateOperationChaining = (t: OperationName, ot: OperationType): string =>
   `${ot}: ((o: any, variables) =>
     fullChainConstruct(apiFetch(options))('${ot}', '${t.name}')(o, variables).then(
       (response: any) => response
-    )) as OperationToGraphQL<${VALUETYPES}["${t.name}"],${t.name}>`;
+    )) as OperationToGraphQL<${VALUETYPES}["${t.name}"],${TYPES}["${t.name}"]>`;
 
 const generateOperationsThunder = ({ query, mutation, subscription }: Partial<ResolvedOperations>): string[] => {
   const allOps: string[] = [];
@@ -79,8 +80,8 @@ const generateSelectorsZeusTypeScript = ({ query, mutation, subscription }: Part
 
 const generateOperationCast = (t: OperationName, ot: OperationType): string =>
   `${ot}: ((o: any) => (_: any) => o) as CastToGraphQL<
-  ValueTypes["${t.name}"],
-  ${t.name}
+  ${VALUETYPES}["${t.name}"],
+  ${TYPES}["${t.name}"]
 >`;
 
 const generateOperationsCastTypeScript = ({ query, mutation, subscription }: Partial<ResolvedOperations>): string[] => {

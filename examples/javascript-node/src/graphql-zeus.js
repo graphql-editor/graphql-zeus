@@ -13,6 +13,18 @@ export const AllTypesProps = {
 		}
 	},
 	createCard:{
+		Attack:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		Defense:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
 		skills:{
 			type:"SpecialSkills",
 			array:true,
@@ -36,18 +48,6 @@ export const AllTypesProps = {
 			array:false,
 			arrayRequired:false,
 			required:false
-		},
-		Attack:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		Defense:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
 		}
 	},
 	Mutation:{
@@ -383,6 +383,13 @@ const seekForAliases = (o) => {
 export const $ = (t) => `ZEUS_VAR$${t.join('')}`;
 
 export const ZeusSelect = () => (t) => t
+
+export const resolverFor = (
+  type,
+  field,
+  fn
+) => fn;
+
 
 const handleFetchResponse = response => {
   if (!response.ok) {

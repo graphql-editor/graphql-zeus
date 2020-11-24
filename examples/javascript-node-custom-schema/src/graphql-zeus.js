@@ -286,6 +286,13 @@ export const $ = (t) => `ZEUS_VAR$${t.join('')}`;
 
 export const ZeusSelect = () => (t) => t
 
+export const resolverFor = (
+  type,
+  field,
+  fn
+) => fn;
+
+
 const handleFetchResponse = response => {
   if (!response.ok) {
     return new Promise((resolve, reject) => {

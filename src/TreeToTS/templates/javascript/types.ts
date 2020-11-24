@@ -1,6 +1,7 @@
 import { OperationName, ResolvedOperations } from 'TreeToTS';
 import { OperationType } from '@/Models';
 import { VALUETYPES } from '../resolveValueTypes';
+import { TYPES } from '../returnedTypes';
 
 const generateOperationsJavascriptDefinitionsChaining = ({
   query,
@@ -11,19 +12,19 @@ const generateOperationsJavascriptDefinitionsChaining = ({
   if (query.operations.length) {
     const queryOperationName = query.operationName?.name || 'Query';
     allOps.push(
-      `${OperationType.query}: OperationToGraphQL<${VALUETYPES}["${queryOperationName}"],${queryOperationName}>`,
+      `${OperationType.query}: OperationToGraphQL<${VALUETYPES}["${queryOperationName}"],${TYPES}["${queryOperationName}"]>`,
     );
   }
   if (mutation.operations.length) {
     const mutationOperationName = mutation.operationName?.name || 'Mutation';
     allOps.push(
-      `${OperationType.mutation}: OperationToGraphQL<${VALUETYPES}["${mutationOperationName}"],${mutationOperationName}>`,
+      `${OperationType.mutation}: OperationToGraphQL<${VALUETYPES}["${mutationOperationName}"],${TYPES}["${mutationOperationName}"]>`,
     );
   }
   if (subscription.operations.length) {
     const subscriptionOperationName = subscription.operationName?.name || 'Subscription';
     allOps.push(
-      `${OperationType.subscription}: OperationToGraphQL<${VALUETYPES}["${subscriptionOperationName}"],${subscriptionOperationName}>`,
+      `${OperationType.subscription}: OperationToGraphQL<${VALUETYPES}["${subscriptionOperationName}"],${TYPES}["${subscriptionOperationName}"]>`,
     );
   }
   return allOps;
@@ -51,8 +52,8 @@ const generateOperationsJavascriptDefinitionsZeus = ({
 };
 
 const CastOperations = (t: OperationName, ot: OperationType): string => `${ot}: CastToGraphQL<
-  ValueTypes["${t.name}"],
-  ${t.name}
+  ${VALUETYPES}["${t.name}"],
+  ${TYPES}["${t.name}"]
 >`;
 
 const generateOperationsJavascriptDefinitionsCast = ({
@@ -119,6 +120,18 @@ export declare const Selectors: {
   ${generateOperationsJavascriptDefinitionsSelector(operationsBody)}
 }
 
+export declare const resolverFor: <
+  T extends keyof ValueTypes,
+  Z extends keyof ValueTypes[T],
+  Y extends (props: {
+    args: Required<ValueTypes[T]>[Z] extends [infer Input, any] ? Input : never;
+    source?: unknown;
+  }) => Z extends keyof GraphQLTypes[T] ? Omit<GraphQLTypes[T][Z], '__typename'> : never
+>(
+  type: T,
+  field: Z,
+  fn: Y,
+) => Y
 
 export declare const Gql: ReturnType<typeof Chain>
 `;

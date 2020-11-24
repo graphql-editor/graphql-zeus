@@ -42,25 +42,25 @@ export type PartialObjects = {
 	}
   }
 
-export type NotMutation = {
+export type GraphQLTypes = {
+    ["NotMutation"]: {
 	__typename: "NotMutation",
-	add?:Person
-}
-
-export type NotSubscription = {
+	add?:GraphQLTypes["Person"]
+};
+	["NotSubscription"]: {
 	__typename: "NotSubscription",
-	people?:(Person | undefined)[]
-}
-
-export type Person = {
+	people?:(GraphQLTypes["Person"] | undefined)[]
+};
+	["Person"]: {
 	__typename: "Person",
 	name?:string
-}
-
-export type Query = {
+};
+	["Query"]: {
 	__typename: "Query",
-	people?:(Person | undefined)[]
+	people?:(GraphQLTypes["Person"] | undefined)[]
 }
+    }
+
 
 export const AllTypesProps: Record<string,any> = {
 	NotMutation:{
@@ -422,6 +422,20 @@ const seekForAliases = (response: any) => {
 export const $ = (t: TemplateStringsArray): any => `ZEUS_VAR$${t.join('')}`;
 
 
+export const resolverFor = <
+  T extends keyof ValueTypes,
+  Z extends keyof ValueTypes[T],
+  Y extends (props: {
+    args: Required<ValueTypes[T]>[Z] extends [infer Input, any] ? Input : never;
+    source?: unknown;
+  }) => Z extends keyof GraphQLTypes[T] ? Omit<GraphQLTypes[T][Z], '__typename'> : never
+>(
+  type: T,
+  field: Z,
+  fn: Y,
+) => fn;
+
+
 const handleFetchResponse = (
   response: Parameters<Extract<Parameters<ReturnType<typeof fetch>['then']>[0], Function>>[0]
 ): Promise<GraphQLResponse> => {
@@ -483,30 +497,30 @@ export const Thunder = (fn: FetchFunction) => ({
   query: ((o: any, variables) =>
     fullChainConstruct(fn)('query', 'Query')(o, variables).then(
       (response: any) => response
-    )) as OperationToGraphQL<ValueTypes["Query"],Query>,
+    )) as OperationToGraphQL<ValueTypes["Query"],GraphQLTypes["Query"]>,
 mutation: ((o: any, variables) =>
     fullChainConstruct(fn)('mutation', 'NotMutation')(o, variables).then(
       (response: any) => response
-    )) as OperationToGraphQL<ValueTypes["NotMutation"],NotMutation>,
+    )) as OperationToGraphQL<ValueTypes["NotMutation"],GraphQLTypes["NotMutation"]>,
 subscription: ((o: any, variables) =>
     fullChainConstruct(fn)('subscription', 'NotSubscription')(o, variables).then(
       (response: any) => response
-    )) as OperationToGraphQL<ValueTypes["NotSubscription"],NotSubscription>
+    )) as OperationToGraphQL<ValueTypes["NotSubscription"],GraphQLTypes["NotSubscription"]>
 });
 
 export const Chain = (...options: fetchOptions) => ({
   query: ((o: any, variables) =>
     fullChainConstruct(apiFetch(options))('query', 'Query')(o, variables).then(
       (response: any) => response
-    )) as OperationToGraphQL<ValueTypes["Query"],Query>,
+    )) as OperationToGraphQL<ValueTypes["Query"],GraphQLTypes["Query"]>,
 mutation: ((o: any, variables) =>
     fullChainConstruct(apiFetch(options))('mutation', 'NotMutation')(o, variables).then(
       (response: any) => response
-    )) as OperationToGraphQL<ValueTypes["NotMutation"],NotMutation>,
+    )) as OperationToGraphQL<ValueTypes["NotMutation"],GraphQLTypes["NotMutation"]>,
 subscription: ((o: any, variables) =>
     fullChainConstruct(apiFetch(options))('subscription', 'NotSubscription')(o, variables).then(
       (response: any) => response
-    )) as OperationToGraphQL<ValueTypes["NotSubscription"],NotSubscription>
+    )) as OperationToGraphQL<ValueTypes["NotSubscription"],GraphQLTypes["NotSubscription"]>
 });
 export const Zeus = {
   query: (o:ValueTypes["Query"]) => queryConstruct('query', 'Query')(o),
@@ -516,15 +530,15 @@ subscription: (o:ValueTypes["NotSubscription"]) => queryConstruct('subscription'
 export const Cast = {
   query: ((o: any) => (_: any) => o) as CastToGraphQL<
   ValueTypes["Query"],
-  Query
+  GraphQLTypes["Query"]
 >,
 mutation: ((o: any) => (_: any) => o) as CastToGraphQL<
   ValueTypes["NotMutation"],
-  NotMutation
+  GraphQLTypes["NotMutation"]
 >,
 subscription: ((o: any) => (_: any) => o) as CastToGraphQL<
   ValueTypes["NotSubscription"],
-  NotSubscription
+  GraphQLTypes["NotSubscription"]
 >
 };
 export const Selectors = {
