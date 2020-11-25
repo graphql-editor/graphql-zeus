@@ -421,10 +421,10 @@ export const $ = (t: TemplateStringsArray): any => `ZEUS_VAR$${t.join('')}`;
 export const resolverFor = <
   T extends keyof ValueTypes,
   Z extends keyof ValueTypes[T],
-  Y extends (props: {
-    args: Required<ValueTypes[T]>[Z] extends [infer Input, any] ? Input : never;
-    source?: unknown;
-  }) => Z extends keyof GraphQLTypes[T] ? Omit<GraphQLTypes[T][Z], '__typename'> : never
+  Y extends (
+    args: Required<ValueTypes[T]>[Z] extends [infer Input, any] ? Input : never,
+    source: any,
+  ) => Z extends keyof ModelTypes[T] ? ModelTypes[T][Z] | Promise<ModelTypes[T][Z]> : never
 >(
   type: T,
   field: Z,

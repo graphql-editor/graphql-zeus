@@ -11,9 +11,6 @@ input ChangeSubscriptionInput {
 
 """Checkout data needed to begin payment process"""
 input CheckoutDataInput {
-  """URL to which user should be redirected after successful transaction"""
-  successURL: String
-
   """URL to which user should be redirected after failed transaction"""
   cancelURL: String
 
@@ -31,21 +28,24 @@ input CheckoutDataInput {
 
   """Optional discount coupon"""
   coupon: String
+
+  """URL to which user should be redirected after successful transaction"""
+  successURL: String
 }
 
 """Customer data for checkout information"""
 input CustomerInput {
-  """User's post code"""
-  postCode: String
-
-  """Must be true for marketing to be allowed"""
-  marketingConsent: Boolean
-
   """User's email address"""
   email: String
 
   """User's country"""
   country: String
+
+  """User's post code"""
+  postCode: String
+
+  """Must be true for marketing to be allowed"""
+  marketingConsent: Boolean
 }
 
 """Amount is a number that gives precise representation of real numbers"""
@@ -131,10 +131,10 @@ type Mutation {
   
   name is project name
   """
-  createProject(public: Boolean, name: String!): Project!
+  createProject(name: String!, public: Boolean): Project!
 
   """Create new team"""
-  createTeam(name: String!, namespace: String!): TeamOps
+  createTeam(namespace: String!, name: String!): TeamOps
 
   """
   Create new user
@@ -143,7 +143,7 @@ type Mutation {
   
   public is user namespace public
   """
-  createUser(public: Boolean, namespace: String!): User!
+  createUser(namespace: String!, public: Boolean): User!
 
   """deploy project to faker"""
   deployToFaker(id: ID!): Boolean
@@ -183,7 +183,7 @@ type Namespace {
   
   limit sets a limit on how many objects can be returned
   """
-  projects(last: String, limit: Int): ProjectConnection
+  projects(limit: Int, last: String): ProjectConnection
 
   """True if namespace is public"""
   public: Boolean
@@ -250,14 +250,14 @@ type PredictCheckout {
 
 """Checkout data needed to begin payment process"""
 input PredictCheckoutInput {
-  """Optional discount coupon"""
-  coupon: String
-
   """An id of a chosen subscription plan"""
   planID: ID!
 
   """Quantity of subscriptions that user wants"""
   quantity: Int
+
+  """Optional discount coupon"""
+  coupon: String
 }
 
 """Project type"""
@@ -349,6 +349,15 @@ type ProjectOps {
 ProjectsSortInput defines how projects from listProjects should be sorted.
 """
 input ProjectsSortInput {
+  """Sort projects by creation date"""
+  createdAt: SortOrder
+
+  """Sort by name"""
+  name: SortOrder
+
+  """Sort by id"""
+  id: SortOrder
+
   """Sort by owner"""
   owner: SortOrder
 
@@ -367,15 +376,6 @@ input ProjectsSortInput {
   Sort behaviour for projects by team is implemenation depednant.
   """
   team: SortOrder
-
-  """Sort projects by creation date"""
-  createdAt: SortOrder
-
-  """Sort by name"""
-  name: SortOrder
-
-  """Sort by id"""
-  id: SortOrder
 }
 
 """Root query type"""
@@ -411,7 +411,7 @@ type Query {
   
   limit limits the number of returned projects
   """
-  findProjectsByTag(last: String, limit: Int, tag: String!): ProjectConnection
+  findProjectsByTag(limit: Int, tag: String!, last: String): ProjectConnection
 
   """Return namespace matching slug"""
   getNamespace(slug: String!): Namespace
@@ -553,7 +553,7 @@ type TeamConnection {
 """Team operations"""
 type TeamOps {
   """Add member to the team"""
-  addMember(loginCallback: String, username: String!, role: Role!): Member
+  addMember(role: Role!, loginCallback: String, username: String!): Member
 
   """Create new team project"""
   createProject(public: Boolean, name: String!): Project
@@ -582,6 +582,9 @@ type TeamOps {
 
 """Update project payload"""
 input UpdateProject {
+  """Set project visiblity"""
+  public: Boolean
+
   """ID of project to be updated"""
   project: ID
 
@@ -590,9 +593,6 @@ input UpdateProject {
 
   """List of tags for project"""
   tags: [String!]
-
-  """Set project visiblity"""
-  public: Boolean
 }
 
 """Editor user"""
@@ -623,6 +623,12 @@ type UserConnection {
 
 """Vat information of a user"""
 input VatInput {
+  """Vat company name"""
+  companyName: String
+
+  """Vat company street address"""
+  street: String
+
   """Vat company city address"""
   city: String
 
@@ -637,12 +643,6 @@ input VatInput {
 
   """Vat number"""
   number: String
-
-  """Vat company name"""
-  companyName: String
-
-  """Vat company street address"""
-  street: String
 }
 
 schema{

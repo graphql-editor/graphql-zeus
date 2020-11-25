@@ -1,3 +1,4 @@
+import { MODEL_TYPES } from '@/TreeToTS/templates/returnedModelTypes';
 import { StringFunction } from './models';
 
 export const resolverForFunction: StringFunction = {
@@ -5,10 +6,10 @@ export const resolverForFunction: StringFunction = {
 export const resolverFor = <
   T extends keyof ValueTypes,
   Z extends keyof ValueTypes[T],
-  Y extends (props: {
-    args: Required<ValueTypes[T]>[Z] extends [infer Input, any] ? Input : never;
-    source?: unknown;
-  }) => Z extends keyof GraphQLTypes[T] ? Omit<GraphQLTypes[T][Z], '__typename'> : never
+  Y extends (
+    args: Required<ValueTypes[T]>[Z] extends [infer Input, any] ? Input : never,
+    source: any,
+  ) => Z extends keyof ${MODEL_TYPES}[T] ? ${MODEL_TYPES}[T][Z] | Promise<${MODEL_TYPES}[T][Z]> : never
 >(
   type: T,
   field: Z,

@@ -157,17 +157,17 @@ export declare const Selectors: {
   query: SelectionFunction<ValueTypes["Query"]>,mutation: SelectionFunction<ValueTypes["NotMutation"]>,subscription: SelectionFunction<ValueTypes["NotSubscription"]>
 }
 
-export declare const resolverFor: <
+export declare const resolverFor : <
   T extends keyof ValueTypes,
   Z extends keyof ValueTypes[T],
-  Y extends (props: {
-    args: Required<ValueTypes[T]>[Z] extends [infer Input, any] ? Input : never;
-    source?: unknown;
-  }) => Z extends keyof GraphQLTypes[T] ? Omit<GraphQLTypes[T][Z], '__typename'> : never
+  Y extends (
+    args: Required<ValueTypes[T]>[Z] extends [infer Input, any] ? Input : never,
+    source: any,
+  ) => Z extends keyof ModelTypes[T] ? ModelTypes[T][Z] | Promise<ModelTypes[T][Z]> : never
 >(
   type: T,
   field: Z,
   fn: Y,
-) => Y
+) => Y;
 
 export declare const Gql: ReturnType<typeof Chain>

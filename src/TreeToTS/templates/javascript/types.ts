@@ -2,6 +2,7 @@ import { OperationName, ResolvedOperations } from 'TreeToTS';
 import { OperationType } from '@/Models';
 import { VALUETYPES } from '../resolveValueTypes';
 import { TYPES } from '../returnedTypes';
+import { MODEL_TYPES } from '../returnedModelTypes';
 
 const generateOperationsJavascriptDefinitionsChaining = ({
   query,
@@ -120,18 +121,18 @@ export declare const Selectors: {
   ${generateOperationsJavascriptDefinitionsSelector(operationsBody)}
 }
 
-export declare const resolverFor: <
+export declare const resolverFor : <
   T extends keyof ValueTypes,
   Z extends keyof ValueTypes[T],
-  Y extends (props: {
-    args: Required<ValueTypes[T]>[Z] extends [infer Input, any] ? Input : never;
-    source?: unknown;
-  }) => Z extends keyof GraphQLTypes[T] ? Omit<GraphQLTypes[T][Z], '__typename'> : never
+  Y extends (
+    args: Required<ValueTypes[T]>[Z] extends [infer Input, any] ? Input : never,
+    source: any,
+  ) => Z extends keyof ${MODEL_TYPES}[T] ? ${MODEL_TYPES}[T][Z] | Promise<${MODEL_TYPES}[T][Z]> : never
 >(
   type: T,
   field: Z,
   fn: Y,
-) => Y
+) => Y;
 
 export declare const Gql: ReturnType<typeof Chain>
 `;

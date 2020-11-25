@@ -38,8 +38,6 @@ attack?: [{	/** Attacked card/card ids<br> */
 }>;
 	/** create card inputs<br> */
 ["createCard"]: {
-	/** Description of a card<br> */
-	description:string,
 	/** <div>How many children the greek god had</div> */
 	Children?:number,
 	/** The attack power<br> */
@@ -49,7 +47,9 @@ attack?: [{	/** Attacked card/card ids<br> */
 	/** input skills */
 	skills?:ValueTypes["SpecialSkills"][],
 	/** The name of a card<br> */
-	name:string
+	name:string,
+	/** Description of a card<br> */
+	description:string
 };
 	["EffectCard"]: AliasType<{
 	effectSize?:true,
@@ -189,9 +189,7 @@ export type GraphQLTypes = {
 };
 	/** create card inputs<br> */
 ["createCard"]: {
-		/** Description of a card<br> */
-	description:string,
-	/** <div>How many children the greek god had</div> */
+		/** <div>How many children the greek god had</div> */
 	Children?:number,
 	/** The attack power<br> */
 	Attack:number,
@@ -200,7 +198,9 @@ export type GraphQLTypes = {
 	/** input skills */
 	skills?:GraphQLTypes["SpecialSkills"][],
 	/** The name of a card<br> */
-	name:string
+	name:string,
+	/** Description of a card<br> */
+	description:string
 };
 	["EffectCard"]: {
 	__typename: "EffectCard",
@@ -347,17 +347,17 @@ export declare const Selectors: {
   query: SelectionFunction<ValueTypes["Query"]>,mutation: SelectionFunction<ValueTypes["Mutation"]>
 }
 
-export declare const resolverFor: <
+export declare const resolverFor : <
   T extends keyof ValueTypes,
   Z extends keyof ValueTypes[T],
-  Y extends (props: {
-    args: Required<ValueTypes[T]>[Z] extends [infer Input, any] ? Input : never;
-    source?: unknown;
-  }) => Z extends keyof GraphQLTypes[T] ? Omit<GraphQLTypes[T][Z], '__typename'> : never
+  Y extends (
+    args: Required<ValueTypes[T]>[Z] extends [infer Input, any] ? Input : never,
+    source: any,
+  ) => Z extends keyof ModelTypes[T] ? ModelTypes[T][Z] | Promise<ModelTypes[T][Z]> : never
 >(
   type: T,
   field: Z,
   fn: Y,
-) => Y
+) => Y;
 
 export declare const Gql: ReturnType<typeof Chain>

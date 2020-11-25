@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import fetch from 'node-fetch';
-import { $, Gql, PartialObjects, SpecialSkills, Thunder, Zeus } from './graphql-zeus';
+import { $, Gql, SpecialSkills, Thunder, Zeus } from './graphql-zeus';
 const printQueryResult = (name: string, result: any) =>
   console.log(`${chalk.greenBright(name)} result:\n${chalk.cyan(JSON.stringify(result, null, 4))}\n\n`);
 const printGQLString = (name: string, result: string) =>
@@ -26,10 +26,6 @@ const run = async () => {
       },
     ],
   });
-  const tryAssignToPlain: PartialObjects['Card'] = {
-    ...ZeusCard,
-  };
-  console.log(tryAssignToPlain.Attack);
   printQueryResult('ZeusCard', ZeusCard);
 
   const blalba = await Gql.query({

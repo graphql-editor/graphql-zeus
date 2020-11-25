@@ -13,8 +13,6 @@ export type ValueTypes = {
 };
 	/** Checkout data needed to begin payment process */
 ["CheckoutDataInput"]: {
-	/** URL to which user should be redirected after successful transaction */
-	successURL?:string,
 	/** URL to which user should be redirected after failed transaction */
 	cancelURL?:string,
 	/** An id of a chosen subscription plan */
@@ -26,18 +24,20 @@ export type ValueTypes = {
 	/** Vat data */
 	vat?:ValueTypes["VatInput"],
 	/** Optional discount coupon */
-	coupon?:string
+	coupon?:string,
+	/** URL to which user should be redirected after successful transaction */
+	successURL?:string
 };
 	/** Customer data for checkout information */
 ["CustomerInput"]: {
-	/** User's post code */
-	postCode?:string,
-	/** Must be true for marketing to be allowed */
-	marketingConsent?:boolean,
 	/** User's email address */
 	email?:string,
 	/** User's country */
-	country?:string
+	country?:string,
+	/** User's post code */
+	postCode?:string,
+	/** Must be true for marketing to be allowed */
+	marketingConsent?:boolean
 };
 	/** Amount is a number that gives precise representation of real numbers */
 ["Decimal"]:unknown;
@@ -102,9 +102,9 @@ update?: [{	role?:ValueTypes["Role"]},true],
 }>;
 	["Mutation"]: AliasType<{
 changeSubscription?: [{	in:ValueTypes["ChangeSubscriptionInput"]},true],
-createProject?: [{	public?:boolean,	name:string},ValueTypes["Project"]],
-createTeam?: [{	name:string,	namespace:string},ValueTypes["TeamOps"]],
-createUser?: [{	public?:boolean,	namespace:string},ValueTypes["User"]],
+createProject?: [{	name:string,	public?:boolean},ValueTypes["Project"]],
+createTeam?: [{	namespace:string,	name:string},ValueTypes["TeamOps"]],
+createUser?: [{	namespace:string,	public?:boolean},ValueTypes["User"]],
 deployToFaker?: [{	id:string},true],
 removeProject?: [{	project:string},true],
 sync?: [{	source:string,	target:string},true],
@@ -117,7 +117,7 @@ updateSources?: [{	project:string,	sources?:ValueTypes["NewSource"][]},ValueType
 to a team or user */
 ["Namespace"]: AliasType<{
 project?: [{	name:string},ValueTypes["Project"]],
-projects?: [{	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
+projects?: [{	limit?:number,	last?:string},ValueTypes["ProjectConnection"]],
 	/** True if namespace is public */
 	public?:true,
 	/** Namespace part of the slug */
@@ -170,12 +170,12 @@ projects?: [{	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
 }>;
 	/** Checkout data needed to begin payment process */
 ["PredictCheckoutInput"]: {
-	/** Optional discount coupon */
-	coupon?:string,
 	/** An id of a chosen subscription plan */
 	planID:string,
 	/** Quantity of subscriptions that user wants */
-	quantity?:number
+	quantity?:number,
+	/** Optional discount coupon */
+	coupon?:string
 };
 	/** Project type */
 ["Project"]: AliasType<{
@@ -233,6 +233,12 @@ update?: [{	in?:ValueTypes["UpdateProject"]},true],
 }>;
 	/** ProjectsSortInput defines how projects from listProjects should be sorted. */
 ["ProjectsSortInput"]: {
+	/** Sort projects by creation date */
+	createdAt?:ValueTypes["SortOrder"],
+	/** Sort by name */
+	name?:ValueTypes["SortOrder"],
+	/** Sort by id */
+	id?:ValueTypes["SortOrder"],
 	/** Sort by owner */
 	owner?:ValueTypes["SortOrder"],
 	/** Sort by visisbility */
@@ -244,20 +250,14 @@ update?: [{	in?:ValueTypes["UpdateProject"]},true],
 	/** Sorts projects by team.
 
 Sort behaviour for projects by team is implemenation depednant. */
-	team?:ValueTypes["SortOrder"],
-	/** Sort projects by creation date */
-	createdAt?:ValueTypes["SortOrder"],
-	/** Sort by name */
-	name?:ValueTypes["SortOrder"],
-	/** Sort by id */
-	id?:ValueTypes["SortOrder"]
+	team?:ValueTypes["SortOrder"]
 };
 	/** Root query type */
 ["Query"]: AliasType<{
 checkoutData?: [{	data:ValueTypes["CheckoutDataInput"]},true],
 fileServerCredentials?: [{	project?:string},true],
 findProjects?: [{	query:string,	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
-findProjectsByTag?: [{	last?:string,	limit?:number,	tag:string},ValueTypes["ProjectConnection"]],
+findProjectsByTag?: [{	limit?:number,	tag:string,	last?:string},ValueTypes["ProjectConnection"]],
 getNamespace?: [{	slug:string},ValueTypes["Namespace"]],
 getProject?: [{	project:string},ValueTypes["Project"]],
 getTeam?: [{	name:string},ValueTypes["Team"]],
@@ -333,7 +333,7 @@ members?: [{	last?:string,	limit?:number},ValueTypes["MemberConnection"]],
 }>;
 	/** Team operations */
 ["TeamOps"]: AliasType<{
-addMember?: [{	loginCallback?:string,	username:string,	role:ValueTypes["Role"]},ValueTypes["Member"]],
+addMember?: [{	role:ValueTypes["Role"],	loginCallback?:string,	username:string},ValueTypes["Member"]],
 createProject?: [{	public?:boolean,	name:string},ValueTypes["Project"]],
 	/** Delete team */
 	delete?:true,
@@ -350,14 +350,14 @@ project?: [{	id:string},ValueTypes["ProjectOps"]],
 }>;
 	/** Update project payload */
 ["UpdateProject"]: {
+	/** Set project visiblity */
+	public?:boolean,
 	/** ID of project to be updated */
 	project?:string,
 	/** New description for project */
 	description?:string,
 	/** List of tags for project */
-	tags?:string[],
-	/** Set project visiblity */
-	public?:boolean
+	tags?:string[]
 };
 	/** Editor user */
 ["User"]: AliasType<{
@@ -382,6 +382,10 @@ project?: [{	id:string},ValueTypes["ProjectOps"]],
 }>;
 	/** Vat information of a user */
 ["VatInput"]: {
+	/** Vat company name */
+	companyName?:string,
+	/** Vat company street address */
+	street?:string,
 	/** Vat company city address */
 	city?:string,
 	/** Vat company state address. Optional. */
@@ -391,11 +395,7 @@ project?: [{	id:string},ValueTypes["ProjectOps"]],
 	/** Vat company post code address. */
 	postCode?:string,
 	/** Vat number */
-	number?:string,
-	/** Vat company name */
-	companyName?:string,
-	/** Vat company street address */
-	street?:string
+	number?:string
 }
   }
 
@@ -407,6 +407,8 @@ export type ModelTypes = {
 ["CheckoutDataInput"]: GraphQLTypes["CheckoutDataInput"];
 	/** Customer data for checkout information */
 ["CustomerInput"]: GraphQLTypes["CustomerInput"];
+	/** Amount is a number that gives precise representation of real numbers */
+["Decimal"]:any;
 	/** Endpoint returnes a full path to the project without host */
 ["Endpoint"]: {
 		/** Full project uri without host */
@@ -429,6 +431,7 @@ export type ModelTypes = {
 	/** List of sources returned by connection */
 	sources?:ModelTypes["FakerSource"][]
 };
+	["FileServerCredentials"]:any;
 	/** Request header */
 ["Header"]: {
 		/** Header name */
@@ -530,6 +533,8 @@ limit sets a limit on how many objects can be returned */
 	/** ID of subscription for which payment was made */
 	subscriptionID?:number
 };
+	/** PaymentDate is a string in a format 'YYYY-MM-DD' */
+["PaymentDate"]:any;
 	/** PredictCheckout represents payment prediction for checkout data */
 ["PredictCheckout"]: {
 		/** Predicted checkout price */
@@ -646,6 +651,8 @@ limit limits the number of returned projects */
 	/** Calculate checkout information */
 	predictCheckout?:ModelTypes["PredictCheckout"]
 };
+	/** RFC3339Date is a RFC3339 formated date-time string */
+["RFC3339Date"]:any;
 	/** Team member role */
 ["Role"]: GraphQLTypes["Role"];
 	/** Sort order defines possible ordering of sorted outputs */
@@ -758,9 +765,7 @@ export type GraphQLTypes = {
 };
 	/** Checkout data needed to begin payment process */
 ["CheckoutDataInput"]: {
-		/** URL to which user should be redirected after successful transaction */
-	successURL?:string,
-	/** URL to which user should be redirected after failed transaction */
+		/** URL to which user should be redirected after failed transaction */
 	cancelURL?:string,
 	/** An id of a chosen subscription plan */
 	planID:string,
@@ -771,18 +776,20 @@ export type GraphQLTypes = {
 	/** Vat data */
 	vat?:GraphQLTypes["VatInput"],
 	/** Optional discount coupon */
-	coupon?:string
+	coupon?:string,
+	/** URL to which user should be redirected after successful transaction */
+	successURL?:string
 };
 	/** Customer data for checkout information */
 ["CustomerInput"]: {
-		/** User's post code */
-	postCode?:string,
-	/** Must be true for marketing to be allowed */
-	marketingConsent?:boolean,
-	/** User's email address */
+		/** User's email address */
 	email?:string,
 	/** User's country */
-	country?:string
+	country?:string,
+	/** User's post code */
+	postCode?:string,
+	/** Must be true for marketing to be allowed */
+	marketingConsent?:boolean
 };
 	/** Amount is a number that gives precise representation of real numbers */
 ["Decimal"]:any;
@@ -942,12 +949,12 @@ limit sets a limit on how many objects can be returned */
 };
 	/** Checkout data needed to begin payment process */
 ["PredictCheckoutInput"]: {
-		/** Optional discount coupon */
-	coupon?:string,
-	/** An id of a chosen subscription plan */
+		/** An id of a chosen subscription plan */
 	planID:string,
 	/** Quantity of subscriptions that user wants */
-	quantity?:number
+	quantity?:number,
+	/** Optional discount coupon */
+	coupon?:string
 };
 	/** Project type */
 ["Project"]: {
@@ -1011,7 +1018,13 @@ Used with paginated listing of projects */
 };
 	/** ProjectsSortInput defines how projects from listProjects should be sorted. */
 ["ProjectsSortInput"]: {
-		/** Sort by owner */
+		/** Sort projects by creation date */
+	createdAt?:GraphQLTypes["SortOrder"],
+	/** Sort by name */
+	name?:GraphQLTypes["SortOrder"],
+	/** Sort by id */
+	id?:GraphQLTypes["SortOrder"],
+	/** Sort by owner */
 	owner?:GraphQLTypes["SortOrder"],
 	/** Sort by visisbility */
 	public?:GraphQLTypes["SortOrder"],
@@ -1022,13 +1035,7 @@ Used with paginated listing of projects */
 	/** Sorts projects by team.
 
 Sort behaviour for projects by team is implemenation depednant. */
-	team?:GraphQLTypes["SortOrder"],
-	/** Sort projects by creation date */
-	createdAt?:GraphQLTypes["SortOrder"],
-	/** Sort by name */
-	name?:GraphQLTypes["SortOrder"],
-	/** Sort by id */
-	id?:GraphQLTypes["SortOrder"]
+	team?:GraphQLTypes["SortOrder"]
 };
 	/** Root query type */
 ["Query"]: {
@@ -1167,14 +1174,14 @@ limit limits the number of returned projects */
 };
 	/** Update project payload */
 ["UpdateProject"]: {
-		/** ID of project to be updated */
+		/** Set project visiblity */
+	public?:boolean,
+	/** ID of project to be updated */
 	project?:string,
 	/** New description for project */
 	description?:string,
 	/** List of tags for project */
-	tags?:string[],
-	/** Set project visiblity */
-	public?:boolean
+	tags?:string[]
 };
 	/** Editor user */
 ["User"]: {
@@ -1199,7 +1206,11 @@ limit limits the number of returned projects */
 };
 	/** Vat information of a user */
 ["VatInput"]: {
-		/** Vat company city address */
+		/** Vat company name */
+	companyName?:string,
+	/** Vat company street address */
+	street?:string,
+	/** Vat company city address */
 	city?:string,
 	/** Vat company state address. Optional. */
 	state?:string,
@@ -1208,11 +1219,7 @@ limit limits the number of returned projects */
 	/** Vat company post code address. */
 	postCode?:string,
 	/** Vat number */
-	number?:string,
-	/** Vat company name */
-	companyName?:string,
-	/** Vat company street address */
-	street?:string
+	number?:string
 }
     }
 /** Defines user's account type */
@@ -1251,12 +1258,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	CheckoutDataInput:{
-		successURL:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		cancelURL:{
 			type:"String",
 			array:false,
@@ -1292,21 +1293,15 @@ export const AllTypesProps: Record<string,any> = {
 			array:false,
 			arrayRequired:false,
 			required:false
-		}
-	},
-	CustomerInput:{
-		postCode:{
+		},
+		successURL:{
 			type:"String",
 			array:false,
 			arrayRequired:false,
 			required:false
-		},
-		marketingConsent:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
+		}
+	},
+	CustomerInput:{
 		email:{
 			type:"String",
 			array:false,
@@ -1315,6 +1310,18 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		country:{
 			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		postCode:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		marketingConsent:{
+			type:"Boolean",
 			array:false,
 			arrayRequired:false,
 			required:false
@@ -1342,27 +1349,27 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		createProject:{
+			name:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:true
+			},
 			public:{
 				type:"Boolean",
 				array:false,
 				arrayRequired:false,
 				required:false
-			},
-			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
 			}
 		},
 		createTeam:{
-			name:{
+			namespace:{
 				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:true
 			},
-			namespace:{
+			name:{
 				type:"String",
 				array:false,
 				arrayRequired:false,
@@ -1370,17 +1377,17 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		createUser:{
-			public:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
 			namespace:{
 				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:true
+			},
+			public:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
 			}
 		},
 		deployToFaker:{
@@ -1454,14 +1461,14 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		projects:{
-			last:{
-				type:"String",
+			limit:{
+				type:"Int",
 				array:false,
 				arrayRequired:false,
 				required:false
 			},
-			limit:{
-				type:"Int",
+			last:{
+				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -1496,12 +1503,6 @@ export const AllTypesProps: Record<string,any> = {
 	},
 	PaymentDate: "String",
 	PredictCheckoutInput:{
-		coupon:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		planID:{
 			type:"ID",
 			array:false,
@@ -1510,6 +1511,12 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		quantity:{
 			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		coupon:{
+			type:"String",
 			array:false,
 			arrayRequired:false,
 			required:false
@@ -1542,6 +1549,24 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	ProjectsSortInput:{
+		createdAt:{
+			type:"SortOrder",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		name:{
+			type:"SortOrder",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		id:{
+			type:"SortOrder",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
 		owner:{
 			type:"SortOrder",
 			array:false,
@@ -1567,24 +1592,6 @@ export const AllTypesProps: Record<string,any> = {
 			required:false
 		},
 		team:{
-			type:"SortOrder",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		createdAt:{
-			type:"SortOrder",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		name:{
-			type:"SortOrder",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
 			type:"SortOrder",
 			array:false,
 			arrayRequired:false,
@@ -1629,12 +1636,6 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		findProjectsByTag:{
-			last:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
 			limit:{
 				type:"Int",
 				array:false,
@@ -1646,6 +1647,12 @@ export const AllTypesProps: Record<string,any> = {
 				array:false,
 				arrayRequired:false,
 				required:true
+			},
+			last:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:false
 			}
 		},
 		getNamespace:{
@@ -1758,6 +1765,12 @@ export const AllTypesProps: Record<string,any> = {
 	},
 	TeamOps:{
 		addMember:{
+			role:{
+				type:"Role",
+				array:false,
+				arrayRequired:false,
+				required:true
+			},
 			loginCallback:{
 				type:"String",
 				array:false,
@@ -1766,12 +1779,6 @@ export const AllTypesProps: Record<string,any> = {
 			},
 			username:{
 				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
-			},
-			role:{
-				type:"Role",
 				array:false,
 				arrayRequired:false,
 				required:true
@@ -1823,6 +1830,12 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	UpdateProject:{
+		public:{
+			type:"Boolean",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
 		project:{
 			type:"ID",
 			array:false,
@@ -1840,15 +1853,21 @@ export const AllTypesProps: Record<string,any> = {
 			array:true,
 			arrayRequired:false,
 			required:true
-		},
-		public:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
 		}
 	},
 	VatInput:{
+		companyName:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		street:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
 		city:{
 			type:"String",
 			array:false,
@@ -1874,18 +1893,6 @@ export const AllTypesProps: Record<string,any> = {
 			required:false
 		},
 		number:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		companyName:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		street:{
 			type:"String",
 			array:false,
 			arrayRequired:false,
@@ -2386,10 +2393,10 @@ export const $ = (t: TemplateStringsArray): any => `ZEUS_VAR$${t.join('')}`;
 export const resolverFor = <
   T extends keyof ValueTypes,
   Z extends keyof ValueTypes[T],
-  Y extends (props: {
-    args: Required<ValueTypes[T]>[Z] extends [infer Input, any] ? Input : never;
-    source?: unknown;
-  }) => Z extends keyof GraphQLTypes[T] ? Omit<GraphQLTypes[T][Z], '__typename'> : never
+  Y extends (
+    args: Required<ValueTypes[T]>[Z] extends [infer Input, any] ? Input : never,
+    source: any,
+  ) => Z extends keyof ModelTypes[T] ? ModelTypes[T][Z] | Promise<ModelTypes[T][Z]> : never
 >(
   type: T,
   field: Z,
