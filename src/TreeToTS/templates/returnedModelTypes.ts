@@ -53,6 +53,9 @@ const resolveField = (f: ParserField): string => {
 };
 
 const resolveTypeFromRoot = (i: ParserField, rootNodes: ParserField[]): string => {
+  if (i.data.type === TypeDefinition.ScalarTypeDefinition) {
+    return `${plusDescription(i.description)}["${i.name}"]:any`;
+  }
   if (!i.args || !i.args.length) {
     return ``;
   }
