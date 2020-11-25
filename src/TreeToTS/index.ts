@@ -1,7 +1,7 @@
 import { Environment, OperationType, ParserField, ParserTree, TypeDefinition } from '../Models';
 import { bodyJavascript, generateOperationsJavascript } from './templates/javascript';
 import { resolveValueTypes } from './templates/resolveValueTypes';
-import { resolvePartialObjects } from './templates/returnedPartialObjects';
+import { resolveModelTypes } from './templates/returnedModelTypes';
 import { resolvePropTypeFromRoot } from './templates/returnedPropTypes';
 import { resolveReturnFromRoot } from './templates/returnedReturns';
 import { resolveInterfaces, resolveUnions, resolveTypes } from './templates/returnedTypes';
@@ -96,7 +96,7 @@ export class TreeToTS {
   static resolveBasisTypes(tree: ParserTree): string {
     const rootTypes = resolveTypes(tree.nodes);
     const valueTypes = resolveValueTypes(tree.nodes);
-    const objectTypes = resolvePartialObjects(tree.nodes, tree.nodes);
+    const modelTypes = resolveModelTypes(tree.nodes);
     const unionTypes = resolveUnions(tree.nodes);
     const interfaceTypes = resolveInterfaces(tree.nodes);
     return interfaceTypes
@@ -105,7 +105,7 @@ export class TreeToTS {
       .concat('\n\n')
       .concat(valueTypes)
       .concat('\n\n')
-      .concat(objectTypes)
+      .concat(modelTypes)
       .concat('\n\n')
       .concat(rootTypes);
   }

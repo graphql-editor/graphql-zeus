@@ -11,6 +11,15 @@ input ChangeSubscriptionInput {
 
 """Checkout data needed to begin payment process"""
 input CheckoutDataInput {
+  """URL to which user should be redirected after successful transaction"""
+  successURL: String
+
+  """URL to which user should be redirected after failed transaction"""
+  cancelURL: String
+
+  """An id of a chosen subscription plan"""
+  planID: ID!
+
   """Quantity of subscriptions that user wants"""
   quantity: Int
 
@@ -22,19 +31,13 @@ input CheckoutDataInput {
 
   """Optional discount coupon"""
   coupon: String
-
-  """URL to which user should be redirected after successful transaction"""
-  successURL: String
-
-  """URL to which user should be redirected after failed transaction"""
-  cancelURL: String
-
-  """An id of a chosen subscription plan"""
-  planID: ID!
 }
 
 """Customer data for checkout information"""
 input CustomerInput {
+  """User's post code"""
+  postCode: String
+
   """Must be true for marketing to be allowed"""
   marketingConsent: Boolean
 
@@ -43,9 +46,6 @@ input CustomerInput {
 
   """User's country"""
   country: String
-
-  """User's post code"""
-  postCode: String
 }
 
 """Amount is a number that gives precise representation of real numbers"""
@@ -250,14 +250,14 @@ type PredictCheckout {
 
 """Checkout data needed to begin payment process"""
 input PredictCheckoutInput {
+  """Optional discount coupon"""
+  coupon: String
+
   """An id of a chosen subscription plan"""
   planID: ID!
 
   """Quantity of subscriptions that user wants"""
   quantity: Int
-
-  """Optional discount coupon"""
-  coupon: String
 }
 
 """Project type"""
@@ -349,6 +349,18 @@ type ProjectOps {
 ProjectsSortInput defines how projects from listProjects should be sorted.
 """
 input ProjectsSortInput {
+  """Sort by owner"""
+  owner: SortOrder
+
+  """Sort by visisbility"""
+  public: SortOrder
+
+  """Sort by slug"""
+  slug: SortOrder
+
+  """Sort by tag"""
+  tags: SortOrder
+
   """
   Sorts projects by team.
   
@@ -364,18 +376,6 @@ input ProjectsSortInput {
 
   """Sort by id"""
   id: SortOrder
-
-  """Sort by owner"""
-  owner: SortOrder
-
-  """Sort by visisbility"""
-  public: SortOrder
-
-  """Sort by slug"""
-  slug: SortOrder
-
-  """Sort by tag"""
-  tags: SortOrder
 }
 
 """Root query type"""

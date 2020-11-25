@@ -1,8 +1,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-type ZEUS_INTERFACES = 
-type ZEUS_UNIONS = 
+type ZEUS_INTERFACES = never
+type ZEUS_UNIONS = never
 
 export type ValueTypes = {
     ["NotMutation"]: AliasType<{
@@ -23,24 +23,20 @@ add?: [{	name?:string},ValueTypes["Person"]],
 }>
   }
 
-export type PartialObjects = {
+export type ModelTypes = {
     ["NotMutation"]: {
-		__typename?: "NotMutation";
-			add?:PartialObjects["Person"]
-	},
+		add?:ModelTypes["Person"]
+};
 	["NotSubscription"]: {
-		__typename?: "NotSubscription";
-			people?:(PartialObjects["Person"] | undefined)[]
-	},
+		people?:(ModelTypes["Person"] | undefined)[]
+};
 	["Person"]: {
-		__typename?: "Person";
-			name?:string
-	},
+		name?:string
+};
 	["Query"]: {
-		__typename?: "Query";
-			people?:(PartialObjects["Person"] | undefined)[]
-	}
-  }
+		people?:(ModelTypes["Person"] | undefined)[]
+}
+    }
 
 export type GraphQLTypes = {
     ["NotMutation"]: {
