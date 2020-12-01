@@ -45,6 +45,7 @@ Given the following schema [Olympus Cards](https://app.graphqleditor.com/a-team/
     - [Gql string](#gql-string)
     - [JavaScript Type Casting](#javascript-type-casting)
     - [Typescript SelectionSet](#typescript-selectionset)
+    - [React Apollo Hooks](#usage-with-react-hooks-and-apollo-client)
   - [Spec](#spec)
     - [Use Alias Spec](#use-alias-spec)
   - [Use In your Project to generate code](#use-in-your-project-to-generate-code)
@@ -552,6 +553,66 @@ const queryWithSelectionSet = await chain.query({
   listCards: cardSelector2,
 });
 ```
+
+#### Usage with React Hooks and Apollo Client
+
+GraphQL Zeus can be used in combination with Apollo Client's React hooks to provide typed versions of `useQuery()`, `useMutation()`, and `useSubscription()`. Below is what the implementation looks like (please note the comment about root typenames, like `query_root`).
+
+```ts
+import {
+  gql,
+  MutationHookOptions,
+  QueryHookOptions,
+  SubscriptionHookOptions,
+  useMutation,
+  useQuery,
+  useSubscription,
+} from "@apollo/client"
+
+/**
+ * If your query/mutation/subscription root fields are named differently
+ * you will need to alter the imports and references in "ValueTypes" below
+ */
+import {
+  MapType,
+  ValueTypes,
+  Zeus,
+  mutation_root,
+  query_root,
+  subscription_root,
+} from "./generated/graphql-zeus"
+
+export function useTypedQuery<Q extends ValueTypes["query_root"]>(
+  query: Q,
+  options?: QueryHookOptions<MapType<query_root, Q>, Record<string, any>>,
+) {
+  return useQuery<MapType<query_root, Q>>(gql(Zeus.query(query)), options)
+}
+
+export function useTypedMutation<Q extends ValueTypes["mutation_root"]>(
+  mutation: Q,
+  options?: MutationHookOptions<MapType<mutation_root, Q>, Record<string, any>>,
+) {
+  return useMutation<MapType<mutation_root, Q>>(
+    gql(Zeus.mutation(mutation)),
+    options,
+  )
+}
+
+export function useTypedSubscription<Q extends ValueTypes["subscription_root"]>(
+  subscription: Q,
+  options?: SubscriptionHookOptions<
+    MapType<subscription_root, Q>,
+    Record<string, any>
+  >,
+) {
+  return useSubscription<MapType<subscription_root, Q>>(
+    gql(Zeus.subscription(subscription)),
+    options,
+  )
+}
+```
+
 ### Spec
 
 Promise of type query data object is returned.
