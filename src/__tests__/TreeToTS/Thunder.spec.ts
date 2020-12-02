@@ -1,3 +1,4 @@
+import { TYPES } from '@/TreeToTS/templates/returnedTypes';
 import { OperationType } from '../../Models';
 import { Parser } from '../../Parser';
 import { TreeToTS } from '../../TreeToTS';
@@ -40,20 +41,20 @@ describe('Thunder tests', () => {
     const typeScriptCode = TreeToTS.resolveTree(tree);
     expect(typeScriptCode).toContain(`${OperationType.query}: ((o: any) =>`);
     expect(typeScriptCode).toContain(`fullChainConstruct(fn)('${OperationType.query}', 'Query')`);
-    expect(typeScriptCode).toContain(`OperationToGraphQL<ValueTypes["Query"],Query>`);
+    expect(typeScriptCode).toContain(`OperationToGraphQL<ValueTypes["Query"],${TYPES}["Query"]>`);
   });
   it('Javascript: Normal schema Query generation', () => {
     const tree = Parser.parseAddExtensions(schema);
     const { javascript, definitions } = TreeToTS.javascript(tree);
     expect(javascript).toContain(`${OperationType.query}: (o) =>`);
     expect(javascript).toContain(`fullChainConstruct(fn)('${OperationType.query}', 'Query')`);
-    expect(definitions).toContain(`OperationToGraphQL<ValueTypes["Query"],Query>`);
+    expect(definitions).toContain(`OperationToGraphQL<ValueTypes["Query"],${TYPES}["Query"]>`);
   });
   it('Javascript: Normal schema Query generation', () => {
     const tree = Parser.parseAddExtensions(schema);
     const typeScriptCode = TreeToTS.resolveTree(tree);
     expect(typeScriptCode).toContain(`${OperationType.query}: ((o: any) =>`);
     expect(typeScriptCode).toContain(`fullChainConstruct(fn)('${OperationType.query}', 'Query')`);
-    expect(typeScriptCode).toContain(`OperationToGraphQL<ValueTypes["Query"],Query>`);
+    expect(typeScriptCode).toContain(`OperationToGraphQL<ValueTypes["Query"],${TYPES}["Query"]>`);
   });
 });

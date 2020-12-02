@@ -12,7 +12,6 @@
     "strictNullChecks": true,
     "skipLibCheck": true,
     "strict": true,
-    "noEmit": true,
     "outDir": "./lib",
     "lib": ["es6", "es7", "esnext", "dom"],
     "rootDir": "./src",
@@ -31,5 +30,5 @@
       }
     ]
   },
-  "exclude": ["lib", "node_modules", "docs", "generated", "examples"]
+  "exclude": ["lib", "node_modules", "docs", "**/__tests__", "generated", "examples"]
 }

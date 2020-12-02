@@ -1,6 +1,6 @@
 {
   "name": "graphql-zeus",
-  "version": "3.0.0-8",
+  "version": "3.0.0-9",
   "private": false,
   "license": "MIT",
   "description": "Generate Client Libary for GraphQL Schema",
@@ -11,8 +11,8 @@
     "zeus": "lib/CLI/index.js"
   },
   "scripts": {
-    "build": "ttsc",
-    "start": "ttsc --watch",
+    "build": "ttsc --build tsconfig.build.json",
+    "start": "ttsc --build tsconfig.build.json --watch",
     "test": "jest",
     "examples-generate": "npm run generate-typescript-node-big-schema && npm run generate-typescript-node && npm run generate-javascript-node && npm run generate-javascript-node-custom-schema && npm run generate-typescript-node-custom-schema",
     "generate-javascript-node": "node ./lib/CLI/index.js https://faker.graphqleditor.com/a-team/olympus/graphql examples/javascript-node/src --n",
@@ -59,13 +59,13 @@
     "ts-node": "^9.0.0",
     "ts-toolbelt": "^6.3.6",
     "tslint-config-prettier": "^1.18.0",
-    "ttypescript": "^1.5.11",
-    "typescript": "^4.0.3",
+    "ttypescript": "^1.5.12",
+    "typescript": "^4.1.2",
     "typescript-transform-paths": "^2.0.0"
   },
   "dependencies": {
     "cross-fetch": "^3.0.4",
-    "graphql": "^14.0.2",
+    "graphql": "^15.4.0",
     "yargs": "^15.3.0"
   },
   "config": {
