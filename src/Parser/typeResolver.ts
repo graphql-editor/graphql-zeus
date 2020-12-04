@@ -224,7 +224,7 @@ export class TypeResolver {
    *
    * @param n Type node
    */
-  static resolveInterfaces(n: TypeDefinitionNode): Nullable<string[]> {
+  static resolveInterfaces(n: TypeDefinitionNode): string[] | undefined {
     if (n.kind !== 'ObjectTypeDefinition' || !n.interfaces) {
       return;
     }
