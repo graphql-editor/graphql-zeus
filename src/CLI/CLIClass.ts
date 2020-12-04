@@ -9,7 +9,7 @@ import { Utils } from '@/Utils';
  */
 interface Yargs {
   [x: string]: unknown;
-  _: string[];
+  _: (string | number)[];
   $0: string;
 }
 
@@ -20,10 +20,8 @@ interface CliArgs extends Yargs {
   header?: string;
   typescript?: boolean;
   node?: boolean;
-  url?: string;
   graphql?: string;
-
-  output?: string;
+  output: string;
 }
 /**
  * Main class for controlling CLI
@@ -32,11 +30,11 @@ export class CLI {
   /**
    *  Execute yargs provided args
    */
-  static execute = async (args: CliArgs): Promise<void> => {
+  static execute = async <T extends CliArgs>(args: T): Promise<void> => {
     const env: Environment = args.node ? 'node' : 'browser';
     const outputFilename = args.output;
     let schemaFileContents = '';
-    const allArgs = args._;
+    const allArgs = args._ as string[];
     const schemaFile: string = allArgs[0];
     let host: string | undefined;
     if (schemaFile.startsWith('http://') || schemaFile.startsWith('https://')) {
