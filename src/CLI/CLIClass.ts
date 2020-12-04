@@ -16,7 +16,7 @@ interface Yargs {
 /**
  * Interface for yargs arguments
  */
-interface Args extends Yargs {
+interface CliArgs extends Yargs {
   header?: string;
   typescript?: boolean;
   node?: boolean;
@@ -32,7 +32,7 @@ export class CLI {
   /**
    *  Execute yargs provided args
    */
-  static execute = async (args: Args): Promise<void> => {
+  static execute = async (args: CliArgs): Promise<void> => {
     const env: Environment = args.node ? 'node' : 'browser';
     const outputFilename = args.output;
     let schemaFileContents = '';
