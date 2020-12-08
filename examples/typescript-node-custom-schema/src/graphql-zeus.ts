@@ -5,54 +5,54 @@ type ZEUS_INTERFACES = never
 type ZEUS_UNIONS = never
 
 export type ValueTypes = {
-    ["NotMutation"]: AliasType<{
-add?: [{	name?:string},ValueTypes["Person"]],
+    ["Query"]: AliasType<{
+	people?:ValueTypes["Person"],
 		__typename?: true
 }>;
-	["NotSubscription"]: AliasType<{
-	people?:ValueTypes["Person"],
+	["NotMutation"]: AliasType<{
+add?: [{	name?:string},ValueTypes["Person"]],
 		__typename?: true
 }>;
 	["Person"]: AliasType<{
 	name?:true,
 		__typename?: true
 }>;
-	["Query"]: AliasType<{
+	["NotSubscription"]: AliasType<{
 	people?:ValueTypes["Person"],
 		__typename?: true
 }>
   }
 
 export type ModelTypes = {
-    ["NotMutation"]: {
-		add?:ModelTypes["Person"]
-};
-	["NotSubscription"]: {
+    ["Query"]: {
 		people?:(ModelTypes["Person"] | undefined)[]
+};
+	["NotMutation"]: {
+		add?:ModelTypes["Person"]
 };
 	["Person"]: {
 		name?:string
 };
-	["Query"]: {
+	["NotSubscription"]: {
 		people?:(ModelTypes["Person"] | undefined)[]
 }
     }
 
 export type GraphQLTypes = {
-    ["NotMutation"]: {
+    ["Query"]: {
+	__typename: "Query",
+	people?:(GraphQLTypes["Person"] | undefined)[]
+};
+	["NotMutation"]: {
 	__typename: "NotMutation",
 	add?:GraphQLTypes["Person"]
-};
-	["NotSubscription"]: {
-	__typename: "NotSubscription",
-	people?:(GraphQLTypes["Person"] | undefined)[]
 };
 	["Person"]: {
 	__typename: "Person",
 	name?:string
 };
-	["Query"]: {
-	__typename: "Query",
+	["NotSubscription"]: {
+	__typename: "NotSubscription",
 	people?:(GraphQLTypes["Person"] | undefined)[]
 }
     }
@@ -72,16 +72,16 @@ export const AllTypesProps: Record<string,any> = {
 }
 
 export const ReturnTypes: Record<string,any> = {
+	Query:{
+		people:"Person"
+	},
 	NotMutation:{
 		add:"Person"
-	},
-	NotSubscription:{
-		people:"Person"
 	},
 	Person:{
 		name:"String"
 	},
-	Query:{
+	NotSubscription:{
 		people:"Person"
 	}
 }
@@ -127,23 +127,31 @@ type IsPayLoad<T> = T extends [any, infer PayLoad] ? PayLoad : T;
 type IsArray<T, U> = T extends Array<infer R> ? InputType<R, U>[] : InputType<T, U>;
 type FlattenArray<T> = T extends Array<infer R> ? R : T;
 
-type FilterFlags<Base, Condition> = {
-  [Key in keyof Base]: Base[Key] extends Condition ? Key : never;
-};
-type AllowedNames<Base, Condition> = FilterFlags<Base, Condition>[keyof Base];
-type SubType<Base, Condition> = Pick<Base, AllowedNames<Base, Condition>>;
-
-type UnionTypes<SRC extends DeepAnify<DST>, DST> = {
-  [P in keyof DST]: DST[P] extends true ? never : IsArray<SRC[P], DST[P]>;
+type NotUnionTypes<SRC extends DeepAnify<DST>, DST> = {
+  [P in keyof DST]: SRC[P] extends '__union' & infer R ? never : P;
 }[keyof DST];
+
+type ExtractUnions<SRC extends DeepAnify<DST>, DST> = {
+  [P in keyof SRC]: SRC[P] extends '__union' & infer R
+    ? P extends keyof DST
+      ? IsArray<R, DST[P] & { __typename: true }>
+      : {}
+    : never;
+}[keyof SRC];
+
 type IsInterfaced<SRC extends DeepAnify<DST>, DST> = FlattenArray<SRC> extends ZEUS_INTERFACES | ZEUS_UNIONS
-  ? UnionTypes<SRC, DST> &
+  ? ExtractUnions<SRC, DST> &
       {
-        [P in keyof SubType<DST, true>]: SRC[P];
+        [P in keyof Omit<Pick<DST, NotUnionTypes<SRC, DST>>, '__typename'>]: DST[P] extends true
+          ? SRC[P]
+          : IsArray<SRC[P], DST[P]>;
       }
   : {
       [P in keyof DST]: DST[P] extends true ? SRC[P] : IsArray<SRC[P], DST[P]>;
     };
+
+
+
 type MapType<SRC, DST> = SRC extends DeepAnify<DST> ? IsInterfaced<SRC, DST> : never;
 type InputType<SRC, DST> = IsPayLoad<DST> extends { __alias: infer R }
   ? {
@@ -422,9 +430,9 @@ export const resolverFor = <
   T extends keyof ValueTypes,
   Z extends keyof ValueTypes[T],
   Y extends (
-    args: Required<ValueTypes[T]>[Z] extends [infer Input, any] ? Input : never,
+    args: Required<ValueTypes[T]>[Z] extends [infer Input, any] ? Input : any,
     source: any,
-  ) => Z extends keyof ModelTypes[T] ? ModelTypes[T][Z] | Promise<ModelTypes[T][Z]> : never
+  ) => Z extends keyof ModelTypes[T] ? ModelTypes[T][Z] | Promise<ModelTypes[T][Z]> : any
 >(
   type: T,
   field: Z,

@@ -5,68 +5,51 @@ type ZEUS_INTERFACES = never
 type ZEUS_UNIONS = never
 
 export type ValueTypes = {
-    /** Defines user's account type */
-["AccountType"]:AccountType;
-	["ChangeSubscriptionInput"]: {
-	subscriptionID:number,
-	subscriptionPlanID?:number
-};
-	/** Checkout data needed to begin payment process */
-["CheckoutDataInput"]: {
-	/** URL to which user should be redirected after failed transaction */
-	cancelURL?:string,
-	/** An id of a chosen subscription plan */
-	planID:string,
-	/** Quantity of subscriptions that user wants */
-	quantity?:number,
-	/** Customer data */
-	customer?:ValueTypes["CustomerInput"],
-	/** Vat data */
-	vat?:ValueTypes["VatInput"],
-	/** Optional discount coupon */
-	coupon?:string,
-	/** URL to which user should be redirected after successful transaction */
-	successURL?:string
-};
-	/** Customer data for checkout information */
-["CustomerInput"]: {
-	/** User's email address */
-	email?:string,
-	/** User's country */
-	country?:string,
-	/** User's post code */
-	postCode?:string,
-	/** Must be true for marketing to be allowed */
-	marketingConsent?:boolean
-};
-	/** Amount is a number that gives precise representation of real numbers */
-["Decimal"]:unknown;
-	/** Endpoint returnes a full path to the project without host */
-["Endpoint"]: AliasType<{
-	/** Full project uri without host */
-	uri?:true,
+    /** Editor user */
+["User"]: AliasType<{
+	/** User's account type */
+	accountType?:true,
+	/** Unique user id */
+	id?:true,
+	/** User's namespace */
+	namespace?:ValueTypes["Namespace"],
+	/** User's subscriptions */
+	subscriptions?:ValueTypes["SubscriptionConnection"],
+	/** Unique username */
+	username?:true,
 		__typename?: true
 }>;
-	/** A source object */
-["FakerSource"]: AliasType<{
-	/** File checksum */
-	checksum?:true,
-	contents?:true,
-	/** Name of source file */
-	filename?:true,
-	/** Return an url by which source file can be accessed */
-	getUrl?:true,
-		__typename?: true
-}>;
-	/** Connection object containing list of faker sources */
-["FakerSourceConnection"]: AliasType<{
-	/** Connection pageInfo */
+	/** RFC3339Date is a RFC3339 formated date-time string */
+["RFC3339Date"]:unknown;
+	/** Teams connection */
+["TeamConnection"]: AliasType<{
+	/** Pagination info used in next fetch */
 	pageInfo?:ValueTypes["PageInfo"],
-	/** List of sources returned by connection */
-	sources?:ValueTypes["FakerSource"],
+	/** List of teams returned by current page in connection */
+	teams?:ValueTypes["Team"],
 		__typename?: true
 }>;
-	["FileServerCredentials"]:unknown;
+	/** ProjectsSortInput defines how projects from listProjects should be sorted. */
+["ProjectsSortInput"]: {
+	/** Sort by owner */
+	owner?:ValueTypes["SortOrder"],
+	/** Sort by visisbility */
+	public?:ValueTypes["SortOrder"],
+	/** Sort by slug */
+	slug?:ValueTypes["SortOrder"],
+	/** Sort by tag */
+	tags?:ValueTypes["SortOrder"],
+	/** Sorts projects by team.
+
+Sort behaviour for projects by team is implemenation depednant. */
+	team?:ValueTypes["SortOrder"],
+	/** Sort projects by creation date */
+	createdAt?:ValueTypes["SortOrder"],
+	/** Sort by name */
+	name?:ValueTypes["SortOrder"],
+	/** Sort by id */
+	id?:ValueTypes["SortOrder"]
+};
 	/** Request header */
 ["Header"]: AliasType<{
 	/** Header name */
@@ -75,16 +58,10 @@ export type ValueTypes = {
 	value?:true,
 		__typename?: true
 }>;
-	/** Team member */
-["Member"]: AliasType<{
-	/** Member email */
-	email?:true,
-	/** Member role */
-	role?:true,
-	/** Member username */
-	username?:true,
-		__typename?: true
-}>;
+	["ChangeSubscriptionInput"]: {
+	subscriptionID:number,
+	subscriptionPlanID?:number
+};
 	/** Paginated members list */
 ["MemberConnection"]: AliasType<{
 	/** List of members in this connection */
@@ -93,48 +70,19 @@ export type ValueTypes = {
 	pageInfo?:ValueTypes["PageInfo"],
 		__typename?: true
 }>;
-	/** Team member ops */
-["MemberOps"]: AliasType<{
-	/** Boolean object node */
-	delete?:true,
-update?: [{	role?:ValueTypes["Role"]},true],
+	/** Team member role */
+["Role"]:Role;
+	/** PredictCheckout represents payment prediction for checkout data */
+["PredictCheckout"]: AliasType<{
+	/** Predicted checkout price */
+	price?:true,
+	/** Predicted number of trial days */
+	trialDays?:true,
 		__typename?: true
 }>;
-	["Mutation"]: AliasType<{
-changeSubscription?: [{	in:ValueTypes["ChangeSubscriptionInput"]},true],
-createProject?: [{	name:string,	public?:boolean},ValueTypes["Project"]],
-createTeam?: [{	namespace:string,	name:string},ValueTypes["TeamOps"]],
-createUser?: [{	namespace:string,	public?:boolean},ValueTypes["User"]],
-deployToFaker?: [{	id:string},true],
-removeProject?: [{	project:string},true],
-sync?: [{	source:string,	target:string},true],
-team?: [{	id:string},ValueTypes["TeamOps"]],
-updateProject?: [{	in?:ValueTypes["UpdateProject"]},true],
-updateSources?: [{	project:string,	sources?:ValueTypes["NewSource"][]},ValueTypes["SourceUploadInfo"]],
-		__typename?: true
-}>;
-	/** Namespace is a root object containing projects belonging
-to a team or user */
-["Namespace"]: AliasType<{
-project?: [{	name:string},ValueTypes["Project"]],
-projects?: [{	limit?:number,	last?:string},ValueTypes["ProjectConnection"]],
-	/** True if namespace is public */
-	public?:true,
-	/** Namespace part of the slug */
-	slug?:true,
-		__typename?: true
-}>;
-	/** New source payload */
-["NewSource"]: {
-	/** source file name */
-	filename?:string,
-	/** Length of source in bytes */
-	contentLength?:number,
-	/** Source mime type */
-	contentType?:string,
-	/** Source checksum */
-	checksum?:string
-};
+	["FileServerCredentials"]:unknown;
+	/** Sort order defines possible ordering of sorted outputs */
+["SortOrder"]:SortOrder;
 	/** PageInfo contains information about connection page */
 ["PageInfo"]: AliasType<{
 	/** last element in connection */
@@ -143,6 +91,22 @@ projects?: [{	limit?:number,	last?:string},ValueTypes["ProjectConnection"]],
 	limit?:true,
 	/** if next is false then client recieved all available data */
 	next?:true,
+		__typename?: true
+}>;
+	/** Project connection object
+
+Used with paginated listing of projects */
+["ProjectConnection"]: AliasType<{
+	/** Current connection page info */
+	pageInfo?:ValueTypes["PageInfo"],
+	/** List of projects in connection */
+	projects?:ValueTypes["Project"],
+		__typename?: true
+}>;
+	/** Endpoint returnes a full path to the project without host */
+["Endpoint"]: AliasType<{
+	/** Full project uri without host */
+	uri?:true,
 		__typename?: true
 }>;
 	["Payment"]: AliasType<{
@@ -158,25 +122,161 @@ projects?: [{	limit?:number,	last?:string},ValueTypes["ProjectConnection"]],
 	subscriptionID?:true,
 		__typename?: true
 }>;
-	/** PaymentDate is a string in a format 'YYYY-MM-DD' */
-["PaymentDate"]:unknown;
-	/** PredictCheckout represents payment prediction for checkout data */
-["PredictCheckout"]: AliasType<{
-	/** Predicted checkout price */
-	price?:true,
-	/** Predicted number of trial days */
-	trialDays?:true,
+	/** type object node */
+["ProjectOps"]: AliasType<{
+	/** Boolean object node */
+	delete?:true,
+	/** deploy project to faker */
+	deployToFaker?:true,
+update?: [{	in?:ValueTypes["UpdateProject"]},true],
 		__typename?: true
 }>;
 	/** Checkout data needed to begin payment process */
-["PredictCheckoutInput"]: {
+["CheckoutDataInput"]: {
+	/** Vat data */
+	vat?:ValueTypes["VatInput"],
+	/** Optional discount coupon */
+	coupon?:string,
+	/** URL to which user should be redirected after successful transaction */
+	successURL?:string,
+	/** URL to which user should be redirected after failed transaction */
+	cancelURL?:string,
 	/** An id of a chosen subscription plan */
 	planID:string,
 	/** Quantity of subscriptions that user wants */
 	quantity?:number,
-	/** Optional discount coupon */
-	coupon?:string
+	/** Customer data */
+	customer?:ValueTypes["CustomerInput"]
 };
+	/** Vat information of a user */
+["VatInput"]: {
+	/** Vat company country address. */
+	country?:string,
+	/** Vat company post code address. */
+	postCode?:string,
+	/** Vat number */
+	number?:string,
+	/** Vat company name */
+	companyName?:string,
+	/** Vat company street address */
+	street?:string,
+	/** Vat company city address */
+	city?:string,
+	/** Vat company state address. Optional. */
+	state?:string
+};
+	["Subscription"]: AliasType<{
+	/** Cancel subscription URL */
+	cancelURL?:true,
+	/** Subscription expiration date */
+	expiration?:true,
+	/** Number of seats in subscription */
+	quantity?:true,
+	/** List of seats in subscription */
+	seats?:ValueTypes["UserConnection"],
+	/** Status of subscription */
+	status?:true,
+	/** Subscription unique id */
+	subscriptionID?:true,
+	/** Subscription plan unique id */
+	subscriptionPlanID?:true,
+	/** Update subscription URL */
+	updateURL?:true,
+		__typename?: true
+}>;
+	/** Namespace is a root object containing projects belonging
+to a team or user */
+["Namespace"]: AliasType<{
+project?: [{	name:string},ValueTypes["Project"]],
+projects?: [{	limit?:number,	last?:string},ValueTypes["ProjectConnection"]],
+	/** True if namespace is public */
+	public?:true,
+	/** Namespace part of the slug */
+	slug?:true,
+		__typename?: true
+}>;
+	/** Team object */
+["Team"]: AliasType<{
+	/** Unique team id */
+	id?:true,
+member?: [{	username:string},ValueTypes["Member"]],
+members?: [{	last?:string,	limit?:number},ValueTypes["MemberConnection"]],
+	/** Team name */
+	name?:true,
+	/** Team's namespace */
+	namespace?:ValueTypes["Namespace"],
+		__typename?: true
+}>;
+	/** Defines user's account type */
+["AccountType"]:AccountType;
+	/** Source upload info object */
+["SourceUploadInfo"]: AliasType<{
+	/** Source file name */
+	filename?:true,
+	/** List of headers that must be included in PUT request */
+	headers?:ValueTypes["Header"],
+	/** String with url used in PUT request */
+	putUrl?:true,
+		__typename?: true
+}>;
+	/** Customer data for checkout information */
+["CustomerInput"]: {
+	/** User's post code */
+	postCode?:string,
+	/** Must be true for marketing to be allowed */
+	marketingConsent?:boolean,
+	/** User's email address */
+	email?:string,
+	/** User's country */
+	country?:string
+};
+	/** New source payload */
+["NewSource"]: {
+	/** source file name */
+	filename?:string,
+	/** Length of source in bytes */
+	contentLength?:number,
+	/** Source mime type */
+	contentType?:string,
+	/** Source checksum */
+	checksum?:string
+};
+	/** Team member */
+["Member"]: AliasType<{
+	/** Member email */
+	email?:true,
+	/** Member role */
+	role?:true,
+	/** Member username */
+	username?:true,
+		__typename?: true
+}>;
+	/** PaymentDate is a string in a format 'YYYY-MM-DD' */
+["PaymentDate"]:unknown;
+	/** Team member ops */
+["MemberOps"]: AliasType<{
+	/** Boolean object node */
+	delete?:true,
+update?: [{	role?:ValueTypes["Role"]},true],
+		__typename?: true
+}>;
+	/** Team operations */
+["TeamOps"]: AliasType<{
+addMember?: [{	loginCallback?:string,	username:string,	role:ValueTypes["Role"]},ValueTypes["Member"]],
+createProject?: [{	public?:boolean,	name:string},ValueTypes["Project"]],
+	/** Delete team */
+	delete?:true,
+	/** Unique team id */
+	id?:true,
+member?: [{	username:string},ValueTypes["MemberOps"]],
+members?: [{	last?:string,	limit?:number},ValueTypes["MemberConnection"]],
+	/** Team name */
+	name?:true,
+	/** Team's namespace */
+	namespace?:ValueTypes["Namespace"],
+project?: [{	id:string},ValueTypes["ProjectOps"]],
+		__typename?: true
+}>;
 	/** Project type */
 ["Project"]: AliasType<{
 	/** Return creation time stamp of a project */
@@ -212,52 +312,55 @@ Can be null if project belongs to a user */
 	team?:ValueTypes["Team"],
 		__typename?: true
 }>;
-	/** Project connection object
-
-Used with paginated listing of projects */
-["ProjectConnection"]: AliasType<{
-	/** Current connection page info */
+	/** Connection object containing list of faker sources */
+["FakerSourceConnection"]: AliasType<{
+	/** Connection pageInfo */
 	pageInfo?:ValueTypes["PageInfo"],
-	/** List of projects in connection */
-	projects?:ValueTypes["Project"],
+	/** List of sources returned by connection */
+	sources?:ValueTypes["FakerSource"],
 		__typename?: true
 }>;
-	/** type object node */
-["ProjectOps"]: AliasType<{
-	/** Boolean object node */
-	delete?:true,
-	/** deploy project to faker */
-	deployToFaker?:true,
-update?: [{	in?:ValueTypes["UpdateProject"]},true],
+	/** A source object */
+["FakerSource"]: AliasType<{
+	/** File checksum */
+	checksum?:true,
+	contents?:true,
+	/** Name of source file */
+	filename?:true,
+	/** Return an url by which source file can be accessed */
+	getUrl?:true,
 		__typename?: true
 }>;
-	/** ProjectsSortInput defines how projects from listProjects should be sorted. */
-["ProjectsSortInput"]: {
-	/** Sort projects by creation date */
-	createdAt?:ValueTypes["SortOrder"],
-	/** Sort by name */
-	name?:ValueTypes["SortOrder"],
-	/** Sort by id */
-	id?:ValueTypes["SortOrder"],
-	/** Sort by owner */
-	owner?:ValueTypes["SortOrder"],
-	/** Sort by visisbility */
-	public?:ValueTypes["SortOrder"],
-	/** Sort by slug */
-	slug?:ValueTypes["SortOrder"],
-	/** Sort by tag */
-	tags?:ValueTypes["SortOrder"],
-	/** Sorts projects by team.
-
-Sort behaviour for projects by team is implemenation depednant. */
-	team?:ValueTypes["SortOrder"]
+	/** Checkout data needed to begin payment process */
+["PredictCheckoutInput"]: {
+	/** An id of a chosen subscription plan */
+	planID:string,
+	/** Quantity of subscriptions that user wants */
+	quantity?:number,
+	/** Optional discount coupon */
+	coupon?:string
 };
+	/** Amount is a number that gives precise representation of real numbers */
+["Decimal"]:unknown;
+	["Mutation"]: AliasType<{
+changeSubscription?: [{	in:ValueTypes["ChangeSubscriptionInput"]},true],
+createProject?: [{	public?:boolean,	name:string},ValueTypes["Project"]],
+createTeam?: [{	namespace:string,	name:string},ValueTypes["TeamOps"]],
+createUser?: [{	namespace:string,	public?:boolean},ValueTypes["User"]],
+deployToFaker?: [{	id:string},true],
+removeProject?: [{	project:string},true],
+sync?: [{	source:string,	target:string},true],
+team?: [{	id:string},ValueTypes["TeamOps"]],
+updateProject?: [{	in?:ValueTypes["UpdateProject"]},true],
+updateSources?: [{	project:string,	sources?:ValueTypes["NewSource"][]},ValueTypes["SourceUploadInfo"]],
+		__typename?: true
+}>;
 	/** Root query type */
 ["Query"]: AliasType<{
 checkoutData?: [{	data:ValueTypes["CheckoutDataInput"]},true],
 fileServerCredentials?: [{	project?:string},true],
 findProjects?: [{	query:string,	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
-findProjectsByTag?: [{	limit?:number,	tag:string,	last?:string},ValueTypes["ProjectConnection"]],
+findProjectsByTag?: [{	tag:string,	last?:string,	limit?:number},ValueTypes["ProjectConnection"]],
 getNamespace?: [{	slug:string},ValueTypes["Namespace"]],
 getProject?: [{	project:string},ValueTypes["Project"]],
 getTeam?: [{	name:string},ValueTypes["Team"]],
@@ -269,108 +372,11 @@ myTeams?: [{	last?:string,	limit?:number},ValueTypes["TeamConnection"]],
 predictCheckout?: [{	data:ValueTypes["PredictCheckoutInput"]},ValueTypes["PredictCheckout"]],
 		__typename?: true
 }>;
-	/** RFC3339Date is a RFC3339 formated date-time string */
-["RFC3339Date"]:unknown;
-	/** Team member role */
-["Role"]:Role;
-	/** Sort order defines possible ordering of sorted outputs */
-["SortOrder"]:SortOrder;
-	/** Source upload info object */
-["SourceUploadInfo"]: AliasType<{
-	/** Source file name */
-	filename?:true,
-	/** List of headers that must be included in PUT request */
-	headers?:ValueTypes["Header"],
-	/** String with url used in PUT request */
-	putUrl?:true,
-		__typename?: true
-}>;
-	["Subscription"]: AliasType<{
-	/** Cancel subscription URL */
-	cancelURL?:true,
-	/** Subscription expiration date */
-	expiration?:true,
-	/** Number of seats in subscription */
-	quantity?:true,
-	/** List of seats in subscription */
-	seats?:ValueTypes["UserConnection"],
-	/** Status of subscription */
-	status?:true,
-	/** Subscription unique id */
-	subscriptionID?:true,
-	/** Subscription plan unique id */
-	subscriptionPlanID?:true,
-	/** Update subscription URL */
-	updateURL?:true,
-		__typename?: true
-}>;
 	["SubscriptionConnection"]: AliasType<{
 	/** Current conenction page info */
 	pageInfo?:ValueTypes["PageInfo"],
 	/** List of subscriptions in connection */
 	subscriptions?:ValueTypes["Subscription"],
-		__typename?: true
-}>;
-	/** Team object */
-["Team"]: AliasType<{
-	/** Unique team id */
-	id?:true,
-member?: [{	username:string},ValueTypes["Member"]],
-members?: [{	last?:string,	limit?:number},ValueTypes["MemberConnection"]],
-	/** Team name */
-	name?:true,
-	/** Team's namespace */
-	namespace?:ValueTypes["Namespace"],
-		__typename?: true
-}>;
-	/** Teams connection */
-["TeamConnection"]: AliasType<{
-	/** Pagination info used in next fetch */
-	pageInfo?:ValueTypes["PageInfo"],
-	/** List of teams returned by current page in connection */
-	teams?:ValueTypes["Team"],
-		__typename?: true
-}>;
-	/** Team operations */
-["TeamOps"]: AliasType<{
-addMember?: [{	role:ValueTypes["Role"],	loginCallback?:string,	username:string},ValueTypes["Member"]],
-createProject?: [{	public?:boolean,	name:string},ValueTypes["Project"]],
-	/** Delete team */
-	delete?:true,
-	/** Unique team id */
-	id?:true,
-member?: [{	username:string},ValueTypes["MemberOps"]],
-members?: [{	last?:string,	limit?:number},ValueTypes["MemberConnection"]],
-	/** Team name */
-	name?:true,
-	/** Team's namespace */
-	namespace?:ValueTypes["Namespace"],
-project?: [{	id:string},ValueTypes["ProjectOps"]],
-		__typename?: true
-}>;
-	/** Update project payload */
-["UpdateProject"]: {
-	/** Set project visiblity */
-	public?:boolean,
-	/** ID of project to be updated */
-	project?:string,
-	/** New description for project */
-	description?:string,
-	/** List of tags for project */
-	tags?:string[]
-};
-	/** Editor user */
-["User"]: AliasType<{
-	/** User's account type */
-	accountType?:true,
-	/** Unique user id */
-	id?:true,
-	/** User's namespace */
-	namespace?:ValueTypes["Namespace"],
-	/** User's subscriptions */
-	subscriptions?:ValueTypes["SubscriptionConnection"],
-	/** Unique username */
-	username?:true,
 		__typename?: true
 }>;
 	["UserConnection"]: AliasType<{
@@ -380,58 +386,44 @@ project?: [{	id:string},ValueTypes["ProjectOps"]],
 	users?:ValueTypes["User"],
 		__typename?: true
 }>;
-	/** Vat information of a user */
-["VatInput"]: {
-	/** Vat company name */
-	companyName?:string,
-	/** Vat company street address */
-	street?:string,
-	/** Vat company city address */
-	city?:string,
-	/** Vat company state address. Optional. */
-	state?:string,
-	/** Vat company country address. */
-	country?:string,
-	/** Vat company post code address. */
-	postCode?:string,
-	/** Vat number */
-	number?:string
+	/** Update project payload */
+["UpdateProject"]: {
+	/** New description for project */
+	description?:string,
+	/** List of tags for project */
+	tags?:string[],
+	/** Set project visiblity */
+	public?:boolean,
+	/** ID of project to be updated */
+	project?:string
 }
   }
 
 export type ModelTypes = {
-    /** Defines user's account type */
-["AccountType"]: GraphQLTypes["AccountType"];
-	["ChangeSubscriptionInput"]: GraphQLTypes["ChangeSubscriptionInput"];
-	/** Checkout data needed to begin payment process */
-["CheckoutDataInput"]: GraphQLTypes["CheckoutDataInput"];
-	/** Customer data for checkout information */
-["CustomerInput"]: GraphQLTypes["CustomerInput"];
-	/** Amount is a number that gives precise representation of real numbers */
-["Decimal"]:any;
-	/** Endpoint returnes a full path to the project without host */
-["Endpoint"]: {
-		/** Full project uri without host */
-	uri?:string
+    /** Editor user */
+["User"]: {
+		/** User's account type */
+	accountType:ModelTypes["AccountType"],
+	/** Unique user id */
+	id?:string,
+	/** User's namespace */
+	namespace?:ModelTypes["Namespace"],
+	/** User's subscriptions */
+	subscriptions?:ModelTypes["SubscriptionConnection"],
+	/** Unique username */
+	username?:string
 };
-	/** A source object */
-["FakerSource"]: {
-		/** File checksum */
-	checksum?:string,
-	contents?:string,
-	/** Name of source file */
-	filename?:string,
-	/** Return an url by which source file can be accessed */
-	getUrl?:string
-};
-	/** Connection object containing list of faker sources */
-["FakerSourceConnection"]: {
-		/** Connection pageInfo */
+	/** RFC3339Date is a RFC3339 formated date-time string */
+["RFC3339Date"]:any;
+	/** Teams connection */
+["TeamConnection"]: {
+		/** Pagination info used in next fetch */
 	pageInfo:ModelTypes["PageInfo"],
-	/** List of sources returned by connection */
-	sources?:ModelTypes["FakerSource"][]
+	/** List of teams returned by current page in connection */
+	teams?:ModelTypes["Team"][]
 };
-	["FileServerCredentials"]:any;
+	/** ProjectsSortInput defines how projects from listProjects should be sorted. */
+["ProjectsSortInput"]: GraphQLTypes["ProjectsSortInput"];
 	/** Request header */
 ["Header"]: {
 		/** Header name */
@@ -439,15 +431,7 @@ export type ModelTypes = {
 	/** Header value */
 	value?:string
 };
-	/** Team member */
-["Member"]: {
-		/** Member email */
-	email?:string,
-	/** Member role */
-	role?:ModelTypes["Role"],
-	/** Member username */
-	username?:string
-};
+	["ChangeSubscriptionInput"]: GraphQLTypes["ChangeSubscriptionInput"];
 	/** Paginated members list */
 ["MemberConnection"]: {
 		/** List of members in this connection */
@@ -455,44 +439,83 @@ export type ModelTypes = {
 	/** pageInfo for member connection */
 	pageInfo:ModelTypes["PageInfo"]
 };
-	/** Team member ops */
-["MemberOps"]: {
+	/** Team member role */
+["Role"]: GraphQLTypes["Role"];
+	/** PredictCheckout represents payment prediction for checkout data */
+["PredictCheckout"]: {
+		/** Predicted checkout price */
+	price:number,
+	/** Predicted number of trial days */
+	trialDays?:number
+};
+	["FileServerCredentials"]:any;
+	/** Sort order defines possible ordering of sorted outputs */
+["SortOrder"]: GraphQLTypes["SortOrder"];
+	/** PageInfo contains information about connection page */
+["PageInfo"]: {
+		/** last element in connection */
+	last?:string,
+	/** limit set while quering */
+	limit?:number,
+	/** if next is false then client recieved all available data */
+	next?:boolean
+};
+	/** Project connection object
+
+Used with paginated listing of projects */
+["ProjectConnection"]: {
+		/** Current connection page info */
+	pageInfo:ModelTypes["PageInfo"],
+	/** List of projects in connection */
+	projects?:ModelTypes["Project"][]
+};
+	/** Endpoint returnes a full path to the project without host */
+["Endpoint"]: {
+		/** Full project uri without host */
+	uri?:string
+};
+	["Payment"]: {
+		/** Amount paid */
+	amount?:ModelTypes["Decimal"],
+	/** Currency in which payment was made */
+	currency?:string,
+	/** Date indicates a when the payment was made */
+	date?:ModelTypes["PaymentDate"],
+	/** URL from which user can download invoice */
+	receiptURL?:string,
+	/** ID of subscription for which payment was made */
+	subscriptionID?:number
+};
+	/** type object node */
+["ProjectOps"]: {
 		/** Boolean object node */
 	delete?:boolean,
+	/** deploy project to faker */
+	deployToFaker?:boolean,
 	/** Boolean object node */
 	update?:boolean
 };
-	["Mutation"]: {
-		/** Changes subscription settings for user */
-	changeSubscription?:boolean,
-	/** Create new user project
-
-public if true project is public
-
-name is project name */
-	createProject:ModelTypes["Project"],
-	/** Create new team */
-	createTeam?:ModelTypes["TeamOps"],
-	/** Create new user
-
-namespace name for a user
-
-public is user namespace public */
-	createUser:ModelTypes["User"],
-	/** deploy project to faker */
-	deployToFaker?:boolean,
-	/** Remove project by id */
-	removeProject?:boolean,
-	/** Synhronises the target project with source. It overrides existing files
-of target with files of sources. It does not remove files from target that do not
-exist in source. */
-	sync?:boolean,
-	/** type object node */
-	team?:ModelTypes["TeamOps"],
-	/** Modify project */
-	updateProject?:boolean,
-	/** Add sources to the project */
-	updateSources?:(ModelTypes["SourceUploadInfo"] | undefined)[]
+	/** Checkout data needed to begin payment process */
+["CheckoutDataInput"]: GraphQLTypes["CheckoutDataInput"];
+	/** Vat information of a user */
+["VatInput"]: GraphQLTypes["VatInput"];
+	["Subscription"]: {
+		/** Cancel subscription URL */
+	cancelURL?:string,
+	/** Subscription expiration date */
+	expiration?:string,
+	/** Number of seats in subscription */
+	quantity?:number,
+	/** List of seats in subscription */
+	seats?:ModelTypes["UserConnection"],
+	/** Status of subscription */
+	status?:string,
+	/** Subscription unique id */
+	subscriptionID?:number,
+	/** Subscription plan unique id */
+	subscriptionPlanID?:number,
+	/** Update subscription URL */
+	updateURL?:string
 };
 	/** Namespace is a root object containing projects belonging
 to a team or user */
@@ -510,40 +533,73 @@ limit sets a limit on how many objects can be returned */
 	/** Namespace part of the slug */
 	slug?:string
 };
+	/** Team object */
+["Team"]: {
+		/** Unique team id */
+	id?:string,
+	/** type object node */
+	member?:ModelTypes["Member"],
+	/** Paginated list of members in team */
+	members?:ModelTypes["MemberConnection"],
+	/** Team name */
+	name:string,
+	/** Team's namespace */
+	namespace:ModelTypes["Namespace"]
+};
+	/** Defines user's account type */
+["AccountType"]: GraphQLTypes["AccountType"];
+	/** Source upload info object */
+["SourceUploadInfo"]: {
+		/** Source file name */
+	filename?:string,
+	/** List of headers that must be included in PUT request */
+	headers?:(ModelTypes["Header"] | undefined)[],
+	/** String with url used in PUT request */
+	putUrl:string
+};
+	/** Customer data for checkout information */
+["CustomerInput"]: GraphQLTypes["CustomerInput"];
 	/** New source payload */
 ["NewSource"]: GraphQLTypes["NewSource"];
-	/** PageInfo contains information about connection page */
-["PageInfo"]: {
-		/** last element in connection */
-	last?:string,
-	/** limit set while quering */
-	limit?:number,
-	/** if next is false then client recieved all available data */
-	next?:boolean
-};
-	["Payment"]: {
-		/** Amount paid */
-	amount?:ModelTypes["Decimal"],
-	/** Currency in which payment was made */
-	currency?:string,
-	/** Date indicates a when the payment was made */
-	date?:ModelTypes["PaymentDate"],
-	/** URL from which user can download invoice */
-	receiptURL?:string,
-	/** ID of subscription for which payment was made */
-	subscriptionID?:number
+	/** Team member */
+["Member"]: {
+		/** Member email */
+	email?:string,
+	/** Member role */
+	role?:ModelTypes["Role"],
+	/** Member username */
+	username?:string
 };
 	/** PaymentDate is a string in a format 'YYYY-MM-DD' */
 ["PaymentDate"]:any;
-	/** PredictCheckout represents payment prediction for checkout data */
-["PredictCheckout"]: {
-		/** Predicted checkout price */
-	price:number,
-	/** Predicted number of trial days */
-	trialDays?:number
+	/** Team member ops */
+["MemberOps"]: {
+		/** Boolean object node */
+	delete?:boolean,
+	/** Boolean object node */
+	update?:boolean
 };
-	/** Checkout data needed to begin payment process */
-["PredictCheckoutInput"]: GraphQLTypes["PredictCheckoutInput"];
+	/** Team operations */
+["TeamOps"]: {
+		/** Add member to the team */
+	addMember?:ModelTypes["Member"],
+	/** Create new team project */
+	createProject?:ModelTypes["Project"],
+	/** Delete team */
+	delete?:boolean,
+	/** Unique team id */
+	id?:string,
+	/** type object node */
+	member?:ModelTypes["MemberOps"],
+	/** Paginated list of members in team */
+	members?:ModelTypes["MemberConnection"],
+	/** Team name */
+	name?:string,
+	/** Team's namespace */
+	namespace?:ModelTypes["Namespace"],
+	/** type object node */
+	project?:ModelTypes["ProjectOps"]
+};
 	/** Project type */
 ["Project"]: {
 		/** Return creation time stamp of a project */
@@ -583,26 +639,59 @@ limit sets a limit on how many objects can be returned */
 Can be null if project belongs to a user */
 	team?:ModelTypes["Team"]
 };
-	/** Project connection object
-
-Used with paginated listing of projects */
-["ProjectConnection"]: {
-		/** Current connection page info */
+	/** Connection object containing list of faker sources */
+["FakerSourceConnection"]: {
+		/** Connection pageInfo */
 	pageInfo:ModelTypes["PageInfo"],
-	/** List of projects in connection */
-	projects?:ModelTypes["Project"][]
+	/** List of sources returned by connection */
+	sources?:ModelTypes["FakerSource"][]
 };
-	/** type object node */
-["ProjectOps"]: {
-		/** Boolean object node */
-	delete?:boolean,
+	/** A source object */
+["FakerSource"]: {
+		/** File checksum */
+	checksum?:string,
+	contents?:string,
+	/** Name of source file */
+	filename?:string,
+	/** Return an url by which source file can be accessed */
+	getUrl?:string
+};
+	/** Checkout data needed to begin payment process */
+["PredictCheckoutInput"]: GraphQLTypes["PredictCheckoutInput"];
+	/** Amount is a number that gives precise representation of real numbers */
+["Decimal"]:any;
+	["Mutation"]: {
+		/** Changes subscription settings for user */
+	changeSubscription?:boolean,
+	/** Create new user project
+
+public if true project is public
+
+name is project name */
+	createProject:ModelTypes["Project"],
+	/** Create new team */
+	createTeam?:ModelTypes["TeamOps"],
+	/** Create new user
+
+namespace name for a user
+
+public is user namespace public */
+	createUser:ModelTypes["User"],
 	/** deploy project to faker */
 	deployToFaker?:boolean,
-	/** Boolean object node */
-	update?:boolean
+	/** Remove project by id */
+	removeProject?:boolean,
+	/** Synhronises the target project with source. It overrides existing files
+of target with files of sources. It does not remove files from target that do not
+exist in source. */
+	sync?:boolean,
+	/** type object node */
+	team?:ModelTypes["TeamOps"],
+	/** Modify project */
+	updateProject?:boolean,
+	/** Add sources to the project */
+	updateSources?:(ModelTypes["SourceUploadInfo"] | undefined)[]
 };
-	/** ProjectsSortInput defines how projects from listProjects should be sorted. */
-["ProjectsSortInput"]: GraphQLTypes["ProjectsSortInput"];
 	/** Root query type */
 ["Query"]: {
 		/** Data needed by the current user to start payment flow */
@@ -651,100 +740,11 @@ limit limits the number of returned projects */
 	/** Calculate checkout information */
 	predictCheckout?:ModelTypes["PredictCheckout"]
 };
-	/** RFC3339Date is a RFC3339 formated date-time string */
-["RFC3339Date"]:any;
-	/** Team member role */
-["Role"]: GraphQLTypes["Role"];
-	/** Sort order defines possible ordering of sorted outputs */
-["SortOrder"]: GraphQLTypes["SortOrder"];
-	/** Source upload info object */
-["SourceUploadInfo"]: {
-		/** Source file name */
-	filename?:string,
-	/** List of headers that must be included in PUT request */
-	headers?:(ModelTypes["Header"] | undefined)[],
-	/** String with url used in PUT request */
-	putUrl:string
-};
-	["Subscription"]: {
-		/** Cancel subscription URL */
-	cancelURL?:string,
-	/** Subscription expiration date */
-	expiration?:string,
-	/** Number of seats in subscription */
-	quantity?:number,
-	/** List of seats in subscription */
-	seats?:ModelTypes["UserConnection"],
-	/** Status of subscription */
-	status?:string,
-	/** Subscription unique id */
-	subscriptionID?:number,
-	/** Subscription plan unique id */
-	subscriptionPlanID?:number,
-	/** Update subscription URL */
-	updateURL?:string
-};
 	["SubscriptionConnection"]: {
 		/** Current conenction page info */
 	pageInfo:ModelTypes["PageInfo"],
 	/** List of subscriptions in connection */
 	subscriptions?:ModelTypes["Subscription"][]
-};
-	/** Team object */
-["Team"]: {
-		/** Unique team id */
-	id?:string,
-	/** type object node */
-	member?:ModelTypes["Member"],
-	/** Paginated list of members in team */
-	members?:ModelTypes["MemberConnection"],
-	/** Team name */
-	name:string,
-	/** Team's namespace */
-	namespace:ModelTypes["Namespace"]
-};
-	/** Teams connection */
-["TeamConnection"]: {
-		/** Pagination info used in next fetch */
-	pageInfo:ModelTypes["PageInfo"],
-	/** List of teams returned by current page in connection */
-	teams?:ModelTypes["Team"][]
-};
-	/** Team operations */
-["TeamOps"]: {
-		/** Add member to the team */
-	addMember?:ModelTypes["Member"],
-	/** Create new team project */
-	createProject?:ModelTypes["Project"],
-	/** Delete team */
-	delete?:boolean,
-	/** Unique team id */
-	id?:string,
-	/** type object node */
-	member?:ModelTypes["MemberOps"],
-	/** Paginated list of members in team */
-	members?:ModelTypes["MemberConnection"],
-	/** Team name */
-	name?:string,
-	/** Team's namespace */
-	namespace?:ModelTypes["Namespace"],
-	/** type object node */
-	project?:ModelTypes["ProjectOps"]
-};
-	/** Update project payload */
-["UpdateProject"]: GraphQLTypes["UpdateProject"];
-	/** Editor user */
-["User"]: {
-		/** User's account type */
-	accountType:ModelTypes["AccountType"],
-	/** Unique user id */
-	id?:string,
-	/** User's namespace */
-	namespace?:ModelTypes["Namespace"],
-	/** User's subscriptions */
-	subscriptions?:ModelTypes["SubscriptionConnection"],
-	/** Unique username */
-	username?:string
 };
 	["UserConnection"]: {
 		/** Current connection page info */
@@ -752,73 +752,56 @@ limit limits the number of returned projects */
 	/** List of projects in connection */
 	users?:ModelTypes["User"][]
 };
-	/** Vat information of a user */
-["VatInput"]: GraphQLTypes["VatInput"]
+	/** Update project payload */
+["UpdateProject"]: GraphQLTypes["UpdateProject"]
     }
 
 export type GraphQLTypes = {
-    /** Defines user's account type */
-["AccountType"]: AccountType;
-	["ChangeSubscriptionInput"]: {
-		subscriptionID:number,
-	subscriptionPlanID?:number
+    /** Editor user */
+["User"]: {
+	__typename: "User",
+	/** User's account type */
+	accountType:GraphQLTypes["AccountType"],
+	/** Unique user id */
+	id?:string,
+	/** User's namespace */
+	namespace?:GraphQLTypes["Namespace"],
+	/** User's subscriptions */
+	subscriptions?:GraphQLTypes["SubscriptionConnection"],
+	/** Unique username */
+	username?:string
 };
-	/** Checkout data needed to begin payment process */
-["CheckoutDataInput"]: {
-		/** URL to which user should be redirected after failed transaction */
-	cancelURL?:string,
-	/** An id of a chosen subscription plan */
-	planID:string,
-	/** Quantity of subscriptions that user wants */
-	quantity?:number,
-	/** Customer data */
-	customer?:GraphQLTypes["CustomerInput"],
-	/** Vat data */
-	vat?:GraphQLTypes["VatInput"],
-	/** Optional discount coupon */
-	coupon?:string,
-	/** URL to which user should be redirected after successful transaction */
-	successURL?:string
-};
-	/** Customer data for checkout information */
-["CustomerInput"]: {
-		/** User's email address */
-	email?:string,
-	/** User's country */
-	country?:string,
-	/** User's post code */
-	postCode?:string,
-	/** Must be true for marketing to be allowed */
-	marketingConsent?:boolean
-};
-	/** Amount is a number that gives precise representation of real numbers */
-["Decimal"]:any;
-	/** Endpoint returnes a full path to the project without host */
-["Endpoint"]: {
-	__typename: "Endpoint",
-	/** Full project uri without host */
-	uri?:string
-};
-	/** A source object */
-["FakerSource"]: {
-	__typename: "FakerSource",
-	/** File checksum */
-	checksum?:string,
-	contents?:string,
-	/** Name of source file */
-	filename?:string,
-	/** Return an url by which source file can be accessed */
-	getUrl?:string
-};
-	/** Connection object containing list of faker sources */
-["FakerSourceConnection"]: {
-	__typename: "FakerSourceConnection",
-	/** Connection pageInfo */
+	/** RFC3339Date is a RFC3339 formated date-time string */
+["RFC3339Date"]:any;
+	/** Teams connection */
+["TeamConnection"]: {
+	__typename: "TeamConnection",
+	/** Pagination info used in next fetch */
 	pageInfo:GraphQLTypes["PageInfo"],
-	/** List of sources returned by connection */
-	sources?:GraphQLTypes["FakerSource"][]
+	/** List of teams returned by current page in connection */
+	teams?:GraphQLTypes["Team"][]
 };
-	["FileServerCredentials"]:any;
+	/** ProjectsSortInput defines how projects from listProjects should be sorted. */
+["ProjectsSortInput"]: {
+		/** Sort by owner */
+	owner?:GraphQLTypes["SortOrder"],
+	/** Sort by visisbility */
+	public?:GraphQLTypes["SortOrder"],
+	/** Sort by slug */
+	slug?:GraphQLTypes["SortOrder"],
+	/** Sort by tag */
+	tags?:GraphQLTypes["SortOrder"],
+	/** Sorts projects by team.
+
+Sort behaviour for projects by team is implemenation depednant. */
+	team?:GraphQLTypes["SortOrder"],
+	/** Sort projects by creation date */
+	createdAt?:GraphQLTypes["SortOrder"],
+	/** Sort by name */
+	name?:GraphQLTypes["SortOrder"],
+	/** Sort by id */
+	id?:GraphQLTypes["SortOrder"]
+};
 	/** Request header */
 ["Header"]: {
 	__typename: "Header",
@@ -827,15 +810,9 @@ export type GraphQLTypes = {
 	/** Header value */
 	value?:string
 };
-	/** Team member */
-["Member"]: {
-	__typename: "Member",
-	/** Member email */
-	email?:string,
-	/** Member role */
-	role?:GraphQLTypes["Role"],
-	/** Member username */
-	username?:string
+	["ChangeSubscriptionInput"]: {
+		subscriptionID:number,
+	subscriptionPlanID?:number
 };
 	/** Paginated members list */
 ["MemberConnection"]: {
@@ -845,46 +822,120 @@ export type GraphQLTypes = {
 	/** pageInfo for member connection */
 	pageInfo:GraphQLTypes["PageInfo"]
 };
-	/** Team member ops */
-["MemberOps"]: {
-	__typename: "MemberOps",
+	/** Team member role */
+["Role"]: Role;
+	/** PredictCheckout represents payment prediction for checkout data */
+["PredictCheckout"]: {
+	__typename: "PredictCheckout",
+	/** Predicted checkout price */
+	price:number,
+	/** Predicted number of trial days */
+	trialDays?:number
+};
+	["FileServerCredentials"]:any;
+	/** Sort order defines possible ordering of sorted outputs */
+["SortOrder"]: SortOrder;
+	/** PageInfo contains information about connection page */
+["PageInfo"]: {
+	__typename: "PageInfo",
+	/** last element in connection */
+	last?:string,
+	/** limit set while quering */
+	limit?:number,
+	/** if next is false then client recieved all available data */
+	next?:boolean
+};
+	/** Project connection object
+
+Used with paginated listing of projects */
+["ProjectConnection"]: {
+	__typename: "ProjectConnection",
+	/** Current connection page info */
+	pageInfo:GraphQLTypes["PageInfo"],
+	/** List of projects in connection */
+	projects?:GraphQLTypes["Project"][]
+};
+	/** Endpoint returnes a full path to the project without host */
+["Endpoint"]: {
+	__typename: "Endpoint",
+	/** Full project uri without host */
+	uri?:string
+};
+	["Payment"]: {
+	__typename: "Payment",
+	/** Amount paid */
+	amount?:GraphQLTypes["Decimal"],
+	/** Currency in which payment was made */
+	currency?:string,
+	/** Date indicates a when the payment was made */
+	date?:GraphQLTypes["PaymentDate"],
+	/** URL from which user can download invoice */
+	receiptURL?:string,
+	/** ID of subscription for which payment was made */
+	subscriptionID?:number
+};
+	/** type object node */
+["ProjectOps"]: {
+	__typename: "ProjectOps",
 	/** Boolean object node */
 	delete?:boolean,
+	/** deploy project to faker */
+	deployToFaker?:boolean,
 	/** Boolean object node */
 	update?:boolean
 };
-	["Mutation"]: {
-	__typename: "Mutation",
-	/** Changes subscription settings for user */
-	changeSubscription?:boolean,
-	/** Create new user project
-
-public if true project is public
-
-name is project name */
-	createProject:GraphQLTypes["Project"],
-	/** Create new team */
-	createTeam?:GraphQLTypes["TeamOps"],
-	/** Create new user
-
-namespace name for a user
-
-public is user namespace public */
-	createUser:GraphQLTypes["User"],
-	/** deploy project to faker */
-	deployToFaker?:boolean,
-	/** Remove project by id */
-	removeProject?:boolean,
-	/** Synhronises the target project with source. It overrides existing files
-of target with files of sources. It does not remove files from target that do not
-exist in source. */
-	sync?:boolean,
-	/** type object node */
-	team?:GraphQLTypes["TeamOps"],
-	/** Modify project */
-	updateProject?:boolean,
-	/** Add sources to the project */
-	updateSources?:(GraphQLTypes["SourceUploadInfo"] | undefined)[]
+	/** Checkout data needed to begin payment process */
+["CheckoutDataInput"]: {
+		/** Vat data */
+	vat?:GraphQLTypes["VatInput"],
+	/** Optional discount coupon */
+	coupon?:string,
+	/** URL to which user should be redirected after successful transaction */
+	successURL?:string,
+	/** URL to which user should be redirected after failed transaction */
+	cancelURL?:string,
+	/** An id of a chosen subscription plan */
+	planID:string,
+	/** Quantity of subscriptions that user wants */
+	quantity?:number,
+	/** Customer data */
+	customer?:GraphQLTypes["CustomerInput"]
+};
+	/** Vat information of a user */
+["VatInput"]: {
+		/** Vat company country address. */
+	country?:string,
+	/** Vat company post code address. */
+	postCode?:string,
+	/** Vat number */
+	number?:string,
+	/** Vat company name */
+	companyName?:string,
+	/** Vat company street address */
+	street?:string,
+	/** Vat company city address */
+	city?:string,
+	/** Vat company state address. Optional. */
+	state?:string
+};
+	["Subscription"]: {
+	__typename: "Subscription",
+	/** Cancel subscription URL */
+	cancelURL?:string,
+	/** Subscription expiration date */
+	expiration?:string,
+	/** Number of seats in subscription */
+	quantity?:number,
+	/** List of seats in subscription */
+	seats?:GraphQLTypes["UserConnection"],
+	/** Status of subscription */
+	status?:string,
+	/** Subscription unique id */
+	subscriptionID?:number,
+	/** Subscription plan unique id */
+	subscriptionPlanID?:number,
+	/** Update subscription URL */
+	updateURL?:string
 };
 	/** Namespace is a root object containing projects belonging
 to a team or user */
@@ -903,6 +954,43 @@ limit sets a limit on how many objects can be returned */
 	/** Namespace part of the slug */
 	slug?:string
 };
+	/** Team object */
+["Team"]: {
+	__typename: "Team",
+	/** Unique team id */
+	id?:string,
+	/** type object node */
+	member?:GraphQLTypes["Member"],
+	/** Paginated list of members in team */
+	members?:GraphQLTypes["MemberConnection"],
+	/** Team name */
+	name:string,
+	/** Team's namespace */
+	namespace:GraphQLTypes["Namespace"]
+};
+	/** Defines user's account type */
+["AccountType"]: AccountType;
+	/** Source upload info object */
+["SourceUploadInfo"]: {
+	__typename: "SourceUploadInfo",
+	/** Source file name */
+	filename?:string,
+	/** List of headers that must be included in PUT request */
+	headers?:(GraphQLTypes["Header"] | undefined)[],
+	/** String with url used in PUT request */
+	putUrl:string
+};
+	/** Customer data for checkout information */
+["CustomerInput"]: {
+		/** User's post code */
+	postCode?:string,
+	/** Must be true for marketing to be allowed */
+	marketingConsent?:boolean,
+	/** User's email address */
+	email?:string,
+	/** User's country */
+	country?:string
+};
 	/** New source payload */
 ["NewSource"]: {
 		/** source file name */
@@ -914,47 +1002,47 @@ limit sets a limit on how many objects can be returned */
 	/** Source checksum */
 	checksum?:string
 };
-	/** PageInfo contains information about connection page */
-["PageInfo"]: {
-	__typename: "PageInfo",
-	/** last element in connection */
-	last?:string,
-	/** limit set while quering */
-	limit?:number,
-	/** if next is false then client recieved all available data */
-	next?:boolean
-};
-	["Payment"]: {
-	__typename: "Payment",
-	/** Amount paid */
-	amount?:GraphQLTypes["Decimal"],
-	/** Currency in which payment was made */
-	currency?:string,
-	/** Date indicates a when the payment was made */
-	date?:GraphQLTypes["PaymentDate"],
-	/** URL from which user can download invoice */
-	receiptURL?:string,
-	/** ID of subscription for which payment was made */
-	subscriptionID?:number
+	/** Team member */
+["Member"]: {
+	__typename: "Member",
+	/** Member email */
+	email?:string,
+	/** Member role */
+	role?:GraphQLTypes["Role"],
+	/** Member username */
+	username?:string
 };
 	/** PaymentDate is a string in a format 'YYYY-MM-DD' */
 ["PaymentDate"]:any;
-	/** PredictCheckout represents payment prediction for checkout data */
-["PredictCheckout"]: {
-	__typename: "PredictCheckout",
-	/** Predicted checkout price */
-	price:number,
-	/** Predicted number of trial days */
-	trialDays?:number
+	/** Team member ops */
+["MemberOps"]: {
+	__typename: "MemberOps",
+	/** Boolean object node */
+	delete?:boolean,
+	/** Boolean object node */
+	update?:boolean
 };
-	/** Checkout data needed to begin payment process */
-["PredictCheckoutInput"]: {
-		/** An id of a chosen subscription plan */
-	planID:string,
-	/** Quantity of subscriptions that user wants */
-	quantity?:number,
-	/** Optional discount coupon */
-	coupon?:string
+	/** Team operations */
+["TeamOps"]: {
+	__typename: "TeamOps",
+	/** Add member to the team */
+	addMember?:GraphQLTypes["Member"],
+	/** Create new team project */
+	createProject?:GraphQLTypes["Project"],
+	/** Delete team */
+	delete?:boolean,
+	/** Unique team id */
+	id?:string,
+	/** type object node */
+	member?:GraphQLTypes["MemberOps"],
+	/** Paginated list of members in team */
+	members?:GraphQLTypes["MemberConnection"],
+	/** Team name */
+	name?:string,
+	/** Team's namespace */
+	namespace?:GraphQLTypes["Namespace"],
+	/** type object node */
+	project?:GraphQLTypes["ProjectOps"]
 };
 	/** Project type */
 ["Project"]: {
@@ -996,46 +1084,68 @@ limit sets a limit on how many objects can be returned */
 Can be null if project belongs to a user */
 	team?:GraphQLTypes["Team"]
 };
-	/** Project connection object
-
-Used with paginated listing of projects */
-["ProjectConnection"]: {
-	__typename: "ProjectConnection",
-	/** Current connection page info */
+	/** Connection object containing list of faker sources */
+["FakerSourceConnection"]: {
+	__typename: "FakerSourceConnection",
+	/** Connection pageInfo */
 	pageInfo:GraphQLTypes["PageInfo"],
-	/** List of projects in connection */
-	projects?:GraphQLTypes["Project"][]
+	/** List of sources returned by connection */
+	sources?:GraphQLTypes["FakerSource"][]
 };
-	/** type object node */
-["ProjectOps"]: {
-	__typename: "ProjectOps",
-	/** Boolean object node */
-	delete?:boolean,
+	/** A source object */
+["FakerSource"]: {
+	__typename: "FakerSource",
+	/** File checksum */
+	checksum?:string,
+	contents?:string,
+	/** Name of source file */
+	filename?:string,
+	/** Return an url by which source file can be accessed */
+	getUrl?:string
+};
+	/** Checkout data needed to begin payment process */
+["PredictCheckoutInput"]: {
+		/** An id of a chosen subscription plan */
+	planID:string,
+	/** Quantity of subscriptions that user wants */
+	quantity?:number,
+	/** Optional discount coupon */
+	coupon?:string
+};
+	/** Amount is a number that gives precise representation of real numbers */
+["Decimal"]:any;
+	["Mutation"]: {
+	__typename: "Mutation",
+	/** Changes subscription settings for user */
+	changeSubscription?:boolean,
+	/** Create new user project
+
+public if true project is public
+
+name is project name */
+	createProject:GraphQLTypes["Project"],
+	/** Create new team */
+	createTeam?:GraphQLTypes["TeamOps"],
+	/** Create new user
+
+namespace name for a user
+
+public is user namespace public */
+	createUser:GraphQLTypes["User"],
 	/** deploy project to faker */
 	deployToFaker?:boolean,
-	/** Boolean object node */
-	update?:boolean
-};
-	/** ProjectsSortInput defines how projects from listProjects should be sorted. */
-["ProjectsSortInput"]: {
-		/** Sort projects by creation date */
-	createdAt?:GraphQLTypes["SortOrder"],
-	/** Sort by name */
-	name?:GraphQLTypes["SortOrder"],
-	/** Sort by id */
-	id?:GraphQLTypes["SortOrder"],
-	/** Sort by owner */
-	owner?:GraphQLTypes["SortOrder"],
-	/** Sort by visisbility */
-	public?:GraphQLTypes["SortOrder"],
-	/** Sort by slug */
-	slug?:GraphQLTypes["SortOrder"],
-	/** Sort by tag */
-	tags?:GraphQLTypes["SortOrder"],
-	/** Sorts projects by team.
-
-Sort behaviour for projects by team is implemenation depednant. */
-	team?:GraphQLTypes["SortOrder"]
+	/** Remove project by id */
+	removeProject?:boolean,
+	/** Synhronises the target project with source. It overrides existing files
+of target with files of sources. It does not remove files from target that do not
+exist in source. */
+	sync?:boolean,
+	/** type object node */
+	team?:GraphQLTypes["TeamOps"],
+	/** Modify project */
+	updateProject?:boolean,
+	/** Add sources to the project */
+	updateSources?:(GraphQLTypes["SourceUploadInfo"] | undefined)[]
 };
 	/** Root query type */
 ["Query"]: {
@@ -1086,116 +1196,12 @@ limit limits the number of returned projects */
 	/** Calculate checkout information */
 	predictCheckout?:GraphQLTypes["PredictCheckout"]
 };
-	/** RFC3339Date is a RFC3339 formated date-time string */
-["RFC3339Date"]:any;
-	/** Team member role */
-["Role"]: Role;
-	/** Sort order defines possible ordering of sorted outputs */
-["SortOrder"]: SortOrder;
-	/** Source upload info object */
-["SourceUploadInfo"]: {
-	__typename: "SourceUploadInfo",
-	/** Source file name */
-	filename?:string,
-	/** List of headers that must be included in PUT request */
-	headers?:(GraphQLTypes["Header"] | undefined)[],
-	/** String with url used in PUT request */
-	putUrl:string
-};
-	["Subscription"]: {
-	__typename: "Subscription",
-	/** Cancel subscription URL */
-	cancelURL?:string,
-	/** Subscription expiration date */
-	expiration?:string,
-	/** Number of seats in subscription */
-	quantity?:number,
-	/** List of seats in subscription */
-	seats?:GraphQLTypes["UserConnection"],
-	/** Status of subscription */
-	status?:string,
-	/** Subscription unique id */
-	subscriptionID?:number,
-	/** Subscription plan unique id */
-	subscriptionPlanID?:number,
-	/** Update subscription URL */
-	updateURL?:string
-};
 	["SubscriptionConnection"]: {
 	__typename: "SubscriptionConnection",
 	/** Current conenction page info */
 	pageInfo:GraphQLTypes["PageInfo"],
 	/** List of subscriptions in connection */
 	subscriptions?:GraphQLTypes["Subscription"][]
-};
-	/** Team object */
-["Team"]: {
-	__typename: "Team",
-	/** Unique team id */
-	id?:string,
-	/** type object node */
-	member?:GraphQLTypes["Member"],
-	/** Paginated list of members in team */
-	members?:GraphQLTypes["MemberConnection"],
-	/** Team name */
-	name:string,
-	/** Team's namespace */
-	namespace:GraphQLTypes["Namespace"]
-};
-	/** Teams connection */
-["TeamConnection"]: {
-	__typename: "TeamConnection",
-	/** Pagination info used in next fetch */
-	pageInfo:GraphQLTypes["PageInfo"],
-	/** List of teams returned by current page in connection */
-	teams?:GraphQLTypes["Team"][]
-};
-	/** Team operations */
-["TeamOps"]: {
-	__typename: "TeamOps",
-	/** Add member to the team */
-	addMember?:GraphQLTypes["Member"],
-	/** Create new team project */
-	createProject?:GraphQLTypes["Project"],
-	/** Delete team */
-	delete?:boolean,
-	/** Unique team id */
-	id?:string,
-	/** type object node */
-	member?:GraphQLTypes["MemberOps"],
-	/** Paginated list of members in team */
-	members?:GraphQLTypes["MemberConnection"],
-	/** Team name */
-	name?:string,
-	/** Team's namespace */
-	namespace?:GraphQLTypes["Namespace"],
-	/** type object node */
-	project?:GraphQLTypes["ProjectOps"]
-};
-	/** Update project payload */
-["UpdateProject"]: {
-		/** Set project visiblity */
-	public?:boolean,
-	/** ID of project to be updated */
-	project?:string,
-	/** New description for project */
-	description?:string,
-	/** List of tags for project */
-	tags?:string[]
-};
-	/** Editor user */
-["User"]: {
-	__typename: "User",
-	/** User's account type */
-	accountType:GraphQLTypes["AccountType"],
-	/** Unique user id */
-	id?:string,
-	/** User's namespace */
-	namespace?:GraphQLTypes["Namespace"],
-	/** User's subscriptions */
-	subscriptions?:GraphQLTypes["SubscriptionConnection"],
-	/** Unique username */
-	username?:string
 };
 	["UserConnection"]: {
 	__typename: "UserConnection",
@@ -1204,29 +1210,18 @@ limit limits the number of returned projects */
 	/** List of projects in connection */
 	users?:GraphQLTypes["User"][]
 };
-	/** Vat information of a user */
-["VatInput"]: {
-		/** Vat company name */
-	companyName?:string,
-	/** Vat company street address */
-	street?:string,
-	/** Vat company city address */
-	city?:string,
-	/** Vat company state address. Optional. */
-	state?:string,
-	/** Vat company country address. */
-	country?:string,
-	/** Vat company post code address. */
-	postCode?:string,
-	/** Vat number */
-	number?:string
+	/** Update project payload */
+["UpdateProject"]: {
+		/** New description for project */
+	description?:string,
+	/** List of tags for project */
+	tags?:string[],
+	/** Set project visiblity */
+	public?:boolean,
+	/** ID of project to be updated */
+	project?:string
 }
     }
-/** Defines user's account type */
-export enum AccountType {
-	FREE = "FREE",
-	PREMIUM = "PREMIUM"
-}
 /** Team member role */
 export enum Role {
 	OWNER = "OWNER",
@@ -1240,9 +1235,64 @@ export enum SortOrder {
 	Ascending = "Ascending",
 	Descending = "Descending"
 }
+/** Defines user's account type */
+export enum AccountType {
+	FREE = "FREE",
+	PREMIUM = "PREMIUM"
+}
 
 export const AllTypesProps: Record<string,any> = {
-	AccountType: "enum",
+	RFC3339Date: "String",
+	ProjectsSortInput:{
+		owner:{
+			type:"SortOrder",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		public:{
+			type:"SortOrder",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		slug:{
+			type:"SortOrder",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		tags:{
+			type:"SortOrder",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		team:{
+			type:"SortOrder",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		createdAt:{
+			type:"SortOrder",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		name:{
+			type:"SortOrder",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		id:{
+			type:"SortOrder",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
 	ChangeSubscriptionInput:{
 		subscriptionID:{
 			type:"Int",
@@ -1257,7 +1307,38 @@ export const AllTypesProps: Record<string,any> = {
 			required:false
 		}
 	},
+	Role: "enum",
+	FileServerCredentials: "String",
+	SortOrder: "enum",
+	ProjectOps:{
+		update:{
+			in:{
+				type:"UpdateProject",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		}
+	},
 	CheckoutDataInput:{
+		vat:{
+			type:"VatInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		coupon:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		successURL:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
 		cancelURL:{
 			type:"String",
 			array:false,
@@ -1281,33 +1362,9 @@ export const AllTypesProps: Record<string,any> = {
 			array:false,
 			arrayRequired:false,
 			required:false
-		},
-		vat:{
-			type:"VatInput",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		coupon:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		successURL:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
 		}
 	},
-	CustomerInput:{
-		email:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
+	VatInput:{
 		country:{
 			type:"String",
 			array:false,
@@ -1320,15 +1377,139 @@ export const AllTypesProps: Record<string,any> = {
 			arrayRequired:false,
 			required:false
 		},
-		marketingConsent:{
-			type:"Boolean",
+		number:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		companyName:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		street:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		city:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		state:{
+			type:"String",
 			array:false,
 			arrayRequired:false,
 			required:false
 		}
 	},
-	Decimal: "String",
-	FileServerCredentials: "String",
+	Namespace:{
+		project:{
+			name:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		projects:{
+			limit:{
+				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
+			last:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		}
+	},
+	Team:{
+		member:{
+			username:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		members:{
+			last:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
+			limit:{
+				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		}
+	},
+	AccountType: "enum",
+	CustomerInput:{
+		postCode:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		marketingConsent:{
+			type:"Boolean",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		email:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		country:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	NewSource:{
+		filename:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		contentLength:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		contentType:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		checksum:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	PaymentDate: "String",
 	MemberOps:{
 		update:{
 			role:{
@@ -1339,6 +1520,109 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		}
 	},
+	TeamOps:{
+		addMember:{
+			loginCallback:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
+			username:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:true
+			},
+			role:{
+				type:"Role",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		createProject:{
+			public:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
+			name:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		member:{
+			username:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		members:{
+			last:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
+			limit:{
+				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
+		project:{
+			id:{
+				type:"ID",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		}
+	},
+	Project:{
+		sources:{
+			last:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
+			limit:{
+				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		}
+	},
+	PredictCheckoutInput:{
+		planID:{
+			type:"ID",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		quantity:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		coupon:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	Decimal: "String",
 	Mutation:{
 		changeSubscription:{
 			in:{
@@ -1349,17 +1633,17 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		createProject:{
-			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
-			},
 			public:{
 				type:"Boolean",
 				array:false,
 				arrayRequired:false,
 				required:false
+			},
+			name:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:true
 			}
 		},
 		createTeam:{
@@ -1451,153 +1735,6 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		}
 	},
-	Namespace:{
-		project:{
-			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		},
-		projects:{
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			last:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		}
-	},
-	NewSource:{
-		filename:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		contentLength:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		contentType:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		checksum:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	PaymentDate: "String",
-	PredictCheckoutInput:{
-		planID:{
-			type:"ID",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		quantity:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		coupon:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	Project:{
-		sources:{
-			last:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		}
-	},
-	ProjectOps:{
-		update:{
-			in:{
-				type:"UpdateProject",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		}
-	},
-	ProjectsSortInput:{
-		createdAt:{
-			type:"SortOrder",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		name:{
-			type:"SortOrder",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		id:{
-			type:"SortOrder",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		owner:{
-			type:"SortOrder",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		public:{
-			type:"SortOrder",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		slug:{
-			type:"SortOrder",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		tags:{
-			type:"SortOrder",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		team:{
-			type:"SortOrder",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
 	Query:{
 		checkoutData:{
 			data:{
@@ -1636,12 +1773,6 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		findProjectsByTag:{
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
 			tag:{
 				type:"String",
 				array:false,
@@ -1650,6 +1781,12 @@ export const AllTypesProps: Record<string,any> = {
 			},
 			last:{
 				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
+			limit:{
+				type:"Int",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -1736,112 +1873,7 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		}
 	},
-	RFC3339Date: "String",
-	Role: "enum",
-	SortOrder: "enum",
-	Team:{
-		member:{
-			username:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		},
-		members:{
-			last:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		}
-	},
-	TeamOps:{
-		addMember:{
-			role:{
-				type:"Role",
-				array:false,
-				arrayRequired:false,
-				required:true
-			},
-			loginCallback:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			username:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		},
-		createProject:{
-			public:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		},
-		member:{
-			username:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		},
-		members:{
-			last:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
-			},
-			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		},
-		project:{
-			id:{
-				type:"ID",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		}
-	},
 	UpdateProject:{
-		public:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		project:{
-			type:"ID",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		description:{
 			type:"String",
 			array:false,
@@ -1853,47 +1885,15 @@ export const AllTypesProps: Record<string,any> = {
 			array:true,
 			arrayRequired:false,
 			required:true
-		}
-	},
-	VatInput:{
-		companyName:{
-			type:"String",
+		},
+		public:{
+			type:"Boolean",
 			array:false,
 			arrayRequired:false,
 			required:false
 		},
-		street:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		city:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		state:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		country:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		postCode:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		number:{
-			type:"String",
+		project:{
+			type:"ID",
 			array:false,
 			arrayRequired:false,
 			required:false
@@ -1902,58 +1902,40 @@ export const AllTypesProps: Record<string,any> = {
 }
 
 export const ReturnTypes: Record<string,any> = {
-	Endpoint:{
-		uri:"String"
+	User:{
+		accountType:"AccountType",
+		id:"ID",
+		namespace:"Namespace",
+		subscriptions:"SubscriptionConnection",
+		username:"String"
 	},
-	FakerSource:{
-		checksum:"String",
-		contents:"String",
-		filename:"String",
-		getUrl:"String"
-	},
-	FakerSourceConnection:{
+	TeamConnection:{
 		pageInfo:"PageInfo",
-		sources:"FakerSource"
+		teams:"Team"
 	},
 	Header:{
 		key:"String",
 		value:"String"
 	},
-	Member:{
-		email:"String",
-		role:"Role",
-		username:"String"
-	},
 	MemberConnection:{
 		members:"Member",
 		pageInfo:"PageInfo"
 	},
-	MemberOps:{
-		delete:"Boolean",
-		update:"Boolean"
-	},
-	Mutation:{
-		changeSubscription:"Boolean",
-		createProject:"Project",
-		createTeam:"TeamOps",
-		createUser:"User",
-		deployToFaker:"Boolean",
-		removeProject:"Boolean",
-		sync:"Boolean",
-		team:"TeamOps",
-		updateProject:"Boolean",
-		updateSources:"SourceUploadInfo"
-	},
-	Namespace:{
-		project:"Project",
-		projects:"ProjectConnection",
-		public:"Boolean",
-		slug:"String"
+	PredictCheckout:{
+		price:"Float",
+		trialDays:"Int"
 	},
 	PageInfo:{
 		last:"String",
 		limit:"Int",
 		next:"Boolean"
+	},
+	ProjectConnection:{
+		pageInfo:"PageInfo",
+		projects:"Project"
+	},
+	Endpoint:{
+		uri:"String"
 	},
 	Payment:{
 		amount:"Decimal",
@@ -1962,9 +1944,58 @@ export const ReturnTypes: Record<string,any> = {
 		receiptURL:"String",
 		subscriptionID:"Int"
 	},
-	PredictCheckout:{
-		price:"Float",
-		trialDays:"Int"
+	ProjectOps:{
+		delete:"Boolean",
+		deployToFaker:"Boolean",
+		update:"Boolean"
+	},
+	Subscription:{
+		cancelURL:"String",
+		expiration:"String",
+		quantity:"Int",
+		seats:"UserConnection",
+		status:"String",
+		subscriptionID:"Int",
+		subscriptionPlanID:"Int",
+		updateURL:"String"
+	},
+	Namespace:{
+		project:"Project",
+		projects:"ProjectConnection",
+		public:"Boolean",
+		slug:"String"
+	},
+	Team:{
+		id:"ID",
+		member:"Member",
+		members:"MemberConnection",
+		name:"String",
+		namespace:"Namespace"
+	},
+	SourceUploadInfo:{
+		filename:"String",
+		headers:"Header",
+		putUrl:"String"
+	},
+	Member:{
+		email:"String",
+		role:"Role",
+		username:"String"
+	},
+	MemberOps:{
+		delete:"Boolean",
+		update:"Boolean"
+	},
+	TeamOps:{
+		addMember:"Member",
+		createProject:"Project",
+		delete:"Boolean",
+		id:"ID",
+		member:"MemberOps",
+		members:"MemberConnection",
+		name:"String",
+		namespace:"Namespace",
+		project:"ProjectOps"
 	},
 	Project:{
 		createdAt:"RFC3339Date",
@@ -1981,14 +2012,27 @@ export const ReturnTypes: Record<string,any> = {
 		tags:"String",
 		team:"Team"
 	},
-	ProjectConnection:{
+	FakerSourceConnection:{
 		pageInfo:"PageInfo",
-		projects:"Project"
+		sources:"FakerSource"
 	},
-	ProjectOps:{
-		delete:"Boolean",
+	FakerSource:{
+		checksum:"String",
+		contents:"String",
+		filename:"String",
+		getUrl:"String"
+	},
+	Mutation:{
+		changeSubscription:"Boolean",
+		createProject:"Project",
+		createTeam:"TeamOps",
+		createUser:"User",
 		deployToFaker:"Boolean",
-		update:"Boolean"
+		removeProject:"Boolean",
+		sync:"Boolean",
+		team:"TeamOps",
+		updateProject:"Boolean",
+		updateSources:"SourceUploadInfo"
 	},
 	Query:{
 		checkoutData:"String",
@@ -2004,53 +2048,9 @@ export const ReturnTypes: Record<string,any> = {
 		payments:"Payment",
 		predictCheckout:"PredictCheckout"
 	},
-	SourceUploadInfo:{
-		filename:"String",
-		headers:"Header",
-		putUrl:"String"
-	},
-	Subscription:{
-		cancelURL:"String",
-		expiration:"String",
-		quantity:"Int",
-		seats:"UserConnection",
-		status:"String",
-		subscriptionID:"Int",
-		subscriptionPlanID:"Int",
-		updateURL:"String"
-	},
 	SubscriptionConnection:{
 		pageInfo:"PageInfo",
 		subscriptions:"Subscription"
-	},
-	Team:{
-		id:"ID",
-		member:"Member",
-		members:"MemberConnection",
-		name:"String",
-		namespace:"Namespace"
-	},
-	TeamConnection:{
-		pageInfo:"PageInfo",
-		teams:"Team"
-	},
-	TeamOps:{
-		addMember:"Member",
-		createProject:"Project",
-		delete:"Boolean",
-		id:"ID",
-		member:"MemberOps",
-		members:"MemberConnection",
-		name:"String",
-		namespace:"Namespace",
-		project:"ProjectOps"
-	},
-	User:{
-		accountType:"AccountType",
-		id:"ID",
-		namespace:"Namespace",
-		subscriptions:"SubscriptionConnection",
-		username:"String"
 	},
 	UserConnection:{
 		pageInfo:"PageInfo",
@@ -2099,23 +2099,31 @@ type IsPayLoad<T> = T extends [any, infer PayLoad] ? PayLoad : T;
 type IsArray<T, U> = T extends Array<infer R> ? InputType<R, U>[] : InputType<T, U>;
 type FlattenArray<T> = T extends Array<infer R> ? R : T;
 
-type FilterFlags<Base, Condition> = {
-  [Key in keyof Base]: Base[Key] extends Condition ? Key : never;
-};
-type AllowedNames<Base, Condition> = FilterFlags<Base, Condition>[keyof Base];
-type SubType<Base, Condition> = Pick<Base, AllowedNames<Base, Condition>>;
-
-type UnionTypes<SRC extends DeepAnify<DST>, DST> = {
-  [P in keyof DST]: DST[P] extends true ? never : IsArray<SRC[P], DST[P]>;
+type NotUnionTypes<SRC extends DeepAnify<DST>, DST> = {
+  [P in keyof DST]: SRC[P] extends '__union' & infer R ? never : P;
 }[keyof DST];
+
+type ExtractUnions<SRC extends DeepAnify<DST>, DST> = {
+  [P in keyof SRC]: SRC[P] extends '__union' & infer R
+    ? P extends keyof DST
+      ? IsArray<R, DST[P] & { __typename: true }>
+      : {}
+    : never;
+}[keyof SRC];
+
 type IsInterfaced<SRC extends DeepAnify<DST>, DST> = FlattenArray<SRC> extends ZEUS_INTERFACES | ZEUS_UNIONS
-  ? UnionTypes<SRC, DST> &
+  ? ExtractUnions<SRC, DST> &
       {
-        [P in keyof SubType<DST, true>]: SRC[P];
+        [P in keyof Omit<Pick<DST, NotUnionTypes<SRC, DST>>, '__typename'>]: DST[P] extends true
+          ? SRC[P]
+          : IsArray<SRC[P], DST[P]>;
       }
   : {
       [P in keyof DST]: DST[P] extends true ? SRC[P] : IsArray<SRC[P], DST[P]>;
     };
+
+
+
 type MapType<SRC, DST> = SRC extends DeepAnify<DST> ? IsInterfaced<SRC, DST> : never;
 type InputType<SRC, DST> = IsPayLoad<DST> extends { __alias: infer R }
   ? {
@@ -2394,9 +2402,9 @@ export const resolverFor = <
   T extends keyof ValueTypes,
   Z extends keyof ValueTypes[T],
   Y extends (
-    args: Required<ValueTypes[T]>[Z] extends [infer Input, any] ? Input : never,
+    args: Required<ValueTypes[T]>[Z] extends [infer Input, any] ? Input : any,
     source: any,
-  ) => Z extends keyof ModelTypes[T] ? ModelTypes[T][Z] | Promise<ModelTypes[T][Z]> : never
+  ) => Z extends keyof ModelTypes[T] ? ModelTypes[T][Z] | Promise<ModelTypes[T][Z]> : any
 >(
   type: T,
   field: Z,

@@ -4,18 +4,26 @@ schema {
   subscription: NotSubscription
 }
 
-type NotMutation {
-  add(name: String): Person
-}
-
-type NotSubscription {
+""""""
+type Query {
+  """"""
   people: [Person]
 }
 
+""""""
+type NotMutation {
+  """"""
+  add(name: String): Person
+}
+
+""""""
 type Person {
+  """"""
   name: String
 }
 
-type Query {
+""""""
+type NotSubscription {
+  """"""
   people: [Person]
 }

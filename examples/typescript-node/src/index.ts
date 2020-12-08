@@ -233,6 +233,7 @@ const run = async () => {
   const interfaceTest = await Gql.query({
     nameables: {
       __typename: true,
+      name: true,
       '...on Card': {
         Attack: true,
       },
@@ -246,8 +247,8 @@ const run = async () => {
       },
     },
   });
+
   printQueryResult('interfaceTest', interfaceTest);
-  interfaceTest.nameables.map((i) => i.__typename);
   // Variable test
   const test = await Gql.mutation(
     {

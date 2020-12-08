@@ -85,7 +85,7 @@ export const resolveTypeFromRoot = (i: ParserField, rootNodes: ParserField[]): s
   }
   if (i.data.type === TypeDefinition.UnionTypeDefinition) {
     return `${plusDescription(i.description)}["${i.name}"]:{
-\t${i.args.map((f) => `['...on ${f.type.name}']: ${TYPES}["${f.type.name}"];`).join('\n\t')}\n}`;
+\t${i.args.map((f) => `['...on ${f.type.name}']: '__union' & ${TYPES}["${f.type.name}"];`).join('\n\t')}\n}`;
   }
   if (i.data.type === TypeDefinition.EnumTypeDefinition) {
     return `${plusDescription(i.description)}["${i.name}"]: ${i.name}`;
@@ -98,7 +98,7 @@ export const resolveTypeFromRoot = (i: ParserField, rootNodes: ParserField[]): s
     return `${plusDescription(i.description)}["${i.name}"]: {
 \t__typename:${typesImplementing.map((ti) => `"${ti.name}"`).join(' | ')}
 ${i.args.map((f) => resolveField(f)).join(',\n')}
-\t${typesImplementing.map((f) => `['...on ${f.name}']: ${TYPES}["${f.name}"];`).join('\n\t')}\n}`;
+\t${typesImplementing.map((f) => `['...on ${f.name}']: '__union' & ${TYPES}["${f.name}"];`).join('\n\t')}\n}`;
   }
   return `${plusDescription(i.description)}["${i.name}"]: {\n\t__typename: "${i.name}",\n${i.args
     .map((f) => resolveField(f))
