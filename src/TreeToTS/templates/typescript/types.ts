@@ -36,7 +36,7 @@ type AllowedNames<Base, Condition> = FilterFlags<Base, Condition>[keyof Base];
 type SubType<Base, Condition> = Pick<Base, AllowedNames<Base, Condition>>;
 
 type UnionTypes<SRC extends DeepAnify<DST>, DST> = {
-  [P in keyof DST]: DST[P] extends true ? never : IsArray<SRC[P], DST[P]>;
+  [P in keyof DST]: DST[P] extends true ? {} : IsArray<SRC[P], DST[P]>;
 }[keyof DST];
 type IsInterfaced<SRC extends DeepAnify<DST>, DST> = FlattenArray<SRC> extends ZEUS_INTERFACES | ZEUS_UNIONS
   ? UnionTypes<SRC, DST> &
