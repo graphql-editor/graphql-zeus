@@ -62,29 +62,34 @@ export class Parser {
    */
   static parse = (schema: string, excludeRoots: string[] = [], libraries = ''): ParserTree => {
     let parsedSchema: DocumentNode | undefined;
-    let astSchema: GraphQLSchema | undefined;
     const compiledSchema = [libraries, schema].join('\n');
 
     try {
       parsedSchema = parse(compiledSchema);
-      astSchema = buildASTSchema(parsedSchema);
     } catch (error) {
       /* tslint:disable */
       console.error(error);
       /* tslint:enable */
     }
-    if (!astSchema) {
-      throw new Error('Cannot find astSchema');
-    }
     if (!parsedSchema) {
       throw new Error('Cannot parse the schema');
     }
-    const operations = {
-      Query: astSchema.getQueryType(),
-      Mutation: astSchema.getMutationType(),
-      Subscription: astSchema.getSubscriptionType(),
-    };
+    const operations: { Query?: string; Mutation?: string; Subscription?: string } = {};
 
+    const schemaDefinition = parsedSchema.definitions.find((d) => d.kind === 'SchemaDefinition');
+    if (schemaDefinition && 'operationTypes' in schemaDefinition) {
+      schemaDefinition.operationTypes?.forEach((ot) => {
+        if (ot.operation === 'query') {
+          operations.Query = ot.type.name.value;
+        }
+        if (ot.operation === 'mutation') {
+          operations.Mutation = ot.type.name.value;
+        }
+        if (ot.operation === 'subscription') {
+          operations.Subscription = ot.type.name.value;
+        }
+      });
+    }
     const nodes = parsedSchema.definitions
       .filter((t) => 'name' in t && t.name && !excludeRoots.includes(t.name.value))
       .map(Parser.documentDefinitionToSerializedNodeTree)
@@ -107,13 +112,13 @@ export class Parser {
     };
     nodeTree.nodes.forEach((n) => {
       if (n.data?.type === TypeDefinition.ObjectTypeDefinition) {
-        if (operations.Query && operations.Query.name === n.name) {
+        if (operations.Query && operations.Query === n.name) {
           n.type.operations = [OperationType.query];
         }
-        if (operations.Mutation && operations.Mutation.name === n.name) {
+        if (operations.Mutation && operations.Mutation === n.name) {
           n.type.operations = [OperationType.mutation];
         }
-        if (operations.Subscription && operations.Subscription.name === n.name) {
+        if (operations.Subscription && operations.Subscription === n.name) {
           n.type.operations = [OperationType.subscription];
         }
       }
