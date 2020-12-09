@@ -5,25 +5,25 @@ schema {
 }
 
 """"""
-type Query {
-  """"""
-  people: [Person]
-}
-
-""""""
 type NotMutation {
   """"""
   add(name: String): Person
 }
 
 """"""
-type Person {
+type Query {
   """"""
-  name: String
+  people: [Person]
 }
 
 """"""
 type NotSubscription {
   """"""
   people: [Person]
+}
+
+""""""
+type Person {
+  """"""
+  name: String
 }

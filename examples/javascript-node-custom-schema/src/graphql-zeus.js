@@ -15,11 +15,11 @@ export const AllTypesProps = {
 }
 
 export const ReturnTypes = {
-	Person:{
-		name:"String"
-	},
 	NotSubscription:{
 		people:"Person"
+	},
+	Person:{
+		name:"String"
 	},
 	Query:{
 		people:"Person"

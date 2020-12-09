@@ -44,12 +44,12 @@ type ExtractUnions<SRC extends DeepAnify<DST>, DST> = {
 type IsInterfaced<SRC extends DeepAnify<DST>, DST> = FlattenArray<SRC> extends ZEUS_INTERFACES | ZEUS_UNIONS
   ? ExtractUnions<SRC, DST> &
       {
-        [P in keyof Omit<Pick<DST, NotUnionTypes<SRC, DST>>, '__typename'>]: DST[P] extends true
+        [P in keyof Omit<Pick<SRC, NotUnionTypes<SRC, DST>>, '__typename'>]: DST[P] extends true
           ? SRC[P]
           : IsArray<SRC[P], DST[P]>;
       }
   : {
-      [P in keyof DST]: DST[P] extends true ? SRC[P] : IsArray<SRC[P], DST[P]>;
+      [P in keyof Pick<SRC, keyof DST>]: DST[P] extends true ? SRC[P] : IsArray<SRC[P], DST[P]>;
     };
 
 

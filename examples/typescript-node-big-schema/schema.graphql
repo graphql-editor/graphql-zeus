@@ -1,115 +1,3 @@
-"""Editor user"""
-type User {
-  """User's account type"""
-  accountType: AccountType!
-
-  """Unique user id"""
-  id: ID
-
-  """User's namespace"""
-  namespace: Namespace
-
-  """User's subscriptions"""
-  subscriptions: SubscriptionConnection
-
-  """Unique username"""
-  username: String
-}
-
-"""RFC3339Date is a RFC3339 formated date-time string"""
-scalar RFC3339Date
-
-"""Teams connection"""
-type TeamConnection {
-  """Pagination info used in next fetch"""
-  pageInfo: PageInfo!
-
-  """List of teams returned by current page in connection"""
-  teams: [Team!]
-}
-
-"""
-ProjectsSortInput defines how projects from listProjects should be sorted.
-"""
-input ProjectsSortInput {
-  """Sort by owner"""
-  owner: SortOrder
-
-  """Sort by visisbility"""
-  public: SortOrder
-
-  """Sort by slug"""
-  slug: SortOrder
-
-  """Sort by tag"""
-  tags: SortOrder
-
-  """
-  Sorts projects by team.
-  
-  Sort behaviour for projects by team is implemenation depednant.
-  """
-  team: SortOrder
-
-  """Sort projects by creation date"""
-  createdAt: SortOrder
-
-  """Sort by name"""
-  name: SortOrder
-
-  """Sort by id"""
-  id: SortOrder
-}
-
-"""Request header"""
-type Header {
-  """Header name"""
-  key: String!
-
-  """Header value"""
-  value: String
-}
-
-""""""
-input ChangeSubscriptionInput {
-  """"""
-  subscriptionID: Int!
-
-  """"""
-  subscriptionPlanID: Int
-}
-
-"""Paginated members list"""
-type MemberConnection {
-  """List of members in this connection"""
-  members: [Member!]
-
-  """pageInfo for member connection"""
-  pageInfo: PageInfo!
-}
-
-"""Team member role"""
-enum Role {
-  """
-  Team owner owner can add/remove/edit/view projects and members to a team. Only owner can delete team
-  """
-  OWNER
-
-  """
-  Team admin can add/remove/edit/view projects and members(except owner) to a team
-  """
-  ADMIN
-
-  """Team editor can add/edit projects in team"""
-  EDITOR
-
-  """Team viewer can view projects in team"""
-  VIEWER
-
-  """Team contributor can edit projects in team"""
-  CONTRIBUTOR
-}
-
 """PredictCheckout represents payment prediction for checkout data"""
 type PredictCheckout {
   """Predicted checkout price"""
@@ -118,400 +6,6 @@ type PredictCheckout {
   """Predicted number of trial days"""
   trialDays: Int
 }
-
-""""""
-scalar FileServerCredentials
-
-"""Sort order defines possible ordering of sorted outputs"""
-enum SortOrder {
-  """"""
-  Ascending
-
-  """"""
-  Descending
-}
-
-"""PageInfo contains information about connection page"""
-type PageInfo {
-  """last element in connection"""
-  last: String
-
-  """limit set while quering"""
-  limit: Int
-
-  """if next is false then client recieved all available data"""
-  next: Boolean
-}
-
-"""
-Project connection object
-
-Used with paginated listing of projects
-"""
-type ProjectConnection {
-  """Current connection page info"""
-  pageInfo: PageInfo!
-
-  """List of projects in connection"""
-  projects: [Project!]
-}
-
-"""Endpoint returnes a full path to the project without host"""
-type Endpoint {
-  """Full project uri without host"""
-  uri: String
-}
-
-""""""
-type Payment {
-  """Amount paid"""
-  amount: Decimal
-
-  """Currency in which payment was made"""
-  currency: String
-
-  """Date indicates a when the payment was made"""
-  date: PaymentDate
-
-  """URL from which user can download invoice"""
-  receiptURL: String
-
-  """ID of subscription for which payment was made"""
-  subscriptionID: Int
-}
-
-"""type object node"""
-type ProjectOps {
-  """Boolean object node"""
-  delete: Boolean
-
-  """deploy project to faker"""
-  deployToFaker: Boolean
-
-  """Boolean object node"""
-  update(in: UpdateProject): Boolean
-}
-
-"""Checkout data needed to begin payment process"""
-input CheckoutDataInput {
-  """Vat data"""
-  vat: VatInput
-
-  """Optional discount coupon"""
-  coupon: String
-
-  """URL to which user should be redirected after successful transaction"""
-  successURL: String
-
-  """URL to which user should be redirected after failed transaction"""
-  cancelURL: String
-
-  """An id of a chosen subscription plan"""
-  planID: ID!
-
-  """Quantity of subscriptions that user wants"""
-  quantity: Int
-
-  """Customer data"""
-  customer: CustomerInput
-}
-
-"""Vat information of a user"""
-input VatInput {
-  """Vat company country address."""
-  country: String
-
-  """Vat company post code address."""
-  postCode: String
-
-  """Vat number"""
-  number: String
-
-  """Vat company name"""
-  companyName: String
-
-  """Vat company street address"""
-  street: String
-
-  """Vat company city address"""
-  city: String
-
-  """Vat company state address. Optional."""
-  state: String
-}
-
-""""""
-type Subscription {
-  """Cancel subscription URL"""
-  cancelURL: String
-
-  """Subscription expiration date"""
-  expiration: String
-
-  """Number of seats in subscription"""
-  quantity: Int
-
-  """List of seats in subscription"""
-  seats: UserConnection
-
-  """Status of subscription"""
-  status: String
-
-  """Subscription unique id"""
-  subscriptionID: Int
-
-  """Subscription plan unique id"""
-  subscriptionPlanID: Int
-
-  """Update subscription URL"""
-  updateURL: String
-}
-
-"""
-Namespace is a root object containing projects belonging
-to a team or user
-"""
-type Namespace {
-  """Return project by name from namespace"""
-  project(name: String!): Project
-
-  """
-  Returns a project connection object which contains a projects belonging to namespace
-  
-  last is a string returned by previous call to Namespace.projects
-  
-  limit sets a limit on how many objects can be returned
-  """
-  projects(limit: Int, last: String): ProjectConnection
-
-  """True if namespace is public"""
-  public: Boolean
-
-  """Namespace part of the slug"""
-  slug: String
-}
-
-"""Team object"""
-type Team {
-  """Unique team id"""
-  id: ID
-
-  """type object node"""
-  member(username: String!): Member
-
-  """Paginated list of members in team"""
-  members(last: String, limit: Int): MemberConnection
-
-  """Team name"""
-  name: String!
-
-  """Team's namespace"""
-  namespace: Namespace!
-}
-
-"""Defines user's account type"""
-enum AccountType {
-  """"""
-  FREE
-
-  """"""
-  PREMIUM
-}
-
-"""Source upload info object"""
-type SourceUploadInfo {
-  """Source file name"""
-  filename: String
-
-  """List of headers that must be included in PUT request"""
-  headers: [Header]
-
-  """String with url used in PUT request"""
-  putUrl: String!
-}
-
-"""Customer data for checkout information"""
-input CustomerInput {
-  """User's post code"""
-  postCode: String
-
-  """Must be true for marketing to be allowed"""
-  marketingConsent: Boolean
-
-  """User's email address"""
-  email: String
-
-  """User's country"""
-  country: String
-}
-
-"""New source payload"""
-input NewSource {
-  """source file name"""
-  filename: String
-
-  """Length of source in bytes"""
-  contentLength: Int
-
-  """Source mime type"""
-  contentType: String
-
-  """Source checksum"""
-  checksum: String
-}
-
-"""Team member"""
-type Member {
-  """Member email"""
-  email: String
-
-  """Member role"""
-  role: Role
-
-  """Member username"""
-  username: String
-}
-
-"""PaymentDate is a string in a format 'YYYY-MM-DD'"""
-scalar PaymentDate
-
-"""Team member ops"""
-type MemberOps {
-  """Boolean object node"""
-  delete: Boolean
-
-  """Boolean object node"""
-  update(role: Role): Boolean
-}
-
-"""Team operations"""
-type TeamOps {
-  """Add member to the team"""
-  addMember(loginCallback: String, username: String!, role: Role!): Member
-
-  """Create new team project"""
-  createProject(public: Boolean, name: String!): Project
-
-  """Delete team"""
-  delete: Boolean
-
-  """Unique team id"""
-  id: ID
-
-  """type object node"""
-  member(username: String!): MemberOps
-
-  """Paginated list of members in team"""
-  members(last: String, limit: Int): MemberConnection
-
-  """Team name"""
-  name: String
-
-  """Team's namespace"""
-  namespace: Namespace
-
-  """type object node"""
-  project(id: ID!): ProjectOps
-}
-
-"""Project type"""
-type Project {
-  """Return creation time stamp of a project"""
-  createdAt: RFC3339Date
-
-  """Project description"""
-  description: String
-
-  """Is project enabled"""
-  enabled: Boolean
-
-  """
-  Project endpoint contains a slug under which project can be reached
-  
-  For example https://app.graphqleditor.com/{endpoint.uri}/
-  """
-  endpoint: Endpoint
-
-  """Unique project id"""
-  id: ID!
-
-  """Is project mocked by faker backend"""
-  mocked: Boolean
-
-  """Project name"""
-  name: String!
-
-  """
-  Project owner
-  
-  Can be null if project belongs to a team
-  """
-  owner: User
-
-  """True if project is public"""
-  public: Boolean
-
-  """Project part of the slug"""
-  slug: String
-
-  """
-  Returns a connection object with source files in project
-  
-  last is a string returned by previous call to Project.sources
-  
-  limit sets a limit on how many objects can be returned
-  """
-  sources(last: String, limit: Int): FakerSourceConnection
-
-  """Project tags"""
-  tags: [String!]
-
-  """
-  Team to which project belongs
-  
-  Can be null if project belongs to a user
-  """
-  team: Team
-}
-
-"""Connection object containing list of faker sources"""
-type FakerSourceConnection {
-  """Connection pageInfo"""
-  pageInfo: PageInfo!
-
-  """List of sources returned by connection"""
-  sources: [FakerSource!]
-}
-
-"""A source object"""
-type FakerSource {
-  """File checksum"""
-  checksum: String
-
-  """"""
-  contents: String
-
-  """Name of source file"""
-  filename: String
-
-  """Return an url by which source file can be accessed"""
-  getUrl: String
-}
-
-"""Checkout data needed to begin payment process"""
-input PredictCheckoutInput {
-  """An id of a chosen subscription plan"""
-  planID: ID!
-
-  """Quantity of subscriptions that user wants"""
-  quantity: Int
-
-  """Optional discount coupon"""
-  coupon: String
-}
-
-"""Amount is a number that gives precise representation of real numbers"""
-scalar Decimal
 
 """"""
 type Mutation {
@@ -560,6 +54,158 @@ type Mutation {
 
   """Add sources to the project"""
   updateSources(project: ID!, sources: [NewSource!]): [SourceUploadInfo]
+}
+
+"""Request header"""
+type Header {
+  """Header name"""
+  key: String!
+
+  """Header value"""
+  value: String
+}
+
+"""Team member role"""
+enum Role {
+  """Team editor can add/edit projects in team"""
+  EDITOR
+
+  """Team viewer can view projects in team"""
+  VIEWER
+
+  """Team contributor can edit projects in team"""
+  CONTRIBUTOR
+
+  """
+  Team owner owner can add/remove/edit/view projects and members to a team. Only owner can delete team
+  """
+  OWNER
+
+  """
+  Team admin can add/remove/edit/view projects and members(except owner) to a team
+  """
+  ADMIN
+}
+
+"""Endpoint returnes a full path to the project without host"""
+type Endpoint {
+  """Full project uri without host"""
+  uri: String
+}
+
+""""""
+scalar FileServerCredentials
+
+"""Checkout data needed to begin payment process"""
+input PredictCheckoutInput {
+  """An id of a chosen subscription plan"""
+  planID: ID!
+
+  """Quantity of subscriptions that user wants"""
+  quantity: Int
+
+  """Optional discount coupon"""
+  coupon: String
+}
+
+"""
+ProjectsSortInput defines how projects from listProjects should be sorted.
+"""
+input ProjectsSortInput {
+  """Sort by visisbility"""
+  public: SortOrder
+
+  """Sort by slug"""
+  slug: SortOrder
+
+  """Sort by tag"""
+  tags: SortOrder
+
+  """
+  Sorts projects by team.
+  
+  Sort behaviour for projects by team is implemenation depednant.
+  """
+  team: SortOrder
+
+  """Sort projects by creation date"""
+  createdAt: SortOrder
+
+  """Sort by name"""
+  name: SortOrder
+
+  """Sort by id"""
+  id: SortOrder
+
+  """Sort by owner"""
+  owner: SortOrder
+}
+
+"""New source payload"""
+input NewSource {
+  """source file name"""
+  filename: String
+
+  """Length of source in bytes"""
+  contentLength: Int
+
+  """Source mime type"""
+  contentType: String
+
+  """Source checksum"""
+  checksum: String
+}
+
+"""Source upload info object"""
+type SourceUploadInfo {
+  """Source file name"""
+  filename: String
+
+  """List of headers that must be included in PUT request"""
+  headers: [Header]
+
+  """String with url used in PUT request"""
+  putUrl: String!
+}
+
+"""Team object"""
+type Team {
+  """Unique team id"""
+  id: ID
+
+  """type object node"""
+  member(username: String!): Member
+
+  """Paginated list of members in team"""
+  members(last: String, limit: Int): MemberConnection
+
+  """Team name"""
+  name: String!
+
+  """Team's namespace"""
+  namespace: Namespace!
+}
+
+"""
+Project connection object
+
+Used with paginated listing of projects
+"""
+type ProjectConnection {
+  """Current connection page info"""
+  pageInfo: PageInfo!
+
+  """List of projects in connection"""
+  projects: [Project!]
+}
+
+""""""
+type UserConnection {
+  """Current connection page info"""
+  pageInfo: PageInfo!
+
+  """List of projects in connection"""
+  users: [User!]
 }
 
 """Root query type"""
@@ -630,6 +276,303 @@ type Query {
   predictCheckout(data: PredictCheckoutInput!): PredictCheckout
 }
 
+"""RFC3339Date is a RFC3339 formated date-time string"""
+scalar RFC3339Date
+
+"""Checkout data needed to begin payment process"""
+input CheckoutDataInput {
+  """An id of a chosen subscription plan"""
+  planID: ID!
+
+  """Quantity of subscriptions that user wants"""
+  quantity: Int
+
+  """Customer data"""
+  customer: CustomerInput
+
+  """Vat data"""
+  vat: VatInput
+
+  """Optional discount coupon"""
+  coupon: String
+
+  """URL to which user should be redirected after successful transaction"""
+  successURL: String
+
+  """URL to which user should be redirected after failed transaction"""
+  cancelURL: String
+}
+
+"""type object node"""
+type ProjectOps {
+  """Boolean object node"""
+  delete: Boolean
+
+  """deploy project to faker"""
+  deployToFaker: Boolean
+
+  """Boolean object node"""
+  update(in: UpdateProject): Boolean
+}
+
+"""Sort order defines possible ordering of sorted outputs"""
+enum SortOrder {
+  """"""
+  Ascending
+
+  """"""
+  Descending
+}
+
+"""Team operations"""
+type TeamOps {
+  """Add member to the team"""
+  addMember(username: String!, role: Role!, loginCallback: String): Member
+
+  """Create new team project"""
+  createProject(public: Boolean, name: String!): Project
+
+  """Delete team"""
+  delete: Boolean
+
+  """Unique team id"""
+  id: ID
+
+  """type object node"""
+  member(username: String!): MemberOps
+
+  """Paginated list of members in team"""
+  members(last: String, limit: Int): MemberConnection
+
+  """Team name"""
+  name: String
+
+  """Team's namespace"""
+  namespace: Namespace
+
+  """type object node"""
+  project(id: ID!): ProjectOps
+}
+
+"""Team member ops"""
+type MemberOps {
+  """Boolean object node"""
+  delete: Boolean
+
+  """Boolean object node"""
+  update(role: Role): Boolean
+}
+
+"""PageInfo contains information about connection page"""
+type PageInfo {
+  """last element in connection"""
+  last: String
+
+  """limit set while quering"""
+  limit: Int
+
+  """if next is false then client recieved all available data"""
+  next: Boolean
+}
+
+"""Editor user"""
+type User {
+  """User's account type"""
+  accountType: AccountType!
+
+  """Unique user id"""
+  id: ID
+
+  """User's namespace"""
+  namespace: Namespace
+
+  """User's subscriptions"""
+  subscriptions: SubscriptionConnection
+
+  """Unique username"""
+  username: String
+}
+
+"""Teams connection"""
+type TeamConnection {
+  """Pagination info used in next fetch"""
+  pageInfo: PageInfo!
+
+  """List of teams returned by current page in connection"""
+  teams: [Team!]
+}
+
+""""""
+input ChangeSubscriptionInput {
+  """"""
+  subscriptionID: Int!
+
+  """"""
+  subscriptionPlanID: Int
+}
+
+"""A source object"""
+type FakerSource {
+  """File checksum"""
+  checksum: String
+
+  """"""
+  contents: String
+
+  """Name of source file"""
+  filename: String
+
+  """Return an url by which source file can be accessed"""
+  getUrl: String
+}
+
+"""Defines user's account type"""
+enum AccountType {
+  """"""
+  FREE
+
+  """"""
+  PREMIUM
+}
+
+""""""
+type Subscription {
+  """Cancel subscription URL"""
+  cancelURL: String
+
+  """Subscription expiration date"""
+  expiration: String
+
+  """Number of seats in subscription"""
+  quantity: Int
+
+  """List of seats in subscription"""
+  seats: UserConnection
+
+  """Status of subscription"""
+  status: String
+
+  """Subscription unique id"""
+  subscriptionID: Int
+
+  """Subscription plan unique id"""
+  subscriptionPlanID: Int
+
+  """Update subscription URL"""
+  updateURL: String
+}
+
+"""Vat information of a user"""
+input VatInput {
+  """Vat company name"""
+  companyName: String
+
+  """Vat company street address"""
+  street: String
+
+  """Vat company city address"""
+  city: String
+
+  """Vat company state address. Optional."""
+  state: String
+
+  """Vat company country address."""
+  country: String
+
+  """Vat company post code address."""
+  postCode: String
+
+  """Vat number"""
+  number: String
+}
+
+"""Paginated members list"""
+type MemberConnection {
+  """List of members in this connection"""
+  members: [Member!]
+
+  """pageInfo for member connection"""
+  pageInfo: PageInfo!
+}
+
+"""Team member"""
+type Member {
+  """Member email"""
+  email: String
+
+  """Member role"""
+  role: Role
+
+  """Member username"""
+  username: String
+}
+
+"""
+Namespace is a root object containing projects belonging
+to a team or user
+"""
+type Namespace {
+  """Return project by name from namespace"""
+  project(name: String!): Project
+
+  """
+  Returns a project connection object which contains a projects belonging to namespace
+  
+  last is a string returned by previous call to Namespace.projects
+  
+  limit sets a limit on how many objects can be returned
+  """
+  projects(last: String, limit: Int): ProjectConnection
+
+  """True if namespace is public"""
+  public: Boolean
+
+  """Namespace part of the slug"""
+  slug: String
+}
+
+""""""
+type Payment {
+  """Amount paid"""
+  amount: Decimal
+
+  """Currency in which payment was made"""
+  currency: String
+
+  """Date indicates a when the payment was made"""
+  date: PaymentDate
+
+  """URL from which user can download invoice"""
+  receiptURL: String
+
+  """ID of subscription for which payment was made"""
+  subscriptionID: Int
+}
+
+"""Update project payload"""
+input UpdateProject {
+  """ID of project to be updated"""
+  project: ID
+
+  """New description for project"""
+  description: String
+
+  """List of tags for project"""
+  tags: [String!]
+
+  """Set project visiblity"""
+  public: Boolean
+}
+
+"""Connection object containing list of faker sources"""
+type FakerSourceConnection {
+  """Connection pageInfo"""
+  pageInfo: PageInfo!
+
+  """List of sources returned by connection"""
+  sources: [FakerSource!]
+}
+
 """"""
 type SubscriptionConnection {
   """Current conenction page info"""
@@ -639,28 +582,85 @@ type SubscriptionConnection {
   subscriptions: [Subscription!]
 }
 
-""""""
-type UserConnection {
-  """Current connection page info"""
-  pageInfo: PageInfo!
+"""Amount is a number that gives precise representation of real numbers"""
+scalar Decimal
 
-  """List of projects in connection"""
-  users: [User!]
-}
+"""PaymentDate is a string in a format 'YYYY-MM-DD'"""
+scalar PaymentDate
 
-"""Update project payload"""
-input UpdateProject {
-  """New description for project"""
+"""Project type"""
+type Project {
+  """Return creation time stamp of a project"""
+  createdAt: RFC3339Date
+
+  """Project description"""
   description: String
 
-  """List of tags for project"""
-  tags: [String!]
+  """Is project enabled"""
+  enabled: Boolean
 
-  """Set project visiblity"""
+  """
+  Project endpoint contains a slug under which project can be reached
+  
+  For example https://app.graphqleditor.com/{endpoint.uri}/
+  """
+  endpoint: Endpoint
+
+  """Unique project id"""
+  id: ID!
+
+  """Is project mocked by faker backend"""
+  mocked: Boolean
+
+  """Project name"""
+  name: String!
+
+  """
+  Project owner
+  
+  Can be null if project belongs to a team
+  """
+  owner: User
+
+  """True if project is public"""
   public: Boolean
 
-  """ID of project to be updated"""
-  project: ID
+  """Project part of the slug"""
+  slug: String
+
+  """
+  Returns a connection object with source files in project
+  
+  last is a string returned by previous call to Project.sources
+  
+  limit sets a limit on how many objects can be returned
+  """
+  sources(last: String, limit: Int): FakerSourceConnection
+
+  """Project tags"""
+  tags: [String!]
+
+  """
+  Team to which project belongs
+  
+  Can be null if project belongs to a user
+  """
+  team: Team
+}
+
+"""Customer data for checkout information"""
+input CustomerInput {
+  """Must be true for marketing to be allowed"""
+  marketingConsent: Boolean
+
+  """User's email address"""
+  email: String
+
+  """User's country"""
+  country: String
+
+  """User's post code"""
+  postCode: String
 }
 
 schema{

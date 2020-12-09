@@ -5,55 +5,55 @@ type ZEUS_INTERFACES = never
 type ZEUS_UNIONS = never
 
 export type ValueTypes = {
-    ["Query"]: AliasType<{
-	people?:ValueTypes["Person"],
-		__typename?: true
-}>;
-	["NotMutation"]: AliasType<{
+    ["NotMutation"]: AliasType<{
 add?: [{	name?:string},ValueTypes["Person"]],
 		__typename?: true
 }>;
-	["Person"]: AliasType<{
-	name?:true,
+	["Query"]: AliasType<{
+	people?:ValueTypes["Person"],
 		__typename?: true
 }>;
 	["NotSubscription"]: AliasType<{
 	people?:ValueTypes["Person"],
 		__typename?: true
+}>;
+	["Person"]: AliasType<{
+	name?:true,
+		__typename?: true
 }>
   }
 
 export type ModelTypes = {
-    ["Query"]: {
-		people?:(ModelTypes["Person"] | undefined)[]
-};
-	["NotMutation"]: {
+    ["NotMutation"]: {
 		add?:ModelTypes["Person"]
 };
-	["Person"]: {
-		name?:string
+	["Query"]: {
+		people?:(ModelTypes["Person"] | undefined)[]
 };
 	["NotSubscription"]: {
 		people?:(ModelTypes["Person"] | undefined)[]
+};
+	["Person"]: {
+		name?:string
 }
     }
 
 export type GraphQLTypes = {
-    ["Query"]: {
-	__typename: "Query",
-	people?:(GraphQLTypes["Person"] | undefined)[]
-};
-	["NotMutation"]: {
+    ["NotMutation"]: {
 	__typename: "NotMutation",
 	add?:GraphQLTypes["Person"]
 };
-	["Person"]: {
-	__typename: "Person",
-	name?:string
+	["Query"]: {
+	__typename: "Query",
+	people?:(GraphQLTypes["Person"] | undefined)[]
 };
 	["NotSubscription"]: {
 	__typename: "NotSubscription",
 	people?:(GraphQLTypes["Person"] | undefined)[]
+};
+	["Person"]: {
+	__typename: "Person",
+	name?:string
 }
     }
 
@@ -72,17 +72,17 @@ export const AllTypesProps: Record<string,any> = {
 }
 
 export const ReturnTypes: Record<string,any> = {
-	Query:{
-		people:"Person"
-	},
 	NotMutation:{
 		add:"Person"
 	},
-	Person:{
-		name:"String"
+	Query:{
+		people:"Person"
 	},
 	NotSubscription:{
 		people:"Person"
+	},
+	Person:{
+		name:"String"
 	}
 }
 
@@ -142,12 +142,12 @@ type ExtractUnions<SRC extends DeepAnify<DST>, DST> = {
 type IsInterfaced<SRC extends DeepAnify<DST>, DST> = FlattenArray<SRC> extends ZEUS_INTERFACES | ZEUS_UNIONS
   ? ExtractUnions<SRC, DST> &
       {
-        [P in keyof Omit<Pick<DST, NotUnionTypes<SRC, DST>>, '__typename'>]: DST[P] extends true
+        [P in keyof Omit<Pick<SRC, NotUnionTypes<SRC, DST>>, '__typename'>]: DST[P] extends true
           ? SRC[P]
           : IsArray<SRC[P], DST[P]>;
       }
   : {
-      [P in keyof DST]: DST[P] extends true ? SRC[P] : IsArray<SRC[P], DST[P]>;
+      [P in keyof Pick<SRC, keyof DST>]: DST[P] extends true ? SRC[P] : IsArray<SRC[P], DST[P]>;
     };
 
 

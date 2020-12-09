@@ -2,8 +2,33 @@
 /* eslint-disable */
 
 export const AllTypesProps = {
-	SpecialSkills: "enum",
+	Query:{
+		cardById:{
+			cardId:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		}
+	},
+	Card:{
+		attack:{
+			cardID:{
+				type:"String",
+				array:true,
+				arrayRequired:true,
+				required:true
+			}
+		}
+	},
 	createCard:{
+		skills:{
+			type:"SpecialSkills",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
 		name:{
 			type:"String",
 			array:false,
@@ -33,12 +58,6 @@ export const AllTypesProps = {
 			array:false,
 			arrayRequired:false,
 			required:true
-		},
-		skills:{
-			type:"SpecialSkills",
-			array:true,
-			arrayRequired:false,
-			required:true
 		}
 	},
 	Mutation:{
@@ -51,48 +70,10 @@ export const AllTypesProps = {
 			}
 		}
 	},
-	Query:{
-		cardById:{
-			cardId:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		}
-	},
-	Card:{
-		attack:{
-			cardID:{
-				type:"String",
-				array:true,
-				arrayRequired:true,
-				required:true
-			}
-		}
-	}
+	SpecialSkills: "enum"
 }
 
 export const ReturnTypes = {
-	S3Object:{
-		bucket:"String",
-		key:"String",
-		region:"String"
-	},
-	EffectCard:{
-		effectSize:"Float",
-		name:"String"
-	},
-	Nameable:{
-		"...on EffectCard": "EffectCard",
-		"...on SpecialCard": "SpecialCard",
-		"...on CardStack": "CardStack",
-		"...on Card": "Card",
-		name:"String"
-	},
-	Mutation:{
-		addCard:"Card"
-	},
 	Query:{
 		cardById:"Card",
 		drawCard:"Card",
@@ -101,13 +82,9 @@ export const ReturnTypes = {
 		myStacks:"CardStack",
 		nameables:"Nameable"
 	},
-	SpecialCard:{
-		effect:"String",
-		name:"String"
-	},
-	CardStack:{
-		cards:"Card",
-		name:"String"
+	ChangeCard:{
+		"...on SpecialCard":"SpecialCard",
+		"...on EffectCard":"EffectCard"
 	},
 	Card:{
 		Attack:"Int",
@@ -121,9 +98,32 @@ export const ReturnTypes = {
 		name:"String",
 		skills:"SpecialSkills"
 	},
-	ChangeCard:{
-		"...on SpecialCard":"SpecialCard",
-		"...on EffectCard":"EffectCard"
+	S3Object:{
+		bucket:"String",
+		key:"String",
+		region:"String"
+	},
+	SpecialCard:{
+		effect:"String",
+		name:"String"
+	},
+	CardStack:{
+		cards:"Card",
+		name:"String"
+	},
+	Mutation:{
+		addCard:"Card"
+	},
+	Nameable:{
+		"...on Card": "Card",
+		"...on SpecialCard": "SpecialCard",
+		"...on CardStack": "CardStack",
+		"...on EffectCard": "EffectCard",
+		name:"String"
+	},
+	EffectCard:{
+		effectSize:"Float",
+		name:"String"
 	}
 }
 
