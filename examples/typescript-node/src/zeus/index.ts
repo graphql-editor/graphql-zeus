@@ -1,16 +1,18 @@
 /* eslint-disable */
 
 import {
-        fullChainConstructor,
-        /* @ts-ignore */
-        fullSubscriptionConstructor,
-        apiFetch,
-        ZeusSelect,
-        queryConstruct,
-      } from './builtInFunctions';
-      import { FetchFunction, SubscriptionFunction, chainOptions, ValueTypes, CastToGraphQL, GraphQLTypes } from './typings';
-      export * from './typings';
-      export * from './builtInFunctions';
+  fullChainConstructor,
+  /* @ts-ignore */
+  fullSubscriptionConstructor,
+  /* @ts-ignore */
+  apiSubscription,
+  apiFetch,
+  ZeusSelect,
+  queryConstruct,
+} from './builtInFunctions';
+import { FetchFunction, SubscriptionFunction, chainOptions, ValueTypes, CastToGraphQL, GraphQLTypes } from './typings';
+export * from './typings';
+export * from './builtInFunctions';
 
 export const Thunder = (fn: FetchFunction, subscriptionFn: SubscriptionFunction) => ({
   query: fullChainConstructor(fn,'query', 'Query'),

@@ -158,6 +158,8 @@ import {
   fullChainConstructor,
   /* @ts-ignore */
   fullSubscriptionConstructor,
+  /* @ts-ignore */
+  apiSubscription,
   apiFetch,
   ZeusSelect,
   queryConstruct,

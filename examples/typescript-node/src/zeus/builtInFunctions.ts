@@ -1,20 +1,20 @@
 /* eslint-disable */
 
 import { AllTypesProps, ReturnTypes } from './const';
-      import {
-        SelectionFunction,
-        FetchFunction,
-        SubscriptionFunction,
-        OperationToGraphQL,
-        SubscriptionToGraphQL,
-        GraphQLResponse,
-        fetchOptions,
-        chainOptions,
-        GraphQLError,
-        GraphQLTypes,
-        ModelTypes,
-        ValueTypes,
-      } from './typings';
+import {
+  SelectionFunction,
+  FetchFunction,
+  SubscriptionFunction,
+  OperationToGraphQL,
+  SubscriptionToGraphQL,
+  GraphQLResponse,
+  fetchOptions,
+  chainOptions,
+  GraphQLError,
+  GraphQLTypes,
+  ModelTypes,
+  ValueTypes,
+} from './typings';
 
 export const ZeusSelect = <T>() => ((t: any) => t) as SelectionFunction<T>;
 

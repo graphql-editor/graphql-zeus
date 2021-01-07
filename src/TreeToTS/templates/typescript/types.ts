@@ -83,7 +83,7 @@ type websocketOptions = typeof WebSocket extends new (
   ? R
   : never;
 export type chainOptions =
-  | [fetchOptions[0], fetchOptions[1] & {websocket: websocketOptions}]
+  | [fetchOptions[0], fetchOptions[1] & {websocket?: websocketOptions}]
   | [fetchOptions[0]];
 export type FetchFunction = (
   query: string,
