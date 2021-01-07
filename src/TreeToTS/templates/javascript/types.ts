@@ -132,7 +132,7 @@ export declare const resolverFor : <
   type: T,
   field: Z,
   fn: Y,
-) => Y;
+) => (args?:any, source?:any) => void;
 
 export declare const Gql: ReturnType<typeof Chain>
 `;

@@ -14,7 +14,7 @@ export const resolverFor = <
   type: T,
   field: Z,
   fn: Y,
-) => fn;
+) => fn as (args?: any,source?: any) => any;
 `,
   js: `
 export const resolverFor = (
