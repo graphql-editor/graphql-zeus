@@ -21,7 +21,6 @@ interface CliArgs extends Yargs {
   typescript?: boolean;
   node?: boolean;
   graphql?: string;
-  output: string;
 }
 /**
  * Main class for controlling CLI
@@ -32,7 +31,6 @@ export class CLI {
    */
   static execute = async <T extends CliArgs>(args: T): Promise<void> => {
     const env: Environment = args.node ? 'node' : 'browser';
-    const outputFilename = args.output;
     let schemaFileContents = '';
     const allArgs = args._ as string[];
     const schemaFile: string = allArgs[0];
@@ -56,16 +54,18 @@ export class CLI {
       writeFileRecursive(pathToSchema, schemaFile, schemaFileContents);
     }
     if (args.typescript) {
-      const outFile = `${outputFilename}.ts`;
-      const typeScriptDefinition = TranslateGraphQL.typescript(schemaFileContents, env, host);
-      writeFileRecursive(pathToFile, outFile, typeScriptDefinition.code);
+      const typeScriptDefinition = TranslateGraphQL.typescriptSplit(schemaFileContents, env, host);
+      Object.keys(typeScriptDefinition).forEach((k) =>
+        writeFileRecursive(
+          path.join(pathToFile, 'zeus'),
+          `${k}.ts`,
+          typeScriptDefinition[k as keyof typeof typeScriptDefinition],
+        ),
+      );
     } else {
-      const outFile = `${outputFilename}.js`;
-      const outFileDefinitions = `${outputFilename}.d.ts`;
-      const jsDefinition = TranslateGraphQL.javascript(schemaFileContents, env, host);
-
-      writeFileRecursive(pathToFile, outFile, jsDefinition.code);
-      writeFileRecursive(pathToFile, outFileDefinitions, jsDefinition.typings);
+      const jsDefinition = TranslateGraphQL.javascriptSplit(schemaFileContents, env, host);
+      writeFileRecursive(path.join(pathToFile, 'zeus'), `index.js`, jsDefinition.index);
+      writeFileRecursive(path.join(pathToFile, 'zeus'), `index.d.ts`, jsDefinition['index.d']);
     }
   };
 }

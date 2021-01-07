@@ -3,6 +3,7 @@ export * from './ScalarResolver';
 export * from './TypesPropsResolver';
 export * from './ZeusSelect';
 export * from './fullChainConstruct';
+export * from './fullSubscriptionConstruct';
 export * from './inspectVariables';
 export * from './isArrayFunction';
 export * from './models';

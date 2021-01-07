@@ -1,131 +1,6 @@
-/* tslint:disable */
 /* eslint-disable */
 
-export const AllTypesProps = {
-	Query:{
-		cardById:{
-			cardId:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		}
-	},
-	Card:{
-		attack:{
-			cardID:{
-				type:"String",
-				array:true,
-				arrayRequired:true,
-				required:true
-			}
-		}
-	},
-	createCard:{
-		skills:{
-			type:"SpecialSkills",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		description:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		Children:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
-		Attack:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		Defense:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
-		}
-	},
-	Mutation:{
-		addCard:{
-			card:{
-				type:"createCard",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		}
-	},
-	SpecialSkills: "enum"
-}
-
-export const ReturnTypes = {
-	Query:{
-		cardById:"Card",
-		drawCard:"Card",
-		drawChangeCard:"ChangeCard",
-		listCards:"Card",
-		myStacks:"CardStack",
-		nameables:"Nameable"
-	},
-	ChangeCard:{
-		"...on SpecialCard":"SpecialCard",
-		"...on EffectCard":"EffectCard"
-	},
-	Card:{
-		Attack:"Int",
-		Children:"Int",
-		Defense:"Int",
-		attack:"Card",
-		cardImage:"S3Object",
-		description:"String",
-		id:"ID",
-		image:"String",
-		name:"String",
-		skills:"SpecialSkills"
-	},
-	S3Object:{
-		bucket:"String",
-		key:"String",
-		region:"String"
-	},
-	SpecialCard:{
-		effect:"String",
-		name:"String"
-	},
-	CardStack:{
-		cards:"Card",
-		name:"String"
-	},
-	Mutation:{
-		addCard:"Card"
-	},
-	Nameable:{
-		"...on Card": "Card",
-		"...on SpecialCard": "SpecialCard",
-		"...on CardStack": "CardStack",
-		"...on EffectCard": "EffectCard",
-		name:"String"
-	},
-	EffectCard:{
-		effectSize:"Float",
-		name:"String"
-	}
-}
+import { AllTypesProps, ReturnTypes } from './const';
 
 export class GraphQLError extends Error {
     constructor(response) {
@@ -341,13 +216,34 @@ const inspectVariables = (query) => {
 };
 
 
-const queryConstruct = (t, tName) => (o) => `${t.toLowerCase()}${inspectVariables(buildQuery(tName, o))}`;  
+export const queryConstruct = (t, tName) => (o) => `${t.toLowerCase()}${inspectVariables(buildQuery(tName, o))}`;  
 
 
 const fullChainConstruct = (fn) => (t,tName) => (o, variables) => fn(queryConstruct(t, tName)(o), variables).then(r => { 
   seekForAliases(r)
   return r
 });
+
+export const fullChainConstructor = (
+  fn,
+  operation,
+  key,
+) =>
+  ((o, variables) => fullChainConstruct(fn)(operation, key)(o, variables))
+
+
+const fullSubscriptionConstruct = (fn) => (
+  t,
+  tName,
+) => (o, variables) =>
+  fn(queryConstruct(t, tName)(o), variables);
+  
+export const fullSubscriptionConstructor = (
+  fn,
+  operation,
+  key,
+) =>
+  ((o, variables) => fullSubscriptionConstruct(fn)(operation, key)(o, variables))
 
 
 const seekForAliases = (o) => {
@@ -403,7 +299,7 @@ const handleFetchResponse = response => {
   return response.json();
 };
 
-const apiFetch = (options) => (query, variables = {}) => {
+export const apiFetch = (options) => (query, variables = {}) => {
     let fetchFunction;
     let queryString = query;
     let fetchOptions = options[1] || {};
@@ -445,27 +341,53 @@ const apiFetch = (options) => (query, variables = {}) => {
         return response.data;
       });
   };
+
+export const apiSubscription = (options) => (
+    query,
+    variables,
+  ) => {
+    try {
+      const WebSocket = require('ws')
+      const queryString = options[0] + '?query=' + encodeURIComponent(query);
+      const wsString = queryString.replace('http', 'ws');
+      const host = (options.length > 1 && options[1]?.websocket?.[0]) || wsString;
+      const webSocketOptions = options[1]?.websocket || [host];
+      const ws = new WebSocket(...webSocketOptions);
+      return {
+        ws,
+        on: (e) => {
+          ws.onmessage = (event) => {
+            const data = event.data?.data;
+            if (data) {
+              seekForAliases(data);
+            }
+            return e(data);
+          };
+        },
+        off: (e) => {
+          ws.onclose = e;
+        },
+        error: (e) => {
+          ws.onerror = e;
+        },
+        open: (e) => {
+          ws.onopen = e;
+        },
+      };
+    } catch {
+      throw new Error('No websockets implemented. Install ws or switch to browser');
+    }
+  };
+
   
 export const Thunder = (fn) => ({
-  query: ((o, variables) =>
-      fullChainConstruct(fn)('query', 'Query')(o, variables).then(
-        (response) => response
-      )),
-mutation: ((o, variables) =>
-      fullChainConstruct(fn)('mutation', 'Mutation')(o, variables).then(
-        (response) => response
-      ))
+  query: fullChainConstructor(fn,'query', 'Query'),
+mutation: fullChainConstructor(fn,'mutation', 'Mutation')
 });
 
 export const Chain = (...options) => ({
-  query: (o, variables) =>
-    fullChainConstruct(apiFetch(options))('query', 'Query')(o, variables).then(
-      (response) => response
-    ),
-mutation: (o, variables) =>
-    fullChainConstruct(apiFetch(options))('mutation', 'Mutation')(o, variables).then(
-      (response) => response
-    )
+  query: fullChainConstructor(apiFetch(options),'query', 'Query'),
+mutation: fullChainConstructor(apiFetch(options),'mutation', 'Mutation')
 });
 export const Zeus = {
   query: (o) => queryConstruct('query', 'Query')(o),

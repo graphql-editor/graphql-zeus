@@ -27,12 +27,6 @@ zeus [path] [output_path] [options]
       'Additional header flag. You can also pass multiple headers like this -h myheader:123123 -h myheader2:321321',
     string: true,
   })
-  .option('output', {
-    alias: 'o',
-    describe: 'Output file name. Default otput files will name graphql-zeus.* ',
-    default: 'graphql-zeus',
-    string: true,
-  })
   .option('graphql', {
     alias: 'g',
     describe: 'Download and save schema also. Path where .graphql schema file should be put. ',

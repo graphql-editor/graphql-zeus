@@ -1,4 +1,4 @@
-import { Gql, Zeus, Thunder, Selectors, resolverFor } from './graphql-zeus';
+import { Gql, Zeus, Thunder, Selectors, resolverFor } from './zeus';
 import chalk from 'chalk';
 import fetch from 'node-fetch';
 // This will return Card object with ID only

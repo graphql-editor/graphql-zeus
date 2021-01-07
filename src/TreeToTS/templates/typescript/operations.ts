@@ -1,22 +1,20 @@
 import { OperationName, ResolvedOperations } from 'TreeToTS';
 import { OperationType, Environment } from '@/Models';
 import { VALUETYPES } from '../resolveValueTypes';
-import { constantTypesTypescript, graphqlErrorTypeScript, typescriptFunctions } from './';
 import { TYPES } from '../returnedTypes';
 
 const generateOperationThunder = (t: OperationName, ot: OperationType): string =>
-  `${ot}: ((o: any, variables) =>
-    fullChainConstruct(fn)('${ot}', '${t.name}')(o, variables).then(
-      (response: any) => response
-    )) as OperationToGraphQL<${VALUETYPES}["${t.name}"],${TYPES}["${t.name}"]>`;
+  `${ot}: fullChainConstructor(fn,'${ot}', '${t.name}')`;
+const generateOperationThunderSubscription = (t: OperationName, ot: OperationType): string =>
+  `${ot}: fullSubscriptionConstructor(subscriptionFn,'${ot}', '${t.name}')`;
 
 const generateOperationChaining = (t: OperationName, ot: OperationType): string =>
-  `${ot}: ((o: any, variables) =>
-    fullChainConstruct(apiFetch(options))('${ot}', '${t.name}')(o, variables).then(
-      (response: any) => response
-    )) as OperationToGraphQL<${VALUETYPES}["${t.name}"],${TYPES}["${t.name}"]>`;
+  `${ot}: fullChainConstructor(apiFetch(options),'${ot}', '${t.name}')`;
 
-const generateOperationsThunder = ({ query, mutation, subscription }: Partial<ResolvedOperations>): string[] => {
+const generateOperationChainingSubscription = (t: OperationName, ot: OperationType): string =>
+  `${ot}: fullSubscriptionConstructor(apiSubscription(options),'${ot}', '${t.name}')`;
+
+export const generateOperationsThunder = ({ query, mutation, subscription }: Partial<ResolvedOperations>): string[] => {
   const allOps: string[] = [];
   if (query?.operationName?.name && query.operations.length) {
     allOps.push(generateOperationThunder(query.operationName, OperationType.query));
@@ -25,12 +23,16 @@ const generateOperationsThunder = ({ query, mutation, subscription }: Partial<Re
     allOps.push(generateOperationThunder(mutation.operationName, OperationType.mutation));
   }
   if (subscription?.operationName?.name && subscription.operations.length) {
-    allOps.push(generateOperationThunder(subscription.operationName, OperationType.subscription));
+    allOps.push(generateOperationThunderSubscription(subscription.operationName, OperationType.subscription));
   }
   return allOps;
 };
 
-const generateOperationsChaining = ({ query, mutation, subscription }: Partial<ResolvedOperations>): string[] => {
+export const generateOperationsChaining = ({
+  query,
+  mutation,
+  subscription,
+}: Partial<ResolvedOperations>): string[] => {
   const allOps: string[] = [];
   if (query?.operationName?.name && query.operations.length) {
     allOps.push(generateOperationChaining(query.operationName, OperationType.query));
@@ -39,7 +41,7 @@ const generateOperationsChaining = ({ query, mutation, subscription }: Partial<R
     allOps.push(generateOperationChaining(mutation.operationName, OperationType.mutation));
   }
   if (subscription?.operationName?.name && subscription.operations.length) {
-    allOps.push(generateOperationChaining(subscription.operationName, OperationType.subscription));
+    allOps.push(generateOperationChainingSubscription(subscription.operationName, OperationType.subscription));
   }
   return allOps;
 };
@@ -99,15 +101,11 @@ const generateOperationsCastTypeScript = ({ query, mutation, subscription }: Par
 };
 
 export const bodyTypeScript = (env: Environment, resolvedOperations: ResolvedOperations): string => `
-${graphqlErrorTypeScript}
-${constantTypesTypescript}
-${typescriptFunctions(env)}
-
-export const Thunder = (fn: FetchFunction) => ({
+export const Thunder = (fn: FetchFunction, subscriptionFn: SubscriptionFunction) => ({
   ${generateOperationsThunder(resolvedOperations).join(',\n')}
 });
 
-export const Chain = (...options: fetchOptions) => ({
+export const Chain = (...options: chainOptions) => ({
   ${generateOperationsChaining(resolvedOperations).join(',\n')}
 });
 export const Zeus = {

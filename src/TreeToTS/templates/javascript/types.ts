@@ -104,7 +104,7 @@ export declare function Thunder(
 }
 
 export declare function Chain(
-  ...options: fetchOptions
+  ...options: chainOptions
 ):{
   ${generateOperationsJavascriptDefinitionsChaining(operationsBody)}
 }

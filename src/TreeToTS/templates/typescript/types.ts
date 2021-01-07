@@ -16,7 +16,7 @@ type WithTypeNameValue<T> = T & {
 type AliasType<T> = WithTypeNameValue<T> & {
   __alias?: Record<string, WithTypeNameValue<T>>;
 };
-interface GraphQLResponse {
+export interface GraphQLResponse {
   data?: Record<string, any>;
   errors?: Array<{
     message: string;
@@ -64,11 +64,35 @@ type InputType<SRC, DST> = IsPayLoad<DST> extends { __alias: infer R }
 type Func<P extends any[], R> = (...args: P) => R;
 type AnyFunc = Func<any, any>;
 export type ArgsType<F extends AnyFunc> = F extends Func<infer P, any> ? P : never;
-type OperationToGraphQL<V, T> = <Z extends V>(o: Z | V, variables?: Record<string, any>) => Promise<InputType<T, Z>>;
-type CastToGraphQL<V, T> = (resultOfYourQuery: any) => <Z extends V>(o: Z | V) => InputType<T, Z>;
-type SelectionFunction<V> = <T>(t: T | V) => T;
-type fetchOptions = ArgsType<typeof fetch>;
-type FetchFunction = (query: string, variables?: Record<string, any>) => Promise<any>;
+export type OperationToGraphQL<V, T> = <Z extends V>(o: Z | V, variables?: Record<string, any>) => Promise<InputType<T, Z>>;
+export type SubscriptionToGraphQL<V, T> = <Z extends V>(
+  o: Z | V,
+  variables?: Record<string, any>,
+) => {
+  on: (fn: (args: InputType<T, Z>) => void) => void;
+  off: (e: { data?: InputType<T, Z>; code?: number; reason?: string; message?: string }) => void;
+  error: (e: { data?: InputType<T, Z>; message?: string }) => void;
+  open: () => void;
+};
+export type CastToGraphQL<V, T> = (resultOfYourQuery: any) => <Z extends V>(o: Z | V) => InputType<T, Z>;
+export type SelectionFunction<V> = <T>(t: T | V) => T;
+export type fetchOptions = ArgsType<typeof fetch>;
+type websocketOptions = typeof WebSocket extends new (
+  ...args: infer R
+) => WebSocket
+  ? R
+  : never;
+export type chainOptions =
+  | [fetchOptions[0], fetchOptions[1] & {websocket: websocketOptions}]
+  | [fetchOptions[0]];
+export type FetchFunction = (
+  query: string,
+  variables?: Record<string, any>,
+) => Promise<any>;
+export type SubscriptionFunction = (
+  query: string,
+  variables?: Record<string, any>,
+) => void;
 type NotUndefined<T> = T extends undefined ? never : T;
 export type ResolverType<F> = NotUndefined<F extends [infer ARGS, any] ? ARGS : undefined>;
 `;
