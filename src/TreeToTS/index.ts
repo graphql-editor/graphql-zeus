@@ -171,6 +171,6 @@ export * from './builtInFunctions';`,
   }
   static resolveTree(tree: ParserTree, env: Environment = 'browser', host?: string) {
     const t = TreeToTS.resolveTreeSplit(tree, env, host);
-    return TreeToTS.resolveBasisHeader().concat(t.builtInFunctions).concat(t.typings).concat(t.index);
+    return TreeToTS.resolveBasisHeader().concat(t.const).concat(t.builtInFunctions).concat(t.typings).concat(t.index);
   }
 }
