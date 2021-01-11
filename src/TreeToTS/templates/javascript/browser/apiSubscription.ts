@@ -13,11 +13,14 @@ export const apiSubscription = (options) => (
         ws,
         on: (e) => {
           ws.onmessage = (event) => {
-            const data = event.data?.data;
-            if (data) {
-              seekForAliases(data);
+            if(event.data){
+              const parsed = JSON.parse(event.data)
+              const data = parsed.data
+              if (data) {
+                seekForAliases(data);
+              }
+              return e(data);
             }
-            return e(data);
           };
         },
         off: (e) => {
