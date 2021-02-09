@@ -3,6 +3,8 @@ import * as path from 'path';
 import { Environment } from '@/Models';
 import { TranslateGraphQL } from '@/TranslateGraphQL';
 import { Utils } from '@/Utils';
+import { TreeToJSONSchema } from '@/TreeToJSONSchema';
+import { Parser } from '@/Parser';
 
 /**
  * basic yargs interface
@@ -21,6 +23,7 @@ interface CliArgs extends Yargs {
   typescript?: boolean;
   node?: boolean;
   graphql?: string;
+  jsonSchema?: string;
 }
 /**
  * Main class for controlling CLI
@@ -52,6 +55,17 @@ export class CLI {
       const schemaFile = path.basename(schemaPath);
 
       writeFileRecursive(pathToSchema, schemaFile, schemaFileContents);
+    }
+    if (args.jsonSchema) {
+      const schemaPath = args.jsonSchema.endsWith('.json')
+        ? args.jsonSchema
+        : path.join(args.jsonSchema, 'schema.json');
+
+      const pathToSchema = path.dirname(schemaPath);
+      const schemaFile = path.basename(schemaPath);
+
+      const content = TreeToJSONSchema.parse(Parser.parse(schemaFileContents));
+      writeFileRecursive(pathToSchema, schemaFile, JSON.stringify(content, null, 4));
     }
     if (args.typescript) {
       const typeScriptDefinition = TranslateGraphQL.typescriptSplit(schemaFileContents, env, host);

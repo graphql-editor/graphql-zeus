@@ -32,5 +32,11 @@ zeus [path] [output_path] [options]
     describe: 'Download and save schema also. Path where .graphql schema file should be put. ',
     string: true,
   })
+  .option('jsonSchema', {
+    alias: 'j',
+    describe:
+      'Generate JSON Schema to create forms from inputs and type fields with args. Path where .json schema file should be put. ',
+    string: true,
+  })
   .demandCommand(1).argv;
 CLI.execute(args);
