@@ -12,7 +12,7 @@ describe('Thunder tests', () => {
   it('TypeScript: Selectors', () => {
     const tree = Parser.parseAddExtensions(schema);
     const typeScriptCode = TreeToTS.resolveTree(tree);
-    expect(typeScriptCode).toContain(`Selectors = {`);
+    expect(typeScriptCode).toContain(`Selectors: SelectorsRootType = {`);
     expect(typeScriptCode).toContain(`query: ZeusSelect<ValueTypes["Query"]>()`);
   });
   it('Javascript: Selectors', () => {
