@@ -357,11 +357,14 @@ export const apiSubscription = (options) => (
         ws,
         on: (e) => {
           ws.onmessage = (event) => {
-            const data = event.data?.data;
-            if (data) {
-              seekForAliases(data);
+            if(event.data){
+              const parsed = JSON.parse(event.data)
+              const data = parsed.data
+              if (data) {
+                seekForAliases(data);
+              }
+              return e(data);
             }
-            return e(data);
           };
         },
         off: (e) => {
@@ -382,24 +385,29 @@ export const apiSubscription = (options) => (
   
 export const Thunder = (fn) => ({
   query: fullChainConstructor(fn,'query', 'Query'),
-mutation: fullChainConstructor(fn,'mutation', 'Mutation')
+mutation: fullChainConstructor(fn,'mutation', 'Mutation'),
+subscription: fullSubscriptionConstructor(subscriptionFn,'subscription', 'Subscription')
 });
 
 export const Chain = (...options) => ({
   query: fullChainConstructor(apiFetch(options),'query', 'Query'),
-mutation: fullChainConstructor(apiFetch(options),'mutation', 'Mutation')
+mutation: fullChainConstructor(apiFetch(options),'mutation', 'Mutation'),
+subscription: fullSubscriptionConstructor(apiSubscription(options),'subscription', 'Subscription')
 });
 export const Zeus = {
   query: (o) => queryConstruct('query', 'Query')(o),
-mutation: (o) => queryConstruct('mutation', 'Mutation')(o)
+mutation: (o) => queryConstruct('mutation', 'Mutation')(o),
+subscription: (o) => queryConstruct('subscription', 'Subscription')(o)
 };
 export const Cast = {
   query: (o) => (b) => o,
-mutation: (o) => (b) => o
+mutation: (o) => (b) => o,
+subscription: (o) => (b) => o
 };
 export const Selectors = {
   query: ZeusSelect(),
-mutation: ZeusSelect()
+mutation: ZeusSelect(),
+subscription: ZeusSelect()
 };
     
 

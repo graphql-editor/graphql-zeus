@@ -1,6 +1,24 @@
 import chalk from 'chalk';
 import fetch from 'node-fetch';
-import { $, Gql, SpecialSkills, Thunder, Zeus } from './zeus';
+import { $, Gql, SpecialSkills, Thunder, Zeus, ZeusHook } from './zeus';
+
+export const useZeus = () => {
+  const drawACard = () => {
+    return Gql.query({
+      drawCard: {
+        name: true,
+        Attack: true,
+        Defense: true,
+        Children: true,
+        description: true,
+      },
+    });
+  };
+  return { drawACard };
+};
+
+type DrawCardResponse = ZeusHook<typeof useZeus, 'drawACard'>;
+
 const printQueryResult = (name: string, result: any) =>
   console.log(`${chalk.greenBright(name)} result:\n${chalk.cyan(JSON.stringify(result, null, 4))}\n\n`);
 const printGQLString = (name: string, result: string) =>
@@ -90,33 +108,6 @@ const run = async () => {
   });
   printQueryResult('drawChangeCard thunder', blalbaThunder.drawChangeCard);
 
-  // const { addCard: ZeusCard } = await chain.mutation({
-  //   addCard: [
-  //     {
-  //       card: {
-  //         Attack: 1,
-  //         Defense: 2,
-  //         description: "aa",
-  //         name: "SADSD",
-  //         skills: [SpecialSkills.FIRE],
-  //       },
-  //     },
-  //     {
-  //  __alias:{
-  //    otherAttack:{
-  //
-  // }
-  //  }
-  //       name: true,
-  //       Attack: true,
-  //       Defense: true,
-  //       description: true,
-  //     },
-  //   ],
-  // });
-  //
-  // The way it should be returned
-  // ZeusCard.__alias["myAlias"].Attack
   const { listCards: stack, drawCard: newCard, drawChangeCard } = await Gql.query({
     listCards: {
       name: true,
