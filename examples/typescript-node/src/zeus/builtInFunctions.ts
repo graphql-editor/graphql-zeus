@@ -1,220 +1,20 @@
-/* tslint:disable */
 /* eslint-disable */
 
-export type ValueTypes = {
-    ["NotMutation"]: AliasType<{
-add?: [{	name?:string},ValueTypes["Person"]],
-		__typename?: true
-}>;
-	["NotSubscription"]: AliasType<{
-	people?:ValueTypes["Person"],
-		__typename?: true
-}>;
-	["Person"]: AliasType<{
-	name?:true,
-		__typename?: true
-}>;
-	["Query"]: AliasType<{
-	people?:ValueTypes["Person"],
-		__typename?: true
-}>
-  }
-
-export type PartialObjects = {
-    ["NotMutation"]: {
-		__typename?: "NotMutation";
-			add?:PartialObjects["Person"]
-	},
-	["NotSubscription"]: {
-		__typename?: "NotSubscription";
-			people?:(PartialObjects["Person"] | undefined)[]
-	},
-	["Person"]: {
-		__typename?: "Person";
-			name?:string
-	},
-	["Query"]: {
-		__typename?: "Query";
-			people?:(PartialObjects["Person"] | undefined)[]
-	}
-  }
-
-export type NotMutation = {
-	__typename?: "NotMutation",
-	add?:Person
-}
-
-export type NotSubscription = {
-	__typename?: "NotSubscription",
-	people?:(Person | undefined)[]
-}
-
-export type Person = {
-	__typename?: "Person",
-	name?:string
-}
-
-export type Query = {
-	__typename?: "Query",
-	people?:(Person | undefined)[]
-}
-
-export const AllTypesProps: Record<string,any> = {
-	NotMutation:{
-		add:{
-			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		}
-	}
-}
-
-export const ReturnTypes: Record<string,any> = {
-	NotMutation:{
-		add:"Person"
-	},
-	NotSubscription:{
-		people:"Person"
-	},
-	Person:{
-		name:"String"
-	},
-	Query:{
-		people:"Person"
-	}
-}
-
-export class GraphQLError extends Error {
-    constructor(public response: GraphQLResponse) {
-      super("");
-      console.error(response);
-    }
-    toString() {
-      return "GraphQL Response Error";
-    }
-  }
-
-
-type Func<P extends any[], R> = (...args: P) => R;
-type AnyFunc = Func<any, any>;
-
-type WithTypeNameValue<T> = T & {
-  __typename?: true;
-};
-
-type AliasType<T> = WithTypeNameValue<T> & {
-  __alias?: Record<string, WithTypeNameValue<T>>;
-};
-
-type NotUndefined<T> = T extends undefined ? never : T;
-
-export type ResolverType<F> = NotUndefined<F extends [infer ARGS, any] ? ARGS : undefined>;
-
-export type ArgsType<F extends AnyFunc> = F extends Func<infer P, any> ? P : never;
-
-interface GraphQLResponse {
-  data?: Record<string, any>;
-  errors?: Array<{
-    message: string;
-  }>;
-}
-
-export type ValuesOf<T> = T[keyof T];
-
-export type MapResolve<SRC, DST> = SRC extends {
-    __interface: infer INTERFACE;
-    __resolve: Record<string, { __typename?: string }> & infer IMPLEMENTORS;
-  }
-  ?
-  ValuesOf<{
-    [k in (keyof SRC['__resolve'] & keyof DST)]: ({
-      [rk in (keyof SRC['__resolve'][k] & keyof DST[k])]: LastMapTypeSRCResolver<SRC['__resolve'][k][rk], DST[k][rk]>
-    } & {
-      __typename: SRC['__resolve'][k]['__typename']
-    })
-  }>
-  :
-  never;
-
-export type MapInterface<SRC, DST> = SRC extends {
-    __interface: infer INTERFACE;
-    __resolve: Record<string, { __typename?: string }> & infer IMPLEMENTORS;
-  }
-  ?
-  (MapResolve<SRC, DST> extends never ? {} : MapResolve<SRC, DST>) & {
-  [k in (keyof SRC['__interface'] & keyof DST)]: LastMapTypeSRCResolver<SRC['__interface'][k], DST[k]>
-} : never;
-
-export type ValueToUnion<T> = T extends {
-  __typename: infer R;
-}
-  ? {
-      [P in keyof Omit<T, '__typename'>]: T[P] & {
-        __typename: R;
-      };
-    }
-  : T;
-
-export type ObjectToUnion<T> = {
-  [P in keyof T]: T[P];
-}[keyof T];
-
-type Anify<T> = { [P in keyof T]?: any };
-
-
-type LastMapTypeSRCResolver<SRC, DST> = SRC extends undefined
-  ? undefined
-  : SRC extends Array<infer AR>
-  ? LastMapTypeSRCResolver<AR, DST>[]
-  : SRC extends { __interface: any; __resolve: any }
-  ? MapInterface<SRC, DST>
-  : SRC extends { __union: any; __resolve: infer RESOLVE }
-  ? ObjectToUnion<MapType<RESOLVE, ValueToUnion<DST>>>
-  : DST extends boolean
-  ? SRC
-  : MapType<SRC, DST>;
-
-export type MapType<SRC extends Anify<DST>, DST> = DST extends boolean
-  ? SRC
-  : DST extends {
-      __alias: any;
-    }
-  ? {
-      [A in keyof DST["__alias"]]: Required<SRC> extends Anify<
-        DST["__alias"][A]
-      >
-        ? MapType<Required<SRC>, DST["__alias"][A]>
-        : never;
-    } &
-      {
-        [Key in keyof Omit<DST, "__alias">]: DST[Key] extends [
-          any,
-          infer PAYLOAD
-        ]
-          ? LastMapTypeSRCResolver<SRC[Key], PAYLOAD>
-          : LastMapTypeSRCResolver<SRC[Key], DST[Key]>;
-      }
-  : {
-      [Key in keyof DST]: DST[Key] extends [any, infer PAYLOAD]
-        ? LastMapTypeSRCResolver<SRC[Key], PAYLOAD>
-        : LastMapTypeSRCResolver<SRC[Key], DST[Key]>;
-    };
-
-type OperationToGraphQL<V, T> = <Z extends V>(o: Z | V, variables?: Record<string, any>) => Promise<MapType<T, Z>>;
-
-type CastToGraphQL<V, T> = (
-  resultOfYourQuery: any
-) => <Z extends V>(o: Z | V) => MapType<T, Z>;
-
-type fetchOptions = ArgsType<typeof fetch>;
-
-export type SelectionFunction<V> = <T>(t: T | V) => T;
-type FetchFunction = (query: string, variables?: Record<string, any>) => Promise<any>;
-
-
+import { AllTypesProps, ReturnTypes } from './const';
+import {
+  SelectionFunction,
+  FetchFunction,
+  SubscriptionFunction,
+  OperationToGraphQL,
+  SubscriptionToGraphQL,
+  GraphQLResponse,
+  fetchOptions,
+  chainOptions,
+  GraphQLError,
+  GraphQLTypes,
+  ModelTypes,
+  ValueTypes,
+} from './typings';
 
 export const ZeusSelect = <T>() => ((t: any) => t) as SelectionFunction<T>;
 
@@ -425,7 +225,7 @@ const inspectVariables = (query: string) => {
 };
 
 
-const queryConstruct = (t: 'query' | 'mutation' | 'subscription', tName: string) => (o: Record<any, any>) =>
+export const queryConstruct = (t: 'query' | 'mutation' | 'subscription', tName: string) => (o: Record<any, any>) =>
   `${t.toLowerCase()}${inspectVariables(buildQuery(tName, o))}`;
   
 
@@ -436,6 +236,33 @@ const fullChainConstruct = (fn: FetchFunction) => (t: 'query' | 'mutation' | 'su
   seekForAliases(r)
   return r
 });
+
+export const fullChainConstructor = <F extends FetchFunction, R extends keyof ValueTypes>(
+  fn: F,
+  operation: 'query' | 'mutation' | 'subscription',
+  key: R,
+) =>
+  ((o, variables) => fullChainConstruct(fn)(operation, key)(o as any, variables)) as OperationToGraphQL<
+    ValueTypes[R],
+    GraphQLTypes[R]
+  >;
+
+
+const fullSubscriptionConstruct = (fn: SubscriptionFunction) => (
+  t: 'query' | 'mutation' | 'subscription',
+  tName: string,
+) => (o: Record<any, any>, variables?: Record<string, any>) =>
+  fn(queryConstruct(t, tName)(o), variables);
+
+export const fullSubscriptionConstructor = <F extends SubscriptionFunction, R extends keyof ValueTypes>(
+  fn: F,
+  operation: 'query' | 'mutation' | 'subscription',
+  key: R,
+) =>
+  ((o, variables) => fullSubscriptionConstruct(fn)(operation, key)(o as any, variables)) as SubscriptionToGraphQL<
+    ValueTypes[R],
+    GraphQLTypes[R]
+  >;
 
 
 const seekForAliases = (response: any) => {
@@ -471,6 +298,20 @@ const seekForAliases = (response: any) => {
 export const $ = (t: TemplateStringsArray): any => `ZEUS_VAR$${t.join('')}`;
 
 
+export const resolverFor = <
+  T extends keyof ValueTypes,
+  Z extends keyof ValueTypes[T],
+  Y extends (
+    args: Required<ValueTypes[T]>[Z] extends [infer Input, any] ? Input : any,
+    source: any,
+  ) => Z extends keyof ModelTypes[T] ? ModelTypes[T][Z] | Promise<ModelTypes[T][Z]> : any
+>(
+  type: T,
+  field: Z,
+  fn: Y,
+) => fn as (args?: any,source?: any) => any;
+
+
 const handleFetchResponse = (
   response: Parameters<Extract<Parameters<ReturnType<typeof fetch>['then']>[0], Function>>[0]
 ): Promise<GraphQLResponse> => {
@@ -485,7 +326,7 @@ const handleFetchResponse = (
   return response.json();
 };
 
-const apiFetch = (options: fetchOptions) => (query: string, variables: Record<string, any> = {}) => {
+export const apiFetch = (options: fetchOptions) => (query: string, variables: Record<string, any> = {}) => {
     let fetchFunction;
     let queryString = query;
     let fetchOptions = options[1] || {};
@@ -527,60 +368,43 @@ const apiFetch = (options: fetchOptions) => (query: string, variables: Record<st
   };
   
 
+export const apiSubscription = (options: chainOptions) => (
+    query: string,
+    variables: Record<string, any> = {},
+  ) => {
+    try {
+      const WebSocket =  require('ws');
+      const queryString = options[0] + '?query=' + encodeURIComponent(query);
+      const wsString = queryString.replace('http', 'ws');
+      const host = (options.length > 1 && options[1]?.websocket?.[0]) || wsString;
+      const webSocketOptions = options[1]?.websocket || [host];
+      const ws = new WebSocket(...webSocketOptions);
+      return {
+        ws,
+        on: (e: (args: any) => void) => {
+          ws.onmessage = (event:any) => {
+            if(event.data){
+              const parsed = JSON.parse(event.data)
+              const data = parsed.data
+              if (data) {
+                seekForAliases(data);
+              }
+              return e(data);
+            }
+          };
+        },
+        off: (e: (args: any) => void) => {
+          ws.onclose = e;
+        },
+        error: (e: (args: any) => void) => {
+          ws.onerror = e;
+        },
+        open: (e: () => void) => {
+          ws.onopen = e;
+        },
+      };
+    } catch {
+      throw new Error('No websockets implemented. Please install ws');
+    }
+  };
 
-export const Thunder = (fn: FetchFunction) => ({
-  query: ((o: any, variables) =>
-    fullChainConstruct(fn)('query', 'Query')(o, variables).then(
-      (response: any) => response
-    )) as OperationToGraphQL<ValueTypes["Query"],Query>,
-mutation: ((o: any, variables) =>
-    fullChainConstruct(fn)('mutation', 'NotMutation')(o, variables).then(
-      (response: any) => response
-    )) as OperationToGraphQL<ValueTypes["NotMutation"],NotMutation>,
-subscription: ((o: any, variables) =>
-    fullChainConstruct(fn)('subscription', 'NotSubscription')(o, variables).then(
-      (response: any) => response
-    )) as OperationToGraphQL<ValueTypes["NotSubscription"],NotSubscription>
-});
-
-export const Chain = (...options: fetchOptions) => ({
-  query: ((o: any, variables) =>
-    fullChainConstruct(apiFetch(options))('query', 'Query')(o, variables).then(
-      (response: any) => response
-    )) as OperationToGraphQL<ValueTypes["Query"],Query>,
-mutation: ((o: any, variables) =>
-    fullChainConstruct(apiFetch(options))('mutation', 'NotMutation')(o, variables).then(
-      (response: any) => response
-    )) as OperationToGraphQL<ValueTypes["NotMutation"],NotMutation>,
-subscription: ((o: any, variables) =>
-    fullChainConstruct(apiFetch(options))('subscription', 'NotSubscription')(o, variables).then(
-      (response: any) => response
-    )) as OperationToGraphQL<ValueTypes["NotSubscription"],NotSubscription>
-});
-export const Zeus = {
-  query: (o:ValueTypes["Query"]) => queryConstruct('query', 'Query')(o),
-mutation: (o:ValueTypes["NotMutation"]) => queryConstruct('mutation', 'NotMutation')(o),
-subscription: (o:ValueTypes["NotSubscription"]) => queryConstruct('subscription', 'NotSubscription')(o)
-};
-export const Cast = {
-  query: ((o: any) => (_: any) => o) as CastToGraphQL<
-  ValueTypes["Query"],
-  Query
->,
-mutation: ((o: any) => (_: any) => o) as CastToGraphQL<
-  ValueTypes["NotMutation"],
-  NotMutation
->,
-subscription: ((o: any) => (_: any) => o) as CastToGraphQL<
-  ValueTypes["NotSubscription"],
-  NotSubscription
->
-};
-export const Selectors = {
-  query: ZeusSelect<ValueTypes["Query"]>(),
-mutation: ZeusSelect<ValueTypes["NotMutation"]>(),
-subscription: ZeusSelect<ValueTypes["NotSubscription"]>()
-};
-  
-
-export const Gql = Chain('https://faker.graphqleditor.com/a-team/custom-operations/graphql')

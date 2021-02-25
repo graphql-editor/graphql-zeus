@@ -1,6 +1,24 @@
 import chalk from 'chalk';
 import fetch from 'node-fetch';
-import { $, Gql, PartialObjects, SpecialSkills, Thunder, Zeus } from './graphql-zeus';
+import { $, Gql, SpecialSkills, Thunder, Zeus, ZeusHook } from './zeus';
+
+export const useZeus = () => {
+  const drawACard = () => {
+    return Gql.query({
+      drawCard: {
+        name: true,
+        Attack: true,
+        Defense: true,
+        Children: true,
+        description: true,
+      },
+    });
+  };
+  return { drawACard };
+};
+
+type DrawCardResponse = ZeusHook<typeof useZeus, 'drawACard'>;
+
 const printQueryResult = (name: string, result: any) =>
   console.log(`${chalk.greenBright(name)} result:\n${chalk.cyan(JSON.stringify(result, null, 4))}\n\n`);
 const printGQLString = (name: string, result: string) =>
@@ -18,13 +36,6 @@ const run = async () => {
         },
       },
       {
-        id: true,
-        description: true,
-        name: true,
-        Attack: true,
-        skills: true,
-        Children: true,
-        Defense: true,
         cardImage: {
           bucket: true,
           region: true,
@@ -33,10 +44,6 @@ const run = async () => {
       },
     ],
   });
-  const tryAssignToPlain: PartialObjects['Card'] = {
-    ...ZeusCard,
-  };
-  console.log(tryAssignToPlain.Attack);
   printQueryResult('ZeusCard', ZeusCard);
 
   const blalba = await Gql.query({
@@ -54,31 +61,36 @@ const run = async () => {
   printQueryResult('drawChangeCard', blalba.drawChangeCard);
 
   // Thunder example
-  const thunder = Thunder(async (query) => {
-    const response = await fetch('https://faker.graphqleditor.com/a-team/olympus/graphql', {
-      body: JSON.stringify({ query }),
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    if (!response.ok) {
-      return new Promise((resolve, reject) => {
-        response
-          .text()
-          .then((text) => {
-            try {
-              reject(JSON.parse(text));
-            } catch (err) {
-              reject(text);
-            }
-          })
-          .catch(reject);
+  const thunder = Thunder(
+    async (query) => {
+      const response = await fetch('https://faker.graphqleditor.com/a-team/olympus/graphql', {
+        body: JSON.stringify({ query }),
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
-    }
-    const json = await response.json();
-    return json;
-  });
+      if (!response.ok) {
+        return new Promise((resolve, reject) => {
+          response
+            .text()
+            .then((text) => {
+              try {
+                reject(JSON.parse(text));
+              } catch (err) {
+                reject(text);
+              }
+            })
+            .catch(reject);
+        });
+      }
+      const json = await response.json();
+      return json;
+    },
+    (query) => {
+      console.log(query);
+    },
+  );
   const blalbaThunder = await thunder.query({
     drawCard: {
       Attack: true,
@@ -96,34 +108,7 @@ const run = async () => {
   });
   printQueryResult('drawChangeCard thunder', blalbaThunder.drawChangeCard);
 
-  // const { addCard: ZeusCard } = await chain.mutation({
-  //   addCard: [
-  //     {
-  //       card: {
-  //         Attack: 1,
-  //         Defense: 2,
-  //         description: "aa",
-  //         name: "SADSD",
-  //         skills: [SpecialSkills.FIRE],
-  //       },
-  //     },
-  //     {
-  //  __alias:{
-  //    otherAttack:{
-  //
-  // }
-  //  }
-  //       name: true,
-  //       Attack: true,
-  //       Defense: true,
-  //       description: true,
-  //     },
-  //   ],
-  // });
-  //
-  // The way it should be returned
-  // ZeusCard.__alias["myAlias"].Attack
-  const { listCards: stack, drawCard: newCard } = await Gql.query({
+  const { listCards: stack, drawCard: newCard, drawChangeCard } = await Gql.query({
     listCards: {
       name: true,
       cardImage: {
@@ -133,10 +118,19 @@ const run = async () => {
     drawCard: {
       Attack: true,
     },
+    drawChangeCard: {
+      '...on SpecialCard': {
+        name: true,
+      },
+      '...on EffectCard': {
+        effectSize: true,
+      },
+    },
   });
 
   printQueryResult('stack', stack);
   printQueryResult('newCard', newCard);
+  printQueryResult('changeCard', drawChangeCard);
 
   const aliasedQuery = Zeus.query({
     __alias: {
@@ -236,10 +230,21 @@ const run = async () => {
     nameables: {
       __typename: true,
       name: true,
+      '...on Card': {
+        Attack: true,
+      },
+      '...on SpecialCard': {
+        effect: true,
+      },
+      '...on CardStack': {
+        cards: {
+          name: true,
+        },
+      },
     },
   });
-  printQueryResult('interfaceTest', interfaceTest);
 
+  printQueryResult('interfaceTest', interfaceTest);
   // Variable test
   const test = await Gql.mutation(
     {

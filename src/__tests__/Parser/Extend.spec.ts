@@ -83,7 +83,6 @@ describe('Extend tests on parser', () => {
         }
     `;
     const extendedSchema = TreeToGraphQL.parse(Parser.parseAddExtensions(schema));
-    console.log(extendedSchema);
     expect(extendedSchema).toContain('type Person @model');
     expect(extendedSchema).toContain('name: String');
     expect(extendedSchema).toContain('age: Int');

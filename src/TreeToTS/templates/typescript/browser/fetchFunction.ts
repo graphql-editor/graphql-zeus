@@ -13,7 +13,7 @@ const handleFetchResponse = (
   return response.json();
 };
 
-const apiFetch = (options: fetchOptions) => (query: string, variables: Record<string, any> = {}) => {
+export const apiFetch = (options: fetchOptions) => (query: string, variables: Record<string, any> = {}) => {
     let fetchFunction = fetch;
     let queryString = query;
     let fetchOptions = options[1] || {};

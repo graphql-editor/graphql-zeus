@@ -49,6 +49,43 @@ describe('Schema base operations', () => {
     };
     expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
   });
+  test(`query should not exist`, () => {
+    const schema = `type Query{
+          status: ${ScalarTypes.String}
+      }
+      `;
+    const tree = Parser.parse(schema);
+    const treeMock: ParserTree = {
+      nodes: [
+        {
+          name: 'Query',
+          type: {
+            name: TypeDefinitionDisplayStrings.type,
+          },
+          data: {
+            type: TypeDefinition.ObjectTypeDefinition,
+          },
+          interfaces: [],
+          directives: [],
+          args: [
+            {
+              name: 'status',
+              type: {
+                name: ScalarTypes.String,
+              },
+              data: {
+                type: TypeSystemDefinition.FieldDefinition,
+              },
+              directives: [],
+              args: [],
+            },
+          ],
+        },
+      ],
+    };
+    console.log(JSON.stringify(tree, null, 4));
+    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+  });
   test(`empty query`, () => {
     const schema = `
       type Query

@@ -1,50 +1,7 @@
 import { OperationName, ResolvedOperations } from 'TreeToTS';
 import { Environment, OperationType } from '@/Models';
 import { graphqlErrorJavascript, javascriptFunctions } from './';
-
-const generateOperationChainingJavascript = (ot: OperationType, on: OperationName): string =>
-  `${ot}: (o, variables) =>
-    fullChainConstruct(apiFetch(options))('${ot}', '${on.name}')(o, variables).then(
-      (response) => response
-    )`;
-
-const generateOperationThunder = (t: OperationName, ot: OperationType): string =>
-  `${ot}: ((o, variables) =>
-      fullChainConstruct(fn)('${ot}', '${t.name}')(o, variables).then(
-        (response) => response
-      ))`;
-
-const generateOperationsThunderJavascript = ({
-  query,
-  mutation,
-  subscription,
-}: Partial<ResolvedOperations>): string[] => {
-  const allOps: string[] = [];
-  if (query?.operationName?.name && query.operations.length) {
-    allOps.push(generateOperationThunder(query.operationName, OperationType.query));
-  }
-  if (mutation?.operationName?.name && mutation.operations.length) {
-    allOps.push(generateOperationThunder(mutation.operationName, OperationType.mutation));
-  }
-  if (subscription?.operationName?.name && subscription.operations.length) {
-    allOps.push(generateOperationThunder(subscription.operationName, OperationType.subscription));
-  }
-  return allOps;
-};
-
-const generateOperationsChainingJavascipt = ({ query, mutation, subscription }: ResolvedOperations): string[] => {
-  const allOps: string[] = [];
-  if (query?.operationName?.name && query.operations.length) {
-    allOps.push(generateOperationChainingJavascript(OperationType.query, query.operationName));
-  }
-  if (mutation?.operationName?.name && mutation.operations.length) {
-    allOps.push(generateOperationChainingJavascript(OperationType.mutation, mutation.operationName));
-  }
-  if (subscription?.operationName?.name && subscription.operations.length) {
-    allOps.push(generateOperationChainingJavascript(OperationType.subscription, subscription.operationName));
-  }
-  return allOps;
-};
+import { generateOperationsChaining, generateOperationsThunder } from '@/TreeToTS/templates/typescript/operations';
 
 const generateOperationZeusJavascript = (ot: OperationType, on: OperationName): string =>
   `${ot}: (o) => queryConstruct('${ot}', '${on.name}')(o)`;
@@ -99,11 +56,11 @@ export const bodyJavascript = (env: Environment, resolvedOperations: ResolvedOpe
 ${graphqlErrorJavascript}
 ${javascriptFunctions(env)}
 export const Thunder = (fn) => ({
-  ${generateOperationsThunderJavascript(resolvedOperations).join(',\n')}
+  ${generateOperationsThunder(resolvedOperations).join(',\n')}
 });
 
 export const Chain = (...options) => ({
-  ${generateOperationsChainingJavascipt(resolvedOperations).join(',\n')}
+  ${generateOperationsChaining(resolvedOperations).join(',\n')}
 });
 export const Zeus = {
   ${generateOperationsZeusJavascipt(resolvedOperations).join(',\n')}

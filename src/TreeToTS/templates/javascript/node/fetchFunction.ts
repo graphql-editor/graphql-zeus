@@ -11,7 +11,7 @@ const handleFetchResponse = response => {
   return response.json();
 };
 
-const apiFetch = (options) => (query, variables = {}) => {
+export const apiFetch = (options) => (query, variables = {}) => {
     let fetchFunction;
     let queryString = query;
     let fetchOptions = options[1] || {};

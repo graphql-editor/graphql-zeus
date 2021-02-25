@@ -1,23 +1,19 @@
 {
   "compilerOptions": {
-    "sourceMap": true,
     "target": "es6",
     "module": "commonjs",
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "declaration": true,
-    "incremental": true,
     "removeComments": true,
     "noUnusedLocals": true,
     "strictNullChecks": true,
     "skipLibCheck": true,
     "strict": true,
-    "noEmit": true,
     "outDir": "./lib",
     "lib": ["es6", "es7", "esnext", "dom"],
     "rootDir": "./src",
     "baseUrl": "./src/",
-    "typeRoots": ["./node_modules/@types", "./types"],
     "paths": {
       "@/*": ["./*"]
     },
@@ -31,5 +27,5 @@
       }
     ]
   },
-  "exclude": ["lib", "node_modules", "docs", "generated", "examples"]
+  "exclude": ["lib", "node_modules", "docs", "**/__tests__", "generated", "examples", "**/*.spec.ts"]
 }

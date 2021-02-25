@@ -13,6 +13,8 @@ import {
   buildQueryFunction,
   fullChainConstructFunction,
   VariableFunction,
+  resolverForFunction,
+  fullSubscriptionConstruct,
 } from '@/TreeToTS/functions';
 
 export const typescriptFunctions = (env: Environment): string => `
@@ -27,7 +29,10 @@ ${buildQueryFunction.ts}
 ${inspectVariablesFunction.ts}
 ${queryConstructFunction.ts}  
 ${fullChainConstructFunction.ts}
+${fullSubscriptionConstruct.ts}
 ${seekForAliasesFunction.ts}
 ${VariableFunction.ts}
+${resolverForFunction.ts}
 ${require(`./${env}/fetchFunction`).default}
+${require(`./${env}/apiSubscription`).default}
 `;

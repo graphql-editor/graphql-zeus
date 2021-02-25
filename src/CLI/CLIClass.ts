@@ -3,27 +3,27 @@ import * as path from 'path';
 import { Environment } from '@/Models';
 import { TranslateGraphQL } from '@/TranslateGraphQL';
 import { Utils } from '@/Utils';
+import { TreeToJSONSchema } from '@/TreeToJSONSchema';
+import { Parser } from '@/Parser';
 
 /**
  * basic yargs interface
  */
 interface Yargs {
   [x: string]: unknown;
-  _: string[];
+  _: (string | number)[];
   $0: string;
 }
 
 /**
  * Interface for yargs arguments
  */
-interface Args extends Yargs {
+interface CliArgs extends Yargs {
   header?: string;
   typescript?: boolean;
   node?: boolean;
-  url?: string;
   graphql?: string;
-
-  output?: string;
+  jsonSchema?: string;
 }
 /**
  * Main class for controlling CLI
@@ -32,11 +32,10 @@ export class CLI {
   /**
    *  Execute yargs provided args
    */
-  static execute = async (args: Args): Promise<void> => {
+  static execute = async <T extends CliArgs>(args: T): Promise<void> => {
     const env: Environment = args.node ? 'node' : 'browser';
-    const outputFilename = args.output;
     let schemaFileContents = '';
-    const allArgs = args._;
+    const allArgs = args._ as string[];
     const schemaFile: string = allArgs[0];
     let host: string | undefined;
     if (schemaFile.startsWith('http://') || schemaFile.startsWith('https://')) {
@@ -57,17 +56,30 @@ export class CLI {
 
       writeFileRecursive(pathToSchema, schemaFile, schemaFileContents);
     }
-    if (args.typescript) {
-      const outFile = `${outputFilename}.ts`;
-      const typeScriptDefinition = TranslateGraphQL.typescript(schemaFileContents, env, host);
-      writeFileRecursive(pathToFile, outFile, typeScriptDefinition.code);
-    } else {
-      const outFile = `${outputFilename}.js`;
-      const outFileDefinitions = `${outputFilename}.d.ts`;
-      const jsDefinition = TranslateGraphQL.javascript(schemaFileContents, env, host);
+    if (args.jsonSchema) {
+      const schemaPath = args.jsonSchema.endsWith('.json')
+        ? args.jsonSchema
+        : path.join(args.jsonSchema, 'schema.json');
 
-      writeFileRecursive(pathToFile, outFile, jsDefinition.code);
-      writeFileRecursive(pathToFile, outFileDefinitions, jsDefinition.typings);
+      const pathToSchema = path.dirname(schemaPath);
+      const schemaFile = path.basename(schemaPath);
+
+      const content = TreeToJSONSchema.parse(Parser.parse(schemaFileContents));
+      writeFileRecursive(pathToSchema, schemaFile, JSON.stringify(content, null, 4));
+    }
+    if (args.typescript) {
+      const typeScriptDefinition = TranslateGraphQL.typescriptSplit(schemaFileContents, env, host);
+      Object.keys(typeScriptDefinition).forEach((k) =>
+        writeFileRecursive(
+          path.join(pathToFile, 'zeus'),
+          `${k}.ts`,
+          typeScriptDefinition[k as keyof typeof typeScriptDefinition],
+        ),
+      );
+    } else {
+      const jsDefinition = TranslateGraphQL.javascriptSplit(schemaFileContents, env, host);
+      writeFileRecursive(path.join(pathToFile, 'zeus'), `index.js`, jsDefinition.index);
+      writeFileRecursive(path.join(pathToFile, 'zeus'), `index.d.ts`, jsDefinition['index.d']);
     }
   };
 }

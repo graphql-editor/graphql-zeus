@@ -6,21 +6,21 @@ describe('TypeDefintion declarations tests on TypeScript type generator', () => 
     const schema = 'type Person';
     const tree = Parser.parse(schema);
     const typeScriptCode = TreeToTS.resolveTree(tree);
-    const mockType = `type Person`;
+    const mockType = `["Person"]`;
     expect(typeScriptCode).toContain(mockType);
   });
   test('InterfaceTypeDefinition - interface keyword', () => {
     const schema = 'interface Person';
     const tree = Parser.parse(schema);
     const typeScriptCode = TreeToTS.resolveTree(tree);
-    const mockType = `type Person`;
+    const mockType = `["Person"]`;
     expect(typeScriptCode).toContain(mockType);
   });
   test('InputObjectTypeDefinition - input keyword', () => {
     const schema = 'input Person';
     const tree = Parser.parse(schema);
     const typeScriptCode = TreeToTS.resolveTree(tree);
-    const mockType = `type Person`;
+    const mockType = `["Person"]`;
     expect(typeScriptCode).toContain(mockType);
   });
   test('EnumTypeDefinition - enum keyword', () => {
@@ -41,14 +41,14 @@ describe('TypeDefintion declarations tests on TypeScript type generator', () => 
     const schema = 'union Person';
     const tree = Parser.parse(schema);
     const typeScriptCode = TreeToTS.resolveTree(tree);
-    const mockType = `type Person`;
+    const mockType = `["Person"]`;
     expect(typeScriptCode).toContain(mockType);
   });
   test('ScalarTypeDefinition - scalar keyword', () => {
     const schema = 'scalar Person';
     const tree = Parser.parse(schema);
     const typeScriptCode = TreeToTS.resolveTree(tree);
-    const mockType = `type Person`;
+    const mockType = `["Person"]`;
     expect(typeScriptCode).toContain(mockType);
   });
 });

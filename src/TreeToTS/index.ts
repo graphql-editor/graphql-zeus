@@ -1,11 +1,16 @@
 import { Environment, OperationType, ParserField, ParserTree, TypeDefinition } from '../Models';
 import { bodyJavascript, generateOperationsJavascript } from './templates/javascript';
 import { resolveValueTypes } from './templates/resolveValueTypes';
-import { resolvePartialObjects } from './templates/returnedPartialObjects';
+import { resolveModelTypes } from './templates/returnedModelTypes';
 import { resolvePropTypeFromRoot } from './templates/returnedPropTypes';
 import { resolveReturnFromRoot } from './templates/returnedReturns';
-import { resolveTypeFromRoot } from './templates/returnedTypes';
-import { bodyTypeScript, constantTypesTypescript } from './templates/typescript';
+import { resolveInterfaces, resolveUnions, resolveTypes } from './templates/returnedTypes';
+import {
+  bodyTypeScript,
+  constantTypesTypescript,
+  graphqlErrorTypeScript,
+  typescriptFunctions,
+} from './templates/typescript';
 
 export interface OperationName {
   name: string;
@@ -23,12 +28,7 @@ export interface OperationDetails {
   operations: string[];
 }
 
-interface JSFilesOutput {
-  javascript: string;
-  definitions: string;
-}
-
-const disableLintersComments = ['tslint:disable', 'eslint-disable'];
+const disableLintersComments = ['eslint-disable'];
 /**
  * Class Responsible for generating typescript and javascript code
  */
@@ -94,26 +94,33 @@ export class TreeToTS {
     return propTypes.concat('\n\n').concat(returnTypes);
   }
   static resolveBasisTypes(tree: ParserTree): string {
-    const rootTypes = tree.nodes.map((n) => resolveTypeFromRoot(n, tree.nodes));
+    const rootTypes = resolveTypes(tree.nodes);
     const valueTypes = resolveValueTypes(tree.nodes);
-    const objectTypes = resolvePartialObjects(tree.nodes, tree.nodes);
-    return valueTypes.concat('\n\n').concat(objectTypes).concat('\n\n').concat(rootTypes.join('\n\n'));
+    const modelTypes = resolveModelTypes(tree.nodes);
+    const unionTypes = resolveUnions(tree.nodes);
+    const interfaceTypes = resolveInterfaces(tree.nodes);
+    return interfaceTypes
+      .concat('\n')
+      .concat(unionTypes)
+      .concat('\n\n')
+      .concat(valueTypes)
+      .concat('\n\n')
+      .concat(modelTypes)
+      .concat('\n\n')
+      .concat(rootTypes);
   }
   /**
    * Generate javascript and ts declaration file
    */
-  static javascript(tree: ParserTree, env: Environment = 'browser', host?: string): JSFilesOutput {
+  static javascriptSplit(tree: ParserTree, env: Environment = 'browser', host?: string) {
     const operationsBody = TreeToTS.resolveOperations(tree);
     const operations = bodyJavascript(env, operationsBody);
 
     return {
-      javascript: TreeToTS.resolveBasisHeader()
-        .concat(TreeToTS.resolveBasisCodeJavascript(tree))
-        .concat(operations)
-        .concat(host ? '\n\n' : '')
-        .concat(host ? `export const Gql = Chain('${host}')` : ''),
-      definitions: TreeToTS.resolveBasisHeader()
-        .concat(TreeToTS.resolveBasisTypes(tree))
+      index: operations.concat(host ? '\n\n' : '').concat(host ? `export const Gql = Chain('${host}')` : ''),
+      indexImports: `import { AllTypesProps, ReturnTypes } from './const';`,
+      const: TreeToTS.resolveBasisCodeJavascript(tree),
+      definitions: TreeToTS.resolveBasisTypes(tree)
         .concat('\n\n')
         .concat(constantTypesTypescript)
         .concat(generateOperationsJavascript(operationsBody)),
@@ -123,14 +130,47 @@ export class TreeToTS {
   /**
    * Generate typescript file
    */
-  static resolveTree(tree: ParserTree, env: Environment = 'browser', host?: string): string {
+  static resolveTreeSplit(tree: ParserTree, env: Environment = 'browser', host?: string) {
     const operations = bodyTypeScript(env, TreeToTS.resolveOperations(tree));
-    return TreeToTS.resolveBasisHeader()
-      .concat(TreeToTS.resolveBasisTypes(tree))
-      .concat('\n\n')
-      .concat(TreeToTS.resolveBasisCode(tree))
-      .concat(operations)
-      .concat(host ? '\n\n' : '')
-      .concat(host ? `export const Gql = Chain('${host}')` : '');
+    return {
+      builtInFunctions: typescriptFunctions(env),
+      builtInFunctionsImports: `import { AllTypesProps, ReturnTypes } from './const';
+import {
+  SelectionFunction,
+  FetchFunction,
+  SubscriptionFunction,
+  OperationToGraphQL,
+  SubscriptionToGraphQL,
+  GraphQLResponse,
+  fetchOptions,
+  chainOptions,
+  GraphQLError,
+  GraphQLTypes,
+  ModelTypes,
+  ValueTypes,
+} from './typings';`,
+      const: TreeToTS.resolveBasisCode(tree),
+      typings: TreeToTS.resolveBasisTypes(tree).concat(
+        graphqlErrorTypeScript.concat('\n').concat(constantTypesTypescript).concat('\n\n'),
+      ),
+      index: operations.concat(host ? '\n\n' : '').concat(host ? `export const Gql = Chain('${host}')` : ''),
+      indexImports: `import {
+  fullChainConstructor,
+  /* @ts-ignore */
+  fullSubscriptionConstructor,
+  /* @ts-ignore */
+  apiSubscription,
+  apiFetch,
+  ZeusSelect,
+  queryConstruct,
+} from './builtInFunctions';
+import { FetchFunction, SubscriptionFunction, chainOptions, ValueTypes, CastToGraphQL, GraphQLTypes } from './typings';
+export * from './typings';
+export * from './builtInFunctions';`,
+    };
+  }
+  static resolveTree(tree: ParserTree, env: Environment = 'browser', host?: string) {
+    const t = TreeToTS.resolveTreeSplit(tree, env, host);
+    return TreeToTS.resolveBasisHeader().concat(t.const).concat(t.builtInFunctions).concat(t.typings).concat(t.index);
   }
 }

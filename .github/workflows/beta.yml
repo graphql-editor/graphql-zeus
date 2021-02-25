@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - master
+      - v3.0.0
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -13,8 +13,7 @@ jobs:
           node-version: '14.x'
           registry-url: 'https://registry.npmjs.org'
       - run: npm install
-      - run: npm test
       - run: npm run build
-      - run: npm publish --access public --tag latest
+      - run: npm publish --access public --tag beta
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}

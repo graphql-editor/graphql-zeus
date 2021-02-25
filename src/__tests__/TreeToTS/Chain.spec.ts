@@ -12,8 +12,8 @@ describe('Chain tests', () => {
         }
         `;
     const tree = Parser.parseAddExtensions(schema);
-    const typeScriptCode = TreeToTS.resolveTree(tree);
-    expect(typeScriptCode).toContain(`Chain = (...options: fetchOptions)`);
+    const typeScriptCode = TreeToTS.resolveTreeSplit(tree);
+    expect(typeScriptCode.index).toContain(`Chain = (...options: chainOptions)`);
   });
   it('Javascript: ChainDefinitions', () => {
     const schema = `
@@ -24,8 +24,8 @@ describe('Chain tests', () => {
         }
         `;
     const tree = Parser.parseAddExtensions(schema);
-    const { javascript, definitions } = TreeToTS.javascript(tree);
-    expect(javascript).toContain(`Chain = (...options)`);
+    const { index, definitions } = TreeToTS.javascriptSplit(tree);
+    expect(index).toContain(`Chain = (...options)`);
     expect(definitions).toContain(`export declare function Chain`);
   });
   it('TypeScript: Normal schema Query generation', () => {
@@ -37,10 +37,9 @@ describe('Chain tests', () => {
         }
         `;
     const tree = Parser.parseAddExtensions(schema);
-    const typeScriptCode = TreeToTS.resolveTree(tree);
-    expect(typeScriptCode).toContain(`${OperationType.query}: ((o: any) =>`);
-    expect(typeScriptCode).toContain(`fullChainConstruct(apiFetch(options))('${OperationType.query}', 'Query')`);
-    expect(typeScriptCode).toContain(`OperationToGraphQL<ValueTypes["Query"],Query>`);
+    const { index } = TreeToTS.resolveTreeSplit(tree);
+    expect(index).toContain(`${OperationType.query}: ((o: any) =>`);
+    expect(index).toContain(`fullChainConstructor(apiFetch(options),'${OperationType.query}', 'Query')`);
   });
   it('Javascript: Normal schema Query generation', () => {
     const schema = `
@@ -51,10 +50,9 @@ describe('Chain tests', () => {
         }
         `;
     const tree = Parser.parseAddExtensions(schema);
-    const { javascript, definitions } = TreeToTS.javascript(tree);
-    expect(javascript).toContain(`${OperationType.query}: (o) =>`);
-    expect(javascript).toContain(`fullChainConstruct(apiFetch(options))('${OperationType.query}', 'Query')`);
-    expect(definitions).toContain(`OperationToGraphQL<ValueTypes["Query"],Query>`);
+    const { index } = TreeToTS.javascriptSplit(tree);
+    expect(index).toContain(`${OperationType.query}: (o) =>`);
+    expect(index).toContain(`fullChainConstructor(apiFetch(options),'${OperationType.query}', 'Query')`);
   });
 
   it('TypeScript: Normal schema Mutation generation', () => {
@@ -68,10 +66,9 @@ describe('Chain tests', () => {
         }
         `;
     const tree = Parser.parseAddExtensions(schema);
-    const typeScriptCode = TreeToTS.resolveTree(tree);
-    expect(typeScriptCode).toContain(`${OperationType.mutation}: ((o: any) =>`);
-    expect(typeScriptCode).toContain(`fullChainConstruct(apiFetch(options))('${OperationType.mutation}', 'Mutation')`);
-    expect(typeScriptCode).toContain(`OperationToGraphQL<ValueTypes["Mutation"],Mutation>`);
+    const { index } = TreeToTS.resolveTreeSplit(tree);
+    expect(index).toContain(`fullChainConstructor(apiFetch(options),'${OperationType.mutation}', 'Mutation')`);
+    expect(index).toContain(`fullChainConstructor(apiFetch(options),'${OperationType.query}', 'Query')`);
   });
   it('TypeScript: Normal schema Subscription generation', () => {
     const schema = `
@@ -84,12 +81,10 @@ describe('Chain tests', () => {
         }
         `;
     const tree = Parser.parseAddExtensions(schema);
-    const typeScriptCode = TreeToTS.resolveTree(tree);
-    expect(typeScriptCode).toContain(`${OperationType.subscription}: ((o: any) =>`);
-    expect(typeScriptCode).toContain(
-      `fullChainConstruct(apiFetch(options))('${OperationType.subscription}', 'Subscription')`,
+    const { index } = TreeToTS.resolveTreeSplit(tree);
+    expect(index).toContain(
+      `fullSubscriptionConstructor(apiSubscription(options),'${OperationType.subscription}', 'Subscription')`,
     );
-    expect(typeScriptCode).toContain(`OperationToGraphQL<ValueTypes["Subscription"],Subscription>`);
   });
   it('TypeScript: Custom schema Query generation', () => {
     const schema = `
@@ -100,10 +95,8 @@ describe('Chain tests', () => {
         }
         `;
     const tree = Parser.parseAddExtensions(schema);
-    const typeScriptCode = TreeToTS.resolveTree(tree);
-    expect(typeScriptCode).toContain(`${OperationType.query}: ((o: any) =>`);
-    expect(typeScriptCode).toContain(`fullChainConstruct(apiFetch(options))('${OperationType.query}', 'MQuery')`);
-    expect(typeScriptCode).toContain(`OperationToGraphQL<ValueTypes["MQuery"],MQuery>`);
+    const { index } = TreeToTS.resolveTreeSplit(tree);
+    expect(index).toContain(`fullChainConstructor(apiFetch(options),'${OperationType.query}', 'MQuery')`);
   });
   it('TypeScript: Custom schema Mutation generation', () => {
     const schema = `
@@ -116,9 +109,7 @@ describe('Chain tests', () => {
     }
         `;
     const tree = Parser.parseAddExtensions(schema);
-    const typeScriptCode = TreeToTS.resolveTree(tree);
-    expect(typeScriptCode).toContain(`${OperationType.mutation}: ((o: any) =>`);
-    expect(typeScriptCode).toContain(`fullChainConstruct(apiFetch(options))('${OperationType.mutation}', 'MMutation')`);
-    expect(typeScriptCode).toContain(`OperationToGraphQL<ValueTypes["MMutation"],MMutation>`);
+    const { index } = TreeToTS.resolveTreeSplit(tree);
+    expect(index).toContain(`fullChainConstructor(apiFetch(options),'${OperationType.mutation}', 'MMutation')`);
   });
 });

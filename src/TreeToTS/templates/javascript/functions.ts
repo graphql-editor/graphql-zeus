@@ -13,6 +13,8 @@ import {
   buildQueryFunction,
   fullChainConstructFunction,
   VariableFunction,
+  resolverForFunction,
+  fullSubscriptionConstruct,
 } from '@/TreeToTS/functions';
 
 export const javascriptFunctions = (env: Environment): string => `
@@ -26,8 +28,11 @@ ${buildQueryFunction.js}
 ${inspectVariablesFunction.js}
 ${queryConstructFunction.js}
 ${fullChainConstructFunction.js}
+${fullSubscriptionConstruct.js}
 ${seekForAliasesFunction.js}
 ${VariableFunction.js}
 ${ZeusSelectFunction.js}
+${resolverForFunction.js}
 ${require(`./${env}/fetchFunction`).default}
+${require(`./${env}/apiSubscription`).default}
   `;

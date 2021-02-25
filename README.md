@@ -1,14 +1,19 @@
-
 ![](images/zeus.gif)
-
 
 [![npm](https://img.shields.io/npm/v/graphql-zeus.svg?style=flat-square)](https://www.npmjs.com/package/graphql-zeus) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=flat-square)](http://commitizen.github.io/cz-cli/) [![npm downloads](https://img.shields.io/npm/dt/graphql-zeus.svg?style=flat-square)](https://www.npmjs.com/package/graphql-zeus)
 
 GraphQL Zeus creates autocomplete client library for `JavaScript` or `TypeScript` which provides autocompletion for strongly typed queries.
 
-From version 2.0 Zeus ⚡⚡⚡ support mapped types !!!
+⚡⚡ From version 2.0 Zeus support mapped types
+
+⚡⚡⚡ From version 3.0 Zeus supports
+
+- JSON schema generation
+- Subscriptions
+- ZeusHook Type for extracting the response type
 
 Supported Languages:
+
 - Javascript
   - Browser
   - NodeJS
@@ -17,6 +22,7 @@ Supported Languages:
   - Browser
   - NodeJS
   - React Native
+
 ## How it works
 
 Given the following schema [Olympus Cards](https://app.graphqleditor.com/a-team/olympus)
@@ -24,6 +30,7 @@ Given the following schema [Olympus Cards](https://app.graphqleditor.com/a-team/
 ![](images/zeusexample.gif)
 
 ## Table of contents
+
 - [How it works](#how-it-works)
 - [Table of contents](#table-of-contents)
 - [License](#license)
@@ -37,6 +44,7 @@ Given the following schema [Olympus Cards](https://app.graphqleditor.com/a-team/
     - [Load from URL](#load-from-url)
   - [Use generated client example](#use-generated-client-example)
     - [Perform query with Chain](#perform-query-with-chain)
+    - [Listen on a websocket - GraphQL Subscription](#listen-on-a-websocket---graphql-subscription)
     - [Perform query with Thunder - Abstracted Fetch function](#perform-query-with-thunder---abstracted-fetch-function)
     - [Unions](#unions)
     - [Interfaces](#interfaces)
@@ -45,7 +53,8 @@ Given the following schema [Olympus Cards](https://app.graphqleditor.com/a-team/
     - [Gql string](#gql-string)
     - [JavaScript Type Casting](#javascript-type-casting)
     - [Typescript SelectionSet](#typescript-selectionset)
-    - [React Apollo Hooks](#usage-with-react-hooks-and-apollo-client)
+    - [Usage with React Hooks and Apollo Client](#usage-with-react-hooks-and-apollo-client)
+  - [ZeusHook](#zeushook)
   - [Spec](#spec)
     - [Use Alias Spec](#use-alias-spec)
   - [Use In your Project to generate code](#use-in-your-project-to-generate-code)
@@ -54,12 +63,11 @@ Given the following schema [Olympus Cards](https://app.graphqleditor.com/a-team/
 - [Contribute](#contribute)
 - [Parsing](#parsing)
 
-
 ## License
 
 MIT
 
-## How to use 
+## How to use
 
 Main usage of graphql zeus should be as a CLI.
 
@@ -80,16 +88,19 @@ Of course you can install locally to a project and then use as a npm command or 
 ```sh
 $ zeus schema.graphql ./
 ```
+
 It will also generate corresponding out.d.ts file so you can have autocompletion,
 
 #### Usage with TypeScript
+
 ```sh
-$ zeus schema.graphql ./  --ts 
+$ zeus schema.graphql ./  --ts
 ```
 
 #### Usage with NodeJS
+
 ```sh
-$ zeus schema.graphql ./  --node 
+$ zeus schema.graphql ./  --node
 ```
 
 #### Usage with React Native
@@ -97,8 +108,9 @@ $ zeus schema.graphql ./  --node
 Same as browser
 
 ```sh
-$ zeus schema.graphql ./ 
+$ zeus schema.graphql ./
 ```
+
 #### Load from URL
 
 ```sh
@@ -120,7 +132,7 @@ $ zeus https://faker.graphqleditor.com/a-team/olympus/graphql ./generated
 #### Perform query with Chain
 
 ```js
-import { Chain } from './graphql-zeus';
+import { Chain } from './zeus';
 const createCards = async () => {
   const chain = Chain('https://faker.graphqleditor.com/a-team/olympus/graphql');
   const listCardsAndDraw = await chain.query({
@@ -186,7 +198,7 @@ createCards();
 //             "name": "Etha",
 //             "skills": null,
 //             "attack": [
-               
+
 //                 {
 //                     "name": "Naomie"
 //                 }
@@ -206,11 +218,30 @@ createCards();
 //     ]
 // }
 ```
+
+#### Listen on a websocket - GraphQL Subscription
+
+This creates websocket connection between your backend GraphQL socket and web browser one.
+
+```ts
+const chain = Chain('https://faker.graphqleditor.com/a-team/olympus/graphql');
+chain
+  .subscription({
+    cardPile: {
+      id: true,
+    },
+  })
+  .on((response) => {
+    console.log(response.cardPile);
+  });
+```
+
 #### Perform query with Thunder - Abstracted Fetch function
+
 With thunder you have total control of fetch function not losing the result format the same time.
 
 ```js
-import { Thunder } from './graphql-zeus';
+import { Thunder } from './zeus';
 const createCards = async () => {
   const thunder = Thunder(async (query) => {
     const response = await fetch('https://faker.graphqleditor.com/a-team/olympus/graphql', {
@@ -240,11 +271,11 @@ const createCards = async () => {
   const listCardsAndDraw = await thunder.query({
     cardById: [
       {
-        cardId: 'sdsd'
+        cardId: 'sdsd',
       },
       {
-        description: true
-      }
+        description: true,
+      },
     ],
     listCards: {
       name: true,
@@ -252,15 +283,15 @@ const createCards = async () => {
       attack: [
         { cardID: ['s', 'sd'] },
         {
-          name: true
-        }
-      ]
+          name: true,
+        },
+      ],
     },
     drawCard: {
       name: true,
       skills: true,
-      Attack: true
-    }
+      Attack: true,
+    },
   });
 };
 createCards();
@@ -299,7 +330,7 @@ createCards();
 //             "name": "Etha",
 //             "skills": null,
 //             "attack": [
-               
+
 //                 {
 //                     "name": "Naomie"
 //                 }
@@ -326,17 +357,17 @@ You can use Zeus with unions:
 
 ```js
 const { drawChangeCard } = await chain.query({
-    drawChangeCard: {
-      __typename: true,
-      '...on EffectCard': {
-        effectSize: true,
-        name: true
-      },
-      '...on SpecialCard': {
-        effect: true,
-        name: true
-      }
-    }
+  drawChangeCard: {
+    __typename: true,
+    '...on EffectCard': {
+      effectSize: true,
+      name: true,
+    },
+    '...on SpecialCard': {
+      effect: true,
+      name: true,
+    },
+  },
 });
 // drawChangeCard result:
 // {
@@ -347,23 +378,24 @@ const { drawChangeCard } = await chain.query({
 ```
 
 #### Interfaces
+
 And interfaces.
 
 ```ts
-const {nameables} = await Gql.query({
-    nameables: {
-      "__typename": true,
-      "name": true,
-      "...on CardStack": {
-        cards: {
-          Defense: true,
-        },
-      },
-      "...on Card": {
-        Attack: true,
+const { nameables } = await Gql.query({
+  nameables: {
+    __typename: true,
+    name: true,
+    '...on CardStack': {
+      cards: {
+        Defense: true,
       },
     },
-  });
+    '...on Card': {
+      Attack: true,
+    },
+  },
+});
 // result
 // {
 //     "nameables": [
@@ -394,25 +426,24 @@ const {nameables} = await Gql.query({
 // }
 ```
 
-
 #### Perform query with aliases
 
 ```js
 const aliasedQueryExecute = await chain.query({
-    listCards: {
-      __alias: {
-        atak: {
-          attack: [
-            { cardID: ["1"] },
-            {
-              name: true,
-              description: true,
-            },
-          ],
-        },
+  listCards: {
+    __alias: {
+      atak: {
+        attack: [
+          { cardID: ['1'] },
+          {
+            name: true,
+            description: true,
+          },
+        ],
       },
     },
-  });
+  },
+});
 // RESULT
 // {
 //     "listCards": [
@@ -429,10 +460,11 @@ const aliasedQueryExecute = await chain.query({
 //     ]
 // }
 ```
+
 So you can access properties type-safe like this
 
 ```js
-aliasedQueryExecute.listCards.map(c=>c.atak.attack)
+aliasedQueryExecute.listCards.map((c) => c.atak.attack);
 ```
 
 #### Variables
@@ -440,65 +472,65 @@ aliasedQueryExecute.listCards.map(c=>c.atak.attack)
 To perform query with variables please import `$` function and pass the variables to query
 
 ```ts
-  const test = await Gql.mutation(
-    {
-      addCard: [
-        {
-          card: $`card`,
-        },
-        {
-          id: true,
-          description: true,
-          name: true,
-          Attack: true,
-          skills: true,
-          Children: true,
-          Defense: true,
-          cardImage: {
-            bucket: true,
-            region: true,
-            key: true,
-          },
-        },
-      ],
-    },
-    {
-      card: {
-        Attack: 2,
-        Defense: 3,
-        description: 'Lord of the mountains',
-        name: 'Golrog',
+const test = await Gql.mutation(
+  {
+    addCard: [
+      {
+        card: $`card`,
       },
+      {
+        id: true,
+        description: true,
+        name: true,
+        Attack: true,
+        skills: true,
+        Children: true,
+        Defense: true,
+        cardImage: {
+          bucket: true,
+          region: true,
+          key: true,
+        },
+      },
+    ],
+  },
+  {
+    card: {
+      Attack: 2,
+      Defense: 3,
+      description: 'Lord of the mountains',
+      name: 'Golrog',
     },
-  );
+  },
+);
 ```
 
-
 #### Gql string
+
 Use Zeus to generate gql string
 
 ```js
-import { Zeus } from './graphql-zeus';
+import { Zeus } from './zeus';
 const createCards = async () => {
   const stringGql = Zeus.query({
     listCards: {
       name: true,
       skills: true,
-      Attack: true
-    }
+      Attack: true,
+    },
   });
   // query{listCards{name skills Attack}}
 };
 createCards();
-
 ```
 
-To run the example navigate to: `./example` and run
+To run the example navigate to: `./examples` and run
+
 ```sh
 $ npm i
 ```
 
-then run 
+then run
 
 ```
 $ npm run start
@@ -507,19 +539,21 @@ $ npm run start
 Use `Api` for single queries mutations and `Chain` for query chaining
 
 #### JavaScript Type Casting
-You can cast your response from fetch/apollo/other-lib  to correct type even if you are using JavaScript:
+
+You can cast your response from fetch/apollo/other-lib to correct type even if you are using JavaScript:
 
 ```js
-import { Cast } from './graphql-zeus';
-const myQuery = Cast.query(myLib("somegraphqlendpoint"))
+import { Cast } from './zeus';
+const myQuery = Cast.query(myLib('somegraphqlendpoint'));
 ```
 
 #### Typescript SelectionSet
 
 In TypeScript you can make type-safe selection sets to reuse them across queries
 You can use Selectors on operations or ZeusSelect on concrete type. Only `Selectors` make sense in JS as usage of `ZeusSelect` on type is impossible without type support :)
+
 ```ts
-import { ZeusSelect, Selectors, Chain, ValueTypes } from './graphql-zeus';
+import { ZeusSelect, Selectors, Chain, ValueTypes } from './zeus';
 const chain = Chain('https://faker.graphqleditor.com/a-team/olympus/graphql');
 
 const { drawCard: cardSelector } = Selectors.query({
@@ -531,12 +565,12 @@ const { drawCard: cardSelector } = Selectors.query({
     Defense: true,
     cardImage: {
       key: true,
-      bucket: true
-    }
-  }
+      bucket: true,
+    },
+  },
 });
 
-const cardSelector2 = ZeusSelect<ValueTypes["Card"]>()({
+const cardSelector2 = ZeusSelect<ValueTypes['Card']>()({
   name: true,
   description: true,
   Attack: true,
@@ -544,8 +578,8 @@ const cardSelector2 = ZeusSelect<ValueTypes["Card"]>()({
   Defense: true,
   cardImage: {
     key: true,
-    bucket: true
-  }
+    bucket: true,
+  },
 });
 
 const queryWithSelectionSet = await chain.query({
@@ -567,51 +601,62 @@ import {
   useMutation,
   useQuery,
   useSubscription,
-} from "@apollo/client"
+} from '@apollo/client';
 
 /**
  * If your query/mutation/subscription root fields are named differently
  * you will need to alter the imports and references in "ValueTypes" below
  */
-import {
-  MapType,
-  ValueTypes,
-  Zeus,
-  mutation_root,
-  query_root,
-  subscription_root,
-} from "./generated/graphql-zeus"
+import { MapType, ValueTypes, Zeus, mutation_root, query_root, subscription_root } from './generated/graphql-zeus';
 
-export function useTypedQuery<Q extends ValueTypes["query_root"]>(
+export function useTypedQuery<Q extends ValueTypes['query_root']>(
   query: Q,
   options?: QueryHookOptions<MapType<query_root, Q>, Record<string, any>>,
 ) {
-  return useQuery<MapType<query_root, Q>>(gql(Zeus.query(query)), options)
+  return useQuery<MapType<query_root, Q>>(gql(Zeus.query(query)), options);
 }
 
-export function useTypedMutation<Q extends ValueTypes["mutation_root"]>(
+export function useTypedMutation<Q extends ValueTypes['mutation_root']>(
   mutation: Q,
   options?: MutationHookOptions<MapType<mutation_root, Q>, Record<string, any>>,
 ) {
-  return useMutation<MapType<mutation_root, Q>>(
-    gql(Zeus.mutation(mutation)),
-    options,
-  )
+  return useMutation<MapType<mutation_root, Q>>(gql(Zeus.mutation(mutation)), options);
 }
 
-export function useTypedSubscription<Q extends ValueTypes["subscription_root"]>(
+export function useTypedSubscription<Q extends ValueTypes['subscription_root']>(
   subscription: Q,
-  options?: SubscriptionHookOptions<
-    MapType<subscription_root, Q>,
-    Record<string, any>
-  >,
+  options?: SubscriptionHookOptions<MapType<subscription_root, Q>, Record<string, any>>,
 ) {
-  return useSubscription<MapType<subscription_root, Q>>(
-    gql(Zeus.subscription(subscription)),
-    options,
-  )
+  return useSubscription<MapType<subscription_root, Q>>(gql(Zeus.subscription(subscription)), options);
 }
 ```
+
+### ZeusHook
+
+Assuming that you created hook like function
+
+```ts
+import { Gql, ZeusHook } from './zeus';
+
+export const useZeus = () => {
+  const drawACard = () => {
+    return Gql.query({
+      drawCard: {
+        name: true,
+        Attack: true,
+        Defense: true,
+        Children: true,
+        description: true,
+      },
+    });
+  };
+  return { drawACard };
+};
+
+type DrawCardResponse = ZeusHook<typeof useZeus, 'drawACard'>;
+```
+
+Zeus generates an easy to use Type so you can decalare your zeus queries inside function
 
 ### Spec
 
@@ -633,7 +678,7 @@ FUNCTION_FIELD_PARAMS = {
 }
 ```
 
-Query object 
+Query object
 
 ```
 QUERY_OBJECT = {
@@ -642,7 +687,6 @@ QUERY_OBJECT = {
 ```
 
 Return params is an object containg RETURN_KEY - true if it is a `scalar`, RETURN_PARAMS if `type` otherwise it is a function where you pass Fiel params and type return params.
-
 
 ```
 RETURN_PARAMS = {
@@ -670,16 +714,17 @@ RETURN_PARAMS = {
 ```
 
 Access aliased operation type-safe
+
 ```
 PROMISE_RETURNING_OBJECT[ALIAS_STRING][OPERATION_NAME]
 ```
 
-### Use In your Project to generate code 
+### Use In your Project to generate code
 
 This will be rarely used, but here you are!
 
 ```js
-import { Parser,TreeToTS } from 'graphql-zeus';
+import { Parser, TreeToTS } from 'graphql-zeus';
 
 const schemaFileContents = `
 type Query{
@@ -688,7 +733,7 @@ type Query{
 schema{
     query: Query
 }
-`
+`;
 
 const typeScriptDefinition = TreeToTS.resolveTree(Parser.parse(schemaFileContents));
 
@@ -702,13 +747,12 @@ This is useful when you need some schema fetched from your GraphQL endpoint
 ```js
 import { Utils } from 'graphql-zeus';
 
-Utils.getFromUrl("https://faker.graphqleditor.com/a-team/olympus/graphql").then(schemaContent => {
+Utils.getFromUrl('https://faker.graphqleditor.com/a-team/olympus/graphql').then((schemaContent) => {
   // Use schema content here
-})
-
+});
 ```
 
-## Support 
+## Support
 
 [Join our GraphQL Editor Channel](https://join.slack.com/t/graphqleditor/shared_invite/enQtNDkwOTgyOTM5OTc1LWI4YjU3N2U5NGVkNzQ2NzY5MGUxMTJiNjFlZDM1Zjc2OWRmNTI0NDM3OWUxYTk4Yjk3MzZlY2QwOWUzZmM2NDI)
 

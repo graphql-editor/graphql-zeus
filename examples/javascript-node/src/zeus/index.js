@@ -1,131 +1,6 @@
-/* tslint:disable */
 /* eslint-disable */
 
-export const AllTypesProps = {
-	Card:{
-		attack:{
-			cardID:{
-				type:"String",
-				array:true,
-				arrayRequired:true,
-				required:true
-			}
-		}
-	},
-	createCard:{
-		Attack:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		Defense:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		skills:{
-			type:"SpecialSkills",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		description:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		Children:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
-	},
-	Mutation:{
-		addCard:{
-			card:{
-				type:"createCard",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		}
-	},
-	Query:{
-		cardById:{
-			cardId:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		}
-	},
-	SpecialSkills: "enum"
-}
-
-export const ReturnTypes = {
-	Card:{
-		Attack:"Int",
-		Children:"Int",
-		Defense:"Int",
-		attack:"Card",
-		cardImage:"S3Object",
-		description:"String",
-		id:"ID",
-		image:"String",
-		name:"String",
-		skills:"SpecialSkills"
-	},
-	CardStack:{
-		cards:"Card",
-		name:"String"
-	},
-	ChangeCard:{
-		"...on SpecialCard":"SpecialCard",
-		"...on EffectCard":"EffectCard"
-	},
-	EffectCard:{
-		effectSize:"Float",
-		name:"String"
-	},
-	Mutation:{
-		addCard:"Card"
-	},
-	Nameable:{
-		"...on Card": "Card",
-		"...on CardStack": "CardStack",
-		"...on EffectCard": "EffectCard",
-		"...on SpecialCard": "SpecialCard",
-		name:"String"
-	},
-	Query:{
-		cardById:"Card",
-		drawCard:"Card",
-		drawChangeCard:"ChangeCard",
-		listCards:"Card",
-		myStacks:"CardStack",
-		nameables:"Nameable"
-	},
-	S3Object:{
-		bucket:"String",
-		key:"String",
-		region:"String"
-	},
-	SpecialCard:{
-		effect:"String",
-		name:"String"
-	}
-}
+import { AllTypesProps, ReturnTypes } from './const';
 
 export class GraphQLError extends Error {
     constructor(response) {
@@ -341,13 +216,34 @@ const inspectVariables = (query) => {
 };
 
 
-const queryConstruct = (t, tName) => (o) => `${t.toLowerCase()}${inspectVariables(buildQuery(tName, o))}`;  
+export const queryConstruct = (t, tName) => (o) => `${t.toLowerCase()}${inspectVariables(buildQuery(tName, o))}`;  
 
 
 const fullChainConstruct = (fn) => (t,tName) => (o, variables) => fn(queryConstruct(t, tName)(o), variables).then(r => { 
   seekForAliases(r)
   return r
 });
+
+export const fullChainConstructor = (
+  fn,
+  operation,
+  key,
+) =>
+  ((o, variables) => fullChainConstruct(fn)(operation, key)(o, variables))
+
+
+const fullSubscriptionConstruct = (fn) => (
+  t,
+  tName,
+) => (o, variables) =>
+  fn(queryConstruct(t, tName)(o), variables);
+  
+export const fullSubscriptionConstructor = (
+  fn,
+  operation,
+  key,
+) =>
+  ((o, variables) => fullSubscriptionConstruct(fn)(operation, key)(o, variables))
 
 
 const seekForAliases = (o) => {
@@ -384,6 +280,13 @@ export const $ = (t) => `ZEUS_VAR$${t.join('')}`;
 
 export const ZeusSelect = () => (t) => t
 
+export const resolverFor = (
+  type,
+  field,
+  fn
+) => fn;
+
+
 const handleFetchResponse = response => {
   if (!response.ok) {
     return new Promise((resolve, reject) => {
@@ -396,7 +299,7 @@ const handleFetchResponse = response => {
   return response.json();
 };
 
-const apiFetch = (options) => (query, variables = {}) => {
+export const apiFetch = (options) => (query, variables = {}) => {
     let fetchFunction;
     let queryString = query;
     let fetchOptions = options[1] || {};
@@ -438,39 +341,73 @@ const apiFetch = (options) => (query, variables = {}) => {
         return response.data;
       });
   };
+
+export const apiSubscription = (options) => (
+    query,
+    variables,
+  ) => {
+    try {
+      const WebSocket = require('ws')
+      const queryString = options[0] + '?query=' + encodeURIComponent(query);
+      const wsString = queryString.replace('http', 'ws');
+      const host = (options.length > 1 && options[1]?.websocket?.[0]) || wsString;
+      const webSocketOptions = options[1]?.websocket || [host];
+      const ws = new WebSocket(...webSocketOptions);
+      return {
+        ws,
+        on: (e) => {
+          ws.onmessage = (event) => {
+            if(event.data){
+              const parsed = JSON.parse(event.data)
+              const data = parsed.data
+              if (data) {
+                seekForAliases(data);
+              }
+              return e(data);
+            }
+          };
+        },
+        off: (e) => {
+          ws.onclose = e;
+        },
+        error: (e) => {
+          ws.onerror = e;
+        },
+        open: (e) => {
+          ws.onopen = e;
+        },
+      };
+    } catch {
+      throw new Error('No websockets implemented. Install ws or switch to browser');
+    }
+  };
+
   
 export const Thunder = (fn) => ({
-  query: ((o, variables) =>
-      fullChainConstruct(fn)('query', 'Query')(o, variables).then(
-        (response) => response
-      )),
-mutation: ((o, variables) =>
-      fullChainConstruct(fn)('mutation', 'Mutation')(o, variables).then(
-        (response) => response
-      ))
+  query: fullChainConstructor(fn,'query', 'Query'),
+mutation: fullChainConstructor(fn,'mutation', 'Mutation'),
+subscription: fullSubscriptionConstructor(subscriptionFn,'subscription', 'Subscription')
 });
 
 export const Chain = (...options) => ({
-  query: (o, variables) =>
-    fullChainConstruct(apiFetch(options))('query', 'Query')(o, variables).then(
-      (response) => response
-    ),
-mutation: (o, variables) =>
-    fullChainConstruct(apiFetch(options))('mutation', 'Mutation')(o, variables).then(
-      (response) => response
-    )
+  query: fullChainConstructor(apiFetch(options),'query', 'Query'),
+mutation: fullChainConstructor(apiFetch(options),'mutation', 'Mutation'),
+subscription: fullSubscriptionConstructor(apiSubscription(options),'subscription', 'Subscription')
 });
 export const Zeus = {
   query: (o) => queryConstruct('query', 'Query')(o),
-mutation: (o) => queryConstruct('mutation', 'Mutation')(o)
+mutation: (o) => queryConstruct('mutation', 'Mutation')(o),
+subscription: (o) => queryConstruct('subscription', 'Subscription')(o)
 };
 export const Cast = {
   query: (o) => (b) => o,
-mutation: (o) => (b) => o
+mutation: (o) => (b) => o,
+subscription: (o) => (b) => o
 };
 export const Selectors = {
   query: ZeusSelect(),
-mutation: ZeusSelect()
+mutation: ZeusSelect(),
+subscription: ZeusSelect()
 };
     
 

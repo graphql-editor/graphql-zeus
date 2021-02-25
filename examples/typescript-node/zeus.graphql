@@ -1,3 +1,21 @@
+""""""
+type SpecialCard implements Nameable {
+  """"""
+  effect: String!
+
+  """"""
+  name: String!
+}
+
+"""Stack of cards"""
+type CardStack implements Nameable {
+  """"""
+  cards: [Card!]
+
+  """"""
+  name: String!
+}
+
 """Card used in card game<br>"""
 type Card implements Nameable {
   """The attack power<br>"""
@@ -20,24 +38,97 @@ type Card implements Nameable {
 
   """Description of a card<br>"""
   description: String!
+
+  """"""
   id: ID!
+
+  """"""
   image: String!
 
   """The name of a card<br>"""
   name: String!
+
+  """"""
   skills: [SpecialSkills!]
 }
 
-"""Stack of cards"""
-type CardStack implements Nameable {
-  cards: [Card!]
+""""""
+type Mutation {
+  """add Card to Cards database<br>"""
+  addCard(card: createCard!): Card!
+}
+
+""""""
+type Query {
+  """"""
+  cardById(cardId: String): Card
+
+  """Draw a card<br>"""
+  drawCard: Card!
+
+  """"""
+  drawChangeCard: ChangeCard!
+
+  """list All Cards availble<br>"""
+  listCards: [Card!]!
+
+  """"""
+  myStacks: [CardStack!]
+
+  """"""
+  nameables: [Nameable!]!
+}
+
+"""Aws S3 File"""
+type S3Object {
+  """"""
+  bucket: String!
+
+  """"""
+  key: String!
+
+  """"""
+  region: String!
+}
+
+""""""
+type Subscription {
+  """"""
+  deck: [Card!]
+}
+
+""""""
+interface Nameable {
+  """"""
   name: String!
 }
 
-union ChangeCard = SpecialCard | EffectCard
+""""""
+type EffectCard implements Nameable {
+  """"""
+  effectSize: Float!
+
+  """"""
+  name: String!
+}
+
+""""""
+enum SpecialSkills {
+  """Lower enemy defense -5<br>"""
+  THUNDER
+
+  """Attack multiple Cards at once<br>"""
+  RAIN
+
+  """50% chance to avoid any attack<br>"""
+  FIRE
+}
 
 """create card inputs<br>"""
 input createCard {
+  """The defense power<br>"""
+  Defense: Int!
+
   """input skills"""
   skills: [SpecialSkills!]
 
@@ -52,62 +143,13 @@ input createCard {
 
   """The attack power<br>"""
   Attack: Int!
-
-  """The defense power<br>"""
-  Defense: Int!
 }
 
-type EffectCard implements Nameable {
-  effectSize: Float!
-  name: String!
-}
-
-type Mutation {
-  """add Card to Cards database<br>"""
-  addCard(card: createCard!): Card!
-}
-
-interface Nameable {
-  name: String!
-}
-
-type Query {
-  cardById(cardId: String): Card
-
-  """Draw a card<br>"""
-  drawCard: Card!
-  drawChangeCard: ChangeCard!
-
-  """list All Cards availble<br>"""
-  listCards: [Card!]!
-  myStacks: [CardStack!]
-  nameables: [Nameable!]!
-}
-
-"""Aws S3 File"""
-type S3Object {
-  bucket: String!
-  key: String!
-  region: String!
-}
-
-type SpecialCard implements Nameable {
-  effect: String!
-  name: String!
-}
-
-enum SpecialSkills {
-  """Lower enemy defense -5<br>"""
-  THUNDER
-
-  """Attack multiple Cards at once<br>"""
-  RAIN
-
-  """50% chance to avoid any attack<br>"""
-  FIRE
-}
+""""""
+union ChangeCard = SpecialCard | EffectCard
 
 schema{
 	query: Query,
-	mutation: Mutation
+	mutation: Mutation,
+	subscription: Subscription
 }
