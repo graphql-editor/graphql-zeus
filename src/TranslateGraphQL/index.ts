@@ -12,12 +12,7 @@ export class TranslateGraphQL {
     const tree = Parser.parseAddExtensions(schema);
     const ts = TreeToTS.resolveTreeSplit(tree, env, host);
     return {
-      typings: TreeToTS.resolveBasisHeader().concat(ts.typings),
       const: TreeToTS.resolveBasisHeader().concat(ts.const),
-      builtInFunctions: TreeToTS.resolveBasisHeader()
-        .concat(ts.builtInFunctionsImports)
-        .concat('\n')
-        .concat(ts.builtInFunctions),
       index: TreeToTS.resolveBasisHeader().concat(ts.indexImports).concat('\n').concat(ts.index),
     };
   };

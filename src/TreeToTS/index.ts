@@ -133,44 +133,18 @@ export class TreeToTS {
   static resolveTreeSplit(tree: ParserTree, env: Environment = 'browser', host?: string) {
     const operations = bodyTypeScript(env, TreeToTS.resolveOperations(tree));
     return {
-      builtInFunctions: typescriptFunctions(env),
-      builtInFunctionsImports: `import { AllTypesProps, ReturnTypes } from './const';
-import {
-  SelectionFunction,
-  FetchFunction,
-  SubscriptionFunction,
-  OperationToGraphQL,
-  SubscriptionToGraphQL,
-  GraphQLResponse,
-  fetchOptions,
-  chainOptions,
-  GraphQLError,
-  GraphQLTypes,
-  ModelTypes,
-  ValueTypes,
-} from './typings';`,
+      indexImports: `import { AllTypesProps, ReturnTypes } from './const';`,
       const: TreeToTS.resolveBasisCode(tree),
-      typings: TreeToTS.resolveBasisTypes(tree).concat(
-        graphqlErrorTypeScript.concat('\n').concat(constantTypesTypescript).concat('\n\n'),
-      ),
-      index: operations.concat(host ? '\n\n' : '').concat(host ? `export const Gql = Chain('${host}')` : ''),
-      indexImports: `import {
-  fullChainConstructor,
-  /* @ts-ignore */
-  fullSubscriptionConstructor,
-  /* @ts-ignore */
-  apiSubscription,
-  apiFetch,
-  ZeusSelect,
-  queryConstruct,
-} from './builtInFunctions';
-import { FetchFunction, SubscriptionFunction, chainOptions, ValueTypes, CastToGraphQL, GraphQLTypes } from './typings';
-export * from './typings';
-export * from './builtInFunctions';`,
+      index: TreeToTS.resolveBasisTypes(tree)
+        .concat(graphqlErrorTypeScript.concat('\n').concat(constantTypesTypescript).concat('\n\n'))
+        .concat(typescriptFunctions(env))
+        .concat(operations)
+        .concat(host ? '\n\n' : '')
+        .concat(host ? `export const Gql = Chain('${host}')` : ''),
     };
   }
   static resolveTree(tree: ParserTree, env: Environment = 'browser', host?: string) {
     const t = TreeToTS.resolveTreeSplit(tree, env, host);
-    return TreeToTS.resolveBasisHeader().concat(t.const).concat(t.builtInFunctions).concat(t.typings).concat(t.index);
+    return TreeToTS.resolveBasisHeader().concat(t.const).concat(t.index);
   }
 }

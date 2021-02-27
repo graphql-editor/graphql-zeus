@@ -1,37 +1,6 @@
 /* eslint-disable */
 
 export const AllTypesProps: Record<string,any> = {
-	Card:{
-		attack:{
-			cardID:{
-				type:"String",
-				array:true,
-				arrayRequired:true,
-				required:true
-			}
-		}
-	},
-	Mutation:{
-		addCard:{
-			card:{
-				type:"createCard",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		}
-	},
-	Query:{
-		cardById:{
-			cardId:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		}
-	},
-	SpecialSkills: "enum",
 	createCard:{
 		Defense:{
 			type:"Int",
@@ -69,17 +38,67 @@ export const AllTypesProps: Record<string,any> = {
 			arrayRequired:false,
 			required:true
 		}
+	},
+	Query:{
+		cardById:{
+			cardId:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		}
+	},
+	Mutation:{
+		addCard:{
+			card:{
+				type:"createCard",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		}
+	},
+	SpecialSkills: "enum",
+	Card:{
+		attack:{
+			cardID:{
+				type:"String",
+				array:true,
+				arrayRequired:true,
+				required:true
+			}
+		}
 	}
 }
 
 export const ReturnTypes: Record<string,any> = {
-	SpecialCard:{
-		effect:"String",
+	S3Object:{
+		bucket:"String",
+		key:"String",
+		region:"String"
+	},
+	Query:{
+		cardById:"Card",
+		drawCard:"Card",
+		drawChangeCard:"ChangeCard",
+		listCards:"Card",
+		myStacks:"CardStack",
+		nameables:"Nameable"
+	},
+	ChangeCard:{
+		"...on SpecialCard":"SpecialCard",
+		"...on EffectCard":"EffectCard"
+	},
+	EffectCard:{
+		effectSize:"Float",
 		name:"String"
 	},
-	CardStack:{
-		cards:"Card",
-		name:"String"
+	Mutation:{
+		addCard:"Card"
+	},
+	Subscription:{
+		deck:"Card"
 	},
 	Card:{
 		Attack:"Int",
@@ -93,38 +112,19 @@ export const ReturnTypes: Record<string,any> = {
 		name:"String",
 		skills:"SpecialSkills"
 	},
-	Mutation:{
-		addCard:"Card"
+	SpecialCard:{
+		effect:"String",
+		name:"String"
 	},
-	Query:{
-		cardById:"Card",
-		drawCard:"Card",
-		drawChangeCard:"ChangeCard",
-		listCards:"Card",
-		myStacks:"CardStack",
-		nameables:"Nameable"
-	},
-	S3Object:{
-		bucket:"String",
-		key:"String",
-		region:"String"
-	},
-	Subscription:{
-		deck:"Card"
+	CardStack:{
+		cards:"Card",
+		name:"String"
 	},
 	Nameable:{
+		"...on EffectCard": "EffectCard",
+		"...on Card": "Card",
 		"...on SpecialCard": "SpecialCard",
 		"...on CardStack": "CardStack",
-		"...on Card": "Card",
-		"...on EffectCard": "EffectCard",
 		name:"String"
-	},
-	EffectCard:{
-		effectSize:"Float",
-		name:"String"
-	},
-	ChangeCard:{
-		"...on SpecialCard":"SpecialCard",
-		"...on EffectCard":"EffectCard"
 	}
 }
