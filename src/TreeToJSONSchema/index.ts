@@ -45,6 +45,7 @@ const getDataType = ({ f, tree, override }: ConvertField): JSONSchema7 => {
     if (f.type.name === ScalarTypes.String) {
       return { type: 'string' };
     }
+
     const lookForField = tree.nodes.find((r) => r.name === f.type.name);
     if (lookForField?.data.type === TypeDefinition.ScalarTypeDefinition) {
       return {
@@ -58,12 +59,7 @@ const getDataType = ({ f, tree, override }: ConvertField): JSONSchema7 => {
       };
     }
     return {
-      type: 'object',
-      required: lookForField?.args?.filter((a) => a.type.options?.includes(Options.required)).map((n) => n.name),
-      properties: lookForField?.args?.reduce((a, b) => {
-        a[b.name] = convertField({ f: b, tree, override, parent: lookForField });
-        return a;
-      }, {} as Required<JSONSchema7>['properties']),
+      $ref: `#/inputs/${lookForField?.name}`,
     };
   }
   // It must be a field then

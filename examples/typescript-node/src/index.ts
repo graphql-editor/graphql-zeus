@@ -29,7 +29,7 @@ const run = async () => {
       {
         card: {
           Attack: 1,
-          Defense: 2,
+          Defense: 1,
           description: 'lorem """ \' ipsum \n lorem ipsum',
           name: 'SADSD',
           skills: [SpecialSkills.FIRE],
