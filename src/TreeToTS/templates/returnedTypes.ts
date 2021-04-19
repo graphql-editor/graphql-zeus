@@ -23,16 +23,24 @@ const resolveField = (f: ParserField): string => {
   const isArrayRequired = !!(options && options.find((o) => o === Options.arrayRequired));
   const isRequired = !!(options && options.find((o) => o === Options.required));
   const isNullType = (type: string): string => {
-    let t = isRequired ? type : `${type} | undefined`;
-    if (isArray) {
-      t = `Array<${t}>`;
-      if (!isArrayRequired) {
-        return `${t} | undefined`;
-      }
+    if (isArray && isRequired && isArrayRequired) {
+      return `: Array<${type}>`;
     }
-    return t;
+    if (isArray && isRequired && !isArrayRequired) {
+      return `?: Array<${type}>`;
+    }
+    if (isArray && !isRequired && isArrayRequired) {
+      return `: Array<${type} | undefined>`;
+    }
+    if (isArray && !isRequired && !isArrayRequired) {
+      return `?: Array<${type} | undefined>`;
+    }
+    if (isRequired) {
+      return `: ${type}`;
+    }
+    return `?: ${type}`;
   };
-  return `${plusDescription(f.description, '\t')}\t${f.name}: ${isNullType(toTypeScriptPrimitive(f.type.name))}`;
+  return `${plusDescription(f.description, '\t')}\t${f.name}${isNullType(toTypeScriptPrimitive(f.type.name))}`;
 };
 export const resolveUnions = (rootNodes: ParserField[]): string => {
   const unionTypes = rootNodes
