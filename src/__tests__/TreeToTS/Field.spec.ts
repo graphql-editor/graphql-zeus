@@ -15,11 +15,11 @@ describe('Fields tests on TypeScript code', () => {
     const tree = Parser.parse(schema);
     const typeScriptCode = TreeToTS.resolveTree(tree);
     const mockFields = [
-      `id: string | null`,
-      `name: string | null`,
-      `age: number | null`,
-      `weight: number | null`,
-      `verified: boolean | null`,
+      `id: string | undefined`,
+      `name: string | undefined`,
+      `age: number | undefined`,
+      `weight: number | undefined`,
+      `verified: boolean | undefined`,
     ];
     mockFields.forEach((mf) => expect(typeScriptCode).toContain(mf));
   });
@@ -31,7 +31,7 @@ describe('Fields tests on TypeScript code', () => {
     }`;
     const tree = Parser.parse(schema);
     const typeScriptCode = TreeToTS.resolveTree(tree);
-    expect(typeScriptCode).toContain(`car: ${TYPES}["Car"] | null`);
+    expect(typeScriptCode).toContain(`car: ${TYPES}["Car"] | undefined`);
   });
   test('Interface objects', () => {
     const schema = `
@@ -41,7 +41,7 @@ describe('Fields tests on TypeScript code', () => {
     }`;
     const tree = Parser.parse(schema);
     const typeScriptCode = TreeToTS.resolveTree(tree);
-    expect(typeScriptCode).toContain(`car: ${TYPES}["Car"] | null`);
+    expect(typeScriptCode).toContain(`car: ${TYPES}["Car"] | undefined`);
   });
   test('Enum objects', () => {
     const schema = `
@@ -52,7 +52,7 @@ describe('Fields tests on TypeScript code', () => {
 
     const tree = Parser.parse(schema);
     const typeScriptCode = TreeToTS.resolveTree(tree);
-    expect(typeScriptCode).toContain(`car: ${TYPES}["Car"] | null`);
+    expect(typeScriptCode).toContain(`car: ${TYPES}["Car"] | undefined`);
   });
   test('Custom scalar objects', () => {
     const schema = `
@@ -63,7 +63,7 @@ describe('Fields tests on TypeScript code', () => {
 
     const tree = Parser.parse(schema);
     const typeScriptCode = TreeToTS.resolveTree(tree);
-    expect(typeScriptCode).toContain(`car: ${TYPES}["Car"] | null`);
+    expect(typeScriptCode).toContain(`car: ${TYPES}["Car"] | undefined`);
   });
   test('Union objects', () => {
     const schema = `
@@ -76,7 +76,7 @@ describe('Fields tests on TypeScript code', () => {
 
     const tree = Parser.parse(schema);
     const typeScriptCode = TreeToTS.resolveTree(tree);
-    expect(typeScriptCode).toContain(`machine: ${TYPES}["Machine"] | null`);
+    expect(typeScriptCode).toContain(`machine: ${TYPES}["Machine"] | undefined`);
   });
   test(`Required fields`, () => {
     const schema = `type Person{
@@ -95,7 +95,7 @@ describe('Fields tests on TypeScript code', () => {
 
     const tree = Parser.parse(schema);
     const typeScriptCode = TreeToTS.resolveTree(tree);
-    expect(typeScriptCode).toContain(`name: Array<string | null> | null`);
+    expect(typeScriptCode).toContain(`name: Array<string | undefined> | undefined`);
     expect(typeScriptCode).toContain(`friends: Array<${TYPES}["Person"]>`);
   });
 });

@@ -32,7 +32,7 @@ describe('Thunder tests', () => {
         `;
     const tree = Parser.parseAddExtensions(schema);
     const { index, definitions } = TreeToTS.javascriptSplit(tree);
-    expect(index).toContain(`Thunder = (fn)`);
+    expect(index).toContain(`Thunder = (fn, subscriptionFn)`);
     expect(definitions).toContain(`export declare function Thunder`);
   });
   it('TypeScript: Normal schema Query generation', () => {

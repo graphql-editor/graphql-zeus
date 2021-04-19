@@ -83,7 +83,6 @@ describe('Schema base operations', () => {
         },
       ],
     };
-    console.log(JSON.stringify(tree, null, 4));
     expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
   });
   test(`empty query`, () => {

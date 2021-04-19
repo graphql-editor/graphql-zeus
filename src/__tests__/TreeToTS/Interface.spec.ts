@@ -45,9 +45,11 @@ describe('Interface tests', () => {
     expect(typeScriptCode).toContain(`["Motorcycle"]: AliasType<{wheels?:true,visor?:true, __typename?: true }>`);
 
     // full type should have all the fields
-    expect(typeScriptCode).toContain(`["Car"]: {__typename: "Car",wheels: number | null,color: string | null }`);
     expect(typeScriptCode).toContain(
-      `["Motorcycle"]: {__typename: "Motorcycle",wheels: number | null,visor: boolean | null }`,
+      `["Car"]: {__typename: "Car",wheels: number | undefined,color: string | undefined }`,
+    );
+    expect(typeScriptCode).toContain(
+      `["Motorcycle"]: {__typename: "Motorcycle",wheels: number | undefined,visor: boolean | undefined }`,
     );
   });
 
@@ -65,7 +67,7 @@ describe('Interface tests', () => {
     expect(typeScriptCode).toContain(`["Motorcycle"]: AliasType<{wheels?:true, __typename?: true }>`);
 
     // full type should have all the fields
-    expect(typeScriptCode).toContain(`["Car"]: {__typename: "Car",wheels: number | null }`);
-    expect(typeScriptCode).toContain(`["Motorcycle"]: {__typename: "Motorcycle",wheels: number | null }`);
+    expect(typeScriptCode).toContain(`["Car"]: {__typename: "Car",wheels: number | undefined }`);
+    expect(typeScriptCode).toContain(`["Motorcycle"]: {__typename: "Motorcycle",wheels: number | undefined }`);
   });
 });
