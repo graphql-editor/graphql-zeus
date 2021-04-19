@@ -55,7 +55,7 @@ const generateSelectorsZeusJavascript = ({ query, mutation, subscription }: Part
 export const bodyJavascript = (env: Environment, resolvedOperations: ResolvedOperations): string => `
 ${graphqlErrorJavascript}
 ${javascriptFunctions(env)}
-export const Thunder = (fn) => ({
+export const Thunder = (fn, subscriptionFn) => ({
   ${generateOperationsThunder(resolvedOperations).join(',\n')}
 });
 

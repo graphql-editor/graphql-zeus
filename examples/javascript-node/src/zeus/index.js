@@ -383,7 +383,7 @@ export const apiSubscription = (options) => (
   };
 
   
-export const Thunder = (fn) => ({
+export const Thunder = (fn, subscriptionFn) => ({
   query: fullChainConstructor(fn,'query', 'Query'),
 mutation: fullChainConstructor(fn,'mutation', 'Mutation'),
 subscription: fullSubscriptionConstructor(subscriptionFn,'subscription', 'Subscription')

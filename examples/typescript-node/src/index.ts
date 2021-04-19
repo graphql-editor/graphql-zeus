@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import fetch from 'node-fetch';
-import { $, Gql, SpecialSkills, Thunder, Zeus, ZeusHook } from './zeus';
+import { $, Gql, SpecialSkills, Thunder, Zeus } from './zeus';
 
 export const useZeus = () => {
   const drawACard = () => {
@@ -16,8 +16,6 @@ export const useZeus = () => {
   };
   return { drawACard };
 };
-
-type DrawCardResponse = ZeusHook<typeof useZeus, 'drawACard'>;
 
 const printQueryResult = (name: string, result: any) =>
   console.log(`${chalk.greenBright(name)} result:\n${chalk.cyan(JSON.stringify(result, null, 4))}\n\n`);

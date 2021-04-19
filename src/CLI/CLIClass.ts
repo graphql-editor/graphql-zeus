@@ -78,6 +78,7 @@ export class CLI {
       );
     } else {
       const jsDefinition = TranslateGraphQL.javascriptSplit(schemaFileContents, env, host);
+      writeFileRecursive(path.join(pathToFile, 'zeus'), `const.js`, jsDefinition.const);
       writeFileRecursive(path.join(pathToFile, 'zeus'), `index.js`, jsDefinition.index);
       writeFileRecursive(path.join(pathToFile, 'zeus'), `index.d.ts`, jsDefinition['index.d']);
     }

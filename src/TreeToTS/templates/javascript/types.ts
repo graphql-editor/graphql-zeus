@@ -98,7 +98,8 @@ const generateOperationsJavascriptDefinitionsSelector = ({
 
 export const generateOperationsJavascript = (operationsBody: ResolvedOperations): string => `
 export declare function Thunder(
-  fn: FetchFunction
+  fn: FetchFunction,
+  subscriptionFn: SubscriptionFunction
 ):{
   ${generateOperationsJavascriptDefinitionsChaining(operationsBody)}
 }

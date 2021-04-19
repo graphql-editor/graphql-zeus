@@ -23,11 +23,11 @@ const resolveField = (f: ParserField): string => {
   const isArrayRequired = !!(options && options.find((o) => o === Options.arrayRequired));
   const isRequired = !!(options && options.find((o) => o === Options.required));
   const isNullType = (type: string): string => {
-    let t = isRequired ? type : `${type} | null`;
+    let t = isRequired ? type : `${type} | undefined`;
     if (isArray) {
       t = `Array<${t}>`;
       if (!isArrayRequired) {
-        return `${t} | null`;
+        return `${t} | undefined`;
       }
     }
     return t;

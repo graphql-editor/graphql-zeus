@@ -1,6 +1,7 @@
 /* eslint-disable */
 
-export const AllTypesProps: Record<string,any> = {
+export const AllTypesProps = {
+	SpecialSkills: "enum",
 	Mutation:{
 		addCard:{
 			card:{
@@ -11,28 +12,13 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		}
 	},
-	SpecialSkills: "enum",
-	Query:{
-		cardById:{
-			cardId:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		}
-	},
-	Card:{
-		attack:{
-			cardID:{
-				type:"String",
-				array:true,
-				arrayRequired:true,
-				required:true
-			}
-		}
-	},
 	createCard:{
+		Attack:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
 		Defense:{
 			type:"Int",
 			array:false,
@@ -62,39 +48,53 @@ export const AllTypesProps: Record<string,any> = {
 			array:false,
 			arrayRequired:false,
 			required:false
-		},
-		Attack:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
+		}
+	},
+	Query:{
+		cardById:{
+			cardId:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		}
+	},
+	Card:{
+		attack:{
+			cardID:{
+				type:"String",
+				array:true,
+				arrayRequired:true,
+				required:true
+			}
 		}
 	}
 }
 
-export const ReturnTypes: Record<string,any> = {
-	Subscription:{
-		deck:"Card"
+export const ReturnTypes = {
+	Nameable:{
+		"...on SpecialCard": "SpecialCard",
+		"...on EffectCard": "EffectCard",
+		"...on Card": "Card",
+		"...on CardStack": "CardStack",
+		name:"String"
 	},
 	ChangeCard:{
 		"...on SpecialCard":"SpecialCard",
 		"...on EffectCard":"EffectCard"
 	},
-	CardStack:{
-		cards:"Card",
-		name:"String"
-	},
 	Mutation:{
 		addCard:"Card"
-	},
-	EffectCard:{
-		effectSize:"Float",
-		name:"String"
 	},
 	S3Object:{
 		bucket:"String",
 		key:"String",
 		region:"String"
+	},
+	SpecialCard:{
+		effect:"String",
+		name:"String"
 	},
 	Query:{
 		cardById:"Card",
@@ -104,16 +104,12 @@ export const ReturnTypes: Record<string,any> = {
 		myStacks:"CardStack",
 		nameables:"Nameable"
 	},
-	SpecialCard:{
-		effect:"String",
+	EffectCard:{
+		effectSize:"Float",
 		name:"String"
 	},
-	Nameable:{
-		"...on CardStack": "CardStack",
-		"...on EffectCard": "EffectCard",
-		"...on SpecialCard": "SpecialCard",
-		"...on Card": "Card",
-		name:"String"
+	Subscription:{
+		deck:"Card"
 	},
 	Card:{
 		Attack:"Int",
@@ -126,5 +122,9 @@ export const ReturnTypes: Record<string,any> = {
 		image:"String",
 		name:"String",
 		skills:"SpecialSkills"
+	},
+	CardStack:{
+		cards:"Card",
+		name:"String"
 	}
 }
