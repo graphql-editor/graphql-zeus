@@ -1,5 +1,5 @@
 import { Options, ParserField } from '@/Models';
-import { TypeDefinition } from '@/Models/Spec';
+import { TypeDefinition, TypeSystemDefinition } from '@/Models/Spec';
 const resolveArg = (f: ParserField, tabs = '\t\t\t'): string => {
   const {
     type: { options },
@@ -18,6 +18,9 @@ const resolveField = (f: ParserField, resolveArgs = true): string => {
 };
 
 export const resolvePropTypeFromRoot = (i: ParserField): string => {
+  if (i.data.type === TypeSystemDefinition.DirectiveDefinition) {
+    return '';
+  }
   if (i.data.type === TypeDefinition.EnumTypeDefinition) {
     return `\t${i.name}: "enum"`;
   }

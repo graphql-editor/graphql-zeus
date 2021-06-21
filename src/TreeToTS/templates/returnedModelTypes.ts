@@ -1,5 +1,5 @@
 import { Options, ParserField } from '@/Models';
-import { TypeDefinition } from '@/Models/Spec';
+import { TypeDefinition, TypeSystemDefinition } from '@/Models/Spec';
 import { TYPES } from './returnedTypes';
 
 export const MODEL_TYPES = 'ModelTypes';
@@ -53,6 +53,9 @@ const resolveField = (f: ParserField): string => {
 };
 
 const resolveTypeFromRoot = (i: ParserField, rootNodes: ParserField[]): string => {
+  if (i.data.type === TypeSystemDefinition.DirectiveDefinition) {
+    return '';
+  }
   if (i.data.type === TypeDefinition.ScalarTypeDefinition) {
     return `${plusDescription(i.description)}["${i.name}"]:any`;
   }

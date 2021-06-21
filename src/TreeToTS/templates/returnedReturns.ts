@@ -1,5 +1,5 @@
 import { ParserField } from '@/Models';
-import { TypeDefinition } from '@/Models/Spec';
+import { TypeDefinition, TypeSystemDefinition } from '@/Models/Spec';
 
 const resolveField = (f: ParserField): string => {
   const { type, name } = f;
@@ -10,7 +10,8 @@ export const resolveReturnFromRoot = (i: ParserField, usages?: string[]): string
   if (
     i.data.type !== TypeDefinition.ObjectTypeDefinition &&
     i.data.type !== TypeDefinition.UnionTypeDefinition &&
-    i.data.type !== TypeDefinition.InterfaceTypeDefinition
+    i.data.type !== TypeDefinition.InterfaceTypeDefinition &&
+    i.data.type !== TypeSystemDefinition.DirectiveDefinition
   ) {
     return '';
   }
