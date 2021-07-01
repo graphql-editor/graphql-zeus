@@ -21,30 +21,7 @@ export const AllTypesProps = {
 			}
 		}
 	},
-	SpecialSkills: "enum",
-	Mutation:{
-		addCard:{
-			card:{
-				type:"createCard",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		}
-	},
 	createCard:{
-		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		description:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
 		Children:{
 			type:"Int",
 			array:false,
@@ -68,6 +45,29 @@ export const AllTypesProps = {
 			array:true,
 			arrayRequired:false,
 			required:true
+		},
+		name:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		description:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:true
+		}
+	},
+	SpecialSkills: "enum",
+	Mutation:{
+		addCard:{
+			card:{
+				type:"createCard",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
 		}
 	}
 }
@@ -80,6 +80,17 @@ export const ReturnTypes = {
 		listCards:"Card",
 		myStacks:"CardStack",
 		nameables:"Nameable"
+	},
+	ChangeCard:{
+		"...on SpecialCard":"SpecialCard",
+		"...on EffectCard":"EffectCard"
+	},
+	Nameable:{
+		"...on Card": "Card",
+		"...on SpecialCard": "SpecialCard",
+		"...on CardStack": "CardStack",
+		"...on EffectCard": "EffectCard",
+		name:"String"
 	},
 	Card:{
 		Attack:"Int",
@@ -98,33 +109,22 @@ export const ReturnTypes = {
 		key:"String",
 		region:"String"
 	},
-	ChangeCard:{
-		"...on SpecialCard":"SpecialCard",
-		"...on EffectCard":"EffectCard"
-	},
 	Subscription:{
 		deck:"Card"
 	},
-	Nameable:{
-		"...on Card": "Card",
-		"...on EffectCard": "EffectCard",
-		"...on SpecialCard": "SpecialCard",
-		"...on CardStack": "CardStack",
+	SpecialCard:{
+		effect:"String",
+		name:"String"
+	},
+	CardStack:{
+		cards:"Card",
 		name:"String"
 	},
 	EffectCard:{
 		effectSize:"Float",
 		name:"String"
 	},
-	SpecialCard:{
-		effect:"String",
-		name:"String"
-	},
 	Mutation:{
 		addCard:"Card"
-	},
-	CardStack:{
-		cards:"Card",
-		name:"String"
 	}
 }
