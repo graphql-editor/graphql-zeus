@@ -1,31 +1,19 @@
-""""""
-type SpecialCard implements Nameable {
+"""Aws S3 File"""
+type S3Object {
   """"""
-  effect: String!
+  bucket: String!
 
   """"""
-  name: String!
+  key: String!
+
+  """"""
+  region: String!
 }
 
 """"""
-type Query {
+interface Nameable {
   """"""
-  cardById(cardId: String): Card
-
-  """Draw a card<br>"""
-  drawCard: Card!
-
-  """"""
-  drawChangeCard: ChangeCard!
-
-  """list All Cards availble<br>"""
-  listCards: [Card!]!
-
-  """"""
-  myStacks: [CardStack!]
-
-  """"""
-  nameables: [Nameable!]!
+  name: String!
 }
 
 """Card used in card game<br>"""
@@ -65,24 +53,9 @@ type Card implements Nameable {
 }
 
 """"""
-interface Nameable {
+type EffectCard implements Nameable {
   """"""
-  name: String!
-}
-
-""""""
-union ChangeCard = SpecialCard | EffectCard
-
-""""""
-type Mutation {
-  """add Card to Cards database<br>"""
-  addCard(card: createCard!): Card!
-}
-
-"""Stack of cards"""
-type CardStack implements Nameable {
-  """"""
-  cards: [Card!]
+  effectSize: Float!
 
   """"""
   name: String!
@@ -109,44 +82,71 @@ input createCard {
   skills: [SpecialSkills!]
 }
 
+"""Stack of cards"""
+type CardStack implements Nameable {
+  """"""
+  cards: [Card!]
+
+  """"""
+  name: String!
+}
+
+""""""
+type SpecialCard implements Nameable {
+  """"""
+  effect: String!
+
+  """"""
+  name: String!
+}
+
+""""""
+type Mutation {
+  """add Card to Cards database<br>"""
+  addCard(card: createCard!): Card!
+}
+
 """"""
 type Subscription {
   """"""
   deck: [Card!]
 }
 
-"""Aws S3 File"""
-type S3Object {
+""""""
+type Query {
   """"""
-  bucket: String!
+  cardById(cardId: String): Card
+
+  """Draw a card<br>"""
+  drawCard: Card!
 
   """"""
-  key: String!
+  drawChangeCard: ChangeCard!
+
+  """list All Cards availble<br>"""
+  listCards: [Card!]!
 
   """"""
-  region: String!
+  myStacks: [CardStack!]
+
+  """"""
+  nameables: [Nameable!]!
 }
 
 """"""
 enum SpecialSkills {
-  """Lower enemy defense -5<br>"""
-  THUNDER
-
   """Attack multiple Cards at once<br>"""
   RAIN
 
   """50% chance to avoid any attack<br>"""
   FIRE
+
+  """Lower enemy defense -5<br>"""
+  THUNDER
 }
 
 """"""
-type EffectCard implements Nameable {
-  """"""
-  effectSize: Float!
-
-  """"""
-  name: String!
-}
+union ChangeCard = SpecialCard | EffectCard
 
 schema{
 	query: Query,

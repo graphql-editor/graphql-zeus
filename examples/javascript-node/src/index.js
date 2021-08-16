@@ -7,7 +7,6 @@ const createCards = async () => {
     console.log(`${chalk.greenBright(name)} result:\n${chalk.cyan(JSON.stringify(result, null, 4))}\n\n`);
   const printGQLString = (name, result) => console.log(`${chalk.blue(name)} query:\n${chalk.magenta(result)}\n\n`);
   // Query Gqling example
-
   const listCardsAndDraw = await Gql.query({
     cardById: [
       {

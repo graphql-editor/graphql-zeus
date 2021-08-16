@@ -39,6 +39,7 @@ Given the following schema [Olympus Cards](https://app.graphqleditor.com/a-team/
     - [Installation](#installation)
     - [Usage with JavaScript](#usage-with-javascript)
     - [Usage with TypeScript](#usage-with-typescript)
+    - [Usage with Apollo GraphQL](#usage-with-apollo-graphql)
     - [Usage with NodeJS](#usage-with-nodejs)
     - [Usage with React Native](#usage-with-react-native)
     - [Load from URL](#load-from-url)
@@ -95,6 +96,14 @@ It will also generate corresponding out.d.ts file so you can have autocompletion
 
 ```sh
 $ zeus schema.graphql ./  --ts
+```
+
+#### Usage with Apollo GraphQL
+
+It will generate useTypedQuery based on Apollo useQuery thanks @GavinRay97
+
+```sh
+$ zeus schema.graphql ./  --apollo
 ```
 
 #### Usage with NodeJS

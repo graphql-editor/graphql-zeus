@@ -5,6 +5,7 @@ import { TranslateGraphQL } from '@/TranslateGraphQL';
 import { Utils } from '@/Utils';
 import { TreeToJSONSchema } from '@/TreeToJSONSchema';
 import { Parser } from '@/Parser';
+import { pluginApollo } from '@/plugins/apollo';
 
 /**
  * basic yargs interface
@@ -24,6 +25,7 @@ interface CliArgs extends Yargs {
   node?: boolean;
   graphql?: string;
   jsonSchema?: string;
+  apollo?: boolean;
 }
 /**
  * Main class for controlling CLI
@@ -76,11 +78,18 @@ export class CLI {
           typeScriptDefinition[k as keyof typeof typeScriptDefinition],
         ),
       );
+      if (args.apollo) {
+        writeFileRecursive(path.join(pathToFile, 'zeus'), `apollo.ts`, pluginApollo().ts);
+      }
     } else {
       const jsDefinition = TranslateGraphQL.javascriptSplit(schemaFileContents, env, host);
       writeFileRecursive(path.join(pathToFile, 'zeus'), `const.js`, jsDefinition.const);
       writeFileRecursive(path.join(pathToFile, 'zeus'), `index.js`, jsDefinition.index);
       writeFileRecursive(path.join(pathToFile, 'zeus'), `index.d.ts`, jsDefinition['index.d']);
+      if (args.apollo) {
+        writeFileRecursive(path.join(pathToFile, 'zeus'), `apollo.js`, pluginApollo().js.code);
+        writeFileRecursive(path.join(pathToFile, 'zeus'), `apollo.d.ts`, pluginApollo().js.definitions);
+      }
     }
   };
 }
