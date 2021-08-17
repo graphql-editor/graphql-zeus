@@ -1,6 +1,6 @@
 import { TYPES } from '@/TreeToTS/templates/returnedTypes';
 import { ScalarTypes } from '../../Models';
-import { Parser } from '../../Parser';
+import { Parser } from 'graphql-js-tree';
 import { TreeToTS } from '../../TreeToTS';
 
 describe('Fields tests on TypeScript code', () => {

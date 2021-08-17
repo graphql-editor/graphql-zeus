@@ -1,4 +1,4 @@
-import { Parser } from '../../Parser';
+import { Parser } from 'graphql-js-tree';
 import { TreeToTS } from '../../TreeToTS';
 
 describe('TypeDefintion declarations tests on TypeScript type generator', () => {

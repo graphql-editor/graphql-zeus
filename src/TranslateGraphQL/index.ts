@@ -1,5 +1,5 @@
 import { Environment } from '@/Models';
-import { Parser } from '@/Parser';
+import { Parser } from 'graphql-js-tree';
 import { TreeToTS } from '@/TreeToTS';
 
 export class TranslateGraphQL {

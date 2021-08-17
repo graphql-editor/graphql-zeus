@@ -4,7 +4,7 @@ import { Environment } from '@/Models';
 import { TranslateGraphQL } from '@/TranslateGraphQL';
 import { Utils } from '@/Utils';
 import { TreeToJSONSchema } from '@/TreeToJSONSchema';
-import { Parser } from '@/Parser';
+import { Parser } from 'graphql-js-tree';
 import { pluginApollo } from '@/plugins/apollo';
 
 /**

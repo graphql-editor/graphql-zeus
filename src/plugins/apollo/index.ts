@@ -1,6 +1,5 @@
 export const pluginApollo = () => ({
-  ts: `
-/* eslint-disable */
+  ts: `/* eslint-disable */
 
 import { Zeus, GraphQLTypes, InputType, ValueTypes } from './index';
 import { gql, useQuery } from '@apollo/client';

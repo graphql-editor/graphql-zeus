@@ -1,16 +1,17 @@
 /* eslint-disable */
 
 export const AllTypesProps: Record<string,any> = {
-	Card:{
-		attack:{
-			cardID:{
+	Query:{
+		cardById:{
+			cardId:{
 				type:"String",
-				array:true,
-				arrayRequired:true,
-				required:true
+				array:false,
+				arrayRequired:false,
+				required:false
 			}
 		}
 	},
+	SpecialSkills: "enum",
 	createCard:{
 		name:{
 			type:"String",
@@ -59,30 +60,51 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		}
 	},
-	Query:{
-		cardById:{
-			cardId:{
+	Card:{
+		attack:{
+			cardID:{
 				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
+				array:true,
+				arrayRequired:true,
+				required:true
 			}
 		}
-	},
-	SpecialSkills: "enum"
+	}
 }
 
 export const ReturnTypes: Record<string,any> = {
+	Query:{
+		cardById:"Card",
+		drawCard:"Card",
+		drawChangeCard:"ChangeCard",
+		listCards:"Card",
+		myStacks:"CardStack",
+		nameables:"Nameable"
+	},
+	Nameable:{
+		"...on CardStack": "CardStack",
+		"...on Card": "Card",
+		"...on SpecialCard": "SpecialCard",
+		"...on EffectCard": "EffectCard",
+		name:"String"
+	},
 	S3Object:{
 		bucket:"String",
 		key:"String",
 		region:"String"
 	},
-	Nameable:{
-		"...on Card": "Card",
-		"...on EffectCard": "EffectCard",
-		"...on CardStack": "CardStack",
-		"...on SpecialCard": "SpecialCard",
+	Subscription:{
+		deck:"Card"
+	},
+	ChangeCard:{
+		"...on SpecialCard":"SpecialCard",
+		"...on EffectCard":"EffectCard"
+	},
+	Mutation:{
+		addCard:"Card"
+	},
+	CardStack:{
+		cards:"Card",
 		name:"String"
 	},
 	Card:{
@@ -97,34 +119,12 @@ export const ReturnTypes: Record<string,any> = {
 		name:"String",
 		skills:"SpecialSkills"
 	},
-	EffectCard:{
-		effectSize:"Float",
-		name:"String"
-	},
-	CardStack:{
-		cards:"Card",
-		name:"String"
-	},
 	SpecialCard:{
 		effect:"String",
 		name:"String"
 	},
-	Mutation:{
-		addCard:"Card"
-	},
-	Subscription:{
-		deck:"Card"
-	},
-	Query:{
-		cardById:"Card",
-		drawCard:"Card",
-		drawChangeCard:"ChangeCard",
-		listCards:"Card",
-		myStacks:"CardStack",
-		nameables:"Nameable"
-	},
-	ChangeCard:{
-		"...on SpecialCard":"SpecialCard",
-		"...on EffectCard":"EffectCard"
+	EffectCard:{
+		effectSize:"Float",
+		name:"String"
 	}
 }

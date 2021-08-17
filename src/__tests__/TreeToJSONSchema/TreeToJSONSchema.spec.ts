@@ -1,5 +1,5 @@
 import { JSONSchema7 } from 'json-schema';
-import { Parser } from '../../Parser';
+import { Parser } from 'graphql-js-tree';
 import { TreeToJSONSchema } from '../../TreeToJSONSchema';
 describe('TreeToJSONSchema tests', () => {
   it('creates correct input field', () => {

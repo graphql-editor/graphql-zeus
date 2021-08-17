@@ -54,7 +54,6 @@ Given the following schema [Olympus Cards](https://app.graphqleditor.com/a-team/
     - [Gql string](#gql-string)
     - [JavaScript Type Casting](#javascript-type-casting)
     - [Typescript SelectionSet](#typescript-selectionset)
-    - [Usage with React Hooks and Apollo Client](#usage-with-react-hooks-and-apollo-client)
   - [ZeusHook](#zeushook)
   - [Spec](#spec)
     - [Use Alias Spec](#use-alias-spec)
@@ -100,10 +99,23 @@ $ zeus schema.graphql ./  --ts
 
 #### Usage with Apollo GraphQL
 
-It will generate useTypedQuery based on Apollo useQuery thanks @GavinRay97
+It will generate useTypedQuery based on Apollo useQuery thanks @GavinRay97. All types in data are inherited from zeus query
 
 ```sh
 $ zeus schema.graphql ./  --apollo
+```
+
+```tsx
+import { useTypedQuery } from './zeus/apollo';
+
+const Main = () => {
+  const { data } = useTypedQuery({
+    drawCard: {
+      name: true,
+    },
+  });
+  return <div>{data.drawCard.name}</div>;
+};
 ```
 
 #### Usage with NodeJS
@@ -579,65 +591,9 @@ const { drawCard: cardSelector } = Selectors.query({
   },
 });
 
-const cardSelector2 = ZeusSelect<ValueTypes['Card']>()({
-  name: true,
-  description: true,
-  Attack: true,
-  skills: true,
-  Defense: true,
-  cardImage: {
-    key: true,
-    bucket: true,
-  },
-});
-
 const queryWithSelectionSet = await chain.query({
   drawCard: cardSelector,
-  listCards: cardSelector2,
 });
-```
-
-#### Usage with React Hooks and Apollo Client
-
-GraphQL Zeus can be used in combination with Apollo Client's React hooks to provide typed versions of `useQuery()`, `useMutation()`, and `useSubscription()`. Below is what the implementation looks like (please note the comment about root typenames, like `query_root`).
-
-```ts
-import {
-  gql,
-  MutationHookOptions,
-  QueryHookOptions,
-  SubscriptionHookOptions,
-  useMutation,
-  useQuery,
-  useSubscription,
-} from '@apollo/client';
-
-/**
- * If your query/mutation/subscription root fields are named differently
- * you will need to alter the imports and references in "ValueTypes" below
- */
-import { MapType, ValueTypes, Zeus, mutation_root, query_root, subscription_root } from './generated/graphql-zeus';
-
-export function useTypedQuery<Q extends ValueTypes['query_root']>(
-  query: Q,
-  options?: QueryHookOptions<MapType<query_root, Q>, Record<string, any>>,
-) {
-  return useQuery<MapType<query_root, Q>>(gql(Zeus.query(query)), options);
-}
-
-export function useTypedMutation<Q extends ValueTypes['mutation_root']>(
-  mutation: Q,
-  options?: MutationHookOptions<MapType<mutation_root, Q>, Record<string, any>>,
-) {
-  return useMutation<MapType<mutation_root, Q>>(gql(Zeus.mutation(mutation)), options);
-}
-
-export function useTypedSubscription<Q extends ValueTypes['subscription_root']>(
-  subscription: Q,
-  options?: SubscriptionHookOptions<MapType<subscription_root, Q>, Record<string, any>>,
-) {
-  return useSubscription<MapType<subscription_root, Q>>(gql(Zeus.subscription(subscription)), options);
-}
 ```
 
 ### ZeusHook

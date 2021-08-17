@@ -1,5 +1,5 @@
 import { OperationType } from '../../Models';
-import { Parser } from '../../Parser';
+import { Parser } from 'graphql-js-tree';
 import { TreeToTS } from '../../TreeToTS';
 
 describe('Chain tests', () => {
