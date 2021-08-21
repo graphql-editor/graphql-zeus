@@ -2,13 +2,13 @@
 
 export const AllTypesProps = {
 	SpecialSkills: "enum",
-	Mutation:{
-		addCard:{
-			card:{
-				type:"createCard",
+	Query:{
+		cardById:{
+			cardId:{
+				type:"String",
 				array:false,
 				arrayRequired:false,
-				required:true
+				required:false
 			}
 		}
 	},
@@ -23,6 +23,18 @@ export const AllTypesProps = {
 		}
 	},
 	createCard:{
+		Attack:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		Defense:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
 		skills:{
 			type:"SpecialSkills",
 			array:true,
@@ -46,33 +58,26 @@ export const AllTypesProps = {
 			array:false,
 			arrayRequired:false,
 			required:false
-		},
-		Attack:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		Defense:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
 		}
 	},
-	Query:{
-		cardById:{
-			cardId:{
-				type:"String",
+	Mutation:{
+		addCard:{
+			card:{
+				type:"createCard",
 				array:false,
 				arrayRequired:false,
-				required:false
+				required:true
 			}
 		}
 	}
 }
 
 export const ReturnTypes = {
+	S3Object:{
+		bucket:"String",
+		key:"String",
+		region:"String"
+	},
 	EffectCard:{
 		effectSize:"Float",
 		name:"String"
@@ -81,8 +86,20 @@ export const ReturnTypes = {
 		cards:"Card",
 		name:"String"
 	},
-	Mutation:{
-		addCard:"Card"
+	Query:{
+		cardById:"Card",
+		drawCard:"Card",
+		drawChangeCard:"ChangeCard",
+		listCards:"Card",
+		myStacks:"CardStack",
+		nameables:"Nameable"
+	},
+	SpecialCard:{
+		effect:"String",
+		name:"String"
+	},
+	Subscription:{
+		deck:"Card"
 	},
 	Card:{
 		Attack:"Int",
@@ -96,35 +113,18 @@ export const ReturnTypes = {
 		name:"String",
 		skills:"SpecialSkills"
 	},
-	Nameable:{
-		"...on EffectCard": "EffectCard",
-		"...on CardStack": "CardStack",
-		"...on Card": "Card",
-		"...on SpecialCard": "SpecialCard",
-		name:"String"
-	},
-	Subscription:{
-		deck:"Card"
-	},
-	S3Object:{
-		bucket:"String",
-		key:"String",
-		region:"String"
-	},
 	ChangeCard:{
 		"...on SpecialCard":"SpecialCard",
 		"...on EffectCard":"EffectCard"
 	},
-	Query:{
-		cardById:"Card",
-		drawCard:"Card",
-		drawChangeCard:"ChangeCard",
-		listCards:"Card",
-		myStacks:"CardStack",
-		nameables:"Nameable"
+	Mutation:{
+		addCard:"Card"
 	},
-	SpecialCard:{
-		effect:"String",
+	Nameable:{
+		"...on EffectCard": "EffectCard",
+		"...on CardStack": "CardStack",
+		"...on SpecialCard": "SpecialCard",
+		"...on Card": "Card",
 		name:"String"
 	}
 }

@@ -92,4 +92,13 @@ describe('Fields tests on TypeScript code', () => {
     expect(typeScriptCode).toContain(`name?: Array<string | undefined>`);
     expect(typeScriptCode).toContain(`friends: Array<${TYPES}["Person"]>`);
   });
+  test(`Arguments`, () => {
+    const schema = `type Person{
+        searchFriends(name: String): [Person!]!
+    }`;
+
+    const tree = Parser.parse(schema);
+    const typeScriptCode = TreeToTS.resolveTree(tree);
+    expect(typeScriptCode).toContain(`name?:string | null`);
+  });
 });

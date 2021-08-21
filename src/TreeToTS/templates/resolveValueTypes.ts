@@ -35,9 +35,12 @@ const resolveArg = (f: ParserField): string => {
   const concatArray = (name: string): string => {
     if (isArray) {
       if (!isRequired) {
-        return `(${name} | undefined)[]`;
+        return `(${name} | undefined | null)[]`;
       }
       return `${name}[]`;
+    }
+    if (!isRequired) {
+      return `${name} | null`;
     }
     return name;
   };

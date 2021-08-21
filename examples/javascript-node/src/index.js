@@ -33,7 +33,6 @@ const createCards = async () => {
     },
   });
   printQueryResult('Multiple queries', listCardsAndDraw);
-
   //Thunder example
   const thunder = Thunder(async (query) => {
     const response = await fetch('https://faker.graphqleditor.com/a-team/olympus/graphql', {

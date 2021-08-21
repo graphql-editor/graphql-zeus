@@ -47,6 +47,7 @@ export class CLI {
     }
     schemaFileContents = schemaFileContents || fs.readFileSync(schemaFile).toString();
     const pathToFile = allArgs[1] || '';
+    const tree = Parser.parse(schemaFileContents);
     if (args.graphql) {
       const schemaPath =
         args.graphql.endsWith('.graphql') || args.graphql.endsWith('.gql')
@@ -66,7 +67,7 @@ export class CLI {
       const pathToSchema = path.dirname(schemaPath);
       const schemaFile = path.basename(schemaPath);
 
-      const content = TreeToJSONSchema.parse(Parser.parse(schemaFileContents));
+      const content = TreeToJSONSchema.parse(tree);
       writeFileRecursive(pathToSchema, schemaFile, JSON.stringify(content, null, 4));
     }
     if (args.typescript) {
@@ -79,7 +80,7 @@ export class CLI {
         ),
       );
       if (args.apollo) {
-        writeFileRecursive(path.join(pathToFile, 'zeus'), `apollo.ts`, pluginApollo().ts);
+        writeFileRecursive(path.join(pathToFile, 'zeus'), `apollo.ts`, pluginApollo(tree).ts);
       }
     } else {
       const jsDefinition = TranslateGraphQL.javascriptSplit(schemaFileContents, env, host);
@@ -87,8 +88,9 @@ export class CLI {
       writeFileRecursive(path.join(pathToFile, 'zeus'), `index.js`, jsDefinition.index);
       writeFileRecursive(path.join(pathToFile, 'zeus'), `index.d.ts`, jsDefinition['index.d']);
       if (args.apollo) {
-        writeFileRecursive(path.join(pathToFile, 'zeus'), `apollo.js`, pluginApollo().js.code);
-        writeFileRecursive(path.join(pathToFile, 'zeus'), `apollo.d.ts`, pluginApollo().js.definitions);
+        const apolloResult = pluginApollo(tree);
+        writeFileRecursive(path.join(pathToFile, 'zeus'), `apollo.js`, apolloResult.js.code);
+        writeFileRecursive(path.join(pathToFile, 'zeus'), `apollo.d.ts`, apolloResult.js.definitions);
       }
     }
   };
