@@ -1,7 +1,8 @@
 import { OperationType, ParserTree } from 'graphql-js-tree';
 
-const pluginApolloOps = ({ queryName, operation }: { queryName: string; operation: OperationType }) => {
+const pluginApolloOps = ({ queryName, operation }: { queryName: string; operation: OperationType | 'LazyQuery' }) => {
   const capitalized = operation[0].toUpperCase() + operation.slice(1);
+  const zeusOperation = operation === 'LazyQuery' ? OperationType.query : operation;
   return {
     queryName,
     operation,
@@ -9,18 +10,18 @@ const pluginApolloOps = ({ queryName, operation }: { queryName: string; operatio
   ${operation}: Z | ValueTypes['${queryName}'],
   options?: ${capitalized}HookOptions<InputType<GraphQLTypes['${queryName}'], Z>>,
 ) {
-  return use${capitalized}<InputType<GraphQLTypes['${queryName}'], Z>>(gql(Zeus.${operation}(${operation})), options);
+  return use${capitalized}<InputType<GraphQLTypes['${queryName}'], Z>>(gql(Zeus.${zeusOperation}(${operation})), options);
 }`,
     js: {
       code: `export function useTyped${capitalized}(${operation}, options) {
-  return use${capitalized}(gql(Zeus.${operation}(${operation})), options);
+  return use${capitalized}(gql(Zeus.${zeusOperation}(${operation})), options);
 }
 `,
       definitions: `export declare function useTyped${capitalized}<Z>(
   ${operation}: Z | ValueTypes['${queryName}'],
   options?: ${capitalized}HookOptions<InputType<GraphQLTypes['${queryName}'], Z>>,
 ) {
-  return use${capitalized}<InputType<GraphQLTypes['${queryName}'], Z>>(gql(Zeus.${operation}(${operation})), options);
+  return use${capitalized}<InputType<GraphQLTypes['${queryName}'], Z>>(gql(Zeus.${zeusOperation}(${operation})), options);
 };`,
     },
   };
@@ -31,6 +32,12 @@ export const pluginApollo = (tree: ParserTree) => {
   const opsFunctions = operationNodes.flatMap((n) =>
     n.type.operations!.map((o) => pluginApolloOps({ queryName: n.name, operation: o })),
   );
+  for (const [index, o] of opsFunctions.entries()) {
+    if (o.operation === OperationType.query) {
+      opsFunctions.splice(index + 1, 0, pluginApolloOps({ queryName: o.queryName, operation: 'LazyQuery' }));
+      break;
+    }
+  }
   const o = opsFunctions.reduce<Pick<ReturnType<typeof pluginApolloOps>, 'js' | 'ts'>>(
     (a, b) => {
       a.ts = [a.ts, b.ts].join('\n');
