@@ -1,19 +1,38 @@
 /* eslint-disable */
 
 export const AllTypesProps: Record<string,any> = {
+	Mutation:{
+		addCard:{
+			card:{
+				type:"createCard",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		}
+	},
+	Card:{
+		attack:{
+			cardID:{
+				type:"String",
+				array:true,
+				arrayRequired:true,
+				required:true
+			}
+		}
+	},
+	SpecialSkills: "enum",
+	Query:{
+		cardById:{
+			cardId:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		}
+	},
 	createCard:{
-		Attack:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		Defense:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
 		skills:{
 			type:"SpecialSkills",
 			array:true,
@@ -37,52 +56,37 @@ export const AllTypesProps: Record<string,any> = {
 			array:false,
 			arrayRequired:false,
 			required:false
-		}
-	},
-	Card:{
-		attack:{
-			cardID:{
-				type:"String",
-				array:true,
-				arrayRequired:true,
-				required:true
-			}
-		}
-	},
-	Query:{
-		cardById:{
-			cardId:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		}
-	},
-	SpecialSkills: "enum",
-	Mutation:{
-		addCard:{
-			card:{
-				type:"createCard",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
+		},
+		Attack:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		Defense:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:true
 		}
 	}
 }
 
 export const ReturnTypes: Record<string,any> = {
-	Nameable:{
-		"...on EffectCard": "EffectCard",
-		"...on Card": "Card",
-		"...on SpecialCard": "SpecialCard",
-		"...on CardStack": "CardStack",
+	ChangeCard:{
+		"...on SpecialCard":"SpecialCard",
+		"...on EffectCard":"EffectCard"
+	},
+	SpecialCard:{
+		effect:"String",
 		name:"String"
 	},
-	EffectCard:{
-		effectSize:"Float",
+	CardStack:{
+		cards:"Card",
 		name:"String"
+	},
+	Mutation:{
+		addCard:"Card"
 	},
 	Card:{
 		Attack:"Int",
@@ -96,9 +100,15 @@ export const ReturnTypes: Record<string,any> = {
 		name:"String",
 		skills:"SpecialSkills"
 	},
-	SpecialCard:{
-		effect:"String",
+	Nameable:{
+		"...on SpecialCard": "SpecialCard",
+		"...on CardStack": "CardStack",
+		"...on Card": "Card",
+		"...on EffectCard": "EffectCard",
 		name:"String"
+	},
+	Subscription:{
+		deck:"Card"
 	},
 	Query:{
 		cardById:"Card",
@@ -108,23 +118,13 @@ export const ReturnTypes: Record<string,any> = {
 		myStacks:"CardStack",
 		nameables:"Nameable"
 	},
-	CardStack:{
-		cards:"Card",
-		name:"String"
-	},
-	Subscription:{
-		deck:"Card"
-	},
 	S3Object:{
 		bucket:"String",
 		key:"String",
 		region:"String"
 	},
-	ChangeCard:{
-		"...on SpecialCard":"SpecialCard",
-		"...on EffectCard":"EffectCard"
-	},
-	Mutation:{
-		addCard:"Card"
+	EffectCard:{
+		effectSize:"Float",
+		name:"String"
 	}
 }

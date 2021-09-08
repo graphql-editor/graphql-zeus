@@ -189,7 +189,7 @@ const run = async () => {
       },
     },
     {
-      cardIds: ['1', '2'],
+      variables: { cardIds: ['1', '2'] },
     },
   );
   printQueryResult('aliasedQuery', aliasedQueryExecute);
@@ -272,7 +272,9 @@ const run = async () => {
       ],
     },
     {
-      Attack: 4,
+      variables: {
+        Attack: 4,
+      },
     },
   );
   printQueryResult('variable Test', test);
