@@ -40,6 +40,7 @@ Given the following schema [Olympus Cards](https://app.graphqleditor.com/a-team/
     - [Usage with JavaScript](#usage-with-javascript)
     - [Usage with TypeScript](#usage-with-typescript)
     - [Usage with Apollo GraphQL](#usage-with-apollo-graphql)
+      - [Inferring the response type](#inferring-the-response-type)
     - [Usage with NodeJS](#usage-with-nodejs)
     - [Usage with React Native](#usage-with-react-native)
     - [Load from URL](#load-from-url)
@@ -99,7 +100,7 @@ $ zeus schema.graphql ./  --ts
 
 #### Usage with Apollo GraphQL
 
-It will generate useTypedQuery based on Apollo useQuery thanks @GavinRay97. All types in data are inherited from zeus query
+It will generate `useTypedQuery` `useTypedMutation` etc... based on Apollo useQuery thanks @GavinRay97. All types in data are inherited from zeus query
 
 ```sh
 $ zeus schema.graphql ./  --apollo
@@ -117,6 +118,40 @@ const Main = () => {
   return <div>{data.drawCard.name}</div>;
 };
 ```
+
+##### Inferring the response type
+
+Sometimes you would like to infer the response type. The it is best to use selectors
+
+
+```tsx
+import { Selectors, InputType, GraphQLTypes } from './zeus';
+
+export const drawCardQuery = Selectors.query({
+  drawCard: {
+    Attack: true,
+    Children: true,
+    id: true,
+  },
+});
+
+
+type InferredResponseType = InputType<typeof sel,GraphQLTypes['Query']>
+
+```
+
+You can also use it in useTypedQuery later
+
+```tsx
+import { useTypedQuery } from './zeus/apollo';
+import { drawCardQuery } from './'
+
+const Main = () => {
+  const { data } = useTypedQuery(drawCardQuery);
+  return <div>{data.drawCard.name}</div>;
+};
+```
+
 
 #### Usage with NodeJS
 

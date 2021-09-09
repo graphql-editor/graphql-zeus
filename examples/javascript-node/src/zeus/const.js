@@ -1,7 +1,27 @@
 /* eslint-disable */
 
 export const AllTypesProps = {
+	Mutation:{
+		addCard:{
+			card:{
+				type:"createCard",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		}
+	},
 	SpecialSkills: "enum",
+	Query:{
+		cardById:{
+			cardId:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		}
+	},
 	createCard:{
 		description:{
 			type:"String",
@@ -40,16 +60,6 @@ export const AllTypesProps = {
 			required:true
 		}
 	},
-	Query:{
-		cardById:{
-			cardId:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		}
-	},
 	Card:{
 		attack:{
 			cardID:{
@@ -59,35 +69,26 @@ export const AllTypesProps = {
 				required:true
 			}
 		}
-	},
-	Mutation:{
-		addCard:{
-			card:{
-				type:"createCard",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		}
 	}
 }
 
 export const ReturnTypes = {
-	ChangeCard:{
-		"...on SpecialCard":"SpecialCard",
-		"...on EffectCard":"EffectCard"
+	Mutation:{
+		addCard:"Card"
+	},
+	Subscription:{
+		deck:"Card"
 	},
 	CardStack:{
 		cards:"Card",
 		name:"String"
 	},
-	S3Object:{
-		bucket:"String",
-		key:"String",
-		region:"String"
-	},
-	Subscription:{
-		deck:"Card"
+	Nameable:{
+		"...on CardStack": "CardStack",
+		"...on SpecialCard": "SpecialCard",
+		"...on EffectCard": "EffectCard",
+		"...on Card": "Card",
+		name:"String"
 	},
 	Query:{
 		cardById:"Card",
@@ -97,11 +98,21 @@ export const ReturnTypes = {
 		myStacks:"CardStack",
 		nameables:"Nameable"
 	},
-	Nameable:{
-		"...on CardStack": "CardStack",
-		"...on Card": "Card",
-		"...on SpecialCard": "SpecialCard",
-		"...on EffectCard": "EffectCard",
+	S3Object:{
+		bucket:"String",
+		key:"String",
+		region:"String"
+	},
+	ChangeCard:{
+		"...on SpecialCard":"SpecialCard",
+		"...on EffectCard":"EffectCard"
+	},
+	SpecialCard:{
+		effect:"String",
+		name:"String"
+	},
+	EffectCard:{
+		effectSize:"Float",
 		name:"String"
 	},
 	Card:{
@@ -115,16 +126,5 @@ export const ReturnTypes = {
 		image:"String",
 		name:"String",
 		skills:"SpecialSkills"
-	},
-	Mutation:{
-		addCard:"Card"
-	},
-	SpecialCard:{
-		effect:"String",
-		name:"String"
-	},
-	EffectCard:{
-		effectSize:"Float",
-		name:"String"
 	}
 }
