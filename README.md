@@ -136,7 +136,7 @@ export const drawCardQuery = Selectors.query({
 });
 
 
-type InferredResponseType = InputType<typeof sel,GraphQLTypes['Query']>
+type InferredResponseType = InputType<typeof drawCardQuery,GraphQLTypes['Query']>
 
 ```
 
