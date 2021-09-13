@@ -29,9 +29,8 @@ export const resolveReturnFromRoot = (i: ParserField, usages?: string[]): string
       .join(',\n')}\n\t}`;
   }
   if (i.data.type === TypeDefinition.InterfaceTypeDefinition && usages) {
-    return `\t${i.name}:{\n${usages.map((u) => `\t\t"...on ${u}": "${u}"`).join(',\n')},\n${i.args
-      .map((f) => resolveField(f))
-      .join(',\n')}\n\t}`;
+    const usagesStrings = usages.length > 0 ? `${usages.map((u) => `\t\t"...on ${u}": "${u}"`).join(',\n')},\n` : ``;
+    return `\t${i.name}:{\n${usagesStrings}${i.args.map((f) => resolveField(f)).join(',\n')}\n\t}`;
   }
   return `\t${i.name}:{\n${i.args.map((f) => resolveField(f)).join(',\n')}\n\t}`;
 };

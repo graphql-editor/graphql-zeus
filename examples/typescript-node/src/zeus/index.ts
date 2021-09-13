@@ -1,266 +1,1031 @@
 /* eslint-disable */
 
 import { AllTypesProps, ReturnTypes } from './const';
-type ZEUS_INTERFACES = GraphQLTypes["Nameable"]
-type ZEUS_UNIONS = GraphQLTypes["ChangeCard"]
+type ZEUS_INTERFACES = GraphQLTypes["PageInterface"] | GraphQLTypes["AssetInterface"] | GraphQLTypes["EntryInterface"] | GraphQLTypes["TermInterface"] | GraphQLTypes["GlobalSetInterface"]
+type ZEUS_UNIONS = GraphQLTypes["Sets_Content"]
 
 export type ValueTypes = {
-    /** Aws S3 File */
-["S3Object"]: AliasType<{
-	bucket?:true,
-	key?:true,
-	region?:true,
+    ["CollectionTreeBranch"]: AliasType<{
+	children?:ValueTypes["CollectionTreeBranch"],
+	depth?:true,
+	entry?:ValueTypes["EntryInterface"],
+	page?:ValueTypes["EntryInterface"],
 		__typename?: true
 }>;
-	["ChangeCard"]: AliasType<{		["...on SpecialCard"] : ValueTypes["SpecialCard"],
-		["...on EffectCard"] : ValueTypes["EffectCard"]
-		__typename?: true
-}>;
-	/** create card inputs<br> */
-["createCard"]: {
-	/** <div>How many children the greek god had</div> */
-	Children?:number | null,
-	/** The attack power<br> */
-	Attack:number,
-	/** The defense power<br> */
-	Defense:number,
-	/** input skills */
-	skills?:ValueTypes["SpecialSkills"][],
-	/** The name of a card<br> */
-	name:string,
-	/** Description of a card<br> */
-	description:string
-};
-	/** Card used in card game<br> */
-["Card"]: AliasType<{
-	/** The attack power<br> */
-	Attack?:true,
-	/** <div>How many children the greek god had</div> */
-	Children?:true,
-	/** The defense power<br> */
-	Defense?:true,
-attack?: [{	/** Attacked card/card ids<br> */
-	cardID:string[]},ValueTypes["Card"]],
-	/** Put your description here */
-	cardImage?:ValueTypes["S3Object"],
-	/** Description of a card<br> */
-	description?:true,
+	["Entry_Articles_Articles"]: AliasType<{
+	author?:ValueTypes["User"],
+	collection?:ValueTypes["Collection"],
+	content?:ValueTypes["Sets_Content"],
+date?: [{	format?:string | null},true],
+	edit_url?:true,
 	id?:true,
-	image?:true,
-	/** The name of a card<br> */
-	name?:true,
-	skills?:true,
+last_modified?: [{	format?:string | null},true],
+	locale?:true,
+	parent?:ValueTypes["EntryInterface"],
+	permalink?:true,
+	private?:true,
+	published?:true,
+	site?:ValueTypes["Site"],
+	slug?:true,
+	status?:true,
+	title?:true,
+	uri?:true,
+	url?:true,
 		__typename?: true
 }>;
-	["SpecialCard"]: AliasType<{
-	effect?:true,
-	name?:true,
-		__typename?: true
-}>;
-	["EffectCard"]: AliasType<{
-	effectSize?:true,
-	name?:true,
-		__typename?: true
-}>;
-	/** Stack of cards */
-["CardStack"]: AliasType<{
-	cards?:ValueTypes["Card"],
-	name?:true,
-		__typename?: true
-}>;
-	["Mutation"]: AliasType<{
-addCard?: [{	card:ValueTypes["createCard"]},ValueTypes["Card"]],
-		__typename?: true
-}>;
-	["Subscription"]: AliasType<{
-	deck?:ValueTypes["Card"],
+	["Role"]: AliasType<{
+	handle?:true,
+	title?:true,
 		__typename?: true
 }>;
 	["Query"]: AliasType<{
-cardById?: [{	cardId?:string | null},ValueTypes["Card"]],
-	/** Draw a card<br> */
-	drawCard?:ValueTypes["Card"],
-	drawChangeCard?:ValueTypes["ChangeCard"],
-	/** list All Cards availble<br> */
-	listCards?:ValueTypes["Card"],
-	myStacks?:ValueTypes["CardStack"],
-	nameables?:ValueTypes["Nameable"],
+asset?: [{	container?:string | null,	id?:string | null,	path?:string | null},ValueTypes["AssetInterface"]],
+assetContainer?: [{	handle?:string | null},ValueTypes["AssetContainer"]],
+	assetContainers?:ValueTypes["AssetContainer"],
+assets?: [{	container:string,	limit?:number | null,	page?:number | null,	sort?:(string | undefined | null)[]},ValueTypes["AssetInterfacePagination"]],
+collection?: [{	handle?:string | null},ValueTypes["Collection"]],
+	collections?:ValueTypes["Collection"],
+entries?: [{	sort?:(string | undefined | null)[],	collection?:(string | undefined | null)[],	filter?:ValueTypes["JsonArgument"] | null,	limit?:number | null,	page?:number | null},ValueTypes["EntryInterfacePagination"]],
+entry?: [{	uri?:string | null,	collection?:string | null,	id?:string | null,	site?:string | null,	slug?:string | null},ValueTypes["EntryInterface"]],
+globalSet?: [{	handle?:string | null,	site?:string | null},ValueTypes["GlobalSetInterface"]],
+	globalSets?:ValueTypes["GlobalSetInterface"],
+nav?: [{	handle?:string | null},ValueTypes["Navigation"]],
+	navs?:ValueTypes["Navigation"],
+	ping?:true,
+	taxonomies?:ValueTypes["Taxonomy"],
+taxonomy?: [{	handle?:string | null},ValueTypes["Taxonomy"]],
+term?: [{	id?:string | null},ValueTypes["TermInterface"]],
+terms?: [{	filter?:ValueTypes["JsonArgument"] | null,	limit?:number | null,	page?:number | null,	sort?:(string | undefined | null)[],	taxonomy?:(string | undefined | null)[]},ValueTypes["TermInterfacePagination"]],
 		__typename?: true
 }>;
-	["Nameable"]:AliasType<{
-		name?:true;
-		['...on Card']?: Omit<ValueTypes["Card"],keyof ValueTypes["Nameable"]>;
-		['...on SpecialCard']?: Omit<ValueTypes["SpecialCard"],keyof ValueTypes["Nameable"]>;
-		['...on EffectCard']?: Omit<ValueTypes["EffectCard"],keyof ValueTypes["Nameable"]>;
-		['...on CardStack']?: Omit<ValueTypes["CardStack"],keyof ValueTypes["Nameable"]>;
+	["Entry_Authors_Authors"]: AliasType<{
+	collection?:ValueTypes["Collection"],
+content?: [{	/** How the value should be formatted. Either "markdown" or "html". Defaults to "html". */
+	format?:string | null},true],
+date?: [{	format?:string | null},true],
+	edit_url?:true,
+	id?:true,
+last_modified?: [{	format?:string | null},true],
+	locale?:true,
+	parent?:ValueTypes["EntryInterface"],
+	permalink?:true,
+	private?:true,
+	published?:true,
+	site?:ValueTypes["Site"],
+	slug?:true,
+	status?:true,
+	title?:true,
+	uri?:true,
+	url?:true,
 		__typename?: true
 }>;
-	["SpecialSkills"]:SpecialSkills
+	["Site"]: AliasType<{
+	handle?:true,
+	locale?:true,
+	name?:true,
+	short_locale?:true,
+	url?:true,
+		__typename?: true
+}>;
+	["AssetContainer"]: AliasType<{
+	handle?:true,
+	title?:true,
+		__typename?: true
+}>;
+	["Set_Content_Vimeo"]: AliasType<{
+	type?:true,
+	url?:true,
+		__typename?: true
+}>;
+	["PageInterface"]:AliasType<{
+		id?:true,
+	permalink?:true,
+	title?:true,
+	url?:true,
+	entry_id?:true;
+		
+		__typename?: true
+}>;
+	["AssetInterface"]:AliasType<{
+		size?:true,
+	size_megabytes?:true,
+	orientation?:true,
+	size_b?:true,
+	url?:true,
+	is_video?:true,
+	permalink?:true,
+	size_mb?:true,
+	size_kilobytes?:true,
+	ratio?:true,
+	last_modified?:true,
+	edit_url?:true,
+	extension?:true,
+	path?:true,
+	size_bytes?:true,
+	width?:true,
+	folder?:true,
+	size_gb?:true,
+	size_gigabytes?:true,
+	height?:true,
+	is_audio?:true,
+	blueprint?:true,
+	size_kb?:true,
+	focus_css?:true,
+	container?:ValueTypes["AssetContainer"],
+	id?:true,
+	is_image?:true;
+		['...on Asset_Images']?: Omit<ValueTypes["Asset_Images"],keyof ValueTypes["AssetInterface"]>;
+		['...on Asset_Assets']?: Omit<ValueTypes["Asset_Assets"],keyof ValueTypes["AssetInterface"]>;
+		__typename?: true
+}>;
+	["UserGroup"]: AliasType<{
+	handle?:true,
+	title?:true,
+		__typename?: true
+}>;
+	["Entry_Issues_Issues"]: AliasType<{
+	collection?:ValueTypes["Collection"],
+content?: [{	/** How the value should be formatted. Either "markdown" or "html". Defaults to "html". */
+	format?:string | null},true],
+date?: [{	format?:string | null},true],
+	edit_url?:true,
+	id?:true,
+last_modified?: [{	format?:string | null},true],
+	locale?:true,
+	parent?:ValueTypes["EntryInterface"],
+	permalink?:true,
+	private?:true,
+	published?:true,
+	site?:ValueTypes["Site"],
+	slug?:true,
+	status?:true,
+	title?:true,
+	uri?:true,
+	url?:true,
+		__typename?: true
+}>;
+	["CollectionStructure"]: AliasType<{
+	expects_root?:true,
+	handle?:true,
+	max_depth?:true,
+	title?:true,
+tree?: [{	site?:string | null},ValueTypes["CollectionTreeBranch"]],
+		__typename?: true
+}>;
+	["Taxonomy"]: AliasType<{
+	handle?:true,
+	title?:true,
+		__typename?: true
+}>;
+	["EntryInterface"]:AliasType<{
+		published?:true,
+	status?:true,
+	edit_url?:true,
+	uri?:true,
+	collection?:ValueTypes["Collection"],
+	site?:ValueTypes["Site"],
+	title?:true,
+date?: [{	format?:string | null},true],
+	locale?:true,
+last_modified?: [{	format?:string | null},true],
+	id?:true,
+	parent?:ValueTypes["EntryInterface"],
+	url?:true,
+	permalink?:true,
+	private?:true,
+	slug?:true;
+		['...on Entry_Articles_Articles']?: Omit<ValueTypes["Entry_Articles_Articles"],keyof ValueTypes["EntryInterface"]>;
+		['...on Entry_Authors_Authors']?: Omit<ValueTypes["Entry_Authors_Authors"],keyof ValueTypes["EntryInterface"]>;
+		['...on Entry_Issues_Issues']?: Omit<ValueTypes["Entry_Issues_Issues"],keyof ValueTypes["EntryInterface"]>;
+		__typename?: true
+}>;
+	["NavTreeBranch"]: AliasType<{
+	children?:ValueTypes["NavTreeBranch"],
+	depth?:true,
+	page?:ValueTypes["PageInterface"],
+		__typename?: true
+}>;
+	["AssetInterfacePagination"]: AliasType<{
+	/** Current page of the cursor */
+	current_page?:true,
+	/** List of items on the current page */
+	data?:ValueTypes["AssetInterface"],
+	/** Number of the first item returned */
+	from?:true,
+	/** Determines if cursor has more pages after the current page */
+	has_more_pages?:true,
+	/** The last page (number of pages) */
+	last_page?:true,
+	/** Number of items returned per page */
+	per_page?:true,
+	/** Number of the last item returned */
+	to?:true,
+	/** Number of total items selected by the query */
+	total?:true,
+		__typename?: true
+}>;
+	["TermInterface"]:AliasType<{
+		uri?:true,
+	url?:true,
+	edit_url?:true,
+	id?:true,
+	permalink?:true,
+	slug?:true,
+	taxonomy?:ValueTypes["Taxonomy"],
+	title?:true;
+		
+		__typename?: true
+}>;
+	["Collection"]: AliasType<{
+	handle?:true,
+	structure?:ValueTypes["CollectionStructure"],
+	title?:true,
+		__typename?: true
+}>;
+	["TermInterfacePagination"]: AliasType<{
+	/** Current page of the cursor */
+	current_page?:true,
+	/** List of items on the current page */
+	data?:ValueTypes["TermInterface"],
+	/** Number of the first item returned */
+	from?:true,
+	/** Determines if cursor has more pages after the current page */
+	has_more_pages?:true,
+	/** The last page (number of pages) */
+	last_page?:true,
+	/** Number of items returned per page */
+	per_page?:true,
+	/** Number of the last item returned */
+	to?:true,
+	/** Number of total items selected by the query */
+	total?:true,
+		__typename?: true
+}>;
+	["User"]: AliasType<{
+	avatar?:ValueTypes["AssetInterface"],
+	edit_url?:true,
+	email?:true,
+	groups?:ValueTypes["UserGroup"],
+	id?:true,
+	initials?:true,
+	name?:true,
+	roles?:ValueTypes["Role"],
+		__typename?: true
+}>;
+	["GlobalSetInterface"]:AliasType<{
+		title?:true,
+	handle?:true,
+	site?:ValueTypes["Site"];
+		
+		__typename?: true
+}>;
+	["EntryInterfacePagination"]: AliasType<{
+	/** Current page of the cursor */
+	current_page?:true,
+	/** List of items on the current page */
+	data?:ValueTypes["EntryInterface"],
+	/** Number of the first item returned */
+	from?:true,
+	/** Determines if cursor has more pages after the current page */
+	has_more_pages?:true,
+	/** The last page (number of pages) */
+	last_page?:true,
+	/** Number of items returned per page */
+	per_page?:true,
+	/** Number of the last item returned */
+	to?:true,
+	/** Number of total items selected by the query */
+	total?:true,
+		__typename?: true
+}>;
+	["Asset_Images"]: AliasType<{
+	alt?:true,
+	blueprint?:true,
+	container?:ValueTypes["AssetContainer"],
+	edit_url?:true,
+	extension?:true,
+	focus_css?:true,
+	folder?:true,
+	height?:true,
+	id?:true,
+	is_audio?:true,
+	is_image?:true,
+	is_video?:true,
+	last_modified?:true,
+	orientation?:true,
+	path?:true,
+	permalink?:true,
+	ratio?:true,
+	size?:true,
+	size_b?:true,
+	size_bytes?:true,
+	size_gb?:true,
+	size_gigabytes?:true,
+	size_kb?:true,
+	size_kilobytes?:true,
+	size_mb?:true,
+	size_megabytes?:true,
+	url?:true,
+	width?:true,
+		__typename?: true
+}>;
+	["BardText"]: AliasType<{
+	text?:true,
+	type?:true,
+		__typename?: true
+}>;
+	["Asset_Assets"]: AliasType<{
+	alt?:true,
+	blueprint?:true,
+	container?:ValueTypes["AssetContainer"],
+	edit_url?:true,
+	extension?:true,
+	focus_css?:true,
+	folder?:true,
+	height?:true,
+	id?:true,
+	is_audio?:true,
+	is_image?:true,
+	is_video?:true,
+	last_modified?:true,
+	orientation?:true,
+	path?:true,
+	permalink?:true,
+	ratio?:true,
+	size?:true,
+	size_b?:true,
+	size_bytes?:true,
+	size_gb?:true,
+	size_gigabytes?:true,
+	size_kb?:true,
+	size_kilobytes?:true,
+	size_mb?:true,
+	size_megabytes?:true,
+	url?:true,
+	width?:true,
+		__typename?: true
+}>;
+	["Navigation"]: AliasType<{
+	expects_root?:true,
+	handle?:true,
+	max_depth?:true,
+	title?:true,
+tree?: [{	site?:string | null},ValueTypes["NavTreeBranch"]],
+		__typename?: true
+}>;
+	["JsonArgument"]:unknown;
+	["Sets_Content"]: AliasType<{		["...on BardText"] : ValueTypes["BardText"],
+		["...on Set_Content_Vimeo"] : ValueTypes["Set_Content_Vimeo"]
+		__typename?: true
+}>
   }
 
 export type ModelTypes = {
-    /** Aws S3 File */
-["S3Object"]: {
-		bucket:string,
-	key:string,
-	region:string
+    ["CollectionTreeBranch"]: {
+		children?:(ModelTypes["CollectionTreeBranch"] | undefined)[],
+	depth:number,
+	entry?:ModelTypes["EntryInterface"],
+	page?:ModelTypes["EntryInterface"]
 };
-	["ChangeCard"]:ModelTypes["SpecialCard"] | ModelTypes["EffectCard"];
-	/** create card inputs<br> */
-["createCard"]: GraphQLTypes["createCard"];
-	/** Card used in card game<br> */
-["Card"]: {
-		/** The attack power<br> */
-	Attack:number,
-	/** <div>How many children the greek god had</div> */
-	Children?:number,
-	/** The defense power<br> */
-	Defense:number,
-	/** Attack other cards on the table , returns Cards after attack<br> */
-	attack?:ModelTypes["Card"][],
-	/** Put your description here */
-	cardImage?:ModelTypes["S3Object"],
-	/** Description of a card<br> */
-	description:string,
+	["Entry_Articles_Articles"]: {
+		author?:ModelTypes["User"],
+	collection:ModelTypes["Collection"],
+	content?:ModelTypes["Sets_Content"][],
+	date?:string,
+	edit_url:string,
 	id:string,
-	image:string,
-	/** The name of a card<br> */
-	name:string,
-	skills?:ModelTypes["SpecialSkills"][]
+	last_modified?:string,
+	locale:string,
+	parent?:ModelTypes["EntryInterface"],
+	permalink?:string,
+	private:boolean,
+	published:boolean,
+	site:ModelTypes["Site"],
+	slug:string,
+	status:string,
+	title:string,
+	uri?:string,
+	url?:string
 };
-	["SpecialCard"]: {
-		effect:string,
-	name:string
-};
-	["EffectCard"]: {
-		effectSize:number,
-	name:string
-};
-	/** Stack of cards */
-["CardStack"]: {
-		cards?:ModelTypes["Card"][],
-	name:string
-};
-	["Mutation"]: {
-		/** add Card to Cards database<br> */
-	addCard:ModelTypes["Card"]
-};
-	["Subscription"]: {
-		deck?:ModelTypes["Card"][]
+	["Role"]: {
+		handle?:string,
+	title?:string
 };
 	["Query"]: {
-		cardById?:ModelTypes["Card"],
-	/** Draw a card<br> */
-	drawCard:ModelTypes["Card"],
-	drawChangeCard:ModelTypes["ChangeCard"],
-	/** list All Cards availble<br> */
-	listCards:ModelTypes["Card"][],
-	myStacks?:ModelTypes["CardStack"][],
-	nameables:ModelTypes["Nameable"][]
+		asset?:ModelTypes["AssetInterface"],
+	assetContainer?:ModelTypes["AssetContainer"],
+	assetContainers?:(ModelTypes["AssetContainer"] | undefined)[],
+	assets?:ModelTypes["AssetInterfacePagination"],
+	collection?:ModelTypes["Collection"],
+	collections?:(ModelTypes["Collection"] | undefined)[],
+	entries?:ModelTypes["EntryInterfacePagination"],
+	entry?:ModelTypes["EntryInterface"],
+	globalSet?:ModelTypes["GlobalSetInterface"],
+	globalSets?:(ModelTypes["GlobalSetInterface"] | undefined)[],
+	nav?:ModelTypes["Navigation"],
+	navs?:(ModelTypes["Navigation"] | undefined)[],
+	ping?:string,
+	taxonomies?:(ModelTypes["Taxonomy"] | undefined)[],
+	taxonomy?:ModelTypes["Taxonomy"],
+	term?:ModelTypes["TermInterface"],
+	terms?:ModelTypes["TermInterfacePagination"]
 };
-	["Nameable"]: ModelTypes["Card"] | ModelTypes["SpecialCard"] | ModelTypes["EffectCard"] | ModelTypes["CardStack"];
-	["SpecialSkills"]: GraphQLTypes["SpecialSkills"]
+	["Entry_Authors_Authors"]: {
+		collection:ModelTypes["Collection"],
+	content?:string,
+	date?:string,
+	edit_url:string,
+	id:string,
+	last_modified?:string,
+	locale:string,
+	parent?:ModelTypes["EntryInterface"],
+	permalink?:string,
+	private:boolean,
+	published:boolean,
+	site:ModelTypes["Site"],
+	slug:string,
+	status:string,
+	title:string,
+	uri?:string,
+	url?:string
+};
+	["Site"]: {
+		handle:string,
+	locale:string,
+	name:string,
+	short_locale:string,
+	url:string
+};
+	["AssetContainer"]: {
+		handle:string,
+	title:string
+};
+	["Set_Content_Vimeo"]: {
+		type:string,
+	url:string
+};
+	["PageInterface"]: ;
+	["AssetInterface"]: ModelTypes["Asset_Images"] | ModelTypes["Asset_Assets"];
+	["UserGroup"]: {
+		handle?:string,
+	title?:string
+};
+	["Entry_Issues_Issues"]: {
+		collection:ModelTypes["Collection"],
+	content?:string,
+	date?:string,
+	edit_url:string,
+	id:string,
+	last_modified?:string,
+	locale:string,
+	parent?:ModelTypes["EntryInterface"],
+	permalink?:string,
+	private:boolean,
+	published:boolean,
+	site:ModelTypes["Site"],
+	slug:string,
+	status:string,
+	title:string,
+	uri?:string,
+	url?:string
+};
+	["CollectionStructure"]: {
+		expects_root:boolean,
+	handle:string,
+	max_depth?:number,
+	title:string,
+	tree?:(ModelTypes["CollectionTreeBranch"] | undefined)[]
+};
+	["Taxonomy"]: {
+		handle:string,
+	title:string
+};
+	["EntryInterface"]: ModelTypes["Entry_Articles_Articles"] | ModelTypes["Entry_Authors_Authors"] | ModelTypes["Entry_Issues_Issues"];
+	["NavTreeBranch"]: {
+		children?:(ModelTypes["NavTreeBranch"] | undefined)[],
+	depth:number,
+	page?:ModelTypes["PageInterface"]
+};
+	["AssetInterfacePagination"]: {
+		/** Current page of the cursor */
+	current_page:number,
+	/** List of items on the current page */
+	data?:(ModelTypes["AssetInterface"] | undefined)[],
+	/** Number of the first item returned */
+	from?:number,
+	/** Determines if cursor has more pages after the current page */
+	has_more_pages:boolean,
+	/** The last page (number of pages) */
+	last_page:number,
+	/** Number of items returned per page */
+	per_page:number,
+	/** Number of the last item returned */
+	to?:number,
+	/** Number of total items selected by the query */
+	total:number
+};
+	["TermInterface"]: ;
+	["Collection"]: {
+		handle:string,
+	structure?:ModelTypes["CollectionStructure"],
+	title:string
+};
+	["TermInterfacePagination"]: {
+		/** Current page of the cursor */
+	current_page:number,
+	/** List of items on the current page */
+	data?:(ModelTypes["TermInterface"] | undefined)[],
+	/** Number of the first item returned */
+	from?:number,
+	/** Determines if cursor has more pages after the current page */
+	has_more_pages:boolean,
+	/** The last page (number of pages) */
+	last_page:number,
+	/** Number of items returned per page */
+	per_page:number,
+	/** Number of the last item returned */
+	to?:number,
+	/** Number of total items selected by the query */
+	total:number
+};
+	["User"]: {
+		avatar?:ModelTypes["AssetInterface"],
+	edit_url?:string,
+	email?:string,
+	groups?:(ModelTypes["UserGroup"] | undefined)[],
+	id?:string,
+	initials?:string,
+	name?:string,
+	roles?:(ModelTypes["Role"] | undefined)[]
+};
+	["GlobalSetInterface"]: ;
+	["EntryInterfacePagination"]: {
+		/** Current page of the cursor */
+	current_page:number,
+	/** List of items on the current page */
+	data?:(ModelTypes["EntryInterface"] | undefined)[],
+	/** Number of the first item returned */
+	from?:number,
+	/** Determines if cursor has more pages after the current page */
+	has_more_pages:boolean,
+	/** The last page (number of pages) */
+	last_page:number,
+	/** Number of items returned per page */
+	per_page:number,
+	/** Number of the last item returned */
+	to?:number,
+	/** Number of total items selected by the query */
+	total:number
+};
+	["Asset_Images"]: {
+		alt?:string,
+	blueprint?:string,
+	container:ModelTypes["AssetContainer"],
+	edit_url?:string,
+	extension:string,
+	focus_css?:string,
+	folder?:string,
+	height?:number,
+	id:string,
+	is_audio?:boolean,
+	is_image?:boolean,
+	is_video?:boolean,
+	last_modified?:string,
+	orientation?:string,
+	path:string,
+	permalink?:string,
+	ratio?:number,
+	size?:string,
+	size_b?:number,
+	size_bytes?:number,
+	size_gb?:number,
+	size_gigabytes?:number,
+	size_kb?:number,
+	size_kilobytes?:number,
+	size_mb?:number,
+	size_megabytes?:number,
+	url?:string,
+	width?:number
+};
+	["BardText"]: {
+		text?:string,
+	type:string
+};
+	["Asset_Assets"]: {
+		alt?:string,
+	blueprint?:string,
+	container:ModelTypes["AssetContainer"],
+	edit_url?:string,
+	extension:string,
+	focus_css?:string,
+	folder?:string,
+	height?:number,
+	id:string,
+	is_audio?:boolean,
+	is_image?:boolean,
+	is_video?:boolean,
+	last_modified?:string,
+	orientation?:string,
+	path:string,
+	permalink?:string,
+	ratio?:number,
+	size?:string,
+	size_b?:number,
+	size_bytes?:number,
+	size_gb?:number,
+	size_gigabytes?:number,
+	size_kb?:number,
+	size_kilobytes?:number,
+	size_mb?:number,
+	size_megabytes?:number,
+	url?:string,
+	width?:number
+};
+	["Navigation"]: {
+		expects_root:boolean,
+	handle:string,
+	max_depth?:number,
+	title:string,
+	tree?:(ModelTypes["NavTreeBranch"] | undefined)[]
+};
+	["JsonArgument"]:any;
+	["Sets_Content"]:ModelTypes["BardText"] | ModelTypes["Set_Content_Vimeo"]
     }
 
 export type GraphQLTypes = {
-    /** Aws S3 File */
-["S3Object"]: {
-	__typename: "S3Object",
-	bucket: string,
-	key: string,
-	region: string
+    ["CollectionTreeBranch"]: {
+	__typename: "CollectionTreeBranch",
+	children?: Array<GraphQLTypes["CollectionTreeBranch"] | undefined>,
+	depth: number,
+	entry?: GraphQLTypes["EntryInterface"],
+	page?: GraphQLTypes["EntryInterface"]
 };
-	["ChangeCard"]:{
-	['...on SpecialCard']: '__union' & GraphQLTypes["SpecialCard"];
-	['...on EffectCard']: '__union' & GraphQLTypes["EffectCard"];
-};
-	/** create card inputs<br> */
-["createCard"]: {
-		/** <div>How many children the greek god had</div> */
-	Children?: number,
-	/** The attack power<br> */
-	Attack: number,
-	/** The defense power<br> */
-	Defense: number,
-	/** input skills */
-	skills?: Array<GraphQLTypes["SpecialSkills"]>,
-	/** The name of a card<br> */
-	name: string,
-	/** Description of a card<br> */
-	description: string
-};
-	/** Card used in card game<br> */
-["Card"]: {
-	__typename: "Card",
-	/** The attack power<br> */
-	Attack: number,
-	/** <div>How many children the greek god had</div> */
-	Children?: number,
-	/** The defense power<br> */
-	Defense: number,
-	/** Attack other cards on the table , returns Cards after attack<br> */
-	attack?: Array<GraphQLTypes["Card"]>,
-	/** Put your description here */
-	cardImage?: GraphQLTypes["S3Object"],
-	/** Description of a card<br> */
-	description: string,
+	["Entry_Articles_Articles"]: {
+	__typename: "Entry_Articles_Articles",
+	author?: GraphQLTypes["User"],
+	collection: GraphQLTypes["Collection"],
+	content?: Array<GraphQLTypes["Sets_Content"]>,
+	date?: string,
+	edit_url: string,
 	id: string,
-	image: string,
-	/** The name of a card<br> */
-	name: string,
-	skills?: Array<GraphQLTypes["SpecialSkills"]>
+	last_modified?: string,
+	locale: string,
+	parent?: GraphQLTypes["EntryInterface"],
+	permalink?: string,
+	private: boolean,
+	published: boolean,
+	site: GraphQLTypes["Site"],
+	slug: string,
+	status: string,
+	title: string,
+	uri?: string,
+	url?: string
 };
-	["SpecialCard"]: {
-	__typename: "SpecialCard",
-	effect: string,
-	name: string
-};
-	["EffectCard"]: {
-	__typename: "EffectCard",
-	effectSize: number,
-	name: string
-};
-	/** Stack of cards */
-["CardStack"]: {
-	__typename: "CardStack",
-	cards?: Array<GraphQLTypes["Card"]>,
-	name: string
-};
-	["Mutation"]: {
-	__typename: "Mutation",
-	/** add Card to Cards database<br> */
-	addCard: GraphQLTypes["Card"]
-};
-	["Subscription"]: {
-	__typename: "Subscription",
-	deck?: Array<GraphQLTypes["Card"]>
+	["Role"]: {
+	__typename: "Role",
+	handle?: string,
+	title?: string
 };
 	["Query"]: {
 	__typename: "Query",
-	cardById?: GraphQLTypes["Card"],
-	/** Draw a card<br> */
-	drawCard: GraphQLTypes["Card"],
-	drawChangeCard: GraphQLTypes["ChangeCard"],
-	/** list All Cards availble<br> */
-	listCards: Array<GraphQLTypes["Card"]>,
-	myStacks?: Array<GraphQLTypes["CardStack"]>,
-	nameables: Array<GraphQLTypes["Nameable"]>
+	asset?: GraphQLTypes["AssetInterface"],
+	assetContainer?: GraphQLTypes["AssetContainer"],
+	assetContainers?: Array<GraphQLTypes["AssetContainer"] | undefined>,
+	assets?: GraphQLTypes["AssetInterfacePagination"],
+	collection?: GraphQLTypes["Collection"],
+	collections?: Array<GraphQLTypes["Collection"] | undefined>,
+	entries?: GraphQLTypes["EntryInterfacePagination"],
+	entry?: GraphQLTypes["EntryInterface"],
+	globalSet?: GraphQLTypes["GlobalSetInterface"],
+	globalSets?: Array<GraphQLTypes["GlobalSetInterface"] | undefined>,
+	nav?: GraphQLTypes["Navigation"],
+	navs?: Array<GraphQLTypes["Navigation"] | undefined>,
+	ping?: string,
+	taxonomies?: Array<GraphQLTypes["Taxonomy"] | undefined>,
+	taxonomy?: GraphQLTypes["Taxonomy"],
+	term?: GraphQLTypes["TermInterface"],
+	terms?: GraphQLTypes["TermInterfacePagination"]
 };
-	["Nameable"]: {
-	__typename:"Card" | "SpecialCard" | "EffectCard" | "CardStack"
-	name: string
-	['...on Card']: '__union' & GraphQLTypes["Card"];
-	['...on SpecialCard']: '__union' & GraphQLTypes["SpecialCard"];
-	['...on EffectCard']: '__union' & GraphQLTypes["EffectCard"];
-	['...on CardStack']: '__union' & GraphQLTypes["CardStack"];
+	["Entry_Authors_Authors"]: {
+	__typename: "Entry_Authors_Authors",
+	collection: GraphQLTypes["Collection"],
+	content?: string,
+	date?: string,
+	edit_url: string,
+	id: string,
+	last_modified?: string,
+	locale: string,
+	parent?: GraphQLTypes["EntryInterface"],
+	permalink?: string,
+	private: boolean,
+	published: boolean,
+	site: GraphQLTypes["Site"],
+	slug: string,
+	status: string,
+	title: string,
+	uri?: string,
+	url?: string
 };
-	["SpecialSkills"]: SpecialSkills
-    }
-export enum SpecialSkills {
-	FIRE = "FIRE",
-	THUNDER = "THUNDER",
-	RAIN = "RAIN"
+	["Site"]: {
+	__typename: "Site",
+	handle: string,
+	locale: string,
+	name: string,
+	short_locale: string,
+	url: string
+};
+	["AssetContainer"]: {
+	__typename: "AssetContainer",
+	handle: string,
+	title: string
+};
+	["Set_Content_Vimeo"]: {
+	__typename: "Set_Content_Vimeo",
+	type: string,
+	url: string
+};
+	["PageInterface"]: {
+	__typename:never
+	id: string,
+	permalink?: string,
+	title?: string,
+	url?: string,
+	entry_id?: string
+	
+};
+	["AssetInterface"]: {
+	__typename:"Asset_Images" | "Asset_Assets"
+	size?: string,
+	size_megabytes?: number,
+	orientation?: string,
+	size_b?: number,
+	url?: string,
+	is_video?: boolean,
+	permalink?: string,
+	size_mb?: number,
+	size_kilobytes?: number,
+	ratio?: number,
+	last_modified?: string,
+	edit_url?: string,
+	extension: string,
+	path: string,
+	size_bytes?: number,
+	width?: number,
+	folder?: string,
+	size_gb?: number,
+	size_gigabytes?: number,
+	height?: number,
+	is_audio?: boolean,
+	blueprint?: string,
+	size_kb?: number,
+	focus_css?: string,
+	container: GraphQLTypes["AssetContainer"],
+	id: string,
+	is_image?: boolean
+	['...on Asset_Images']: '__union' & GraphQLTypes["Asset_Images"];
+	['...on Asset_Assets']: '__union' & GraphQLTypes["Asset_Assets"];
+};
+	["UserGroup"]: {
+	__typename: "UserGroup",
+	handle?: string,
+	title?: string
+};
+	["Entry_Issues_Issues"]: {
+	__typename: "Entry_Issues_Issues",
+	collection: GraphQLTypes["Collection"],
+	content?: string,
+	date?: string,
+	edit_url: string,
+	id: string,
+	last_modified?: string,
+	locale: string,
+	parent?: GraphQLTypes["EntryInterface"],
+	permalink?: string,
+	private: boolean,
+	published: boolean,
+	site: GraphQLTypes["Site"],
+	slug: string,
+	status: string,
+	title: string,
+	uri?: string,
+	url?: string
+};
+	["CollectionStructure"]: {
+	__typename: "CollectionStructure",
+	expects_root: boolean,
+	handle: string,
+	max_depth?: number,
+	title: string,
+	tree?: Array<GraphQLTypes["CollectionTreeBranch"] | undefined>
+};
+	["Taxonomy"]: {
+	__typename: "Taxonomy",
+	handle: string,
+	title: string
+};
+	["EntryInterface"]: {
+	__typename:"Entry_Articles_Articles" | "Entry_Authors_Authors" | "Entry_Issues_Issues"
+	published: boolean,
+	status: string,
+	edit_url: string,
+	uri?: string,
+	collection: GraphQLTypes["Collection"],
+	site: GraphQLTypes["Site"],
+	title: string,
+	date?: string,
+	locale: string,
+	last_modified?: string,
+	id: string,
+	parent?: GraphQLTypes["EntryInterface"],
+	url?: string,
+	permalink?: string,
+	private: boolean,
+	slug: string
+	['...on Entry_Articles_Articles']: '__union' & GraphQLTypes["Entry_Articles_Articles"];
+	['...on Entry_Authors_Authors']: '__union' & GraphQLTypes["Entry_Authors_Authors"];
+	['...on Entry_Issues_Issues']: '__union' & GraphQLTypes["Entry_Issues_Issues"];
+};
+	["NavTreeBranch"]: {
+	__typename: "NavTreeBranch",
+	children?: Array<GraphQLTypes["NavTreeBranch"] | undefined>,
+	depth: number,
+	page?: GraphQLTypes["PageInterface"]
+};
+	["AssetInterfacePagination"]: {
+	__typename: "AssetInterfacePagination",
+	/** Current page of the cursor */
+	current_page: number,
+	/** List of items on the current page */
+	data?: Array<GraphQLTypes["AssetInterface"] | undefined>,
+	/** Number of the first item returned */
+	from?: number,
+	/** Determines if cursor has more pages after the current page */
+	has_more_pages: boolean,
+	/** The last page (number of pages) */
+	last_page: number,
+	/** Number of items returned per page */
+	per_page: number,
+	/** Number of the last item returned */
+	to?: number,
+	/** Number of total items selected by the query */
+	total: number
+};
+	["TermInterface"]: {
+	__typename:never
+	uri?: string,
+	url?: string,
+	edit_url: string,
+	id: string,
+	permalink?: string,
+	slug: string,
+	taxonomy: GraphQLTypes["Taxonomy"],
+	title: string
+	
+};
+	["Collection"]: {
+	__typename: "Collection",
+	handle: string,
+	structure?: GraphQLTypes["CollectionStructure"],
+	title: string
+};
+	["TermInterfacePagination"]: {
+	__typename: "TermInterfacePagination",
+	/** Current page of the cursor */
+	current_page: number,
+	/** List of items on the current page */
+	data?: Array<GraphQLTypes["TermInterface"] | undefined>,
+	/** Number of the first item returned */
+	from?: number,
+	/** Determines if cursor has more pages after the current page */
+	has_more_pages: boolean,
+	/** The last page (number of pages) */
+	last_page: number,
+	/** Number of items returned per page */
+	per_page: number,
+	/** Number of the last item returned */
+	to?: number,
+	/** Number of total items selected by the query */
+	total: number
+};
+	["User"]: {
+	__typename: "User",
+	avatar?: GraphQLTypes["AssetInterface"],
+	edit_url?: string,
+	email?: string,
+	groups?: Array<GraphQLTypes["UserGroup"] | undefined>,
+	id?: string,
+	initials?: string,
+	name?: string,
+	roles?: Array<GraphQLTypes["Role"] | undefined>
+};
+	["GlobalSetInterface"]: {
+	__typename:never
+	title: string,
+	handle: string,
+	site: GraphQLTypes["Site"]
+	
+};
+	["EntryInterfacePagination"]: {
+	__typename: "EntryInterfacePagination",
+	/** Current page of the cursor */
+	current_page: number,
+	/** List of items on the current page */
+	data?: Array<GraphQLTypes["EntryInterface"] | undefined>,
+	/** Number of the first item returned */
+	from?: number,
+	/** Determines if cursor has more pages after the current page */
+	has_more_pages: boolean,
+	/** The last page (number of pages) */
+	last_page: number,
+	/** Number of items returned per page */
+	per_page: number,
+	/** Number of the last item returned */
+	to?: number,
+	/** Number of total items selected by the query */
+	total: number
+};
+	["Asset_Images"]: {
+	__typename: "Asset_Images",
+	alt?: string,
+	blueprint?: string,
+	container: GraphQLTypes["AssetContainer"],
+	edit_url?: string,
+	extension: string,
+	focus_css?: string,
+	folder?: string,
+	height?: number,
+	id: string,
+	is_audio?: boolean,
+	is_image?: boolean,
+	is_video?: boolean,
+	last_modified?: string,
+	orientation?: string,
+	path: string,
+	permalink?: string,
+	ratio?: number,
+	size?: string,
+	size_b?: number,
+	size_bytes?: number,
+	size_gb?: number,
+	size_gigabytes?: number,
+	size_kb?: number,
+	size_kilobytes?: number,
+	size_mb?: number,
+	size_megabytes?: number,
+	url?: string,
+	width?: number
+};
+	["BardText"]: {
+	__typename: "BardText",
+	text?: string,
+	type: string
+};
+	["Asset_Assets"]: {
+	__typename: "Asset_Assets",
+	alt?: string,
+	blueprint?: string,
+	container: GraphQLTypes["AssetContainer"],
+	edit_url?: string,
+	extension: string,
+	focus_css?: string,
+	folder?: string,
+	height?: number,
+	id: string,
+	is_audio?: boolean,
+	is_image?: boolean,
+	is_video?: boolean,
+	last_modified?: string,
+	orientation?: string,
+	path: string,
+	permalink?: string,
+	ratio?: number,
+	size?: string,
+	size_b?: number,
+	size_bytes?: number,
+	size_gb?: number,
+	size_gigabytes?: number,
+	size_kb?: number,
+	size_kilobytes?: number,
+	size_mb?: number,
+	size_megabytes?: number,
+	url?: string,
+	width?: number
+};
+	["Navigation"]: {
+	__typename: "Navigation",
+	expects_root: boolean,
+	handle: string,
+	max_depth?: number,
+	title: string,
+	tree?: Array<GraphQLTypes["NavTreeBranch"] | undefined>
+};
+	["JsonArgument"]:any;
+	["Sets_Content"]:{
+	['...on BardText']: '__union' & GraphQLTypes["BardText"];
+	['...on Set_Content_Vimeo']: '__union' & GraphQLTypes["Set_Content_Vimeo"];
 }
+    }
+
 export class GraphQLError extends Error {
     constructor(public response: GraphQLResponse) {
       super("");
@@ -764,40 +1529,24 @@ export const apiSubscription = (options: chainOptions) => (
 
 
 export const Thunder = (fn: FetchFunction, subscriptionFn: SubscriptionFunction) => ({
-  query: fullChainConstructor(fn,'query', 'Query'),
-mutation: fullChainConstructor(fn,'mutation', 'Mutation'),
-subscription: fullSubscriptionConstructor(subscriptionFn,'subscription', 'Subscription')
+  query: fullChainConstructor(fn,'query', 'Query')
 });
 
 export const Chain = (...options: chainOptions) => ({
-  query: fullChainConstructor(apiFetch(options),'query', 'Query'),
-mutation: fullChainConstructor(apiFetch(options),'mutation', 'Mutation'),
-subscription: fullSubscriptionConstructor(apiSubscription(options),'subscription', 'Subscription')
+  query: fullChainConstructor(apiFetch(options),'query', 'Query')
 });
 export const Zeus = {
-  query: (o:ValueTypes["Query"]) => queryConstruct('query', 'Query')(o),
-mutation: (o:ValueTypes["Mutation"]) => queryConstruct('mutation', 'Mutation')(o),
-subscription: (o:ValueTypes["Subscription"]) => queryConstruct('subscription', 'Subscription')(o)
+  query: (o:ValueTypes["Query"]) => queryConstruct('query', 'Query')(o)
 };
 export const Cast = {
   query: ((o: any) => (_: any) => o) as CastToGraphQL<
   ValueTypes["Query"],
   GraphQLTypes["Query"]
->,
-mutation: ((o: any) => (_: any) => o) as CastToGraphQL<
-  ValueTypes["Mutation"],
-  GraphQLTypes["Mutation"]
->,
-subscription: ((o: any) => (_: any) => o) as CastToGraphQL<
-  ValueTypes["Subscription"],
-  GraphQLTypes["Subscription"]
 >
 };
 export const Selectors = {
-  query: ZeusSelect<ValueTypes["Query"]>(),
-mutation: ZeusSelect<ValueTypes["Mutation"]>(),
-subscription: ZeusSelect<ValueTypes["Subscription"]>()
+  query: ZeusSelect<ValueTypes["Query"]>()
 };
   
 
-export const Gql = Chain('https://faker.graphqleditor.com/a-team/olympus/graphql')
+export const Gql = Chain('https://faker.graphqleditor.com/a-team/aaaa/graphql')

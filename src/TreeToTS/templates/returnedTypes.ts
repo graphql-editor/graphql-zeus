@@ -88,7 +88,7 @@ export const resolveTypeFromRoot = (i: ParserField, rootNodes: ParserField[]): s
   if (i.data.type === TypeDefinition.InterfaceTypeDefinition) {
     const typesImplementing = rootNodes.filter((rn) => rn.interfaces && rn.interfaces.includes(i.name));
     return `${plusDescription(i.description)}["${i.name}"]: {
-\t__typename:${typesImplementing.map((ti) => `"${ti.name}"`).join(' | ')}
+\t__typename:${typesImplementing.length === 0 ? 'never' : typesImplementing.map((ti) => `"${ti.name}"`).join(' | ')},
 ${i.args.map((f) => resolveField(f)).join(',\n')}
 \t${typesImplementing.map((f) => `['...on ${f.name}']: '__union' & ${TYPES}["${f.name}"];`).join('\n\t')}\n}`;
   }

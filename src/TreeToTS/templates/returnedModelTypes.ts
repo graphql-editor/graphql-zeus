@@ -64,9 +64,9 @@ const resolveTypeFromRoot = (i: ParserField, rootNodes: ParserField[]): string =
   }
   if (i.data.type === TypeDefinition.InterfaceTypeDefinition) {
     const typesImplementing = rootNodes.filter((rn) => rn.interfaces && rn.interfaces.includes(i.name));
-    return `${plusDescription(i.description)}["${i.name}"]: ${typesImplementing
-      .map((ti) => `${MODEL_TYPES}["${ti.name}"]`)
-      .join(' | ')}`;
+    return `${plusDescription(i.description)}["${i.name}"]: ${
+      typesImplementing.length > 0 ? typesImplementing.map((ti) => `${MODEL_TYPES}["${ti.name}"]`).join(' | ') : 'never'
+    }`;
   }
   if (i.data.type === TypeDefinition.UnionTypeDefinition) {
     return `${plusDescription(i.description)}["${i.name}"]:${i.args
