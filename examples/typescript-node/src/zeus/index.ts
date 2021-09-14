@@ -1293,9 +1293,9 @@ const traverseToSeekArrays = (parent: string[], a?: any): string => {
     if (typeof a === 'object') {
       Object.keys(a)
         .filter((k) => typeof a[k] !== 'undefined')
-        .map((k) => {
+        .forEach((k) => {
         if (k === '__alias') {
-          Object.keys(a[k]).map((aliasKey) => {
+          Object.keys(a[k]).forEach((aliasKey) => {
             const aliasOperations = a[k][aliasKey];
             const aliasOperationName = Object.keys(aliasOperations)[0];
             const aliasOperation = aliasOperations[aliasOperationName];
