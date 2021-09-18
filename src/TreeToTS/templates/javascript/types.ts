@@ -52,29 +52,6 @@ const generateOperationsJavascriptDefinitionsZeus = ({
   return allOps;
 };
 
-const CastOperations = (t: OperationName, ot: OperationType): string => `${ot}: CastToGraphQL<
-  ${VALUETYPES}["${t.name}"],
-  ${TYPES}["${t.name}"]
->`;
-
-const generateOperationsJavascriptDefinitionsCast = ({
-  query,
-  mutation,
-  subscription,
-}: ResolvedOperations): string[] => {
-  const allOps = [];
-  if (query?.operationName?.name && query.operations.length) {
-    allOps.push(CastOperations(query.operationName, OperationType.query));
-  }
-  if (mutation?.operationName?.name && mutation.operations.length) {
-    allOps.push(CastOperations(mutation.operationName, OperationType.mutation));
-  }
-  if (subscription?.operationName?.name && subscription.operations.length) {
-    allOps.push(CastOperations(subscription.operationName, OperationType.subscription));
-  }
-  return allOps;
-};
-
 const ZeusSelector = (t: OperationName, ot: OperationType): string =>
   `${ot}: SelectionFunction<${VALUETYPES}["${t.name}"]>`;
 
@@ -112,10 +89,6 @@ export declare function Chain(
 
 export declare const Zeus: {
   ${generateOperationsJavascriptDefinitionsZeus(operationsBody)}
-}
-
-export declare const Cast: {
-  ${generateOperationsJavascriptDefinitionsCast(operationsBody)}
 }
 
 export declare const Selectors: {

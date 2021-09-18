@@ -1,7 +1,6 @@
 export default `
 export const apiSubscription = (options) => (
     query,
-    variables,
   ) => {
     try {
       const WebSocket = require('ws')

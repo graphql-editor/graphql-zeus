@@ -1,7 +1,6 @@
 export default `
 export const apiSubscription = (options: chainOptions) => (
     query: string,
-    variables: Record<string, any> = {},
   ) => {
     try {
       const WebSocket =  require('ws');

@@ -141,13 +141,16 @@ const createCards = async () => {
   });
   printQueryResult('drawChangeCard', drawChangeCard);
   // string example
-  const stringGql = Zeus.query({
-    listCards: {
-      name: true,
-      skills: true,
-      Attack: true,
+  const stringGql = Zeus.query(
+    {
+      listCards: {
+        name: true,
+        skills: true,
+        Attack: true,
+      },
     },
-  });
+    'Zeus',
+  );
   // query{listCards{name skills Attack}}
 
   printGQLString('listCards', stringGql);

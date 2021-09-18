@@ -1,7 +1,6 @@
 export default `
 export const apiSubscription = (options) => (
     query,
-    variables,
   ) => {
     try {
       const queryString = options[0] + '?query=' + encodeURIComponent(query);

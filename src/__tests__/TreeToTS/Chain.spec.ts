@@ -38,7 +38,6 @@ describe('Chain tests', () => {
         `;
     const tree = Parser.parseAddExtensions(schema);
     const { index } = TreeToTS.resolveTreeSplit(tree);
-    expect(index).toContain(`${OperationType.query}: ((o: any) =>`);
     expect(index).toContain(`fullChainConstructor(apiFetch(options),'${OperationType.query}', 'Query')`);
   });
   it('Javascript: Normal schema Query generation', () => {
@@ -51,7 +50,6 @@ describe('Chain tests', () => {
         `;
     const tree = Parser.parseAddExtensions(schema);
     const { index } = TreeToTS.javascriptSplit(tree);
-    expect(index).toContain(`${OperationType.query}: (o) =>`);
     expect(index).toContain(`fullChainConstructor(apiFetch(options),'${OperationType.query}', 'Query')`);
   });
 

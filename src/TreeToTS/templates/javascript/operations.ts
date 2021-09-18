@@ -4,7 +4,7 @@ import { graphqlErrorJavascript, javascriptFunctions } from './';
 import { generateOperationsChaining, generateOperationsThunder } from '@/TreeToTS/templates/typescript/operations';
 
 const generateOperationZeusJavascript = (ot: OperationType, on: OperationName): string =>
-  `${ot}: (o) => queryConstruct('${ot}', '${on.name}')(o)`;
+  `${ot}: (o, operationName) => queryConstruct('${ot}', '${on.name}', operationName)(o)`;
 
 const generateOperationsZeusJavascipt = ({ query, mutation, subscription }: ResolvedOperations): string[] => {
   const allOps: string[] = [];
@@ -16,22 +16,6 @@ const generateOperationsZeusJavascipt = ({ query, mutation, subscription }: Reso
   }
   if (subscription?.operationName?.name && subscription.operations.length) {
     allOps.push(generateOperationZeusJavascript(OperationType.subscription, subscription.operationName));
-  }
-  return allOps;
-};
-
-const generateOperationCastJavascript = (t: OperationType): string => `${t}: (o) => (b) => o`;
-
-const generateOperationsCastJavascipt = ({ query, mutation, subscription }: ResolvedOperations): string[] => {
-  const allOps: string[] = [];
-  if (query?.operationName?.name && query.operations.length) {
-    allOps.push(generateOperationCastJavascript(OperationType.query));
-  }
-  if (mutation?.operationName?.name && mutation.operations.length) {
-    allOps.push(generateOperationCastJavascript(OperationType.mutation));
-  }
-  if (subscription?.operationName?.name && subscription.operations.length) {
-    allOps.push(generateOperationCastJavascript(OperationType.subscription));
   }
   return allOps;
 };
@@ -64,9 +48,6 @@ export const Chain = (...options) => ({
 });
 export const Zeus = {
   ${generateOperationsZeusJavascipt(resolvedOperations).join(',\n')}
-};
-export const Cast = {
-  ${generateOperationsCastJavascipt(resolvedOperations).join(',\n')}
 };
 export const Selectors = {
   ${generateSelectorsZeusJavascript(resolvedOperations).join(',\n')}

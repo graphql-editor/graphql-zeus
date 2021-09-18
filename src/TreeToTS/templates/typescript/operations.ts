@@ -1,7 +1,6 @@
 import { OperationName, ResolvedOperations } from 'TreeToTS';
 import { OperationType, Environment } from '@/Models';
 import { VALUETYPES } from '../resolveValueTypes';
-import { TYPES } from '../returnedTypes';
 
 const generateOperationThunder = (t: OperationName, ot: OperationType): string =>
   `${ot}: fullChainConstructor(fn,'${ot}', '${t.name}')`;
@@ -47,7 +46,7 @@ export const generateOperationsChaining = ({
 };
 
 const generateOperationZeus = (t: OperationName, ot: OperationType): string =>
-  `${ot}: (o:${VALUETYPES}["${t.name}"]) => queryConstruct('${ot}', '${t.name}')(o)`;
+  `${ot}: (o:${VALUETYPES}["${t.name}"], operationName?: string) => queryConstruct('${ot}', '${t.name}', operationName)(o)`;
 
 const generateOperationsZeusTypeScript = ({ query, mutation, subscription }: Partial<ResolvedOperations>): string[] => {
   const allOps: string[] = [];
@@ -80,26 +79,6 @@ const generateSelectorsZeusTypeScript = ({ query, mutation, subscription }: Part
   return allOps;
 };
 
-const generateOperationCast = (t: OperationName, ot: OperationType): string =>
-  `${ot}: ((o: any) => (_: any) => o) as CastToGraphQL<
-  ${VALUETYPES}["${t.name}"],
-  ${TYPES}["${t.name}"]
->`;
-
-const generateOperationsCastTypeScript = ({ query, mutation, subscription }: Partial<ResolvedOperations>): string[] => {
-  const allOps: string[] = [];
-  if (query?.operationName?.name && query.operations.length) {
-    allOps.push(generateOperationCast(query.operationName, OperationType.query));
-  }
-  if (mutation?.operationName?.name && mutation.operations.length) {
-    allOps.push(generateOperationCast(mutation.operationName, OperationType.mutation));
-  }
-  if (subscription?.operationName?.name && subscription.operations.length) {
-    allOps.push(generateOperationCast(subscription.operationName, OperationType.subscription));
-  }
-  return allOps;
-};
-
 export const bodyTypeScript = (env: Environment, resolvedOperations: ResolvedOperations): string => `
 export const Thunder = (fn: FetchFunction, subscriptionFn: SubscriptionFunction) => ({
   ${generateOperationsThunder(resolvedOperations).join(',\n')}
@@ -110,9 +89,6 @@ export const Chain = (...options: chainOptions) => ({
 });
 export const Zeus = {
   ${generateOperationsZeusTypeScript(resolvedOperations).join(',\n')}
-};
-export const Cast = {
-  ${generateOperationsCastTypeScript(resolvedOperations).join(',\n')}
 };
 export const Selectors = {
   ${generateSelectorsZeusTypeScript(resolvedOperations).join(',\n')}

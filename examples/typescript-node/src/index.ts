@@ -2,46 +2,34 @@ import chalk from 'chalk';
 import fetch from 'node-fetch';
 import { $, Gql, SpecialSkills, Thunder, Zeus } from './zeus';
 
-export const useZeus = () => {
-  const drawACard = () => {
-    return Gql.query({
-      drawCard: {
-        name: true,
-        Attack: true,
-        Defense: true,
-        Children: true,
-        description: true,
-      },
-    });
-  };
-  return { drawACard };
-};
-
 const printQueryResult = (name: string, result: any) =>
   console.log(`${chalk.greenBright(name)} result:\n${chalk.cyan(JSON.stringify(result, null, 4))}\n\n`);
 const printGQLString = (name: string, result: string) =>
   console.log(`${chalk.blue(name)} query:\n${chalk.magenta(result)}\n\n`);
 const run = async () => {
-  const { addCard: ZeusCard } = await Gql.mutation({
-    addCard: [
-      {
-        card: {
-          Attack: 1,
-          Defense: 1,
-          description: 'lorem """ \' ipsum \n lorem ipsum',
-          name: 'SADSD',
-          skills: [SpecialSkills.FIRE],
+  const { addCard: ZeusCard } = await Gql.mutation(
+    {
+      addCard: [
+        {
+          card: {
+            Attack: 1,
+            Defense: 1,
+            description: 'lorem """ \' ipsum \n lorem ipsum',
+            name: 'SADSD',
+            skills: [SpecialSkills.FIRE],
+          },
         },
-      },
-      {
-        cardImage: {
-          bucket: true,
-          region: true,
-          key: true,
+        {
+          cardImage: {
+            bucket: true,
+            region: true,
+            key: true,
+          },
         },
-      },
-    ],
-  });
+      ],
+    },
+    { operationName: 'ZausCard' },
+  );
   printQueryResult('ZeusCard', ZeusCard);
 
   const blalba = await Gql.query({
@@ -158,12 +146,15 @@ const run = async () => {
     },
   });
   printGQLString('aliasedQuery', aliasedQuery);
-  const operationName = Zeus.query({
-    listCards: {
-      Attack: true,
+  const operationName = Zeus.query(
+    {
+      listCards: {
+        Attack: true,
+      },
     },
-  });
-  printGQLString('operationName', operationName);
+    'ListCards',
+  );
+  printGQLString('operationName ListCards', operationName);
   const aliasedQueryExecute = await Gql.query(
     {
       listCards: {

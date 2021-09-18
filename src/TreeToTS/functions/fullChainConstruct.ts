@@ -4,8 +4,8 @@ export const fullChainConstructFunction: StringFunction = {
   ts: `
 const fullChainConstruct = (fn: FetchFunction) => (t: 'query' | 'mutation' | 'subscription', tName: string) => (
   o: Record<any, any>,
-  variables?: Record<string, any>,
-) => fn(queryConstruct(t, tName)(o), variables).then((r:any) => { 
+  options?: OperationOptions,
+) => fn(queryConstruct(t, tName, options?.operationName)(o), options?.variables).then((r:any) => { 
   seekForAliases(r)
   return r
 });
@@ -15,13 +15,13 @@ export const fullChainConstructor = <F extends FetchFunction, R extends keyof Va
   operation: 'query' | 'mutation' | 'subscription',
   key: R,
 ) =>
-  ((o, variables) => fullChainConstruct(fn)(operation, key)(o as any, variables)) as OperationToGraphQL<
+  ((o, options) => fullChainConstruct(fn)(operation, key)(o as any, options)) as OperationToGraphQL<
     ValueTypes[R],
     GraphQLTypes[R]
   >;
 `,
   js: `
-const fullChainConstruct = (fn) => (t,tName) => (o, variables) => fn(queryConstruct(t, tName)(o), variables).then(r => { 
+const fullChainConstruct = (fn) => (t,tName) => (o, options) => fn(queryConstruct(t, tName, options ? options.operationName : undefined)(o), options ? options.variables : undefined).then(r => { 
   seekForAliases(r)
   return r
 });
@@ -31,6 +31,6 @@ export const fullChainConstructor = (
   operation,
   key,
 ) =>
-  ((o, variables) => fullChainConstruct(fn)(operation, key)(o, variables))
+  ((o, options) => fullChainConstruct(fn)(operation, key)(o, options))
 `,
 };

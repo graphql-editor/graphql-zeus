@@ -5,15 +5,15 @@ export const fullSubscriptionConstruct: StringFunction = {
 const fullSubscriptionConstruct = (fn: SubscriptionFunction) => (
   t: 'query' | 'mutation' | 'subscription',
   tName: string,
-) => (o: Record<any, any>, variables?: Record<string, any>) =>
-  fn(queryConstruct(t, tName)(o), variables);
+) => (o: Record<any, any>, options?: OperationOptions) =>
+  fn(queryConstruct(t, tName, options?.operationName)(o));
 
 export const fullSubscriptionConstructor = <F extends SubscriptionFunction, R extends keyof ValueTypes>(
   fn: F,
   operation: 'query' | 'mutation' | 'subscription',
   key: R,
 ) =>
-  ((o, variables) => fullSubscriptionConstruct(fn)(operation, key)(o as any, variables)) as SubscriptionToGraphQL<
+  ((o, options) => fullSubscriptionConstruct(fn)(operation, key)(o as any, options)) as SubscriptionToGraphQL<
     ValueTypes[R],
     GraphQLTypes[R]
   >;
@@ -22,14 +22,14 @@ export const fullSubscriptionConstructor = <F extends SubscriptionFunction, R ex
 const fullSubscriptionConstruct = (fn) => (
   t,
   tName,
-) => (o, variables) =>
-  fn(queryConstruct(t, tName)(o), variables);
+) => (o, options) =>
+  fn(queryConstruct(t, tName, options ? options.operationName : undefined)(o));
   
 export const fullSubscriptionConstructor = (
   fn,
   operation,
   key,
 ) =>
-  ((o, variables) => fullSubscriptionConstruct(fn)(operation, key)(o, variables))
+  ((o, options) => fullSubscriptionConstruct(fn)(operation, key)(o, options))
 `,
 };

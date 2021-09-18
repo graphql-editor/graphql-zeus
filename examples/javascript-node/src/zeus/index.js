@@ -216,10 +216,10 @@ const inspectVariables = (query) => {
 };
 
 
-export const queryConstruct = (t, tName) => (o) => `${t.toLowerCase()}${inspectVariables(buildQuery(tName, o))}`;  
+export const queryConstruct = (t, tName, operationName) => (o) => `${t.toLowerCase()}${operationName ? ' ' + operationName : ''}${inspectVariables(buildQuery(tName, o))}`;  
 
 
-const fullChainConstruct = (fn) => (t,tName) => (o, variables) => fn(queryConstruct(t, tName)(o), variables).then(r => { 
+const fullChainConstruct = (fn) => (t,tName) => (o, options) => fn(queryConstruct(t, tName, options ? options.operationName : undefined)(o), options ? options.variables : undefined).then(r => { 
   seekForAliases(r)
   return r
 });
@@ -229,21 +229,21 @@ export const fullChainConstructor = (
   operation,
   key,
 ) =>
-  ((o, variables) => fullChainConstruct(fn)(operation, key)(o, variables))
+  ((o, options) => fullChainConstruct(fn)(operation, key)(o, options))
 
 
 const fullSubscriptionConstruct = (fn) => (
   t,
   tName,
-) => (o, variables) =>
-  fn(queryConstruct(t, tName)(o), variables);
+) => (o, options) =>
+  fn(queryConstruct(t, tName, options ? options.operationName : undefined)(o));
   
 export const fullSubscriptionConstructor = (
   fn,
   operation,
   key,
 ) =>
-  ((o, variables) => fullSubscriptionConstruct(fn)(operation, key)(o, variables))
+  ((o, options) => fullSubscriptionConstruct(fn)(operation, key)(o, options))
 
 
 const seekForAliases = (o) => {
@@ -344,7 +344,6 @@ export const apiFetch = (options) => (query, variables = {}) => {
 
 export const apiSubscription = (options) => (
     query,
-    variables,
   ) => {
     try {
       const WebSocket = require('ws')
@@ -395,14 +394,9 @@ mutation: fullChainConstructor(apiFetch(options),'mutation', 'Mutation'),
 subscription: fullSubscriptionConstructor(apiSubscription(options),'subscription', 'Subscription')
 });
 export const Zeus = {
-  query: (o) => queryConstruct('query', 'Query')(o),
-mutation: (o) => queryConstruct('mutation', 'Mutation')(o),
-subscription: (o) => queryConstruct('subscription', 'Subscription')(o)
-};
-export const Cast = {
-  query: (o) => (b) => o,
-mutation: (o) => (b) => o,
-subscription: (o) => (b) => o
+  query: (o, operationName) => queryConstruct('query', 'Query', operationName)(o),
+mutation: (o, operationName) => queryConstruct('mutation', 'Mutation', operationName)(o),
+subscription: (o, operationName) => queryConstruct('subscription', 'Subscription', operationName)(o)
 };
 export const Selectors = {
   query: ZeusSelect(),

@@ -34,6 +34,33 @@ input createCard {
   description: String!
 }
 
+""""""
+type Query {
+  """"""
+  cardById(cardId: String): Card
+
+  """Draw a card<br>"""
+  drawCard: Card!
+
+  """"""
+  drawChangeCard: ChangeCard!
+
+  """list All Cards availble<br>"""
+  listCards: [Card!]!
+
+  """"""
+  myStacks: [CardStack!]
+
+  """"""
+  nameables: [Nameable!]!
+}
+
+""""""
+interface Nameable {
+  """"""
+  name: String!
+}
+
 """Card used in card game<br>"""
 type Card implements Nameable {
   """The attack power<br>"""
@@ -88,13 +115,10 @@ type EffectCard implements Nameable {
   name: String!
 }
 
-"""Stack of cards"""
-type CardStack implements Nameable {
+""""""
+type Subscription {
   """"""
-  cards: [Card!]
-
-  """"""
-  name: String!
+  deck: [Card!]
 }
 
 """"""
@@ -104,48 +128,24 @@ type Mutation {
 }
 
 """"""
-type Subscription {
-  """"""
-  deck: [Card!]
-}
-
-""""""
-type Query {
-  """"""
-  cardById(cardId: String): Card
-
-  """Draw a card<br>"""
-  drawCard: Card!
-
-  """"""
-  drawChangeCard: ChangeCard!
-
-  """list All Cards availble<br>"""
-  listCards: [Card!]!
-
-  """"""
-  myStacks: [CardStack!]
-
-  """"""
-  nameables: [Nameable!]!
-}
-
-""""""
-interface Nameable {
-  """"""
-  name: String!
-}
-
-""""""
 enum SpecialSkills {
+  """Attack multiple Cards at once<br>"""
+  RAIN
+
   """50% chance to avoid any attack<br>"""
   FIRE
 
   """Lower enemy defense -5<br>"""
   THUNDER
+}
 
-  """Attack multiple Cards at once<br>"""
-  RAIN
+"""Stack of cards"""
+type CardStack implements Nameable {
+  """"""
+  cards: [Card!]
+
+  """"""
+  name: String!
 }
 
 schema{
