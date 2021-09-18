@@ -15004,9 +15004,9 @@ const traverseToSeekArrays = (parent: string[], a?: any): string => {
     return isArrayFunction([...parent], a);
   } else {
     if (typeof a === 'object') {
-      Object.keys(a).map((k) => {
+      Object.keys(a).forEach((k) => {
         if (k === '__alias') {
-          Object.keys(a[k]).map((aliasKey) => {
+          Object.keys(a[k]).forEach((aliasKey) => {
             const aliasOperations = a[k][aliasKey];
             const aliasOperationName = Object.keys(aliasOperations)[0];
             const aliasOperation = aliasOperations[aliasOperationName];
