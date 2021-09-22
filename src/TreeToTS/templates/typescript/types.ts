@@ -74,7 +74,7 @@ export type SubscriptionToGraphQL<V, T> = <Z extends V>(
   ws: WebSocket;
   on: (fn: (args: InputType<T, Z>) => void) => void;
   off: (fn: (e: { data?: InputType<T, Z>; code?: number; reason?: string; message?: string }) => void) => void;
-  error: (e: { data?: InputType<T, Z>; message?: string }) => void;
+  error: (fn: (e: { data?: InputType<T, Z>; errors?:string[] }) => void) => void;
   open: () => void;
 };
 export type SelectionFunction<V> = <T>(t: T | V) => T;
