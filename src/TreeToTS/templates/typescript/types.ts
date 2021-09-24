@@ -33,7 +33,7 @@ type IsInterfaced<SRC extends DeepAnify<DST>, DST> = FlattenArray<SRC> extends Z
   ? {
       [P in keyof SRC]: SRC[P] extends '__union' & infer R
         ? P extends keyof DST
-          ? IsArray<R, DST[P] & { __typename: true }>
+          ? IsArray<R, '__typename' extends keyof DST ? DST[P] & { __typename: true } : DST[P]>
           : {}
         : never;
     }[keyof DST] &

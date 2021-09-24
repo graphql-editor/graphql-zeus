@@ -77,6 +77,7 @@ export const resolveTypeFromRoot = (i: ParserField, rootNodes: ParserField[]): s
   }
   if (i.data.type === TypeDefinition.UnionTypeDefinition) {
     return `${plusDescription(i.description)}["${i.name}"]:{
+\t__typename:${i.args.length ? i.args.map((ti) => `"${ti.name}"`).join(' | ') : 'never'}
 \t${i.args.map((f) => `['...on ${f.type.name}']: '__union' & ${TYPES}["${f.type.name}"];`).join('\n\t')}\n}`;
   }
   if (i.data.type === TypeDefinition.EnumTypeDefinition) {

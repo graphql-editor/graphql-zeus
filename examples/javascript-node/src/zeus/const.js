@@ -11,6 +11,27 @@ export const AllTypesProps = {
 			}
 		}
 	},
+	Card:{
+		attack:{
+			cardID:{
+				type:"String",
+				array:true,
+				arrayRequired:true,
+				required:true
+			}
+		}
+	},
+	Query:{
+		cardById:{
+			cardId:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		}
+	},
+	SpecialSkills: "enum",
 	createCard:{
 		Defense:{
 			type:"Int",
@@ -48,67 +69,27 @@ export const AllTypesProps = {
 			arrayRequired:false,
 			required:true
 		}
-	},
-	Query:{
-		cardById:{
-			cardId:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
-			}
-		}
-	},
-	Card:{
-		attack:{
-			cardID:{
-				type:"String",
-				array:true,
-				arrayRequired:true,
-				required:true
-			}
-		}
-	},
-	SpecialSkills: "enum"
+	}
 }
 
 export const ReturnTypes = {
-	SpecialCard:{
-		effect:"String",
-		name:"String"
-	},
-	Nameable:{
-		"...on SpecialCard": "SpecialCard",
-		"...on CardStack": "CardStack",
-		"...on EffectCard": "EffectCard",
-		"...on Card": "Card",
-		name:"String"
+	Mutation:{
+		addCard:"Card"
 	},
 	CardStack:{
 		cards:"Card",
 		name:"String"
 	},
-	Mutation:{
-		addCard:"Card"
-	},
-	Subscription:{
-		deck:"Card"
-	},
-	Query:{
-		cardById:"Card",
-		drawCard:"Card",
-		drawChangeCard:"ChangeCard",
-		listCards:"Card",
-		myStacks:"CardStack",
-		nameables:"Nameable"
+	Nameable:{
+		"...on CardStack": "CardStack",
+		"...on Card": "Card",
+		"...on EffectCard": "EffectCard",
+		"...on SpecialCard": "SpecialCard",
+		name:"String"
 	},
 	ChangeCard:{
 		"...on SpecialCard":"SpecialCard",
 		"...on EffectCard":"EffectCard"
-	},
-	EffectCard:{
-		effectSize:"Float",
-		name:"String"
 	},
 	Card:{
 		Attack:"Int",
@@ -126,5 +107,24 @@ export const ReturnTypes = {
 		bucket:"String",
 		key:"String",
 		region:"String"
+	},
+	Subscription:{
+		deck:"Card"
+	},
+	Query:{
+		cardById:"Card",
+		drawCard:"Card",
+		drawChangeCard:"ChangeCard",
+		listCards:"Card",
+		myStacks:"CardStack",
+		nameables:"Nameable"
+	},
+	EffectCard:{
+		effectSize:"Float",
+		name:"String"
+	},
+	SpecialCard:{
+		effect:"String",
+		name:"String"
 	}
 }

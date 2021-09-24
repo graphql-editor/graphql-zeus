@@ -1,7 +1,46 @@
 """"""
-interface Nameable {
+type SpecialCard implements Nameable {
+  """"""
+  effect: String!
+
   """"""
   name: String!
+}
+
+""""""
+type EffectCard implements Nameable {
+  """"""
+  effectSize: Float!
+
+  """"""
+  name: String!
+}
+
+""""""
+type Mutation {
+  """add Card to Cards database<br>"""
+  addCard(card: createCard!): Card!
+}
+
+""""""
+type Query {
+  """"""
+  cardById(cardId: String): Card
+
+  """Draw a card<br>"""
+  drawCard: Card!
+
+  """"""
+  drawChangeCard: ChangeCard!
+
+  """list All Cards availble<br>"""
+  listCards: [Card!]!
+
+  """"""
+  myStacks: [CardStack!]
+
+  """"""
+  nameables: [Nameable!]!
 }
 
 """Card used in card game<br>"""
@@ -40,28 +79,25 @@ type Card implements Nameable {
   skills: [SpecialSkills!]
 }
 
-"""Aws S3 File"""
-type S3Object {
-  """"""
-  bucket: String!
+"""create card inputs<br>"""
+input createCard {
+  """The defense power<br>"""
+  Defense: Int!
 
-  """"""
-  key: String!
+  """input skills"""
+  skills: [SpecialSkills!]
 
-  """"""
-  region: String!
-}
-
-""""""
-union ChangeCard = SpecialCard | EffectCard
-
-""""""
-type SpecialCard implements Nameable {
-  """"""
-  effect: String!
-
-  """"""
+  """The name of a card<br>"""
   name: String!
+
+  """Description of a card<br>"""
+  description: String!
+
+  """<div>How many children the greek god had</div>"""
+  Children: Int
+
+  """The attack power<br>"""
+  Attack: Int!
 }
 
 """Stack of cards"""
@@ -71,39 +107,6 @@ type CardStack implements Nameable {
 
   """"""
   name: String!
-}
-
-""""""
-type Mutation {
-  """add Card to Cards database<br>"""
-  addCard(card: createCard!): Card!
-}
-
-""""""
-type Subscription {
-  """"""
-  deck: [Card!]
-}
-
-""""""
-type Query {
-  """"""
-  cardById(cardId: String): Card
-
-  """Draw a card<br>"""
-  drawCard: Card!
-
-  """"""
-  drawChangeCard: ChangeCard!
-
-  """list All Cards availble<br>"""
-  listCards: [Card!]!
-
-  """"""
-  myStacks: [CardStack!]
-
-  """"""
-  nameables: [Nameable!]!
 }
 
 """"""
@@ -119,34 +122,31 @@ enum SpecialSkills {
 }
 
 """"""
-type EffectCard implements Nameable {
+type Subscription {
   """"""
-  effectSize: Float!
+  deck: [Card!]
+}
 
+""""""
+interface Nameable {
   """"""
   name: String!
 }
 
-"""create card inputs<br>"""
-input createCard {
-  """<div>How many children the greek god had</div>"""
-  Children: Int
+"""Aws S3 File"""
+type S3Object {
+  """"""
+  bucket: String!
 
-  """The attack power<br>"""
-  Attack: Int!
+  """"""
+  key: String!
 
-  """The defense power<br>"""
-  Defense: Int!
-
-  """input skills"""
-  skills: [SpecialSkills!]
-
-  """The name of a card<br>"""
-  name: String!
-
-  """Description of a card<br>"""
-  description: String!
+  """"""
+  region: String!
 }
+
+""""""
+union ChangeCard = SpecialCard | EffectCard
 
 schema{
 	query: Query,
