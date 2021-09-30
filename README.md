@@ -123,7 +123,6 @@ const Main = () => {
 
 Sometimes you would like to infer the response type. The it is best to use selectors
 
-
 ```tsx
 import { Selectors, InputType, GraphQLTypes } from './zeus';
 
@@ -135,23 +134,20 @@ export const drawCardQuery = Selectors.query({
   },
 });
 
-
-type InferredResponseType = InputType<GraphQLTypes['Query'], typeof drawCardQuery>
-
+type InferredResponseType = InputType<GraphQLTypes['Query'], typeof drawCardQuery>;
 ```
 
 You can also use it in useTypedQuery later
 
 ```tsx
 import { useTypedQuery } from './zeus/apollo';
-import { drawCardQuery } from './'
+import { drawCardQuery } from './';
 
 const Main = () => {
   const { data } = useTypedQuery(drawCardQuery);
   return <div>{data.drawCard.name}</div>;
 };
 ```
-
 
 #### Usage with NodeJS
 
@@ -724,7 +720,8 @@ PROMISE_RETURNING_OBJECT[ALIAS_STRING][OPERATION_NAME]
 This will be rarely used, but here you are!
 
 ```js
-import { Parser, TreeToTS } from 'graphql-zeus';
+import { TreeToTS } from 'graphql-zeus';
+import { Parser } from 'graphql-js-tree';
 
 const schemaFileContents = `
 type Query{
