@@ -21,7 +21,7 @@
     "run-example-typescript-node": "./run-example.sh examples/typescript-node",
     "run-example-javascript-node": "./run-example.sh examples/javascript-node",
     "lint": "ttsc  && eslint \"./src/**/*.{ts,js}\" --quiet --fix",
-    "prepare": "node bulid"
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
