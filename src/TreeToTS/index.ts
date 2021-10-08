@@ -118,7 +118,7 @@ export class TreeToTS {
 
     return {
       index: operations.concat(host ? '\n\n' : '').concat(host ? `export const Gql = Chain('${host}')` : ''),
-      indexImports: `import { AllTypesProps, ReturnTypes } from './const';`,
+      indexImports: `import { AllTypesProps, ReturnTypes } from './const.js';`,
       const: TreeToTS.resolveBasisCodeJavascript(tree),
       definitions: TreeToTS.resolveBasisTypes(tree)
         .concat('\n\n')
@@ -133,7 +133,7 @@ export class TreeToTS {
   static resolveTreeSplit(tree: ParserTree, env: Environment = 'browser', host?: string) {
     const operations = bodyTypeScript(env, TreeToTS.resolveOperations(tree));
     return {
-      indexImports: `import { AllTypesProps, ReturnTypes } from './const';`,
+      indexImports: `import { AllTypesProps, ReturnTypes } from './const.js';`,
       const: TreeToTS.resolveBasisCode(tree),
       index: TreeToTS.resolveBasisTypes(tree)
         .concat(graphqlErrorTypeScript.concat('\n').concat(constantTypesTypescript).concat('\n\n'))
