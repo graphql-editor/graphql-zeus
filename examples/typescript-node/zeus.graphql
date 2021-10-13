@@ -1,4 +1,10 @@
 """"""
+interface Nameable {
+  """"""
+  name: String!
+}
+
+""""""
 type SpecialCard implements Nameable {
   """"""
   effect: String!
@@ -7,10 +13,10 @@ type SpecialCard implements Nameable {
   name: String!
 }
 
-""""""
-type EffectCard implements Nameable {
+"""Stack of cards"""
+type CardStack implements Nameable {
   """"""
-  effectSize: Float!
+  cards: [Card!]
 
   """"""
   name: String!
@@ -41,6 +47,12 @@ type Query {
 
   """"""
   nameables: [Nameable!]!
+}
+
+""""""
+type Subscription {
+  """"""
+  deck: [Card!]
 }
 
 """Card used in card game<br>"""
@@ -79,34 +91,16 @@ type Card implements Nameable {
   skills: [SpecialSkills!]
 }
 
-"""create card inputs<br>"""
-input createCard {
-  """The defense power<br>"""
-  Defense: Int!
-
-  """input skills"""
-  skills: [SpecialSkills!]
-
-  """The name of a card<br>"""
-  name: String!
-
-  """Description of a card<br>"""
-  description: String!
-
-  """<div>How many children the greek god had</div>"""
-  Children: Int
-
-  """The attack power<br>"""
-  Attack: Int!
-}
-
-"""Stack of cards"""
-type CardStack implements Nameable {
+"""Aws S3 File"""
+type S3Object {
   """"""
-  cards: [Card!]
+  bucket: String!
 
   """"""
-  name: String!
+  key: String!
+
+  """"""
+  region: String!
 }
 
 """"""
@@ -122,31 +116,37 @@ enum SpecialSkills {
 }
 
 """"""
-type Subscription {
-  """"""
-  deck: [Card!]
-}
+union ChangeCard = SpecialCard | EffectCard
 
 """"""
-interface Nameable {
+type EffectCard implements Nameable {
+  """"""
+  effectSize: Float!
+
   """"""
   name: String!
 }
 
-"""Aws S3 File"""
-type S3Object {
-  """"""
-  bucket: String!
+"""create card inputs<br>"""
+input createCard {
+  """The name of a card<br>"""
+  name: String!
 
-  """"""
-  key: String!
+  """Description of a card<br>"""
+  description: String!
 
-  """"""
-  region: String!
+  """<div>How many children the greek god had</div>"""
+  Children: Int
+
+  """The attack power<br>"""
+  Attack: Int!
+
+  """The defense power<br>"""
+  Defense: Int!
+
+  """input skills"""
+  skills: [SpecialSkills!]
 }
-
-""""""
-union ChangeCard = SpecialCard | EffectCard
 
 schema{
 	query: Query,

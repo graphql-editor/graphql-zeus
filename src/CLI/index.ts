@@ -21,6 +21,11 @@ zeus [path] [output_path] [options]
     describe: 'Output TypeScript only',
     boolean: true,
   })
+  .option('esModule', {
+    alias: 'es',
+    describe: 'Use .js import in TypeScript to use with esModules',
+    boolean: true,
+  })
   .option('header', {
     alias: 'h',
     describe:

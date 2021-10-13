@@ -39,6 +39,7 @@ Given the following schema [Olympus Cards](https://app.graphqleditor.com/a-team/
     - [Installation](#installation)
     - [Usage with JavaScript](#usage-with-javascript)
     - [Usage with TypeScript](#usage-with-typescript)
+      - [Return with .js import for esModules](#return-with-js-import-for-esmodules)
     - [Usage with Apollo GraphQL](#usage-with-apollo-graphql)
       - [Inferring the response type](#inferring-the-response-type)
     - [Usage with NodeJS](#usage-with-nodejs)
@@ -96,6 +97,14 @@ It will also generate corresponding out.d.ts file so you can have autocompletion
 
 ```sh
 $ zeus schema.graphql ./  --ts
+```
+
+##### Return with .js import for esModules
+
+Due to validity of `.js` imports in TS for esmodules you can use flag `es` to generate `.js` imports
+
+```sh
+$ zeus schema.graphql ./  --ts --es
 ```
 
 #### Usage with Apollo GraphQL

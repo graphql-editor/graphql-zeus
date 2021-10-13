@@ -33,7 +33,7 @@ type Motorcycle implements Vehicle {
 describe('Interface tests', () => {
   it('TypeScript: Interfaces with Unique Fields', () => {
     const tree = Parser.parseAddExtensions(schemaWithUnique);
-    const typeScriptCode = TreeToTS.resolveTree(tree).replace(/\n\t/g, '').replace(/\s/g, ' ');
+    const typeScriptCode = TreeToTS.resolveTree({ tree }).replace(/\n\t/g, '').replace(/\s/g, ' ');
 
     // should have wheels as a field on vehicle
     expect(typeScriptCode).toContain(
@@ -51,7 +51,7 @@ describe('Interface tests', () => {
 
   it('TypeScript: Interfaces without Unique Fields', () => {
     const tree = Parser.parseAddExtensions(schema);
-    const typeScriptCode = TreeToTS.resolveTree(tree).replace(/\n\t/g, '').replace(/\s/g, ' ');
+    const typeScriptCode = TreeToTS.resolveTree({ tree }).replace(/\n\t/g, '').replace(/\s/g, ' ');
 
     // should have wheels as a field on vehicle
     expect(typeScriptCode).toContain(

@@ -19,7 +19,7 @@ describe('Thunder tests', () => {
         }
         `;
     const tree = Parser.parseAddExtensions(schema);
-    const typeScriptCode = TreeToTS.resolveTree(tree);
+    const typeScriptCode = TreeToTS.resolveTree({ tree });
     expect(typeScriptCode).toContain(`Thunder = (fn: FetchFunction, subscriptionFn: SubscriptionFunction)`);
   });
   it('Javascript: ThunderDefinitions', () => {
@@ -31,18 +31,18 @@ describe('Thunder tests', () => {
         }
         `;
     const tree = Parser.parseAddExtensions(schema);
-    const { index, definitions } = TreeToTS.javascriptSplit(tree);
+    const { index, definitions } = TreeToTS.javascriptSplit({ tree });
     expect(index).toContain(`Thunder = (fn, subscriptionFn)`);
     expect(definitions).toContain(`export declare function Thunder`);
   });
   it('TypeScript: Normal schema Query generation', () => {
     const tree = Parser.parseAddExtensions(schema);
-    const { index } = TreeToTS.resolveTreeSplit(tree);
+    const { index } = TreeToTS.resolveTreeSplit({ tree });
     expect(index).toContain(`fullChainConstructor(fn,'${OperationType.query}', 'Query')`);
   });
   it('Javascript: Normal schema Query generation', () => {
     const tree = Parser.parseAddExtensions(schema);
-    const { index } = TreeToTS.javascriptSplit(tree);
+    const { index } = TreeToTS.javascriptSplit({ tree });
     expect(index).toContain(`fullChainConstructor(fn,'${OperationType.query}', 'Query')`);
   });
 });

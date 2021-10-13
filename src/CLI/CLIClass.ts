@@ -22,6 +22,7 @@ interface Yargs {
 interface CliArgs extends Yargs {
   header?: string;
   typescript?: boolean;
+  esModule?: boolean;
   node?: boolean;
   graphql?: string;
   jsonSchema?: string;
@@ -71,7 +72,12 @@ export class CLI {
       writeFileRecursive(pathToSchema, schemaFile, JSON.stringify(content, null, 4));
     }
     if (args.typescript) {
-      const typeScriptDefinition = TranslateGraphQL.typescriptSplit(schemaFileContents, env, host);
+      const typeScriptDefinition = TranslateGraphQL.typescriptSplit({
+        schema: schemaFileContents,
+        env,
+        host,
+        esModule: !!args.esModule,
+      });
       Object.keys(typeScriptDefinition).forEach((k) =>
         writeFileRecursive(
           path.join(pathToFile, 'zeus'),
@@ -80,15 +86,15 @@ export class CLI {
         ),
       );
       if (args.apollo) {
-        writeFileRecursive(path.join(pathToFile, 'zeus'), `apollo.ts`, pluginApollo(tree).ts);
+        writeFileRecursive(path.join(pathToFile, 'zeus'), `apollo.ts`, pluginApollo({ tree }).ts);
       }
     } else {
-      const jsDefinition = TranslateGraphQL.javascriptSplit(schemaFileContents, env, host);
+      const jsDefinition = TranslateGraphQL.javascriptSplit({ schema: schemaFileContents, env, host });
       writeFileRecursive(path.join(pathToFile, 'zeus'), `const.js`, jsDefinition.const);
       writeFileRecursive(path.join(pathToFile, 'zeus'), `index.js`, jsDefinition.index);
       writeFileRecursive(path.join(pathToFile, 'zeus'), `index.d.ts`, jsDefinition['index.d']);
       if (args.apollo) {
-        const apolloResult = pluginApollo(tree);
+        const apolloResult = pluginApollo({ tree, esModule: !!args.esModule });
         writeFileRecursive(path.join(pathToFile, 'zeus'), `apollo.js`, apolloResult.js.code);
         writeFileRecursive(path.join(pathToFile, 'zeus'), `apollo.d.ts`, apolloResult.js.definitions);
       }

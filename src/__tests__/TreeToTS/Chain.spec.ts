@@ -12,7 +12,7 @@ describe('Chain tests', () => {
         }
         `;
     const tree = Parser.parseAddExtensions(schema);
-    const typeScriptCode = TreeToTS.resolveTreeSplit(tree);
+    const typeScriptCode = TreeToTS.resolveTreeSplit({ tree });
     expect(typeScriptCode.index).toContain(`Chain = (...options: chainOptions)`);
   });
   it('Javascript: ChainDefinitions', () => {
@@ -24,7 +24,7 @@ describe('Chain tests', () => {
         }
         `;
     const tree = Parser.parseAddExtensions(schema);
-    const { index, definitions } = TreeToTS.javascriptSplit(tree);
+    const { index, definitions } = TreeToTS.javascriptSplit({ tree });
     expect(index).toContain(`Chain = (...options)`);
     expect(definitions).toContain(`export declare function Chain`);
   });
@@ -37,7 +37,7 @@ describe('Chain tests', () => {
         }
         `;
     const tree = Parser.parseAddExtensions(schema);
-    const { index } = TreeToTS.resolveTreeSplit(tree);
+    const { index } = TreeToTS.resolveTreeSplit({ tree });
     expect(index).toContain(`fullChainConstructor(apiFetch(options),'${OperationType.query}', 'Query')`);
   });
   it('Javascript: Normal schema Query generation', () => {
@@ -49,7 +49,7 @@ describe('Chain tests', () => {
         }
         `;
     const tree = Parser.parseAddExtensions(schema);
-    const { index } = TreeToTS.javascriptSplit(tree);
+    const { index } = TreeToTS.javascriptSplit({ tree });
     expect(index).toContain(`fullChainConstructor(apiFetch(options),'${OperationType.query}', 'Query')`);
   });
 
@@ -64,7 +64,7 @@ describe('Chain tests', () => {
         }
         `;
     const tree = Parser.parseAddExtensions(schema);
-    const { index } = TreeToTS.resolveTreeSplit(tree);
+    const { index } = TreeToTS.resolveTreeSplit({ tree });
     expect(index).toContain(`fullChainConstructor(apiFetch(options),'${OperationType.mutation}', 'Mutation')`);
     expect(index).toContain(`fullChainConstructor(apiFetch(options),'${OperationType.query}', 'Query')`);
   });
@@ -79,7 +79,7 @@ describe('Chain tests', () => {
         }
         `;
     const tree = Parser.parseAddExtensions(schema);
-    const { index } = TreeToTS.resolveTreeSplit(tree);
+    const { index } = TreeToTS.resolveTreeSplit({ tree });
     expect(index).toContain(
       `fullSubscriptionConstructor(apiSubscription(options),'${OperationType.subscription}', 'Subscription')`,
     );
@@ -93,7 +93,7 @@ describe('Chain tests', () => {
         }
         `;
     const tree = Parser.parseAddExtensions(schema);
-    const { index } = TreeToTS.resolveTreeSplit(tree);
+    const { index } = TreeToTS.resolveTreeSplit({ tree });
     expect(index).toContain(`fullChainConstructor(apiFetch(options),'${OperationType.query}', 'MQuery')`);
   });
   it('TypeScript: Custom schema Mutation generation', () => {
@@ -107,7 +107,7 @@ describe('Chain tests', () => {
     }
         `;
     const tree = Parser.parseAddExtensions(schema);
-    const { index } = TreeToTS.resolveTreeSplit(tree);
+    const { index } = TreeToTS.resolveTreeSplit({ tree });
     expect(index).toContain(`fullChainConstructor(apiFetch(options),'${OperationType.mutation}', 'MMutation')`);
   });
 });

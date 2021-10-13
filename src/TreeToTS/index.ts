@@ -112,7 +112,15 @@ export class TreeToTS {
   /**
    * Generate javascript and ts declaration file
    */
-  static javascriptSplit(tree: ParserTree, env: Environment = 'browser', host?: string) {
+  static javascriptSplit = ({
+    tree,
+    env = 'browser',
+    host,
+  }: {
+    tree: ParserTree;
+    env?: Environment;
+    host?: string;
+  }) => {
     const operationsBody = TreeToTS.resolveOperations(tree);
     const operations = bodyJavascript(env, operationsBody);
 
@@ -125,15 +133,25 @@ export class TreeToTS {
         .concat(constantTypesTypescript)
         .concat(generateOperationsJavascript(operationsBody)),
     };
-  }
+  };
 
   /**
    * Generate typescript file
    */
-  static resolveTreeSplit(tree: ParserTree, env: Environment = 'browser', host?: string) {
+  static resolveTreeSplit({
+    tree,
+    env = 'browser',
+    host,
+    esModule,
+  }: {
+    tree: ParserTree;
+    env?: Environment;
+    host?: string;
+    esModule?: boolean;
+  }) {
     const operations = bodyTypeScript(env, TreeToTS.resolveOperations(tree));
     return {
-      indexImports: `import { AllTypesProps, ReturnTypes } from './const.js';`,
+      indexImports: `import { AllTypesProps, ReturnTypes } from './const${esModule ? '.js' : ''}';`,
       const: TreeToTS.resolveBasisCode(tree),
       index: TreeToTS.resolveBasisTypes(tree)
         .concat(graphqlErrorTypeScript.concat('\n').concat(constantTypesTypescript).concat('\n\n'))
@@ -143,8 +161,8 @@ export class TreeToTS {
         .concat(host ? `export const Gql = Chain('${host}')` : ''),
     };
   }
-  static resolveTree(tree: ParserTree, env: Environment = 'browser', host?: string) {
-    const t = TreeToTS.resolveTreeSplit(tree, env, host);
+  static resolveTree({ tree, env = 'browser', host }: { tree: ParserTree; env?: Environment; host?: string }) {
+    const t = TreeToTS.resolveTreeSplit({ tree, env, host });
     return TreeToTS.resolveBasisHeader().concat(t.const).concat('\n').concat(t.index);
   }
 }

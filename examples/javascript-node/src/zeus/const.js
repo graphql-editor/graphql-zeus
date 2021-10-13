@@ -1,13 +1,13 @@
 /* eslint-disable */
 
 export const AllTypesProps = {
-	Mutation:{
-		addCard:{
-			card:{
-				type:"createCard",
+	Query:{
+		cardById:{
+			cardId:{
+				type:"String",
 				array:false,
 				arrayRequired:false,
-				required:true
+				required:false
 			}
 		}
 	},
@@ -21,13 +21,13 @@ export const AllTypesProps = {
 			}
 		}
 	},
-	Query:{
-		cardById:{
-			cardId:{
-				type:"String",
+	Mutation:{
+		addCard:{
+			card:{
+				type:"createCard",
 				array:false,
 				arrayRequired:false,
-				required:false
+				required:true
 			}
 		}
 	},
@@ -73,23 +73,13 @@ export const AllTypesProps = {
 }
 
 export const ReturnTypes = {
-	Mutation:{
-		addCard:"Card"
-	},
-	CardStack:{
-		cards:"Card",
-		name:"String"
-	},
-	Nameable:{
-		"...on CardStack": "CardStack",
-		"...on Card": "Card",
-		"...on EffectCard": "EffectCard",
-		"...on SpecialCard": "SpecialCard",
-		name:"String"
-	},
-	ChangeCard:{
-		"...on SpecialCard":"SpecialCard",
-		"...on EffectCard":"EffectCard"
+	Query:{
+		cardById:"Card",
+		drawCard:"Card",
+		drawChangeCard:"ChangeCard",
+		listCards:"Card",
+		myStacks:"CardStack",
+		nameables:"Nameable"
 	},
 	Card:{
 		Attack:"Int",
@@ -103,28 +93,38 @@ export const ReturnTypes = {
 		name:"String",
 		skills:"SpecialSkills"
 	},
+	Nameable:{
+		"...on Card": "Card",
+		"...on EffectCard": "EffectCard",
+		"...on CardStack": "CardStack",
+		"...on SpecialCard": "SpecialCard",
+		name:"String"
+	},
 	S3Object:{
 		bucket:"String",
 		key:"String",
 		region:"String"
 	},
-	Subscription:{
-		deck:"Card"
-	},
-	Query:{
-		cardById:"Card",
-		drawCard:"Card",
-		drawChangeCard:"ChangeCard",
-		listCards:"Card",
-		myStacks:"CardStack",
-		nameables:"Nameable"
+	ChangeCard:{
+		"...on SpecialCard":"SpecialCard",
+		"...on EffectCard":"EffectCard"
 	},
 	EffectCard:{
 		effectSize:"Float",
 		name:"String"
 	},
+	CardStack:{
+		cards:"Card",
+		name:"String"
+	},
 	SpecialCard:{
 		effect:"String",
 		name:"String"
+	},
+	Mutation:{
+		addCard:"Card"
+	},
+	Subscription:{
+		deck:"Card"
 	}
 }

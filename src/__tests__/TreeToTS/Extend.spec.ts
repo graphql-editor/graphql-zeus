@@ -10,7 +10,7 @@ describe('Extend tests on parser', () => {
         }
         `;
     const tree = Parser.parseAddExtensions(schema);
-    const typeScriptCode = TreeToTS.resolveTree(tree);
+    const typeScriptCode = TreeToTS.resolveTree({ tree });
     expect(typeScriptCode).toContain(`age?:number`);
   });
 });

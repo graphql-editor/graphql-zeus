@@ -27,7 +27,7 @@ const pluginApolloOps = ({ queryName, operation }: { queryName: string; operatio
   };
 };
 
-export const pluginApollo = (tree: ParserTree) => {
+export const pluginApollo = ({ tree, esModule }: { tree: ParserTree; esModule?: boolean }) => {
   const operationNodes = tree.nodes.filter((n) => n.type.operations);
   const opsFunctions = operationNodes.flatMap((n) =>
     n.type.operations!.map((o) => pluginApolloOps({ queryName: n.name, operation: o })),
@@ -51,7 +51,7 @@ export const pluginApollo = (tree: ParserTree) => {
   return {
     ts: `/* eslint-disable */
 
-import { Zeus, GraphQLTypes, InputType, ValueTypes } from './index';
+import { Zeus, GraphQLTypes, InputType, ValueTypes } from './index${esModule ? '.js' : ''}';
 import { gql, ${capitalizedOps.map((o) => `use${o}`).join(', ')} } from '@apollo/client';
 import type { ${capitalizedOps.map((o) => `${o}HookOptions`).join(', ')} } from '@apollo/client';
 
