@@ -1,16 +1,22 @@
 """"""
-interface Nameable {
+type EffectCard implements Nameable {
+  """"""
+  effectSize: Float!
+
   """"""
   name: String!
 }
 
 """"""
-type SpecialCard implements Nameable {
-  """"""
-  effect: String!
+enum SpecialSkills {
+  """Lower enemy defense -5<br>"""
+  THUNDER
 
-  """"""
-  name: String!
+  """Attack multiple Cards at once<br>"""
+  RAIN
+
+  """50% chance to avoid any attack<br>"""
+  FIRE
 }
 
 """Stack of cards"""
@@ -20,33 +26,6 @@ type CardStack implements Nameable {
 
   """"""
   name: String!
-}
-
-""""""
-type Mutation {
-  """add Card to Cards database<br>"""
-  addCard(card: createCard!): Card!
-}
-
-""""""
-type Query {
-  """"""
-  cardById(cardId: String): Card
-
-  """Draw a card<br>"""
-  drawCard: Card!
-
-  """"""
-  drawChangeCard: ChangeCard!
-
-  """list All Cards availble<br>"""
-  listCards: [Card!]!
-
-  """"""
-  myStacks: [CardStack!]
-
-  """"""
-  nameables: [Nameable!]!
 }
 
 """"""
@@ -104,31 +83,25 @@ type S3Object {
 }
 
 """"""
-enum SpecialSkills {
-  """Lower enemy defense -5<br>"""
-  THUNDER
-
-  """Attack multiple Cards at once<br>"""
-  RAIN
-
-  """50% chance to avoid any attack<br>"""
-  FIRE
-}
-
-""""""
-union ChangeCard = SpecialCard | EffectCard
-
-""""""
-type EffectCard implements Nameable {
+type SpecialCard implements Nameable {
   """"""
-  effectSize: Float!
+  effect: String!
 
   """"""
   name: String!
 }
 
+""""""
+type Mutation {
+  """add Card to Cards database<br>"""
+  addCard(card: createCard!): Card!
+}
+
 """create card inputs<br>"""
 input createCard {
+  """input skills"""
+  skills: [SpecialSkills!]
+
   """The name of a card<br>"""
   name: String!
 
@@ -143,10 +116,37 @@ input createCard {
 
   """The defense power<br>"""
   Defense: Int!
-
-  """input skills"""
-  skills: [SpecialSkills!]
 }
+
+""""""
+type Query {
+  """"""
+  cardById(cardId: String): Card
+
+  """Draw a card<br>"""
+  drawCard: Card!
+
+  """"""
+  drawChangeCard: ChangeCard!
+
+  """list All Cards availble<br>"""
+  listCards: [Card!]!
+
+  """"""
+  myStacks: [CardStack!]
+
+  """"""
+  nameables: [Nameable!]!
+}
+
+""""""
+interface Nameable {
+  """"""
+  name: String!
+}
+
+""""""
+union ChangeCard = SpecialCard | EffectCard
 
 schema{
 	query: Query,

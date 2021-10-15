@@ -1,9 +1,15 @@
 /* eslint-disable */
 import { Zeus, GraphQLTypes, InputType, ValueTypes } from './index';
-import { gql, useQuery, useLazyQuery, useMutation, useSubscription } from '@apollo/client';
-import type { QueryHookOptions, LazyQueryHookOptions, MutationHookOptions, SubscriptionHookOptions } from '@apollo/client';
+import { gql, useSubscription, useQuery, useLazyQuery, useMutation } from '@apollo/client';
+import type { SubscriptionHookOptions, QueryHookOptions, LazyQueryHookOptions, MutationHookOptions } from '@apollo/client';
 
 
+export declare function useTypedSubscription<Z>(
+  subscription: Z | ValueTypes['Subscription'],
+  options?: SubscriptionHookOptions<InputType<GraphQLTypes['Subscription'], Z>>,
+) {
+  return useSubscription<InputType<GraphQLTypes['Subscription'], Z>>(gql(Zeus.subscription(subscription)), options);
+};
 export declare function useTypedQuery<Z>(
   query: Z | ValueTypes['Query'],
   options?: QueryHookOptions<InputType<GraphQLTypes['Query'], Z>>,
@@ -21,10 +27,4 @@ export declare function useTypedMutation<Z>(
   options?: MutationHookOptions<InputType<GraphQLTypes['Mutation'], Z>>,
 ) {
   return useMutation<InputType<GraphQLTypes['Mutation'], Z>>(gql(Zeus.mutation(mutation)), options);
-};
-export declare function useTypedSubscription<Z>(
-  subscription: Z | ValueTypes['Subscription'],
-  options?: SubscriptionHookOptions<InputType<GraphQLTypes['Subscription'], Z>>,
-) {
-  return useSubscription<InputType<GraphQLTypes['Subscription'], Z>>(gql(Zeus.subscription(subscription)), options);
 };
