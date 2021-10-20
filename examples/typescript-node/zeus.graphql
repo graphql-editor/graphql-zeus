@@ -1,4 +1,19 @@
 """"""
+type Subscription {
+  """"""
+  deck: [Card!]
+}
+
+""""""
+type SpecialCard implements Nameable {
+  """"""
+  effect: String!
+
+  """"""
+  name: String!
+}
+
+""""""
 type EffectCard implements Nameable {
   """"""
   effectSize: Float!
@@ -7,31 +22,25 @@ type EffectCard implements Nameable {
   name: String!
 }
 
-""""""
-enum SpecialSkills {
-  """Lower enemy defense -5<br>"""
-  THUNDER
+"""create card inputs<br>"""
+input createCard {
+  """The defense power<br>"""
+  Defense: Int!
 
-  """Attack multiple Cards at once<br>"""
-  RAIN
+  """input skills"""
+  skills: [SpecialSkills!]
 
-  """50% chance to avoid any attack<br>"""
-  FIRE
-}
-
-"""Stack of cards"""
-type CardStack implements Nameable {
-  """"""
-  cards: [Card!]
-
-  """"""
+  """The name of a card<br>"""
   name: String!
-}
 
-""""""
-type Subscription {
-  """"""
-  deck: [Card!]
+  """Description of a card<br>"""
+  description: String!
+
+  """<div>How many children the greek god had</div>"""
+  Children: Int
+
+  """The attack power<br>"""
+  Attack: Int!
 }
 
 """Card used in card game<br>"""
@@ -70,6 +79,18 @@ type Card implements Nameable {
   skills: [SpecialSkills!]
 }
 
+"""Stack of cards"""
+type CardStack implements Nameable {
+  """"""
+  cards: [Card!]
+
+  """"""
+  name: String!
+}
+
+""""""
+union ChangeCard = SpecialCard | EffectCard
+
 """Aws S3 File"""
 type S3Object {
   """"""
@@ -83,39 +104,9 @@ type S3Object {
 }
 
 """"""
-type SpecialCard implements Nameable {
-  """"""
-  effect: String!
-
-  """"""
-  name: String!
-}
-
-""""""
 type Mutation {
   """add Card to Cards database<br>"""
   addCard(card: createCard!): Card!
-}
-
-"""create card inputs<br>"""
-input createCard {
-  """input skills"""
-  skills: [SpecialSkills!]
-
-  """The name of a card<br>"""
-  name: String!
-
-  """Description of a card<br>"""
-  description: String!
-
-  """<div>How many children the greek god had</div>"""
-  Children: Int
-
-  """The attack power<br>"""
-  Attack: Int!
-
-  """The defense power<br>"""
-  Defense: Int!
 }
 
 """"""
@@ -146,7 +137,16 @@ interface Nameable {
 }
 
 """"""
-union ChangeCard = SpecialCard | EffectCard
+enum SpecialSkills {
+  """Lower enemy defense -5<br>"""
+  THUNDER
+
+  """Attack multiple Cards at once<br>"""
+  RAIN
+
+  """50% chance to avoid any attack<br>"""
+  FIRE
+}
 
 schema{
 	query: Query,

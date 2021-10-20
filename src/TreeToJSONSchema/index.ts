@@ -77,7 +77,6 @@ const convertType = (props: ConvertField): JSONSchema7 => {
   const { override, parent, f } = props;
   const type = getDataType(props);
   if (override && parent) {
-    console.log(parent.name, f.name);
     const fieldOverride = override[parent.name]?.[f.name];
     if (fieldOverride) {
       return fieldOverride(type as JSONSchemaOverrideProperties<any>) || {};

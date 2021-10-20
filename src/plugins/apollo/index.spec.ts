@@ -20,24 +20,22 @@ schema{
 }
 `;
     const tree = Parser.parse(schema);
-
-    expect(pluginApollo({ tree }).ts).toContain(`import { Zeus, GraphQLTypes, InputType, ValueTypes } from './index';
+    const apolloResult = pluginApollo({ tree });
+    expect(apolloResult.ts).toContain(`import { Zeus, GraphQLTypes, InputType, ValueTypes } from './index';
 import { gql, useQuery, useLazyQuery, useMutation, useSubscription } from '@apollo/client';
 import type { QueryHookOptions, LazyQueryHookOptions, MutationHookOptions, SubscriptionHookOptions } from '@apollo/client';`);
-    expect(pluginApollo({ tree }).js.code).toContain(`import { Zeus } from './index';
+    expect(apolloResult.ts).toContain(`export function useTypedQuery<Z>`);
+    expect(apolloResult.ts).toContain(`export function useTypedLazyQuery<Z>`);
+    expect(apolloResult.ts).toContain(`export function useTypedMutation<Z>`);
+    expect(apolloResult.ts).toContain(`export function useTypedSubscription<Z>`);
+
+    expect(apolloResult.js.code).toContain(`import { Zeus } from './index';
 import { gql, useQuery, useLazyQuery, useMutation, useSubscription } from '@apollo/client';`);
-    expect(pluginApollo({ tree }).js.definitions)
-      .toContain(`import { Zeus, GraphQLTypes, InputType, ValueTypes } from './index';
-import { gql, useQuery, useLazyQuery, useMutation, useSubscription } from '@apollo/client';
-import type { QueryHookOptions, LazyQueryHookOptions, MutationHookOptions, SubscriptionHookOptions } from '@apollo/client';`);
-
-    expect(pluginApollo({ tree }).ts).toContain(`export function useTypedQuery<Z>`);
-    expect(pluginApollo({ tree }).ts).toContain(`export function useTypedLazyQuery<Z>`);
-    expect(pluginApollo({ tree }).ts).toContain(`export function useTypedMutation<Z>`);
-    expect(pluginApollo({ tree }).ts).toContain(`export function useTypedSubscription<Z>`);
-
-    expect(pluginApollo({ tree }).js.definitions).toContain(`export declare function useTypedQuery<Z>`);
-    expect(pluginApollo({ tree }).js.definitions).toContain(`export declare function useTypedMutation<Z>`);
-    expect(pluginApollo({ tree }).js.definitions).toContain(`export declare function useTypedSubscription<Z>`);
+    expect(apolloResult.js.definitions).toContain(
+      `import type { GraphQLTypes, InputType, ValueTypes } from './index';`,
+    );
+    expect(apolloResult.js.definitions).toContain(`export declare function useTypedQuery`);
+    expect(apolloResult.js.definitions).toContain(`export declare function useTypedMutation`);
+    expect(apolloResult.js.definitions).toContain(`export declare function useTypedSubscription`);
   });
 });

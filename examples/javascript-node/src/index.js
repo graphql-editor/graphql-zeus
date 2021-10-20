@@ -1,7 +1,28 @@
 import { Gql, Zeus, Thunder, Selectors, resolverFor } from './zeus';
 import chalk from 'chalk';
 import fetch from 'node-fetch';
+import * as ap from './zeus/apollo';
+import * as rq from './zeus/reactQuery';
+const testApollo = () => {
+  const { data } = ap.useTypedQuery({ drawCard: { Attack: true } });
+  data.drawCard.Attack;
+  const mutation = ap.useTypedMutation({
+    addCard: [{ card: { Attack: 1, Defense: 2, description: '', name: 'aa' } }, { Attack: true }],
+  });
+  mutation[0]().then((r) => r.data.addCard.Attack);
+};
+
+const testRq = () => {
+  const reactQueryResult = rq.useTypedQuery('', { listCards: { Attack: true } });
+  reactQueryResult.data.listCards.map((lc) => lc.Attack);
+  const reactQueryMutationResult = rq.useTypedMutation('', {
+    addCard: [{ card: { Attack: 1, Defense: 2, description: '', name: 'aa' } }, { Attack: true }],
+  });
+  reactQueryMutationResult.data.addCard.Attack;
+};
+
 // This will return Card object with ID only
+
 const createCards = async () => {
   const printQueryResult = (name, result) =>
     console.log(`${chalk.greenBright(name)} result:\n${chalk.cyan(JSON.stringify(result, null, 4))}\n\n`);

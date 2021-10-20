@@ -6,6 +6,7 @@ import { Utils } from '@/Utils';
 import { TreeToJSONSchema } from '@/TreeToJSONSchema';
 import { Parser } from 'graphql-js-tree';
 import { pluginApollo } from '@/plugins/apollo';
+import { pluginReactQuery } from '@/plugins/react-query';
 
 /**
  * basic yargs interface
@@ -27,6 +28,7 @@ interface CliArgs extends Yargs {
   graphql?: string;
   jsonSchema?: string;
   apollo?: boolean;
+  reactQuery?: boolean;
 }
 /**
  * Main class for controlling CLI
@@ -88,6 +90,9 @@ export class CLI {
       if (args.apollo) {
         writeFileRecursive(path.join(pathToFile, 'zeus'), `apollo.ts`, pluginApollo({ tree }).ts);
       }
+      if (args.reactQuery) {
+        writeFileRecursive(path.join(pathToFile, 'zeus'), `reactQuery.ts`, pluginReactQuery({ tree }).ts);
+      }
     } else {
       const jsDefinition = TranslateGraphQL.javascriptSplit({ schema: schemaFileContents, env, host });
       writeFileRecursive(path.join(pathToFile, 'zeus'), `const.js`, jsDefinition.const);
@@ -97,6 +102,11 @@ export class CLI {
         const apolloResult = pluginApollo({ tree, esModule: !!args.esModule });
         writeFileRecursive(path.join(pathToFile, 'zeus'), `apollo.js`, apolloResult.js.code);
         writeFileRecursive(path.join(pathToFile, 'zeus'), `apollo.d.ts`, apolloResult.js.definitions);
+      }
+      if (args.reactQuery) {
+        const reactQueryResult = pluginReactQuery({ tree, esModule: !!args.esModule });
+        writeFileRecursive(path.join(pathToFile, 'zeus'), `reactQuery.js`, reactQueryResult.js.code);
+        writeFileRecursive(path.join(pathToFile, 'zeus'), `reactQuery.d.ts`, reactQueryResult.js.definitions);
       }
     }
   };

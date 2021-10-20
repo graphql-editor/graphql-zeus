@@ -1,6 +1,17 @@
 import chalk from 'chalk';
 import fetch from 'node-fetch';
-import { $, Gql, SpecialSkills, Thunder, Zeus } from './zeus';
+import { $, Gql, SpecialSkills, Thunder, Zeus, InputType, Selectors, GraphQLTypes } from './zeus';
+
+const sel = Selectors.query({
+  drawCard: {
+    Children: true,
+    Attack: true,
+    attack: [{ cardID: ['sss'] }, { Attack: true }],
+  },
+  cardById: [{ cardId: '' }, { Attack: true }],
+});
+
+export type IRT = InputType<GraphQLTypes['Query'], typeof sel>;
 
 const printQueryResult = (name: string, result: any) =>
   console.log(`${chalk.greenBright(name)} result:\n${chalk.cyan(JSON.stringify(result, null, 4))}\n\n`);

@@ -1,6 +1,6 @@
 {
   "name": "graphql-zeus",
-  "version": "3.2.7",
+  "version": "3.2.8",
   "private": false,
   "license": "MIT",
   "description": "Generate Client Libary for GraphQL Schema",
@@ -16,8 +16,8 @@
     "test": "jest",
     "cli": "node ./lib/CLI/index.js",
     "examples-generate": "npm run generate-typescript-node && npm run generate-javascript-node",
-    "generate-javascript-node": "node ./lib/CLI/index.js https://faker.graphqleditor.com/a-team/olympus/graphql examples/javascript-node/src --n --apollo",
-    "generate-typescript-node": "node ./lib/CLI/index.js https://faker.graphqleditor.com/a-team/olympus/graphql examples/typescript-node/src --ts --n -g examples/typescript-node/zeus.graphql --apollo",
+    "generate-javascript-node": "node ./lib/CLI/index.js https://faker.graphqleditor.com/a-team/olympus/graphql examples/javascript-node/src --n --apollo --reactQuery",
+    "generate-typescript-node": "node ./lib/CLI/index.js https://faker.graphqleditor.com/a-team/olympus/graphql examples/typescript-node/src --ts --n -g examples/typescript-node/zeus.graphql --apollo --reactQuery",
     "run-example-typescript-node": "./run-example.sh examples/typescript-node",
     "run-example-javascript-node": "./run-example.sh examples/javascript-node",
     "lint": "ttsc  && eslint \"./src/**/*.{ts,js}\" --quiet --fix"
@@ -30,7 +30,6 @@
     "url": "https://github.com/graphql-editor/graphql-zeus.git"
   },
   "devDependencies": {
-    "@apollo/client": "^3.4.7",
     "@babel/core": "^7.2.2",
     "@babel/node": "^7.10.5",
     "@babel/preset-env": "^7.11.5",

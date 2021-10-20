@@ -26,6 +26,16 @@ zeus [path] [output_path] [options]
     describe: 'Use .js import in TypeScript to use with esModules',
     boolean: true,
   })
+  .option('apollo', {
+    alias: 'ap',
+    describe: 'Generate Apollo useTypedQuery module',
+    boolean: true,
+  })
+  .option('reactQuery', {
+    alias: 'rq',
+    describe: 'Generate React Query useTypedQuery module',
+    boolean: true,
+  })
   .option('header', {
     alias: 'h',
     describe:

@@ -1,7 +1,16 @@
 /* eslint-disable */
 
 export const AllTypesProps = {
-	SpecialSkills: "enum",
+	Card:{
+		attack:{
+			cardID:{
+				type:"String",
+				array:true,
+				arrayRequired:true,
+				required:true
+			}
+		}
+	},
 	Query:{
 		cardById:{
 			cardId:{
@@ -12,7 +21,30 @@ export const AllTypesProps = {
 			}
 		}
 	},
+	SpecialSkills: "enum",
+	Mutation:{
+		addCard:{
+			card:{
+				type:"createCard",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		}
+	},
 	createCard:{
+		Defense:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		skills:{
+			type:"SpecialSkills",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
 		name:{
 			type:"String",
 			array:false,
@@ -36,81 +68,11 @@ export const AllTypesProps = {
 			array:false,
 			arrayRequired:false,
 			required:true
-		},
-		Defense:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		skills:{
-			type:"SpecialSkills",
-			array:true,
-			arrayRequired:false,
-			required:true
-		}
-	},
-	Mutation:{
-		addCard:{
-			card:{
-				type:"createCard",
-				array:false,
-				arrayRequired:false,
-				required:true
-			}
-		}
-	},
-	Card:{
-		attack:{
-			cardID:{
-				type:"String",
-				array:true,
-				arrayRequired:true,
-				required:true
-			}
 		}
 	}
 }
 
 export const ReturnTypes = {
-	EffectCard:{
-		effectSize:"Float",
-		name:"String"
-	},
-	ChangeCard:{
-		"...on SpecialCard":"SpecialCard",
-		"...on EffectCard":"EffectCard"
-	},
-	SpecialCard:{
-		effect:"String",
-		name:"String"
-	},
-	Subscription:{
-		deck:"Card"
-	},
-	Query:{
-		cardById:"Card",
-		drawCard:"Card",
-		drawChangeCard:"ChangeCard",
-		listCards:"Card",
-		myStacks:"CardStack",
-		nameables:"Nameable"
-	},
-	S3Object:{
-		bucket:"String",
-		key:"String",
-		region:"String"
-	},
-	Nameable:{
-		"...on EffectCard": "EffectCard",
-		"...on SpecialCard": "SpecialCard",
-		"...on Card": "Card",
-		"...on CardStack": "CardStack",
-		name:"String"
-	},
-	Mutation:{
-		addCard:"Card"
-	},
 	Card:{
 		Attack:"Int",
 		Children:"Int",
@@ -126,5 +88,43 @@ export const ReturnTypes = {
 	CardStack:{
 		cards:"Card",
 		name:"String"
+	},
+	ChangeCard:{
+		"...on SpecialCard":"SpecialCard",
+		"...on EffectCard":"EffectCard"
+	},
+	Query:{
+		cardById:"Card",
+		drawCard:"Card",
+		drawChangeCard:"ChangeCard",
+		listCards:"Card",
+		myStacks:"CardStack",
+		nameables:"Nameable"
+	},
+	Nameable:{
+		"...on Card": "Card",
+		"...on CardStack": "CardStack",
+		"...on SpecialCard": "SpecialCard",
+		"...on EffectCard": "EffectCard",
+		name:"String"
+	},
+	S3Object:{
+		bucket:"String",
+		key:"String",
+		region:"String"
+	},
+	Mutation:{
+		addCard:"Card"
+	},
+	SpecialCard:{
+		effect:"String",
+		name:"String"
+	},
+	EffectCard:{
+		effectSize:"Float",
+		name:"String"
+	},
+	Subscription:{
+		deck:"Card"
 	}
 }

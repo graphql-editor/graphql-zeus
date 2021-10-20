@@ -1,30 +1,38 @@
 /* eslint-disable */
-import { Zeus, GraphQLTypes, InputType, ValueTypes } from './index';
-import { gql, useSubscription, useQuery, useLazyQuery, useMutation } from '@apollo/client';
-import type { SubscriptionHookOptions, QueryHookOptions, LazyQueryHookOptions, MutationHookOptions } from '@apollo/client';
+import type { GraphQLTypes, InputType, ValueTypes } from './index';
+import type { QueryTuple, QueryResult, MutationTuple, QueryHookOptions, LazyQueryHookOptions, MutationHookOptions, SubscriptionHookOptions } from '@apollo/client';
 
 
-export declare function useTypedSubscription<Z>(
-  subscription: Z | ValueTypes['Subscription'],
-  options?: SubscriptionHookOptions<InputType<GraphQLTypes['Subscription'], Z>>,
-) {
-  return useSubscription<InputType<GraphQLTypes['Subscription'], Z>>(gql(Zeus.subscription(subscription)), options);
-};
-export declare function useTypedQuery<Z>(
-  query: Z | ValueTypes['Query'],
-  options?: QueryHookOptions<InputType<GraphQLTypes['Query'], Z>>,
-) {
-  return useQuery<InputType<GraphQLTypes['Query'], Z>>(gql(Zeus.query(query)), options);
-};
-export declare function useTypedLazyQuery<Z>(
-  LazyQuery: Z | ValueTypes['Query'],
-  options?: LazyQueryHookOptions<InputType<GraphQLTypes['Query'], Z>>,
-) {
-  return useLazyQuery<InputType<GraphQLTypes['Query'], Z>>(gql(Zeus.query(LazyQuery)), options);
-};
-export declare function useTypedMutation<Z>(
-  mutation: Z | ValueTypes['Mutation'],
-  options?: MutationHookOptions<InputType<GraphQLTypes['Mutation'], Z>>,
-) {
-  return useMutation<InputType<GraphQLTypes['Mutation'], Z>>(gql(Zeus.mutation(mutation)), options);
+export declare function useTypedQuery<TData,
+  TVariables = OperationVariables,
+  TResult = InputType<GraphQLTypes['Query'], TData>
+>(
+  query: TData | ValueTypes['Query'],
+  options?: QueryHookOptions<TResult>,
+): QueryResult<TResult, TVariables>;
+export declare function useTypedLazyQuery<TData,
+  TVariables = OperationVariables,
+  TResult = InputType<GraphQLTypes['Query'], TData>
+>(
+  LazyQuery: TData | ValueTypes['Query'],
+  options?: LazyQueryHookOptions<TResult>,
+): QueryTuple<TResult, TVariables>;
+export declare function useTypedMutation<TData,
+  TVariables = OperationVariables,
+  TResult = InputType<GraphQLTypes['Mutation'], TData>
+>(
+  mutation: TData | ValueTypes['Mutation'],
+  options?: MutationHookOptions<TResult>,
+): MutationTuple<TResult, TVariables>;
+export declare function useTypedSubscription<TData,
+  TVariables = OperationVariables,
+  TResult = InputType<GraphQLTypes['Subscription'], TData>
+>(
+  subscription: TData | ValueTypes['Subscription'],
+  options?: SubscriptionHookOptions<TResult>,
+): {
+  variables: TVariables | undefined;
+  loading: boolean;
+  data?: TResult | undefined;
+  error?: ApolloError | undefined;
 };

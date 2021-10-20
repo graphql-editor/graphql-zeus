@@ -42,6 +42,7 @@ Given the following schema [Olympus Cards](https://app.graphqleditor.com/a-team/
       - [Return with .js import for esModules](#return-with-js-import-for-esmodules)
     - [Usage with Apollo GraphQL](#usage-with-apollo-graphql)
       - [Inferring the response type](#inferring-the-response-type)
+    - [Usage with React Query](#usage-with-react-query)
     - [Usage with NodeJS](#usage-with-nodejs)
     - [Usage with React Native](#usage-with-react-native)
     - [Load from URL](#load-from-url)
@@ -154,6 +155,27 @@ import { drawCardQuery } from './';
 
 const Main = () => {
   const { data } = useTypedQuery(drawCardQuery);
+  return <div>{data.drawCard.name}</div>;
+};
+```
+
+#### Usage with React Query
+
+It will generate `useTypedQuery` `useTypedMutation` etc... based on React Query . All types in data are inherited from zeus query
+
+```sh
+$ zeus schema.graphql ./  --reactQuery
+```
+
+```tsx
+import { useTypedQuery } from './zeus/reactQuery';
+
+const Main = () => {
+  const { data } = useTypedQuery({
+    drawCard: {
+      name: true,
+    },
+  });
   return <div>{data.drawCard.name}</div>;
 };
 ```
