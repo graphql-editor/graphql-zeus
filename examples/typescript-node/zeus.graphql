@@ -1,32 +1,29 @@
 """"""
+interface Nameable {
+  """"""
+  name: String!
+}
+
+""""""
+enum SpecialSkills {
+  """Lower enemy defense -5<br>"""
+  THUNDER
+
+  """Attack multiple Cards at once<br>"""
+  RAIN
+
+  """50% chance to avoid any attack<br>"""
+  FIRE
+}
+
+""""""
 type Subscription {
   """"""
   deck: [Card!]
 }
 
-""""""
-type SpecialCard implements Nameable {
-  """"""
-  effect: String!
-
-  """"""
-  name: String!
-}
-
-""""""
-type EffectCard implements Nameable {
-  """"""
-  effectSize: Float!
-
-  """"""
-  name: String!
-}
-
 """create card inputs<br>"""
 input createCard {
-  """The defense power<br>"""
-  Defense: Int!
-
   """input skills"""
   skills: [SpecialSkills!]
 
@@ -41,6 +38,9 @@ input createCard {
 
   """The attack power<br>"""
   Attack: Int!
+
+  """The defense power<br>"""
+  Defense: Int!
 }
 
 """Card used in card game<br>"""
@@ -79,17 +79,14 @@ type Card implements Nameable {
   skills: [SpecialSkills!]
 }
 
-"""Stack of cards"""
-type CardStack implements Nameable {
+""""""
+type SpecialCard implements Nameable {
   """"""
-  cards: [Card!]
+  effect: String!
 
   """"""
   name: String!
 }
-
-""""""
-union ChangeCard = SpecialCard | EffectCard
 
 """Aws S3 File"""
 type S3Object {
@@ -101,6 +98,15 @@ type S3Object {
 
   """"""
   region: String!
+}
+
+"""Stack of cards"""
+type CardStack implements Nameable {
+  """"""
+  cards: [Card!]
+
+  """"""
+  name: String!
 }
 
 """"""
@@ -131,21 +137,15 @@ type Query {
 }
 
 """"""
-interface Nameable {
-  """"""
-  name: String!
-}
+union ChangeCard = SpecialCard | EffectCard
 
 """"""
-enum SpecialSkills {
-  """Lower enemy defense -5<br>"""
-  THUNDER
+type EffectCard implements Nameable {
+  """"""
+  effectSize: Float!
 
-  """Attack multiple Cards at once<br>"""
-  RAIN
-
-  """50% chance to avoid any attack<br>"""
-  FIRE
+  """"""
+  name: String!
 }
 
 schema{

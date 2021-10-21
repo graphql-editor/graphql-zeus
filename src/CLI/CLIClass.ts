@@ -7,6 +7,7 @@ import { TreeToJSONSchema } from '@/TreeToJSONSchema';
 import { Parser } from 'graphql-js-tree';
 import { pluginApollo } from '@/plugins/apollo';
 import { pluginReactQuery } from '@/plugins/react-query';
+import { pluginStucco } from '@/plugins/stuccoSubscriptions';
 
 /**
  * basic yargs interface
@@ -29,6 +30,7 @@ interface CliArgs extends Yargs {
   jsonSchema?: string;
   apollo?: boolean;
   reactQuery?: boolean;
+  stuccoSubscriptions?: boolean;
 }
 /**
  * Main class for controlling CLI
@@ -93,6 +95,9 @@ export class CLI {
       if (args.reactQuery) {
         writeFileRecursive(path.join(pathToFile, 'zeus'), `reactQuery.ts`, pluginReactQuery({ tree }).ts);
       }
+      if (args.stuccoSubscriptions) {
+        writeFileRecursive(path.join(pathToFile, 'zeus'), `stuccoSubscriptions.ts`, pluginStucco({ tree }).ts);
+      }
     } else {
       const jsDefinition = TranslateGraphQL.javascriptSplit({ schema: schemaFileContents, env, host });
       writeFileRecursive(path.join(pathToFile, 'zeus'), `const.js`, jsDefinition.const);
@@ -107,6 +112,11 @@ export class CLI {
         const reactQueryResult = pluginReactQuery({ tree, esModule: !!args.esModule });
         writeFileRecursive(path.join(pathToFile, 'zeus'), `reactQuery.js`, reactQueryResult.js.code);
         writeFileRecursive(path.join(pathToFile, 'zeus'), `reactQuery.d.ts`, reactQueryResult.js.definitions);
+      }
+      if (args.stuccoSubscriptions) {
+        const stuccoResult = pluginStucco({ tree, esModule: !!args.esModule });
+        writeFileRecursive(path.join(pathToFile, 'zeus'), `stuccoSubscriptions.js`, stuccoResult.js.code);
+        writeFileRecursive(path.join(pathToFile, 'zeus'), `stuccoSubscriptions.d.ts`, stuccoResult.js.definitions);
       }
     }
   };

@@ -31,6 +31,11 @@ zeus [path] [output_path] [options]
     describe: 'Generate Apollo useTypedQuery module',
     boolean: true,
   })
+  .option('stuccoSubscriptions', {
+    alias: 'ss',
+    describe: 'Generate Stucco.js stuccoSubscriptions module',
+    boolean: true,
+  })
   .option('reactQuery', {
     alias: 'rq',
     describe: 'Generate React Query useTypedQuery module',

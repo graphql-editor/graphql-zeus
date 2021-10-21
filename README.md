@@ -43,6 +43,7 @@ Given the following schema [Olympus Cards](https://app.graphqleditor.com/a-team/
     - [Usage with Apollo GraphQL](#usage-with-apollo-graphql)
       - [Inferring the response type](#inferring-the-response-type)
     - [Usage with React Query](#usage-with-react-query)
+    - [Usage with Stucco Subscriptions](#usage-with-stucco-subscriptions)
     - [Usage with NodeJS](#usage-with-nodejs)
     - [Usage with React Native](#usage-with-react-native)
     - [Load from URL](#load-from-url)
@@ -178,6 +179,14 @@ const Main = () => {
   });
   return <div>{data.drawCard.name}</div>;
 };
+```
+
+#### Usage with Stucco Subscriptions
+
+It will generate stucco subscription library. All types in data are inherited from zeus query
+
+```
+stuccoSubscriptions((apiFetchResult) => [apiFetchResult.url], 'https://my.backend/graphql')({ drawCard: { Attack: true } }).on((args) => args.drawCard.Attack);
 ```
 
 #### Usage with NodeJS

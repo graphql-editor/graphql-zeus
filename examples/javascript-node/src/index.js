@@ -3,6 +3,7 @@ import chalk from 'chalk';
 import fetch from 'node-fetch';
 import * as ap from './zeus/apollo';
 import * as rq from './zeus/reactQuery';
+import { stuccoSubscriptions } from './zeus/stuccoSubscriptions';
 const testApollo = () => {
   const { data } = ap.useTypedQuery({ drawCard: { Attack: true } });
   data.drawCard.Attack;
@@ -19,6 +20,10 @@ const testRq = () => {
     addCard: [{ card: { Attack: 1, Defense: 2, description: '', name: 'aa' } }, { Attack: true }],
   });
   reactQueryMutationResult.data.addCard.Attack;
+};
+
+const testStucco = () => {
+  stuccoSubscriptions(() => [''], '')({ drawCard: { Attack: true } }).on((args) => args.drawCard.Attack);
 };
 
 // This will return Card object with ID only
