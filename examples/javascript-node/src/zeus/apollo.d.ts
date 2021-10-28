@@ -1,15 +1,8 @@
 /* eslint-disable */
 import type { GraphQLTypes, InputType, ValueTypes } from './index';
-import type { QueryTuple, QueryResult, MutationTuple, MutationHookOptions, SubscriptionHookOptions, QueryHookOptions, LazyQueryHookOptions } from '@apollo/client';
+import type { QueryTuple, QueryResult, MutationTuple, SubscriptionHookOptions, QueryHookOptions, LazyQueryHookOptions, MutationHookOptions } from '@apollo/client';
 
 
-export declare function useTypedMutation<TData,
-  TVariables = OperationVariables,
-  TResult = InputType<GraphQLTypes['Mutation'], TData>
->(
-  mutation: TData | ValueTypes['Mutation'],
-  options?: MutationHookOptions<TResult>,
-): MutationTuple<TResult, TVariables>;
 export declare function useTypedSubscription<TData,
   TVariables = OperationVariables,
   TResult = InputType<GraphQLTypes['Subscription'], TData>
@@ -36,3 +29,10 @@ export declare function useTypedLazyQuery<TData,
   LazyQuery: TData | ValueTypes['Query'],
   options?: LazyQueryHookOptions<TResult>,
 ): QueryTuple<TResult, TVariables>;
+export declare function useTypedMutation<TData,
+  TVariables = OperationVariables,
+  TResult = InputType<GraphQLTypes['Mutation'], TData>
+>(
+  mutation: TData | ValueTypes['Mutation'],
+  options?: MutationHookOptions<TResult>,
+): MutationTuple<TResult, TVariables>;

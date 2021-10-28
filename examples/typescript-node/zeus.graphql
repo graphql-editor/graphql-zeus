@@ -1,95 +1,17 @@
 """"""
-type Query {
-  """"""
-  cardById(cardId: String): Card
-
-  """Draw a card<br>"""
-  drawCard: Card!
-
-  """"""
-  drawChangeCard: ChangeCard!
-
-  """list All Cards availble<br>"""
-  listCards: [Card!]!
-
-  """"""
-  myStacks: [CardStack!]
-
-  """"""
-  nameables: [Nameable!]!
-}
-
-"""Stack of cards"""
-type CardStack implements Nameable {
-  """"""
-  cards: [Card!]
-
-  """"""
-  name: String!
-}
-
-""""""
-type SpecialCard implements Nameable {
-  """"""
-  effect: String!
-
-  """"""
-  name: String!
-}
-
-""""""
-type EffectCard implements Nameable {
-  """"""
-  effectSize: Float!
-
-  """"""
-  name: String!
-}
-
-""""""
-enum SpecialSkills {
-  """50% chance to avoid any attack<br>"""
-  FIRE
-
-  """Lower enemy defense -5<br>"""
-  THUNDER
-
-  """Attack multiple Cards at once<br>"""
-  RAIN
-}
-
-""""""
 type Mutation {
   """add Card to Cards database<br>"""
   addCard(card: createCard!): Card!
 }
 
-""""""
-type Subscription {
-  """"""
-  deck: [Card!]
-}
-
-""""""
-interface Nameable {
-  """"""
-  name: String!
-}
-
-"""Aws S3 File"""
-type S3Object {
-  """"""
-  bucket: String!
-
-  """"""
-  key: String!
-
-  """"""
-  region: String!
-}
-
 """create card inputs<br>"""
 input createCard {
+  """input skills"""
+  skills: [SpecialSkills!]
+
+  """The name of a card<br>"""
+  name: String!
+
   """Description of a card<br>"""
   description: String!
 
@@ -101,16 +23,7 @@ input createCard {
 
   """The defense power<br>"""
   Defense: Int!
-
-  """input skills"""
-  skills: [SpecialSkills!]
-
-  """The name of a card<br>"""
-  name: String!
 }
-
-""""""
-union ChangeCard = SpecialCard | EffectCard
 
 """Card used in card game<br>"""
 type Card implements Nameable {
@@ -146,6 +59,93 @@ type Card implements Nameable {
 
   """"""
   skills: [SpecialSkills!]
+}
+
+""""""
+union ChangeCard = SpecialCard | EffectCard
+
+"""Stack of cards"""
+type CardStack implements Nameable {
+  """"""
+  cards: [Card!]
+
+  """"""
+  name: String!
+}
+
+"""Aws S3 File"""
+type S3Object {
+  """"""
+  bucket: String!
+
+  """"""
+  key: String!
+
+  """"""
+  region: String!
+}
+
+""""""
+type Subscription {
+  """"""
+  deck: [Card!]
+}
+
+""""""
+interface Nameable {
+  """"""
+  name: String!
+}
+
+""""""
+type EffectCard implements Nameable {
+  """"""
+  effectSize: Float!
+
+  """"""
+  name: String!
+}
+
+""""""
+enum SpecialSkills {
+  """Lower enemy defense -5<br>"""
+  THUNDER
+
+  """Attack multiple Cards at once<br>"""
+  RAIN
+
+  """50% chance to avoid any attack<br>"""
+  FIRE
+}
+
+""""""
+type Query {
+  """"""
+  cardById(cardId: String): Card
+
+  """Draw a card<br>"""
+  drawCard: Card!
+
+  """"""
+  drawChangeCard: ChangeCard!
+
+  """list All Cards availble<br>"""
+  listCards: [Card!]!
+
+  """"""
+  myStacks: [CardStack!]
+
+  """"""
+  nameables: [Nameable!]!
+}
+
+""""""
+type SpecialCard implements Nameable {
+  """"""
+  effect: String!
+
+  """"""
+  name: String!
 }
 
 schema{

@@ -9,9 +9,20 @@ export const pluginStucco = ({ tree, esModule }: { tree: ParserTree; esModule?: 
   }
   return {
     ts: `/* eslint-disable */
-import { fullSubscriptionConstructor, chainOptions, apiSubscription } from './index${esModule ? '.js' : ''}';
+import { fullSubscriptionConstructor, chainOptions } from './index${esModule ? '.js' : ''}';
 
-export const stuccoSubscriptions = (extractPayload: (result: unknown) => chainOptions, ...options: chainOptions) =>
+export type WebsocketSubscription = {
+  ws: WebSocket;
+  on: (...args: unknown[]) => void;
+  off: (...args: unknown[]) => void;
+  error: (...args: unknown[]) => void;
+  open: (...args: unknown[]) => void;
+};
+
+export const stuccoSubscriptions = (
+  subscriptionConnectionFunction: (params: { result: unknown; query: string }) => Promise<WebsocketSubscription>,
+  ...options: chainOptions
+) =>
   fullSubscriptionConstructor(
     async (query) => {
       const result = await fetch(options[0], {
@@ -22,11 +33,11 @@ export const stuccoSubscriptions = (extractPayload: (result: unknown) => chainOp
         },
         ...options[1],
       }).then((r) => r.json());
-      const sub = apiSubscription(extractPayload(result))(query);
+      const sub = await subscriptionConnectionFunction({ result, query });
       return {
         ...sub,
         on: (fn: (args: any) => void) => {
-          sub.on(async (subscriptionPayload) => {
+          sub.on(async (subscriptionPayload?: unknown) => {
             const headers = options.length > 1 ? options[1]?.headers : {};
             const response = await fetch(options[0], {
               method: 'POST',
@@ -43,9 +54,12 @@ export const stuccoSubscriptions = (extractPayload: (result: unknown) => chainOp
   );`,
     js: {
       code: `/* eslint-disable */
-import { fullSubscriptionConstructor, chainOptions, apiSubscription } from './index${esModule ? '.js' : ''}';
+import { fullSubscriptionConstructor, chainOptions } from './index${esModule ? '.js' : ''}';
 
-export const stuccoSubscriptions = (extractPayload, ...options) =>
+export const stuccoSubscriptions = (
+  subscriptionConnectionFunction,
+  ...options
+) =>
   fullSubscriptionConstructor(
     async (query) => {
       const result = await fetch(options[0], {
@@ -56,7 +70,7 @@ export const stuccoSubscriptions = (extractPayload, ...options) =>
         },
         ...options[1],
       }).then((r) => r.json());
-      const sub = apiSubscription(extractPayload(result))(query);
+      const sub = await subscriptionConnectionFunction({ result, query });
       return {
         ...sub,
         on: (fn) => {
@@ -76,13 +90,20 @@ export const stuccoSubscriptions = (extractPayload, ...options) =>
     '${subscriptionNode.name}',
   );`,
       definitions: `/* eslint-disable */
-import { SubscriptionToGraphQL, GraphQLTypes, ValueTypes } from './index';
+import { SubscriptionToGraphQL, GraphQLTypes, ValueTypes, chainOptions } from './index';
+
+export type WebsocketSubscription = {
+  ws: WebSocket;
+  on: (...args: unknown[]) => void;
+  off: (...args: unknown[]) => void;
+  error: (...args: unknown[]) => void;
+  open: (...args: unknown[]) => void;
+};
 
 export declare const stuccoSubscriptions: <R extends keyof ValueTypes>(
-  extractPayload: (result: unknown) => chainOptions,
+  subscriptionConnectionFunction: (params: { result: unknown; query: string }) => Promise<WebsocketSubscription>,
   ...options: chainOptions
-) => SubscriptionToGraphQL<ValueTypes[R], GraphQLTypes[R]>;
-`,
+) => SubscriptionToGraphQL<ValueTypes[R], GraphQLTypes[R]>;`,
     },
   };
 };

@@ -1,7 +1,10 @@
 /* eslint-disable */
-import { fullSubscriptionConstructor, chainOptions, apiSubscription } from './index';
+import { fullSubscriptionConstructor, chainOptions } from './index';
 
-export const stuccoSubscriptions = (extractPayload, ...options) =>
+export const stuccoSubscriptions = (
+  subscriptionConnectionFunction,
+  ...options
+) =>
   fullSubscriptionConstructor(
     async (query) => {
       const result = await fetch(options[0], {
@@ -12,7 +15,7 @@ export const stuccoSubscriptions = (extractPayload, ...options) =>
         },
         ...options[1],
       }).then((r) => r.json());
-      const sub = apiSubscription(extractPayload(result))(query);
+      const sub = await subscriptionConnectionFunction({ result, query });
       return {
         ...sub,
         on: (fn) => {
