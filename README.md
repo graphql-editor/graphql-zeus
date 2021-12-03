@@ -23,6 +23,10 @@ Supported Languages:
   - NodeJS
   - React Native
 
+⚡⚡⚡⚡ From version 4.0 Zeus supports
+
+- huuuuuge schemas
+
 ## How it works
 
 Given the following schema [Olympus Cards](https://app.graphqleditor.com/a-team/olympus)

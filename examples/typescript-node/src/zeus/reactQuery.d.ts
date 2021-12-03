@@ -1,4 +1,0 @@
-import { ValueTypes, GraphQLTypes, InputType, OperationOptions } from './index';
-import type { UseQueryOptions, UseMutationOptions } from 'react-query';
-export declare function useTypedQuery<O extends "Query", TData, TResult = InputType<GraphQLTypes[O], TData>>(queryKey: string, query: TData | ValueTypes[O], options?: Omit<UseQueryOptions<TResult>, 'queryKey' | 'queryFn'>, zeusOptions?: OperationOptions, host?: string): import("react-query").UseQueryResult<TResult, unknown>;
-export declare function useTypedMutation<O extends "Mutation", TData, TResult = InputType<GraphQLTypes[O], TData>>(mutationKey: string, mutation: TData | ValueTypes[O], options?: Omit<UseMutationOptions<TResult>, 'mutationKey' | 'mutationFn'>, zeusOptions?: OperationOptions, host?: string): import("react-query").UseMutationResult<TResult, unknown, void, unknown>;
