@@ -1,3 +1,5 @@
+import { truthyType } from '@/TreeToTS/templates/truthy';
+
 export const constantTypesTypescript = `
 export type UnwrapPromise<T> = T extends Promise<infer R> ? R : T;
 export type ZeusState<T extends (...args: any[]) => Promise<any>> = NonNullable<
@@ -11,7 +13,7 @@ export type ZeusHook<
 > = ZeusState<ReturnType<T>[N]>;
 
 type WithTypeNameValue<T> = T & {
-  __typename?: true;
+  __typename?: ${truthyType};
 };
 type AliasType<T> = WithTypeNameValue<T> & {
   __alias?: Record<string, WithTypeNameValue<T>>;
@@ -46,10 +48,10 @@ type IsInterfaced<SRC extends DeepAnify<DST>, DST> = FlattenArray<SRC> extends Z
             }[keyof DST]
           >,
           '__typename'
-        >]: IsPayLoad<DST[P]> extends true ? SRC[P] : IsArray<SRC[P], DST[P]>;
+        >]: IsPayLoad<DST[P]> extends ${truthyType} ? SRC[P] : IsArray<SRC[P], DST[P]>;
       }
   : {
-      [P in keyof Pick<SRC, keyof DST>]: IsPayLoad<DST[P]> extends true ? SRC[P] : IsArray<SRC[P], DST[P]>;
+      [P in keyof Pick<SRC, keyof DST>]: IsPayLoad<DST[P]> extends ${truthyType} ? SRC[P] : IsArray<SRC[P], DST[P]>;
     };
 
 export type MapType<SRC, DST> = SRC extends DeepAnify<DST> ? IsInterfaced<SRC, DST> : never;
@@ -66,15 +68,11 @@ export type OperationOptions = {
   variables?: Record<string, any>;
   operationName?: string;
 };
-export type OperationToGraphQL<V, T> = <Z extends V>(o: Z | V, options?: OperationOptions) => Promise<InputType<T, Z>>;
-export type SubscriptionToGraphQL<V, T> = <Z extends V>(
-  o: Z | V,
-  options?: OperationOptions,
-) => {
+export type SubscriptionToGraphQL<Z, T> = {
   ws: WebSocket;
   on: (fn: (args: InputType<T, Z>) => void) => void;
   off: (fn: (e: { data?: InputType<T, Z>; code?: number; reason?: string; message?: string }) => void) => void;
-  error: (fn: (e: { data?: InputType<T, Z>; errors?:string[] }) => void) => void;
+  error: (fn: (e: { data?: InputType<T, Z>; errors?: string[] }) => void) => void;
   open: () => void;
 };
 export type SelectionFunction<V> = <T>(t: T | V) => T;
@@ -91,7 +89,7 @@ export type FetchFunction = (
   query: string,
   variables?: Record<string, any>,
 ) => Promise<any>;
-export type SubscriptionFunction = (query: string) => void;
+export type SubscriptionFunction = (query: string) => any;
 type NotUndefined<T> = T extends undefined ? never : T;
 export type ResolverType<F> = NotUndefined<F extends [infer ARGS, any] ? ARGS : undefined>;
 `;

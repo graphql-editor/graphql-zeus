@@ -1,4 +1,3 @@
-import { OperationType } from '../../Models';
 import { Parser } from 'graphql-js-tree';
 import { TreeToTS } from '../../TreeToTS';
 
@@ -11,38 +10,15 @@ schema{
 `;
 describe('Thunder tests', () => {
   it('TypeScript: ThunderDefinitions', () => {
-    const schema = `
-        type Person{ name:String }
-        type Query{ people: [Person] }
-        schema{
-            query: Query
-        }
-        `;
     const tree = Parser.parseAddExtensions(schema);
     const typeScriptCode = TreeToTS.resolveTree({ tree });
-    expect(typeScriptCode).toContain(`Thunder = (fn: FetchFunction, subscriptionFn: SubscriptionFunction)`);
-  });
-  it('Javascript: ThunderDefinitions', () => {
-    const schema = `
-        type Person{ name:String }
-        type Query{ people: [Person] }
-        schema{
-            query: Query
-        }
-        `;
-    const tree = Parser.parseAddExtensions(schema);
-    const { index, definitions } = TreeToTS.javascriptSplit({ tree });
-    expect(index).toContain(`Thunder = (fn, subscriptionFn)`);
-    expect(definitions).toContain(`export declare function Thunder`);
-  });
-  it('TypeScript: Normal schema Query generation', () => {
-    const tree = Parser.parseAddExtensions(schema);
-    const { index } = TreeToTS.resolveTreeSplit({ tree });
-    expect(index).toContain(`fullChainConstructor(fn,'${OperationType.query}', 'Query')`);
-  });
-  it('Javascript: Normal schema Query generation', () => {
-    const tree = Parser.parseAddExtensions(schema);
-    const { index } = TreeToTS.javascriptSplit({ tree });
-    expect(index).toContain(`fullChainConstructor(fn,'${OperationType.query}', 'Query')`);
+    expect(typeScriptCode).toContain(`export const Thunder = (fn: FetchFunction) => <
+  O extends 'query' | 'mutation' | 'subscription',
+  R extends keyof ValueTypes = GenericOperation<O>
+>(
+  operation: O,
+) => <Z extends ValueTypes[R]>(o: Z | ValueTypes[R], ops?: OperationOptions) =>
+  fullChainConstruct(fn)(operation, allOperations[operation])(o as any, ops) as Promise<InputType<GraphQLTypes[R], Z>>;
+`);
   });
 });

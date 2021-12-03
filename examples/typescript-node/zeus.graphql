@@ -1,20 +1,26 @@
 """"""
-union ChangeCard = SpecialCard | EffectCard
-
-""""""
-type SpecialCard implements Nameable {
+type EffectCard implements Nameable {
   """"""
-  effect: String!
+  effectSize: Float!
 
   """"""
   name: String!
 }
 
-""""""
-type Mutation {
-  """add Card to Cards database<br>"""
-  addCard(card: createCard!): Card!
+"""Aws S3 File"""
+type S3Object {
+  """"""
+  bucket: String!
+
+  """"""
+  key: String!
+
+  """"""
+  region: String!
 }
+
+""""""
+union ChangeCard = SpecialCard | EffectCard
 
 """Stack of cards"""
 type CardStack implements Nameable {
@@ -25,22 +31,25 @@ type CardStack implements Nameable {
   name: String!
 }
 
-""""""
-enum SpecialSkills {
-  """Lower enemy defense -5<br>"""
-  THUNDER
+"""create card inputs<br>"""
+input createCard {
+  """The attack power<br>"""
+  Attack: Int!
 
-  """Attack multiple Cards at once<br>"""
-  RAIN
+  """The defense power<br>"""
+  Defense: Int!
 
-  """50% chance to avoid any attack<br>"""
-  FIRE
-}
+  """input skills"""
+  skills: [SpecialSkills!]
 
-""""""
-type Subscription {
-  """"""
-  deck: [Card!]
+  """The name of a card<br>"""
+  name: String!
+
+  """Description of a card<br>"""
+  description: String!
+
+  """<div>How many children the greek god had</div>"""
+  Children: Int
 }
 
 """"""
@@ -62,6 +71,39 @@ type Query {
 
   """"""
   nameables: [Nameable!]!
+}
+
+""""""
+type Mutation {
+  """add Card to Cards database<br>"""
+  addCard(card: createCard!): Card!
+}
+
+""""""
+type Subscription {
+  """"""
+  deck: [Card!]
+}
+
+""""""
+enum SpecialSkills {
+  """Lower enemy defense -5<br>"""
+  THUNDER
+
+  """Attack multiple Cards at once<br>"""
+  RAIN
+
+  """50% chance to avoid any attack<br>"""
+  FIRE
+}
+
+""""""
+type SpecialCard implements Nameable {
+  """"""
+  effect: String!
+
+  """"""
+  name: String!
 }
 
 """"""
@@ -103,48 +145,6 @@ type Card implements Nameable {
   name: String!
 
   """"""
-  skills: [SpecialSkills!]
-}
-
-""""""
-type EffectCard implements Nameable {
-  """"""
-  effectSize: Float!
-
-  """"""
-  name: String!
-}
-
-"""Aws S3 File"""
-type S3Object {
-  """"""
-  bucket: String!
-
-  """"""
-  key: String!
-
-  """"""
-  region: String!
-}
-
-"""create card inputs<br>"""
-input createCard {
-  """The name of a card<br>"""
-  name: String!
-
-  """Description of a card<br>"""
-  description: String!
-
-  """<div>How many children the greek god had</div>"""
-  Children: Int
-
-  """The attack power<br>"""
-  Attack: Int!
-
-  """The defense power<br>"""
-  Defense: Int!
-
-  """input skills"""
   skills: [SpecialSkills!]
 }
 

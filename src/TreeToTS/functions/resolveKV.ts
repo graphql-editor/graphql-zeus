@@ -5,8 +5,4 @@ export const resolveKVFunction: StringFunction = {
 const resolveKV = (k: string, v: boolean | string | { [x: string]: boolean | string }) =>
   typeof v === 'boolean' ? k : typeof v === 'object' ? \`\${k}{\${objectToTree(v)}}\` : \`\${k}\${v}\`;
 `,
-  js: `
-const resolveKV = (k, v) =>
-  typeof v === 'boolean' ? k : typeof v === 'object' ? \`\${k}{\${objectToTree(v)}}\` : \`\${k}\${v}\`;
-`,
 };

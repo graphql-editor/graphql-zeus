@@ -3,75 +3,51 @@ import { OperationType, ParserTree } from 'graphql-js-tree';
 const pluginReactQueryOps = ({
   queryName,
   operation,
+  host,
 }: {
   queryName: string;
   operation: OperationType | 'LazyQuery';
+  host?: string;
 }) => {
   const capitalized = operation[0].toUpperCase() + operation.slice(1);
   return {
     queryName,
     operation,
-    ts: `export function useTyped${capitalized}<TData, TResult = InputType<GraphQLTypes['${queryName}'], TData>>(
+    ts: `export function useTyped${capitalized}<O extends "${queryName}", TData, TResult = InputType<GraphQLTypes[O], TData>>(
   ${operation}Key: string,
-  ${operation}: TData | ValueTypes['${queryName}'],
+  ${operation}: TData | ValueTypes[O],
   options?: Omit<Use${capitalized}Options<TResult>, '${operation}Key' | '${operation}Fn'>,
   zeusOptions?: OperationOptions,
+  host = "${host || ''}"
 ) {
-  return use${capitalized}<TResult>(${operation}Key, () => Gql.${operation}(${operation}, zeusOptions) as Promise<TResult>, options);
+  return use${capitalized}<TResult>(${operation}Key, () => Chain(host)("${operation}")(${operation}, zeusOptions) as Promise<TResult>, options);
 }`,
-    js: {
-      code: `export function useTyped${capitalized}(${operation}Key, ${operation}, options, zeusOptions) {
-  return use${capitalized}(${operation}Key, () => Gql.${operation}(${operation}, zeusOptions), options);
-}
-`,
-      definitions: `export declare function useTyped${capitalized}<TData, TResult = InputType<GraphQLTypes['${queryName}'], TData>>(
-  ${operation}Key: string,
-  ${operation}: TData | ValueTypes['${queryName}'],
-  options?: Omit<Use${capitalized}Options<TResult>, '${operation}Key' | '${operation}Fn'>,
-  zeusOptions?: OperationOptions,
-): Use${capitalized}Result<TResult>`,
-    },
   };
 };
 
-export const pluginReactQuery = ({ tree, esModule }: { tree: ParserTree; esModule?: boolean }) => {
+export const pluginReactQuery = ({ tree, esModule, host }: { tree: ParserTree; esModule?: boolean; host?: string }) => {
   const operationNodes = tree.nodes.filter((n) => n.type.operations);
   const opsFunctions = operationNodes.flatMap((n) =>
     n.type
       .operations!.filter((o) => o !== OperationType.subscription)
-      .map((o) => pluginReactQueryOps({ queryName: n.name, operation: o })),
+      .map((o) => pluginReactQueryOps({ queryName: n.name, operation: o, host })),
   );
-  const o = opsFunctions.reduce<Pick<ReturnType<typeof pluginReactQueryOps>, 'js' | 'ts'>>(
+  const o = opsFunctions.reduce<Pick<ReturnType<typeof pluginReactQueryOps>, 'ts'>>(
     (a, b) => {
       a.ts = [a.ts, b.ts].join('\n');
-      a.js.code = [a.js.code, b.js.code].join('\n');
-      a.js.definitions = [a.js.definitions, b.js.definitions].join('\n');
       return a;
     },
-    { ts: '', js: { code: '', definitions: '' } },
+    { ts: '' },
   );
   const capitalizedOps = opsFunctions.map((o) => o.operation[0].toUpperCase() + o.operation.slice(1));
   return {
     ts: `/* eslint-disable */
 
-import { ValueTypes, GraphQLTypes, InputType, Gql, OperationOptions } from './index${esModule ? '.js' : ''}';
+import { ValueTypes, GraphQLTypes, InputType, Chain, OperationOptions } from './index${esModule ? '.js' : ''}';
 import { ${capitalizedOps.map((o) => `use${o}`).join(', ')} } from 'react-query';
 import type { ${capitalizedOps.map((o) => `Use${o}Options`).join(', ')} } from 'react-query';
 
 ${o.ts}
 `,
-    js: {
-      code: `/* eslint-disable */
-import { Gql } from './index';
-import { ${capitalizedOps.map((o) => `use${o}`).join(', ')} } from 'react-query';
-
-${o.js.code}
-`,
-      definitions: `/* eslint-disable */
-import type { ValueTypes, GraphQLTypes, InputType, OperationOptions } from './index';
-import type { ${capitalizedOps.map((o) => `Use${o}Options, Use${o}Result`).join(', ')} } from 'react-query';
-${o.js.definitions}
-`,
-    },
   };
 };

@@ -18,7 +18,7 @@ schema{
     const tree = Parser.parse(schema);
     const pluginResult = pluginReactQuery({ tree });
     expect(pluginResult.ts).toContain(
-      `import { ValueTypes, GraphQLTypes, InputType, Gql, OperationOptions } from './index';`,
+      `import { ValueTypes, GraphQLTypes, InputType, Chain, OperationOptions } from './index';`,
     );
     expect(pluginResult.ts).toContain(`react-query`);
     expect(pluginResult.ts).toContain(`useMutation`);
@@ -26,22 +26,10 @@ schema{
     expect(pluginResult.ts).toContain(`UseQueryOptions`);
     expect(pluginResult.ts).toContain(`UseMutationOptions`);
     expect(pluginResult.ts).toContain(
-      `export function useTypedQuery<TData, TResult = InputType<GraphQLTypes['Query'], TData>>`,
+      `export function useTypedQuery<O extends "Query", TData, TResult = InputType<GraphQLTypes[O], TData>>`,
     );
     expect(pluginResult.ts).toContain(
-      `export function useTypedMutation<TData, TResult = InputType<GraphQLTypes['Mutation'], TData>>`,
+      `export function useTypedMutation<O extends "Mutation", TData, TResult = InputType<GraphQLTypes[O], TData>>`,
     );
-
-    expect(pluginResult.js.code).toContain(`'react-query'`);
-    expect(pluginResult.js.code).toContain(`import { Gql } from './index';`);
-    expect(pluginResult.js.code).toContain(`useMutation`);
-    expect(pluginResult.js.code).toContain(`useQuery`);
-    expect(pluginResult.js.definitions).toContain(
-      `import type { ValueTypes, GraphQLTypes, InputType, OperationOptions } from './index';`,
-    );
-    expect(pluginResult.js.definitions).toContain(`UseQueryOptions`);
-    expect(pluginResult.js.definitions).toContain(`UseMutationOptions`);
-    expect(pluginResult.js.definitions).toContain(`export declare function useTypedQuery`);
-    expect(pluginResult.js.definitions).toContain(`export declare function useTypedMutation`);
   });
 });

@@ -16,11 +16,4 @@ export const resolverFor = <
   ) => Z extends keyof ${MODEL_TYPES}[T] ? ${MODEL_TYPES}[T][Z] | Promise<${MODEL_TYPES}[T][Z]> | X : any,
 ) => fn as (args?: any,source?: any) => any;
 `,
-  js: `
-export const resolverFor = (
-  type,
-  field,
-  fn
-) => fn;
-`,
 };

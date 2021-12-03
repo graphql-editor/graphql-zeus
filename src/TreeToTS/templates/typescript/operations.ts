@@ -1,96 +1,69 @@
-import { OperationName, ResolvedOperations } from 'TreeToTS';
+import { ResolvedOperations } from 'TreeToTS';
 import { OperationType, Environment } from '@/Models';
 import { VALUETYPES } from '../resolveValueTypes';
+import { TYPES } from '@/TreeToTS/templates/returnedTypes';
 
-const generateOperationThunder = (t: OperationName, ot: OperationType): string =>
-  `${ot}: fullChainConstructor(fn,'${ot}', '${t.name}')`;
-const generateOperationThunderSubscription = (t: OperationName, ot: OperationType): string =>
-  `${ot}: fullSubscriptionConstructor(subscriptionFn,'${ot}', '${t.name}')`;
+export const generateOperationsChaining = ({ query, mutation, subscription }: Partial<ResolvedOperations>) => {
+  const allOps: Record<OperationType, string | undefined> = {
+    query: query?.operationName?.name && query.operations.length ? query.operationName.name : undefined,
+    mutation: mutation?.operationName?.name && mutation.operations.length ? mutation.operationName.name : undefined,
+    subscription:
+      subscription?.operationName?.name && subscription.operations.length ? subscription.operationName.name : undefined,
+  };
+  return `
+const allOperations = ${JSON.stringify(allOps, null, 4)}
 
-const generateOperationChaining = (t: OperationName, ot: OperationType): string =>
-  `${ot}: fullChainConstructor(apiFetch(options),'${ot}', '${t.name}')`;
+export type GenericOperation<O> = O extends 'query'
+  ? ${allOps.query ? `"${allOps.query}"` : 'never'}
+  : O extends 'mutation'
+  ? ${allOps.mutation ? `"${allOps.mutation}"` : 'never'}
+  : ${allOps.subscription ? `"${allOps.subscription}"` : 'never'}
 
-const generateOperationChainingSubscription = (t: OperationName, ot: OperationType): string =>
-  `${ot}: fullSubscriptionConstructor(apiSubscription(options),'${ot}', '${t.name}')`;
+export const Thunder = (fn: FetchFunction) => <
+  O extends 'query' | 'mutation' | 'subscription',
+  R extends keyof ${VALUETYPES} = GenericOperation<O>
+>(
+  operation: O,
+) => <Z extends ${VALUETYPES}[R]>(o: Z | ${VALUETYPES}[R], ops?: OperationOptions) =>
+  fullChainConstruct(fn)(operation, allOperations[operation])(o as any, ops) as Promise<InputType<${TYPES}[R], Z>>;
 
-export const generateOperationsThunder = ({ query, mutation, subscription }: Partial<ResolvedOperations>): string[] => {
-  const allOps: string[] = [];
-  if (query?.operationName?.name && query.operations.length) {
-    allOps.push(generateOperationThunder(query.operationName, OperationType.query));
-  }
-  if (mutation?.operationName?.name && mutation.operations.length) {
-    allOps.push(generateOperationThunder(mutation.operationName, OperationType.mutation));
-  }
-  if (subscription?.operationName?.name && subscription.operations.length) {
-    allOps.push(generateOperationThunderSubscription(subscription.operationName, OperationType.subscription));
-  }
-  return allOps;
+export const Chain = (...options: chainOptions) => Thunder(apiFetch(options));  
+  
+export const SubscriptionThunder = (fn: SubscriptionFunction) => <
+  O extends 'query' | 'mutation' | 'subscription',
+  R extends keyof ValueTypes = GenericOperation<O>
+>(
+  operation: O,
+) => <Z extends ${VALUETYPES}[R]>(
+  o: Z | ${VALUETYPES}[R],
+  ops?: OperationOptions
+)=>
+  fullSubscriptionConstruct(fn)(operation, allOperations[operation])(
+    o as any,
+    ops,
+  ) as SubscriptionToGraphQL<Z, ${TYPES}[R]>;
+
+export const Subscription = (...options: chainOptions) => SubscriptionThunder(apiSubscription(options));`;
 };
 
-export const generateOperationsChaining = ({
-  query,
-  mutation,
-  subscription,
-}: Partial<ResolvedOperations>): string[] => {
-  const allOps: string[] = [];
-  if (query?.operationName?.name && query.operations.length) {
-    allOps.push(generateOperationChaining(query.operationName, OperationType.query));
-  }
-  if (mutation?.operationName?.name && mutation.operations.length) {
-    allOps.push(generateOperationChaining(mutation.operationName, OperationType.mutation));
-  }
-  if (subscription?.operationName?.name && subscription.operations.length) {
-    allOps.push(generateOperationChainingSubscription(subscription.operationName, OperationType.subscription));
-  }
-  return allOps;
+const generateOperationsZeusTypeScript = (): string => {
+  return `export const Zeus = <
+  Z extends ${VALUETYPES}[R],
+  O extends 'query' | 'mutation' | 'subscription',
+  R extends keyof ValueTypes = GenericOperation<O>
+>(
+  operation: O,
+  o: Z | ${VALUETYPES}[R],
+  operationName?: string,
+) => queryConstruct(operation, allOperations[operation], operationName)(o as any);`;
 };
 
-const generateOperationZeus = (t: OperationName, ot: OperationType): string =>
-  `${ot}: (o:${VALUETYPES}["${t.name}"], operationName?: string) => queryConstruct('${ot}', '${t.name}', operationName)(o)`;
-
-const generateOperationsZeusTypeScript = ({ query, mutation, subscription }: Partial<ResolvedOperations>): string[] => {
-  const allOps: string[] = [];
-  if (query?.operationName?.name && query.operations.length) {
-    allOps.push(generateOperationZeus(query.operationName, OperationType.query));
-  }
-  if (mutation?.operationName?.name && mutation.operations.length) {
-    allOps.push(generateOperationZeus(mutation.operationName, OperationType.mutation));
-  }
-  if (subscription?.operationName?.name && subscription.operations.length) {
-    allOps.push(generateOperationZeus(subscription.operationName, OperationType.subscription));
-  }
-  return allOps;
-};
-
-const generateSelectorZeus = (t: OperationName, ot: OperationType): string =>
-  `${ot}: ZeusSelect<${VALUETYPES}["${t.name}"]>()`;
-
-const generateSelectorsZeusTypeScript = ({ query, mutation, subscription }: Partial<ResolvedOperations>): string[] => {
-  const allOps: string[] = [];
-  if (query?.operationName?.name && query.operations.length) {
-    allOps.push(generateSelectorZeus(query.operationName, OperationType.query));
-  }
-  if (mutation?.operationName?.name && mutation.operations.length) {
-    allOps.push(generateSelectorZeus(mutation.operationName, OperationType.mutation));
-  }
-  if (subscription?.operationName?.name && subscription.operations.length) {
-    allOps.push(generateSelectorZeus(subscription.operationName, OperationType.subscription));
-  }
-  return allOps;
+const generateSelectorsZeusTypeScript = () => {
+  return `export const Selector = <T extends keyof ${VALUETYPES}>(key: T) => ZeusSelect<${VALUETYPES}[T]>();`;
 };
 
 export const bodyTypeScript = (env: Environment, resolvedOperations: ResolvedOperations): string => `
-export const Thunder = (fn: FetchFunction, subscriptionFn: SubscriptionFunction) => ({
-  ${generateOperationsThunder(resolvedOperations).join(',\n')}
-});
-
-export const Chain = (...options: chainOptions) => ({
-  ${generateOperationsChaining(resolvedOperations).join(',\n')}
-});
-export const Zeus = {
-  ${generateOperationsZeusTypeScript(resolvedOperations).join(',\n')}
-};
-export const Selectors = {
-  ${generateSelectorsZeusTypeScript(resolvedOperations).join(',\n')}
-};
+${generateOperationsChaining(resolvedOperations)}
+${generateOperationsZeusTypeScript()}
+${generateSelectorsZeusTypeScript()}
   `;

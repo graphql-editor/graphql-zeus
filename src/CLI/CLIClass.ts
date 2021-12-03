@@ -23,7 +23,6 @@ interface Yargs {
  */
 interface CliArgs extends Yargs {
   header?: string;
-  typescript?: boolean;
   esModule?: boolean;
   node?: boolean;
   graphql?: string;
@@ -75,49 +74,27 @@ export class CLI {
       const content = TreeToJSONSchema.parse(tree);
       writeFileRecursive(pathToSchema, schemaFile, JSON.stringify(content, null, 4));
     }
-    if (args.typescript) {
-      const typeScriptDefinition = TranslateGraphQL.typescriptSplit({
-        schema: schemaFileContents,
-        env,
-        host,
-        esModule: !!args.esModule,
-      });
-      Object.keys(typeScriptDefinition).forEach((k) =>
-        writeFileRecursive(
-          path.join(pathToFile, 'zeus'),
-          `${k}.ts`,
-          typeScriptDefinition[k as keyof typeof typeScriptDefinition],
-        ),
-      );
-      if (args.apollo) {
-        writeFileRecursive(path.join(pathToFile, 'zeus'), `apollo.ts`, pluginApollo({ tree }).ts);
-      }
-      if (args.reactQuery) {
-        writeFileRecursive(path.join(pathToFile, 'zeus'), `reactQuery.ts`, pluginReactQuery({ tree }).ts);
-      }
-      if (args.stuccoSubscriptions) {
-        writeFileRecursive(path.join(pathToFile, 'zeus'), `stuccoSubscriptions.ts`, pluginStucco({ tree }).ts);
-      }
-    } else {
-      const jsDefinition = TranslateGraphQL.javascriptSplit({ schema: schemaFileContents, env, host });
-      writeFileRecursive(path.join(pathToFile, 'zeus'), `const.js`, jsDefinition.const);
-      writeFileRecursive(path.join(pathToFile, 'zeus'), `index.js`, jsDefinition.index);
-      writeFileRecursive(path.join(pathToFile, 'zeus'), `index.d.ts`, jsDefinition['index.d']);
-      if (args.apollo) {
-        const apolloResult = pluginApollo({ tree, esModule: !!args.esModule });
-        writeFileRecursive(path.join(pathToFile, 'zeus'), `apollo.js`, apolloResult.js.code);
-        writeFileRecursive(path.join(pathToFile, 'zeus'), `apollo.d.ts`, apolloResult.js.definitions);
-      }
-      if (args.reactQuery) {
-        const reactQueryResult = pluginReactQuery({ tree, esModule: !!args.esModule });
-        writeFileRecursive(path.join(pathToFile, 'zeus'), `reactQuery.js`, reactQueryResult.js.code);
-        writeFileRecursive(path.join(pathToFile, 'zeus'), `reactQuery.d.ts`, reactQueryResult.js.definitions);
-      }
-      if (args.stuccoSubscriptions) {
-        const stuccoResult = pluginStucco({ tree, esModule: !!args.esModule });
-        writeFileRecursive(path.join(pathToFile, 'zeus'), `stuccoSubscriptions.js`, stuccoResult.js.code);
-        writeFileRecursive(path.join(pathToFile, 'zeus'), `stuccoSubscriptions.d.ts`, stuccoResult.js.definitions);
-      }
+    const typeScriptDefinition = TranslateGraphQL.typescriptSplit({
+      schema: schemaFileContents,
+      env,
+      host,
+      esModule: !!args.esModule,
+    });
+    Object.keys(typeScriptDefinition).forEach((k) =>
+      writeFileRecursive(
+        path.join(pathToFile, 'zeus'),
+        `${k}.ts`,
+        typeScriptDefinition[k as keyof typeof typeScriptDefinition],
+      ),
+    );
+    if (args.apollo) {
+      writeFileRecursive(path.join(pathToFile, 'zeus'), `apollo.ts`, pluginApollo({ tree }).ts);
+    }
+    if (args.reactQuery) {
+      writeFileRecursive(path.join(pathToFile, 'zeus'), `reactQuery.ts`, pluginReactQuery({ tree, host }).ts);
+    }
+    if (args.stuccoSubscriptions) {
+      writeFileRecursive(path.join(pathToFile, 'zeus'), `stuccoSubscriptions.ts`, pluginStucco({ tree }).ts);
     }
   };
 }

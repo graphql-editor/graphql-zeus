@@ -22,7 +22,5 @@ schema{
     const tree = Parser.parse(schema);
     const pluginResult = pluginStucco({ tree });
     expect(pluginResult.ts).toBeTruthy();
-    expect(pluginResult.js.code).toBeTruthy();
-    expect(pluginResult.js.definitions).toBeTruthy();
   });
 });

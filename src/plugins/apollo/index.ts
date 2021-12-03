@@ -3,46 +3,16 @@ import { OperationType, ParserTree } from 'graphql-js-tree';
 const pluginApolloOps = ({ queryName, operation }: { queryName: string; operation: OperationType | 'LazyQuery' }) => {
   const capitalized = operation[0].toUpperCase() + operation.slice(1);
   const zeusOperation = operation === 'LazyQuery' ? OperationType.query : operation;
-  let returnedType = '';
-  if (operation === 'LazyQuery') {
-    returnedType = `QueryTuple<TResult, TVariables>;`;
-  }
-  if (operation === OperationType.mutation) {
-    returnedType = `MutationTuple<TResult, TVariables>;`;
-  }
-  if (operation === OperationType.query) {
-    returnedType = `QueryResult<TResult, TVariables>;`;
-  }
-  if (operation === OperationType.subscription) {
-    returnedType = `{
-  variables: TVariables | undefined;
-  loading: boolean;
-  data?: TResult | undefined;
-  error?: ApolloError | undefined;
-};`;
-  }
+
   return {
     queryName,
     operation,
-    ts: `export function useTyped${capitalized}<Z>(
-  ${operation}: Z | ValueTypes['${queryName}'],
-  options?: ${capitalized}HookOptions<InputType<GraphQLTypes['${queryName}'], Z>>,
+    ts: `export function useTyped${capitalized}<Z, O extends "${queryName}">(
+  ${operation}: Z | ValueTypes[O],
+  options?: ${capitalized}HookOptions<InputType<GraphQLTypes[O], Z>>,
 ) {
-  return use${capitalized}<InputType<GraphQLTypes['${queryName}'], Z>>(gql(Zeus.${zeusOperation}(${operation})), options);
+  return use${capitalized}<InputType<GraphQLTypes[O], Z>>(gql(Zeus("${zeusOperation}",${operation})), options);
 }`,
-    js: {
-      code: `export function useTyped${capitalized}(${operation}, options) {
-  return use${capitalized}(gql(Zeus.${zeusOperation}(${operation})), options);
-}
-`,
-      definitions: `export declare function useTyped${capitalized}<TData,
-  TVariables = OperationVariables,
-  TResult = InputType<GraphQLTypes['${queryName}'], TData>
->(
-  ${operation}: TData | ValueTypes['${queryName}'],
-  options?: ${capitalized}HookOptions<TResult>,
-): ${returnedType}`,
-    },
   };
 };
 
@@ -57,14 +27,12 @@ export const pluginApollo = ({ tree, esModule }: { tree: ParserTree; esModule?: 
       break;
     }
   }
-  const o = opsFunctions.reduce<Pick<ReturnType<typeof pluginApolloOps>, 'js' | 'ts'>>(
+  const o = opsFunctions.reduce<Pick<ReturnType<typeof pluginApolloOps>, 'ts'>>(
     (a, b) => {
       a.ts = [a.ts, b.ts].join('\n');
-      a.js.code = [a.js.code, b.js.code].join('\n');
-      a.js.definitions = [a.js.definitions, b.js.definitions].join('\n');
       return a;
     },
-    { ts: '', js: { code: '', definitions: '' } },
+    { ts: '' },
   );
   const capitalizedOps = opsFunctions.map((o) => o.operation[0].toUpperCase() + o.operation.slice(1));
   const jsDefsImports: string[] = [];
@@ -86,21 +54,5 @@ import type { ${capitalizedOps.map((o) => `${o}HookOptions`).join(', ')} } from 
 
 ${o.ts}
 `,
-    js: {
-      code: `/* eslint-disable */
-import { Zeus } from './index';
-import { gql, ${capitalizedOps.map((o) => `use${o}`).join(', ')} } from '@apollo/client';
-
-${o.js.code}
-`,
-      definitions: `/* eslint-disable */
-import type { GraphQLTypes, InputType, ValueTypes } from './index';
-import type { ${jsDefsImports.join(', ')}, ${capitalizedOps
-        .map((o) => `${o}HookOptions`)
-        .join(', ')} } from '@apollo/client';
-
-${o.js.definitions}
-`,
-    },
   };
 };

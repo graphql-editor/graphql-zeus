@@ -24,18 +24,9 @@ schema{
     expect(apolloResult.ts).toContain(`import { Zeus, GraphQLTypes, InputType, ValueTypes } from './index';
 import { gql, useQuery, useLazyQuery, useMutation, useSubscription } from '@apollo/client';
 import type { QueryHookOptions, LazyQueryHookOptions, MutationHookOptions, SubscriptionHookOptions } from '@apollo/client';`);
-    expect(apolloResult.ts).toContain(`export function useTypedQuery<Z>`);
-    expect(apolloResult.ts).toContain(`export function useTypedLazyQuery<Z>`);
-    expect(apolloResult.ts).toContain(`export function useTypedMutation<Z>`);
-    expect(apolloResult.ts).toContain(`export function useTypedSubscription<Z>`);
-
-    expect(apolloResult.js.code).toContain(`import { Zeus } from './index';
-import { gql, useQuery, useLazyQuery, useMutation, useSubscription } from '@apollo/client';`);
-    expect(apolloResult.js.definitions).toContain(
-      `import type { GraphQLTypes, InputType, ValueTypes } from './index';`,
-    );
-    expect(apolloResult.js.definitions).toContain(`export declare function useTypedQuery`);
-    expect(apolloResult.js.definitions).toContain(`export declare function useTypedMutation`);
-    expect(apolloResult.js.definitions).toContain(`export declare function useTypedSubscription`);
+    expect(apolloResult.ts).toContain(`export function useTypedQuery<Z, O extends "Query">`);
+    expect(apolloResult.ts).toContain(`export function useTypedLazyQuery<Z, O extends "Query">`);
+    expect(apolloResult.ts).toContain(`export function useTypedMutation<Z, O extends "Mutation">`);
+    expect(apolloResult.ts).toContain(`export function useTypedSubscription<Z, O extends "Subscription">`);
   });
 });

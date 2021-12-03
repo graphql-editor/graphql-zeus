@@ -35,38 +35,4 @@ const traverseToSeekArrays = (parent: string[], a?: any): string => {
   return objectToTree(b);
 };  
 `,
-  js: `
-const traverseToSeekArrays = (parent, a) => {
-  if (!a) return '';
-  if (Object.keys(a).length === 0) {
-    return '';
-  }
-  let b = {};
-  if (Array.isArray(a)) {
-    return isArrayFunction([...parent], a);
-  } else {
-    if (typeof a === 'object') {
-      Object.keys(a)
-        .filter((k) => typeof a[k] !== 'undefined')    
-        .forEach((k) => {
-        if (k === '__alias') {
-          Object.keys(a[k]).forEach((aliasKey) => {
-            const aliasOperations = a[k][aliasKey];
-            const aliasOperationName = Object.keys(aliasOperations)[0];
-            const aliasOperation = aliasOperations[aliasOperationName];
-            b[
-              \`\${aliasOperationName}__alias__\${aliasKey}: \${aliasOperationName}\`
-            ] = traverseToSeekArrays([...parent, aliasOperationName], aliasOperation);
-          });
-        } else {
-          b[k] = traverseToSeekArrays([...parent, k], a[k]);
-        }
-      });
-    } else {
-      return '';
-    }
-  }
-  return objectToTree(b);
-};  
-`,
 };

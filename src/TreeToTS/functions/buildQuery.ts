@@ -5,8 +5,4 @@ export const buildQueryFunction: StringFunction = {
 const buildQuery = (type: string, a?: Record<any, any>) => 
   traverseToSeekArrays([type], a);
 `,
-  js: `
-const buildQuery = (type, a) =>
-  traverseToSeekArrays([type], a)  
-`,
 };

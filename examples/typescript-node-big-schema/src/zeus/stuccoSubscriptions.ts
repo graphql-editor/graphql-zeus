@@ -1,17 +1,5 @@
-import { OperationType, ParserTree } from 'graphql-js-tree';
-
-export const pluginStucco = ({ tree, esModule }: { tree: ParserTree; esModule?: boolean }) => {
-  const subscriptionNode = tree.nodes.find(
-    (n) => n.type.operations && n.type.operations.includes(OperationType.subscription),
-  );
-  if (!subscriptionNode) {
-    throw new Error('Schema does not have any subscriptions');
-  }
-  return {
-    ts: `/* eslint-disable */
-import { fullSubscriptionConstruct, chainOptions, GraphQLTypes, OperationOptions, SubscriptionToGraphQL, ValueTypes } from './index${
-      esModule ? '.js' : ''
-    }';
+/* eslint-disable */
+import { fullSubscriptionConstruct, chainOptions, GraphQLTypes, OperationOptions, SubscriptionToGraphQL, ValueTypes } from './index';
 
 export type WebsocketSubscription = {
   ws: WebSocket;
@@ -22,7 +10,7 @@ export type WebsocketSubscription = {
 };
 
 
-export const stuccoSubscriptions = <S extends "${subscriptionNode.name}">(
+export const stuccoSubscriptions = <S extends "subscription_root">(
   subscriptionConnectionFunction: (params: { result: unknown; query: string }) => Promise<WebsocketSubscription>,
   ...options: chainOptions
 ) => <Z extends ValueTypes[S]>(o: Z | ValueTypes[S], ops?: OperationOptions) =>
@@ -50,7 +38,4 @@ export const stuccoSubscriptions = <S extends "${subscriptionNode.name}">(
         });
       },
     };
-  })('subscription', '${subscriptionNode.name}')(o as any, ops) as SubscriptionToGraphQL<Z, GraphQLTypes[S]>;
-`,
-  };
-};
+  })('subscription', 'subscription_root')(o as any, ops) as SubscriptionToGraphQL<Z, GraphQLTypes[S]>;

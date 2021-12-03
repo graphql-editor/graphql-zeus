@@ -1,5 +1,6 @@
 import { Options, ParserField } from '@/Models';
 import { Helpers, TypeDefinition, TypeSystemDefinition } from '@/Models/Spec';
+import { truthyType } from '@/TreeToTS/templates/truthy';
 
 export const VALUETYPES = 'ValueTypes';
 
@@ -54,7 +55,7 @@ const resolveArg = (f: ParserField): string => {
 const resolveField = (f: ParserField, enumsAndScalars: string[]): string => {
   const { args } = f;
   const resolvedTypeName =
-    f.type.name in typeScriptMap || enumsAndScalars.includes(f.type.name) ? 'true' : resolveValueType(f.type.name);
+    f.type.name in typeScriptMap || enumsAndScalars.includes(f.type.name) ? truthyType : resolveValueType(f.type.name);
   if (args && args.length) {
     return `${f.name}?: [{${args.map(resolveArg).join(',')}},${resolvedTypeName}]`;
   }
@@ -78,7 +79,7 @@ const resolveValueTypeFromRoot = (i: ParserField, rootNodes: ParserField[], enum
     return `${plusDescription(i.description)}["${i.name}"]: ${AliasType(
       `{${i.args
         .map((f) => `\t\t["...on ${f.type.name}"] : ${resolveValueType(f.type.name)}`)
-        .join(',\n')}\n\t\t__typename?: true\n}`,
+        .join(',\n')}\n\t\t__typename?: ${truthyType}\n}`,
     )}`;
   }
   if (i.data.type === TypeDefinition.EnumTypeDefinition) {
@@ -93,11 +94,11 @@ const resolveValueTypeFromRoot = (i: ParserField, rootNodes: ParserField[], enum
       `{
 \t${i.args.map((f) => resolveField(f, enumsAndScalars)).join(',\n')};\n\t\t${typesImplementing
         .map((f) => `['...on ${f.name}']?: Omit<${resolveValueType(f.name)},keyof ${resolveValueType(i.name)}>;`)
-        .join('\n\t\t')}\n\t\t__typename?: true\n}`,
+        .join('\n\t\t')}\n\t\t__typename?: ${truthyType}\n}`,
     )}`;
   }
   return `${plusDescription(i.description)}["${i.name}"]: ${AliasType(
-    `{\n${i.args.map((f) => resolveField(f, enumsAndScalars)).join(',\n')},\n\t\t__typename?: true\n}`,
+    `{\n${i.args.map((f) => resolveField(f, enumsAndScalars)).join(',\n')},\n\t\t__typename?: ${truthyType}\n}`,
   )}`;
 };
 export const resolveValueTypes = (rootNodes: ParserField[]): string => {

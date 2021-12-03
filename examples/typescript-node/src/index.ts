@@ -1,8 +1,8 @@
 import chalk from 'chalk';
 import fetch from 'node-fetch';
-import { $, Gql, SpecialSkills, Thunder, Zeus, InputType, Selectors, GraphQLTypes } from './zeus';
+import { $, Gql, SpecialSkills, Thunder, Zeus, InputType, Selector, GraphQLTypes } from './zeus';
 
-const sel = Selectors.query({
+const sel = Selector('Query')({
   drawCard: {
     Children: true,
     Attack: true,
@@ -18,7 +18,7 @@ const printQueryResult = (name: string, result: any) =>
 const printGQLString = (name: string, result: string) =>
   console.log(`${chalk.blue(name)} query:\n${chalk.magenta(result)}\n\n`);
 const run = async () => {
-  const { addCard: ZeusCard } = await Gql.mutation(
+  const { addCard: ZeusCard } = await Gql('mutation')(
     {
       addCard: [
         {
@@ -43,7 +43,7 @@ const run = async () => {
   );
   printQueryResult('ZeusCard', ZeusCard);
 
-  const blalba = await Gql.query({
+  const blalba = await Gql('query')({
     drawChangeCard: {
       __typename: true,
       '...on EffectCard': {
@@ -58,37 +58,32 @@ const run = async () => {
   printQueryResult('drawChangeCard', blalba.drawChangeCard);
 
   // Thunder example
-  const thunder = Thunder(
-    async (query) => {
-      const response = await fetch('https://faker.graphqleditor.com/a-team/olympus/graphql', {
-        body: JSON.stringify({ query }),
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+  const thunder = Thunder(async (query) => {
+    const response = await fetch('https://faker.graphqleditor.com/a-team/olympus/graphql', {
+      body: JSON.stringify({ query }),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (!response.ok) {
+      return new Promise((resolve, reject) => {
+        response
+          .text()
+          .then((text) => {
+            try {
+              reject(JSON.parse(text));
+            } catch (err) {
+              reject(text);
+            }
+          })
+          .catch(reject);
       });
-      if (!response.ok) {
-        return new Promise((resolve, reject) => {
-          response
-            .text()
-            .then((text) => {
-              try {
-                reject(JSON.parse(text));
-              } catch (err) {
-                reject(text);
-              }
-            })
-            .catch(reject);
-        });
-      }
-      const json = await response.json();
-      return json;
-    },
-    (query) => {
-      console.log(query);
-    },
-  );
-  const blalbaThunder = await thunder.query({
+    }
+    const json = await response.json();
+    return json.data;
+  });
+  const blalbaThunder = await thunder('query')({
     drawCard: {
       Attack: true,
     },
@@ -105,7 +100,7 @@ const run = async () => {
   });
   printQueryResult('drawChangeCard thunder', blalbaThunder.drawChangeCard);
 
-  const { listCards: stack, drawCard: newCard, drawChangeCard } = await Gql.query({
+  const { listCards: stack, drawCard: newCard, drawChangeCard } = await Gql('query')({
     listCards: {
       name: true,
       cardImage: {
@@ -129,7 +124,7 @@ const run = async () => {
   printQueryResult('newCard', newCard);
   printQueryResult('changeCard', drawChangeCard);
 
-  const aliasedQuery = Zeus.query({
+  const aliasedQuery = Zeus('query', {
     __alias: {
       myCards: {
         listCards: {
@@ -157,7 +152,8 @@ const run = async () => {
     },
   });
   printGQLString('aliasedQuery', aliasedQuery);
-  const operationName = Zeus.query(
+  const operationName = Zeus(
+    'query',
     {
       listCards: {
         Attack: true,
@@ -166,7 +162,7 @@ const run = async () => {
     'ListCards',
   );
   printGQLString('operationName ListCards', operationName);
-  const aliasedQueryExecute = await Gql.query(
+  const aliasedQueryExecute = await Gql('query')(
     {
       listCards: {
         __alias: {
@@ -196,7 +192,7 @@ const run = async () => {
   );
   printQueryResult('aliasedQuery', aliasedQueryExecute);
   const Children = undefined;
-  const emptyTestMutation = Zeus.mutation({
+  const emptyTestMutation = Zeus('mutation', {
     addCard: [
       {
         card: {
@@ -226,7 +222,7 @@ const run = async () => {
   });
   printQueryResult('emptyTestMutation', emptyTestMutation);
 
-  const interfaceTest = await Gql.query({
+  const interfaceTest = await Gql('query')({
     nameables: {
       __typename: true,
       name: true,
@@ -246,7 +242,7 @@ const run = async () => {
 
   printQueryResult('interfaceTest', interfaceTest);
   // Variable test
-  const test = await Gql.mutation(
+  const test = await Gql('mutation')(
     {
       addCard: [
         {

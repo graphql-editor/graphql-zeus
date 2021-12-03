@@ -1,5 +1,4 @@
 import { Environment, OperationType, ParserField, ParserTree, TypeDefinition } from '../Models';
-import { bodyJavascript, generateOperationsJavascript } from './templates/javascript';
 import { resolveValueTypes } from './templates/resolveValueTypes';
 import { resolveModelTypes } from './templates/returnedModelTypes';
 import { resolvePropTypeFromRoot } from './templates/returnedPropTypes';
@@ -109,32 +108,6 @@ export class TreeToTS {
       .concat('\n\n')
       .concat(rootTypes);
   }
-  /**
-   * Generate javascript and ts declaration file
-   */
-  static javascriptSplit = ({
-    tree,
-    env = 'browser',
-    host,
-  }: {
-    tree: ParserTree;
-    env?: Environment;
-    host?: string;
-  }) => {
-    const operationsBody = TreeToTS.resolveOperations(tree);
-    const operations = bodyJavascript(env, operationsBody);
-
-    return {
-      index: operations.concat(host ? '\n\n' : '').concat(host ? `export const Gql = Chain('${host}')` : ''),
-      indexImports: `import { AllTypesProps, ReturnTypes } from './const.js';`,
-      const: TreeToTS.resolveBasisCodeJavascript(tree),
-      definitions: TreeToTS.resolveBasisTypes(tree)
-        .concat('\n\n')
-        .concat(constantTypesTypescript)
-        .concat(generateOperationsJavascript(operationsBody)),
-    };
-  };
-
   /**
    * Generate typescript file
    */
