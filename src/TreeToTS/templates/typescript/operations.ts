@@ -10,6 +10,13 @@ export const generateOperationsChaining = ({ query, mutation, subscription }: Pa
     subscription:
       subscription?.operationName?.name && subscription.operations.length ? subscription.operationName.name : undefined,
   };
+  const orOpsType = [
+    query?.operationName?.name ? `'query'` : undefined,
+    mutation?.operationName?.name ? `'mutation'` : undefined,
+    subscription?.operationName?.name ? `'subscription'` : undefined,
+  ]
+    .filter((o) => !!o)
+    .join(' | ');
   return `
 const allOperations = ${JSON.stringify(allOps, null, 4)}
 
@@ -20,7 +27,7 @@ export type GenericOperation<O> = O extends 'query'
   : ${allOps.subscription ? `"${allOps.subscription}"` : 'never'}
 
 export const Thunder = (fn: FetchFunction) => <
-  O extends 'query' | 'mutation' | 'subscription',
+  O extends ${orOpsType},
   R extends keyof ${VALUETYPES} = GenericOperation<O>
 >(
   operation: O,
@@ -30,7 +37,7 @@ export const Thunder = (fn: FetchFunction) => <
 export const Chain = (...options: chainOptions) => Thunder(apiFetch(options));  
   
 export const SubscriptionThunder = (fn: SubscriptionFunction) => <
-  O extends 'query' | 'mutation' | 'subscription',
+  O extends ${orOpsType},
   R extends keyof ValueTypes = GenericOperation<O>
 >(
   operation: O,
@@ -46,10 +53,17 @@ export const SubscriptionThunder = (fn: SubscriptionFunction) => <
 export const Subscription = (...options: chainOptions) => SubscriptionThunder(apiSubscription(options));`;
 };
 
-const generateOperationsZeusTypeScript = (): string => {
+const generateOperationsZeusTypeScript = ({ query, mutation, subscription }: Partial<ResolvedOperations>): string => {
+  const orOpsType = [
+    query?.operationName?.name ? `'query'` : undefined,
+    mutation?.operationName?.name ? `'mutation'` : undefined,
+    subscription?.operationName?.name ? `'subscription'` : undefined,
+  ]
+    .filter((o) => !!o)
+    .join(' | ');
   return `export const Zeus = <
   Z extends ${VALUETYPES}[R],
-  O extends 'query' | 'mutation' | 'subscription',
+  O extends ${orOpsType},
   R extends keyof ValueTypes = GenericOperation<O>
 >(
   operation: O,
@@ -64,6 +78,6 @@ const generateSelectorsZeusTypeScript = () => {
 
 export const bodyTypeScript = (env: Environment, resolvedOperations: ResolvedOperations): string => `
 ${generateOperationsChaining(resolvedOperations)}
-${generateOperationsZeusTypeScript()}
+${generateOperationsZeusTypeScript(resolvedOperations)}
 ${generateSelectorsZeusTypeScript()}
   `;
