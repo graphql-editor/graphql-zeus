@@ -13,7 +13,7 @@ describe('Thunder tests', () => {
     const tree = Parser.parseAddExtensions(schema);
     const typeScriptCode = TreeToTS.resolveTree({ tree });
     expect(typeScriptCode).toContain(`export const Thunder = (fn: FetchFunction) => <
-  O extends 'query' | 'mutation' | 'subscription',
+  O extends 'query',
   R extends keyof ValueTypes = GenericOperation<O>
 >(
   operation: O,
