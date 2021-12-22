@@ -26,10 +26,10 @@ schema{
     expect(pluginResult.ts).toContain(`UseQueryOptions`);
     expect(pluginResult.ts).toContain(`UseMutationOptions`);
     expect(pluginResult.ts).toContain(
-      `export function useTypedQuery<O extends "Query", TData, TResult = InputType<GraphQLTypes[O], TData>>`,
+      `export function useTypedQuery<O extends "Query", TData extends ValueTypes[O], TResult = InputType<GraphQLTypes[O], TData>>`,
     );
     expect(pluginResult.ts).toContain(
-      `export function useTypedMutation<O extends "Mutation", TData, TResult = InputType<GraphQLTypes[O], TData>>`,
+      `export function useTypedMutation<O extends "Mutation", TData extends ValueTypes[O], TResult = InputType<GraphQLTypes[O], TData>>`,
     );
   });
 });

@@ -73,6 +73,10 @@ export const AllTypesProps: Record<string,any> = {
 }
 
 export const ReturnTypes: Record<string,any> = {
+	ChangeCard:{
+		"...on SpecialCard":"SpecialCard",
+		"...on EffectCard":"EffectCard"
+	},
 	CardStack:{
 		cards:"Card",
 		name:"String"
@@ -84,9 +88,6 @@ export const ReturnTypes: Record<string,any> = {
 		listCards:"Card",
 		myStacks:"CardStack",
 		nameables:"Nameable"
-	},
-	Subscription:{
-		deck:"Card"
 	},
 	Card:{
 		Attack:"Int",
@@ -100,12 +101,13 @@ export const ReturnTypes: Record<string,any> = {
 		name:"String",
 		skills:"SpecialSkills"
 	},
-	Mutation:{
-		addCard:"Card"
+	S3Object:{
+		bucket:"String",
+		key:"String",
+		region:"String"
 	},
-	SpecialCard:{
-		effect:"String",
-		name:"String"
+	Subscription:{
+		deck:"Card"
 	},
 	Nameable:{
 		"...on CardStack": "CardStack",
@@ -114,17 +116,15 @@ export const ReturnTypes: Record<string,any> = {
 		"...on EffectCard": "EffectCard",
 		name:"String"
 	},
+	SpecialCard:{
+		effect:"String",
+		name:"String"
+	},
+	Mutation:{
+		addCard:"Card"
+	},
 	EffectCard:{
 		effectSize:"Float",
 		name:"String"
-	},
-	S3Object:{
-		bucket:"String",
-		key:"String",
-		region:"String"
-	},
-	ChangeCard:{
-		"...on SpecialCard":"SpecialCard",
-		"...on EffectCard":"EffectCard"
 	}
 }

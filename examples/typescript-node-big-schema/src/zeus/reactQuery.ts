@@ -5,7 +5,7 @@ import { useMutation, useQuery } from 'react-query';
 import type { UseMutationOptions, UseQueryOptions } from 'react-query';
 
 
-export function useTypedMutation<O extends "mutation_root", TData, TResult = InputType<GraphQLTypes[O], TData>>(
+export function useTypedMutation<O extends "mutation_root", TData extends ValueTypes[O], TResult = InputType<GraphQLTypes[O], TData>>(
   mutationKey: string,
   mutation: TData | ValueTypes[O],
   options?: Omit<UseMutationOptions<TResult>, 'mutationKey' | 'mutationFn'>,
@@ -14,7 +14,7 @@ export function useTypedMutation<O extends "mutation_root", TData, TResult = Inp
 ) {
   return useMutation<TResult>(mutationKey, () => Chain(host)("mutation")(mutation, zeusOptions) as Promise<TResult>, options);
 }
-export function useTypedQuery<O extends "query_root", TData, TResult = InputType<GraphQLTypes[O], TData>>(
+export function useTypedQuery<O extends "query_root", TData extends ValueTypes[O], TResult = InputType<GraphQLTypes[O], TData>>(
   queryKey: string,
   query: TData | ValueTypes[O],
   options?: Omit<UseQueryOptions<TResult>, 'queryKey' | 'queryFn'>,
