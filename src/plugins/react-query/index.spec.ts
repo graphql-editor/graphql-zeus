@@ -18,7 +18,7 @@ schema{
     const tree = Parser.parse(schema);
     const pluginResult = pluginReactQuery({ tree });
     expect(pluginResult.ts).toContain(
-      `import { ValueTypes, GraphQLTypes, InputType, Chain, OperationOptions } from './index';`,
+      `import { ValueTypes, GraphQLTypes, InputType, Chain, OperationOptions, chainOptions } from './index';`,
     );
     expect(pluginResult.ts).toContain(`react-query`);
     expect(pluginResult.ts).toContain(`useMutation`);

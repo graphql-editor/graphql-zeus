@@ -18,9 +18,10 @@ const pluginReactQueryOps = ({
   ${operation}: TData | ValueTypes[O],
   options?: Omit<Use${capitalized}Options<TResult>, '${operation}Key' | '${operation}Fn'>,
   zeusOptions?: OperationOptions,
-  host = "${host || ''}"
+  host = "${host || ''}",
+  hostOptions: chainOptions[1] = {},
 ) {
-  return use${capitalized}<TResult>(${operation}Key, () => Chain(host)("${operation}")(${operation}, zeusOptions) as Promise<TResult>, options);
+  return use${capitalized}<TResult>(${operation}Key, () => Chain(host, hostOptions)("${operation}")(${operation}, zeusOptions) as Promise<TResult>, options);
 }`,
   };
 };
@@ -43,7 +44,9 @@ export const pluginReactQuery = ({ tree, esModule, host }: { tree: ParserTree; e
   return {
     ts: `/* eslint-disable */
 
-import { ValueTypes, GraphQLTypes, InputType, Chain, OperationOptions } from './index${esModule ? '.js' : ''}';
+import { ValueTypes, GraphQLTypes, InputType, Chain, OperationOptions, chainOptions } from './index${
+      esModule ? '.js' : ''
+    }';
 import { ${capitalizedOps.map((o) => `use${o}`).join(', ')} } from 'react-query';
 import type { ${capitalizedOps.map((o) => `Use${o}Options`).join(', ')} } from 'react-query';
 

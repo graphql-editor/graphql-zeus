@@ -1,36 +1,3 @@
-""""""
-union ChangeCard = SpecialCard | EffectCard
-
-"""Stack of cards"""
-type CardStack implements Nameable {
-  """"""
-  cards: [Card!]
-
-  """"""
-  name: String!
-}
-
-""""""
-type Query {
-  """"""
-  cardById(cardId: String): Card
-
-  """Draw a card<br>"""
-  drawCard: Card!
-
-  """"""
-  drawChangeCard: ChangeCard!
-
-  """list All Cards availble<br>"""
-  listCards: [Card!]!
-
-  """"""
-  myStacks: [CardStack!]
-
-  """"""
-  nameables: [Nameable!]!
-}
-
 """Card used in card game<br>"""
 type Card implements Nameable {
   """The attack power<br>"""
@@ -67,6 +34,18 @@ type Card implements Nameable {
   skills: [SpecialSkills!]
 }
 
+""""""
+enum SpecialSkills {
+  """Lower enemy defense -5<br>"""
+  THUNDER
+
+  """Attack multiple Cards at once<br>"""
+  RAIN
+
+  """50% chance to avoid any attack<br>"""
+  FIRE
+}
+
 """Aws S3 File"""
 type S3Object {
   """"""
@@ -77,18 +56,6 @@ type S3Object {
 
   """"""
   region: String!
-}
-
-""""""
-type Subscription {
-  """"""
-  deck: [Card!]
-}
-
-""""""
-interface Nameable {
-  """"""
-  name: String!
 }
 
 """"""
@@ -107,31 +74,16 @@ type Mutation {
 }
 
 """"""
-enum SpecialSkills {
-  """Lower enemy defense -5<br>"""
-  THUNDER
-
-  """Attack multiple Cards at once<br>"""
-  RAIN
-
-  """50% chance to avoid any attack<br>"""
-  FIRE
-}
-
-""""""
-type EffectCard implements Nameable {
-  """"""
-  effectSize: Float!
-
+interface Nameable {
   """"""
   name: String!
 }
 
+""""""
+union ChangeCard = SpecialCard | EffectCard
+
 """create card inputs<br>"""
 input createCard {
-  """The attack power<br>"""
-  Attack: Int!
-
   """The defense power<br>"""
   Defense: Int!
 
@@ -146,6 +98,54 @@ input createCard {
 
   """<div>How many children the greek god had</div>"""
   Children: Int
+
+  """The attack power<br>"""
+  Attack: Int!
+}
+
+""""""
+type Subscription {
+  """"""
+  deck: [Card!]
+}
+
+""""""
+type Query {
+  """"""
+  cardById(cardId: String): Card
+
+  """Draw a card<br>"""
+  drawCard: Card!
+
+  """"""
+  drawChangeCard: ChangeCard!
+
+  """list All Cards availble<br>"""
+  listCards: [Card!]!
+
+  """"""
+  myStacks: [CardStack!]
+
+  """"""
+  nameables: [Nameable!]!
+}
+
+"""Stack of cards"""
+type CardStack implements Nameable {
+  """"""
+  cards: [Card!]
+
+  """"""
+  name: String!
+}
+
+""""""
+type EffectCard implements Nameable {
+  """"""
+  effectSize: Float!
+
+  """"""
+  name: String!
 }
 
 schema{
