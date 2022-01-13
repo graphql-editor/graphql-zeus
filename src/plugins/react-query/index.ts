@@ -14,7 +14,7 @@ const pluginReactQueryOps = ({
     queryName,
     operation,
     ts: `export function useTyped${capitalized}<O extends "${queryName}", TData extends ValueTypes[O], TResult = InputType<GraphQLTypes[O], TData>>(
-  ${operation}Key: string,
+  ${operation}Key: string | unknown[],
   ${operation}: TData | ValueTypes[O],
   options?: Omit<Use${capitalized}Options<TResult>, '${operation}Key' | '${operation}Fn'>,
   zeusOptions?: OperationOptions,
