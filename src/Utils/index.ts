@@ -14,11 +14,11 @@ export class Utils {
     if (header) {
       const allHeaders: string[] = Array.isArray(header) ? header : [header];
       for (const h of allHeaders) {
-        const [key, val] = h.split(':').map((k) => k.trim());
+        const [key, ...val] = h.split(':').map((k) => k.trim());
         if (!val) {
           throw new Error(`Incorrect Header ${key}`);
         }
-        headers[key] = val;
+        headers[key] = val.join(':');
       }
     }
     const response = await fetch(url, {
