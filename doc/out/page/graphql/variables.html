@@ -1,0 +1,59 @@
+<!DOCTYPE html><html>
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      
+      <script type="module" src="./../page.js"></script><script type="module">
+          const m = await import("./../page.js");
+          const Component = m.default;
+        
+            import ReactDOM from 'https://cdn.skypack.dev/react-dom';
+            ReactDOM.hydrate(Component({"content":{"content":"\n#### Variables\n\nTo perform query with variables please import `$` function and pass the variables to query\n\n```ts\nconst test = await Gql('mutation')(\n  {\n    addCard: [\n      {\n        card: $`card`,\n      },\n      {\n        id: true,\n        description: true,\n        name: true,\n        Attack: true,\n        skills: true,\n        Children: true,\n        Defense: true,\n        cardImage: {\n          bucket: true,\n          region: true,\n          key: true,\n        },\n      },\n    ],\n  },\n  {\n    card: {\n      Attack: 2,\n      Defense: 3,\n      description: 'Lord of the mountains',\n      name: 'Golrog',\n    },\n  },\n);\n```\n","data":{"link":"graphql/variables","title":"Variables","order":2},"excerpt":""},"routes":[{"link":"graphql/interfaces-and-unions","title":"Interfaces and Unions","order":1},{"link":"plugins/apollo","title":"Apollo","order":1},{"link":"selector","title":"Selector","order":1},{"link":"examples","title":"Examples","order":2},{"link":"graphql/variables","title":"Variables","order":2},{"link":"plugins/react-query","title":"React Query","order":2},{"link":"esmodules","title":"EsModules","order":3},{"link":"graphql/aliases","title":"Aliases","order":3},{"link":"plugins/stucco","title":"Stucco","order":3},{"link":"graphql/gql","title":"Gql string","order":4},{"link":"spec","title":"Specification","order":4},{"link":"library","title":"Use as a library","order":5}],"activeRoute":"graphql/variables","prefix":""}),document.body)
+      </script>
+
+            <link
+              rel="stylesheet"
+              href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.2.0/build/styles/github-dark.min.css"
+            />
+            <link rel="stylesheet" href="/tw.css" />
+            <title>GraphQL Zeus docs</title>
+          
+    </head>
+    <body>
+      <div class="h-full flex flex-col"><div class="w-full sm:flex hidden px-10 border-b border-purple-200 items-center"><a class="block py-4 text-xl logo font-black" href="/">GraphQL Zeus</a><span class="text-gray-400 block ml-2 text-md mt-1">Autocomplete client for GraphQL</span><span class="ml-auto mr-2 text-gray-500">4.0.4</span><a href="https://github.com/graphql-editor/graphql-zeus" class="text-purple-500" title="Github repository"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a></div><div class="flex w-full flex-1 overflow-hidden"><div class="absolute sm:hidden block cursor-pointer top-6 right-6"><div class="h-2 w-10 bg-purple-500 mb-2 rounded"></div><div class="h-2 w-10 bg-purple-500 mb-2 rounded"></div><div class="h-2 w-10 bg-purple-500 mb-2 rounded"></div></div><div class="py-6 px-10 w-80 sm:block hidden  border-r border-purple-200"><a class="transition-all block py-3 text-md font-medium text-gray-600 hover:text-purple-600" href="/page/graphql/interfaces-and-unions.html">Interfaces and Unions</a><a class="transition-all block py-3 text-md font-medium text-gray-600 hover:text-purple-600" href="/page/plugins/apollo.html">Apollo</a><a class="transition-all block py-3 text-md font-medium text-gray-600 hover:text-purple-600" href="/page/selector.html">Selector</a><a class="transition-all block py-3 text-md font-medium text-gray-600 hover:text-purple-600" href="/page/examples.html">Examples</a><a class="transition-all block py-3 text-md font-medium text-purple-600" href="/page/graphql/variables.html">Variables</a><a class="transition-all block py-3 text-md font-medium text-gray-600 hover:text-purple-600" href="/page/plugins/react-query.html">React Query</a><a class="transition-all block py-3 text-md font-medium text-gray-600 hover:text-purple-600" href="/page/esmodules.html">EsModules</a><a class="transition-all block py-3 text-md font-medium text-gray-600 hover:text-purple-600" href="/page/graphql/aliases.html">Aliases</a><a class="transition-all block py-3 text-md font-medium text-gray-600 hover:text-purple-600" href="/page/plugins/stucco.html">Stucco</a><a class="transition-all block py-3 text-md font-medium text-gray-600 hover:text-purple-600" href="/page/graphql/gql.html">Gql string</a><a class="transition-all block py-3 text-md font-medium text-gray-600 hover:text-purple-600" href="/page/spec.html">Specification</a><a class="transition-all block py-3 text-md font-medium text-gray-600 hover:text-purple-600" href="/page/library.html">Use as a library</a></div><div class="container mx-auto px-20 py-6 pb-20 h-full overflow-auto"><div class="prose prose-lg"><h4>Variables</h4>
+<p>To perform query with variables please import <code>$</code> function and pass the variables to query</p>
+<pre><code class="language-ts"><span class="hljs-keyword">const</span> test = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Gql</span>(<span class="hljs-string">'mutation'</span>)(
+  {
+    <span class="hljs-attr">addCard</span>: [
+      {
+        <span class="hljs-attr">card</span>: $<span class="hljs-string">`card`</span>,
+      },
+      {
+        <span class="hljs-attr">id</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">description</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">name</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-title class_">Attack</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">skills</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-title class_">Children</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-title class_">Defense</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">cardImage</span>: {
+          <span class="hljs-attr">bucket</span>: <span class="hljs-literal">true</span>,
+          <span class="hljs-attr">region</span>: <span class="hljs-literal">true</span>,
+          <span class="hljs-attr">key</span>: <span class="hljs-literal">true</span>,
+        },
+      },
+    ],
+  },
+  {
+    <span class="hljs-attr">card</span>: {
+      <span class="hljs-title class_">Attack</span>: <span class="hljs-number">2</span>,
+      <span class="hljs-title class_">Defense</span>: <span class="hljs-number">3</span>,
+      <span class="hljs-attr">description</span>: <span class="hljs-string">'Lord of the mountains'</span>,
+      <span class="hljs-attr">name</span>: <span class="hljs-string">'Golrog'</span>,
+    },
+  },
+);
+</code></pre>
+</div></div></div></div>
+    </body>
+  </html>

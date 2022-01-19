@@ -1,0 +1,6 @@
+{
+  "out": "./out",
+  "in": "./src",
+  "port": 8080,
+  "websocketPort": 1414
+}

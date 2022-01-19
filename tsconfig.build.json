@@ -27,5 +27,5 @@
       }
     ]
   },
-  "exclude": ["lib", "node_modules", "docs", "**/__tests__", "generated", "examples", "**/*.spec.ts"]
+  "exclude": ["lib", "node_modules", "docs", "**/__tests__", "generated", "examples", "**/*.spec.ts", "doc"]
 }

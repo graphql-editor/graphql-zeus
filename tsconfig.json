@@ -31,5 +31,5 @@
       }
     ]
   },
-  "exclude": ["lib", "node_modules", "docs", "generated", "examples"]
+  "exclude": ["lib", "node_modules", "docs", "generated", "examples", "doc"]
 }
