@@ -817,7 +817,7 @@ For a complete guide to contributing to GraphQL Editor, see the [Contribution Gu
 
 ## Parsing
 
-Simplier approach to GraphQL parsing. Using graphql-js library and parsing AST to simplier types.
+Simpler approach to GraphQL parsing. Using graphql-js library and parsing AST to simplier types.
 
 ## 4.0
 
