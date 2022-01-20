@@ -382,7 +382,7 @@ $ zeus help
 Add a script entry in your `package.json` file for quickly calling Zeus generation:
 ```json
 "scripts": {
-...
+//...
 "generate": "zeus https://faker.graphqleditor.com/a-team/olympus/graphql zeusGenerated --typescript --header='My-Auth-Secret:JsercjjJY5MmghtHww6UF' --apollo"
 },
 ```
@@ -684,7 +684,7 @@ $ npm i
 
 then run the examples with
 
-```
+```sh
 $ npm run start
 # OR
 # yarn start
