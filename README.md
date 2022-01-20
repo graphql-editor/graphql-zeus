@@ -13,7 +13,7 @@ GraphQL Zeus is the absolute best way to interact with your GraphQL endpoints in
 ⚡️ Works with Subscriptions <br/>
 ⚡️ Infer complex response types <br/>
 ⚡️ Create reusable selection sets (like fragments) for use across multiple queries <br/>
-⚡️ Supports GraphQL Unions, Interfaces, Aliases and Variables
+⚡️ Supports GraphQL Unions, Interfaces, Aliases and Variables<br/>
 ⚡️ Handles **massive** schemas <br/>
 ⚡️ Supports Browsers, Node.js and React Native in Javascript and Typescript <br/>
 ⚡️ Schema downloader <br/>
@@ -100,42 +100,38 @@ You can now use the Zeus `Chain` client from the generated output to make type-s
 
 ```ts
 import { Chain } from './zeus';
+	
+// Create a Chain client instance with the endpoint
+const chain = Chain('https://faker.graphqleditor.com/a-team/olympus/graphql');
 
-const createCards = async () => {
-	
-	// Create a Chain client instance with the endpoint
-  const chain = Chain('https://faker.graphqleditor.com/a-team/olympus/graphql');
-	
-	// Query the endpoint with Typescript autocomplete for arguments and response fields
-  const listCardsAndDraw = await chain("query")({
-    cardById: [
-      {
-        cardId: 'da21ce0a-40a0-43ba-85c2-6eec2bf1ae21'
-      },
-      {
-				name: true,
-        description: true
-      }
-    ],
-    listCards: {
-      name: true,
-      skills: true,
-      attack: [
-        { cardID: ['66c1af53-7d5e-4d89-94b5-1ebf593508f6', 'fc0e5757-4d8a-4f6a-a23b-356ce167f873'] },
-        {
-          name: true
-        }
-      ]
+// Query the endpoint with Typescript autocomplete for arguments and response fields
+const listCardsAndDraw = await chain("query")({
+  cardById: [
+    {
+      cardId: 'da21ce0a-40a0-43ba-85c2-6eec2bf1ae21'
     },
-    drawCard: {
+    {
       name: true,
-      skills: true,
-      Attack: true
+      description: true
     }
-  });
-
-  // listCardsAndDraw is now typed as the response of the query.
-};
+  ],
+  listCards: {
+    name: true,
+    skills: true,
+    attack: [
+      { cardID: ['66c1af53-7d5e-4d89-94b5-1ebf593508f6', 'fc0e5757-4d8a-4f6a-a23b-356ce167f873'] },
+      {
+        name: true
+      }
+    ]
+  },
+  drawCard: {
+    name: true,
+    skills: true,
+    Attack: true
+  }
+});
+// listCardsAndDraw is now typed as the response of the query.
 ``` 
 
 When querying a GraphQL field which takes an argument such as `cardById` above, then the fields are defined in terms of a tuple eg: cardById: `[ {...arguments} , {...response_selection_set} ]` the equivalent in gql syntax would be:
@@ -178,66 +174,63 @@ With Zeus `Thunder` you have total control of fetch function but will not lose t
 
 ```js
 import { Thunder } from './zeus';
-
-const createCards = async () => {
 	
-	// Create thunder fetch client with endpoint, options and response handlers
-  const thunder = Thunder(async (query) => {
-    const response = await fetch('https://faker.graphqleditor.com/a-team/olympus/graphql', {
-      body: JSON.stringify({ query }),
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-		
-    if (!response.ok) {
-      return new Promise((resolve, reject) => {
-        response
-          .text()
-          .then((text) => {
-            try {
-              reject(JSON.parse(text));
-            } catch (err) {
-              reject(text);
-            }
-          })
-          .catch(reject);
-      });
-    }
-		
-    const json = await response.json();
-		
-    return json.data;
+// Create thunder fetch client with endpoint, options and response handlers
+const thunder = Thunder(async (query) => {
+  const response = await fetch('https://faker.graphqleditor.com/a-team/olympus/graphql', {
+    body: JSON.stringify({ query }),
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
   });
-	
-	// Call thunder client with type-safe arguments, fields and get type-safe result type
-  const listCardsAndDraw = await thunder('query')({
-    cardById: [
+  
+  if (!response.ok) {
+    return new Promise((resolve, reject) => {
+      response
+        .text()
+        .then((text) => {
+          try {
+            reject(JSON.parse(text));
+          } catch (err) {
+            reject(text);
+          }
+        })
+        .catch(reject);
+    });
+  }
+  
+  const json = await response.json();
+  
+  return json.data;
+});
+
+// Call thunder client with type-safe arguments, fields and get type-safe result type
+const listCardsAndDraw = await thunder('query')({
+  cardById: [
+    {
+      cardId: 'sdsd',
+    },
+    {
+      description: true,
+    },
+  ],
+  listCards: {
+    name: true,
+    skills: true,
+    attack: [
+      { cardID: ['s', 'sd'] },
       {
-        cardId: 'sdsd',
-      },
-      {
-        description: true,
+        name: true,
       },
     ],
-    listCards: {
-      name: true,
-      skills: true,
-      attack: [
-        { cardID: ['s', 'sd'] },
-        {
-          name: true,
-        },
-      ],
-    },
-    drawCard: {
-      name: true,
-      skills: true,
-      Attack: true,
-    },
-  });
-};
+  },
+  drawCard: {
+    name: true,
+    skills: true,
+    Attack: true,
+  },
+});
 ```
 
 ## Usage with Apollo GraphQL
@@ -261,7 +254,7 @@ const Main = () => {
       name: true,
     },
   });
-	// data response is now typed
+  // data response is now typed
   return <div>{data.drawCard.name}</div>;
 };
 ```
@@ -294,7 +287,7 @@ import { drawCardQuery } from './';
 
 const Main = () => {
   const { data } = useTypedQuery(drawCardQuery);
-	// data is of type DrawCardResponseType as per the above example
+  // data is of type DrawCardResponseType as per the above example
   return <div>{data.drawCard.name}</div>;
 };
 ```
@@ -317,7 +310,7 @@ const Main = () => {
       name: true,
     },
   });
-  // Data response is now typed
+  // data response is now typed
   return <div>{data.drawCard.name}</div>;
 };
 ```
@@ -442,12 +435,12 @@ Note: The mutation function created by the Zeus versions of React Hooks like the
 const [addCard, {data, loading, error}] = useTypedMutation({...myMutation})
 
 await addCard({variables: {
-    card: {
-      Attack: 2,
-      Defense: 3,
-      description: 'Lord of the mountains',
-      name: 'Golrog',
-    }
+  card: {
+    Attack: 2,
+    Defense: 3,
+    description: 'Lord of the mountains',
+    name: 'Golrog',
+  }
 }})
 ```
 
