@@ -1,7 +1,8 @@
 import hljs from 'https://cdn.skypack.dev/highlight.js';
 import { Remarkable } from 'https://cdn.skypack.dev/remarkable';
 export const renderMarkdown = new Remarkable({
-  highlight: function(str: string, lang: string) {
+  html: true,
+  highlight: function (str: string, lang: string) {
     if (lang && hljs.getLanguage(lang)) {
       try {
         return hljs.highlight(lang, str).value;

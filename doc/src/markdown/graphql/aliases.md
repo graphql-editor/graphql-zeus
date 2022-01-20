@@ -2,12 +2,15 @@
 link: graphql/aliases
 title: Aliases
 order: 3
+category: GraphQL
 ---
 
-Perform query with aliases
+## GraphQL Aliases
+
+Zeus supports declaring aliases 🥸
 
 ```ts
-const aliasedQueryExecute = await chain("query"){
+const aliasedQueryExecute = await chain('query')({
   listCards: {
     __alias: {
       atak: {
@@ -22,25 +25,29 @@ const aliasedQueryExecute = await chain("query"){
     },
   },
 });
-// RESULT
-// {
-//     "listCards": [
-//         {
-//             "atak": {
-//                 "attack": [
-//                     {
-//                         "name": "Zelma",
-//                         "description": "Central"
-//                     }
-//                 ]
-//             }
-//         }
-//     ]
-// }
 ```
 
-So you can access properties type-safe like this
+Response:
 
-```ts
+```json
+{
+  "listCards": [
+    {
+      "atak": {
+        "attack": [
+          {
+            "name": "Zelma",
+            "description": "Central"
+          }
+        ]
+      }
+    }
+  ]
+}
+```
+
+Now you can access properties type-safe like this
+
+```javascript
 aliasedQueryExecute.listCards.map((c) => c.atak.attack);
 ```

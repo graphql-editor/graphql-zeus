@@ -2,11 +2,12 @@
 link: graphql/interfaces-and-unions
 title: Interfaces and Unions
 order: 1
+category: GraphQL
 ---
 
-#### Unions
+## GraphQL Unions
 
-You can use Zeus with unions:
+You can use Zeus with [GraphQL Unions](https://spec.graphql.org/June2018/#sec-Unions):
 
 ```js
 const { drawChangeCard } = await chain('query')({
@@ -22,17 +23,21 @@ const { drawChangeCard } = await chain('query')({
     },
   },
 });
-// drawChangeCard result:
-// {
-//     "effectSize": 195.99532210956377,
-//     "name": "Destinee",
-//     "__typename": "EffectCard"
-// }
 ```
 
-#### Interfaces
+Response:
 
-And interfaces.
+```json
+{
+  "effectSize": 195.99532210956377,
+  "name": "Destinee",
+  "__typename": "EffectCard"
+}
+```
+
+## GraphQL Interfaces
+
+Zeus works with [GraphQL Interfaces](http://spec.graphql.org/June2018/#sec-Interfaces)
 
 ```ts
 const { nameables } = await Gql('query')({
@@ -49,32 +54,33 @@ const { nameables } = await Gql('query')({
     },
   },
 });
-// result
-// {
-//     "nameables": [
-//         {
-//             "__typename": "EffectCard",
-//             "name": "Hector"
-//         },
-//         {
-//             "__typename": "CardStack",
-//             "name": "Scotty",
-//             "cards": [
-//                 {
-//                     "Defense": 1950
-//                 },
-//                 {
-//                     "Defense": 76566
-//                 },
-//                 {
-//                     "Defense": 64261
-//                 }
-//             ]
-//         },
-//         {
-//             "__typename": "SpecialCard",
-//             "name": "Itzel"
-//         },
-//     ]
-// }
+```
+
+Response:
+
+```json
+{
+  "nameables": [
+    {
+      "__typename": "EffectCard",
+      "name": "Hector"
+    },
+    {
+      "__typename": "CardStack",
+      "name": "Scotty",
+      "cards": [
+        {
+          "Defense": 1950
+        },
+        {
+          "Defense": 76566
+        }
+      ]
+    },
+    {
+      "__typename": "SpecialCard",
+      "name": "Itzel"
+    }
+  ]
+}
 ```

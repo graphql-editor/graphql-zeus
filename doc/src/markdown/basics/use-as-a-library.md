@@ -2,11 +2,12 @@
 link: library
 title: Use as a library
 order: 5
+category: Basics
 ---
 
-### Use In your Project to generate code
+## Generate Code
 
-This will be rarely used, but here you are!
+This will be rarely used, but here you are! Generate Typescript and Javascript from GraphQL definitions
 
 ```js
 import { TreeToTS } from 'graphql-zeus';
@@ -26,9 +27,9 @@ const typeScriptDefinition = TreeToTS.resolveTree(Parser.parse(schemaFileContent
 const jsDefinition = TreeToTS.javascript(Parser.parse(schemaFileContents));
 ```
 
-### Use in your project to dynamically fetch schema
+## Dynamically Fetch Schema
 
-This is useful when you need some schema fetched from your GraphQL endpoint
+This is useful when you need your schema fetched from your GraphQL endpoint in-code
 
 ```js
 import { Utils } from 'graphql-zeus';

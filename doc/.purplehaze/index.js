@@ -26,7 +26,7 @@ var head = () => {
   return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("link", {
     rel: "stylesheet",
     href: "./tw.css"
-  }), /* @__PURE__ */ React.createElement("title", null, "GraphQL Zeus docs 0.0.7"));
+  }), /* @__PURE__ */ React.createElement("title", null, "GraphQL Zeus docs"));
 };
 export {
   data,

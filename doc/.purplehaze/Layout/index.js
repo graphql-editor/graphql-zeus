@@ -46,15 +46,25 @@ var Layout = ({children, routes, activeRoute, prefix = ""}) => {
   }, /* @__PURE__ */ React.createElement("a", {
     className: "block py-4 text-lg text-purple-900 font-black",
     href: `${prefix}/`
-  }, "Purple haze"), routes.map((r) => /* @__PURE__ */ React.createElement("a", {
-    className: `block py-3 text-md font-medium${activeRoute === r.link ? " text-purple-600" : "text-gray-600"}`,
-    href: `${prefix}/page/${r.link}.html`
-  }, r.title))), /* @__PURE__ */ React.createElement("div", {
+  }, "GraphQL Zeus"), Object.entries(routes).map(([k, v]) => {
+    return /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", {
+      className: "block py-3 text-md font-medium"
+    }, k), /* @__PURE__ */ React.createElement("div", null, v.map((r) => /* @__PURE__ */ React.createElement("a", {
+      className: `block py-3 text-md font-medium${activeRoute === r.link ? " text-purple-600" : "text-gray-600"}`,
+      href: `${prefix}/page/${r.link}.html`
+    }, r.title))));
+  })), /* @__PURE__ */ React.createElement("div", {
     className: "py-6 px-10 w-80 sm:block hidden  border-r border-purple-200"
-  }, routes.map((r) => /* @__PURE__ */ React.createElement("a", {
-    className: `transition-all block py-3 text-md font-medium${activeRoute === r.link ? " text-purple-600" : " text-gray-600 hover:text-purple-600"}`,
-    href: `${prefix}/page/${r.link}.html`
-  }, r.title))), /* @__PURE__ */ React.createElement("div", {
+  }, Object.entries(routes).map(([k, v]) => {
+    return /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", {
+      className: "block text-md font-medium pb-2"
+    }, k), /* @__PURE__ */ React.createElement("div", {
+      className: "pl-2 pb-4"
+    }, v.map((r) => /* @__PURE__ */ React.createElement("a", {
+      className: `transition-all block pb-2 text-md font-medium${activeRoute === r.link ? " text-purple-600" : " text-gray-600 hover:text-purple-600"}`,
+      href: `${prefix}/page/${r.link}.html`
+    }, r.title))));
+  })), /* @__PURE__ */ React.createElement("div", {
     className: "container mx-auto px-20 py-6 pb-20 h-full overflow-auto"
   }, children)));
 };

@@ -2,21 +2,24 @@
 link: graphql/gql
 title: Gql string
 order: 4
+category: GraphQL
 ---
 
-Use Zeus to generate gql string
+## Generate GraphQL Gql Strings
+
+Use the `Zeus` function to generate a gql string
 
 ```js
 import { Zeus } from './zeus';
-const createCards = async () => {
-  const stringGql = Zeus('query', {
-    listCards: {
-      name: true,
-      skills: true,
-      Attack: true,
-    },
-  });
-  // query{listCards{name skills Attack}}
-};
-createCards();
+
+const stringGql = Zeus('query', {
+  listCards: {
+    name: true,
+    skills: true,
+    Attack: true,
+  },
+});
+
+// stringGql value:
+// query{listCards{name skills Attack}}
 ```

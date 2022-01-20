@@ -2,7 +2,10 @@
 link: spec
 title: Specification
 order: 4
+category: Basics
 ---
+
+## Zeus Spec
 
 Promise of type query data object is returned.
 
@@ -30,7 +33,7 @@ QUERY_OBJECT = {
 }
 ```
 
-Return params is an object containg RETURN_KEY - true if it is a `scalar`, RETURN_PARAMS if `type` otherwise it is a function where you pass Fiel params and type return params.
+Return params is an object containing RETURN_KEY - true if it is a `scalar`, RETURN_PARAMS if `type` otherwise it is a function where you pass field params and type return params.
 
 ```
 RETURN_PARAMS = {
@@ -49,7 +52,7 @@ RETURN_PARAMS = {
 }
 ```
 
-#### Use Alias Spec
+### Use Alias Spec
 
 ```
 RETURN_PARAMS = {

@@ -29,7 +29,7 @@ export const head = () => {
   return (
     <>
       <link rel="stylesheet" href="./tw.css" />
-      <title>GraphQL Zeus docs 0.0.7</title>
+      <title>GraphQL Zeus docs</title>
     </>
   );
 };

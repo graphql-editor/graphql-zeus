@@ -5,15 +5,17 @@
   "main": "index.js",
   "scripts": {
     "style": "tailwindcss -i ./input.css -o ./src/tw.css --watch",
-    "start": "purplehaze",
+    "dev": "purplehaze",
+    "start": "concurrently \"npm run dev\" \"npm run style\" ",
     "build": "purplehaze --build"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.0",
+    "concurrently": "^7.0.0",
     "postcss": "^8.4.5",
-    "purplehaze": "0.0.7",
+    "purplehaze": "0.0.8",
     "tailwindcss": "^3.0.15",
     "typescript": "^4.5.4"
   }

@@ -2,14 +2,17 @@
 link: graphql/variables
 title: Variables
 order: 2
+category: GraphQL
 ---
 
-#### Variables
+## GraphQL Variables
 
-To perform query with variables please import `$` function and pass the variables to query
+It's simple to perform queries with variables by importing and using the `$` function from the Zeus output and calling it with the variable name in backticks.
 
 ```ts
-const test = await Gql('mutation')(
+import { Gql, $ } from './zeus';
+
+const addCardResult = await Gql('mutation')(
   {
     addCard: [
       {
@@ -32,6 +35,25 @@ const test = await Gql('mutation')(
     ],
   },
   {
+    variables: {
+      card: {
+        Attack: 2,
+        Defense: 3,
+        description: 'Lord of the mountains',
+        name: 'Golrog',
+      },
+    },
+  },
+);
+```
+
+Note: The mutation function created by the Zeus versions of React Hooks like the Apollo Client version of `useTypedMutation` can be supplied with variable values at invocation eg:
+
+```typescript
+const [addCard, { data, loading, error }] = useTypedMutation({ ...myMutation });
+
+await addCard({
+  variables: {
     card: {
       Attack: 2,
       Defense: 3,
@@ -39,5 +61,5 @@ const test = await Gql('mutation')(
       name: 'Golrog',
     },
   },
-);
+});
 ```

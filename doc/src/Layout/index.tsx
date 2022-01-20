@@ -17,7 +17,7 @@ const GithubIcon = () => (
 );
 
 export const Layout: React.FC<{
-  routes: Array<Route>;
+  routes: Record<string, Route[]>;
   activeRoute?: string;
   prefix?: string;
 }> = ({ children, routes, activeRoute, prefix = '' }) => {
@@ -46,31 +46,49 @@ export const Layout: React.FC<{
         {mobileMenuOpen && (
           <div className="py-10 px-20 bg-gray-100 h-full w-80 sm:hidden block absolute top-0 left-0">
             <a className="block py-4 text-lg text-purple-900 font-black" href={`${prefix}/`}>
-              Purple haze
+              GraphQL Zeus
             </a>
-            {routes.map((r) => (
-              <a
-                className={`block py-3 text-md font-medium${
-                  activeRoute === r.link ? ' text-purple-600' : 'text-gray-600'
-                }`}
-                href={`${prefix}/page/${r.link}.html`}
-              >
-                {r.title}
-              </a>
-            ))}
+            {Object.entries(routes).map(([k, v]) => {
+              return (
+                <div>
+                  <div className="block py-3 text-md font-medium">{k}</div>
+                  <div>
+                    {v.map((r) => (
+                      <a
+                        className={`block py-3 text-md font-medium${
+                          activeRoute === r.link ? ' text-purple-600' : 'text-gray-600'
+                        }`}
+                        href={`${prefix}/page/${r.link}.html`}
+                      >
+                        {r.title}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         )}
         <div className="py-6 px-10 w-80 sm:block hidden  border-r border-purple-200">
-          {routes.map((r) => (
-            <a
-              className={`transition-all block py-3 text-md font-medium${
-                activeRoute === r.link ? ' text-purple-600' : ' text-gray-600 hover:text-purple-600'
-              }`}
-              href={`${prefix}/page/${r.link}.html`}
-            >
-              {r.title}
-            </a>
-          ))}
+          {Object.entries(routes).map(([k, v]) => {
+            return (
+              <div>
+                <div className="block text-md font-medium pb-2">{k}</div>
+                <div className="pl-2 pb-4">
+                  {v.map((r) => (
+                    <a
+                      className={`transition-all block pb-2 text-md font-medium${
+                        activeRoute === r.link ? ' text-purple-600' : ' text-gray-600 hover:text-purple-600'
+                      }`}
+                      href={`${prefix}/page/${r.link}.html`}
+                    >
+                      {r.title}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
         </div>
         <div className="container mx-auto px-20 py-6 pb-20 h-full overflow-auto">{children}</div>
       </div>
