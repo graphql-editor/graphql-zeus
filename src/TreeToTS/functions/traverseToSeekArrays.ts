@@ -11,6 +11,9 @@ const traverseToSeekArrays = (parent: string[], a?: any): string => {
   if (Array.isArray(a)) {
     return isArrayFunction([...parent], a);
   } else {
+    if (typeof a === "string" && a.startsWith("@")) {
+      return a;
+    }
     if (typeof a === 'object') {
       Object.keys(a)
         .filter((k) => typeof a[k] !== 'undefined')

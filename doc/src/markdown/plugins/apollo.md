@@ -33,6 +33,25 @@ const Main = () => {
 };
 ```
 
+### Apollo Client @client directive
+
+
+```tsx
+import { useTypedQuery } from './zeus/apollo';
+
+const Main = () => {
+  const { data } = useTypedQuery({
+    // Get autocomplete here:
+    drawCard: {
+      isCardSelected: '@client'
+    },
+  });
+  // this data comes from the local-only fields
+  // https://www.apollographql.com/docs/react/local-state/managing-state-with-field-policies/
+  return <div>{data.drawCard.isCardSelected}</div>;
+};
+```
+
 ### Inferring the response type for Apollo Client
 
 If you would like to infer the response type of your query for Apollo Client you can use the Zeus `Selector` function and `InputType` utility from the Zeus generated library
