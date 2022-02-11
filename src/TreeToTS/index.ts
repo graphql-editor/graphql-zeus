@@ -10,6 +10,7 @@ import {
   graphqlErrorTypeScript,
   typescriptFunctions,
 } from './templates/typescript';
+import { commonImports, envSpecificImports } from './templates/typescript/indexImports';
 
 export interface OperationName {
   name: string;
@@ -124,7 +125,7 @@ export class TreeToTS {
   }) {
     const operations = bodyTypeScript(env, TreeToTS.resolveOperations(tree));
     return {
-      indexImports: `import { AllTypesProps, ReturnTypes } from './const${esModule ? '.js' : ''}';`,
+      indexImports: commonImports(esModule).concat(envSpecificImports(env)),
       const: TreeToTS.resolveBasisCode(tree),
       index: TreeToTS.resolveBasisTypes(tree)
         .concat(graphqlErrorTypeScript.concat('\n').concat(constantTypesTypescript).concat('\n\n'))
