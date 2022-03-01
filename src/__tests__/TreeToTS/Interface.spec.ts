@@ -33,8 +33,7 @@ type Motorcycle implements Vehicle {
 describe('Interface tests', () => {
   it('TypeScript: Interfaces with Unique Fields', () => {
     const tree = Parser.parseAddExtensions(schemaWithUnique);
-    const typeScriptCode = TreeToTS.resolveTree({ tree }).replace(/\n\t/g, '').replace(/\s/g, ' ');
-
+    const typeScriptCode = TreeToTS.resolveTree({ tree });
     // should have wheels as a field on vehicle
     expect(typeScriptCode).toContain(
       `["Vehicle"]:AliasType<{ wheels?:boolean; ['...on Car']?: Omit<ValueTypes["Car"],keyof ValueTypes["Vehicle"]>; ['...on Motorcycle']?: Omit<ValueTypes["Motorcycle"],keyof ValueTypes["Vehicle"]>; __typename?: boolean }>;`,
@@ -53,7 +52,7 @@ describe('Interface tests', () => {
 
   it('TypeScript: Interfaces without Unique Fields', () => {
     const tree = Parser.parseAddExtensions(schema);
-    const typeScriptCode = TreeToTS.resolveTree({ tree }).replace(/\n\t/g, '').replace(/\s/g, ' ');
+    const typeScriptCode = TreeToTS.resolveTree({ tree });
 
     // should have wheels as a field on vehicle
     expect(typeScriptCode).toContain(

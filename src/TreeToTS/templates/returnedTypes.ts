@@ -1,5 +1,12 @@
-import { Options, ParserField } from '@/Models';
-import { Helpers, TypeDefinition, TypeSystemDefinition } from '@/Models/Spec';
+import {
+  ParserField,
+  Options,
+  TypeDefinition,
+  TypeSystemDefinition,
+  Helpers,
+  FieldType,
+  getTypeName,
+} from 'graphql-js-tree';
 
 export const TYPES = 'GraphQLTypes';
 
@@ -15,32 +22,36 @@ const toTypeScriptPrimitive = (a: string): string => typeScriptMap[a] || `${TYPE
 const plusDescription = (description?: string, prefix = ''): string =>
   description ? `${prefix}/** ${description} */\n` : '';
 
+const resolveFieldType = (
+  name: string,
+  fType: FieldType,
+  fn: (str: string) => string = (x) => x,
+  isRequired = false,
+): string => {
+  if (fType.type === Options.name) {
+    return fn(isRequired ? name : `${name} | undefined`);
+  }
+  if (fType.type === Options.array) {
+    return resolveFieldType(
+      name,
+      fType.nest,
+      isRequired ? (x) => `Array<${fn(x)}> | undefined` : (x) => `Array<${fn(x)}>`,
+      false,
+    );
+  }
+  if (fType.type === Options.required) {
+    return resolveFieldType(name, fType.nest, fn, true);
+  }
+  throw new Error('Invalid field type');
+};
+
 const resolveField = (f: ParserField): string => {
-  const {
-    type: { options },
-  } = f;
-  const isArray = !!(options && options.find((o) => o === Options.array));
-  const isArrayRequired = !!(options && options.find((o) => o === Options.arrayRequired));
-  const isRequired = !!(options && options.find((o) => o === Options.required));
   const isNullType = (type: string): string => {
-    if (isArray && isRequired && isArrayRequired) {
-      return `: Array<${type}>`;
-    }
-    if (isArray && isRequired && !isArrayRequired) {
-      return `?: Array<${type}>`;
-    }
-    if (isArray && !isRequired && isArrayRequired) {
-      return `: Array<${type} | undefined>`;
-    }
-    if (isArray && !isRequired && !isArrayRequired) {
-      return `?: Array<${type} | undefined>`;
-    }
-    if (isRequired) {
-      return `: ${type}`;
-    }
-    return `?: ${type}`;
+    return f.type.fieldType.type === Options.required ? `: ${type}` : `?: ${type}`;
   };
-  return `${plusDescription(f.description, '\t')}\t${f.name}${isNullType(toTypeScriptPrimitive(f.type.name))}`;
+  return `${plusDescription(f.description, '\t')}\t${f.name}${isNullType(
+    resolveFieldType(toTypeScriptPrimitive(getTypeName(f.type.fieldType)), f.type.fieldType),
+  )}`;
 };
 export const resolveUnions = (rootNodes: ParserField[]): string => {
   const unionTypes = rootNodes
@@ -78,7 +89,11 @@ export const resolveTypeFromRoot = (i: ParserField, rootNodes: ParserField[]): s
   if (i.data.type === TypeDefinition.UnionTypeDefinition) {
     return `${plusDescription(i.description)}["${i.name}"]:{
 \t__typename:${i.args.length ? i.args.map((ti) => `"${ti.name}"`).join(' | ') : 'never'}
-\t${i.args.map((f) => `['...on ${f.type.name}']: '__union' & ${TYPES}["${f.type.name}"];`).join('\n\t')}\n}`;
+\t${i.args
+      .map(
+        (f) => `['...on ${getTypeName(f.type.fieldType)}']: '__union' & ${TYPES}["${getTypeName(f.type.fieldType)}"];`,
+      )
+      .join('\n\t')}\n}`;
   }
   if (i.data.type === TypeDefinition.EnumTypeDefinition) {
     return `${plusDescription(i.description)}["${i.name}"]: ${i.name}`;

@@ -1,20 +1,16 @@
-import { Options, ParserField } from '@/Models';
-import { TypeDefinition, TypeSystemDefinition } from '@/Models/Spec';
+import { ParserField, TypeSystemDefinition, TypeDefinition, compileType } from 'graphql-js-tree';
+
 const resolveArg = (f: ParserField, tabs = '\t\t\t'): string => {
   const {
-    type: { options },
+    type: { fieldType },
   } = f;
-  const isArray = !!(options && options.find((o) => o === Options.array));
-  const isArrayRequired = !!(options && options.find((o) => o === Options.arrayRequired));
-  const isRequired = !!(options && options.find((o) => o === Options.required));
   const aTabs = `\n${tabs}\t`;
-  return `${tabs}${f.name}:{${aTabs}type:"${
-    f.type.name
-  }",${aTabs}array:${!!isArray},${aTabs}arrayRequired:${!!isArrayRequired},${aTabs}required:${!!isRequired}\n${tabs}}`;
+
+  return `${tabs}${f.name}:{${aTabs}type:"${compileType(fieldType)}"\n${tabs}}`;
 };
-const resolveField = (f: ParserField, resolveArgs = true): string => {
+const resolveField = (f: ParserField): string => {
   const { args, name } = f;
-  return `\t\t${name}:{\n${args!.map((a) => resolveArg(a)).join(',\n')}\n\t\t}`;
+  return `\t\t${name}:{\n${args.map((a) => resolveArg(a)).join(',\n')}\n\t\t}`;
 };
 
 export const resolvePropTypeFromRoot = (i: ParserField): string => {
@@ -28,9 +24,9 @@ export const resolvePropTypeFromRoot = (i: ParserField): string => {
     return `\t${i.name}: "String"`;
   }
   if (i.data.type === TypeDefinition.InputObjectTypeDefinition) {
-    return `\t${i.name}:{\n${i.args!.map((f) => resolveArg(f, '\t\t')).join(',\n')}\n\t}`;
+    return `\t${i.name}:{\n${i.args.map((f) => resolveArg(f, '\t\t')).join(',\n')}\n\t}`;
   }
-  if (!i.args) {
+  if (!i.args.length) {
     return '';
   }
   if (i.args.filter((f) => f.args && f.args.length > 0).length === 0) {

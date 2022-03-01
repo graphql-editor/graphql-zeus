@@ -1,4 +1,12 @@
-import { Options, ParserField, ParserTree, ScalarTypes, TypeDefinition, ValueDefinition } from '@/Models';
+import {
+  getTypeName,
+  Options,
+  ParserField,
+  ParserTree,
+  ScalarTypes,
+  TypeDefinition,
+  ValueDefinition,
+} from 'graphql-js-tree';
 import { JSONSchema7 } from 'json-schema';
 
 export type JSONSchemaOverrideProperties<T> = Omit<JSONSchema7, 'properties'> & {
@@ -30,23 +38,24 @@ type ConvertField = {
 
 const getDataType = ({ f, tree, override }: ConvertField): JSONSchema7 => {
   if (f.data.type === ValueDefinition.InputValueDefinition) {
-    if (f.type.name === ScalarTypes.Boolean) {
+    const typeName = getTypeName(f.type.fieldType);
+    if (typeName === ScalarTypes.Boolean) {
       return { type: 'boolean' };
     }
-    if (f.type.name === ScalarTypes.Float) {
+    if (typeName === ScalarTypes.Float) {
       return { type: 'number' };
     }
-    if (f.type.name === ScalarTypes.Int) {
+    if (typeName === ScalarTypes.Int) {
       return { type: 'integer' };
     }
-    if (f.type.name === ScalarTypes.ID) {
+    if (typeName === ScalarTypes.ID) {
       return { type: 'string' };
     }
-    if (f.type.name === ScalarTypes.String) {
+    if (typeName === ScalarTypes.String) {
       return { type: 'string' };
     }
 
-    const lookForField = tree.nodes.find((r) => r.name === f.type.name);
+    const lookForField = tree.nodes.find((r) => r.name === typeName);
     if (lookForField?.data.type === TypeDefinition.ScalarTypeDefinition) {
       return {
         type: 'string',
@@ -65,7 +74,7 @@ const getDataType = ({ f, tree, override }: ConvertField): JSONSchema7 => {
   // It must be a field then
   return {
     type: 'object',
-    required: f?.args?.filter((a) => a.type.options?.includes(Options.required)).map((n) => n.name),
+    required: f?.args?.filter((a) => a.type.fieldType.type === Options.required).map((n) => n.name),
     properties: f.args?.reduce((a, b) => {
       a[b.name] = convertField({ f: b, tree, override });
       return a;
@@ -85,7 +94,7 @@ const convertType = (props: ConvertField): JSONSchema7 => {
   return type;
 };
 const convertField = (props: ConvertField): JSONSchema7 => {
-  if (props.f.type.options?.includes(Options.array)) {
+  if (props.f.type.fieldType.type === Options.array) {
     return {
       type: 'array',
       items: convertType(props),

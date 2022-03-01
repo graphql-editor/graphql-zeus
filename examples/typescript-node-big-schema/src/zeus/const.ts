@@ -4,22321 +4,12058 @@ export const AllTypesProps: Record<string,any> = {
 	_text: "String",
 	_text_comparison_exp:{
 		_eq:{
-			type:"_text",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"_text"
 		},
 		_gt:{
-			type:"_text",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"_text"
 		},
 		_gte:{
-			type:"_text",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"_text"
 		},
 		_in:{
-			type:"_text",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[_text]!"
 		},
 		_is_null:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		_lt:{
-			type:"_text",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"_text"
 		},
 		_lte:{
-			type:"_text",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"_text"
 		},
 		_neq:{
-			type:"_text",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"_text"
 		},
 		_nin:{
-			type:"_text",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[_text]!"
 		}
 	},
 	booking:{
 		lines:{
 			distinct_on:{
-				type:"line_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[line_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"line_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[line_order_by]!"
 			},
 			where:{
-				type:"line_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"line_bool_exp"
 			}
 		},
 		lines_aggregate:{
 			distinct_on:{
-				type:"line_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[line_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"line_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[line_order_by]!"
 			},
 			where:{
-				type:"line_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"line_bool_exp"
 			}
 		},
 		metadata:{
 			path:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"String"
 			}
 		},
 		relatedBookings:{
 			distinct_on:{
-				type:"booking_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[booking_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"booking_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[booking_order_by]!"
 			},
 			where:{
-				type:"booking_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"booking_bool_exp"
 			}
 		},
 		relatedBookings_aggregate:{
 			distinct_on:{
-				type:"booking_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[booking_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"booking_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[booking_order_by]!"
 			},
 			where:{
-				type:"booking_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"booking_bool_exp"
 			}
 		},
 		tags:{
 			distinct_on:{
-				type:"tag_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[tag_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"tag_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[tag_order_by]!"
 			},
 			where:{
-				type:"tag_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"tag_bool_exp"
 			}
 		},
 		tags_aggregate:{
 			distinct_on:{
-				type:"tag_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[tag_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"tag_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[tag_order_by]!"
 			},
 			where:{
-				type:"tag_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"tag_bool_exp"
 			}
 		}
 	},
 	booking_aggregate_fields:{
 		count:{
 			columns:{
-				type:"booking_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[booking_select_column]!"
 			},
 			distinct:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Boolean"
 			}
 		}
 	},
 	booking_aggregate_order_by:{
 		avg:{
-			type:"booking_avg_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_avg_order_by"
 		},
 		count:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		max:{
-			type:"booking_max_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_max_order_by"
 		},
 		min:{
-			type:"booking_min_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_min_order_by"
 		},
 		stddev:{
-			type:"booking_stddev_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_stddev_order_by"
 		},
 		stddev_pop:{
-			type:"booking_stddev_pop_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_stddev_pop_order_by"
 		},
 		stddev_samp:{
-			type:"booking_stddev_samp_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_stddev_samp_order_by"
 		},
 		sum:{
-			type:"booking_sum_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_sum_order_by"
 		},
 		var_pop:{
-			type:"booking_var_pop_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_var_pop_order_by"
 		},
 		var_samp:{
-			type:"booking_var_samp_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_var_samp_order_by"
 		},
 		variance:{
-			type:"booking_variance_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_variance_order_by"
 		}
 	},
 	booking_append_input:{
 		metadata:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		}
 	},
 	booking_arr_rel_insert_input:{
 		data:{
-			type:"booking_insert_input",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[booking_insert_input!]!"
 		},
 		on_conflict:{
-			type:"booking_on_conflict",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_on_conflict"
 		}
 	},
 	booking_avg_order_by:{
 		guests:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		nights:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	booking_bool_exp:{
 		_and:{
-			type:"booking_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[booking_bool_exp]!"
 		},
 		_not:{
-			type:"booking_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_bool_exp"
 		},
 		_or:{
-			type:"booking_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[booking_bool_exp]!"
 		},
 		bookedAt:{
-			type:"timestamptz_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz_comparison_exp"
 		},
 		bookerName:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		bookingChannel:{
-			type:"booking_channel_enum_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_channel_enum_comparison_exp"
 		},
 		checkIn:{
-			type:"timestamptz_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz_comparison_exp"
 		},
 		checkOut:{
-			type:"timestamptz_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz_comparison_exp"
 		},
 		confirmationCode:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		connection:{
-			type:"connection_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"connection_bool_exp"
 		},
 		connectionId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		createdAt:{
-			type:"timestamptz_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz_comparison_exp"
 		},
 		currency:{
-			type:"currency_enum_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"currency_enum_comparison_exp"
 		},
 		entity:{
-			type:"entity_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"entity_bool_exp"
 		},
 		entityId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		guestName:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		guests:{
-			type:"Int_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int_comparison_exp"
 		},
 		id:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		isOTA:{
-			type:"Boolean_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean_comparison_exp"
 		},
 		lines:{
-			type:"line_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"line_bool_exp"
 		},
 		metadata:{
-			type:"jsonb_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb_comparison_exp"
 		},
 		nights:{
-			type:"Int_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int_comparison_exp"
 		},
 		otaBooking:{
-			type:"booking_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_bool_exp"
 		},
 		otaBookingId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		relatedBookings:{
-			type:"booking_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_bool_exp"
 		},
 		status:{
-			type:"booking_status_enum_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_status_enum_comparison_exp"
 		},
 		tags:{
-			type:"tag_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"tag_bool_exp"
 		},
 		team:{
-			type:"team_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_bool_exp"
 		},
 		teamId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		uniqueRef:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		unit:{
-			type:"unit_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"unit_bool_exp"
 		},
 		unitId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		updatedAt:{
-			type:"timestamptz_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz_comparison_exp"
 		}
 	},
 	booking_channel_aggregate_fields:{
 		count:{
 			columns:{
-				type:"booking_channel_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[booking_channel_select_column]!"
 			},
 			distinct:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Boolean"
 			}
 		}
 	},
 	booking_channel_bool_exp:{
 		_and:{
-			type:"booking_channel_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[booking_channel_bool_exp]!"
 		},
 		_not:{
-			type:"booking_channel_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_channel_bool_exp"
 		},
 		_or:{
-			type:"booking_channel_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[booking_channel_bool_exp]!"
 		},
 		name:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		}
 	},
 	booking_channel_constraint: "enum",
 	booking_channel_enum: "enum",
 	booking_channel_enum_comparison_exp:{
 		_eq:{
-			type:"booking_channel_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_channel_enum"
 		},
 		_in:{
-			type:"booking_channel_enum",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[booking_channel_enum]!"
 		},
 		_is_null:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		_neq:{
-			type:"booking_channel_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_channel_enum"
 		},
 		_nin:{
-			type:"booking_channel_enum",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[booking_channel_enum]!"
 		}
 	},
 	booking_channel_insert_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	booking_channel_on_conflict:{
 		constraint:{
-			type:"booking_channel_constraint",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"booking_channel_constraint!"
 		},
 		update_columns:{
-			type:"booking_channel_update_column",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[booking_channel_update_column!]!"
 		},
 		where:{
-			type:"booking_channel_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_channel_bool_exp"
 		}
 	},
 	booking_channel_order_by:{
 		name:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	booking_channel_pk_columns_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"String!"
 		}
 	},
 	booking_channel_select_column: "enum",
 	booking_channel_set_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	booking_channel_update_column: "enum",
 	booking_constraint: "enum",
 	booking_delete_at_path_input:{
 		metadata:{
-			type:"String",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[String]!"
 		}
 	},
 	booking_delete_elem_input:{
 		metadata:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		}
 	},
 	booking_delete_key_input:{
 		metadata:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	booking_inc_input:{
 		guests:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		},
 		nights:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		}
 	},
 	booking_insert_input:{
 		bookedAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		bookerName:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		bookingChannel:{
-			type:"booking_channel_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_channel_enum"
 		},
 		checkIn:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		checkOut:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		confirmationCode:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		connection:{
-			type:"connection_obj_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"connection_obj_rel_insert_input"
 		},
 		connectionId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		createdAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		currency:{
-			type:"currency_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"currency_enum"
 		},
 		entity:{
-			type:"entity_obj_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"entity_obj_rel_insert_input"
 		},
 		entityId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		guestName:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		guests:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		},
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		isOTA:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		lines:{
-			type:"line_arr_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"line_arr_rel_insert_input"
 		},
 		metadata:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		nights:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		},
 		otaBooking:{
-			type:"booking_obj_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_obj_rel_insert_input"
 		},
 		otaBookingId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		relatedBookings:{
-			type:"booking_arr_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_arr_rel_insert_input"
 		},
 		status:{
-			type:"booking_status_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_status_enum"
 		},
 		tags:{
-			type:"tag_arr_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"tag_arr_rel_insert_input"
 		},
 		team:{
-			type:"team_obj_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_obj_rel_insert_input"
 		},
 		teamId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		uniqueRef:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		unit:{
-			type:"unit_obj_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"unit_obj_rel_insert_input"
 		},
 		unitId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		updatedAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		}
 	},
 	booking_max_order_by:{
 		bookedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		bookerName:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		checkIn:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		checkOut:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		confirmationCode:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		connectionId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		createdAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		entityId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		guestName:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		guests:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		nights:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		otaBookingId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		uniqueRef:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		unitId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		updatedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	booking_min_order_by:{
 		bookedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		bookerName:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		checkIn:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		checkOut:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		confirmationCode:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		connectionId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		createdAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		entityId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		guestName:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		guests:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		nights:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		otaBookingId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		uniqueRef:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		unitId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		updatedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	booking_obj_rel_insert_input:{
 		data:{
-			type:"booking_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"booking_insert_input!"
 		},
 		on_conflict:{
-			type:"booking_on_conflict",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_on_conflict"
 		}
 	},
 	booking_on_conflict:{
 		constraint:{
-			type:"booking_constraint",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"booking_constraint!"
 		},
 		update_columns:{
-			type:"booking_update_column",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[booking_update_column!]!"
 		},
 		where:{
-			type:"booking_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_bool_exp"
 		}
 	},
 	booking_order_by:{
 		bookedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		bookerName:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		bookingChannel:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		checkIn:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		checkOut:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		confirmationCode:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		connection:{
-			type:"connection_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"connection_order_by"
 		},
 		connectionId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		createdAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		currency:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		entity:{
-			type:"entity_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"entity_order_by"
 		},
 		entityId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		guestName:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		guests:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		isOTA:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		lines_aggregate:{
-			type:"line_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"line_aggregate_order_by"
 		},
 		metadata:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		nights:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		otaBooking:{
-			type:"booking_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_order_by"
 		},
 		otaBookingId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		relatedBookings_aggregate:{
-			type:"booking_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_aggregate_order_by"
 		},
 		status:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		tags_aggregate:{
-			type:"tag_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"tag_aggregate_order_by"
 		},
 		team:{
-			type:"team_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		uniqueRef:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		unit:{
-			type:"unit_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"unit_order_by"
 		},
 		unitId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		updatedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	booking_pk_columns_input:{
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"uuid!"
 		}
 	},
 	booking_prepend_input:{
 		metadata:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		}
 	},
 	booking_select_column: "enum",
 	booking_set_input:{
 		bookedAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		bookerName:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		bookingChannel:{
-			type:"booking_channel_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_channel_enum"
 		},
 		checkIn:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		checkOut:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		confirmationCode:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		connectionId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		createdAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		currency:{
-			type:"currency_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"currency_enum"
 		},
 		entityId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		guestName:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		guests:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		},
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		isOTA:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		metadata:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		nights:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		},
 		otaBookingId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		status:{
-			type:"booking_status_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_status_enum"
 		},
 		teamId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		uniqueRef:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		unitId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		updatedAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		}
 	},
 	booking_status_enum: "enum",
 	booking_status_enum_comparison_exp:{
 		_eq:{
-			type:"booking_status_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_status_enum"
 		},
 		_in:{
-			type:"booking_status_enum",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[booking_status_enum]!"
 		},
 		_is_null:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		_neq:{
-			type:"booking_status_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_status_enum"
 		},
 		_nin:{
-			type:"booking_status_enum",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[booking_status_enum]!"
 		}
 	},
 	booking_stddev_order_by:{
 		guests:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		nights:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	booking_stddev_pop_order_by:{
 		guests:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		nights:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	booking_stddev_samp_order_by:{
 		guests:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		nights:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	booking_sum_order_by:{
 		guests:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		nights:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	booking_update_column: "enum",
 	booking_var_pop_order_by:{
 		guests:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		nights:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	booking_var_samp_order_by:{
 		guests:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		nights:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	booking_variance_order_by:{
 		guests:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		nights:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	bookingStatus_aggregate_fields:{
 		count:{
 			columns:{
-				type:"bookingStatus_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[bookingStatus_select_column]!"
 			},
 			distinct:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Boolean"
 			}
 		}
 	},
 	bookingStatus_bool_exp:{
 		_and:{
-			type:"bookingStatus_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[bookingStatus_bool_exp]!"
 		},
 		_not:{
-			type:"bookingStatus_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"bookingStatus_bool_exp"
 		},
 		_or:{
-			type:"bookingStatus_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[bookingStatus_bool_exp]!"
 		},
 		name:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		}
 	},
 	bookingStatus_constraint: "enum",
 	bookingStatus_insert_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	bookingStatus_on_conflict:{
 		constraint:{
-			type:"bookingStatus_constraint",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"bookingStatus_constraint!"
 		},
 		update_columns:{
-			type:"bookingStatus_update_column",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[bookingStatus_update_column!]!"
 		},
 		where:{
-			type:"bookingStatus_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"bookingStatus_bool_exp"
 		}
 	},
 	bookingStatus_order_by:{
 		name:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	bookingStatus_pk_columns_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"String!"
 		}
 	},
 	bookingStatus_select_column: "enum",
 	bookingStatus_set_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	bookingStatus_update_column: "enum",
 	Boolean_comparison_exp:{
 		_eq:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		_gt:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		_gte:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		_in:{
-			type:"Boolean",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[Boolean]!"
 		},
 		_is_null:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		_lt:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		_lte:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		_neq:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		_nin:{
-			type:"Boolean",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[Boolean]!"
 		}
 	},
 	classification_aggregate_fields:{
 		count:{
 			columns:{
-				type:"classification_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[classification_select_column]!"
 			},
 			distinct:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Boolean"
 			}
 		}
 	},
 	classification_bool_exp:{
 		_and:{
-			type:"classification_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[classification_bool_exp]!"
 		},
 		_not:{
-			type:"classification_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"classification_bool_exp"
 		},
 		_or:{
-			type:"classification_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[classification_bool_exp]!"
 		},
 		name:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		}
 	},
 	classification_constraint: "enum",
 	classification_enum: "enum",
 	classification_enum_comparison_exp:{
 		_eq:{
-			type:"classification_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"classification_enum"
 		},
 		_in:{
-			type:"classification_enum",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[classification_enum]!"
 		},
 		_is_null:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		_neq:{
-			type:"classification_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"classification_enum"
 		},
 		_nin:{
-			type:"classification_enum",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[classification_enum]!"
 		}
 	},
 	classification_insert_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	classification_on_conflict:{
 		constraint:{
-			type:"classification_constraint",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"classification_constraint!"
 		},
 		update_columns:{
-			type:"classification_update_column",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[classification_update_column!]!"
 		},
 		where:{
-			type:"classification_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"classification_bool_exp"
 		}
 	},
 	classification_order_by:{
 		name:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	classification_pk_columns_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"String!"
 		}
 	},
 	classification_select_column: "enum",
 	classification_set_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	classification_update_column: "enum",
 	connection:{
 		bookings:{
 			distinct_on:{
-				type:"booking_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[booking_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"booking_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[booking_order_by]!"
 			},
 			where:{
-				type:"booking_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"booking_bool_exp"
 			}
 		},
 		bookings_aggregate:{
 			distinct_on:{
-				type:"booking_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[booking_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"booking_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[booking_order_by]!"
 			},
 			where:{
-				type:"booking_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"booking_bool_exp"
 			}
 		},
 		credentials:{
 			path:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"String"
 			}
 		},
 		entities:{
 			distinct_on:{
-				type:"entity_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[entity_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"entity_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[entity_order_by]!"
 			},
 			where:{
-				type:"entity_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"entity_bool_exp"
 			}
 		},
 		entities_aggregate:{
 			distinct_on:{
-				type:"entity_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[entity_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"entity_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[entity_order_by]!"
 			},
 			where:{
-				type:"entity_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"entity_bool_exp"
 			}
 		},
 		jobs:{
 			distinct_on:{
-				type:"job_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[job_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"job_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[job_order_by]!"
 			},
 			where:{
-				type:"job_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"job_bool_exp"
 			}
 		},
 		jobs_aggregate:{
 			distinct_on:{
-				type:"job_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[job_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"job_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[job_order_by]!"
 			},
 			where:{
-				type:"job_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"job_bool_exp"
 			}
 		},
 		lines:{
 			distinct_on:{
-				type:"line_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[line_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"line_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[line_order_by]!"
 			},
 			where:{
-				type:"line_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"line_bool_exp"
 			}
 		},
 		lines_aggregate:{
 			distinct_on:{
-				type:"line_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[line_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"line_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[line_order_by]!"
 			},
 			where:{
-				type:"line_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"line_bool_exp"
 			}
 		},
 		metrics:{
 			distinct_on:{
-				type:"metric_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[metric_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"metric_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[metric_order_by]!"
 			},
 			where:{
-				type:"metric_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"metric_bool_exp"
 			}
 		},
 		metrics_aggregate:{
 			distinct_on:{
-				type:"metric_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[metric_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"metric_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[metric_order_by]!"
 			},
 			where:{
-				type:"metric_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"metric_bool_exp"
 			}
 		},
 		payments:{
 			distinct_on:{
-				type:"payment_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[payment_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"payment_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[payment_order_by]!"
 			},
 			where:{
-				type:"payment_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"payment_bool_exp"
 			}
 		},
 		payments_aggregate:{
 			distinct_on:{
-				type:"payment_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[payment_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"payment_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[payment_order_by]!"
 			},
 			where:{
-				type:"payment_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"payment_bool_exp"
 			}
 		},
 		persistentState:{
 			path:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"String"
 			}
 		},
 		tags:{
 			distinct_on:{
-				type:"tag_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[tag_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"tag_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[tag_order_by]!"
 			},
 			where:{
-				type:"tag_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"tag_bool_exp"
 			}
 		},
 		tags_aggregate:{
 			distinct_on:{
-				type:"tag_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[tag_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"tag_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[tag_order_by]!"
 			},
 			where:{
-				type:"tag_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"tag_bool_exp"
 			}
 		},
 		units:{
 			distinct_on:{
-				type:"unit_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[unit_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"unit_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[unit_order_by]!"
 			},
 			where:{
-				type:"unit_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"unit_bool_exp"
 			}
 		},
 		units_aggregate:{
 			distinct_on:{
-				type:"unit_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[unit_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"unit_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[unit_order_by]!"
 			},
 			where:{
-				type:"unit_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"unit_bool_exp"
 			}
 		}
 	},
 	connection_aggregate_fields:{
 		count:{
 			columns:{
-				type:"connection_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[connection_select_column]!"
 			},
 			distinct:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Boolean"
 			}
 		}
 	},
 	connection_aggregate_order_by:{
 		count:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		max:{
-			type:"connection_max_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"connection_max_order_by"
 		},
 		min:{
-			type:"connection_min_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"connection_min_order_by"
 		}
 	},
 	connection_append_input:{
 		credentials:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		persistentState:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		}
 	},
 	connection_arr_rel_insert_input:{
 		data:{
-			type:"connection_insert_input",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[connection_insert_input!]!"
 		},
 		on_conflict:{
-			type:"connection_on_conflict",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"connection_on_conflict"
 		}
 	},
 	connection_bool_exp:{
 		_and:{
-			type:"connection_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[connection_bool_exp]!"
 		},
 		_not:{
-			type:"connection_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"connection_bool_exp"
 		},
 		_or:{
-			type:"connection_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[connection_bool_exp]!"
 		},
 		bookings:{
-			type:"booking_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_bool_exp"
 		},
 		createdAt:{
-			type:"timestamptz_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz_comparison_exp"
 		},
 		credentials:{
-			type:"jsonb_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb_comparison_exp"
 		},
 		entities:{
-			type:"entity_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"entity_bool_exp"
 		},
 		id:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		integration:{
-			type:"integration_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"integration_bool_exp"
 		},
 		integrationId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		jobs:{
-			type:"job_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"job_bool_exp"
 		},
 		lines:{
-			type:"line_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"line_bool_exp"
 		},
 		metrics:{
-			type:"metric_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"metric_bool_exp"
 		},
 		name:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		payments:{
-			type:"payment_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"payment_bool_exp"
 		},
 		persistentState:{
-			type:"jsonb_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb_comparison_exp"
 		},
 		status:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		tags:{
-			type:"tag_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"tag_bool_exp"
 		},
 		team:{
-			type:"team_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_bool_exp"
 		},
 		teamId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		units:{
-			type:"unit_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"unit_bool_exp"
 		},
 		webhookKey:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		}
 	},
 	connection_constraint: "enum",
 	connection_delete_at_path_input:{
 		credentials:{
-			type:"String",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[String]!"
 		},
 		persistentState:{
-			type:"String",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[String]!"
 		}
 	},
 	connection_delete_elem_input:{
 		credentials:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		},
 		persistentState:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		}
 	},
 	connection_delete_key_input:{
 		credentials:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		persistentState:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	connection_insert_input:{
 		bookings:{
-			type:"booking_arr_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_arr_rel_insert_input"
 		},
 		createdAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		credentials:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		entities:{
-			type:"entity_arr_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"entity_arr_rel_insert_input"
 		},
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		integration:{
-			type:"integration_obj_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"integration_obj_rel_insert_input"
 		},
 		integrationId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		jobs:{
-			type:"job_arr_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"job_arr_rel_insert_input"
 		},
 		lines:{
-			type:"line_arr_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"line_arr_rel_insert_input"
 		},
 		metrics:{
-			type:"metric_arr_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"metric_arr_rel_insert_input"
 		},
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		payments:{
-			type:"payment_arr_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"payment_arr_rel_insert_input"
 		},
 		persistentState:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		status:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		tags:{
-			type:"tag_arr_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"tag_arr_rel_insert_input"
 		},
 		team:{
-			type:"team_obj_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_obj_rel_insert_input"
 		},
 		teamId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		units:{
-			type:"unit_arr_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"unit_arr_rel_insert_input"
 		},
 		webhookKey:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	connection_max_order_by:{
 		createdAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		integrationId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		name:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		status:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		webhookKey:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	connection_min_order_by:{
 		createdAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		integrationId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		name:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		status:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		webhookKey:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	connection_obj_rel_insert_input:{
 		data:{
-			type:"connection_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"connection_insert_input!"
 		},
 		on_conflict:{
-			type:"connection_on_conflict",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"connection_on_conflict"
 		}
 	},
 	connection_on_conflict:{
 		constraint:{
-			type:"connection_constraint",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"connection_constraint!"
 		},
 		update_columns:{
-			type:"connection_update_column",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[connection_update_column!]!"
 		},
 		where:{
-			type:"connection_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"connection_bool_exp"
 		}
 	},
 	connection_order_by:{
 		bookings_aggregate:{
-			type:"booking_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_aggregate_order_by"
 		},
 		createdAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		credentials:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		entities_aggregate:{
-			type:"entity_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"entity_aggregate_order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		integration:{
-			type:"integration_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"integration_order_by"
 		},
 		integrationId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		jobs_aggregate:{
-			type:"job_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"job_aggregate_order_by"
 		},
 		lines_aggregate:{
-			type:"line_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"line_aggregate_order_by"
 		},
 		metrics_aggregate:{
-			type:"metric_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"metric_aggregate_order_by"
 		},
 		name:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		payments_aggregate:{
-			type:"payment_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"payment_aggregate_order_by"
 		},
 		persistentState:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		status:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		tags_aggregate:{
-			type:"tag_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"tag_aggregate_order_by"
 		},
 		team:{
-			type:"team_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		units_aggregate:{
-			type:"unit_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"unit_aggregate_order_by"
 		},
 		webhookKey:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	connection_pk_columns_input:{
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"uuid!"
 		}
 	},
 	connection_prepend_input:{
 		credentials:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		persistentState:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		}
 	},
 	connection_select_column: "enum",
 	connection_set_input:{
 		createdAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		credentials:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		integrationId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		persistentState:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		status:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		teamId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		webhookKey:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	connection_update_column: "enum",
 	currency_aggregate_fields:{
 		count:{
 			columns:{
-				type:"currency_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[currency_select_column]!"
 			},
 			distinct:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Boolean"
 			}
 		}
 	},
 	currency_bool_exp:{
 		_and:{
-			type:"currency_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[currency_bool_exp]!"
 		},
 		_not:{
-			type:"currency_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"currency_bool_exp"
 		},
 		_or:{
-			type:"currency_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[currency_bool_exp]!"
 		},
 		name:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		}
 	},
 	currency_constraint: "enum",
 	currency_enum: "enum",
 	currency_enum_comparison_exp:{
 		_eq:{
-			type:"currency_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"currency_enum"
 		},
 		_in:{
-			type:"currency_enum",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[currency_enum]!"
 		},
 		_is_null:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		_neq:{
-			type:"currency_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"currency_enum"
 		},
 		_nin:{
-			type:"currency_enum",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[currency_enum]!"
 		}
 	},
 	currency_insert_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	currency_on_conflict:{
 		constraint:{
-			type:"currency_constraint",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"currency_constraint!"
 		},
 		update_columns:{
-			type:"currency_update_column",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[currency_update_column!]!"
 		},
 		where:{
-			type:"currency_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"currency_bool_exp"
 		}
 	},
 	currency_order_by:{
 		name:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	currency_pk_columns_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"String!"
 		}
 	},
 	currency_select_column: "enum",
 	currency_set_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	currency_update_column: "enum",
 	entity:{
 		bookings:{
 			distinct_on:{
-				type:"booking_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[booking_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"booking_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[booking_order_by]!"
 			},
 			where:{
-				type:"booking_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"booking_bool_exp"
 			}
 		},
 		bookings_aggregate:{
 			distinct_on:{
-				type:"booking_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[booking_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"booking_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[booking_order_by]!"
 			},
 			where:{
-				type:"booking_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"booking_bool_exp"
 			}
 		},
 		diffJson:{
 			path:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"String"
 			}
 		},
 		json:{
 			path:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"String"
 			}
 		},
 		normalizedJson:{
 			path:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"String"
 			}
 		},
 		payments:{
 			distinct_on:{
-				type:"payment_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[payment_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"payment_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[payment_order_by]!"
 			},
 			where:{
-				type:"payment_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"payment_bool_exp"
 			}
 		},
 		payments_aggregate:{
 			distinct_on:{
-				type:"payment_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[payment_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"payment_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[payment_order_by]!"
 			},
 			where:{
-				type:"payment_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"payment_bool_exp"
 			}
 		},
 		successorEntities:{
 			distinct_on:{
-				type:"entity_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[entity_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"entity_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[entity_order_by]!"
 			},
 			where:{
-				type:"entity_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"entity_bool_exp"
 			}
 		},
 		successorEntities_aggregate:{
 			distinct_on:{
-				type:"entity_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[entity_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"entity_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[entity_order_by]!"
 			},
 			where:{
-				type:"entity_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"entity_bool_exp"
 			}
 		},
 		units:{
 			distinct_on:{
-				type:"unit_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[unit_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"unit_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[unit_order_by]!"
 			},
 			where:{
-				type:"unit_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"unit_bool_exp"
 			}
 		},
 		units_aggregate:{
 			distinct_on:{
-				type:"unit_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[unit_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"unit_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[unit_order_by]!"
 			},
 			where:{
-				type:"unit_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"unit_bool_exp"
 			}
 		}
 	},
 	entity_aggregate_fields:{
 		count:{
 			columns:{
-				type:"entity_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[entity_select_column]!"
 			},
 			distinct:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Boolean"
 			}
 		}
 	},
 	entity_aggregate_order_by:{
 		count:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		max:{
-			type:"entity_max_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"entity_max_order_by"
 		},
 		min:{
-			type:"entity_min_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"entity_min_order_by"
 		}
 	},
 	entity_append_input:{
 		diffJson:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		json:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		normalizedJson:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		}
 	},
 	entity_arr_rel_insert_input:{
 		data:{
-			type:"entity_insert_input",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[entity_insert_input!]!"
 		},
 		on_conflict:{
-			type:"entity_on_conflict",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"entity_on_conflict"
 		}
 	},
 	entity_bool_exp:{
 		_and:{
-			type:"entity_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[entity_bool_exp]!"
 		},
 		_not:{
-			type:"entity_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"entity_bool_exp"
 		},
 		_or:{
-			type:"entity_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[entity_bool_exp]!"
 		},
 		bookings:{
-			type:"booking_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_bool_exp"
 		},
 		connection:{
-			type:"connection_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"connection_bool_exp"
 		},
 		connectionId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		createdAt:{
-			type:"timestamptz_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz_comparison_exp"
 		},
 		description:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		diffJson:{
-			type:"jsonb_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb_comparison_exp"
 		},
 		hash:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		id:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		job:{
-			type:"job_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"job_bool_exp"
 		},
 		jobId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		json:{
-			type:"jsonb_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb_comparison_exp"
 		},
 		normalizedJson:{
-			type:"jsonb_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb_comparison_exp"
 		},
 		normalizedType:{
-			type:"normalized_type_enum_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"normalized_type_enum_comparison_exp"
 		},
 		parsedAt:{
-			type:"timestamptz_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz_comparison_exp"
 		},
 		payments:{
-			type:"payment_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"payment_bool_exp"
 		},
 		predecessorEntity:{
-			type:"entity_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"entity_bool_exp"
 		},
 		predecessorEntityId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		status:{
-			type:"entity_status_enum_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"entity_status_enum_comparison_exp"
 		},
 		statusText:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		successorEntities:{
-			type:"entity_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"entity_bool_exp"
 		},
 		team:{
-			type:"team_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_bool_exp"
 		},
 		teamId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		type:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		uniqueRef:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		units:{
-			type:"unit_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"unit_bool_exp"
 		},
 		updatedAt:{
-			type:"timestamptz_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz_comparison_exp"
 		}
 	},
 	entity_constraint: "enum",
 	entity_delete_at_path_input:{
 		diffJson:{
-			type:"String",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[String]!"
 		},
 		json:{
-			type:"String",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[String]!"
 		},
 		normalizedJson:{
-			type:"String",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[String]!"
 		}
 	},
 	entity_delete_elem_input:{
 		diffJson:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		},
 		json:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		},
 		normalizedJson:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		}
 	},
 	entity_delete_key_input:{
 		diffJson:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		json:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		normalizedJson:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	entity_insert_input:{
 		bookings:{
-			type:"booking_arr_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_arr_rel_insert_input"
 		},
 		connection:{
-			type:"connection_obj_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"connection_obj_rel_insert_input"
 		},
 		connectionId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		createdAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		description:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		diffJson:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		hash:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		job:{
-			type:"job_obj_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"job_obj_rel_insert_input"
 		},
 		jobId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		json:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		normalizedJson:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		normalizedType:{
-			type:"normalized_type_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"normalized_type_enum"
 		},
 		parsedAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		payments:{
-			type:"payment_arr_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"payment_arr_rel_insert_input"
 		},
 		predecessorEntity:{
-			type:"entity_obj_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"entity_obj_rel_insert_input"
 		},
 		predecessorEntityId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		status:{
-			type:"entity_status_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"entity_status_enum"
 		},
 		statusText:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		successorEntities:{
-			type:"entity_arr_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"entity_arr_rel_insert_input"
 		},
 		team:{
-			type:"team_obj_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_obj_rel_insert_input"
 		},
 		teamId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		type:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		uniqueRef:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		units:{
-			type:"unit_arr_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"unit_arr_rel_insert_input"
 		},
 		updatedAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		}
 	},
 	entity_max_order_by:{
 		connectionId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		createdAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		description:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		hash:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		jobId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		parsedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		predecessorEntityId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		statusText:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		type:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		uniqueRef:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		updatedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	entity_min_order_by:{
 		connectionId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		createdAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		description:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		hash:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		jobId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		parsedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		predecessorEntityId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		statusText:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		type:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		uniqueRef:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		updatedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	entity_obj_rel_insert_input:{
 		data:{
-			type:"entity_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"entity_insert_input!"
 		},
 		on_conflict:{
-			type:"entity_on_conflict",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"entity_on_conflict"
 		}
 	},
 	entity_on_conflict:{
 		constraint:{
-			type:"entity_constraint",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"entity_constraint!"
 		},
 		update_columns:{
-			type:"entity_update_column",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[entity_update_column!]!"
 		},
 		where:{
-			type:"entity_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"entity_bool_exp"
 		}
 	},
 	entity_order_by:{
 		bookings_aggregate:{
-			type:"booking_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_aggregate_order_by"
 		},
 		connection:{
-			type:"connection_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"connection_order_by"
 		},
 		connectionId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		createdAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		description:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		diffJson:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		hash:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		job:{
-			type:"job_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"job_order_by"
 		},
 		jobId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		json:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		normalizedJson:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		normalizedType:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		parsedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		payments_aggregate:{
-			type:"payment_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"payment_aggregate_order_by"
 		},
 		predecessorEntity:{
-			type:"entity_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"entity_order_by"
 		},
 		predecessorEntityId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		status:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		statusText:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		successorEntities_aggregate:{
-			type:"entity_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"entity_aggregate_order_by"
 		},
 		team:{
-			type:"team_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		type:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		uniqueRef:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		units_aggregate:{
-			type:"unit_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"unit_aggregate_order_by"
 		},
 		updatedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	entity_pk_columns_input:{
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"uuid!"
 		}
 	},
 	entity_prepend_input:{
 		diffJson:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		json:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		normalizedJson:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		}
 	},
 	entity_select_column: "enum",
 	entity_set_input:{
 		connectionId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		createdAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		description:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		diffJson:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		hash:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		jobId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		json:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		normalizedJson:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		normalizedType:{
-			type:"normalized_type_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"normalized_type_enum"
 		},
 		parsedAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		predecessorEntityId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		status:{
-			type:"entity_status_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"entity_status_enum"
 		},
 		statusText:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		teamId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		type:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		uniqueRef:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		updatedAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		}
 	},
 	entity_status_enum: "enum",
 	entity_status_enum_comparison_exp:{
 		_eq:{
-			type:"entity_status_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"entity_status_enum"
 		},
 		_in:{
-			type:"entity_status_enum",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[entity_status_enum]!"
 		},
 		_is_null:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		_neq:{
-			type:"entity_status_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"entity_status_enum"
 		},
 		_nin:{
-			type:"entity_status_enum",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[entity_status_enum]!"
 		}
 	},
 	entity_update_column: "enum",
 	entityStatus_aggregate_fields:{
 		count:{
 			columns:{
-				type:"entityStatus_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[entityStatus_select_column]!"
 			},
 			distinct:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Boolean"
 			}
 		}
 	},
 	entityStatus_bool_exp:{
 		_and:{
-			type:"entityStatus_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[entityStatus_bool_exp]!"
 		},
 		_not:{
-			type:"entityStatus_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"entityStatus_bool_exp"
 		},
 		_or:{
-			type:"entityStatus_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[entityStatus_bool_exp]!"
 		},
 		name:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		}
 	},
 	entityStatus_constraint: "enum",
 	entityStatus_insert_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	entityStatus_on_conflict:{
 		constraint:{
-			type:"entityStatus_constraint",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"entityStatus_constraint!"
 		},
 		update_columns:{
-			type:"entityStatus_update_column",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[entityStatus_update_column!]!"
 		},
 		where:{
-			type:"entityStatus_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"entityStatus_bool_exp"
 		}
 	},
 	entityStatus_order_by:{
 		name:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	entityStatus_pk_columns_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"String!"
 		}
 	},
 	entityStatus_select_column: "enum",
 	entityStatus_set_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	entityStatus_update_column: "enum",
 	float8: "String",
 	float8_comparison_exp:{
 		_eq:{
-			type:"float8",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"float8"
 		},
 		_gt:{
-			type:"float8",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"float8"
 		},
 		_gte:{
-			type:"float8",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"float8"
 		},
 		_in:{
-			type:"float8",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[float8]!"
 		},
 		_is_null:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		_lt:{
-			type:"float8",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"float8"
 		},
 		_lte:{
-			type:"float8",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"float8"
 		},
 		_neq:{
-			type:"float8",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"float8"
 		},
 		_nin:{
-			type:"float8",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[float8]!"
 		}
 	},
 	Int_comparison_exp:{
 		_eq:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		},
 		_gt:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		},
 		_gte:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		},
 		_in:{
-			type:"Int",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[Int]!"
 		},
 		_is_null:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		_lt:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		},
 		_lte:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		},
 		_neq:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		},
 		_nin:{
-			type:"Int",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[Int]!"
 		}
 	},
 	integration:{
 		connections:{
 			distinct_on:{
-				type:"connection_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[connection_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"connection_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[connection_order_by]!"
 			},
 			where:{
-				type:"connection_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"connection_bool_exp"
 			}
 		},
 		connections_aggregate:{
 			distinct_on:{
-				type:"connection_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[connection_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"connection_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[connection_order_by]!"
 			},
 			where:{
-				type:"connection_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"connection_bool_exp"
 			}
 		},
 		jobs:{
 			distinct_on:{
-				type:"job_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[job_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"job_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[job_order_by]!"
 			},
 			where:{
-				type:"job_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"job_bool_exp"
 			}
 		},
 		jobs_aggregate:{
 			distinct_on:{
-				type:"job_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[job_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"job_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[job_order_by]!"
 			},
 			where:{
-				type:"job_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"job_bool_exp"
 			}
 		}
 	},
 	integration_aggregate_fields:{
 		count:{
 			columns:{
-				type:"integration_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[integration_select_column]!"
 			},
 			distinct:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Boolean"
 			}
 		}
 	},
 	integration_aggregate_order_by:{
 		count:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		max:{
-			type:"integration_max_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"integration_max_order_by"
 		},
 		min:{
-			type:"integration_min_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"integration_min_order_by"
 		}
 	},
 	integration_arr_rel_insert_input:{
 		data:{
-			type:"integration_insert_input",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[integration_insert_input!]!"
 		},
 		on_conflict:{
-			type:"integration_on_conflict",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"integration_on_conflict"
 		}
 	},
 	integration_bool_exp:{
 		_and:{
-			type:"integration_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[integration_bool_exp]!"
 		},
 		_not:{
-			type:"integration_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"integration_bool_exp"
 		},
 		_or:{
-			type:"integration_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[integration_bool_exp]!"
 		},
 		apiDevUrl:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		apiUrl:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		connections:{
-			type:"connection_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"connection_bool_exp"
 		},
 		icon:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		id:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		isApproved:{
-			type:"Boolean_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean_comparison_exp"
 		},
 		isPrivate:{
-			type:"Boolean_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean_comparison_exp"
 		},
 		jobs:{
-			type:"job_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"job_bool_exp"
 		},
 		name:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		team:{
-			type:"team_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_bool_exp"
 		},
 		teamId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		type:{
-			type:"integration_type_enum_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"integration_type_enum_comparison_exp"
 		},
 		uniqueRef:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		}
 	},
 	integration_constraint: "enum",
 	integration_insert_input:{
 		apiDevUrl:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		apiUrl:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		connections:{
-			type:"connection_arr_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"connection_arr_rel_insert_input"
 		},
 		icon:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		isApproved:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		isPrivate:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		jobs:{
-			type:"job_arr_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"job_arr_rel_insert_input"
 		},
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		team:{
-			type:"team_obj_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_obj_rel_insert_input"
 		},
 		teamId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		type:{
-			type:"integration_type_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"integration_type_enum"
 		},
 		uniqueRef:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	integration_max_order_by:{
 		apiDevUrl:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		apiUrl:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		icon:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		name:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		uniqueRef:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	integration_min_order_by:{
 		apiDevUrl:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		apiUrl:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		icon:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		name:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		uniqueRef:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	integration_obj_rel_insert_input:{
 		data:{
-			type:"integration_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"integration_insert_input!"
 		},
 		on_conflict:{
-			type:"integration_on_conflict",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"integration_on_conflict"
 		}
 	},
 	integration_on_conflict:{
 		constraint:{
-			type:"integration_constraint",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"integration_constraint!"
 		},
 		update_columns:{
-			type:"integration_update_column",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[integration_update_column!]!"
 		},
 		where:{
-			type:"integration_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"integration_bool_exp"
 		}
 	},
 	integration_order_by:{
 		apiDevUrl:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		apiUrl:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		connections_aggregate:{
-			type:"connection_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"connection_aggregate_order_by"
 		},
 		icon:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		isApproved:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		isPrivate:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		jobs_aggregate:{
-			type:"job_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"job_aggregate_order_by"
 		},
 		name:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		team:{
-			type:"team_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		type:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		uniqueRef:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	integration_pk_columns_input:{
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"uuid!"
 		}
 	},
 	integration_select_column: "enum",
 	integration_set_input:{
 		apiDevUrl:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		apiUrl:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		icon:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		isApproved:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		isPrivate:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		teamId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		type:{
-			type:"integration_type_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"integration_type_enum"
 		},
 		uniqueRef:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	integration_type_enum: "enum",
 	integration_type_enum_comparison_exp:{
 		_eq:{
-			type:"integration_type_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"integration_type_enum"
 		},
 		_in:{
-			type:"integration_type_enum",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[integration_type_enum]!"
 		},
 		_is_null:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		_neq:{
-			type:"integration_type_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"integration_type_enum"
 		},
 		_nin:{
-			type:"integration_type_enum",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[integration_type_enum]!"
 		}
 	},
 	integration_update_column: "enum",
 	integrationType_aggregate_fields:{
 		count:{
 			columns:{
-				type:"integrationType_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[integrationType_select_column]!"
 			},
 			distinct:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Boolean"
 			}
 		}
 	},
 	integrationType_bool_exp:{
 		_and:{
-			type:"integrationType_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[integrationType_bool_exp]!"
 		},
 		_not:{
-			type:"integrationType_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"integrationType_bool_exp"
 		},
 		_or:{
-			type:"integrationType_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[integrationType_bool_exp]!"
 		},
 		name:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		}
 	},
 	integrationType_constraint: "enum",
 	integrationType_insert_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	integrationType_on_conflict:{
 		constraint:{
-			type:"integrationType_constraint",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"integrationType_constraint!"
 		},
 		update_columns:{
-			type:"integrationType_update_column",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[integrationType_update_column!]!"
 		},
 		where:{
-			type:"integrationType_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"integrationType_bool_exp"
 		}
 	},
 	integrationType_order_by:{
 		name:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	integrationType_pk_columns_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"String!"
 		}
 	},
 	integrationType_select_column: "enum",
 	integrationType_set_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	integrationType_update_column: "enum",
 	issue:{
 		requestParams:{
 			path:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"String"
 			}
 		},
 		resolveParams:{
 			path:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"String"
 			}
 		}
 	},
 	issue_aggregate_fields:{
 		count:{
 			columns:{
-				type:"issue_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[issue_select_column]!"
 			},
 			distinct:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Boolean"
 			}
 		}
 	},
 	issue_aggregate_order_by:{
 		count:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		max:{
-			type:"issue_max_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"issue_max_order_by"
 		},
 		min:{
-			type:"issue_min_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"issue_min_order_by"
 		}
 	},
 	issue_append_input:{
 		requestParams:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		resolveParams:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		}
 	},
 	issue_arr_rel_insert_input:{
 		data:{
-			type:"issue_insert_input",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[issue_insert_input!]!"
 		},
 		on_conflict:{
-			type:"issue_on_conflict",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"issue_on_conflict"
 		}
 	},
 	issue_bool_exp:{
 		_and:{
-			type:"issue_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[issue_bool_exp]!"
 		},
 		_not:{
-			type:"issue_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"issue_bool_exp"
 		},
 		_or:{
-			type:"issue_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[issue_bool_exp]!"
 		},
 		code:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		createdAt:{
-			type:"timestamptz_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz_comparison_exp"
 		},
 		id:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		isPublic:{
-			type:"Boolean_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean_comparison_exp"
 		},
 		isResolved:{
-			type:"Boolean_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean_comparison_exp"
 		},
 		job:{
-			type:"job_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"job_bool_exp"
 		},
 		jobId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		message:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		requestParams:{
-			type:"jsonb_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb_comparison_exp"
 		},
 		resolveParams:{
-			type:"jsonb_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb_comparison_exp"
 		},
 		team:{
-			type:"team_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_bool_exp"
 		},
 		teamId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		type:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		updatedAt:{
-			type:"timestamptz_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz_comparison_exp"
 		}
 	},
 	issue_constraint: "enum",
 	issue_delete_at_path_input:{
 		requestParams:{
-			type:"String",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[String]!"
 		},
 		resolveParams:{
-			type:"String",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[String]!"
 		}
 	},
 	issue_delete_elem_input:{
 		requestParams:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		},
 		resolveParams:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		}
 	},
 	issue_delete_key_input:{
 		requestParams:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		resolveParams:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	issue_insert_input:{
 		code:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		createdAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		isPublic:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		isResolved:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		job:{
-			type:"job_obj_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"job_obj_rel_insert_input"
 		},
 		jobId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		message:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		requestParams:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		resolveParams:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		team:{
-			type:"team_obj_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_obj_rel_insert_input"
 		},
 		teamId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		type:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		updatedAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		}
 	},
 	issue_max_order_by:{
 		code:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		createdAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		jobId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		message:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		type:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		updatedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	issue_min_order_by:{
 		code:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		createdAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		jobId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		message:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		type:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		updatedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	issue_on_conflict:{
 		constraint:{
-			type:"issue_constraint",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"issue_constraint!"
 		},
 		update_columns:{
-			type:"issue_update_column",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[issue_update_column!]!"
 		},
 		where:{
-			type:"issue_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"issue_bool_exp"
 		}
 	},
 	issue_order_by:{
 		code:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		createdAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		isPublic:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		isResolved:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		job:{
-			type:"job_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"job_order_by"
 		},
 		jobId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		message:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		requestParams:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		resolveParams:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		team:{
-			type:"team_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		type:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		updatedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	issue_pk_columns_input:{
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"uuid!"
 		}
 	},
 	issue_prepend_input:{
 		requestParams:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		resolveParams:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		}
 	},
 	issue_select_column: "enum",
 	issue_set_input:{
 		code:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		createdAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		isPublic:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		isResolved:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		jobId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		message:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		requestParams:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		resolveParams:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		teamId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		type:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		updatedAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		}
 	},
 	issue_update_column: "enum",
 	job:{
 		entities:{
 			distinct_on:{
-				type:"entity_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[entity_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"entity_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[entity_order_by]!"
 			},
 			where:{
-				type:"entity_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"entity_bool_exp"
 			}
 		},
 		entities_aggregate:{
 			distinct_on:{
-				type:"entity_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[entity_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"entity_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[entity_order_by]!"
 			},
 			where:{
-				type:"entity_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"entity_bool_exp"
 			}
 		},
 		issues:{
 			distinct_on:{
-				type:"issue_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[issue_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"issue_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[issue_order_by]!"
 			},
 			where:{
-				type:"issue_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"issue_bool_exp"
 			}
 		},
 		issues_aggregate:{
 			distinct_on:{
-				type:"issue_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[issue_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"issue_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[issue_order_by]!"
 			},
 			where:{
-				type:"issue_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"issue_bool_exp"
 			}
 		},
 		logs:{
 			path:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"String"
 			}
 		},
 		params:{
 			path:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"String"
 			}
 		},
 		response:{
 			path:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"String"
 			}
 		}
 	},
 	job_aggregate_fields:{
 		count:{
 			columns:{
-				type:"job_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[job_select_column]!"
 			},
 			distinct:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Boolean"
 			}
 		}
 	},
 	job_aggregate_order_by:{
 		count:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		max:{
-			type:"job_max_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"job_max_order_by"
 		},
 		min:{
-			type:"job_min_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"job_min_order_by"
 		}
 	},
 	job_append_input:{
 		logs:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		params:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		response:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		}
 	},
 	job_arr_rel_insert_input:{
 		data:{
-			type:"job_insert_input",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[job_insert_input!]!"
 		},
 		on_conflict:{
-			type:"job_on_conflict",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"job_on_conflict"
 		}
 	},
 	job_bool_exp:{
 		_and:{
-			type:"job_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[job_bool_exp]!"
 		},
 		_not:{
-			type:"job_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"job_bool_exp"
 		},
 		_or:{
-			type:"job_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[job_bool_exp]!"
 		},
 		apiVersion:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		connection:{
-			type:"connection_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"connection_bool_exp"
 		},
 		connectionId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		createdAt:{
-			type:"timestamptz_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz_comparison_exp"
 		},
 		endedAt:{
-			type:"timestamptz_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz_comparison_exp"
 		},
 		entities:{
-			type:"entity_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"entity_bool_exp"
 		},
 		id:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		integration:{
-			type:"integration_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"integration_bool_exp"
 		},
 		integrationId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		integrationSdkVersion:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		integrationVersion:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		issues:{
-			type:"issue_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"issue_bool_exp"
 		},
 		logFile:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		logLink:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		logs:{
-			type:"jsonb_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb_comparison_exp"
 		},
 		method:{
-			type:"job_method_enum_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"job_method_enum_comparison_exp"
 		},
 		params:{
-			type:"jsonb_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb_comparison_exp"
 		},
 		requestId:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		response:{
-			type:"jsonb_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb_comparison_exp"
 		},
 		sdkVersion:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		startedAt:{
-			type:"timestamptz_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz_comparison_exp"
 		},
 		status:{
-			type:"job_status_enum_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"job_status_enum_comparison_exp"
 		},
 		team:{
-			type:"team_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_bool_exp"
 		},
 		teamId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		updatedAt:{
-			type:"timestamptz_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz_comparison_exp"
 		}
 	},
 	job_constraint: "enum",
 	job_delete_at_path_input:{
 		logs:{
-			type:"String",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[String]!"
 		},
 		params:{
-			type:"String",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[String]!"
 		},
 		response:{
-			type:"String",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[String]!"
 		}
 	},
 	job_delete_elem_input:{
 		logs:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		},
 		params:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		},
 		response:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		}
 	},
 	job_delete_key_input:{
 		logs:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		params:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		response:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	job_insert_input:{
 		apiVersion:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		connection:{
-			type:"connection_obj_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"connection_obj_rel_insert_input"
 		},
 		connectionId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		createdAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		endedAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		entities:{
-			type:"entity_arr_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"entity_arr_rel_insert_input"
 		},
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		integration:{
-			type:"integration_obj_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"integration_obj_rel_insert_input"
 		},
 		integrationId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		integrationSdkVersion:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		integrationVersion:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		issues:{
-			type:"issue_arr_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"issue_arr_rel_insert_input"
 		},
 		logFile:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		logLink:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		logs:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		method:{
-			type:"job_method_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"job_method_enum"
 		},
 		params:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		requestId:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		response:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		sdkVersion:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		startedAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		status:{
-			type:"job_status_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"job_status_enum"
 		},
 		team:{
-			type:"team_obj_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_obj_rel_insert_input"
 		},
 		teamId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		updatedAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		}
 	},
 	job_max_order_by:{
 		apiVersion:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		connectionId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		createdAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		endedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		integrationId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		integrationSdkVersion:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		integrationVersion:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		logFile:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		logLink:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		requestId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		sdkVersion:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		startedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		updatedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	job_method_enum: "enum",
 	job_method_enum_comparison_exp:{
 		_eq:{
-			type:"job_method_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"job_method_enum"
 		},
 		_in:{
-			type:"job_method_enum",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[job_method_enum]!"
 		},
 		_is_null:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		_neq:{
-			type:"job_method_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"job_method_enum"
 		},
 		_nin:{
-			type:"job_method_enum",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[job_method_enum]!"
 		}
 	},
 	job_min_order_by:{
 		apiVersion:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		connectionId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		createdAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		endedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		integrationId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		integrationSdkVersion:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		integrationVersion:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		logFile:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		logLink:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		requestId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		sdkVersion:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		startedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		updatedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	job_obj_rel_insert_input:{
 		data:{
-			type:"job_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"job_insert_input!"
 		},
 		on_conflict:{
-			type:"job_on_conflict",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"job_on_conflict"
 		}
 	},
 	job_on_conflict:{
 		constraint:{
-			type:"job_constraint",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"job_constraint!"
 		},
 		update_columns:{
-			type:"job_update_column",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[job_update_column!]!"
 		},
 		where:{
-			type:"job_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"job_bool_exp"
 		}
 	},
 	job_order_by:{
 		apiVersion:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		connection:{
-			type:"connection_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"connection_order_by"
 		},
 		connectionId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		createdAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		endedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		entities_aggregate:{
-			type:"entity_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"entity_aggregate_order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		integration:{
-			type:"integration_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"integration_order_by"
 		},
 		integrationId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		integrationSdkVersion:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		integrationVersion:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		issues_aggregate:{
-			type:"issue_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"issue_aggregate_order_by"
 		},
 		logFile:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		logLink:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		logs:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		method:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		params:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		requestId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		response:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		sdkVersion:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		startedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		status:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		team:{
-			type:"team_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		updatedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	job_pk_columns_input:{
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"uuid!"
 		}
 	},
 	job_prepend_input:{
 		logs:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		params:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		response:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		}
 	},
 	job_select_column: "enum",
 	job_set_input:{
 		apiVersion:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		connectionId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		createdAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		endedAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		integrationId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		integrationSdkVersion:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		integrationVersion:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		logFile:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		logLink:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		logs:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		method:{
-			type:"job_method_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"job_method_enum"
 		},
 		params:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		requestId:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		response:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		sdkVersion:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		startedAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		status:{
-			type:"job_status_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"job_status_enum"
 		},
 		teamId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		updatedAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		}
 	},
 	job_status_enum: "enum",
 	job_status_enum_comparison_exp:{
 		_eq:{
-			type:"job_status_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"job_status_enum"
 		},
 		_in:{
-			type:"job_status_enum",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[job_status_enum]!"
 		},
 		_is_null:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		_neq:{
-			type:"job_status_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"job_status_enum"
 		},
 		_nin:{
-			type:"job_status_enum",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[job_status_enum]!"
 		}
 	},
 	job_update_column: "enum",
 	jobMethod_aggregate_fields:{
 		count:{
 			columns:{
-				type:"jobMethod_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[jobMethod_select_column]!"
 			},
 			distinct:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Boolean"
 			}
 		}
 	},
 	jobMethod_bool_exp:{
 		_and:{
-			type:"jobMethod_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[jobMethod_bool_exp]!"
 		},
 		_not:{
-			type:"jobMethod_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jobMethod_bool_exp"
 		},
 		_or:{
-			type:"jobMethod_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[jobMethod_bool_exp]!"
 		},
 		name:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		}
 	},
 	jobMethod_constraint: "enum",
 	jobMethod_insert_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	jobMethod_on_conflict:{
 		constraint:{
-			type:"jobMethod_constraint",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"jobMethod_constraint!"
 		},
 		update_columns:{
-			type:"jobMethod_update_column",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[jobMethod_update_column!]!"
 		},
 		where:{
-			type:"jobMethod_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jobMethod_bool_exp"
 		}
 	},
 	jobMethod_order_by:{
 		name:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	jobMethod_pk_columns_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"String!"
 		}
 	},
 	jobMethod_select_column: "enum",
 	jobMethod_set_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	jobMethod_update_column: "enum",
 	jobStatus_aggregate_fields:{
 		count:{
 			columns:{
-				type:"jobStatus_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[jobStatus_select_column]!"
 			},
 			distinct:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Boolean"
 			}
 		}
 	},
 	jobStatus_bool_exp:{
 		_and:{
-			type:"jobStatus_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[jobStatus_bool_exp]!"
 		},
 		_not:{
-			type:"jobStatus_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jobStatus_bool_exp"
 		},
 		_or:{
-			type:"jobStatus_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[jobStatus_bool_exp]!"
 		},
 		name:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		}
 	},
 	jobStatus_constraint: "enum",
 	jobStatus_insert_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	jobStatus_on_conflict:{
 		constraint:{
-			type:"jobStatus_constraint",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"jobStatus_constraint!"
 		},
 		update_columns:{
-			type:"jobStatus_update_column",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[jobStatus_update_column!]!"
 		},
 		where:{
-			type:"jobStatus_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jobStatus_bool_exp"
 		}
 	},
 	jobStatus_order_by:{
 		name:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	jobStatus_pk_columns_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"String!"
 		}
 	},
 	jobStatus_select_column: "enum",
 	jobStatus_set_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	jobStatus_update_column: "enum",
 	jsonb: "String",
 	jsonb_comparison_exp:{
 		_contained_in:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		_contains:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		_eq:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		_gt:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		_gte:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		_has_key:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		_has_keys_all:{
-			type:"String",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[String]!"
 		},
 		_has_keys_any:{
-			type:"String",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[String]!"
 		},
 		_in:{
-			type:"jsonb",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[jsonb]!"
 		},
 		_is_null:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		_lt:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		_lte:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		_neq:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		_nin:{
-			type:"jsonb",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[jsonb]!"
 		}
 	},
 	line:{
 		enhancementLines:{
 			distinct_on:{
-				type:"line_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[line_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"line_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[line_order_by]!"
 			},
 			where:{
-				type:"line_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"line_bool_exp"
 			}
 		},
 		enhancementLines_aggregate:{
 			distinct_on:{
-				type:"line_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[line_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"line_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[line_order_by]!"
 			},
 			where:{
-				type:"line_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"line_bool_exp"
 			}
 		},
 		metadata:{
 			path:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"String"
 			}
 		}
 	},
 	line_aggregate_fields:{
 		count:{
 			columns:{
-				type:"line_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[line_select_column]!"
 			},
 			distinct:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Boolean"
 			}
 		}
 	},
 	line_aggregate_order_by:{
 		avg:{
-			type:"line_avg_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"line_avg_order_by"
 		},
 		count:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		max:{
-			type:"line_max_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"line_max_order_by"
 		},
 		min:{
-			type:"line_min_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"line_min_order_by"
 		},
 		stddev:{
-			type:"line_stddev_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"line_stddev_order_by"
 		},
 		stddev_pop:{
-			type:"line_stddev_pop_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"line_stddev_pop_order_by"
 		},
 		stddev_samp:{
-			type:"line_stddev_samp_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"line_stddev_samp_order_by"
 		},
 		sum:{
-			type:"line_sum_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"line_sum_order_by"
 		},
 		var_pop:{
-			type:"line_var_pop_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"line_var_pop_order_by"
 		},
 		var_samp:{
-			type:"line_var_samp_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"line_var_samp_order_by"
 		},
 		variance:{
-			type:"line_variance_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"line_variance_order_by"
 		}
 	},
 	line_append_input:{
 		metadata:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		}
 	},
 	line_arr_rel_insert_input:{
 		data:{
-			type:"line_insert_input",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[line_insert_input!]!"
 		},
 		on_conflict:{
-			type:"line_on_conflict",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"line_on_conflict"
 		}
 	},
 	line_avg_order_by:{
 		centTotal:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		originCentTotal:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		originExchangeRate:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	line_bool_exp:{
 		_and:{
-			type:"line_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[line_bool_exp]!"
 		},
 		_not:{
-			type:"line_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"line_bool_exp"
 		},
 		_or:{
-			type:"line_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[line_bool_exp]!"
 		},
 		booking:{
-			type:"booking_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_bool_exp"
 		},
 		bookingId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		centTotal:{
-			type:"Int_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int_comparison_exp"
 		},
 		classification:{
-			type:"classification_enum_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"classification_enum_comparison_exp"
 		},
 		connection:{
-			type:"connection_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"connection_bool_exp"
 		},
 		connectionId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		createdAt:{
-			type:"timestamptz_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz_comparison_exp"
 		},
 		description:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		enhancementLines:{
-			type:"line_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"line_bool_exp"
 		},
 		enhancingLine:{
-			type:"line_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"line_bool_exp"
 		},
 		enhancingLineId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		id:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		invoiceStatus:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		isEnhanced:{
-			type:"Boolean_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean_comparison_exp"
 		},
 		metadata:{
-			type:"jsonb_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb_comparison_exp"
 		},
 		originCentTotal:{
-			type:"Int_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int_comparison_exp"
 		},
 		originCurrency:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		originExchangeRate:{
-			type:"numeric_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"numeric_comparison_exp"
 		},
 		payment:{
-			type:"payment_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"payment_bool_exp"
 		},
 		paymentId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		subclassification:{
-			type:"subclassification_enum_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"subclassification_enum_comparison_exp"
 		},
 		team:{
-			type:"team_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_bool_exp"
 		},
 		teamId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		type:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		uniqueRef:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		unitId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		updatedAt:{
-			type:"timestamptz_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz_comparison_exp"
 		}
 	},
 	line_constraint: "enum",
 	line_delete_at_path_input:{
 		metadata:{
-			type:"String",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[String]!"
 		}
 	},
 	line_delete_elem_input:{
 		metadata:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		}
 	},
 	line_delete_key_input:{
 		metadata:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	line_inc_input:{
 		centTotal:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		},
 		originCentTotal:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		},
 		originExchangeRate:{
-			type:"numeric",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"numeric"
 		}
 	},
 	line_insert_input:{
 		booking:{
-			type:"booking_obj_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_obj_rel_insert_input"
 		},
 		bookingId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		centTotal:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		},
 		classification:{
-			type:"classification_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"classification_enum"
 		},
 		connection:{
-			type:"connection_obj_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"connection_obj_rel_insert_input"
 		},
 		connectionId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		createdAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		description:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		enhancementLines:{
-			type:"line_arr_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"line_arr_rel_insert_input"
 		},
 		enhancingLine:{
-			type:"line_obj_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"line_obj_rel_insert_input"
 		},
 		enhancingLineId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		invoiceStatus:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		isEnhanced:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		metadata:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		originCentTotal:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		},
 		originCurrency:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		originExchangeRate:{
-			type:"numeric",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"numeric"
 		},
 		payment:{
-			type:"payment_obj_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"payment_obj_rel_insert_input"
 		},
 		paymentId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		subclassification:{
-			type:"subclassification_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"subclassification_enum"
 		},
 		team:{
-			type:"team_obj_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_obj_rel_insert_input"
 		},
 		teamId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		type:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		uniqueRef:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		unitId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		updatedAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		}
 	},
 	line_max_order_by:{
 		bookingId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		centTotal:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		connectionId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		createdAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		description:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		enhancingLineId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		invoiceStatus:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		originCentTotal:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		originCurrency:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		originExchangeRate:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		paymentId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		type:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		uniqueRef:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		unitId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		updatedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	line_min_order_by:{
 		bookingId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		centTotal:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		connectionId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		createdAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		description:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		enhancingLineId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		invoiceStatus:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		originCentTotal:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		originCurrency:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		originExchangeRate:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		paymentId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		type:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		uniqueRef:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		unitId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		updatedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	line_obj_rel_insert_input:{
 		data:{
-			type:"line_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"line_insert_input!"
 		},
 		on_conflict:{
-			type:"line_on_conflict",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"line_on_conflict"
 		}
 	},
 	line_on_conflict:{
 		constraint:{
-			type:"line_constraint",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"line_constraint!"
 		},
 		update_columns:{
-			type:"line_update_column",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[line_update_column!]!"
 		},
 		where:{
-			type:"line_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"line_bool_exp"
 		}
 	},
 	line_order_by:{
 		booking:{
-			type:"booking_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_order_by"
 		},
 		bookingId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		centTotal:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		classification:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		connection:{
-			type:"connection_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"connection_order_by"
 		},
 		connectionId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		createdAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		description:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		enhancementLines_aggregate:{
-			type:"line_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"line_aggregate_order_by"
 		},
 		enhancingLine:{
-			type:"line_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"line_order_by"
 		},
 		enhancingLineId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		invoiceStatus:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		isEnhanced:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		metadata:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		originCentTotal:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		originCurrency:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		originExchangeRate:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		payment:{
-			type:"payment_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"payment_order_by"
 		},
 		paymentId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		subclassification:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		team:{
-			type:"team_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		type:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		uniqueRef:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		unitId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		updatedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	line_pk_columns_input:{
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"uuid!"
 		}
 	},
 	line_prepend_input:{
 		metadata:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		}
 	},
 	line_select_column: "enum",
 	line_set_input:{
 		bookingId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		centTotal:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		},
 		classification:{
-			type:"classification_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"classification_enum"
 		},
 		connectionId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		createdAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		description:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		enhancingLineId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		invoiceStatus:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		isEnhanced:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		metadata:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		originCentTotal:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		},
 		originCurrency:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		originExchangeRate:{
-			type:"numeric",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"numeric"
 		},
 		paymentId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		subclassification:{
-			type:"subclassification_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"subclassification_enum"
 		},
 		teamId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		type:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		uniqueRef:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		unitId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		updatedAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		}
 	},
 	line_stddev_order_by:{
 		centTotal:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		originCentTotal:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		originExchangeRate:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	line_stddev_pop_order_by:{
 		centTotal:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		originCentTotal:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		originExchangeRate:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	line_stddev_samp_order_by:{
 		centTotal:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		originCentTotal:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		originExchangeRate:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	line_sum_order_by:{
 		centTotal:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		originCentTotal:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		originExchangeRate:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	line_update_column: "enum",
 	line_var_pop_order_by:{
 		centTotal:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		originCentTotal:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		originExchangeRate:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	line_var_samp_order_by:{
 		centTotal:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		originCentTotal:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		originExchangeRate:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	line_variance_order_by:{
 		centTotal:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		originCentTotal:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		originExchangeRate:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	metric:{
 		metadata:{
 			path:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"String"
 			}
 		}
 	},
 	metric_aggregate_fields:{
 		count:{
 			columns:{
-				type:"metric_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[metric_select_column]!"
 			},
 			distinct:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Boolean"
 			}
 		}
 	},
 	metric_aggregate_order_by:{
 		avg:{
-			type:"metric_avg_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"metric_avg_order_by"
 		},
 		count:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		max:{
-			type:"metric_max_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"metric_max_order_by"
 		},
 		min:{
-			type:"metric_min_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"metric_min_order_by"
 		},
 		stddev:{
-			type:"metric_stddev_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"metric_stddev_order_by"
 		},
 		stddev_pop:{
-			type:"metric_stddev_pop_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"metric_stddev_pop_order_by"
 		},
 		stddev_samp:{
-			type:"metric_stddev_samp_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"metric_stddev_samp_order_by"
 		},
 		sum:{
-			type:"metric_sum_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"metric_sum_order_by"
 		},
 		var_pop:{
-			type:"metric_var_pop_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"metric_var_pop_order_by"
 		},
 		var_samp:{
-			type:"metric_var_samp_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"metric_var_samp_order_by"
 		},
 		variance:{
-			type:"metric_variance_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"metric_variance_order_by"
 		}
 	},
 	metric_append_input:{
 		metadata:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		}
 	},
 	metric_arr_rel_insert_input:{
 		data:{
-			type:"metric_insert_input",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[metric_insert_input!]!"
 		},
 		on_conflict:{
-			type:"metric_on_conflict",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"metric_on_conflict"
 		}
 	},
 	metric_avg_order_by:{
 		value:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	metric_bool_exp:{
 		_and:{
-			type:"metric_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[metric_bool_exp]!"
 		},
 		_not:{
-			type:"metric_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"metric_bool_exp"
 		},
 		_or:{
-			type:"metric_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[metric_bool_exp]!"
 		},
 		connection:{
-			type:"connection_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"connection_bool_exp"
 		},
 		connectionId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		createdAt:{
-			type:"timestamptz_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz_comparison_exp"
 		},
 		ensuedAt:{
-			type:"timestamptz_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz_comparison_exp"
 		},
 		id:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		metadata:{
-			type:"jsonb_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb_comparison_exp"
 		},
 		team:{
-			type:"team_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_bool_exp"
 		},
 		teamId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		text:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		type:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		uniqueRef:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		unitId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		updatedAt:{
-			type:"timestamptz_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz_comparison_exp"
 		},
 		value:{
-			type:"float8_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"float8_comparison_exp"
 		}
 	},
 	metric_constraint: "enum",
 	metric_delete_at_path_input:{
 		metadata:{
-			type:"String",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[String]!"
 		}
 	},
 	metric_delete_elem_input:{
 		metadata:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		}
 	},
 	metric_delete_key_input:{
 		metadata:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	metric_inc_input:{
 		value:{
-			type:"float8",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"float8"
 		}
 	},
 	metric_insert_input:{
 		connection:{
-			type:"connection_obj_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"connection_obj_rel_insert_input"
 		},
 		connectionId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		createdAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		ensuedAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		metadata:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		team:{
-			type:"team_obj_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_obj_rel_insert_input"
 		},
 		teamId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		text:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		type:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		uniqueRef:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		unitId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		updatedAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		value:{
-			type:"float8",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"float8"
 		}
 	},
 	metric_max_order_by:{
 		connectionId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		createdAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		ensuedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		text:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		type:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		uniqueRef:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		unitId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		updatedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		value:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	metric_min_order_by:{
 		connectionId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		createdAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		ensuedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		text:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		type:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		uniqueRef:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		unitId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		updatedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		value:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	metric_on_conflict:{
 		constraint:{
-			type:"metric_constraint",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"metric_constraint!"
 		},
 		update_columns:{
-			type:"metric_update_column",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[metric_update_column!]!"
 		},
 		where:{
-			type:"metric_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"metric_bool_exp"
 		}
 	},
 	metric_order_by:{
 		connection:{
-			type:"connection_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"connection_order_by"
 		},
 		connectionId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		createdAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		ensuedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		metadata:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		team:{
-			type:"team_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		text:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		type:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		uniqueRef:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		unitId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		updatedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		value:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	metric_pk_columns_input:{
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"uuid!"
 		}
 	},
 	metric_prepend_input:{
 		metadata:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		}
 	},
 	metric_select_column: "enum",
 	metric_set_input:{
 		connectionId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		createdAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		ensuedAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		metadata:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		teamId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		text:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		type:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		uniqueRef:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		unitId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		updatedAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		value:{
-			type:"float8",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"float8"
 		}
 	},
 	metric_stddev_order_by:{
 		value:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	metric_stddev_pop_order_by:{
 		value:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	metric_stddev_samp_order_by:{
 		value:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	metric_sum_order_by:{
 		value:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	metric_update_column: "enum",
 	metric_var_pop_order_by:{
 		value:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	metric_var_samp_order_by:{
 		value:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	metric_variance_order_by:{
 		value:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	mutation_root:{
 		deleteBooking:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		deleteBookingStatus:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		deleteBookingStatuses:{
 			where:{
-				type:"bookingStatus_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"bookingStatus_bool_exp!"
 			}
 		},
 		deleteBookings:{
 			where:{
-				type:"booking_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"booking_bool_exp!"
 			}
 		},
 		deleteClassification:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		deleteClassifications:{
 			where:{
-				type:"classification_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"classification_bool_exp!"
 			}
 		},
 		deleteConnection:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		deleteConnections:{
 			where:{
-				type:"connection_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"connection_bool_exp!"
 			}
 		},
 		deleteCurrencies:{
 			where:{
-				type:"currency_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"currency_bool_exp!"
 			}
 		},
 		deleteCurrency:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		deleteEntities:{
 			where:{
-				type:"entity_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"entity_bool_exp!"
 			}
 		},
 		deleteEntity:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		deleteEntityStatus:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		deleteEntityStatuses:{
 			where:{
-				type:"entityStatus_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"entityStatus_bool_exp!"
 			}
 		},
 		deleteIntegration:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		deleteIntegrationType:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		deleteIntegrationTypes:{
 			where:{
-				type:"integrationType_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"integrationType_bool_exp!"
 			}
 		},
 		deleteIntegrations:{
 			where:{
-				type:"integration_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"integration_bool_exp!"
 			}
 		},
 		deleteIssue:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		deleteIssues:{
 			where:{
-				type:"issue_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"issue_bool_exp!"
 			}
 		},
 		deleteJob:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		deleteJobMethod:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		deleteJobMethods:{
 			where:{
-				type:"jobMethod_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"jobMethod_bool_exp!"
 			}
 		},
 		deleteJobStatus:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		deleteJobStatuses:{
 			where:{
-				type:"jobStatus_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"jobStatus_bool_exp!"
 			}
 		},
 		deleteJobs:{
 			where:{
-				type:"job_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"job_bool_exp!"
 			}
 		},
 		deleteLine:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		deleteLines:{
 			where:{
-				type:"line_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"line_bool_exp!"
 			}
 		},
 		deleteMetric:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		deleteMetrics:{
 			where:{
-				type:"metric_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"metric_bool_exp!"
 			}
 		},
 		deleteNormalizedType:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		deleteNormalizedTypes:{
 			where:{
-				type:"normalizedType_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"normalizedType_bool_exp!"
 			}
 		},
 		deletePayment:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		deletePaymentStatus:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		deletePaymentStatuses:{
 			where:{
-				type:"paymentStatus_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"paymentStatus_bool_exp!"
 			}
 		},
 		deletePaymentType:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		deletePaymentTypes:{
 			where:{
-				type:"paymentType_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"paymentType_bool_exp!"
 			}
 		},
 		deletePayments:{
 			where:{
-				type:"payment_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"payment_bool_exp!"
 			}
 		},
 		deleteSubclassification:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		deleteSubclassifications:{
 			where:{
-				type:"subclassification_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"subclassification_bool_exp!"
 			}
 		},
 		deleteTag:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		deleteTags:{
 			where:{
-				type:"tag_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"tag_bool_exp!"
 			}
 		},
 		deleteTeam:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		deleteTeamUser:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		deleteTeamUsers:{
 			where:{
-				type:"teamUser_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"teamUser_bool_exp!"
 			}
 		},
 		deleteTeams:{
 			where:{
-				type:"team_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"team_bool_exp!"
 			}
 		},
 		deleteUnit:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		deleteUnits:{
 			where:{
-				type:"unit_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"unit_bool_exp!"
 			}
 		},
 		deleteUser:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		deleteUserStatus:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		deleteUserStatuses:{
 			where:{
-				type:"userStatus_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"userStatus_bool_exp!"
 			}
 		},
 		deleteUsers:{
 			where:{
-				type:"user_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"user_bool_exp!"
 			}
 		},
 		deleteWebhook:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		deleteWebhooks:{
 			where:{
-				type:"webhook_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"webhook_bool_exp!"
 			}
 		},
 		delete_booking_channel:{
 			where:{
-				type:"booking_channel_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"booking_channel_bool_exp!"
 			}
 		},
 		delete_booking_channel_by_pk:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		insertBooking:{
 			object:{
-				type:"booking_insert_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"booking_insert_input!"
 			},
 			on_conflict:{
-				type:"booking_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"booking_on_conflict"
 			}
 		},
 		insertBookingStatus:{
 			object:{
-				type:"bookingStatus_insert_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"bookingStatus_insert_input!"
 			},
 			on_conflict:{
-				type:"bookingStatus_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"bookingStatus_on_conflict"
 			}
 		},
 		insertBookingStatuses:{
 			objects:{
-				type:"bookingStatus_insert_input",
-				array:true,
-				arrayRequired:true,
-				required:true
+				type:"[bookingStatus_insert_input!]!"
 			},
 			on_conflict:{
-				type:"bookingStatus_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"bookingStatus_on_conflict"
 			}
 		},
 		insertBookings:{
 			objects:{
-				type:"booking_insert_input",
-				array:true,
-				arrayRequired:true,
-				required:true
+				type:"[booking_insert_input!]!"
 			},
 			on_conflict:{
-				type:"booking_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"booking_on_conflict"
 			}
 		},
 		insertClassification:{
 			object:{
-				type:"classification_insert_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"classification_insert_input!"
 			},
 			on_conflict:{
-				type:"classification_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"classification_on_conflict"
 			}
 		},
 		insertClassifications:{
 			objects:{
-				type:"classification_insert_input",
-				array:true,
-				arrayRequired:true,
-				required:true
+				type:"[classification_insert_input!]!"
 			},
 			on_conflict:{
-				type:"classification_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"classification_on_conflict"
 			}
 		},
 		insertConnection:{
 			object:{
-				type:"connection_insert_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"connection_insert_input!"
 			},
 			on_conflict:{
-				type:"connection_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"connection_on_conflict"
 			}
 		},
 		insertConnections:{
 			objects:{
-				type:"connection_insert_input",
-				array:true,
-				arrayRequired:true,
-				required:true
+				type:"[connection_insert_input!]!"
 			},
 			on_conflict:{
-				type:"connection_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"connection_on_conflict"
 			}
 		},
 		insertCurrencies:{
 			objects:{
-				type:"currency_insert_input",
-				array:true,
-				arrayRequired:true,
-				required:true
+				type:"[currency_insert_input!]!"
 			},
 			on_conflict:{
-				type:"currency_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"currency_on_conflict"
 			}
 		},
 		insertCurrency:{
 			object:{
-				type:"currency_insert_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"currency_insert_input!"
 			},
 			on_conflict:{
-				type:"currency_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"currency_on_conflict"
 			}
 		},
 		insertEntities:{
 			objects:{
-				type:"entity_insert_input",
-				array:true,
-				arrayRequired:true,
-				required:true
+				type:"[entity_insert_input!]!"
 			},
 			on_conflict:{
-				type:"entity_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"entity_on_conflict"
 			}
 		},
 		insertEntity:{
 			object:{
-				type:"entity_insert_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"entity_insert_input!"
 			},
 			on_conflict:{
-				type:"entity_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"entity_on_conflict"
 			}
 		},
 		insertEntityStatus:{
 			object:{
-				type:"entityStatus_insert_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"entityStatus_insert_input!"
 			},
 			on_conflict:{
-				type:"entityStatus_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"entityStatus_on_conflict"
 			}
 		},
 		insertEntityStatuses:{
 			objects:{
-				type:"entityStatus_insert_input",
-				array:true,
-				arrayRequired:true,
-				required:true
+				type:"[entityStatus_insert_input!]!"
 			},
 			on_conflict:{
-				type:"entityStatus_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"entityStatus_on_conflict"
 			}
 		},
 		insertIntegration:{
 			object:{
-				type:"integration_insert_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"integration_insert_input!"
 			},
 			on_conflict:{
-				type:"integration_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"integration_on_conflict"
 			}
 		},
 		insertIntegrationType:{
 			object:{
-				type:"integrationType_insert_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"integrationType_insert_input!"
 			},
 			on_conflict:{
-				type:"integrationType_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"integrationType_on_conflict"
 			}
 		},
 		insertIntegrationTypes:{
 			objects:{
-				type:"integrationType_insert_input",
-				array:true,
-				arrayRequired:true,
-				required:true
+				type:"[integrationType_insert_input!]!"
 			},
 			on_conflict:{
-				type:"integrationType_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"integrationType_on_conflict"
 			}
 		},
 		insertIntegrations:{
 			objects:{
-				type:"integration_insert_input",
-				array:true,
-				arrayRequired:true,
-				required:true
+				type:"[integration_insert_input!]!"
 			},
 			on_conflict:{
-				type:"integration_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"integration_on_conflict"
 			}
 		},
 		insertIssue:{
 			object:{
-				type:"issue_insert_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"issue_insert_input!"
 			},
 			on_conflict:{
-				type:"issue_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"issue_on_conflict"
 			}
 		},
 		insertIssues:{
 			objects:{
-				type:"issue_insert_input",
-				array:true,
-				arrayRequired:true,
-				required:true
+				type:"[issue_insert_input!]!"
 			},
 			on_conflict:{
-				type:"issue_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"issue_on_conflict"
 			}
 		},
 		insertJob:{
 			object:{
-				type:"job_insert_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"job_insert_input!"
 			},
 			on_conflict:{
-				type:"job_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"job_on_conflict"
 			}
 		},
 		insertJobMethod:{
 			object:{
-				type:"jobMethod_insert_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"jobMethod_insert_input!"
 			},
 			on_conflict:{
-				type:"jobMethod_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"jobMethod_on_conflict"
 			}
 		},
 		insertJobMethods:{
 			objects:{
-				type:"jobMethod_insert_input",
-				array:true,
-				arrayRequired:true,
-				required:true
+				type:"[jobMethod_insert_input!]!"
 			},
 			on_conflict:{
-				type:"jobMethod_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"jobMethod_on_conflict"
 			}
 		},
 		insertJobStatus:{
 			object:{
-				type:"jobStatus_insert_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"jobStatus_insert_input!"
 			},
 			on_conflict:{
-				type:"jobStatus_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"jobStatus_on_conflict"
 			}
 		},
 		insertJobStatuses:{
 			objects:{
-				type:"jobStatus_insert_input",
-				array:true,
-				arrayRequired:true,
-				required:true
+				type:"[jobStatus_insert_input!]!"
 			},
 			on_conflict:{
-				type:"jobStatus_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"jobStatus_on_conflict"
 			}
 		},
 		insertJobs:{
 			objects:{
-				type:"job_insert_input",
-				array:true,
-				arrayRequired:true,
-				required:true
+				type:"[job_insert_input!]!"
 			},
 			on_conflict:{
-				type:"job_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"job_on_conflict"
 			}
 		},
 		insertLine:{
 			object:{
-				type:"line_insert_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"line_insert_input!"
 			},
 			on_conflict:{
-				type:"line_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"line_on_conflict"
 			}
 		},
 		insertLines:{
 			objects:{
-				type:"line_insert_input",
-				array:true,
-				arrayRequired:true,
-				required:true
+				type:"[line_insert_input!]!"
 			},
 			on_conflict:{
-				type:"line_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"line_on_conflict"
 			}
 		},
 		insertMetric:{
 			object:{
-				type:"metric_insert_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"metric_insert_input!"
 			},
 			on_conflict:{
-				type:"metric_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"metric_on_conflict"
 			}
 		},
 		insertMetrics:{
 			objects:{
-				type:"metric_insert_input",
-				array:true,
-				arrayRequired:true,
-				required:true
+				type:"[metric_insert_input!]!"
 			},
 			on_conflict:{
-				type:"metric_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"metric_on_conflict"
 			}
 		},
 		insertNormalizedType:{
 			object:{
-				type:"normalizedType_insert_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"normalizedType_insert_input!"
 			},
 			on_conflict:{
-				type:"normalizedType_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"normalizedType_on_conflict"
 			}
 		},
 		insertNormalizedTypes:{
 			objects:{
-				type:"normalizedType_insert_input",
-				array:true,
-				arrayRequired:true,
-				required:true
+				type:"[normalizedType_insert_input!]!"
 			},
 			on_conflict:{
-				type:"normalizedType_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"normalizedType_on_conflict"
 			}
 		},
 		insertPayment:{
 			object:{
-				type:"payment_insert_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"payment_insert_input!"
 			},
 			on_conflict:{
-				type:"payment_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"payment_on_conflict"
 			}
 		},
 		insertPaymentStatus:{
 			object:{
-				type:"paymentStatus_insert_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"paymentStatus_insert_input!"
 			},
 			on_conflict:{
-				type:"paymentStatus_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"paymentStatus_on_conflict"
 			}
 		},
 		insertPaymentStatuses:{
 			objects:{
-				type:"paymentStatus_insert_input",
-				array:true,
-				arrayRequired:true,
-				required:true
+				type:"[paymentStatus_insert_input!]!"
 			},
 			on_conflict:{
-				type:"paymentStatus_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"paymentStatus_on_conflict"
 			}
 		},
 		insertPaymentType:{
 			object:{
-				type:"paymentType_insert_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"paymentType_insert_input!"
 			},
 			on_conflict:{
-				type:"paymentType_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"paymentType_on_conflict"
 			}
 		},
 		insertPaymentTypes:{
 			objects:{
-				type:"paymentType_insert_input",
-				array:true,
-				arrayRequired:true,
-				required:true
+				type:"[paymentType_insert_input!]!"
 			},
 			on_conflict:{
-				type:"paymentType_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"paymentType_on_conflict"
 			}
 		},
 		insertPayments:{
 			objects:{
-				type:"payment_insert_input",
-				array:true,
-				arrayRequired:true,
-				required:true
+				type:"[payment_insert_input!]!"
 			},
 			on_conflict:{
-				type:"payment_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"payment_on_conflict"
 			}
 		},
 		insertSubclassification:{
 			object:{
-				type:"subclassification_insert_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"subclassification_insert_input!"
 			},
 			on_conflict:{
-				type:"subclassification_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"subclassification_on_conflict"
 			}
 		},
 		insertSubclassifications:{
 			objects:{
-				type:"subclassification_insert_input",
-				array:true,
-				arrayRequired:true,
-				required:true
+				type:"[subclassification_insert_input!]!"
 			},
 			on_conflict:{
-				type:"subclassification_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"subclassification_on_conflict"
 			}
 		},
 		insertTag:{
 			object:{
-				type:"tag_insert_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"tag_insert_input!"
 			},
 			on_conflict:{
-				type:"tag_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"tag_on_conflict"
 			}
 		},
 		insertTags:{
 			objects:{
-				type:"tag_insert_input",
-				array:true,
-				arrayRequired:true,
-				required:true
+				type:"[tag_insert_input!]!"
 			},
 			on_conflict:{
-				type:"tag_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"tag_on_conflict"
 			}
 		},
 		insertTeam:{
 			object:{
-				type:"team_insert_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"team_insert_input!"
 			},
 			on_conflict:{
-				type:"team_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"team_on_conflict"
 			}
 		},
 		insertTeamUser:{
 			object:{
-				type:"teamUser_insert_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"teamUser_insert_input!"
 			},
 			on_conflict:{
-				type:"teamUser_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"teamUser_on_conflict"
 			}
 		},
 		insertTeamUsers:{
 			objects:{
-				type:"teamUser_insert_input",
-				array:true,
-				arrayRequired:true,
-				required:true
+				type:"[teamUser_insert_input!]!"
 			},
 			on_conflict:{
-				type:"teamUser_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"teamUser_on_conflict"
 			}
 		},
 		insertTeams:{
 			objects:{
-				type:"team_insert_input",
-				array:true,
-				arrayRequired:true,
-				required:true
+				type:"[team_insert_input!]!"
 			},
 			on_conflict:{
-				type:"team_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"team_on_conflict"
 			}
 		},
 		insertUnit:{
 			object:{
-				type:"unit_insert_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"unit_insert_input!"
 			},
 			on_conflict:{
-				type:"unit_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"unit_on_conflict"
 			}
 		},
 		insertUnits:{
 			objects:{
-				type:"unit_insert_input",
-				array:true,
-				arrayRequired:true,
-				required:true
+				type:"[unit_insert_input!]!"
 			},
 			on_conflict:{
-				type:"unit_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"unit_on_conflict"
 			}
 		},
 		insertUser:{
 			object:{
-				type:"user_insert_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"user_insert_input!"
 			},
 			on_conflict:{
-				type:"user_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"user_on_conflict"
 			}
 		},
 		insertUserStatus:{
 			object:{
-				type:"userStatus_insert_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"userStatus_insert_input!"
 			},
 			on_conflict:{
-				type:"userStatus_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"userStatus_on_conflict"
 			}
 		},
 		insertUserStatuses:{
 			objects:{
-				type:"userStatus_insert_input",
-				array:true,
-				arrayRequired:true,
-				required:true
+				type:"[userStatus_insert_input!]!"
 			},
 			on_conflict:{
-				type:"userStatus_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"userStatus_on_conflict"
 			}
 		},
 		insertUsers:{
 			objects:{
-				type:"user_insert_input",
-				array:true,
-				arrayRequired:true,
-				required:true
+				type:"[user_insert_input!]!"
 			},
 			on_conflict:{
-				type:"user_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"user_on_conflict"
 			}
 		},
 		insertWebhook:{
 			object:{
-				type:"webhook_insert_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"webhook_insert_input!"
 			},
 			on_conflict:{
-				type:"webhook_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"webhook_on_conflict"
 			}
 		},
 		insertWebhooks:{
 			objects:{
-				type:"webhook_insert_input",
-				array:true,
-				arrayRequired:true,
-				required:true
+				type:"[webhook_insert_input!]!"
 			},
 			on_conflict:{
-				type:"webhook_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"webhook_on_conflict"
 			}
 		},
 		insert_booking_channel:{
 			objects:{
-				type:"booking_channel_insert_input",
-				array:true,
-				arrayRequired:true,
-				required:true
+				type:"[booking_channel_insert_input!]!"
 			},
 			on_conflict:{
-				type:"booking_channel_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"booking_channel_on_conflict"
 			}
 		},
 		insert_booking_channel_one:{
 			object:{
-				type:"booking_channel_insert_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"booking_channel_insert_input!"
 			},
 			on_conflict:{
-				type:"booking_channel_on_conflict",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"booking_channel_on_conflict"
 			}
 		},
 		updateBooking:{
 			_append:{
-				type:"booking_append_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"booking_append_input"
 			},
 			_delete_at_path:{
-				type:"booking_delete_at_path_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"booking_delete_at_path_input"
 			},
 			_delete_elem:{
-				type:"booking_delete_elem_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"booking_delete_elem_input"
 			},
 			_delete_key:{
-				type:"booking_delete_key_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"booking_delete_key_input"
 			},
 			_inc:{
-				type:"booking_inc_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"booking_inc_input"
 			},
 			_prepend:{
-				type:"booking_prepend_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"booking_prepend_input"
 			},
 			_set:{
-				type:"booking_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"booking_set_input"
 			},
 			pk_columns:{
-				type:"booking_pk_columns_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"booking_pk_columns_input!"
 			}
 		},
 		updateBookingStatus:{
 			_set:{
-				type:"bookingStatus_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"bookingStatus_set_input"
 			},
 			pk_columns:{
-				type:"bookingStatus_pk_columns_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"bookingStatus_pk_columns_input!"
 			}
 		},
 		updateBookingStatuses:{
 			_set:{
-				type:"bookingStatus_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"bookingStatus_set_input"
 			},
 			where:{
-				type:"bookingStatus_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"bookingStatus_bool_exp!"
 			}
 		},
 		updateBookings:{
 			_append:{
-				type:"booking_append_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"booking_append_input"
 			},
 			_delete_at_path:{
-				type:"booking_delete_at_path_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"booking_delete_at_path_input"
 			},
 			_delete_elem:{
-				type:"booking_delete_elem_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"booking_delete_elem_input"
 			},
 			_delete_key:{
-				type:"booking_delete_key_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"booking_delete_key_input"
 			},
 			_inc:{
-				type:"booking_inc_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"booking_inc_input"
 			},
 			_prepend:{
-				type:"booking_prepend_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"booking_prepend_input"
 			},
 			_set:{
-				type:"booking_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"booking_set_input"
 			},
 			where:{
-				type:"booking_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"booking_bool_exp!"
 			}
 		},
 		updateClassification:{
 			_set:{
-				type:"classification_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"classification_set_input"
 			},
 			pk_columns:{
-				type:"classification_pk_columns_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"classification_pk_columns_input!"
 			}
 		},
 		updateClassifications:{
 			_set:{
-				type:"classification_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"classification_set_input"
 			},
 			where:{
-				type:"classification_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"classification_bool_exp!"
 			}
 		},
 		updateConnection:{
 			_append:{
-				type:"connection_append_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"connection_append_input"
 			},
 			_delete_at_path:{
-				type:"connection_delete_at_path_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"connection_delete_at_path_input"
 			},
 			_delete_elem:{
-				type:"connection_delete_elem_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"connection_delete_elem_input"
 			},
 			_delete_key:{
-				type:"connection_delete_key_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"connection_delete_key_input"
 			},
 			_prepend:{
-				type:"connection_prepend_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"connection_prepend_input"
 			},
 			_set:{
-				type:"connection_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"connection_set_input"
 			},
 			pk_columns:{
-				type:"connection_pk_columns_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"connection_pk_columns_input!"
 			}
 		},
 		updateConnections:{
 			_append:{
-				type:"connection_append_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"connection_append_input"
 			},
 			_delete_at_path:{
-				type:"connection_delete_at_path_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"connection_delete_at_path_input"
 			},
 			_delete_elem:{
-				type:"connection_delete_elem_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"connection_delete_elem_input"
 			},
 			_delete_key:{
-				type:"connection_delete_key_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"connection_delete_key_input"
 			},
 			_prepend:{
-				type:"connection_prepend_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"connection_prepend_input"
 			},
 			_set:{
-				type:"connection_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"connection_set_input"
 			},
 			where:{
-				type:"connection_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"connection_bool_exp!"
 			}
 		},
 		updateCurrencies:{
 			_set:{
-				type:"currency_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"currency_set_input"
 			},
 			where:{
-				type:"currency_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"currency_bool_exp!"
 			}
 		},
 		updateCurrency:{
 			_set:{
-				type:"currency_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"currency_set_input"
 			},
 			pk_columns:{
-				type:"currency_pk_columns_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"currency_pk_columns_input!"
 			}
 		},
 		updateEntities:{
 			_append:{
-				type:"entity_append_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"entity_append_input"
 			},
 			_delete_at_path:{
-				type:"entity_delete_at_path_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"entity_delete_at_path_input"
 			},
 			_delete_elem:{
-				type:"entity_delete_elem_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"entity_delete_elem_input"
 			},
 			_delete_key:{
-				type:"entity_delete_key_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"entity_delete_key_input"
 			},
 			_prepend:{
-				type:"entity_prepend_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"entity_prepend_input"
 			},
 			_set:{
-				type:"entity_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"entity_set_input"
 			},
 			where:{
-				type:"entity_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"entity_bool_exp!"
 			}
 		},
 		updateEntity:{
 			_append:{
-				type:"entity_append_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"entity_append_input"
 			},
 			_delete_at_path:{
-				type:"entity_delete_at_path_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"entity_delete_at_path_input"
 			},
 			_delete_elem:{
-				type:"entity_delete_elem_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"entity_delete_elem_input"
 			},
 			_delete_key:{
-				type:"entity_delete_key_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"entity_delete_key_input"
 			},
 			_prepend:{
-				type:"entity_prepend_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"entity_prepend_input"
 			},
 			_set:{
-				type:"entity_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"entity_set_input"
 			},
 			pk_columns:{
-				type:"entity_pk_columns_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"entity_pk_columns_input!"
 			}
 		},
 		updateEntityStatus:{
 			_set:{
-				type:"entityStatus_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"entityStatus_set_input"
 			},
 			pk_columns:{
-				type:"entityStatus_pk_columns_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"entityStatus_pk_columns_input!"
 			}
 		},
 		updateEntityStatuses:{
 			_set:{
-				type:"entityStatus_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"entityStatus_set_input"
 			},
 			where:{
-				type:"entityStatus_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"entityStatus_bool_exp!"
 			}
 		},
 		updateIntegration:{
 			_set:{
-				type:"integration_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"integration_set_input"
 			},
 			pk_columns:{
-				type:"integration_pk_columns_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"integration_pk_columns_input!"
 			}
 		},
 		updateIntegrationType:{
 			_set:{
-				type:"integrationType_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"integrationType_set_input"
 			},
 			pk_columns:{
-				type:"integrationType_pk_columns_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"integrationType_pk_columns_input!"
 			}
 		},
 		updateIntegrationTypes:{
 			_set:{
-				type:"integrationType_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"integrationType_set_input"
 			},
 			where:{
-				type:"integrationType_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"integrationType_bool_exp!"
 			}
 		},
 		updateIntegrations:{
 			_set:{
-				type:"integration_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"integration_set_input"
 			},
 			where:{
-				type:"integration_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"integration_bool_exp!"
 			}
 		},
 		updateIssue:{
 			_append:{
-				type:"issue_append_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"issue_append_input"
 			},
 			_delete_at_path:{
-				type:"issue_delete_at_path_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"issue_delete_at_path_input"
 			},
 			_delete_elem:{
-				type:"issue_delete_elem_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"issue_delete_elem_input"
 			},
 			_delete_key:{
-				type:"issue_delete_key_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"issue_delete_key_input"
 			},
 			_prepend:{
-				type:"issue_prepend_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"issue_prepend_input"
 			},
 			_set:{
-				type:"issue_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"issue_set_input"
 			},
 			pk_columns:{
-				type:"issue_pk_columns_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"issue_pk_columns_input!"
 			}
 		},
 		updateIssues:{
 			_append:{
-				type:"issue_append_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"issue_append_input"
 			},
 			_delete_at_path:{
-				type:"issue_delete_at_path_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"issue_delete_at_path_input"
 			},
 			_delete_elem:{
-				type:"issue_delete_elem_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"issue_delete_elem_input"
 			},
 			_delete_key:{
-				type:"issue_delete_key_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"issue_delete_key_input"
 			},
 			_prepend:{
-				type:"issue_prepend_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"issue_prepend_input"
 			},
 			_set:{
-				type:"issue_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"issue_set_input"
 			},
 			where:{
-				type:"issue_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"issue_bool_exp!"
 			}
 		},
 		updateJob:{
 			_append:{
-				type:"job_append_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"job_append_input"
 			},
 			_delete_at_path:{
-				type:"job_delete_at_path_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"job_delete_at_path_input"
 			},
 			_delete_elem:{
-				type:"job_delete_elem_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"job_delete_elem_input"
 			},
 			_delete_key:{
-				type:"job_delete_key_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"job_delete_key_input"
 			},
 			_prepend:{
-				type:"job_prepend_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"job_prepend_input"
 			},
 			_set:{
-				type:"job_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"job_set_input"
 			},
 			pk_columns:{
-				type:"job_pk_columns_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"job_pk_columns_input!"
 			}
 		},
 		updateJobMethod:{
 			_set:{
-				type:"jobMethod_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"jobMethod_set_input"
 			},
 			pk_columns:{
-				type:"jobMethod_pk_columns_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"jobMethod_pk_columns_input!"
 			}
 		},
 		updateJobMethods:{
 			_set:{
-				type:"jobMethod_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"jobMethod_set_input"
 			},
 			where:{
-				type:"jobMethod_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"jobMethod_bool_exp!"
 			}
 		},
 		updateJobStatus:{
 			_set:{
-				type:"jobStatus_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"jobStatus_set_input"
 			},
 			pk_columns:{
-				type:"jobStatus_pk_columns_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"jobStatus_pk_columns_input!"
 			}
 		},
 		updateJobStatuses:{
 			_set:{
-				type:"jobStatus_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"jobStatus_set_input"
 			},
 			where:{
-				type:"jobStatus_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"jobStatus_bool_exp!"
 			}
 		},
 		updateJobs:{
 			_append:{
-				type:"job_append_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"job_append_input"
 			},
 			_delete_at_path:{
-				type:"job_delete_at_path_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"job_delete_at_path_input"
 			},
 			_delete_elem:{
-				type:"job_delete_elem_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"job_delete_elem_input"
 			},
 			_delete_key:{
-				type:"job_delete_key_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"job_delete_key_input"
 			},
 			_prepend:{
-				type:"job_prepend_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"job_prepend_input"
 			},
 			_set:{
-				type:"job_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"job_set_input"
 			},
 			where:{
-				type:"job_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"job_bool_exp!"
 			}
 		},
 		updateLine:{
 			_append:{
-				type:"line_append_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"line_append_input"
 			},
 			_delete_at_path:{
-				type:"line_delete_at_path_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"line_delete_at_path_input"
 			},
 			_delete_elem:{
-				type:"line_delete_elem_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"line_delete_elem_input"
 			},
 			_delete_key:{
-				type:"line_delete_key_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"line_delete_key_input"
 			},
 			_inc:{
-				type:"line_inc_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"line_inc_input"
 			},
 			_prepend:{
-				type:"line_prepend_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"line_prepend_input"
 			},
 			_set:{
-				type:"line_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"line_set_input"
 			},
 			pk_columns:{
-				type:"line_pk_columns_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"line_pk_columns_input!"
 			}
 		},
 		updateLines:{
 			_append:{
-				type:"line_append_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"line_append_input"
 			},
 			_delete_at_path:{
-				type:"line_delete_at_path_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"line_delete_at_path_input"
 			},
 			_delete_elem:{
-				type:"line_delete_elem_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"line_delete_elem_input"
 			},
 			_delete_key:{
-				type:"line_delete_key_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"line_delete_key_input"
 			},
 			_inc:{
-				type:"line_inc_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"line_inc_input"
 			},
 			_prepend:{
-				type:"line_prepend_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"line_prepend_input"
 			},
 			_set:{
-				type:"line_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"line_set_input"
 			},
 			where:{
-				type:"line_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"line_bool_exp!"
 			}
 		},
 		updateMetric:{
 			_append:{
-				type:"metric_append_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"metric_append_input"
 			},
 			_delete_at_path:{
-				type:"metric_delete_at_path_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"metric_delete_at_path_input"
 			},
 			_delete_elem:{
-				type:"metric_delete_elem_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"metric_delete_elem_input"
 			},
 			_delete_key:{
-				type:"metric_delete_key_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"metric_delete_key_input"
 			},
 			_inc:{
-				type:"metric_inc_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"metric_inc_input"
 			},
 			_prepend:{
-				type:"metric_prepend_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"metric_prepend_input"
 			},
 			_set:{
-				type:"metric_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"metric_set_input"
 			},
 			pk_columns:{
-				type:"metric_pk_columns_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"metric_pk_columns_input!"
 			}
 		},
 		updateMetrics:{
 			_append:{
-				type:"metric_append_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"metric_append_input"
 			},
 			_delete_at_path:{
-				type:"metric_delete_at_path_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"metric_delete_at_path_input"
 			},
 			_delete_elem:{
-				type:"metric_delete_elem_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"metric_delete_elem_input"
 			},
 			_delete_key:{
-				type:"metric_delete_key_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"metric_delete_key_input"
 			},
 			_inc:{
-				type:"metric_inc_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"metric_inc_input"
 			},
 			_prepend:{
-				type:"metric_prepend_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"metric_prepend_input"
 			},
 			_set:{
-				type:"metric_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"metric_set_input"
 			},
 			where:{
-				type:"metric_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"metric_bool_exp!"
 			}
 		},
 		updateNormalizedType:{
 			_set:{
-				type:"normalizedType_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"normalizedType_set_input"
 			},
 			pk_columns:{
-				type:"normalizedType_pk_columns_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"normalizedType_pk_columns_input!"
 			}
 		},
 		updateNormalizedTypes:{
 			_set:{
-				type:"normalizedType_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"normalizedType_set_input"
 			},
 			where:{
-				type:"normalizedType_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"normalizedType_bool_exp!"
 			}
 		},
 		updatePayment:{
 			_append:{
-				type:"payment_append_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"payment_append_input"
 			},
 			_delete_at_path:{
-				type:"payment_delete_at_path_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"payment_delete_at_path_input"
 			},
 			_delete_elem:{
-				type:"payment_delete_elem_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"payment_delete_elem_input"
 			},
 			_delete_key:{
-				type:"payment_delete_key_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"payment_delete_key_input"
 			},
 			_inc:{
-				type:"payment_inc_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"payment_inc_input"
 			},
 			_prepend:{
-				type:"payment_prepend_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"payment_prepend_input"
 			},
 			_set:{
-				type:"payment_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"payment_set_input"
 			},
 			pk_columns:{
-				type:"payment_pk_columns_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"payment_pk_columns_input!"
 			}
 		},
 		updatePaymentStatus:{
 			_set:{
-				type:"paymentStatus_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"paymentStatus_set_input"
 			},
 			pk_columns:{
-				type:"paymentStatus_pk_columns_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"paymentStatus_pk_columns_input!"
 			}
 		},
 		updatePaymentStatuses:{
 			_set:{
-				type:"paymentStatus_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"paymentStatus_set_input"
 			},
 			where:{
-				type:"paymentStatus_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"paymentStatus_bool_exp!"
 			}
 		},
 		updatePaymentType:{
 			_set:{
-				type:"paymentType_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"paymentType_set_input"
 			},
 			pk_columns:{
-				type:"paymentType_pk_columns_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"paymentType_pk_columns_input!"
 			}
 		},
 		updatePaymentTypes:{
 			_set:{
-				type:"paymentType_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"paymentType_set_input"
 			},
 			where:{
-				type:"paymentType_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"paymentType_bool_exp!"
 			}
 		},
 		updatePayments:{
 			_append:{
-				type:"payment_append_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"payment_append_input"
 			},
 			_delete_at_path:{
-				type:"payment_delete_at_path_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"payment_delete_at_path_input"
 			},
 			_delete_elem:{
-				type:"payment_delete_elem_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"payment_delete_elem_input"
 			},
 			_delete_key:{
-				type:"payment_delete_key_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"payment_delete_key_input"
 			},
 			_inc:{
-				type:"payment_inc_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"payment_inc_input"
 			},
 			_prepend:{
-				type:"payment_prepend_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"payment_prepend_input"
 			},
 			_set:{
-				type:"payment_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"payment_set_input"
 			},
 			where:{
-				type:"payment_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"payment_bool_exp!"
 			}
 		},
 		updateSubclassification:{
 			_set:{
-				type:"subclassification_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"subclassification_set_input"
 			},
 			pk_columns:{
-				type:"subclassification_pk_columns_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"subclassification_pk_columns_input!"
 			}
 		},
 		updateSubclassifications:{
 			_set:{
-				type:"subclassification_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"subclassification_set_input"
 			},
 			where:{
-				type:"subclassification_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"subclassification_bool_exp!"
 			}
 		},
 		updateTag:{
 			_append:{
-				type:"tag_append_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"tag_append_input"
 			},
 			_delete_at_path:{
-				type:"tag_delete_at_path_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"tag_delete_at_path_input"
 			},
 			_delete_elem:{
-				type:"tag_delete_elem_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"tag_delete_elem_input"
 			},
 			_delete_key:{
-				type:"tag_delete_key_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"tag_delete_key_input"
 			},
 			_prepend:{
-				type:"tag_prepend_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"tag_prepend_input"
 			},
 			_set:{
-				type:"tag_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"tag_set_input"
 			},
 			pk_columns:{
-				type:"tag_pk_columns_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"tag_pk_columns_input!"
 			}
 		},
 		updateTags:{
 			_append:{
-				type:"tag_append_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"tag_append_input"
 			},
 			_delete_at_path:{
-				type:"tag_delete_at_path_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"tag_delete_at_path_input"
 			},
 			_delete_elem:{
-				type:"tag_delete_elem_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"tag_delete_elem_input"
 			},
 			_delete_key:{
-				type:"tag_delete_key_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"tag_delete_key_input"
 			},
 			_prepend:{
-				type:"tag_prepend_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"tag_prepend_input"
 			},
 			_set:{
-				type:"tag_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"tag_set_input"
 			},
 			where:{
-				type:"tag_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"tag_bool_exp!"
 			}
 		},
 		updateTeam:{
 			_inc:{
-				type:"team_inc_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"team_inc_input"
 			},
 			_set:{
-				type:"team_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"team_set_input"
 			},
 			pk_columns:{
-				type:"team_pk_columns_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"team_pk_columns_input!"
 			}
 		},
 		updateTeamUser:{
 			_set:{
-				type:"teamUser_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"teamUser_set_input"
 			},
 			pk_columns:{
-				type:"teamUser_pk_columns_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"teamUser_pk_columns_input!"
 			}
 		},
 		updateTeamUsers:{
 			_set:{
-				type:"teamUser_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"teamUser_set_input"
 			},
 			where:{
-				type:"teamUser_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"teamUser_bool_exp!"
 			}
 		},
 		updateTeams:{
 			_inc:{
-				type:"team_inc_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"team_inc_input"
 			},
 			_set:{
-				type:"team_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"team_set_input"
 			},
 			where:{
-				type:"team_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"team_bool_exp!"
 			}
 		},
 		updateUnit:{
 			_append:{
-				type:"unit_append_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"unit_append_input"
 			},
 			_delete_at_path:{
-				type:"unit_delete_at_path_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"unit_delete_at_path_input"
 			},
 			_delete_elem:{
-				type:"unit_delete_elem_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"unit_delete_elem_input"
 			},
 			_delete_key:{
-				type:"unit_delete_key_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"unit_delete_key_input"
 			},
 			_prepend:{
-				type:"unit_prepend_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"unit_prepend_input"
 			},
 			_set:{
-				type:"unit_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"unit_set_input"
 			},
 			pk_columns:{
-				type:"unit_pk_columns_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"unit_pk_columns_input!"
 			}
 		},
 		updateUnits:{
 			_append:{
-				type:"unit_append_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"unit_append_input"
 			},
 			_delete_at_path:{
-				type:"unit_delete_at_path_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"unit_delete_at_path_input"
 			},
 			_delete_elem:{
-				type:"unit_delete_elem_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"unit_delete_elem_input"
 			},
 			_delete_key:{
-				type:"unit_delete_key_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"unit_delete_key_input"
 			},
 			_prepend:{
-				type:"unit_prepend_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"unit_prepend_input"
 			},
 			_set:{
-				type:"unit_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"unit_set_input"
 			},
 			where:{
-				type:"unit_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"unit_bool_exp!"
 			}
 		},
 		updateUser:{
 			_set:{
-				type:"user_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"user_set_input"
 			},
 			pk_columns:{
-				type:"user_pk_columns_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"user_pk_columns_input!"
 			}
 		},
 		updateUserStatus:{
 			_set:{
-				type:"userStatus_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"userStatus_set_input"
 			},
 			pk_columns:{
-				type:"userStatus_pk_columns_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"userStatus_pk_columns_input!"
 			}
 		},
 		updateUserStatuses:{
 			_set:{
-				type:"userStatus_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"userStatus_set_input"
 			},
 			where:{
-				type:"userStatus_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"userStatus_bool_exp!"
 			}
 		},
 		updateUsers:{
 			_set:{
-				type:"user_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"user_set_input"
 			},
 			where:{
-				type:"user_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"user_bool_exp!"
 			}
 		},
 		updateWebhook:{
 			_append:{
-				type:"webhook_append_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"webhook_append_input"
 			},
 			_delete_at_path:{
-				type:"webhook_delete_at_path_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"webhook_delete_at_path_input"
 			},
 			_delete_elem:{
-				type:"webhook_delete_elem_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"webhook_delete_elem_input"
 			},
 			_delete_key:{
-				type:"webhook_delete_key_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"webhook_delete_key_input"
 			},
 			_prepend:{
-				type:"webhook_prepend_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"webhook_prepend_input"
 			},
 			_set:{
-				type:"webhook_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"webhook_set_input"
 			},
 			pk_columns:{
-				type:"webhook_pk_columns_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"webhook_pk_columns_input!"
 			}
 		},
 		updateWebhooks:{
 			_append:{
-				type:"webhook_append_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"webhook_append_input"
 			},
 			_delete_at_path:{
-				type:"webhook_delete_at_path_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"webhook_delete_at_path_input"
 			},
 			_delete_elem:{
-				type:"webhook_delete_elem_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"webhook_delete_elem_input"
 			},
 			_delete_key:{
-				type:"webhook_delete_key_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"webhook_delete_key_input"
 			},
 			_prepend:{
-				type:"webhook_prepend_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"webhook_prepend_input"
 			},
 			_set:{
-				type:"webhook_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"webhook_set_input"
 			},
 			where:{
-				type:"webhook_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"webhook_bool_exp!"
 			}
 		},
 		update_booking_channel:{
 			_set:{
-				type:"booking_channel_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"booking_channel_set_input"
 			},
 			where:{
-				type:"booking_channel_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"booking_channel_bool_exp!"
 			}
 		},
 		update_booking_channel_by_pk:{
 			_set:{
-				type:"booking_channel_set_input",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"booking_channel_set_input"
 			},
 			pk_columns:{
-				type:"booking_channel_pk_columns_input",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"booking_channel_pk_columns_input!"
 			}
 		}
 	},
 	normalized_type_enum: "enum",
 	normalized_type_enum_comparison_exp:{
 		_eq:{
-			type:"normalized_type_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"normalized_type_enum"
 		},
 		_in:{
-			type:"normalized_type_enum",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[normalized_type_enum]!"
 		},
 		_is_null:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		_neq:{
-			type:"normalized_type_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"normalized_type_enum"
 		},
 		_nin:{
-			type:"normalized_type_enum",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[normalized_type_enum]!"
 		}
 	},
 	normalizedType_aggregate_fields:{
 		count:{
 			columns:{
-				type:"normalizedType_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[normalizedType_select_column]!"
 			},
 			distinct:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Boolean"
 			}
 		}
 	},
 	normalizedType_bool_exp:{
 		_and:{
-			type:"normalizedType_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[normalizedType_bool_exp]!"
 		},
 		_not:{
-			type:"normalizedType_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"normalizedType_bool_exp"
 		},
 		_or:{
-			type:"normalizedType_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[normalizedType_bool_exp]!"
 		},
 		name:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		}
 	},
 	normalizedType_constraint: "enum",
 	normalizedType_insert_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	normalizedType_on_conflict:{
 		constraint:{
-			type:"normalizedType_constraint",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"normalizedType_constraint!"
 		},
 		update_columns:{
-			type:"normalizedType_update_column",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[normalizedType_update_column!]!"
 		},
 		where:{
-			type:"normalizedType_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"normalizedType_bool_exp"
 		}
 	},
 	normalizedType_order_by:{
 		name:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	normalizedType_pk_columns_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"String!"
 		}
 	},
 	normalizedType_select_column: "enum",
 	normalizedType_set_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	normalizedType_update_column: "enum",
 	numeric: "String",
 	numeric_comparison_exp:{
 		_eq:{
-			type:"numeric",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"numeric"
 		},
 		_gt:{
-			type:"numeric",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"numeric"
 		},
 		_gte:{
-			type:"numeric",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"numeric"
 		},
 		_in:{
-			type:"numeric",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[numeric]!"
 		},
 		_is_null:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		_lt:{
-			type:"numeric",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"numeric"
 		},
 		_lte:{
-			type:"numeric",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"numeric"
 		},
 		_neq:{
-			type:"numeric",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"numeric"
 		},
 		_nin:{
-			type:"numeric",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[numeric]!"
 		}
 	},
 	order_by: "enum",
 	payment:{
 		lines:{
 			distinct_on:{
-				type:"line_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[line_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"line_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[line_order_by]!"
 			},
 			where:{
-				type:"line_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"line_bool_exp"
 			}
 		},
 		lines_aggregate:{
 			distinct_on:{
-				type:"line_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[line_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"line_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[line_order_by]!"
 			},
 			where:{
-				type:"line_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"line_bool_exp"
 			}
 		},
 		metadata:{
 			path:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"String"
 			}
 		},
 		tags:{
 			distinct_on:{
-				type:"tag_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[tag_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"tag_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[tag_order_by]!"
 			},
 			where:{
-				type:"tag_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"tag_bool_exp"
 			}
 		},
 		tags_aggregate:{
 			distinct_on:{
-				type:"tag_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[tag_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"tag_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[tag_order_by]!"
 			},
 			where:{
-				type:"tag_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"tag_bool_exp"
 			}
 		}
 	},
 	payment_aggregate_fields:{
 		count:{
 			columns:{
-				type:"payment_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[payment_select_column]!"
 			},
 			distinct:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Boolean"
 			}
 		}
 	},
 	payment_aggregate_order_by:{
 		avg:{
-			type:"payment_avg_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"payment_avg_order_by"
 		},
 		count:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		max:{
-			type:"payment_max_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"payment_max_order_by"
 		},
 		min:{
-			type:"payment_min_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"payment_min_order_by"
 		},
 		stddev:{
-			type:"payment_stddev_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"payment_stddev_order_by"
 		},
 		stddev_pop:{
-			type:"payment_stddev_pop_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"payment_stddev_pop_order_by"
 		},
 		stddev_samp:{
-			type:"payment_stddev_samp_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"payment_stddev_samp_order_by"
 		},
 		sum:{
-			type:"payment_sum_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"payment_sum_order_by"
 		},
 		var_pop:{
-			type:"payment_var_pop_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"payment_var_pop_order_by"
 		},
 		var_samp:{
-			type:"payment_var_samp_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"payment_var_samp_order_by"
 		},
 		variance:{
-			type:"payment_variance_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"payment_variance_order_by"
 		}
 	},
 	payment_append_input:{
 		metadata:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		}
 	},
 	payment_arr_rel_insert_input:{
 		data:{
-			type:"payment_insert_input",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[payment_insert_input!]!"
 		},
 		on_conflict:{
-			type:"payment_on_conflict",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"payment_on_conflict"
 		}
 	},
 	payment_avg_order_by:{
 		centTotal:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	payment_bool_exp:{
 		_and:{
-			type:"payment_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[payment_bool_exp]!"
 		},
 		_not:{
-			type:"payment_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"payment_bool_exp"
 		},
 		_or:{
-			type:"payment_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[payment_bool_exp]!"
 		},
 		arrivesAt:{
-			type:"timestamptz_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz_comparison_exp"
 		},
 		centTotal:{
-			type:"Int_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int_comparison_exp"
 		},
 		connection:{
-			type:"connection_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"connection_bool_exp"
 		},
 		connectionId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		createdAt:{
-			type:"timestamptz_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz_comparison_exp"
 		},
 		currency:{
-			type:"currency_enum_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"currency_enum_comparison_exp"
 		},
 		description:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		entity:{
-			type:"entity_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"entity_bool_exp"
 		},
 		entityId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		id:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		lines:{
-			type:"line_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"line_bool_exp"
 		},
 		metadata:{
-			type:"jsonb_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb_comparison_exp"
 		},
 		paidAt:{
-			type:"timestamptz_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz_comparison_exp"
 		},
 		status:{
-			type:"payment_status_enum_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"payment_status_enum_comparison_exp"
 		},
 		tags:{
-			type:"tag_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"tag_bool_exp"
 		},
 		team:{
-			type:"team_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_bool_exp"
 		},
 		teamId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		type:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		uniqueRef:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		updatedAt:{
-			type:"timestamptz_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz_comparison_exp"
 		}
 	},
 	payment_constraint: "enum",
 	payment_delete_at_path_input:{
 		metadata:{
-			type:"String",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[String]!"
 		}
 	},
 	payment_delete_elem_input:{
 		metadata:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		}
 	},
 	payment_delete_key_input:{
 		metadata:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	payment_inc_input:{
 		centTotal:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		}
 	},
 	payment_insert_input:{
 		arrivesAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		centTotal:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		},
 		connection:{
-			type:"connection_obj_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"connection_obj_rel_insert_input"
 		},
 		connectionId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		createdAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		currency:{
-			type:"currency_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"currency_enum"
 		},
 		description:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		entity:{
-			type:"entity_obj_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"entity_obj_rel_insert_input"
 		},
 		entityId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		lines:{
-			type:"line_arr_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"line_arr_rel_insert_input"
 		},
 		metadata:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		paidAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		status:{
-			type:"payment_status_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"payment_status_enum"
 		},
 		tags:{
-			type:"tag_arr_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"tag_arr_rel_insert_input"
 		},
 		team:{
-			type:"team_obj_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_obj_rel_insert_input"
 		},
 		teamId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		type:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		uniqueRef:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		updatedAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		}
 	},
 	payment_max_order_by:{
 		arrivesAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		centTotal:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		connectionId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		createdAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		description:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		entityId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		paidAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		type:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		uniqueRef:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		updatedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	payment_min_order_by:{
 		arrivesAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		centTotal:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		connectionId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		createdAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		description:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		entityId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		paidAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		type:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		uniqueRef:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		updatedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	payment_obj_rel_insert_input:{
 		data:{
-			type:"payment_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"payment_insert_input!"
 		},
 		on_conflict:{
-			type:"payment_on_conflict",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"payment_on_conflict"
 		}
 	},
 	payment_on_conflict:{
 		constraint:{
-			type:"payment_constraint",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"payment_constraint!"
 		},
 		update_columns:{
-			type:"payment_update_column",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[payment_update_column!]!"
 		},
 		where:{
-			type:"payment_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"payment_bool_exp"
 		}
 	},
 	payment_order_by:{
 		arrivesAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		centTotal:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		connection:{
-			type:"connection_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"connection_order_by"
 		},
 		connectionId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		createdAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		currency:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		description:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		entity:{
-			type:"entity_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"entity_order_by"
 		},
 		entityId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		lines_aggregate:{
-			type:"line_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"line_aggregate_order_by"
 		},
 		metadata:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		paidAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		status:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		tags_aggregate:{
-			type:"tag_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"tag_aggregate_order_by"
 		},
 		team:{
-			type:"team_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		type:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		uniqueRef:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		updatedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	payment_pk_columns_input:{
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"uuid!"
 		}
 	},
 	payment_prepend_input:{
 		metadata:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		}
 	},
 	payment_select_column: "enum",
 	payment_set_input:{
 		arrivesAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		centTotal:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		},
 		connectionId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		createdAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		currency:{
-			type:"currency_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"currency_enum"
 		},
 		description:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		entityId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		metadata:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		paidAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		status:{
-			type:"payment_status_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"payment_status_enum"
 		},
 		teamId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		type:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		uniqueRef:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		updatedAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		}
 	},
 	payment_status_enum: "enum",
 	payment_status_enum_comparison_exp:{
 		_eq:{
-			type:"payment_status_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"payment_status_enum"
 		},
 		_in:{
-			type:"payment_status_enum",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[payment_status_enum]!"
 		},
 		_is_null:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		_neq:{
-			type:"payment_status_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"payment_status_enum"
 		},
 		_nin:{
-			type:"payment_status_enum",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[payment_status_enum]!"
 		}
 	},
 	payment_stddev_order_by:{
 		centTotal:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	payment_stddev_pop_order_by:{
 		centTotal:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	payment_stddev_samp_order_by:{
 		centTotal:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	payment_sum_order_by:{
 		centTotal:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	payment_update_column: "enum",
 	payment_var_pop_order_by:{
 		centTotal:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	payment_var_samp_order_by:{
 		centTotal:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	payment_variance_order_by:{
 		centTotal:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	paymentStatus_aggregate_fields:{
 		count:{
 			columns:{
-				type:"paymentStatus_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[paymentStatus_select_column]!"
 			},
 			distinct:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Boolean"
 			}
 		}
 	},
 	paymentStatus_bool_exp:{
 		_and:{
-			type:"paymentStatus_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[paymentStatus_bool_exp]!"
 		},
 		_not:{
-			type:"paymentStatus_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"paymentStatus_bool_exp"
 		},
 		_or:{
-			type:"paymentStatus_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[paymentStatus_bool_exp]!"
 		},
 		name:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		}
 	},
 	paymentStatus_constraint: "enum",
 	paymentStatus_insert_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	paymentStatus_on_conflict:{
 		constraint:{
-			type:"paymentStatus_constraint",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"paymentStatus_constraint!"
 		},
 		update_columns:{
-			type:"paymentStatus_update_column",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[paymentStatus_update_column!]!"
 		},
 		where:{
-			type:"paymentStatus_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"paymentStatus_bool_exp"
 		}
 	},
 	paymentStatus_order_by:{
 		name:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	paymentStatus_pk_columns_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"String!"
 		}
 	},
 	paymentStatus_select_column: "enum",
 	paymentStatus_set_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	paymentStatus_update_column: "enum",
 	paymentType_aggregate_fields:{
 		count:{
 			columns:{
-				type:"paymentType_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[paymentType_select_column]!"
 			},
 			distinct:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Boolean"
 			}
 		}
 	},
 	paymentType_bool_exp:{
 		_and:{
-			type:"paymentType_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[paymentType_bool_exp]!"
 		},
 		_not:{
-			type:"paymentType_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"paymentType_bool_exp"
 		},
 		_or:{
-			type:"paymentType_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[paymentType_bool_exp]!"
 		},
 		name:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		}
 	},
 	paymentType_constraint: "enum",
 	paymentType_insert_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	paymentType_on_conflict:{
 		constraint:{
-			type:"paymentType_constraint",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"paymentType_constraint!"
 		},
 		update_columns:{
-			type:"paymentType_update_column",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[paymentType_update_column!]!"
 		},
 		where:{
-			type:"paymentType_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"paymentType_bool_exp"
 		}
 	},
 	paymentType_order_by:{
 		name:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	paymentType_pk_columns_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"String!"
 		}
 	},
 	paymentType_select_column: "enum",
 	paymentType_set_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	paymentType_update_column: "enum",
 	query_root:{
 		aggregateBookingStatuses:{
 			distinct_on:{
-				type:"bookingStatus_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[bookingStatus_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"bookingStatus_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[bookingStatus_order_by]!"
 			},
 			where:{
-				type:"bookingStatus_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"bookingStatus_bool_exp"
 			}
 		},
 		aggregateBookings:{
 			distinct_on:{
-				type:"booking_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[booking_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"booking_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[booking_order_by]!"
 			},
 			where:{
-				type:"booking_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"booking_bool_exp"
 			}
 		},
 		aggregateClassifications:{
 			distinct_on:{
-				type:"classification_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[classification_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"classification_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[classification_order_by]!"
 			},
 			where:{
-				type:"classification_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"classification_bool_exp"
 			}
 		},
 		aggregateConnections:{
 			distinct_on:{
-				type:"connection_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[connection_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"connection_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[connection_order_by]!"
 			},
 			where:{
-				type:"connection_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"connection_bool_exp"
 			}
 		},
 		aggregateCurrencies:{
 			distinct_on:{
-				type:"currency_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[currency_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"currency_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[currency_order_by]!"
 			},
 			where:{
-				type:"currency_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"currency_bool_exp"
 			}
 		},
 		aggregateEntities:{
 			distinct_on:{
-				type:"entity_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[entity_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"entity_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[entity_order_by]!"
 			},
 			where:{
-				type:"entity_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"entity_bool_exp"
 			}
 		},
 		aggregateEntityStatuses:{
 			distinct_on:{
-				type:"entityStatus_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[entityStatus_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"entityStatus_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[entityStatus_order_by]!"
 			},
 			where:{
-				type:"entityStatus_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"entityStatus_bool_exp"
 			}
 		},
 		aggregateIntegrationTypes:{
 			distinct_on:{
-				type:"integrationType_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[integrationType_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"integrationType_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[integrationType_order_by]!"
 			},
 			where:{
-				type:"integrationType_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"integrationType_bool_exp"
 			}
 		},
 		aggregateIntegrations:{
 			distinct_on:{
-				type:"integration_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[integration_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"integration_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[integration_order_by]!"
 			},
 			where:{
-				type:"integration_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"integration_bool_exp"
 			}
 		},
 		aggregateIssues:{
 			distinct_on:{
-				type:"issue_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[issue_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"issue_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[issue_order_by]!"
 			},
 			where:{
-				type:"issue_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"issue_bool_exp"
 			}
 		},
 		aggregateJobMethods:{
 			distinct_on:{
-				type:"jobMethod_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[jobMethod_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"jobMethod_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[jobMethod_order_by]!"
 			},
 			where:{
-				type:"jobMethod_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"jobMethod_bool_exp"
 			}
 		},
 		aggregateJobStatuses:{
 			distinct_on:{
-				type:"jobStatus_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[jobStatus_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"jobStatus_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[jobStatus_order_by]!"
 			},
 			where:{
-				type:"jobStatus_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"jobStatus_bool_exp"
 			}
 		},
 		aggregateJobs:{
 			distinct_on:{
-				type:"job_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[job_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"job_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[job_order_by]!"
 			},
 			where:{
-				type:"job_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"job_bool_exp"
 			}
 		},
 		aggregateLines:{
 			distinct_on:{
-				type:"line_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[line_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"line_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[line_order_by]!"
 			},
 			where:{
-				type:"line_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"line_bool_exp"
 			}
 		},
 		aggregateMetrics:{
 			distinct_on:{
-				type:"metric_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[metric_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"metric_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[metric_order_by]!"
 			},
 			where:{
-				type:"metric_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"metric_bool_exp"
 			}
 		},
 		aggregateNormalizedTypes:{
 			distinct_on:{
-				type:"normalizedType_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[normalizedType_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"normalizedType_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[normalizedType_order_by]!"
 			},
 			where:{
-				type:"normalizedType_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"normalizedType_bool_exp"
 			}
 		},
 		aggregatePaymentStatuses:{
 			distinct_on:{
-				type:"paymentStatus_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[paymentStatus_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"paymentStatus_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[paymentStatus_order_by]!"
 			},
 			where:{
-				type:"paymentStatus_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"paymentStatus_bool_exp"
 			}
 		},
 		aggregatePaymentTypes:{
 			distinct_on:{
-				type:"paymentType_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[paymentType_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"paymentType_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[paymentType_order_by]!"
 			},
 			where:{
-				type:"paymentType_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"paymentType_bool_exp"
 			}
 		},
 		aggregatePayments:{
 			distinct_on:{
-				type:"payment_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[payment_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"payment_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[payment_order_by]!"
 			},
 			where:{
-				type:"payment_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"payment_bool_exp"
 			}
 		},
 		aggregateSubclassifications:{
 			distinct_on:{
-				type:"subclassification_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[subclassification_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"subclassification_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[subclassification_order_by]!"
 			},
 			where:{
-				type:"subclassification_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"subclassification_bool_exp"
 			}
 		},
 		aggregateTags:{
 			distinct_on:{
-				type:"tag_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[tag_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"tag_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[tag_order_by]!"
 			},
 			where:{
-				type:"tag_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"tag_bool_exp"
 			}
 		},
 		aggregateTeamUsers:{
 			distinct_on:{
-				type:"teamUser_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[teamUser_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"teamUser_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[teamUser_order_by]!"
 			},
 			where:{
-				type:"teamUser_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"teamUser_bool_exp"
 			}
 		},
 		aggregateTeams:{
 			distinct_on:{
-				type:"team_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[team_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"team_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[team_order_by]!"
 			},
 			where:{
-				type:"team_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"team_bool_exp"
 			}
 		},
 		aggregateUnits:{
 			distinct_on:{
-				type:"unit_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[unit_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"unit_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[unit_order_by]!"
 			},
 			where:{
-				type:"unit_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"unit_bool_exp"
 			}
 		},
 		aggregateUserStatuses:{
 			distinct_on:{
-				type:"userStatus_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[userStatus_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"userStatus_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[userStatus_order_by]!"
 			},
 			where:{
-				type:"userStatus_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"userStatus_bool_exp"
 			}
 		},
 		aggregateUsers:{
 			distinct_on:{
-				type:"user_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[user_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"user_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[user_order_by]!"
 			},
 			where:{
-				type:"user_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"user_bool_exp"
 			}
 		},
 		aggregateWebhooks:{
 			distinct_on:{
-				type:"webhook_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[webhook_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"webhook_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[webhook_order_by]!"
 			},
 			where:{
-				type:"webhook_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"webhook_bool_exp"
 			}
 		},
 		booking:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		bookingStatus:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		bookingStatuses:{
 			distinct_on:{
-				type:"bookingStatus_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[bookingStatus_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"bookingStatus_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[bookingStatus_order_by]!"
 			},
 			where:{
-				type:"bookingStatus_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"bookingStatus_bool_exp"
 			}
 		},
 		booking_channel:{
 			distinct_on:{
-				type:"booking_channel_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[booking_channel_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"booking_channel_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[booking_channel_order_by]!"
 			},
 			where:{
-				type:"booking_channel_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"booking_channel_bool_exp"
 			}
 		},
 		booking_channel_aggregate:{
 			distinct_on:{
-				type:"booking_channel_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[booking_channel_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"booking_channel_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[booking_channel_order_by]!"
 			},
 			where:{
-				type:"booking_channel_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"booking_channel_bool_exp"
 			}
 		},
 		booking_channel_by_pk:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		bookings:{
 			distinct_on:{
-				type:"booking_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[booking_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"booking_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[booking_order_by]!"
 			},
 			where:{
-				type:"booking_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"booking_bool_exp"
 			}
 		},
 		classification:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		classifications:{
 			distinct_on:{
-				type:"classification_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[classification_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"classification_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[classification_order_by]!"
 			},
 			where:{
-				type:"classification_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"classification_bool_exp"
 			}
 		},
 		connection:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		connections:{
 			distinct_on:{
-				type:"connection_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[connection_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"connection_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[connection_order_by]!"
 			},
 			where:{
-				type:"connection_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"connection_bool_exp"
 			}
 		},
 		currencies:{
 			distinct_on:{
-				type:"currency_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[currency_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"currency_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[currency_order_by]!"
 			},
 			where:{
-				type:"currency_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"currency_bool_exp"
 			}
 		},
 		currency:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		entities:{
 			distinct_on:{
-				type:"entity_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[entity_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"entity_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[entity_order_by]!"
 			},
 			where:{
-				type:"entity_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"entity_bool_exp"
 			}
 		},
 		entity:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		entityStatus:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		entityStatuses:{
 			distinct_on:{
-				type:"entityStatus_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[entityStatus_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"entityStatus_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[entityStatus_order_by]!"
 			},
 			where:{
-				type:"entityStatus_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"entityStatus_bool_exp"
 			}
 		},
 		integration:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		integrationType:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		integrationTypes:{
 			distinct_on:{
-				type:"integrationType_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[integrationType_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"integrationType_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[integrationType_order_by]!"
 			},
 			where:{
-				type:"integrationType_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"integrationType_bool_exp"
 			}
 		},
 		integrations:{
 			distinct_on:{
-				type:"integration_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[integration_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"integration_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[integration_order_by]!"
 			},
 			where:{
-				type:"integration_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"integration_bool_exp"
 			}
 		},
 		issue:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		issues:{
 			distinct_on:{
-				type:"issue_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[issue_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"issue_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[issue_order_by]!"
 			},
 			where:{
-				type:"issue_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"issue_bool_exp"
 			}
 		},
 		job:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		jobMethod:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		jobMethods:{
 			distinct_on:{
-				type:"jobMethod_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[jobMethod_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"jobMethod_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[jobMethod_order_by]!"
 			},
 			where:{
-				type:"jobMethod_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"jobMethod_bool_exp"
 			}
 		},
 		jobStatus:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		jobStatuses:{
 			distinct_on:{
-				type:"jobStatus_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[jobStatus_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"jobStatus_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[jobStatus_order_by]!"
 			},
 			where:{
-				type:"jobStatus_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"jobStatus_bool_exp"
 			}
 		},
 		jobs:{
 			distinct_on:{
-				type:"job_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[job_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"job_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[job_order_by]!"
 			},
 			where:{
-				type:"job_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"job_bool_exp"
 			}
 		},
 		line:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		lines:{
 			distinct_on:{
-				type:"line_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[line_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"line_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[line_order_by]!"
 			},
 			where:{
-				type:"line_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"line_bool_exp"
 			}
 		},
 		metric:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		metrics:{
 			distinct_on:{
-				type:"metric_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[metric_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"metric_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[metric_order_by]!"
 			},
 			where:{
-				type:"metric_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"metric_bool_exp"
 			}
 		},
 		normalizedType:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		normalizedTypes:{
 			distinct_on:{
-				type:"normalizedType_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[normalizedType_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"normalizedType_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[normalizedType_order_by]!"
 			},
 			where:{
-				type:"normalizedType_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"normalizedType_bool_exp"
 			}
 		},
 		payment:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		paymentStatus:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		paymentStatuses:{
 			distinct_on:{
-				type:"paymentStatus_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[paymentStatus_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"paymentStatus_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[paymentStatus_order_by]!"
 			},
 			where:{
-				type:"paymentStatus_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"paymentStatus_bool_exp"
 			}
 		},
 		paymentType:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		paymentTypes:{
 			distinct_on:{
-				type:"paymentType_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[paymentType_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"paymentType_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[paymentType_order_by]!"
 			},
 			where:{
-				type:"paymentType_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"paymentType_bool_exp"
 			}
 		},
 		payments:{
 			distinct_on:{
-				type:"payment_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[payment_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"payment_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[payment_order_by]!"
 			},
 			where:{
-				type:"payment_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"payment_bool_exp"
 			}
 		},
 		subclassification:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		subclassifications:{
 			distinct_on:{
-				type:"subclassification_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[subclassification_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"subclassification_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[subclassification_order_by]!"
 			},
 			where:{
-				type:"subclassification_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"subclassification_bool_exp"
 			}
 		},
 		tag:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		tags:{
 			distinct_on:{
-				type:"tag_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[tag_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"tag_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[tag_order_by]!"
 			},
 			where:{
-				type:"tag_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"tag_bool_exp"
 			}
 		},
 		team:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		teamUser:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		teamUsers:{
 			distinct_on:{
-				type:"teamUser_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[teamUser_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"teamUser_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[teamUser_order_by]!"
 			},
 			where:{
-				type:"teamUser_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"teamUser_bool_exp"
 			}
 		},
 		teams:{
 			distinct_on:{
-				type:"team_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[team_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"team_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[team_order_by]!"
 			},
 			where:{
-				type:"team_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"team_bool_exp"
 			}
 		},
 		unit:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		units:{
 			distinct_on:{
-				type:"unit_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[unit_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"unit_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[unit_order_by]!"
 			},
 			where:{
-				type:"unit_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"unit_bool_exp"
 			}
 		},
 		user:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		userStatus:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		userStatuses:{
 			distinct_on:{
-				type:"userStatus_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[userStatus_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"userStatus_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[userStatus_order_by]!"
 			},
 			where:{
-				type:"userStatus_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"userStatus_bool_exp"
 			}
 		},
 		users:{
 			distinct_on:{
-				type:"user_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[user_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"user_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[user_order_by]!"
 			},
 			where:{
-				type:"user_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"user_bool_exp"
 			}
 		},
 		webhook:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		webhooks:{
 			distinct_on:{
-				type:"webhook_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[webhook_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"webhook_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[webhook_order_by]!"
 			},
 			where:{
-				type:"webhook_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"webhook_bool_exp"
 			}
 		}
 	},
 	String_comparison_exp:{
 		_eq:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		_gt:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		_gte:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		_ilike:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		_in:{
-			type:"String",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[String]!"
 		},
 		_iregex:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		_is_null:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		_like:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		_lt:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		_lte:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		_neq:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		_nilike:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		_nin:{
-			type:"String",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[String]!"
 		},
 		_niregex:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		_nlike:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		_nregex:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		_nsimilar:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		_regex:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		_similar:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	subclassification_aggregate_fields:{
 		count:{
 			columns:{
-				type:"subclassification_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[subclassification_select_column]!"
 			},
 			distinct:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Boolean"
 			}
 		}
 	},
 	subclassification_bool_exp:{
 		_and:{
-			type:"subclassification_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[subclassification_bool_exp]!"
 		},
 		_not:{
-			type:"subclassification_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"subclassification_bool_exp"
 		},
 		_or:{
-			type:"subclassification_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[subclassification_bool_exp]!"
 		},
 		name:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		}
 	},
 	subclassification_constraint: "enum",
 	subclassification_enum: "enum",
 	subclassification_enum_comparison_exp:{
 		_eq:{
-			type:"subclassification_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"subclassification_enum"
 		},
 		_in:{
-			type:"subclassification_enum",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[subclassification_enum]!"
 		},
 		_is_null:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		_neq:{
-			type:"subclassification_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"subclassification_enum"
 		},
 		_nin:{
-			type:"subclassification_enum",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[subclassification_enum]!"
 		}
 	},
 	subclassification_insert_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	subclassification_on_conflict:{
 		constraint:{
-			type:"subclassification_constraint",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"subclassification_constraint!"
 		},
 		update_columns:{
-			type:"subclassification_update_column",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[subclassification_update_column!]!"
 		},
 		where:{
-			type:"subclassification_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"subclassification_bool_exp"
 		}
 	},
 	subclassification_order_by:{
 		name:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	subclassification_pk_columns_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"String!"
 		}
 	},
 	subclassification_select_column: "enum",
 	subclassification_set_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	subclassification_update_column: "enum",
 	subscription_root:{
 		aggregateBookingStatuses:{
 			distinct_on:{
-				type:"bookingStatus_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[bookingStatus_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"bookingStatus_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[bookingStatus_order_by]!"
 			},
 			where:{
-				type:"bookingStatus_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"bookingStatus_bool_exp"
 			}
 		},
 		aggregateBookings:{
 			distinct_on:{
-				type:"booking_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[booking_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"booking_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[booking_order_by]!"
 			},
 			where:{
-				type:"booking_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"booking_bool_exp"
 			}
 		},
 		aggregateClassifications:{
 			distinct_on:{
-				type:"classification_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[classification_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"classification_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[classification_order_by]!"
 			},
 			where:{
-				type:"classification_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"classification_bool_exp"
 			}
 		},
 		aggregateConnections:{
 			distinct_on:{
-				type:"connection_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[connection_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"connection_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[connection_order_by]!"
 			},
 			where:{
-				type:"connection_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"connection_bool_exp"
 			}
 		},
 		aggregateCurrencies:{
 			distinct_on:{
-				type:"currency_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[currency_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"currency_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[currency_order_by]!"
 			},
 			where:{
-				type:"currency_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"currency_bool_exp"
 			}
 		},
 		aggregateEntities:{
 			distinct_on:{
-				type:"entity_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[entity_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"entity_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[entity_order_by]!"
 			},
 			where:{
-				type:"entity_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"entity_bool_exp"
 			}
 		},
 		aggregateEntityStatuses:{
 			distinct_on:{
-				type:"entityStatus_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[entityStatus_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"entityStatus_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[entityStatus_order_by]!"
 			},
 			where:{
-				type:"entityStatus_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"entityStatus_bool_exp"
 			}
 		},
 		aggregateIntegrationTypes:{
 			distinct_on:{
-				type:"integrationType_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[integrationType_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"integrationType_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[integrationType_order_by]!"
 			},
 			where:{
-				type:"integrationType_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"integrationType_bool_exp"
 			}
 		},
 		aggregateIntegrations:{
 			distinct_on:{
-				type:"integration_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[integration_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"integration_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[integration_order_by]!"
 			},
 			where:{
-				type:"integration_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"integration_bool_exp"
 			}
 		},
 		aggregateIssues:{
 			distinct_on:{
-				type:"issue_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[issue_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"issue_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[issue_order_by]!"
 			},
 			where:{
-				type:"issue_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"issue_bool_exp"
 			}
 		},
 		aggregateJobMethods:{
 			distinct_on:{
-				type:"jobMethod_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[jobMethod_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"jobMethod_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[jobMethod_order_by]!"
 			},
 			where:{
-				type:"jobMethod_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"jobMethod_bool_exp"
 			}
 		},
 		aggregateJobStatuses:{
 			distinct_on:{
-				type:"jobStatus_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[jobStatus_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"jobStatus_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[jobStatus_order_by]!"
 			},
 			where:{
-				type:"jobStatus_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"jobStatus_bool_exp"
 			}
 		},
 		aggregateJobs:{
 			distinct_on:{
-				type:"job_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[job_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"job_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[job_order_by]!"
 			},
 			where:{
-				type:"job_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"job_bool_exp"
 			}
 		},
 		aggregateLines:{
 			distinct_on:{
-				type:"line_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[line_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"line_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[line_order_by]!"
 			},
 			where:{
-				type:"line_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"line_bool_exp"
 			}
 		},
 		aggregateMetrics:{
 			distinct_on:{
-				type:"metric_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[metric_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"metric_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[metric_order_by]!"
 			},
 			where:{
-				type:"metric_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"metric_bool_exp"
 			}
 		},
 		aggregateNormalizedTypes:{
 			distinct_on:{
-				type:"normalizedType_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[normalizedType_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"normalizedType_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[normalizedType_order_by]!"
 			},
 			where:{
-				type:"normalizedType_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"normalizedType_bool_exp"
 			}
 		},
 		aggregatePaymentStatuses:{
 			distinct_on:{
-				type:"paymentStatus_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[paymentStatus_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"paymentStatus_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[paymentStatus_order_by]!"
 			},
 			where:{
-				type:"paymentStatus_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"paymentStatus_bool_exp"
 			}
 		},
 		aggregatePaymentTypes:{
 			distinct_on:{
-				type:"paymentType_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[paymentType_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"paymentType_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[paymentType_order_by]!"
 			},
 			where:{
-				type:"paymentType_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"paymentType_bool_exp"
 			}
 		},
 		aggregatePayments:{
 			distinct_on:{
-				type:"payment_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[payment_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"payment_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[payment_order_by]!"
 			},
 			where:{
-				type:"payment_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"payment_bool_exp"
 			}
 		},
 		aggregateSubclassifications:{
 			distinct_on:{
-				type:"subclassification_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[subclassification_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"subclassification_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[subclassification_order_by]!"
 			},
 			where:{
-				type:"subclassification_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"subclassification_bool_exp"
 			}
 		},
 		aggregateTags:{
 			distinct_on:{
-				type:"tag_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[tag_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"tag_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[tag_order_by]!"
 			},
 			where:{
-				type:"tag_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"tag_bool_exp"
 			}
 		},
 		aggregateTeamUsers:{
 			distinct_on:{
-				type:"teamUser_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[teamUser_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"teamUser_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[teamUser_order_by]!"
 			},
 			where:{
-				type:"teamUser_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"teamUser_bool_exp"
 			}
 		},
 		aggregateTeams:{
 			distinct_on:{
-				type:"team_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[team_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"team_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[team_order_by]!"
 			},
 			where:{
-				type:"team_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"team_bool_exp"
 			}
 		},
 		aggregateUnits:{
 			distinct_on:{
-				type:"unit_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[unit_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"unit_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[unit_order_by]!"
 			},
 			where:{
-				type:"unit_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"unit_bool_exp"
 			}
 		},
 		aggregateUserStatuses:{
 			distinct_on:{
-				type:"userStatus_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[userStatus_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"userStatus_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[userStatus_order_by]!"
 			},
 			where:{
-				type:"userStatus_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"userStatus_bool_exp"
 			}
 		},
 		aggregateUsers:{
 			distinct_on:{
-				type:"user_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[user_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"user_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[user_order_by]!"
 			},
 			where:{
-				type:"user_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"user_bool_exp"
 			}
 		},
 		aggregateWebhooks:{
 			distinct_on:{
-				type:"webhook_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[webhook_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"webhook_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[webhook_order_by]!"
 			},
 			where:{
-				type:"webhook_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"webhook_bool_exp"
 			}
 		},
 		booking:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		bookingStatus:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		bookingStatuses:{
 			distinct_on:{
-				type:"bookingStatus_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[bookingStatus_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"bookingStatus_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[bookingStatus_order_by]!"
 			},
 			where:{
-				type:"bookingStatus_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"bookingStatus_bool_exp"
 			}
 		},
 		booking_channel:{
 			distinct_on:{
-				type:"booking_channel_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[booking_channel_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"booking_channel_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[booking_channel_order_by]!"
 			},
 			where:{
-				type:"booking_channel_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"booking_channel_bool_exp"
 			}
 		},
 		booking_channel_aggregate:{
 			distinct_on:{
-				type:"booking_channel_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[booking_channel_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"booking_channel_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[booking_channel_order_by]!"
 			},
 			where:{
-				type:"booking_channel_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"booking_channel_bool_exp"
 			}
 		},
 		booking_channel_by_pk:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		bookings:{
 			distinct_on:{
-				type:"booking_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[booking_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"booking_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[booking_order_by]!"
 			},
 			where:{
-				type:"booking_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"booking_bool_exp"
 			}
 		},
 		classification:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		classifications:{
 			distinct_on:{
-				type:"classification_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[classification_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"classification_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[classification_order_by]!"
 			},
 			where:{
-				type:"classification_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"classification_bool_exp"
 			}
 		},
 		connection:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		connections:{
 			distinct_on:{
-				type:"connection_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[connection_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"connection_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[connection_order_by]!"
 			},
 			where:{
-				type:"connection_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"connection_bool_exp"
 			}
 		},
 		currencies:{
 			distinct_on:{
-				type:"currency_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[currency_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"currency_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[currency_order_by]!"
 			},
 			where:{
-				type:"currency_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"currency_bool_exp"
 			}
 		},
 		currency:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		entities:{
 			distinct_on:{
-				type:"entity_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[entity_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"entity_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[entity_order_by]!"
 			},
 			where:{
-				type:"entity_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"entity_bool_exp"
 			}
 		},
 		entity:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		entityStatus:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		entityStatuses:{
 			distinct_on:{
-				type:"entityStatus_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[entityStatus_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"entityStatus_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[entityStatus_order_by]!"
 			},
 			where:{
-				type:"entityStatus_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"entityStatus_bool_exp"
 			}
 		},
 		integration:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		integrationType:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		integrationTypes:{
 			distinct_on:{
-				type:"integrationType_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[integrationType_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"integrationType_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[integrationType_order_by]!"
 			},
 			where:{
-				type:"integrationType_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"integrationType_bool_exp"
 			}
 		},
 		integrations:{
 			distinct_on:{
-				type:"integration_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[integration_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"integration_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[integration_order_by]!"
 			},
 			where:{
-				type:"integration_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"integration_bool_exp"
 			}
 		},
 		issue:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		issues:{
 			distinct_on:{
-				type:"issue_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[issue_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"issue_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[issue_order_by]!"
 			},
 			where:{
-				type:"issue_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"issue_bool_exp"
 			}
 		},
 		job:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		jobMethod:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		jobMethods:{
 			distinct_on:{
-				type:"jobMethod_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[jobMethod_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"jobMethod_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[jobMethod_order_by]!"
 			},
 			where:{
-				type:"jobMethod_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"jobMethod_bool_exp"
 			}
 		},
 		jobStatus:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		jobStatuses:{
 			distinct_on:{
-				type:"jobStatus_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[jobStatus_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"jobStatus_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[jobStatus_order_by]!"
 			},
 			where:{
-				type:"jobStatus_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"jobStatus_bool_exp"
 			}
 		},
 		jobs:{
 			distinct_on:{
-				type:"job_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[job_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"job_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[job_order_by]!"
 			},
 			where:{
-				type:"job_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"job_bool_exp"
 			}
 		},
 		line:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		lines:{
 			distinct_on:{
-				type:"line_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[line_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"line_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[line_order_by]!"
 			},
 			where:{
-				type:"line_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"line_bool_exp"
 			}
 		},
 		metric:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		metrics:{
 			distinct_on:{
-				type:"metric_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[metric_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"metric_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[metric_order_by]!"
 			},
 			where:{
-				type:"metric_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"metric_bool_exp"
 			}
 		},
 		normalizedType:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		normalizedTypes:{
 			distinct_on:{
-				type:"normalizedType_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[normalizedType_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"normalizedType_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[normalizedType_order_by]!"
 			},
 			where:{
-				type:"normalizedType_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"normalizedType_bool_exp"
 			}
 		},
 		payment:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		paymentStatus:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		paymentStatuses:{
 			distinct_on:{
-				type:"paymentStatus_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[paymentStatus_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"paymentStatus_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[paymentStatus_order_by]!"
 			},
 			where:{
-				type:"paymentStatus_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"paymentStatus_bool_exp"
 			}
 		},
 		paymentType:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		paymentTypes:{
 			distinct_on:{
-				type:"paymentType_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[paymentType_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"paymentType_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[paymentType_order_by]!"
 			},
 			where:{
-				type:"paymentType_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"paymentType_bool_exp"
 			}
 		},
 		payments:{
 			distinct_on:{
-				type:"payment_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[payment_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"payment_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[payment_order_by]!"
 			},
 			where:{
-				type:"payment_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"payment_bool_exp"
 			}
 		},
 		subclassification:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		subclassifications:{
 			distinct_on:{
-				type:"subclassification_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[subclassification_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"subclassification_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[subclassification_order_by]!"
 			},
 			where:{
-				type:"subclassification_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"subclassification_bool_exp"
 			}
 		},
 		tag:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		tags:{
 			distinct_on:{
-				type:"tag_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[tag_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"tag_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[tag_order_by]!"
 			},
 			where:{
-				type:"tag_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"tag_bool_exp"
 			}
 		},
 		team:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		teamUser:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		teamUsers:{
 			distinct_on:{
-				type:"teamUser_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[teamUser_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"teamUser_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[teamUser_order_by]!"
 			},
 			where:{
-				type:"teamUser_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"teamUser_bool_exp"
 			}
 		},
 		teams:{
 			distinct_on:{
-				type:"team_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[team_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"team_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[team_order_by]!"
 			},
 			where:{
-				type:"team_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"team_bool_exp"
 			}
 		},
 		unit:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		units:{
 			distinct_on:{
-				type:"unit_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[unit_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"unit_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[unit_order_by]!"
 			},
 			where:{
-				type:"unit_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"unit_bool_exp"
 			}
 		},
 		user:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		userStatus:{
 			name:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"String!"
 			}
 		},
 		userStatuses:{
 			distinct_on:{
-				type:"userStatus_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[userStatus_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"userStatus_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[userStatus_order_by]!"
 			},
 			where:{
-				type:"userStatus_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"userStatus_bool_exp"
 			}
 		},
 		users:{
 			distinct_on:{
-				type:"user_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[user_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"user_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[user_order_by]!"
 			},
 			where:{
-				type:"user_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"user_bool_exp"
 			}
 		},
 		webhook:{
 			id:{
-				type:"uuid",
-				array:false,
-				arrayRequired:false,
-				required:true
+				type:"uuid!"
 			}
 		},
 		webhooks:{
 			distinct_on:{
-				type:"webhook_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[webhook_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"webhook_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[webhook_order_by]!"
 			},
 			where:{
-				type:"webhook_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"webhook_bool_exp"
 			}
 		}
 	},
 	tag:{
 		json:{
 			path:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"String"
 			}
 		}
 	},
 	tag_aggregate_fields:{
 		count:{
 			columns:{
-				type:"tag_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[tag_select_column]!"
 			},
 			distinct:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Boolean"
 			}
 		}
 	},
 	tag_aggregate_order_by:{
 		count:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		max:{
-			type:"tag_max_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"tag_max_order_by"
 		},
 		min:{
-			type:"tag_min_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"tag_min_order_by"
 		}
 	},
 	tag_append_input:{
 		json:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		}
 	},
 	tag_arr_rel_insert_input:{
 		data:{
-			type:"tag_insert_input",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[tag_insert_input!]!"
 		},
 		on_conflict:{
-			type:"tag_on_conflict",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"tag_on_conflict"
 		}
 	},
 	tag_bool_exp:{
 		_and:{
-			type:"tag_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[tag_bool_exp]!"
 		},
 		_not:{
-			type:"tag_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"tag_bool_exp"
 		},
 		_or:{
-			type:"tag_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[tag_bool_exp]!"
 		},
 		booking:{
-			type:"booking_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_bool_exp"
 		},
 		bookingId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		connection:{
-			type:"connection_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"connection_bool_exp"
 		},
 		connectionId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		createdAt:{
-			type:"timestamptz_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz_comparison_exp"
 		},
 		id:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		json:{
-			type:"jsonb_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb_comparison_exp"
 		},
 		payment:{
-			type:"payment_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"payment_bool_exp"
 		},
 		paymentId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		team:{
-			type:"team_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_bool_exp"
 		},
 		teamId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		type:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		uniqueRef:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		unit:{
-			type:"unit_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"unit_bool_exp"
 		},
 		unitId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		updatedAt:{
-			type:"timestamptz_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz_comparison_exp"
 		}
 	},
 	tag_constraint: "enum",
 	tag_delete_at_path_input:{
 		json:{
-			type:"String",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[String]!"
 		}
 	},
 	tag_delete_elem_input:{
 		json:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		}
 	},
 	tag_delete_key_input:{
 		json:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	tag_insert_input:{
 		booking:{
-			type:"booking_obj_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_obj_rel_insert_input"
 		},
 		bookingId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		connection:{
-			type:"connection_obj_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"connection_obj_rel_insert_input"
 		},
 		connectionId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		createdAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		json:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		payment:{
-			type:"payment_obj_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"payment_obj_rel_insert_input"
 		},
 		paymentId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		team:{
-			type:"team_obj_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_obj_rel_insert_input"
 		},
 		teamId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		type:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		uniqueRef:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		unit:{
-			type:"unit_obj_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"unit_obj_rel_insert_input"
 		},
 		unitId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		updatedAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		}
 	},
 	tag_max_order_by:{
 		bookingId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		connectionId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		createdAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		paymentId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		type:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		uniqueRef:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		unitId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		updatedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	tag_min_order_by:{
 		bookingId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		connectionId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		createdAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		paymentId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		type:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		uniqueRef:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		unitId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		updatedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	tag_on_conflict:{
 		constraint:{
-			type:"tag_constraint",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"tag_constraint!"
 		},
 		update_columns:{
-			type:"tag_update_column",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[tag_update_column!]!"
 		},
 		where:{
-			type:"tag_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"tag_bool_exp"
 		}
 	},
 	tag_order_by:{
 		booking:{
-			type:"booking_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_order_by"
 		},
 		bookingId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		connection:{
-			type:"connection_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"connection_order_by"
 		},
 		connectionId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		createdAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		json:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		payment:{
-			type:"payment_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"payment_order_by"
 		},
 		paymentId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		team:{
-			type:"team_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		type:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		uniqueRef:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		unit:{
-			type:"unit_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"unit_order_by"
 		},
 		unitId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		updatedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	tag_pk_columns_input:{
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"uuid!"
 		}
 	},
 	tag_prepend_input:{
 		json:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		}
 	},
 	tag_select_column: "enum",
 	tag_set_input:{
 		bookingId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		connectionId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		createdAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		json:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		paymentId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		teamId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		type:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		uniqueRef:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		unitId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		updatedAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		}
 	},
 	tag_update_column: "enum",
 	team:{
 		bookings:{
 			distinct_on:{
-				type:"booking_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[booking_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"booking_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[booking_order_by]!"
 			},
 			where:{
-				type:"booking_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"booking_bool_exp"
 			}
 		},
 		bookings_aggregate:{
 			distinct_on:{
-				type:"booking_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[booking_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"booking_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[booking_order_by]!"
 			},
 			where:{
-				type:"booking_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"booking_bool_exp"
 			}
 		},
 		connections:{
 			distinct_on:{
-				type:"connection_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[connection_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"connection_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[connection_order_by]!"
 			},
 			where:{
-				type:"connection_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"connection_bool_exp"
 			}
 		},
 		connections_aggregate:{
 			distinct_on:{
-				type:"connection_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[connection_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"connection_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[connection_order_by]!"
 			},
 			where:{
-				type:"connection_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"connection_bool_exp"
 			}
 		},
 		entities:{
 			distinct_on:{
-				type:"entity_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[entity_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"entity_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[entity_order_by]!"
 			},
 			where:{
-				type:"entity_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"entity_bool_exp"
 			}
 		},
 		entities_aggregate:{
 			distinct_on:{
-				type:"entity_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[entity_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"entity_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[entity_order_by]!"
 			},
 			where:{
-				type:"entity_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"entity_bool_exp"
 			}
 		},
 		integrations:{
 			distinct_on:{
-				type:"integration_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[integration_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"integration_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[integration_order_by]!"
 			},
 			where:{
-				type:"integration_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"integration_bool_exp"
 			}
 		},
 		integrations_aggregate:{
 			distinct_on:{
-				type:"integration_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[integration_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"integration_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[integration_order_by]!"
 			},
 			where:{
-				type:"integration_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"integration_bool_exp"
 			}
 		},
 		issues:{
 			distinct_on:{
-				type:"issue_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[issue_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"issue_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[issue_order_by]!"
 			},
 			where:{
-				type:"issue_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"issue_bool_exp"
 			}
 		},
 		issues_aggregate:{
 			distinct_on:{
-				type:"issue_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[issue_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"issue_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[issue_order_by]!"
 			},
 			where:{
-				type:"issue_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"issue_bool_exp"
 			}
 		},
 		jobs:{
 			distinct_on:{
-				type:"job_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[job_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"job_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[job_order_by]!"
 			},
 			where:{
-				type:"job_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"job_bool_exp"
 			}
 		},
 		jobs_aggregate:{
 			distinct_on:{
-				type:"job_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[job_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"job_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[job_order_by]!"
 			},
 			where:{
-				type:"job_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"job_bool_exp"
 			}
 		},
 		lines:{
 			distinct_on:{
-				type:"line_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[line_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"line_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[line_order_by]!"
 			},
 			where:{
-				type:"line_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"line_bool_exp"
 			}
 		},
 		lines_aggregate:{
 			distinct_on:{
-				type:"line_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[line_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"line_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[line_order_by]!"
 			},
 			where:{
-				type:"line_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"line_bool_exp"
 			}
 		},
 		members:{
 			distinct_on:{
-				type:"teamUser_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[teamUser_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"teamUser_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[teamUser_order_by]!"
 			},
 			where:{
-				type:"teamUser_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"teamUser_bool_exp"
 			}
 		},
 		members_aggregate:{
 			distinct_on:{
-				type:"teamUser_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[teamUser_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"teamUser_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[teamUser_order_by]!"
 			},
 			where:{
-				type:"teamUser_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"teamUser_bool_exp"
 			}
 		},
 		metrics:{
 			distinct_on:{
-				type:"metric_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[metric_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"metric_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[metric_order_by]!"
 			},
 			where:{
-				type:"metric_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"metric_bool_exp"
 			}
 		},
 		metrics_aggregate:{
 			distinct_on:{
-				type:"metric_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[metric_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"metric_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[metric_order_by]!"
 			},
 			where:{
-				type:"metric_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"metric_bool_exp"
 			}
 		},
 		payments:{
 			distinct_on:{
-				type:"payment_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[payment_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"payment_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[payment_order_by]!"
 			},
 			where:{
-				type:"payment_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"payment_bool_exp"
 			}
 		},
 		payments_aggregate:{
 			distinct_on:{
-				type:"payment_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[payment_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"payment_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[payment_order_by]!"
 			},
 			where:{
-				type:"payment_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"payment_bool_exp"
 			}
 		},
 		tags:{
 			distinct_on:{
-				type:"tag_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[tag_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"tag_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[tag_order_by]!"
 			},
 			where:{
-				type:"tag_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"tag_bool_exp"
 			}
 		},
 		tags_aggregate:{
 			distinct_on:{
-				type:"tag_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[tag_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"tag_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[tag_order_by]!"
 			},
 			where:{
-				type:"tag_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"tag_bool_exp"
 			}
 		},
 		units:{
 			distinct_on:{
-				type:"unit_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[unit_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"unit_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[unit_order_by]!"
 			},
 			where:{
-				type:"unit_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"unit_bool_exp"
 			}
 		},
 		units_aggregate:{
 			distinct_on:{
-				type:"unit_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[unit_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"unit_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[unit_order_by]!"
 			},
 			where:{
-				type:"unit_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"unit_bool_exp"
 			}
 		},
 		webhooks:{
 			distinct_on:{
-				type:"webhook_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[webhook_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"webhook_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[webhook_order_by]!"
 			},
 			where:{
-				type:"webhook_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"webhook_bool_exp"
 			}
 		},
 		webhooks_aggregate:{
 			distinct_on:{
-				type:"webhook_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[webhook_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"webhook_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[webhook_order_by]!"
 			},
 			where:{
-				type:"webhook_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"webhook_bool_exp"
 			}
 		}
 	},
 	team_aggregate_fields:{
 		count:{
 			columns:{
-				type:"team_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[team_select_column]!"
 			},
 			distinct:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Boolean"
 			}
 		}
 	},
 	team_bool_exp:{
 		_and:{
-			type:"team_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[team_bool_exp]!"
 		},
 		_not:{
-			type:"team_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_bool_exp"
 		},
 		_or:{
-			type:"team_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[team_bool_exp]!"
 		},
 		address:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		bookings:{
-			type:"booking_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_bool_exp"
 		},
 		commissionPercentage:{
-			type:"numeric_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"numeric_comparison_exp"
 		},
 		connections:{
-			type:"connection_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"connection_bool_exp"
 		},
 		createdAt:{
-			type:"timestamptz_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz_comparison_exp"
 		},
 		email:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		entities:{
-			type:"entity_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"entity_bool_exp"
 		},
 		id:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		integrations:{
-			type:"integration_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"integration_bool_exp"
 		},
 		isActive:{
-			type:"Boolean_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean_comparison_exp"
 		},
 		isTest:{
-			type:"Boolean_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean_comparison_exp"
 		},
 		issues:{
-			type:"issue_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"issue_bool_exp"
 		},
 		jobs:{
-			type:"job_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"job_bool_exp"
 		},
 		lines:{
-			type:"line_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"line_bool_exp"
 		},
 		members:{
-			type:"teamUser_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"teamUser_bool_exp"
 		},
 		metrics:{
-			type:"metric_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"metric_bool_exp"
 		},
 		name:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		payments:{
-			type:"payment_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"payment_bool_exp"
 		},
 		stripeId:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		stripeSubscriptionItemId:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		supportEmail:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		supportPhone:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		tags:{
-			type:"tag_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"tag_bool_exp"
 		},
 		units:{
-			type:"unit_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"unit_bool_exp"
 		},
 		webhooks:{
-			type:"webhook_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"webhook_bool_exp"
 		},
 		website:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		}
 	},
 	team_constraint: "enum",
 	team_inc_input:{
 		commissionPercentage:{
-			type:"numeric",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"numeric"
 		}
 	},
 	team_insert_input:{
 		address:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		bookings:{
-			type:"booking_arr_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_arr_rel_insert_input"
 		},
 		commissionPercentage:{
-			type:"numeric",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"numeric"
 		},
 		connections:{
-			type:"connection_arr_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"connection_arr_rel_insert_input"
 		},
 		createdAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		email:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		entities:{
-			type:"entity_arr_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"entity_arr_rel_insert_input"
 		},
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		integrations:{
-			type:"integration_arr_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"integration_arr_rel_insert_input"
 		},
 		isActive:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		isTest:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		issues:{
-			type:"issue_arr_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"issue_arr_rel_insert_input"
 		},
 		jobs:{
-			type:"job_arr_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"job_arr_rel_insert_input"
 		},
 		lines:{
-			type:"line_arr_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"line_arr_rel_insert_input"
 		},
 		members:{
-			type:"teamUser_arr_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"teamUser_arr_rel_insert_input"
 		},
 		metrics:{
-			type:"metric_arr_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"metric_arr_rel_insert_input"
 		},
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		payments:{
-			type:"payment_arr_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"payment_arr_rel_insert_input"
 		},
 		stripeId:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		stripeSubscriptionItemId:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		supportEmail:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		supportPhone:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		tags:{
-			type:"tag_arr_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"tag_arr_rel_insert_input"
 		},
 		units:{
-			type:"unit_arr_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"unit_arr_rel_insert_input"
 		},
 		webhooks:{
-			type:"webhook_arr_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"webhook_arr_rel_insert_input"
 		},
 		website:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	team_obj_rel_insert_input:{
 		data:{
-			type:"team_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"team_insert_input!"
 		},
 		on_conflict:{
-			type:"team_on_conflict",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_on_conflict"
 		}
 	},
 	team_on_conflict:{
 		constraint:{
-			type:"team_constraint",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"team_constraint!"
 		},
 		update_columns:{
-			type:"team_update_column",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[team_update_column!]!"
 		},
 		where:{
-			type:"team_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_bool_exp"
 		}
 	},
 	team_order_by:{
 		address:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		bookings_aggregate:{
-			type:"booking_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_aggregate_order_by"
 		},
 		commissionPercentage:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		connections_aggregate:{
-			type:"connection_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"connection_aggregate_order_by"
 		},
 		createdAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		email:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		entities_aggregate:{
-			type:"entity_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"entity_aggregate_order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		integrations_aggregate:{
-			type:"integration_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"integration_aggregate_order_by"
 		},
 		isActive:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		isTest:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		issues_aggregate:{
-			type:"issue_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"issue_aggregate_order_by"
 		},
 		jobs_aggregate:{
-			type:"job_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"job_aggregate_order_by"
 		},
 		lines_aggregate:{
-			type:"line_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"line_aggregate_order_by"
 		},
 		members_aggregate:{
-			type:"teamUser_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"teamUser_aggregate_order_by"
 		},
 		metrics_aggregate:{
-			type:"metric_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"metric_aggregate_order_by"
 		},
 		name:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		payments_aggregate:{
-			type:"payment_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"payment_aggregate_order_by"
 		},
 		stripeId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		stripeSubscriptionItemId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		supportEmail:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		supportPhone:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		tags_aggregate:{
-			type:"tag_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"tag_aggregate_order_by"
 		},
 		units_aggregate:{
-			type:"unit_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"unit_aggregate_order_by"
 		},
 		webhooks_aggregate:{
-			type:"webhook_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"webhook_aggregate_order_by"
 		},
 		website:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	team_pk_columns_input:{
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"uuid!"
 		}
 	},
 	team_select_column: "enum",
 	team_set_input:{
 		address:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		commissionPercentage:{
-			type:"numeric",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"numeric"
 		},
 		createdAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		email:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		isActive:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		isTest:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		stripeId:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		stripeSubscriptionItemId:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		supportEmail:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		supportPhone:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		website:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	team_update_column: "enum",
 	teamUser_aggregate_fields:{
 		count:{
 			columns:{
-				type:"teamUser_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[teamUser_select_column]!"
 			},
 			distinct:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Boolean"
 			}
 		}
 	},
 	teamUser_aggregate_order_by:{
 		count:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		max:{
-			type:"teamUser_max_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"teamUser_max_order_by"
 		},
 		min:{
-			type:"teamUser_min_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"teamUser_min_order_by"
 		}
 	},
 	teamUser_arr_rel_insert_input:{
 		data:{
-			type:"teamUser_insert_input",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[teamUser_insert_input!]!"
 		},
 		on_conflict:{
-			type:"teamUser_on_conflict",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"teamUser_on_conflict"
 		}
 	},
 	teamUser_bool_exp:{
 		_and:{
-			type:"teamUser_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[teamUser_bool_exp]!"
 		},
 		_not:{
-			type:"teamUser_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"teamUser_bool_exp"
 		},
 		_or:{
-			type:"teamUser_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[teamUser_bool_exp]!"
 		},
 		createdAt:{
-			type:"timestamptz_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz_comparison_exp"
 		},
 		id:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		role:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		team:{
-			type:"team_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_bool_exp"
 		},
 		teamId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		updatedAt:{
-			type:"timestamptz_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz_comparison_exp"
 		},
 		user:{
-			type:"user_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"user_bool_exp"
 		},
 		userId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		}
 	},
 	teamUser_constraint: "enum",
 	teamUser_insert_input:{
 		createdAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		role:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		team:{
-			type:"team_obj_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_obj_rel_insert_input"
 		},
 		teamId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		updatedAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		user:{
-			type:"user_obj_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"user_obj_rel_insert_input"
 		},
 		userId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		}
 	},
 	teamUser_max_order_by:{
 		createdAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		role:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		updatedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		userId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	teamUser_min_order_by:{
 		createdAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		role:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		updatedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		userId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	teamUser_on_conflict:{
 		constraint:{
-			type:"teamUser_constraint",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"teamUser_constraint!"
 		},
 		update_columns:{
-			type:"teamUser_update_column",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[teamUser_update_column!]!"
 		},
 		where:{
-			type:"teamUser_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"teamUser_bool_exp"
 		}
 	},
 	teamUser_order_by:{
 		createdAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		role:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		team:{
-			type:"team_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		updatedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		user:{
-			type:"user_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"user_order_by"
 		},
 		userId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	teamUser_pk_columns_input:{
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"uuid!"
 		}
 	},
 	teamUser_select_column: "enum",
 	teamUser_set_input:{
 		createdAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		role:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		teamId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		updatedAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		userId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		}
 	},
 	teamUser_update_column: "enum",
 	timestamptz: "String",
 	timestamptz_comparison_exp:{
 		_eq:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		_gt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		_gte:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		_in:{
-			type:"timestamptz",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[timestamptz]!"
 		},
 		_is_null:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		_lt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		_lte:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		_neq:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		_nin:{
-			type:"timestamptz",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[timestamptz]!"
 		}
 	},
 	unit:{
 		bookings:{
 			distinct_on:{
-				type:"booking_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[booking_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"booking_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[booking_order_by]!"
 			},
 			where:{
-				type:"booking_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"booking_bool_exp"
 			}
 		},
 		bookings_aggregate:{
 			distinct_on:{
-				type:"booking_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[booking_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"booking_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[booking_order_by]!"
 			},
 			where:{
-				type:"booking_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"booking_bool_exp"
 			}
 		},
 		metadata:{
 			path:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"String"
 			}
 		},
 		tags:{
 			distinct_on:{
-				type:"tag_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[tag_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"tag_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[tag_order_by]!"
 			},
 			where:{
-				type:"tag_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"tag_bool_exp"
 			}
 		},
 		tags_aggregate:{
 			distinct_on:{
-				type:"tag_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[tag_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"tag_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[tag_order_by]!"
 			},
 			where:{
-				type:"tag_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"tag_bool_exp"
 			}
 		}
 	},
 	unit_aggregate_fields:{
 		count:{
 			columns:{
-				type:"unit_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[unit_select_column]!"
 			},
 			distinct:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Boolean"
 			}
 		}
 	},
 	unit_aggregate_order_by:{
 		count:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		max:{
-			type:"unit_max_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"unit_max_order_by"
 		},
 		min:{
-			type:"unit_min_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"unit_min_order_by"
 		}
 	},
 	unit_append_input:{
 		metadata:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		}
 	},
 	unit_arr_rel_insert_input:{
 		data:{
-			type:"unit_insert_input",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[unit_insert_input!]!"
 		},
 		on_conflict:{
-			type:"unit_on_conflict",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"unit_on_conflict"
 		}
 	},
 	unit_bool_exp:{
 		_and:{
-			type:"unit_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[unit_bool_exp]!"
 		},
 		_not:{
-			type:"unit_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"unit_bool_exp"
 		},
 		_or:{
-			type:"unit_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[unit_bool_exp]!"
 		},
 		bookings:{
-			type:"booking_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_bool_exp"
 		},
 		connection:{
-			type:"connection_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"connection_bool_exp"
 		},
 		connectionId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		createdAt:{
-			type:"timestamptz_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz_comparison_exp"
 		},
 		entity:{
-			type:"entity_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"entity_bool_exp"
 		},
 		entityId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		id:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		metadata:{
-			type:"jsonb_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb_comparison_exp"
 		},
 		name:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		status:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		tags:{
-			type:"tag_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"tag_bool_exp"
 		},
 		team:{
-			type:"team_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_bool_exp"
 		},
 		teamId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		uniqueRef:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		updatedAt:{
-			type:"timestamptz_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz_comparison_exp"
 		}
 	},
 	unit_constraint: "enum",
 	unit_delete_at_path_input:{
 		metadata:{
-			type:"String",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[String]!"
 		}
 	},
 	unit_delete_elem_input:{
 		metadata:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		}
 	},
 	unit_delete_key_input:{
 		metadata:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	unit_insert_input:{
 		bookings:{
-			type:"booking_arr_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_arr_rel_insert_input"
 		},
 		connection:{
-			type:"connection_obj_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"connection_obj_rel_insert_input"
 		},
 		connectionId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		createdAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		entity:{
-			type:"entity_obj_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"entity_obj_rel_insert_input"
 		},
 		entityId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		metadata:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		status:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		tags:{
-			type:"tag_arr_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"tag_arr_rel_insert_input"
 		},
 		team:{
-			type:"team_obj_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_obj_rel_insert_input"
 		},
 		teamId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		uniqueRef:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		updatedAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		}
 	},
 	unit_max_order_by:{
 		connectionId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		createdAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		entityId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		name:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		status:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		uniqueRef:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		updatedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	unit_min_order_by:{
 		connectionId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		createdAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		entityId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		name:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		status:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		uniqueRef:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		updatedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	unit_obj_rel_insert_input:{
 		data:{
-			type:"unit_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"unit_insert_input!"
 		},
 		on_conflict:{
-			type:"unit_on_conflict",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"unit_on_conflict"
 		}
 	},
 	unit_on_conflict:{
 		constraint:{
-			type:"unit_constraint",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"unit_constraint!"
 		},
 		update_columns:{
-			type:"unit_update_column",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[unit_update_column!]!"
 		},
 		where:{
-			type:"unit_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"unit_bool_exp"
 		}
 	},
 	unit_order_by:{
 		bookings_aggregate:{
-			type:"booking_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"booking_aggregate_order_by"
 		},
 		connection:{
-			type:"connection_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"connection_order_by"
 		},
 		connectionId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		createdAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		entity:{
-			type:"entity_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"entity_order_by"
 		},
 		entityId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		metadata:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		name:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		status:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		tags_aggregate:{
-			type:"tag_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"tag_aggregate_order_by"
 		},
 		team:{
-			type:"team_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		uniqueRef:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		updatedAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	unit_pk_columns_input:{
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"uuid!"
 		}
 	},
 	unit_prepend_input:{
 		metadata:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		}
 	},
 	unit_select_column: "enum",
 	unit_set_input:{
 		connectionId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		createdAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		entityId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		metadata:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		status:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		teamId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		uniqueRef:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		updatedAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		}
 	},
 	unit_update_column: "enum",
 	user:{
 		memberships:{
 			distinct_on:{
-				type:"teamUser_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[teamUser_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"teamUser_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[teamUser_order_by]!"
 			},
 			where:{
-				type:"teamUser_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"teamUser_bool_exp"
 			}
 		},
 		memberships_aggregate:{
 			distinct_on:{
-				type:"teamUser_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[teamUser_select_column]!"
 			},
 			limit:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			offset:{
-				type:"Int",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Int"
 			},
 			order_by:{
-				type:"teamUser_order_by",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[teamUser_order_by]!"
 			},
 			where:{
-				type:"teamUser_bool_exp",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"teamUser_bool_exp"
 			}
 		}
 	},
 	user_aggregate_fields:{
 		count:{
 			columns:{
-				type:"user_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[user_select_column]!"
 			},
 			distinct:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Boolean"
 			}
 		}
 	},
 	user_bool_exp:{
 		_and:{
-			type:"user_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[user_bool_exp]!"
 		},
 		_not:{
-			type:"user_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"user_bool_exp"
 		},
 		_or:{
-			type:"user_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[user_bool_exp]!"
 		},
 		createdAt:{
-			type:"timestamptz_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz_comparison_exp"
 		},
 		email:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		id:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		isAdmin:{
-			type:"Boolean_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean_comparison_exp"
 		},
 		memberships:{
-			type:"teamUser_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"teamUser_bool_exp"
 		},
 		name:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		status:{
-			type:"user_status_enum_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"user_status_enum_comparison_exp"
 		},
 		sub:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		},
 		trialExpiryAt:{
-			type:"timestamptz_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz_comparison_exp"
 		}
 	},
 	user_constraint: "enum",
 	user_insert_input:{
 		createdAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		email:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		isAdmin:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		memberships:{
-			type:"teamUser_arr_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"teamUser_arr_rel_insert_input"
 		},
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		status:{
-			type:"user_status_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"user_status_enum"
 		},
 		sub:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		trialExpiryAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		}
 	},
 	user_obj_rel_insert_input:{
 		data:{
-			type:"user_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"user_insert_input!"
 		},
 		on_conflict:{
-			type:"user_on_conflict",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"user_on_conflict"
 		}
 	},
 	user_on_conflict:{
 		constraint:{
-			type:"user_constraint",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"user_constraint!"
 		},
 		update_columns:{
-			type:"user_update_column",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[user_update_column!]!"
 		},
 		where:{
-			type:"user_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"user_bool_exp"
 		}
 	},
 	user_order_by:{
 		createdAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		email:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		isAdmin:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		memberships_aggregate:{
-			type:"teamUser_aggregate_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"teamUser_aggregate_order_by"
 		},
 		name:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		status:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		sub:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		trialExpiryAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	user_pk_columns_input:{
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"uuid!"
 		}
 	},
 	user_select_column: "enum",
 	user_set_input:{
 		createdAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		email:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		isAdmin:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		status:{
-			type:"user_status_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"user_status_enum"
 		},
 		sub:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		trialExpiryAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		}
 	},
 	user_status_enum: "enum",
 	user_status_enum_comparison_exp:{
 		_eq:{
-			type:"user_status_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"user_status_enum"
 		},
 		_in:{
-			type:"user_status_enum",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[user_status_enum]!"
 		},
 		_is_null:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		_neq:{
-			type:"user_status_enum",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"user_status_enum"
 		},
 		_nin:{
-			type:"user_status_enum",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[user_status_enum]!"
 		}
 	},
 	user_update_column: "enum",
 	userStatus_aggregate_fields:{
 		count:{
 			columns:{
-				type:"userStatus_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[userStatus_select_column]!"
 			},
 			distinct:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Boolean"
 			}
 		}
 	},
 	userStatus_bool_exp:{
 		_and:{
-			type:"userStatus_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[userStatus_bool_exp]!"
 		},
 		_not:{
-			type:"userStatus_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"userStatus_bool_exp"
 		},
 		_or:{
-			type:"userStatus_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[userStatus_bool_exp]!"
 		},
 		name:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		}
 	},
 	userStatus_constraint: "enum",
 	userStatus_insert_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	userStatus_on_conflict:{
 		constraint:{
-			type:"userStatus_constraint",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"userStatus_constraint!"
 		},
 		update_columns:{
-			type:"userStatus_update_column",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[userStatus_update_column!]!"
 		},
 		where:{
-			type:"userStatus_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"userStatus_bool_exp"
 		}
 	},
 	userStatus_order_by:{
 		name:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	userStatus_pk_columns_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"String!"
 		}
 	},
 	userStatus_select_column: "enum",
 	userStatus_set_input:{
 		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	userStatus_update_column: "enum",
 	uuid: "String",
 	uuid_comparison_exp:{
 		_eq:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		_gt:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		_gte:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		_in:{
-			type:"uuid",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[uuid]!"
 		},
 		_is_null:{
-			type:"Boolean",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Boolean"
 		},
 		_lt:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		_lte:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		_neq:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		_nin:{
-			type:"uuid",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[uuid]!"
 		}
 	},
 	webhook:{
 		headers:{
 			path:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"String"
 			}
 		},
 		types:{
 			path:{
-				type:"String",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"String"
 			}
 		}
 	},
 	webhook_aggregate_fields:{
 		count:{
 			columns:{
-				type:"webhook_select_column",
-				array:true,
-				arrayRequired:false,
-				required:true
+				type:"[webhook_select_column]!"
 			},
 			distinct:{
-				type:"Boolean",
-				array:false,
-				arrayRequired:false,
-				required:false
+				type:"Boolean"
 			}
 		}
 	},
 	webhook_aggregate_order_by:{
 		count:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		max:{
-			type:"webhook_max_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"webhook_max_order_by"
 		},
 		min:{
-			type:"webhook_min_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"webhook_min_order_by"
 		}
 	},
 	webhook_append_input:{
 		headers:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		types:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		}
 	},
 	webhook_arr_rel_insert_input:{
 		data:{
-			type:"webhook_insert_input",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[webhook_insert_input!]!"
 		},
 		on_conflict:{
-			type:"webhook_on_conflict",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"webhook_on_conflict"
 		}
 	},
 	webhook_bool_exp:{
 		_and:{
-			type:"webhook_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[webhook_bool_exp]!"
 		},
 		_not:{
-			type:"webhook_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"webhook_bool_exp"
 		},
 		_or:{
-			type:"webhook_bool_exp",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[webhook_bool_exp]!"
 		},
 		createdAt:{
-			type:"timestamptz_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz_comparison_exp"
 		},
 		headers:{
-			type:"jsonb_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb_comparison_exp"
 		},
 		id:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		team:{
-			type:"team_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_bool_exp"
 		},
 		teamId:{
-			type:"uuid_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid_comparison_exp"
 		},
 		types:{
-			type:"jsonb_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb_comparison_exp"
 		},
 		types2:{
-			type:"_text_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"_text_comparison_exp"
 		},
 		url:{
-			type:"String_comparison_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String_comparison_exp"
 		}
 	},
 	webhook_constraint: "enum",
 	webhook_delete_at_path_input:{
 		headers:{
-			type:"String",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[String]!"
 		},
 		types:{
-			type:"String",
-			array:true,
-			arrayRequired:false,
-			required:true
+			type:"[String]!"
 		}
 	},
 	webhook_delete_elem_input:{
 		headers:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		},
 		types:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"Int"
 		}
 	},
 	webhook_delete_key_input:{
 		headers:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		},
 		types:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	webhook_insert_input:{
 		createdAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		headers:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		team:{
-			type:"team_obj_rel_insert_input",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_obj_rel_insert_input"
 		},
 		teamId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		types:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		types2:{
-			type:"_text",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"_text"
 		},
 		url:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	webhook_max_order_by:{
 		createdAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		url:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	webhook_min_order_by:{
 		createdAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		url:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	webhook_on_conflict:{
 		constraint:{
-			type:"webhook_constraint",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"webhook_constraint!"
 		},
 		update_columns:{
-			type:"webhook_update_column",
-			array:true,
-			arrayRequired:true,
-			required:true
+			type:"[webhook_update_column!]!"
 		},
 		where:{
-			type:"webhook_bool_exp",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"webhook_bool_exp"
 		}
 	},
 	webhook_order_by:{
 		createdAt:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		headers:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		id:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		team:{
-			type:"team_order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"team_order_by"
 		},
 		teamId:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		types:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		types2:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		},
 		url:{
-			type:"order_by",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"order_by"
 		}
 	},
 	webhook_pk_columns_input:{
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:true
+			type:"uuid!"
 		}
 	},
 	webhook_prepend_input:{
 		headers:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		types:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		}
 	},
 	webhook_select_column: "enum",
 	webhook_set_input:{
 		createdAt:{
-			type:"timestamptz",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"timestamptz"
 		},
 		headers:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		id:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		teamId:{
-			type:"uuid",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"uuid"
 		},
 		types:{
-			type:"jsonb",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"jsonb"
 		},
 		types2:{
-			type:"_text",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"_text"
 		},
 		url:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
+			type:"String"
 		}
 	},
 	webhook_update_column: "enum"

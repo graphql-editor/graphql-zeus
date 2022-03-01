@@ -62,7 +62,7 @@
   "dependencies": {
     "cross-fetch": "^3.0.4",
     "graphql": "^15.4.0",
-    "graphql-js-tree": "0.0.3",
+    "graphql-js-tree": "^0.1.1",
     "yargs": "^16.1.1"
   },
   "config": {

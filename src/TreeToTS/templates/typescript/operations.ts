@@ -1,7 +1,8 @@
 import { ResolvedOperations } from 'TreeToTS';
-import { OperationType, Environment } from '@/Models';
+import { Environment } from '@/Models';
 import { VALUETYPES } from '../resolveValueTypes';
 import { TYPES } from '@/TreeToTS/templates/returnedTypes';
+import { OperationType } from 'graphql-js-tree';
 
 export const generateOperationsChaining = ({ query, mutation, subscription }: Partial<ResolvedOperations>) => {
   const allOps: Record<OperationType, string | undefined> = {

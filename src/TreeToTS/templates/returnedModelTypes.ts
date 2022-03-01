@@ -1,5 +1,4 @@
-import { Options, ParserField } from '@/Models';
-import { TypeDefinition, TypeSystemDefinition } from '@/Models/Spec';
+import { ParserField, Options, TypeSystemDefinition, TypeDefinition, FieldType, getTypeName } from 'graphql-js-tree';
 import { TYPES } from './returnedTypes';
 
 export const MODEL_TYPES = 'ModelTypes';
@@ -16,39 +15,43 @@ const toTypeScriptPrimitive = (a: string): string => typeScriptMap[a] || `${MODE
 const plusDescription = (description?: string, prefix = ''): string =>
   description ? `${prefix}/** ${description} */\n` : '';
 
+const resolveFieldType = (
+  name: string,
+  fType: FieldType,
+  fn: (str: string) => string = (x) => x,
+  isRequired = false,
+): string => {
+  if (fType.type === Options.name) {
+    return fn(isRequired ? name : `${name} | undefined`);
+  }
+  if (fType.type === Options.array) {
+    return resolveFieldType(
+      name,
+      fType.nest,
+      isRequired ? (x) => `Array<${fn(x)}> | undefined` : (x) => `Array<${fn(x)}>`,
+      false,
+    );
+  }
+  if (fType.type === Options.required) {
+    return resolveFieldType(name, fType.nest, fn, true);
+  }
+  throw new Error('Invalid field type');
+};
+
 const resolveField = (f: ParserField): string => {
-  const {
-    type: { options },
-  } = f;
-  const isArray = !!(options && options.find((o) => o === Options.array));
-  const isArrayRequired = !!(options && options.find((o) => o === Options.arrayRequired));
-  const isRequired = !!(options && options.find((o) => o === Options.required));
   const isRequiredName = (name: string): string => {
-    if (isArray) {
-      if (isArrayRequired) {
-        return name;
-      }
-      return `${name}?`;
+    if (f.type.fieldType.type === Options.required) {
+      return `${name}:`;
     }
-    if (isRequired) {
-      return name;
-    }
-    return `${name}?`;
+    return `${name}?:`;
   };
-  const concatArray = (name: string): string => {
-    if (isArray) {
-      if (!isRequired) {
-        return `(${name} | undefined)[]`;
-      }
-      return `${name}[]`;
-    }
-    return name;
-  };
+
   const resolveArgsName = (name: string): string => {
-    return isRequiredName(name) + ':';
+    return isRequiredName(name);
   };
-  return `${plusDescription(f.description, '\t')}\t${resolveArgsName(f.name)}${concatArray(
-    toTypeScriptPrimitive(f.type.name),
+  return `${plusDescription(f.description, '\t')}\t${resolveArgsName(f.name)}${resolveFieldType(
+    toTypeScriptPrimitive(getTypeName(f.type.fieldType)),
+    f.type.fieldType,
   )}`;
 };
 

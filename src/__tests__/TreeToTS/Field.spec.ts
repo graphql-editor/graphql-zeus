@@ -1,6 +1,5 @@
 import { TYPES } from '@/TreeToTS/templates/returnedTypes';
-import { ScalarTypes } from '../../Models';
-import { Parser } from 'graphql-js-tree';
+import { Parser, ScalarTypes } from 'graphql-js-tree';
 import { TreeToTS } from '../../TreeToTS';
 
 describe('Fields tests on TypeScript code', () => {
@@ -99,6 +98,6 @@ describe('Fields tests on TypeScript code', () => {
 
     const tree = Parser.parse(schema);
     const typeScriptCode = TreeToTS.resolveTree({ tree });
-    expect(typeScriptCode).toContain(`name?:string | null`);
+    expect(typeScriptCode).toContain(`name?: string | undefined | null`);
   });
 });

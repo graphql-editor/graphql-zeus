@@ -1,4 +1,5 @@
-import { Environment, OperationType, ParserField, ParserTree, TypeDefinition } from '../Models';
+import { ParserField, OperationType, ParserTree, TypeDefinition } from 'graphql-js-tree';
+import { Environment } from '../Models';
 import { resolveValueTypes } from './templates/resolveValueTypes';
 import { resolveModelTypes } from './templates/returnedModelTypes';
 import { resolvePropTypeFromRoot } from './templates/returnedPropTypes';
