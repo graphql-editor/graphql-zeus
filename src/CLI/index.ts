@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import * as yargs from 'yargs';
+import { boolean } from 'yargs';
 import { CLI } from './CLIClass';
 const args = yargs
   .usage(
@@ -39,6 +40,11 @@ zeus [path] [output_path] [options]
   .option('reactQuery', {
     alias: 'rq',
     describe: 'Generate React Query useTypedQuery module',
+    boolean: true,
+  })
+  .option('typedDocumentNode', {
+    alias: 'td',
+    describe: 'Generate TypedDocumentNode createQuery module',
     boolean: true,
   })
   .option('header', {

@@ -8,6 +8,7 @@ import { Parser } from 'graphql-js-tree';
 import { pluginApollo } from '@/plugins/apollo';
 import { pluginReactQuery } from '@/plugins/react-query';
 import { pluginStucco } from '@/plugins/stuccoSubscriptions';
+import { pluginTypedDocumentNode } from '@/plugins/typed-document-node';
 
 /**
  * basic yargs interface
@@ -95,6 +96,9 @@ export class CLI {
     }
     if (args.stuccoSubscriptions) {
       writeFileRecursive(path.join(pathToFile, 'zeus'), `stuccoSubscriptions.ts`, pluginStucco({ tree }).ts);
+    }
+    if (args.typedDocumentNode) {
+      writeFileRecursive(path.join(pathToFile, 'zeus'), `typedDocumentNode.ts`, pluginTypedDocumentNode({ tree }).ts);
     }
   };
 }
