@@ -2,22 +2,42 @@ import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
 import gql from 'graphql-tag';
 import { GraphQLTypes, InputType, ValueTypes, Zeus } from './index';
 
-// Note: turns out the generated query does NOT have any params :|
-// type ParamsType<SRC> = SRC extends [infer Params, infer Result] ? Params : { [K in keyof SRC]: ParamsType<SRC[K]> };
-
-// type PayloadType<SRC, DST> = MapType<SRC, IsPayload<DST>>;
-
-export function createTypedQuery<Z extends ValueTypes['query_root']>(
-  query: Z,
+export function tq<Z extends ValueTypes['query_root']>(
+  query: Z | ValueTypes['query_root'],
 ): TypedDocumentNode<InputType<GraphQLTypes['query_root'], Z>, {}> {
-  const zeusQuery = Zeus('query', query);
-  const gqlQuery = gql(zeusQuery);
-
-  return gqlQuery;
+  return gql(Zeus('query', query));
 }
 
+export function tm<Z extends ValueTypes['mutation_root']>(
+  mutation: Z,
+): TypedDocumentNode<InputType<GraphQLTypes['mutation_root'], Z>, {}> {
+  return gql(Zeus('mutation', mutation));
+}
+
+export function ts<Z extends ValueTypes['subscription_root']>(
+  mutation: Z,
+): TypedDocumentNode<InputType<GraphQLTypes['subscription_root'], Z>, {}> {
+  return gql(Zeus('mutation', mutation));
+}
+
+tq({
+  aggregateBookings: [
+    {
+      where: {
+        bookerName: { _eq: '5' },
+      },
+    },
+    {
+      aggregate: {
+        avg: {
+          nights: true,
+        },
+      },
+    },
+  ],
+});
 // Example
-const userMemberships = createTypedQuery({
+const userMemberships = tq({
   user: [
     {
       id: 'x',
@@ -31,6 +51,17 @@ const userMemberships = createTypedQuery({
           role: true,
         },
       ],
+    },
+  ],
+});
+
+const mutate = tm({
+  insertBooking: [
+    {
+      object: {},
+    },
+    {
+      bookerName: true,
     },
   ],
 });

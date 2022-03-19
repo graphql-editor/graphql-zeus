@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 import * as yargs from 'yargs';
-import { boolean } from 'yargs';
 import { CLI } from './CLIClass';
 const args = yargs
   .usage(
