@@ -6779,69 +6779,69 @@ export type ModelTypes = {
 ["_text_comparison_exp"]: GraphQLTypes["_text_comparison_exp"];
 	/** columns and relationships of "booking" */
 ["booking"]: {
-		bookedAt?:ModelTypes["timestamptz"] | undefined,
-	bookerName?:string | undefined,
-	bookingChannel?:ModelTypes["booking_channel_enum"] | undefined,
-	checkIn?:ModelTypes["timestamptz"] | undefined,
-	checkOut?:ModelTypes["timestamptz"] | undefined,
-	confirmationCode?:string | undefined,
+		bookedAt?: GraphQLTypes["timestamptz"] | undefined,
+	bookerName?: string | undefined,
+	bookingChannel?: GraphQLTypes["booking_channel_enum"] | undefined,
+	checkIn?: GraphQLTypes["timestamptz"] | undefined,
+	checkOut?: GraphQLTypes["timestamptz"] | undefined,
+	confirmationCode?: string | undefined,
 	/** An object relationship */
-	connection?:ModelTypes["connection"] | undefined,
-	connectionId?:ModelTypes["uuid"] | undefined,
-	createdAt?:ModelTypes["timestamptz"] | undefined,
-	currency?:ModelTypes["currency_enum"] | undefined,
+	connection?: GraphQLTypes["connection"] | undefined,
+	connectionId?: GraphQLTypes["uuid"] | undefined,
+	createdAt?: GraphQLTypes["timestamptz"] | undefined,
+	currency?: GraphQLTypes["currency_enum"] | undefined,
 	/** An object relationship */
-	entity?:ModelTypes["entity"] | undefined,
-	entityId?:ModelTypes["uuid"] | undefined,
-	guestName?:string | undefined,
-	guests?:number | undefined,
-	id:ModelTypes["uuid"],
-	isOTA?:boolean | undefined,
+	entity?: GraphQLTypes["entity"] | undefined,
+	entityId?: GraphQLTypes["uuid"] | undefined,
+	guestName?: string | undefined,
+	guests?: number | undefined,
+	id: GraphQLTypes["uuid"],
+	isOTA?: boolean | undefined,
 	/** An array relationship */
-	lines:Array<ModelTypes["line"]> | undefined,
+	lines: Array<GraphQLTypes["line"]>,
 	/** An aggregate relationship */
-	lines_aggregate:ModelTypes["line_aggregate"],
-	metadata?:ModelTypes["jsonb"] | undefined,
-	nights?:number | undefined,
+	lines_aggregate: GraphQLTypes["line_aggregate"],
+	metadata?: GraphQLTypes["jsonb"] | undefined,
+	nights?: number | undefined,
 	/** An object relationship */
-	otaBooking?:ModelTypes["booking"] | undefined,
-	otaBookingId?:ModelTypes["uuid"] | undefined,
+	otaBooking?: GraphQLTypes["booking"] | undefined,
+	otaBookingId?: GraphQLTypes["uuid"] | undefined,
 	/** An array relationship */
-	relatedBookings:Array<ModelTypes["booking"]> | undefined,
+	relatedBookings: Array<GraphQLTypes["booking"]>,
 	/** An aggregate relationship */
-	relatedBookings_aggregate:ModelTypes["booking_aggregate"],
-	status?:ModelTypes["booking_status_enum"] | undefined,
+	relatedBookings_aggregate: GraphQLTypes["booking_aggregate"],
+	status?: GraphQLTypes["booking_status_enum"] | undefined,
 	/** An array relationship */
-	tags:Array<ModelTypes["tag"]> | undefined,
+	tags: Array<GraphQLTypes["tag"]>,
 	/** An aggregate relationship */
-	tags_aggregate:ModelTypes["tag_aggregate"],
+	tags_aggregate: GraphQLTypes["tag_aggregate"],
 	/** An object relationship */
-	team?:ModelTypes["team"] | undefined,
-	teamId?:ModelTypes["uuid"] | undefined,
-	uniqueRef?:string | undefined,
+	team?: GraphQLTypes["team"] | undefined,
+	teamId?: GraphQLTypes["uuid"] | undefined,
+	uniqueRef?: string | undefined,
 	/** An object relationship */
-	unit?:ModelTypes["unit"] | undefined,
-	unitId?:ModelTypes["uuid"] | undefined,
-	updatedAt?:ModelTypes["timestamptz"] | undefined
+	unit?: GraphQLTypes["unit"] | undefined,
+	unitId?: GraphQLTypes["uuid"] | undefined,
+	updatedAt?: GraphQLTypes["timestamptz"] | undefined
 };
 	/** aggregated selection of "booking" */
 ["booking_aggregate"]: {
-		aggregate?:ModelTypes["booking_aggregate_fields"] | undefined,
-	nodes:Array<ModelTypes["booking"]> | undefined
+		aggregate?: GraphQLTypes["booking_aggregate_fields"] | undefined,
+	nodes: Array<GraphQLTypes["booking"]>
 };
 	/** aggregate fields of "booking" */
 ["booking_aggregate_fields"]: {
-		avg?:ModelTypes["booking_avg_fields"] | undefined,
-	count:number,
-	max?:ModelTypes["booking_max_fields"] | undefined,
-	min?:ModelTypes["booking_min_fields"] | undefined,
-	stddev?:ModelTypes["booking_stddev_fields"] | undefined,
-	stddev_pop?:ModelTypes["booking_stddev_pop_fields"] | undefined,
-	stddev_samp?:ModelTypes["booking_stddev_samp_fields"] | undefined,
-	sum?:ModelTypes["booking_sum_fields"] | undefined,
-	var_pop?:ModelTypes["booking_var_pop_fields"] | undefined,
-	var_samp?:ModelTypes["booking_var_samp_fields"] | undefined,
-	variance?:ModelTypes["booking_variance_fields"] | undefined
+		avg?: GraphQLTypes["booking_avg_fields"] | undefined,
+	count: number,
+	max?: GraphQLTypes["booking_max_fields"] | undefined,
+	min?: GraphQLTypes["booking_min_fields"] | undefined,
+	stddev?: GraphQLTypes["booking_stddev_fields"] | undefined,
+	stddev_pop?: GraphQLTypes["booking_stddev_pop_fields"] | undefined,
+	stddev_samp?: GraphQLTypes["booking_stddev_samp_fields"] | undefined,
+	sum?: GraphQLTypes["booking_sum_fields"] | undefined,
+	var_pop?: GraphQLTypes["booking_var_pop_fields"] | undefined,
+	var_samp?: GraphQLTypes["booking_var_samp_fields"] | undefined,
+	variance?: GraphQLTypes["booking_variance_fields"] | undefined
 };
 	/** order by aggregate values of table "booking" */
 ["booking_aggregate_order_by"]: GraphQLTypes["booking_aggregate_order_by"];
@@ -6851,8 +6851,8 @@ export type ModelTypes = {
 ["booking_arr_rel_insert_input"]: GraphQLTypes["booking_arr_rel_insert_input"];
 	/** aggregate avg on columns */
 ["booking_avg_fields"]: {
-		guests?:number | undefined,
-	nights?:number | undefined
+		guests?: number | undefined,
+	nights?: number | undefined
 };
 	/** order by avg() on columns of table "booking" */
 ["booking_avg_order_by"]: GraphQLTypes["booking_avg_order_by"];
@@ -6860,18 +6860,18 @@ export type ModelTypes = {
 ["booking_bool_exp"]: GraphQLTypes["booking_bool_exp"];
 	/** columns and relationships of "booking_channel" */
 ["booking_channel"]: {
-		name:string
+		name: string
 };
 	/** aggregated selection of "booking_channel" */
 ["booking_channel_aggregate"]: {
-		aggregate?:ModelTypes["booking_channel_aggregate_fields"] | undefined,
-	nodes:Array<ModelTypes["booking_channel"]> | undefined
+		aggregate?: GraphQLTypes["booking_channel_aggregate_fields"] | undefined,
+	nodes: Array<GraphQLTypes["booking_channel"]>
 };
 	/** aggregate fields of "booking_channel" */
 ["booking_channel_aggregate_fields"]: {
-		count:number,
-	max?:ModelTypes["booking_channel_max_fields"] | undefined,
-	min?:ModelTypes["booking_channel_min_fields"] | undefined
+		count: number,
+	max?: GraphQLTypes["booking_channel_max_fields"] | undefined,
+	min?: GraphQLTypes["booking_channel_min_fields"] | undefined
 };
 	/** Boolean expression to filter rows from the table "booking_channel". All fields are combined with a logical 'AND'. */
 ["booking_channel_bool_exp"]: GraphQLTypes["booking_channel_bool_exp"];
@@ -6884,18 +6884,18 @@ export type ModelTypes = {
 ["booking_channel_insert_input"]: GraphQLTypes["booking_channel_insert_input"];
 	/** aggregate max on columns */
 ["booking_channel_max_fields"]: {
-		name?:string | undefined
+		name?: string | undefined
 };
 	/** aggregate min on columns */
 ["booking_channel_min_fields"]: {
-		name?:string | undefined
+		name?: string | undefined
 };
 	/** response of any mutation on the table "booking_channel" */
 ["booking_channel_mutation_response"]: {
 		/** number of rows affected by the mutation */
-	affected_rows:number,
+	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning:Array<ModelTypes["booking_channel"]> | undefined
+	returning: Array<GraphQLTypes["booking_channel"]>
 };
 	/** on conflict condition type for table "booking_channel" */
 ["booking_channel_on_conflict"]: GraphQLTypes["booking_channel_on_conflict"];
@@ -6924,54 +6924,54 @@ end). throws an error if top level container is not an array */
 ["booking_insert_input"]: GraphQLTypes["booking_insert_input"];
 	/** aggregate max on columns */
 ["booking_max_fields"]: {
-		bookedAt?:ModelTypes["timestamptz"] | undefined,
-	bookerName?:string | undefined,
-	checkIn?:ModelTypes["timestamptz"] | undefined,
-	checkOut?:ModelTypes["timestamptz"] | undefined,
-	confirmationCode?:string | undefined,
-	connectionId?:ModelTypes["uuid"] | undefined,
-	createdAt?:ModelTypes["timestamptz"] | undefined,
-	entityId?:ModelTypes["uuid"] | undefined,
-	guestName?:string | undefined,
-	guests?:number | undefined,
-	id?:ModelTypes["uuid"] | undefined,
-	nights?:number | undefined,
-	otaBookingId?:ModelTypes["uuid"] | undefined,
-	teamId?:ModelTypes["uuid"] | undefined,
-	uniqueRef?:string | undefined,
-	unitId?:ModelTypes["uuid"] | undefined,
-	updatedAt?:ModelTypes["timestamptz"] | undefined
+		bookedAt?: GraphQLTypes["timestamptz"] | undefined,
+	bookerName?: string | undefined,
+	checkIn?: GraphQLTypes["timestamptz"] | undefined,
+	checkOut?: GraphQLTypes["timestamptz"] | undefined,
+	confirmationCode?: string | undefined,
+	connectionId?: GraphQLTypes["uuid"] | undefined,
+	createdAt?: GraphQLTypes["timestamptz"] | undefined,
+	entityId?: GraphQLTypes["uuid"] | undefined,
+	guestName?: string | undefined,
+	guests?: number | undefined,
+	id?: GraphQLTypes["uuid"] | undefined,
+	nights?: number | undefined,
+	otaBookingId?: GraphQLTypes["uuid"] | undefined,
+	teamId?: GraphQLTypes["uuid"] | undefined,
+	uniqueRef?: string | undefined,
+	unitId?: GraphQLTypes["uuid"] | undefined,
+	updatedAt?: GraphQLTypes["timestamptz"] | undefined
 };
 	/** order by max() on columns of table "booking" */
 ["booking_max_order_by"]: GraphQLTypes["booking_max_order_by"];
 	/** aggregate min on columns */
 ["booking_min_fields"]: {
-		bookedAt?:ModelTypes["timestamptz"] | undefined,
-	bookerName?:string | undefined,
-	checkIn?:ModelTypes["timestamptz"] | undefined,
-	checkOut?:ModelTypes["timestamptz"] | undefined,
-	confirmationCode?:string | undefined,
-	connectionId?:ModelTypes["uuid"] | undefined,
-	createdAt?:ModelTypes["timestamptz"] | undefined,
-	entityId?:ModelTypes["uuid"] | undefined,
-	guestName?:string | undefined,
-	guests?:number | undefined,
-	id?:ModelTypes["uuid"] | undefined,
-	nights?:number | undefined,
-	otaBookingId?:ModelTypes["uuid"] | undefined,
-	teamId?:ModelTypes["uuid"] | undefined,
-	uniqueRef?:string | undefined,
-	unitId?:ModelTypes["uuid"] | undefined,
-	updatedAt?:ModelTypes["timestamptz"] | undefined
+		bookedAt?: GraphQLTypes["timestamptz"] | undefined,
+	bookerName?: string | undefined,
+	checkIn?: GraphQLTypes["timestamptz"] | undefined,
+	checkOut?: GraphQLTypes["timestamptz"] | undefined,
+	confirmationCode?: string | undefined,
+	connectionId?: GraphQLTypes["uuid"] | undefined,
+	createdAt?: GraphQLTypes["timestamptz"] | undefined,
+	entityId?: GraphQLTypes["uuid"] | undefined,
+	guestName?: string | undefined,
+	guests?: number | undefined,
+	id?: GraphQLTypes["uuid"] | undefined,
+	nights?: number | undefined,
+	otaBookingId?: GraphQLTypes["uuid"] | undefined,
+	teamId?: GraphQLTypes["uuid"] | undefined,
+	uniqueRef?: string | undefined,
+	unitId?: GraphQLTypes["uuid"] | undefined,
+	updatedAt?: GraphQLTypes["timestamptz"] | undefined
 };
 	/** order by min() on columns of table "booking" */
 ["booking_min_order_by"]: GraphQLTypes["booking_min_order_by"];
 	/** response of any mutation on the table "booking" */
 ["booking_mutation_response"]: {
 		/** number of rows affected by the mutation */
-	affected_rows:number,
+	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning:Array<ModelTypes["booking"]> | undefined
+	returning: Array<GraphQLTypes["booking"]>
 };
 	/** input type for inserting object relation for remote table "booking" */
 ["booking_obj_rel_insert_input"]: GraphQLTypes["booking_obj_rel_insert_input"];
@@ -6992,29 +6992,29 @@ end). throws an error if top level container is not an array */
 ["booking_status_enum_comparison_exp"]: GraphQLTypes["booking_status_enum_comparison_exp"];
 	/** aggregate stddev on columns */
 ["booking_stddev_fields"]: {
-		guests?:number | undefined,
-	nights?:number | undefined
+		guests?: number | undefined,
+	nights?: number | undefined
 };
 	/** order by stddev() on columns of table "booking" */
 ["booking_stddev_order_by"]: GraphQLTypes["booking_stddev_order_by"];
 	/** aggregate stddev_pop on columns */
 ["booking_stddev_pop_fields"]: {
-		guests?:number | undefined,
-	nights?:number | undefined
+		guests?: number | undefined,
+	nights?: number | undefined
 };
 	/** order by stddev_pop() on columns of table "booking" */
 ["booking_stddev_pop_order_by"]: GraphQLTypes["booking_stddev_pop_order_by"];
 	/** aggregate stddev_samp on columns */
 ["booking_stddev_samp_fields"]: {
-		guests?:number | undefined,
-	nights?:number | undefined
+		guests?: number | undefined,
+	nights?: number | undefined
 };
 	/** order by stddev_samp() on columns of table "booking" */
 ["booking_stddev_samp_order_by"]: GraphQLTypes["booking_stddev_samp_order_by"];
 	/** aggregate sum on columns */
 ["booking_sum_fields"]: {
-		guests?:number | undefined,
-	nights?:number | undefined
+		guests?: number | undefined,
+	nights?: number | undefined
 };
 	/** order by sum() on columns of table "booking" */
 ["booking_sum_order_by"]: GraphQLTypes["booking_sum_order_by"];
@@ -7022,39 +7022,39 @@ end). throws an error if top level container is not an array */
 ["booking_update_column"]: GraphQLTypes["booking_update_column"];
 	/** aggregate var_pop on columns */
 ["booking_var_pop_fields"]: {
-		guests?:number | undefined,
-	nights?:number | undefined
+		guests?: number | undefined,
+	nights?: number | undefined
 };
 	/** order by var_pop() on columns of table "booking" */
 ["booking_var_pop_order_by"]: GraphQLTypes["booking_var_pop_order_by"];
 	/** aggregate var_samp on columns */
 ["booking_var_samp_fields"]: {
-		guests?:number | undefined,
-	nights?:number | undefined
+		guests?: number | undefined,
+	nights?: number | undefined
 };
 	/** order by var_samp() on columns of table "booking" */
 ["booking_var_samp_order_by"]: GraphQLTypes["booking_var_samp_order_by"];
 	/** aggregate variance on columns */
 ["booking_variance_fields"]: {
-		guests?:number | undefined,
-	nights?:number | undefined
+		guests?: number | undefined,
+	nights?: number | undefined
 };
 	/** order by variance() on columns of table "booking" */
 ["booking_variance_order_by"]: GraphQLTypes["booking_variance_order_by"];
 	/** columns and relationships of "booking_status" */
 ["bookingStatus"]: {
-		name:string
+		name: string
 };
 	/** aggregated selection of "booking_status" */
 ["bookingStatus_aggregate"]: {
-		aggregate?:ModelTypes["bookingStatus_aggregate_fields"] | undefined,
-	nodes:Array<ModelTypes["bookingStatus"]> | undefined
+		aggregate?: GraphQLTypes["bookingStatus_aggregate_fields"] | undefined,
+	nodes: Array<GraphQLTypes["bookingStatus"]>
 };
 	/** aggregate fields of "booking_status" */
 ["bookingStatus_aggregate_fields"]: {
-		count:number,
-	max?:ModelTypes["bookingStatus_max_fields"] | undefined,
-	min?:ModelTypes["bookingStatus_min_fields"] | undefined
+		count: number,
+	max?: GraphQLTypes["bookingStatus_max_fields"] | undefined,
+	min?: GraphQLTypes["bookingStatus_min_fields"] | undefined
 };
 	/** Boolean expression to filter rows from the table "booking_status". All fields are combined with a logical 'AND'. */
 ["bookingStatus_bool_exp"]: GraphQLTypes["bookingStatus_bool_exp"];
@@ -7064,18 +7064,18 @@ end). throws an error if top level container is not an array */
 ["bookingStatus_insert_input"]: GraphQLTypes["bookingStatus_insert_input"];
 	/** aggregate max on columns */
 ["bookingStatus_max_fields"]: {
-		name?:string | undefined
+		name?: string | undefined
 };
 	/** aggregate min on columns */
 ["bookingStatus_min_fields"]: {
-		name?:string | undefined
+		name?: string | undefined
 };
 	/** response of any mutation on the table "booking_status" */
 ["bookingStatus_mutation_response"]: {
 		/** number of rows affected by the mutation */
-	affected_rows:number,
+	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning:Array<ModelTypes["bookingStatus"]> | undefined
+	returning: Array<GraphQLTypes["bookingStatus"]>
 };
 	/** on conflict condition type for table "booking_status" */
 ["bookingStatus_on_conflict"]: GraphQLTypes["bookingStatus_on_conflict"];
@@ -7093,18 +7093,18 @@ end). throws an error if top level container is not an array */
 ["Boolean_comparison_exp"]: GraphQLTypes["Boolean_comparison_exp"];
 	/** columns and relationships of "classification" */
 ["classification"]: {
-		name:string
+		name: string
 };
 	/** aggregated selection of "classification" */
 ["classification_aggregate"]: {
-		aggregate?:ModelTypes["classification_aggregate_fields"] | undefined,
-	nodes:Array<ModelTypes["classification"]> | undefined
+		aggregate?: GraphQLTypes["classification_aggregate_fields"] | undefined,
+	nodes: Array<GraphQLTypes["classification"]>
 };
 	/** aggregate fields of "classification" */
 ["classification_aggregate_fields"]: {
-		count:number,
-	max?:ModelTypes["classification_max_fields"] | undefined,
-	min?:ModelTypes["classification_min_fields"] | undefined
+		count: number,
+	max?: GraphQLTypes["classification_max_fields"] | undefined,
+	min?: GraphQLTypes["classification_min_fields"] | undefined
 };
 	/** Boolean expression to filter rows from the table "classification". All fields are combined with a logical 'AND'. */
 ["classification_bool_exp"]: GraphQLTypes["classification_bool_exp"];
@@ -7117,18 +7117,18 @@ end). throws an error if top level container is not an array */
 ["classification_insert_input"]: GraphQLTypes["classification_insert_input"];
 	/** aggregate max on columns */
 ["classification_max_fields"]: {
-		name?:string | undefined
+		name?: string | undefined
 };
 	/** aggregate min on columns */
 ["classification_min_fields"]: {
-		name?:string | undefined
+		name?: string | undefined
 };
 	/** response of any mutation on the table "classification" */
 ["classification_mutation_response"]: {
 		/** number of rows affected by the mutation */
-	affected_rows:number,
+	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning:Array<ModelTypes["classification"]> | undefined
+	returning: Array<GraphQLTypes["classification"]>
 };
 	/** on conflict condition type for table "classification" */
 ["classification_on_conflict"]: GraphQLTypes["classification_on_conflict"];
@@ -7145,61 +7145,61 @@ end). throws an error if top level container is not an array */
 	/** columns and relationships of "connection" */
 ["connection"]: {
 		/** An array relationship */
-	bookings:Array<ModelTypes["booking"]> | undefined,
+	bookings: Array<GraphQLTypes["booking"]>,
 	/** An aggregate relationship */
-	bookings_aggregate:ModelTypes["booking_aggregate"],
-	createdAt:ModelTypes["timestamptz"],
-	credentials?:ModelTypes["jsonb"] | undefined,
+	bookings_aggregate: GraphQLTypes["booking_aggregate"],
+	createdAt: GraphQLTypes["timestamptz"],
+	credentials?: GraphQLTypes["jsonb"] | undefined,
 	/** An array relationship */
-	entities:Array<ModelTypes["entity"]> | undefined,
+	entities: Array<GraphQLTypes["entity"]>,
 	/** An aggregate relationship */
-	entities_aggregate:ModelTypes["entity_aggregate"],
-	id:ModelTypes["uuid"],
+	entities_aggregate: GraphQLTypes["entity_aggregate"],
+	id: GraphQLTypes["uuid"],
 	/** An object relationship */
-	integration:ModelTypes["integration"],
-	integrationId:ModelTypes["uuid"],
+	integration: GraphQLTypes["integration"],
+	integrationId: GraphQLTypes["uuid"],
 	/** An array relationship */
-	jobs:Array<ModelTypes["job"]> | undefined,
+	jobs: Array<GraphQLTypes["job"]>,
 	/** An aggregate relationship */
-	jobs_aggregate:ModelTypes["job_aggregate"],
+	jobs_aggregate: GraphQLTypes["job_aggregate"],
 	/** An array relationship */
-	lines:Array<ModelTypes["line"]> | undefined,
+	lines: Array<GraphQLTypes["line"]>,
 	/** An aggregate relationship */
-	lines_aggregate:ModelTypes["line_aggregate"],
+	lines_aggregate: GraphQLTypes["line_aggregate"],
 	/** An array relationship */
-	metrics:Array<ModelTypes["metric"]> | undefined,
+	metrics: Array<GraphQLTypes["metric"]>,
 	/** An aggregate relationship */
-	metrics_aggregate:ModelTypes["metric_aggregate"],
-	name:string,
+	metrics_aggregate: GraphQLTypes["metric_aggregate"],
+	name: string,
 	/** An array relationship */
-	payments:Array<ModelTypes["payment"]> | undefined,
+	payments: Array<GraphQLTypes["payment"]>,
 	/** An aggregate relationship */
-	payments_aggregate:ModelTypes["payment_aggregate"],
-	persistentState?:ModelTypes["jsonb"] | undefined,
-	status?:string | undefined,
+	payments_aggregate: GraphQLTypes["payment_aggregate"],
+	persistentState?: GraphQLTypes["jsonb"] | undefined,
+	status?: string | undefined,
 	/** An array relationship */
-	tags:Array<ModelTypes["tag"]> | undefined,
+	tags: Array<GraphQLTypes["tag"]>,
 	/** An aggregate relationship */
-	tags_aggregate:ModelTypes["tag_aggregate"],
+	tags_aggregate: GraphQLTypes["tag_aggregate"],
 	/** An object relationship */
-	team:ModelTypes["team"],
-	teamId:ModelTypes["uuid"],
+	team: GraphQLTypes["team"],
+	teamId: GraphQLTypes["uuid"],
 	/** An array relationship */
-	units:Array<ModelTypes["unit"]> | undefined,
+	units: Array<GraphQLTypes["unit"]>,
 	/** An aggregate relationship */
-	units_aggregate:ModelTypes["unit_aggregate"],
-	webhookKey?:string | undefined
+	units_aggregate: GraphQLTypes["unit_aggregate"],
+	webhookKey?: string | undefined
 };
 	/** aggregated selection of "connection" */
 ["connection_aggregate"]: {
-		aggregate?:ModelTypes["connection_aggregate_fields"] | undefined,
-	nodes:Array<ModelTypes["connection"]> | undefined
+		aggregate?: GraphQLTypes["connection_aggregate_fields"] | undefined,
+	nodes: Array<GraphQLTypes["connection"]>
 };
 	/** aggregate fields of "connection" */
 ["connection_aggregate_fields"]: {
-		count:number,
-	max?:ModelTypes["connection_max_fields"] | undefined,
-	min?:ModelTypes["connection_min_fields"] | undefined
+		count: number,
+	max?: GraphQLTypes["connection_max_fields"] | undefined,
+	min?: GraphQLTypes["connection_min_fields"] | undefined
 };
 	/** order by aggregate values of table "connection" */
 ["connection_aggregate_order_by"]: GraphQLTypes["connection_aggregate_order_by"];
@@ -7222,34 +7222,34 @@ end). throws an error if top level container is not an array */
 ["connection_insert_input"]: GraphQLTypes["connection_insert_input"];
 	/** aggregate max on columns */
 ["connection_max_fields"]: {
-		createdAt?:ModelTypes["timestamptz"] | undefined,
-	id?:ModelTypes["uuid"] | undefined,
-	integrationId?:ModelTypes["uuid"] | undefined,
-	name?:string | undefined,
-	status?:string | undefined,
-	teamId?:ModelTypes["uuid"] | undefined,
-	webhookKey?:string | undefined
+		createdAt?: GraphQLTypes["timestamptz"] | undefined,
+	id?: GraphQLTypes["uuid"] | undefined,
+	integrationId?: GraphQLTypes["uuid"] | undefined,
+	name?: string | undefined,
+	status?: string | undefined,
+	teamId?: GraphQLTypes["uuid"] | undefined,
+	webhookKey?: string | undefined
 };
 	/** order by max() on columns of table "connection" */
 ["connection_max_order_by"]: GraphQLTypes["connection_max_order_by"];
 	/** aggregate min on columns */
 ["connection_min_fields"]: {
-		createdAt?:ModelTypes["timestamptz"] | undefined,
-	id?:ModelTypes["uuid"] | undefined,
-	integrationId?:ModelTypes["uuid"] | undefined,
-	name?:string | undefined,
-	status?:string | undefined,
-	teamId?:ModelTypes["uuid"] | undefined,
-	webhookKey?:string | undefined
+		createdAt?: GraphQLTypes["timestamptz"] | undefined,
+	id?: GraphQLTypes["uuid"] | undefined,
+	integrationId?: GraphQLTypes["uuid"] | undefined,
+	name?: string | undefined,
+	status?: string | undefined,
+	teamId?: GraphQLTypes["uuid"] | undefined,
+	webhookKey?: string | undefined
 };
 	/** order by min() on columns of table "connection" */
 ["connection_min_order_by"]: GraphQLTypes["connection_min_order_by"];
 	/** response of any mutation on the table "connection" */
 ["connection_mutation_response"]: {
 		/** number of rows affected by the mutation */
-	affected_rows:number,
+	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning:Array<ModelTypes["connection"]> | undefined
+	returning: Array<GraphQLTypes["connection"]>
 };
 	/** input type for inserting object relation for remote table "connection" */
 ["connection_obj_rel_insert_input"]: GraphQLTypes["connection_obj_rel_insert_input"];
@@ -7269,18 +7269,18 @@ end). throws an error if top level container is not an array */
 ["connection_update_column"]: GraphQLTypes["connection_update_column"];
 	/** columns and relationships of "currency" */
 ["currency"]: {
-		name:string
+		name: string
 };
 	/** aggregated selection of "currency" */
 ["currency_aggregate"]: {
-		aggregate?:ModelTypes["currency_aggregate_fields"] | undefined,
-	nodes:Array<ModelTypes["currency"]> | undefined
+		aggregate?: GraphQLTypes["currency_aggregate_fields"] | undefined,
+	nodes: Array<GraphQLTypes["currency"]>
 };
 	/** aggregate fields of "currency" */
 ["currency_aggregate_fields"]: {
-		count:number,
-	max?:ModelTypes["currency_max_fields"] | undefined,
-	min?:ModelTypes["currency_min_fields"] | undefined
+		count: number,
+	max?: GraphQLTypes["currency_max_fields"] | undefined,
+	min?: GraphQLTypes["currency_min_fields"] | undefined
 };
 	/** Boolean expression to filter rows from the table "currency". All fields are combined with a logical 'AND'. */
 ["currency_bool_exp"]: GraphQLTypes["currency_bool_exp"];
@@ -7293,18 +7293,18 @@ end). throws an error if top level container is not an array */
 ["currency_insert_input"]: GraphQLTypes["currency_insert_input"];
 	/** aggregate max on columns */
 ["currency_max_fields"]: {
-		name?:string | undefined
+		name?: string | undefined
 };
 	/** aggregate min on columns */
 ["currency_min_fields"]: {
-		name?:string | undefined
+		name?: string | undefined
 };
 	/** response of any mutation on the table "currency" */
 ["currency_mutation_response"]: {
 		/** number of rows affected by the mutation */
-	affected_rows:number,
+	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning:Array<ModelTypes["currency"]> | undefined
+	returning: Array<GraphQLTypes["currency"]>
 };
 	/** on conflict condition type for table "currency" */
 ["currency_on_conflict"]: GraphQLTypes["currency_on_conflict"];
@@ -7321,58 +7321,58 @@ end). throws an error if top level container is not an array */
 	/** columns and relationships of "entity" */
 ["entity"]: {
 		/** An array relationship */
-	bookings:Array<ModelTypes["booking"]> | undefined,
+	bookings: Array<GraphQLTypes["booking"]>,
 	/** An aggregate relationship */
-	bookings_aggregate:ModelTypes["booking_aggregate"],
+	bookings_aggregate: GraphQLTypes["booking_aggregate"],
 	/** An object relationship */
-	connection:ModelTypes["connection"],
-	connectionId:ModelTypes["uuid"],
-	createdAt:ModelTypes["timestamptz"],
-	description:string,
-	diffJson?:ModelTypes["jsonb"] | undefined,
-	hash?:string | undefined,
-	id:ModelTypes["uuid"],
+	connection: GraphQLTypes["connection"],
+	connectionId: GraphQLTypes["uuid"],
+	createdAt: GraphQLTypes["timestamptz"],
+	description: string,
+	diffJson?: GraphQLTypes["jsonb"] | undefined,
+	hash?: string | undefined,
+	id: GraphQLTypes["uuid"],
 	/** An object relationship */
-	job?:ModelTypes["job"] | undefined,
-	jobId?:ModelTypes["uuid"] | undefined,
-	json?:ModelTypes["jsonb"] | undefined,
-	normalizedJson?:ModelTypes["jsonb"] | undefined,
-	normalizedType?:ModelTypes["normalized_type_enum"] | undefined,
-	parsedAt?:ModelTypes["timestamptz"] | undefined,
+	job?: GraphQLTypes["job"] | undefined,
+	jobId?: GraphQLTypes["uuid"] | undefined,
+	json?: GraphQLTypes["jsonb"] | undefined,
+	normalizedJson?: GraphQLTypes["jsonb"] | undefined,
+	normalizedType?: GraphQLTypes["normalized_type_enum"] | undefined,
+	parsedAt?: GraphQLTypes["timestamptz"] | undefined,
 	/** An array relationship */
-	payments:Array<ModelTypes["payment"]> | undefined,
+	payments: Array<GraphQLTypes["payment"]>,
 	/** An aggregate relationship */
-	payments_aggregate:ModelTypes["payment_aggregate"],
+	payments_aggregate: GraphQLTypes["payment_aggregate"],
 	/** An object relationship */
-	predecessorEntity?:ModelTypes["entity"] | undefined,
-	predecessorEntityId?:ModelTypes["uuid"] | undefined,
-	status:ModelTypes["entity_status_enum"],
-	statusText?:string | undefined,
+	predecessorEntity?: GraphQLTypes["entity"] | undefined,
+	predecessorEntityId?: GraphQLTypes["uuid"] | undefined,
+	status: GraphQLTypes["entity_status_enum"],
+	statusText?: string | undefined,
 	/** An array relationship */
-	successorEntities:Array<ModelTypes["entity"]> | undefined,
+	successorEntities: Array<GraphQLTypes["entity"]>,
 	/** An aggregate relationship */
-	successorEntities_aggregate:ModelTypes["entity_aggregate"],
+	successorEntities_aggregate: GraphQLTypes["entity_aggregate"],
 	/** An object relationship */
-	team?:ModelTypes["team"] | undefined,
-	teamId?:ModelTypes["uuid"] | undefined,
-	type:string,
-	uniqueRef?:string | undefined,
+	team?: GraphQLTypes["team"] | undefined,
+	teamId?: GraphQLTypes["uuid"] | undefined,
+	type: string,
+	uniqueRef?: string | undefined,
 	/** An array relationship */
-	units:Array<ModelTypes["unit"]> | undefined,
+	units: Array<GraphQLTypes["unit"]>,
 	/** An aggregate relationship */
-	units_aggregate:ModelTypes["unit_aggregate"],
-	updatedAt:ModelTypes["timestamptz"]
+	units_aggregate: GraphQLTypes["unit_aggregate"],
+	updatedAt: GraphQLTypes["timestamptz"]
 };
 	/** aggregated selection of "entity" */
 ["entity_aggregate"]: {
-		aggregate?:ModelTypes["entity_aggregate_fields"] | undefined,
-	nodes:Array<ModelTypes["entity"]> | undefined
+		aggregate?: GraphQLTypes["entity_aggregate_fields"] | undefined,
+	nodes: Array<GraphQLTypes["entity"]>
 };
 	/** aggregate fields of "entity" */
 ["entity_aggregate_fields"]: {
-		count:number,
-	max?:ModelTypes["entity_max_fields"] | undefined,
-	min?:ModelTypes["entity_min_fields"] | undefined
+		count: number,
+	max?: GraphQLTypes["entity_max_fields"] | undefined,
+	min?: GraphQLTypes["entity_min_fields"] | undefined
 };
 	/** order by aggregate values of table "entity" */
 ["entity_aggregate_order_by"]: GraphQLTypes["entity_aggregate_order_by"];
@@ -7395,46 +7395,46 @@ end). throws an error if top level container is not an array */
 ["entity_insert_input"]: GraphQLTypes["entity_insert_input"];
 	/** aggregate max on columns */
 ["entity_max_fields"]: {
-		connectionId?:ModelTypes["uuid"] | undefined,
-	createdAt?:ModelTypes["timestamptz"] | undefined,
-	description?:string | undefined,
-	hash?:string | undefined,
-	id?:ModelTypes["uuid"] | undefined,
-	jobId?:ModelTypes["uuid"] | undefined,
-	parsedAt?:ModelTypes["timestamptz"] | undefined,
-	predecessorEntityId?:ModelTypes["uuid"] | undefined,
-	statusText?:string | undefined,
-	teamId?:ModelTypes["uuid"] | undefined,
-	type?:string | undefined,
-	uniqueRef?:string | undefined,
-	updatedAt?:ModelTypes["timestamptz"] | undefined
+		connectionId?: GraphQLTypes["uuid"] | undefined,
+	createdAt?: GraphQLTypes["timestamptz"] | undefined,
+	description?: string | undefined,
+	hash?: string | undefined,
+	id?: GraphQLTypes["uuid"] | undefined,
+	jobId?: GraphQLTypes["uuid"] | undefined,
+	parsedAt?: GraphQLTypes["timestamptz"] | undefined,
+	predecessorEntityId?: GraphQLTypes["uuid"] | undefined,
+	statusText?: string | undefined,
+	teamId?: GraphQLTypes["uuid"] | undefined,
+	type?: string | undefined,
+	uniqueRef?: string | undefined,
+	updatedAt?: GraphQLTypes["timestamptz"] | undefined
 };
 	/** order by max() on columns of table "entity" */
 ["entity_max_order_by"]: GraphQLTypes["entity_max_order_by"];
 	/** aggregate min on columns */
 ["entity_min_fields"]: {
-		connectionId?:ModelTypes["uuid"] | undefined,
-	createdAt?:ModelTypes["timestamptz"] | undefined,
-	description?:string | undefined,
-	hash?:string | undefined,
-	id?:ModelTypes["uuid"] | undefined,
-	jobId?:ModelTypes["uuid"] | undefined,
-	parsedAt?:ModelTypes["timestamptz"] | undefined,
-	predecessorEntityId?:ModelTypes["uuid"] | undefined,
-	statusText?:string | undefined,
-	teamId?:ModelTypes["uuid"] | undefined,
-	type?:string | undefined,
-	uniqueRef?:string | undefined,
-	updatedAt?:ModelTypes["timestamptz"] | undefined
+		connectionId?: GraphQLTypes["uuid"] | undefined,
+	createdAt?: GraphQLTypes["timestamptz"] | undefined,
+	description?: string | undefined,
+	hash?: string | undefined,
+	id?: GraphQLTypes["uuid"] | undefined,
+	jobId?: GraphQLTypes["uuid"] | undefined,
+	parsedAt?: GraphQLTypes["timestamptz"] | undefined,
+	predecessorEntityId?: GraphQLTypes["uuid"] | undefined,
+	statusText?: string | undefined,
+	teamId?: GraphQLTypes["uuid"] | undefined,
+	type?: string | undefined,
+	uniqueRef?: string | undefined,
+	updatedAt?: GraphQLTypes["timestamptz"] | undefined
 };
 	/** order by min() on columns of table "entity" */
 ["entity_min_order_by"]: GraphQLTypes["entity_min_order_by"];
 	/** response of any mutation on the table "entity" */
 ["entity_mutation_response"]: {
 		/** number of rows affected by the mutation */
-	affected_rows:number,
+	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning:Array<ModelTypes["entity"]> | undefined
+	returning: Array<GraphQLTypes["entity"]>
 };
 	/** input type for inserting object relation for remote table "entity" */
 ["entity_obj_rel_insert_input"]: GraphQLTypes["entity_obj_rel_insert_input"];
@@ -7457,18 +7457,18 @@ end). throws an error if top level container is not an array */
 ["entity_update_column"]: GraphQLTypes["entity_update_column"];
 	/** columns and relationships of "entity_status" */
 ["entityStatus"]: {
-		name:string
+		name: string
 };
 	/** aggregated selection of "entity_status" */
 ["entityStatus_aggregate"]: {
-		aggregate?:ModelTypes["entityStatus_aggregate_fields"] | undefined,
-	nodes:Array<ModelTypes["entityStatus"]> | undefined
+		aggregate?: GraphQLTypes["entityStatus_aggregate_fields"] | undefined,
+	nodes: Array<GraphQLTypes["entityStatus"]>
 };
 	/** aggregate fields of "entity_status" */
 ["entityStatus_aggregate_fields"]: {
-		count:number,
-	max?:ModelTypes["entityStatus_max_fields"] | undefined,
-	min?:ModelTypes["entityStatus_min_fields"] | undefined
+		count: number,
+	max?: GraphQLTypes["entityStatus_max_fields"] | undefined,
+	min?: GraphQLTypes["entityStatus_min_fields"] | undefined
 };
 	/** Boolean expression to filter rows from the table "entity_status". All fields are combined with a logical 'AND'. */
 ["entityStatus_bool_exp"]: GraphQLTypes["entityStatus_bool_exp"];
@@ -7478,18 +7478,18 @@ end). throws an error if top level container is not an array */
 ["entityStatus_insert_input"]: GraphQLTypes["entityStatus_insert_input"];
 	/** aggregate max on columns */
 ["entityStatus_max_fields"]: {
-		name?:string | undefined
+		name?: string | undefined
 };
 	/** aggregate min on columns */
 ["entityStatus_min_fields"]: {
-		name?:string | undefined
+		name?: string | undefined
 };
 	/** response of any mutation on the table "entity_status" */
 ["entityStatus_mutation_response"]: {
 		/** number of rows affected by the mutation */
-	affected_rows:number,
+	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning:Array<ModelTypes["entityStatus"]> | undefined
+	returning: Array<GraphQLTypes["entityStatus"]>
 };
 	/** on conflict condition type for table "entity_status" */
 ["entityStatus_on_conflict"]: GraphQLTypes["entityStatus_on_conflict"];
@@ -7510,37 +7510,37 @@ end). throws an error if top level container is not an array */
 ["Int_comparison_exp"]: GraphQLTypes["Int_comparison_exp"];
 	/** columns and relationships of "integration" */
 ["integration"]: {
-		apiDevUrl?:string | undefined,
-	apiUrl:string,
+		apiDevUrl?: string | undefined,
+	apiUrl: string,
 	/** An array relationship */
-	connections:Array<ModelTypes["connection"]> | undefined,
+	connections: Array<GraphQLTypes["connection"]>,
 	/** An aggregate relationship */
-	connections_aggregate:ModelTypes["connection_aggregate"],
-	icon?:string | undefined,
-	id:ModelTypes["uuid"],
-	isApproved?:boolean | undefined,
-	isPrivate:boolean,
+	connections_aggregate: GraphQLTypes["connection_aggregate"],
+	icon?: string | undefined,
+	id: GraphQLTypes["uuid"],
+	isApproved?: boolean | undefined,
+	isPrivate: boolean,
 	/** An array relationship */
-	jobs:Array<ModelTypes["job"]> | undefined,
+	jobs: Array<GraphQLTypes["job"]>,
 	/** An aggregate relationship */
-	jobs_aggregate:ModelTypes["job_aggregate"],
-	name:string,
+	jobs_aggregate: GraphQLTypes["job_aggregate"],
+	name: string,
 	/** An object relationship */
-	team?:ModelTypes["team"] | undefined,
-	teamId?:ModelTypes["uuid"] | undefined,
-	type:ModelTypes["integration_type_enum"],
-	uniqueRef:string
+	team?: GraphQLTypes["team"] | undefined,
+	teamId?: GraphQLTypes["uuid"] | undefined,
+	type: GraphQLTypes["integration_type_enum"],
+	uniqueRef: string
 };
 	/** aggregated selection of "integration" */
 ["integration_aggregate"]: {
-		aggregate?:ModelTypes["integration_aggregate_fields"] | undefined,
-	nodes:Array<ModelTypes["integration"]> | undefined
+		aggregate?: GraphQLTypes["integration_aggregate_fields"] | undefined,
+	nodes: Array<GraphQLTypes["integration"]>
 };
 	/** aggregate fields of "integration" */
 ["integration_aggregate_fields"]: {
-		count:number,
-	max?:ModelTypes["integration_max_fields"] | undefined,
-	min?:ModelTypes["integration_min_fields"] | undefined
+		count: number,
+	max?: GraphQLTypes["integration_max_fields"] | undefined,
+	min?: GraphQLTypes["integration_min_fields"] | undefined
 };
 	/** order by aggregate values of table "integration" */
 ["integration_aggregate_order_by"]: GraphQLTypes["integration_aggregate_order_by"];
@@ -7554,34 +7554,34 @@ end). throws an error if top level container is not an array */
 ["integration_insert_input"]: GraphQLTypes["integration_insert_input"];
 	/** aggregate max on columns */
 ["integration_max_fields"]: {
-		apiDevUrl?:string | undefined,
-	apiUrl?:string | undefined,
-	icon?:string | undefined,
-	id?:ModelTypes["uuid"] | undefined,
-	name?:string | undefined,
-	teamId?:ModelTypes["uuid"] | undefined,
-	uniqueRef?:string | undefined
+		apiDevUrl?: string | undefined,
+	apiUrl?: string | undefined,
+	icon?: string | undefined,
+	id?: GraphQLTypes["uuid"] | undefined,
+	name?: string | undefined,
+	teamId?: GraphQLTypes["uuid"] | undefined,
+	uniqueRef?: string | undefined
 };
 	/** order by max() on columns of table "integration" */
 ["integration_max_order_by"]: GraphQLTypes["integration_max_order_by"];
 	/** aggregate min on columns */
 ["integration_min_fields"]: {
-		apiDevUrl?:string | undefined,
-	apiUrl?:string | undefined,
-	icon?:string | undefined,
-	id?:ModelTypes["uuid"] | undefined,
-	name?:string | undefined,
-	teamId?:ModelTypes["uuid"] | undefined,
-	uniqueRef?:string | undefined
+		apiDevUrl?: string | undefined,
+	apiUrl?: string | undefined,
+	icon?: string | undefined,
+	id?: GraphQLTypes["uuid"] | undefined,
+	name?: string | undefined,
+	teamId?: GraphQLTypes["uuid"] | undefined,
+	uniqueRef?: string | undefined
 };
 	/** order by min() on columns of table "integration" */
 ["integration_min_order_by"]: GraphQLTypes["integration_min_order_by"];
 	/** response of any mutation on the table "integration" */
 ["integration_mutation_response"]: {
 		/** number of rows affected by the mutation */
-	affected_rows:number,
+	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning:Array<ModelTypes["integration"]> | undefined
+	returning: Array<GraphQLTypes["integration"]>
 };
 	/** input type for inserting object relation for remote table "integration" */
 ["integration_obj_rel_insert_input"]: GraphQLTypes["integration_obj_rel_insert_input"];
@@ -7602,18 +7602,18 @@ end). throws an error if top level container is not an array */
 ["integration_update_column"]: GraphQLTypes["integration_update_column"];
 	/** columns and relationships of "integration_type" */
 ["integrationType"]: {
-		name:string
+		name: string
 };
 	/** aggregated selection of "integration_type" */
 ["integrationType_aggregate"]: {
-		aggregate?:ModelTypes["integrationType_aggregate_fields"] | undefined,
-	nodes:Array<ModelTypes["integrationType"]> | undefined
+		aggregate?: GraphQLTypes["integrationType_aggregate_fields"] | undefined,
+	nodes: Array<GraphQLTypes["integrationType"]>
 };
 	/** aggregate fields of "integration_type" */
 ["integrationType_aggregate_fields"]: {
-		count:number,
-	max?:ModelTypes["integrationType_max_fields"] | undefined,
-	min?:ModelTypes["integrationType_min_fields"] | undefined
+		count: number,
+	max?: GraphQLTypes["integrationType_max_fields"] | undefined,
+	min?: GraphQLTypes["integrationType_min_fields"] | undefined
 };
 	/** Boolean expression to filter rows from the table "integration_type". All fields are combined with a logical 'AND'. */
 ["integrationType_bool_exp"]: GraphQLTypes["integrationType_bool_exp"];
@@ -7623,18 +7623,18 @@ end). throws an error if top level container is not an array */
 ["integrationType_insert_input"]: GraphQLTypes["integrationType_insert_input"];
 	/** aggregate max on columns */
 ["integrationType_max_fields"]: {
-		name?:string | undefined
+		name?: string | undefined
 };
 	/** aggregate min on columns */
 ["integrationType_min_fields"]: {
-		name?:string | undefined
+		name?: string | undefined
 };
 	/** response of any mutation on the table "integration_type" */
 ["integrationType_mutation_response"]: {
 		/** number of rows affected by the mutation */
-	affected_rows:number,
+	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning:Array<ModelTypes["integrationType"]> | undefined
+	returning: Array<GraphQLTypes["integrationType"]>
 };
 	/** on conflict condition type for table "integration_type" */
 ["integrationType_on_conflict"]: GraphQLTypes["integrationType_on_conflict"];
@@ -7650,33 +7650,33 @@ end). throws an error if top level container is not an array */
 ["integrationType_update_column"]: GraphQLTypes["integrationType_update_column"];
 	/** columns and relationships of "issue" */
 ["issue"]: {
-		code?:string | undefined,
-	createdAt:ModelTypes["timestamptz"],
-	id:ModelTypes["uuid"],
-	isPublic?:boolean | undefined,
-	isResolved?:boolean | undefined,
+		code?: string | undefined,
+	createdAt: GraphQLTypes["timestamptz"],
+	id: GraphQLTypes["uuid"],
+	isPublic?: boolean | undefined,
+	isResolved?: boolean | undefined,
 	/** An object relationship */
-	job:ModelTypes["job"],
-	jobId:ModelTypes["uuid"],
-	message?:string | undefined,
-	requestParams?:ModelTypes["jsonb"] | undefined,
-	resolveParams?:ModelTypes["jsonb"] | undefined,
+	job: GraphQLTypes["job"],
+	jobId: GraphQLTypes["uuid"],
+	message?: string | undefined,
+	requestParams?: GraphQLTypes["jsonb"] | undefined,
+	resolveParams?: GraphQLTypes["jsonb"] | undefined,
 	/** An object relationship */
-	team:ModelTypes["team"],
-	teamId:ModelTypes["uuid"],
-	type?:string | undefined,
-	updatedAt:ModelTypes["timestamptz"]
+	team: GraphQLTypes["team"],
+	teamId: GraphQLTypes["uuid"],
+	type?: string | undefined,
+	updatedAt: GraphQLTypes["timestamptz"]
 };
 	/** aggregated selection of "issue" */
 ["issue_aggregate"]: {
-		aggregate?:ModelTypes["issue_aggregate_fields"] | undefined,
-	nodes:Array<ModelTypes["issue"]> | undefined
+		aggregate?: GraphQLTypes["issue_aggregate_fields"] | undefined,
+	nodes: Array<GraphQLTypes["issue"]>
 };
 	/** aggregate fields of "issue" */
 ["issue_aggregate_fields"]: {
-		count:number,
-	max?:ModelTypes["issue_max_fields"] | undefined,
-	min?:ModelTypes["issue_min_fields"] | undefined
+		count: number,
+	max?: GraphQLTypes["issue_max_fields"] | undefined,
+	min?: GraphQLTypes["issue_min_fields"] | undefined
 };
 	/** order by aggregate values of table "issue" */
 ["issue_aggregate_order_by"]: GraphQLTypes["issue_aggregate_order_by"];
@@ -7699,36 +7699,36 @@ end). throws an error if top level container is not an array */
 ["issue_insert_input"]: GraphQLTypes["issue_insert_input"];
 	/** aggregate max on columns */
 ["issue_max_fields"]: {
-		code?:string | undefined,
-	createdAt?:ModelTypes["timestamptz"] | undefined,
-	id?:ModelTypes["uuid"] | undefined,
-	jobId?:ModelTypes["uuid"] | undefined,
-	message?:string | undefined,
-	teamId?:ModelTypes["uuid"] | undefined,
-	type?:string | undefined,
-	updatedAt?:ModelTypes["timestamptz"] | undefined
+		code?: string | undefined,
+	createdAt?: GraphQLTypes["timestamptz"] | undefined,
+	id?: GraphQLTypes["uuid"] | undefined,
+	jobId?: GraphQLTypes["uuid"] | undefined,
+	message?: string | undefined,
+	teamId?: GraphQLTypes["uuid"] | undefined,
+	type?: string | undefined,
+	updatedAt?: GraphQLTypes["timestamptz"] | undefined
 };
 	/** order by max() on columns of table "issue" */
 ["issue_max_order_by"]: GraphQLTypes["issue_max_order_by"];
 	/** aggregate min on columns */
 ["issue_min_fields"]: {
-		code?:string | undefined,
-	createdAt?:ModelTypes["timestamptz"] | undefined,
-	id?:ModelTypes["uuid"] | undefined,
-	jobId?:ModelTypes["uuid"] | undefined,
-	message?:string | undefined,
-	teamId?:ModelTypes["uuid"] | undefined,
-	type?:string | undefined,
-	updatedAt?:ModelTypes["timestamptz"] | undefined
+		code?: string | undefined,
+	createdAt?: GraphQLTypes["timestamptz"] | undefined,
+	id?: GraphQLTypes["uuid"] | undefined,
+	jobId?: GraphQLTypes["uuid"] | undefined,
+	message?: string | undefined,
+	teamId?: GraphQLTypes["uuid"] | undefined,
+	type?: string | undefined,
+	updatedAt?: GraphQLTypes["timestamptz"] | undefined
 };
 	/** order by min() on columns of table "issue" */
 ["issue_min_order_by"]: GraphQLTypes["issue_min_order_by"];
 	/** response of any mutation on the table "issue" */
 ["issue_mutation_response"]: {
 		/** number of rows affected by the mutation */
-	affected_rows:number,
+	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning:Array<ModelTypes["issue"]> | undefined
+	returning: Array<GraphQLTypes["issue"]>
 };
 	/** on conflict condition type for table "issue" */
 ["issue_on_conflict"]: GraphQLTypes["issue_on_conflict"];
@@ -7746,51 +7746,51 @@ end). throws an error if top level container is not an array */
 ["issue_update_column"]: GraphQLTypes["issue_update_column"];
 	/** columns and relationships of "job" */
 ["job"]: {
-		apiVersion?:string | undefined,
+		apiVersion?: string | undefined,
 	/** An object relationship */
-	connection?:ModelTypes["connection"] | undefined,
-	connectionId?:ModelTypes["uuid"] | undefined,
-	createdAt:ModelTypes["timestamptz"],
-	endedAt?:ModelTypes["timestamptz"] | undefined,
+	connection?: GraphQLTypes["connection"] | undefined,
+	connectionId?: GraphQLTypes["uuid"] | undefined,
+	createdAt: GraphQLTypes["timestamptz"],
+	endedAt?: GraphQLTypes["timestamptz"] | undefined,
 	/** An array relationship */
-	entities:Array<ModelTypes["entity"]> | undefined,
+	entities: Array<GraphQLTypes["entity"]>,
 	/** An aggregate relationship */
-	entities_aggregate:ModelTypes["entity_aggregate"],
-	id:ModelTypes["uuid"],
+	entities_aggregate: GraphQLTypes["entity_aggregate"],
+	id: GraphQLTypes["uuid"],
 	/** An object relationship */
-	integration?:ModelTypes["integration"] | undefined,
-	integrationId?:ModelTypes["uuid"] | undefined,
-	integrationSdkVersion?:string | undefined,
-	integrationVersion?:string | undefined,
+	integration?: GraphQLTypes["integration"] | undefined,
+	integrationId?: GraphQLTypes["uuid"] | undefined,
+	integrationSdkVersion?: string | undefined,
+	integrationVersion?: string | undefined,
 	/** An array relationship */
-	issues:Array<ModelTypes["issue"]> | undefined,
+	issues: Array<GraphQLTypes["issue"]>,
 	/** An aggregate relationship */
-	issues_aggregate:ModelTypes["issue_aggregate"],
-	logFile?:string | undefined,
-	logLink?:string | undefined,
-	logs?:ModelTypes["jsonb"] | undefined,
-	method?:ModelTypes["job_method_enum"] | undefined,
-	params?:ModelTypes["jsonb"] | undefined,
-	requestId?:string | undefined,
-	response?:ModelTypes["jsonb"] | undefined,
-	sdkVersion?:string | undefined,
-	startedAt?:ModelTypes["timestamptz"] | undefined,
-	status?:ModelTypes["job_status_enum"] | undefined,
+	issues_aggregate: GraphQLTypes["issue_aggregate"],
+	logFile?: string | undefined,
+	logLink?: string | undefined,
+	logs?: GraphQLTypes["jsonb"] | undefined,
+	method?: GraphQLTypes["job_method_enum"] | undefined,
+	params?: GraphQLTypes["jsonb"] | undefined,
+	requestId?: string | undefined,
+	response?: GraphQLTypes["jsonb"] | undefined,
+	sdkVersion?: string | undefined,
+	startedAt?: GraphQLTypes["timestamptz"] | undefined,
+	status?: GraphQLTypes["job_status_enum"] | undefined,
 	/** An object relationship */
-	team?:ModelTypes["team"] | undefined,
-	teamId?:ModelTypes["uuid"] | undefined,
-	updatedAt:ModelTypes["timestamptz"]
+	team?: GraphQLTypes["team"] | undefined,
+	teamId?: GraphQLTypes["uuid"] | undefined,
+	updatedAt: GraphQLTypes["timestamptz"]
 };
 	/** aggregated selection of "job" */
 ["job_aggregate"]: {
-		aggregate?:ModelTypes["job_aggregate_fields"] | undefined,
-	nodes:Array<ModelTypes["job"]> | undefined
+		aggregate?: GraphQLTypes["job_aggregate_fields"] | undefined,
+	nodes: Array<GraphQLTypes["job"]>
 };
 	/** aggregate fields of "job" */
 ["job_aggregate_fields"]: {
-		count:number,
-	max?:ModelTypes["job_max_fields"] | undefined,
-	min?:ModelTypes["job_min_fields"] | undefined
+		count: number,
+	max?: GraphQLTypes["job_max_fields"] | undefined,
+	min?: GraphQLTypes["job_min_fields"] | undefined
 };
 	/** order by aggregate values of table "job" */
 ["job_aggregate_order_by"]: GraphQLTypes["job_aggregate_order_by"];
@@ -7813,21 +7813,21 @@ end). throws an error if top level container is not an array */
 ["job_insert_input"]: GraphQLTypes["job_insert_input"];
 	/** aggregate max on columns */
 ["job_max_fields"]: {
-		apiVersion?:string | undefined,
-	connectionId?:ModelTypes["uuid"] | undefined,
-	createdAt?:ModelTypes["timestamptz"] | undefined,
-	endedAt?:ModelTypes["timestamptz"] | undefined,
-	id?:ModelTypes["uuid"] | undefined,
-	integrationId?:ModelTypes["uuid"] | undefined,
-	integrationSdkVersion?:string | undefined,
-	integrationVersion?:string | undefined,
-	logFile?:string | undefined,
-	logLink?:string | undefined,
-	requestId?:string | undefined,
-	sdkVersion?:string | undefined,
-	startedAt?:ModelTypes["timestamptz"] | undefined,
-	teamId?:ModelTypes["uuid"] | undefined,
-	updatedAt?:ModelTypes["timestamptz"] | undefined
+		apiVersion?: string | undefined,
+	connectionId?: GraphQLTypes["uuid"] | undefined,
+	createdAt?: GraphQLTypes["timestamptz"] | undefined,
+	endedAt?: GraphQLTypes["timestamptz"] | undefined,
+	id?: GraphQLTypes["uuid"] | undefined,
+	integrationId?: GraphQLTypes["uuid"] | undefined,
+	integrationSdkVersion?: string | undefined,
+	integrationVersion?: string | undefined,
+	logFile?: string | undefined,
+	logLink?: string | undefined,
+	requestId?: string | undefined,
+	sdkVersion?: string | undefined,
+	startedAt?: GraphQLTypes["timestamptz"] | undefined,
+	teamId?: GraphQLTypes["uuid"] | undefined,
+	updatedAt?: GraphQLTypes["timestamptz"] | undefined
 };
 	/** order by max() on columns of table "job" */
 ["job_max_order_by"]: GraphQLTypes["job_max_order_by"];
@@ -7836,30 +7836,30 @@ end). throws an error if top level container is not an array */
 ["job_method_enum_comparison_exp"]: GraphQLTypes["job_method_enum_comparison_exp"];
 	/** aggregate min on columns */
 ["job_min_fields"]: {
-		apiVersion?:string | undefined,
-	connectionId?:ModelTypes["uuid"] | undefined,
-	createdAt?:ModelTypes["timestamptz"] | undefined,
-	endedAt?:ModelTypes["timestamptz"] | undefined,
-	id?:ModelTypes["uuid"] | undefined,
-	integrationId?:ModelTypes["uuid"] | undefined,
-	integrationSdkVersion?:string | undefined,
-	integrationVersion?:string | undefined,
-	logFile?:string | undefined,
-	logLink?:string | undefined,
-	requestId?:string | undefined,
-	sdkVersion?:string | undefined,
-	startedAt?:ModelTypes["timestamptz"] | undefined,
-	teamId?:ModelTypes["uuid"] | undefined,
-	updatedAt?:ModelTypes["timestamptz"] | undefined
+		apiVersion?: string | undefined,
+	connectionId?: GraphQLTypes["uuid"] | undefined,
+	createdAt?: GraphQLTypes["timestamptz"] | undefined,
+	endedAt?: GraphQLTypes["timestamptz"] | undefined,
+	id?: GraphQLTypes["uuid"] | undefined,
+	integrationId?: GraphQLTypes["uuid"] | undefined,
+	integrationSdkVersion?: string | undefined,
+	integrationVersion?: string | undefined,
+	logFile?: string | undefined,
+	logLink?: string | undefined,
+	requestId?: string | undefined,
+	sdkVersion?: string | undefined,
+	startedAt?: GraphQLTypes["timestamptz"] | undefined,
+	teamId?: GraphQLTypes["uuid"] | undefined,
+	updatedAt?: GraphQLTypes["timestamptz"] | undefined
 };
 	/** order by min() on columns of table "job" */
 ["job_min_order_by"]: GraphQLTypes["job_min_order_by"];
 	/** response of any mutation on the table "job" */
 ["job_mutation_response"]: {
 		/** number of rows affected by the mutation */
-	affected_rows:number,
+	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning:Array<ModelTypes["job"]> | undefined
+	returning: Array<GraphQLTypes["job"]>
 };
 	/** input type for inserting object relation for remote table "job" */
 ["job_obj_rel_insert_input"]: GraphQLTypes["job_obj_rel_insert_input"];
@@ -7882,18 +7882,18 @@ end). throws an error if top level container is not an array */
 ["job_update_column"]: GraphQLTypes["job_update_column"];
 	/** columns and relationships of "job_method" */
 ["jobMethod"]: {
-		name:string
+		name: string
 };
 	/** aggregated selection of "job_method" */
 ["jobMethod_aggregate"]: {
-		aggregate?:ModelTypes["jobMethod_aggregate_fields"] | undefined,
-	nodes:Array<ModelTypes["jobMethod"]> | undefined
+		aggregate?: GraphQLTypes["jobMethod_aggregate_fields"] | undefined,
+	nodes: Array<GraphQLTypes["jobMethod"]>
 };
 	/** aggregate fields of "job_method" */
 ["jobMethod_aggregate_fields"]: {
-		count:number,
-	max?:ModelTypes["jobMethod_max_fields"] | undefined,
-	min?:ModelTypes["jobMethod_min_fields"] | undefined
+		count: number,
+	max?: GraphQLTypes["jobMethod_max_fields"] | undefined,
+	min?: GraphQLTypes["jobMethod_min_fields"] | undefined
 };
 	/** Boolean expression to filter rows from the table "job_method". All fields are combined with a logical 'AND'. */
 ["jobMethod_bool_exp"]: GraphQLTypes["jobMethod_bool_exp"];
@@ -7903,18 +7903,18 @@ end). throws an error if top level container is not an array */
 ["jobMethod_insert_input"]: GraphQLTypes["jobMethod_insert_input"];
 	/** aggregate max on columns */
 ["jobMethod_max_fields"]: {
-		name?:string | undefined
+		name?: string | undefined
 };
 	/** aggregate min on columns */
 ["jobMethod_min_fields"]: {
-		name?:string | undefined
+		name?: string | undefined
 };
 	/** response of any mutation on the table "job_method" */
 ["jobMethod_mutation_response"]: {
 		/** number of rows affected by the mutation */
-	affected_rows:number,
+	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning:Array<ModelTypes["jobMethod"]> | undefined
+	returning: Array<GraphQLTypes["jobMethod"]>
 };
 	/** on conflict condition type for table "job_method" */
 ["jobMethod_on_conflict"]: GraphQLTypes["jobMethod_on_conflict"];
@@ -7930,18 +7930,18 @@ end). throws an error if top level container is not an array */
 ["jobMethod_update_column"]: GraphQLTypes["jobMethod_update_column"];
 	/** columns and relationships of "job_status" */
 ["jobStatus"]: {
-		name:string
+		name: string
 };
 	/** aggregated selection of "job_status" */
 ["jobStatus_aggregate"]: {
-		aggregate?:ModelTypes["jobStatus_aggregate_fields"] | undefined,
-	nodes:Array<ModelTypes["jobStatus"]> | undefined
+		aggregate?: GraphQLTypes["jobStatus_aggregate_fields"] | undefined,
+	nodes: Array<GraphQLTypes["jobStatus"]>
 };
 	/** aggregate fields of "job_status" */
 ["jobStatus_aggregate_fields"]: {
-		count:number,
-	max?:ModelTypes["jobStatus_max_fields"] | undefined,
-	min?:ModelTypes["jobStatus_min_fields"] | undefined
+		count: number,
+	max?: GraphQLTypes["jobStatus_max_fields"] | undefined,
+	min?: GraphQLTypes["jobStatus_min_fields"] | undefined
 };
 	/** Boolean expression to filter rows from the table "job_status". All fields are combined with a logical 'AND'. */
 ["jobStatus_bool_exp"]: GraphQLTypes["jobStatus_bool_exp"];
@@ -7951,18 +7951,18 @@ end). throws an error if top level container is not an array */
 ["jobStatus_insert_input"]: GraphQLTypes["jobStatus_insert_input"];
 	/** aggregate max on columns */
 ["jobStatus_max_fields"]: {
-		name?:string | undefined
+		name?: string | undefined
 };
 	/** aggregate min on columns */
 ["jobStatus_min_fields"]: {
-		name?:string | undefined
+		name?: string | undefined
 };
 	/** response of any mutation on the table "job_status" */
 ["jobStatus_mutation_response"]: {
 		/** number of rows affected by the mutation */
-	affected_rows:number,
+	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning:Array<ModelTypes["jobStatus"]> | undefined
+	returning: Array<GraphQLTypes["jobStatus"]>
 };
 	/** on conflict condition type for table "job_status" */
 ["jobStatus_on_conflict"]: GraphQLTypes["jobStatus_on_conflict"];
@@ -7982,59 +7982,59 @@ end). throws an error if top level container is not an array */
 	/** columns and relationships of "line" */
 ["line"]: {
 		/** An object relationship */
-	booking?:ModelTypes["booking"] | undefined,
-	bookingId?:ModelTypes["uuid"] | undefined,
-	centTotal?:number | undefined,
-	classification?:ModelTypes["classification_enum"] | undefined,
+	booking?: GraphQLTypes["booking"] | undefined,
+	bookingId?: GraphQLTypes["uuid"] | undefined,
+	centTotal?: number | undefined,
+	classification?: GraphQLTypes["classification_enum"] | undefined,
 	/** An object relationship */
-	connection?:ModelTypes["connection"] | undefined,
-	connectionId?:ModelTypes["uuid"] | undefined,
-	createdAt:ModelTypes["timestamptz"],
-	description?:string | undefined,
+	connection?: GraphQLTypes["connection"] | undefined,
+	connectionId?: GraphQLTypes["uuid"] | undefined,
+	createdAt: GraphQLTypes["timestamptz"],
+	description?: string | undefined,
 	/** An array relationship */
-	enhancementLines:Array<ModelTypes["line"]> | undefined,
+	enhancementLines: Array<GraphQLTypes["line"]>,
 	/** An aggregate relationship */
-	enhancementLines_aggregate:ModelTypes["line_aggregate"],
+	enhancementLines_aggregate: GraphQLTypes["line_aggregate"],
 	/** An object relationship */
-	enhancingLine?:ModelTypes["line"] | undefined,
-	enhancingLineId?:ModelTypes["uuid"] | undefined,
-	id:ModelTypes["uuid"],
-	invoiceStatus?:string | undefined,
-	isEnhanced?:boolean | undefined,
-	metadata?:ModelTypes["jsonb"] | undefined,
-	originCentTotal?:number | undefined,
-	originCurrency?:string | undefined,
-	originExchangeRate?:ModelTypes["numeric"] | undefined,
+	enhancingLine?: GraphQLTypes["line"] | undefined,
+	enhancingLineId?: GraphQLTypes["uuid"] | undefined,
+	id: GraphQLTypes["uuid"],
+	invoiceStatus?: string | undefined,
+	isEnhanced?: boolean | undefined,
+	metadata?: GraphQLTypes["jsonb"] | undefined,
+	originCentTotal?: number | undefined,
+	originCurrency?: string | undefined,
+	originExchangeRate?: GraphQLTypes["numeric"] | undefined,
 	/** An object relationship */
-	payment?:ModelTypes["payment"] | undefined,
-	paymentId?:ModelTypes["uuid"] | undefined,
-	subclassification?:ModelTypes["subclassification_enum"] | undefined,
+	payment?: GraphQLTypes["payment"] | undefined,
+	paymentId?: GraphQLTypes["uuid"] | undefined,
+	subclassification?: GraphQLTypes["subclassification_enum"] | undefined,
 	/** An object relationship */
-	team?:ModelTypes["team"] | undefined,
-	teamId?:ModelTypes["uuid"] | undefined,
-	type?:string | undefined,
-	uniqueRef?:string | undefined,
-	unitId?:ModelTypes["uuid"] | undefined,
-	updatedAt?:ModelTypes["timestamptz"] | undefined
+	team?: GraphQLTypes["team"] | undefined,
+	teamId?: GraphQLTypes["uuid"] | undefined,
+	type?: string | undefined,
+	uniqueRef?: string | undefined,
+	unitId?: GraphQLTypes["uuid"] | undefined,
+	updatedAt?: GraphQLTypes["timestamptz"] | undefined
 };
 	/** aggregated selection of "line" */
 ["line_aggregate"]: {
-		aggregate?:ModelTypes["line_aggregate_fields"] | undefined,
-	nodes:Array<ModelTypes["line"]> | undefined
+		aggregate?: GraphQLTypes["line_aggregate_fields"] | undefined,
+	nodes: Array<GraphQLTypes["line"]>
 };
 	/** aggregate fields of "line" */
 ["line_aggregate_fields"]: {
-		avg?:ModelTypes["line_avg_fields"] | undefined,
-	count:number,
-	max?:ModelTypes["line_max_fields"] | undefined,
-	min?:ModelTypes["line_min_fields"] | undefined,
-	stddev?:ModelTypes["line_stddev_fields"] | undefined,
-	stddev_pop?:ModelTypes["line_stddev_pop_fields"] | undefined,
-	stddev_samp?:ModelTypes["line_stddev_samp_fields"] | undefined,
-	sum?:ModelTypes["line_sum_fields"] | undefined,
-	var_pop?:ModelTypes["line_var_pop_fields"] | undefined,
-	var_samp?:ModelTypes["line_var_samp_fields"] | undefined,
-	variance?:ModelTypes["line_variance_fields"] | undefined
+		avg?: GraphQLTypes["line_avg_fields"] | undefined,
+	count: number,
+	max?: GraphQLTypes["line_max_fields"] | undefined,
+	min?: GraphQLTypes["line_min_fields"] | undefined,
+	stddev?: GraphQLTypes["line_stddev_fields"] | undefined,
+	stddev_pop?: GraphQLTypes["line_stddev_pop_fields"] | undefined,
+	stddev_samp?: GraphQLTypes["line_stddev_samp_fields"] | undefined,
+	sum?: GraphQLTypes["line_sum_fields"] | undefined,
+	var_pop?: GraphQLTypes["line_var_pop_fields"] | undefined,
+	var_samp?: GraphQLTypes["line_var_samp_fields"] | undefined,
+	variance?: GraphQLTypes["line_variance_fields"] | undefined
 };
 	/** order by aggregate values of table "line" */
 ["line_aggregate_order_by"]: GraphQLTypes["line_aggregate_order_by"];
@@ -8044,9 +8044,9 @@ end). throws an error if top level container is not an array */
 ["line_arr_rel_insert_input"]: GraphQLTypes["line_arr_rel_insert_input"];
 	/** aggregate avg on columns */
 ["line_avg_fields"]: {
-		centTotal?:number | undefined,
-	originCentTotal?:number | undefined,
-	originExchangeRate?:number | undefined
+		centTotal?: number | undefined,
+	originCentTotal?: number | undefined,
+	originExchangeRate?: number | undefined
 };
 	/** order by avg() on columns of table "line" */
 ["line_avg_order_by"]: GraphQLTypes["line_avg_order_by"];
@@ -8067,54 +8067,54 @@ end). throws an error if top level container is not an array */
 ["line_insert_input"]: GraphQLTypes["line_insert_input"];
 	/** aggregate max on columns */
 ["line_max_fields"]: {
-		bookingId?:ModelTypes["uuid"] | undefined,
-	centTotal?:number | undefined,
-	connectionId?:ModelTypes["uuid"] | undefined,
-	createdAt?:ModelTypes["timestamptz"] | undefined,
-	description?:string | undefined,
-	enhancingLineId?:ModelTypes["uuid"] | undefined,
-	id?:ModelTypes["uuid"] | undefined,
-	invoiceStatus?:string | undefined,
-	originCentTotal?:number | undefined,
-	originCurrency?:string | undefined,
-	originExchangeRate?:ModelTypes["numeric"] | undefined,
-	paymentId?:ModelTypes["uuid"] | undefined,
-	teamId?:ModelTypes["uuid"] | undefined,
-	type?:string | undefined,
-	uniqueRef?:string | undefined,
-	unitId?:ModelTypes["uuid"] | undefined,
-	updatedAt?:ModelTypes["timestamptz"] | undefined
+		bookingId?: GraphQLTypes["uuid"] | undefined,
+	centTotal?: number | undefined,
+	connectionId?: GraphQLTypes["uuid"] | undefined,
+	createdAt?: GraphQLTypes["timestamptz"] | undefined,
+	description?: string | undefined,
+	enhancingLineId?: GraphQLTypes["uuid"] | undefined,
+	id?: GraphQLTypes["uuid"] | undefined,
+	invoiceStatus?: string | undefined,
+	originCentTotal?: number | undefined,
+	originCurrency?: string | undefined,
+	originExchangeRate?: GraphQLTypes["numeric"] | undefined,
+	paymentId?: GraphQLTypes["uuid"] | undefined,
+	teamId?: GraphQLTypes["uuid"] | undefined,
+	type?: string | undefined,
+	uniqueRef?: string | undefined,
+	unitId?: GraphQLTypes["uuid"] | undefined,
+	updatedAt?: GraphQLTypes["timestamptz"] | undefined
 };
 	/** order by max() on columns of table "line" */
 ["line_max_order_by"]: GraphQLTypes["line_max_order_by"];
 	/** aggregate min on columns */
 ["line_min_fields"]: {
-		bookingId?:ModelTypes["uuid"] | undefined,
-	centTotal?:number | undefined,
-	connectionId?:ModelTypes["uuid"] | undefined,
-	createdAt?:ModelTypes["timestamptz"] | undefined,
-	description?:string | undefined,
-	enhancingLineId?:ModelTypes["uuid"] | undefined,
-	id?:ModelTypes["uuid"] | undefined,
-	invoiceStatus?:string | undefined,
-	originCentTotal?:number | undefined,
-	originCurrency?:string | undefined,
-	originExchangeRate?:ModelTypes["numeric"] | undefined,
-	paymentId?:ModelTypes["uuid"] | undefined,
-	teamId?:ModelTypes["uuid"] | undefined,
-	type?:string | undefined,
-	uniqueRef?:string | undefined,
-	unitId?:ModelTypes["uuid"] | undefined,
-	updatedAt?:ModelTypes["timestamptz"] | undefined
+		bookingId?: GraphQLTypes["uuid"] | undefined,
+	centTotal?: number | undefined,
+	connectionId?: GraphQLTypes["uuid"] | undefined,
+	createdAt?: GraphQLTypes["timestamptz"] | undefined,
+	description?: string | undefined,
+	enhancingLineId?: GraphQLTypes["uuid"] | undefined,
+	id?: GraphQLTypes["uuid"] | undefined,
+	invoiceStatus?: string | undefined,
+	originCentTotal?: number | undefined,
+	originCurrency?: string | undefined,
+	originExchangeRate?: GraphQLTypes["numeric"] | undefined,
+	paymentId?: GraphQLTypes["uuid"] | undefined,
+	teamId?: GraphQLTypes["uuid"] | undefined,
+	type?: string | undefined,
+	uniqueRef?: string | undefined,
+	unitId?: GraphQLTypes["uuid"] | undefined,
+	updatedAt?: GraphQLTypes["timestamptz"] | undefined
 };
 	/** order by min() on columns of table "line" */
 ["line_min_order_by"]: GraphQLTypes["line_min_order_by"];
 	/** response of any mutation on the table "line" */
 ["line_mutation_response"]: {
 		/** number of rows affected by the mutation */
-	affected_rows:number,
+	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning:Array<ModelTypes["line"]> | undefined
+	returning: Array<GraphQLTypes["line"]>
 };
 	/** input type for inserting object relation for remote table "line" */
 ["line_obj_rel_insert_input"]: GraphQLTypes["line_obj_rel_insert_input"];
@@ -8132,33 +8132,33 @@ end). throws an error if top level container is not an array */
 ["line_set_input"]: GraphQLTypes["line_set_input"];
 	/** aggregate stddev on columns */
 ["line_stddev_fields"]: {
-		centTotal?:number | undefined,
-	originCentTotal?:number | undefined,
-	originExchangeRate?:number | undefined
+		centTotal?: number | undefined,
+	originCentTotal?: number | undefined,
+	originExchangeRate?: number | undefined
 };
 	/** order by stddev() on columns of table "line" */
 ["line_stddev_order_by"]: GraphQLTypes["line_stddev_order_by"];
 	/** aggregate stddev_pop on columns */
 ["line_stddev_pop_fields"]: {
-		centTotal?:number | undefined,
-	originCentTotal?:number | undefined,
-	originExchangeRate?:number | undefined
+		centTotal?: number | undefined,
+	originCentTotal?: number | undefined,
+	originExchangeRate?: number | undefined
 };
 	/** order by stddev_pop() on columns of table "line" */
 ["line_stddev_pop_order_by"]: GraphQLTypes["line_stddev_pop_order_by"];
 	/** aggregate stddev_samp on columns */
 ["line_stddev_samp_fields"]: {
-		centTotal?:number | undefined,
-	originCentTotal?:number | undefined,
-	originExchangeRate?:number | undefined
+		centTotal?: number | undefined,
+	originCentTotal?: number | undefined,
+	originExchangeRate?: number | undefined
 };
 	/** order by stddev_samp() on columns of table "line" */
 ["line_stddev_samp_order_by"]: GraphQLTypes["line_stddev_samp_order_by"];
 	/** aggregate sum on columns */
 ["line_sum_fields"]: {
-		centTotal?:number | undefined,
-	originCentTotal?:number | undefined,
-	originExchangeRate?:ModelTypes["numeric"] | undefined
+		centTotal?: number | undefined,
+	originCentTotal?: number | undefined,
+	originExchangeRate?: GraphQLTypes["numeric"] | undefined
 };
 	/** order by sum() on columns of table "line" */
 ["line_sum_order_by"]: GraphQLTypes["line_sum_order_by"];
@@ -8166,65 +8166,65 @@ end). throws an error if top level container is not an array */
 ["line_update_column"]: GraphQLTypes["line_update_column"];
 	/** aggregate var_pop on columns */
 ["line_var_pop_fields"]: {
-		centTotal?:number | undefined,
-	originCentTotal?:number | undefined,
-	originExchangeRate?:number | undefined
+		centTotal?: number | undefined,
+	originCentTotal?: number | undefined,
+	originExchangeRate?: number | undefined
 };
 	/** order by var_pop() on columns of table "line" */
 ["line_var_pop_order_by"]: GraphQLTypes["line_var_pop_order_by"];
 	/** aggregate var_samp on columns */
 ["line_var_samp_fields"]: {
-		centTotal?:number | undefined,
-	originCentTotal?:number | undefined,
-	originExchangeRate?:number | undefined
+		centTotal?: number | undefined,
+	originCentTotal?: number | undefined,
+	originExchangeRate?: number | undefined
 };
 	/** order by var_samp() on columns of table "line" */
 ["line_var_samp_order_by"]: GraphQLTypes["line_var_samp_order_by"];
 	/** aggregate variance on columns */
 ["line_variance_fields"]: {
-		centTotal?:number | undefined,
-	originCentTotal?:number | undefined,
-	originExchangeRate?:number | undefined
+		centTotal?: number | undefined,
+	originCentTotal?: number | undefined,
+	originExchangeRate?: number | undefined
 };
 	/** order by variance() on columns of table "line" */
 ["line_variance_order_by"]: GraphQLTypes["line_variance_order_by"];
 	/** columns and relationships of "metric" */
 ["metric"]: {
 		/** An object relationship */
-	connection:ModelTypes["connection"],
-	connectionId:ModelTypes["uuid"],
-	createdAt:ModelTypes["timestamptz"],
-	ensuedAt:ModelTypes["timestamptz"],
-	id:ModelTypes["uuid"],
-	metadata:ModelTypes["jsonb"],
+	connection: GraphQLTypes["connection"],
+	connectionId: GraphQLTypes["uuid"],
+	createdAt: GraphQLTypes["timestamptz"],
+	ensuedAt: GraphQLTypes["timestamptz"],
+	id: GraphQLTypes["uuid"],
+	metadata: GraphQLTypes["jsonb"],
 	/** An object relationship */
-	team:ModelTypes["team"],
-	teamId:ModelTypes["uuid"],
-	text?:string | undefined,
-	type:string,
-	uniqueRef?:string | undefined,
-	unitId?:ModelTypes["uuid"] | undefined,
-	updatedAt:ModelTypes["timestamptz"],
-	value?:ModelTypes["float8"] | undefined
+	team: GraphQLTypes["team"],
+	teamId: GraphQLTypes["uuid"],
+	text?: string | undefined,
+	type: string,
+	uniqueRef?: string | undefined,
+	unitId?: GraphQLTypes["uuid"] | undefined,
+	updatedAt: GraphQLTypes["timestamptz"],
+	value?: GraphQLTypes["float8"] | undefined
 };
 	/** aggregated selection of "metric" */
 ["metric_aggregate"]: {
-		aggregate?:ModelTypes["metric_aggregate_fields"] | undefined,
-	nodes:Array<ModelTypes["metric"]> | undefined
+		aggregate?: GraphQLTypes["metric_aggregate_fields"] | undefined,
+	nodes: Array<GraphQLTypes["metric"]>
 };
 	/** aggregate fields of "metric" */
 ["metric_aggregate_fields"]: {
-		avg?:ModelTypes["metric_avg_fields"] | undefined,
-	count:number,
-	max?:ModelTypes["metric_max_fields"] | undefined,
-	min?:ModelTypes["metric_min_fields"] | undefined,
-	stddev?:ModelTypes["metric_stddev_fields"] | undefined,
-	stddev_pop?:ModelTypes["metric_stddev_pop_fields"] | undefined,
-	stddev_samp?:ModelTypes["metric_stddev_samp_fields"] | undefined,
-	sum?:ModelTypes["metric_sum_fields"] | undefined,
-	var_pop?:ModelTypes["metric_var_pop_fields"] | undefined,
-	var_samp?:ModelTypes["metric_var_samp_fields"] | undefined,
-	variance?:ModelTypes["metric_variance_fields"] | undefined
+		avg?: GraphQLTypes["metric_avg_fields"] | undefined,
+	count: number,
+	max?: GraphQLTypes["metric_max_fields"] | undefined,
+	min?: GraphQLTypes["metric_min_fields"] | undefined,
+	stddev?: GraphQLTypes["metric_stddev_fields"] | undefined,
+	stddev_pop?: GraphQLTypes["metric_stddev_pop_fields"] | undefined,
+	stddev_samp?: GraphQLTypes["metric_stddev_samp_fields"] | undefined,
+	sum?: GraphQLTypes["metric_sum_fields"] | undefined,
+	var_pop?: GraphQLTypes["metric_var_pop_fields"] | undefined,
+	var_samp?: GraphQLTypes["metric_var_samp_fields"] | undefined,
+	variance?: GraphQLTypes["metric_variance_fields"] | undefined
 };
 	/** order by aggregate values of table "metric" */
 ["metric_aggregate_order_by"]: GraphQLTypes["metric_aggregate_order_by"];
@@ -8234,7 +8234,7 @@ end). throws an error if top level container is not an array */
 ["metric_arr_rel_insert_input"]: GraphQLTypes["metric_arr_rel_insert_input"];
 	/** aggregate avg on columns */
 ["metric_avg_fields"]: {
-		value?:number | undefined
+		value?: number | undefined
 };
 	/** order by avg() on columns of table "metric" */
 ["metric_avg_order_by"]: GraphQLTypes["metric_avg_order_by"];
@@ -8255,42 +8255,42 @@ end). throws an error if top level container is not an array */
 ["metric_insert_input"]: GraphQLTypes["metric_insert_input"];
 	/** aggregate max on columns */
 ["metric_max_fields"]: {
-		connectionId?:ModelTypes["uuid"] | undefined,
-	createdAt?:ModelTypes["timestamptz"] | undefined,
-	ensuedAt?:ModelTypes["timestamptz"] | undefined,
-	id?:ModelTypes["uuid"] | undefined,
-	teamId?:ModelTypes["uuid"] | undefined,
-	text?:string | undefined,
-	type?:string | undefined,
-	uniqueRef?:string | undefined,
-	unitId?:ModelTypes["uuid"] | undefined,
-	updatedAt?:ModelTypes["timestamptz"] | undefined,
-	value?:ModelTypes["float8"] | undefined
+		connectionId?: GraphQLTypes["uuid"] | undefined,
+	createdAt?: GraphQLTypes["timestamptz"] | undefined,
+	ensuedAt?: GraphQLTypes["timestamptz"] | undefined,
+	id?: GraphQLTypes["uuid"] | undefined,
+	teamId?: GraphQLTypes["uuid"] | undefined,
+	text?: string | undefined,
+	type?: string | undefined,
+	uniqueRef?: string | undefined,
+	unitId?: GraphQLTypes["uuid"] | undefined,
+	updatedAt?: GraphQLTypes["timestamptz"] | undefined,
+	value?: GraphQLTypes["float8"] | undefined
 };
 	/** order by max() on columns of table "metric" */
 ["metric_max_order_by"]: GraphQLTypes["metric_max_order_by"];
 	/** aggregate min on columns */
 ["metric_min_fields"]: {
-		connectionId?:ModelTypes["uuid"] | undefined,
-	createdAt?:ModelTypes["timestamptz"] | undefined,
-	ensuedAt?:ModelTypes["timestamptz"] | undefined,
-	id?:ModelTypes["uuid"] | undefined,
-	teamId?:ModelTypes["uuid"] | undefined,
-	text?:string | undefined,
-	type?:string | undefined,
-	uniqueRef?:string | undefined,
-	unitId?:ModelTypes["uuid"] | undefined,
-	updatedAt?:ModelTypes["timestamptz"] | undefined,
-	value?:ModelTypes["float8"] | undefined
+		connectionId?: GraphQLTypes["uuid"] | undefined,
+	createdAt?: GraphQLTypes["timestamptz"] | undefined,
+	ensuedAt?: GraphQLTypes["timestamptz"] | undefined,
+	id?: GraphQLTypes["uuid"] | undefined,
+	teamId?: GraphQLTypes["uuid"] | undefined,
+	text?: string | undefined,
+	type?: string | undefined,
+	uniqueRef?: string | undefined,
+	unitId?: GraphQLTypes["uuid"] | undefined,
+	updatedAt?: GraphQLTypes["timestamptz"] | undefined,
+	value?: GraphQLTypes["float8"] | undefined
 };
 	/** order by min() on columns of table "metric" */
 ["metric_min_order_by"]: GraphQLTypes["metric_min_order_by"];
 	/** response of any mutation on the table "metric" */
 ["metric_mutation_response"]: {
 		/** number of rows affected by the mutation */
-	affected_rows:number,
+	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning:Array<ModelTypes["metric"]> | undefined
+	returning: Array<GraphQLTypes["metric"]>
 };
 	/** on conflict condition type for table "metric" */
 ["metric_on_conflict"]: GraphQLTypes["metric_on_conflict"];
@@ -8306,25 +8306,25 @@ end). throws an error if top level container is not an array */
 ["metric_set_input"]: GraphQLTypes["metric_set_input"];
 	/** aggregate stddev on columns */
 ["metric_stddev_fields"]: {
-		value?:number | undefined
+		value?: number | undefined
 };
 	/** order by stddev() on columns of table "metric" */
 ["metric_stddev_order_by"]: GraphQLTypes["metric_stddev_order_by"];
 	/** aggregate stddev_pop on columns */
 ["metric_stddev_pop_fields"]: {
-		value?:number | undefined
+		value?: number | undefined
 };
 	/** order by stddev_pop() on columns of table "metric" */
 ["metric_stddev_pop_order_by"]: GraphQLTypes["metric_stddev_pop_order_by"];
 	/** aggregate stddev_samp on columns */
 ["metric_stddev_samp_fields"]: {
-		value?:number | undefined
+		value?: number | undefined
 };
 	/** order by stddev_samp() on columns of table "metric" */
 ["metric_stddev_samp_order_by"]: GraphQLTypes["metric_stddev_samp_order_by"];
 	/** aggregate sum on columns */
 ["metric_sum_fields"]: {
-		value?:ModelTypes["float8"] | undefined
+		value?: GraphQLTypes["float8"] | undefined
 };
 	/** order by sum() on columns of table "metric" */
 ["metric_sum_order_by"]: GraphQLTypes["metric_sum_order_by"];
@@ -8332,378 +8332,378 @@ end). throws an error if top level container is not an array */
 ["metric_update_column"]: GraphQLTypes["metric_update_column"];
 	/** aggregate var_pop on columns */
 ["metric_var_pop_fields"]: {
-		value?:number | undefined
+		value?: number | undefined
 };
 	/** order by var_pop() on columns of table "metric" */
 ["metric_var_pop_order_by"]: GraphQLTypes["metric_var_pop_order_by"];
 	/** aggregate var_samp on columns */
 ["metric_var_samp_fields"]: {
-		value?:number | undefined
+		value?: number | undefined
 };
 	/** order by var_samp() on columns of table "metric" */
 ["metric_var_samp_order_by"]: GraphQLTypes["metric_var_samp_order_by"];
 	/** aggregate variance on columns */
 ["metric_variance_fields"]: {
-		value?:number | undefined
+		value?: number | undefined
 };
 	/** order by variance() on columns of table "metric" */
 ["metric_variance_order_by"]: GraphQLTypes["metric_variance_order_by"];
 	/** mutation root */
 ["mutation_root"]: {
 		/** delete single row from the table: "booking" */
-	deleteBooking?:ModelTypes["booking"] | undefined,
+	deleteBooking?: GraphQLTypes["booking"] | undefined,
 	/** delete single row from the table: "booking_status" */
-	deleteBookingStatus?:ModelTypes["bookingStatus"] | undefined,
+	deleteBookingStatus?: GraphQLTypes["bookingStatus"] | undefined,
 	/** delete data from the table: "booking_status" */
-	deleteBookingStatuses?:ModelTypes["bookingStatus_mutation_response"] | undefined,
+	deleteBookingStatuses?: GraphQLTypes["bookingStatus_mutation_response"] | undefined,
 	/** delete data from the table: "booking" */
-	deleteBookings?:ModelTypes["booking_mutation_response"] | undefined,
+	deleteBookings?: GraphQLTypes["booking_mutation_response"] | undefined,
 	/** delete single row from the table: "classification" */
-	deleteClassification?:ModelTypes["classification"] | undefined,
+	deleteClassification?: GraphQLTypes["classification"] | undefined,
 	/** delete data from the table: "classification" */
-	deleteClassifications?:ModelTypes["classification_mutation_response"] | undefined,
+	deleteClassifications?: GraphQLTypes["classification_mutation_response"] | undefined,
 	/** delete single row from the table: "connection" */
-	deleteConnection?:ModelTypes["connection"] | undefined,
+	deleteConnection?: GraphQLTypes["connection"] | undefined,
 	/** delete data from the table: "connection" */
-	deleteConnections?:ModelTypes["connection_mutation_response"] | undefined,
+	deleteConnections?: GraphQLTypes["connection_mutation_response"] | undefined,
 	/** delete data from the table: "currency" */
-	deleteCurrencies?:ModelTypes["currency_mutation_response"] | undefined,
+	deleteCurrencies?: GraphQLTypes["currency_mutation_response"] | undefined,
 	/** delete single row from the table: "currency" */
-	deleteCurrency?:ModelTypes["currency"] | undefined,
+	deleteCurrency?: GraphQLTypes["currency"] | undefined,
 	/** delete data from the table: "entity" */
-	deleteEntities?:ModelTypes["entity_mutation_response"] | undefined,
+	deleteEntities?: GraphQLTypes["entity_mutation_response"] | undefined,
 	/** delete single row from the table: "entity" */
-	deleteEntity?:ModelTypes["entity"] | undefined,
+	deleteEntity?: GraphQLTypes["entity"] | undefined,
 	/** delete single row from the table: "entity_status" */
-	deleteEntityStatus?:ModelTypes["entityStatus"] | undefined,
+	deleteEntityStatus?: GraphQLTypes["entityStatus"] | undefined,
 	/** delete data from the table: "entity_status" */
-	deleteEntityStatuses?:ModelTypes["entityStatus_mutation_response"] | undefined,
+	deleteEntityStatuses?: GraphQLTypes["entityStatus_mutation_response"] | undefined,
 	/** delete single row from the table: "integration" */
-	deleteIntegration?:ModelTypes["integration"] | undefined,
+	deleteIntegration?: GraphQLTypes["integration"] | undefined,
 	/** delete single row from the table: "integration_type" */
-	deleteIntegrationType?:ModelTypes["integrationType"] | undefined,
+	deleteIntegrationType?: GraphQLTypes["integrationType"] | undefined,
 	/** delete data from the table: "integration_type" */
-	deleteIntegrationTypes?:ModelTypes["integrationType_mutation_response"] | undefined,
+	deleteIntegrationTypes?: GraphQLTypes["integrationType_mutation_response"] | undefined,
 	/** delete data from the table: "integration" */
-	deleteIntegrations?:ModelTypes["integration_mutation_response"] | undefined,
+	deleteIntegrations?: GraphQLTypes["integration_mutation_response"] | undefined,
 	/** delete single row from the table: "issue" */
-	deleteIssue?:ModelTypes["issue"] | undefined,
+	deleteIssue?: GraphQLTypes["issue"] | undefined,
 	/** delete data from the table: "issue" */
-	deleteIssues?:ModelTypes["issue_mutation_response"] | undefined,
+	deleteIssues?: GraphQLTypes["issue_mutation_response"] | undefined,
 	/** delete single row from the table: "job" */
-	deleteJob?:ModelTypes["job"] | undefined,
+	deleteJob?: GraphQLTypes["job"] | undefined,
 	/** delete single row from the table: "job_method" */
-	deleteJobMethod?:ModelTypes["jobMethod"] | undefined,
+	deleteJobMethod?: GraphQLTypes["jobMethod"] | undefined,
 	/** delete data from the table: "job_method" */
-	deleteJobMethods?:ModelTypes["jobMethod_mutation_response"] | undefined,
+	deleteJobMethods?: GraphQLTypes["jobMethod_mutation_response"] | undefined,
 	/** delete single row from the table: "job_status" */
-	deleteJobStatus?:ModelTypes["jobStatus"] | undefined,
+	deleteJobStatus?: GraphQLTypes["jobStatus"] | undefined,
 	/** delete data from the table: "job_status" */
-	deleteJobStatuses?:ModelTypes["jobStatus_mutation_response"] | undefined,
+	deleteJobStatuses?: GraphQLTypes["jobStatus_mutation_response"] | undefined,
 	/** delete data from the table: "job" */
-	deleteJobs?:ModelTypes["job_mutation_response"] | undefined,
+	deleteJobs?: GraphQLTypes["job_mutation_response"] | undefined,
 	/** delete single row from the table: "line" */
-	deleteLine?:ModelTypes["line"] | undefined,
+	deleteLine?: GraphQLTypes["line"] | undefined,
 	/** delete data from the table: "line" */
-	deleteLines?:ModelTypes["line_mutation_response"] | undefined,
+	deleteLines?: GraphQLTypes["line_mutation_response"] | undefined,
 	/** delete single row from the table: "metric" */
-	deleteMetric?:ModelTypes["metric"] | undefined,
+	deleteMetric?: GraphQLTypes["metric"] | undefined,
 	/** delete data from the table: "metric" */
-	deleteMetrics?:ModelTypes["metric_mutation_response"] | undefined,
+	deleteMetrics?: GraphQLTypes["metric_mutation_response"] | undefined,
 	/** delete single row from the table: "normalized_type" */
-	deleteNormalizedType?:ModelTypes["normalizedType"] | undefined,
+	deleteNormalizedType?: GraphQLTypes["normalizedType"] | undefined,
 	/** delete data from the table: "normalized_type" */
-	deleteNormalizedTypes?:ModelTypes["normalizedType_mutation_response"] | undefined,
+	deleteNormalizedTypes?: GraphQLTypes["normalizedType_mutation_response"] | undefined,
 	/** delete single row from the table: "payment" */
-	deletePayment?:ModelTypes["payment"] | undefined,
+	deletePayment?: GraphQLTypes["payment"] | undefined,
 	/** delete single row from the table: "payment_status" */
-	deletePaymentStatus?:ModelTypes["paymentStatus"] | undefined,
+	deletePaymentStatus?: GraphQLTypes["paymentStatus"] | undefined,
 	/** delete data from the table: "payment_status" */
-	deletePaymentStatuses?:ModelTypes["paymentStatus_mutation_response"] | undefined,
+	deletePaymentStatuses?: GraphQLTypes["paymentStatus_mutation_response"] | undefined,
 	/** delete single row from the table: "payment_type" */
-	deletePaymentType?:ModelTypes["paymentType"] | undefined,
+	deletePaymentType?: GraphQLTypes["paymentType"] | undefined,
 	/** delete data from the table: "payment_type" */
-	deletePaymentTypes?:ModelTypes["paymentType_mutation_response"] | undefined,
+	deletePaymentTypes?: GraphQLTypes["paymentType_mutation_response"] | undefined,
 	/** delete data from the table: "payment" */
-	deletePayments?:ModelTypes["payment_mutation_response"] | undefined,
+	deletePayments?: GraphQLTypes["payment_mutation_response"] | undefined,
 	/** delete single row from the table: "subclassification" */
-	deleteSubclassification?:ModelTypes["subclassification"] | undefined,
+	deleteSubclassification?: GraphQLTypes["subclassification"] | undefined,
 	/** delete data from the table: "subclassification" */
-	deleteSubclassifications?:ModelTypes["subclassification_mutation_response"] | undefined,
+	deleteSubclassifications?: GraphQLTypes["subclassification_mutation_response"] | undefined,
 	/** delete single row from the table: "tag" */
-	deleteTag?:ModelTypes["tag"] | undefined,
+	deleteTag?: GraphQLTypes["tag"] | undefined,
 	/** delete data from the table: "tag" */
-	deleteTags?:ModelTypes["tag_mutation_response"] | undefined,
+	deleteTags?: GraphQLTypes["tag_mutation_response"] | undefined,
 	/** delete single row from the table: "team" */
-	deleteTeam?:ModelTypes["team"] | undefined,
+	deleteTeam?: GraphQLTypes["team"] | undefined,
 	/** delete single row from the table: "team_user" */
-	deleteTeamUser?:ModelTypes["teamUser"] | undefined,
+	deleteTeamUser?: GraphQLTypes["teamUser"] | undefined,
 	/** delete data from the table: "team_user" */
-	deleteTeamUsers?:ModelTypes["teamUser_mutation_response"] | undefined,
+	deleteTeamUsers?: GraphQLTypes["teamUser_mutation_response"] | undefined,
 	/** delete data from the table: "team" */
-	deleteTeams?:ModelTypes["team_mutation_response"] | undefined,
+	deleteTeams?: GraphQLTypes["team_mutation_response"] | undefined,
 	/** delete single row from the table: "unit" */
-	deleteUnit?:ModelTypes["unit"] | undefined,
+	deleteUnit?: GraphQLTypes["unit"] | undefined,
 	/** delete data from the table: "unit" */
-	deleteUnits?:ModelTypes["unit_mutation_response"] | undefined,
+	deleteUnits?: GraphQLTypes["unit_mutation_response"] | undefined,
 	/** delete single row from the table: "user" */
-	deleteUser?:ModelTypes["user"] | undefined,
+	deleteUser?: GraphQLTypes["user"] | undefined,
 	/** delete single row from the table: "user_status" */
-	deleteUserStatus?:ModelTypes["userStatus"] | undefined,
+	deleteUserStatus?: GraphQLTypes["userStatus"] | undefined,
 	/** delete data from the table: "user_status" */
-	deleteUserStatuses?:ModelTypes["userStatus_mutation_response"] | undefined,
+	deleteUserStatuses?: GraphQLTypes["userStatus_mutation_response"] | undefined,
 	/** delete data from the table: "user" */
-	deleteUsers?:ModelTypes["user_mutation_response"] | undefined,
+	deleteUsers?: GraphQLTypes["user_mutation_response"] | undefined,
 	/** delete single row from the table: "webhook" */
-	deleteWebhook?:ModelTypes["webhook"] | undefined,
+	deleteWebhook?: GraphQLTypes["webhook"] | undefined,
 	/** delete data from the table: "webhook" */
-	deleteWebhooks?:ModelTypes["webhook_mutation_response"] | undefined,
+	deleteWebhooks?: GraphQLTypes["webhook_mutation_response"] | undefined,
 	/** delete data from the table: "booking_channel" */
-	delete_booking_channel?:ModelTypes["booking_channel_mutation_response"] | undefined,
+	delete_booking_channel?: GraphQLTypes["booking_channel_mutation_response"] | undefined,
 	/** delete single row from the table: "booking_channel" */
-	delete_booking_channel_by_pk?:ModelTypes["booking_channel"] | undefined,
+	delete_booking_channel_by_pk?: GraphQLTypes["booking_channel"] | undefined,
 	/** insert a single row into the table: "booking" */
-	insertBooking?:ModelTypes["booking"] | undefined,
+	insertBooking?: GraphQLTypes["booking"] | undefined,
 	/** insert a single row into the table: "booking_status" */
-	insertBookingStatus?:ModelTypes["bookingStatus"] | undefined,
+	insertBookingStatus?: GraphQLTypes["bookingStatus"] | undefined,
 	/** insert data into the table: "booking_status" */
-	insertBookingStatuses?:ModelTypes["bookingStatus_mutation_response"] | undefined,
+	insertBookingStatuses?: GraphQLTypes["bookingStatus_mutation_response"] | undefined,
 	/** insert data into the table: "booking" */
-	insertBookings?:ModelTypes["booking_mutation_response"] | undefined,
+	insertBookings?: GraphQLTypes["booking_mutation_response"] | undefined,
 	/** insert a single row into the table: "classification" */
-	insertClassification?:ModelTypes["classification"] | undefined,
+	insertClassification?: GraphQLTypes["classification"] | undefined,
 	/** insert data into the table: "classification" */
-	insertClassifications?:ModelTypes["classification_mutation_response"] | undefined,
+	insertClassifications?: GraphQLTypes["classification_mutation_response"] | undefined,
 	/** insert a single row into the table: "connection" */
-	insertConnection?:ModelTypes["connection"] | undefined,
+	insertConnection?: GraphQLTypes["connection"] | undefined,
 	/** insert data into the table: "connection" */
-	insertConnections?:ModelTypes["connection_mutation_response"] | undefined,
+	insertConnections?: GraphQLTypes["connection_mutation_response"] | undefined,
 	/** insert data into the table: "currency" */
-	insertCurrencies?:ModelTypes["currency_mutation_response"] | undefined,
+	insertCurrencies?: GraphQLTypes["currency_mutation_response"] | undefined,
 	/** insert a single row into the table: "currency" */
-	insertCurrency?:ModelTypes["currency"] | undefined,
+	insertCurrency?: GraphQLTypes["currency"] | undefined,
 	/** insert data into the table: "entity" */
-	insertEntities?:ModelTypes["entity_mutation_response"] | undefined,
+	insertEntities?: GraphQLTypes["entity_mutation_response"] | undefined,
 	/** insert a single row into the table: "entity" */
-	insertEntity?:ModelTypes["entity"] | undefined,
+	insertEntity?: GraphQLTypes["entity"] | undefined,
 	/** insert a single row into the table: "entity_status" */
-	insertEntityStatus?:ModelTypes["entityStatus"] | undefined,
+	insertEntityStatus?: GraphQLTypes["entityStatus"] | undefined,
 	/** insert data into the table: "entity_status" */
-	insertEntityStatuses?:ModelTypes["entityStatus_mutation_response"] | undefined,
+	insertEntityStatuses?: GraphQLTypes["entityStatus_mutation_response"] | undefined,
 	/** insert a single row into the table: "integration" */
-	insertIntegration?:ModelTypes["integration"] | undefined,
+	insertIntegration?: GraphQLTypes["integration"] | undefined,
 	/** insert a single row into the table: "integration_type" */
-	insertIntegrationType?:ModelTypes["integrationType"] | undefined,
+	insertIntegrationType?: GraphQLTypes["integrationType"] | undefined,
 	/** insert data into the table: "integration_type" */
-	insertIntegrationTypes?:ModelTypes["integrationType_mutation_response"] | undefined,
+	insertIntegrationTypes?: GraphQLTypes["integrationType_mutation_response"] | undefined,
 	/** insert data into the table: "integration" */
-	insertIntegrations?:ModelTypes["integration_mutation_response"] | undefined,
+	insertIntegrations?: GraphQLTypes["integration_mutation_response"] | undefined,
 	/** insert a single row into the table: "issue" */
-	insertIssue?:ModelTypes["issue"] | undefined,
+	insertIssue?: GraphQLTypes["issue"] | undefined,
 	/** insert data into the table: "issue" */
-	insertIssues?:ModelTypes["issue_mutation_response"] | undefined,
+	insertIssues?: GraphQLTypes["issue_mutation_response"] | undefined,
 	/** insert a single row into the table: "job" */
-	insertJob?:ModelTypes["job"] | undefined,
+	insertJob?: GraphQLTypes["job"] | undefined,
 	/** insert a single row into the table: "job_method" */
-	insertJobMethod?:ModelTypes["jobMethod"] | undefined,
+	insertJobMethod?: GraphQLTypes["jobMethod"] | undefined,
 	/** insert data into the table: "job_method" */
-	insertJobMethods?:ModelTypes["jobMethod_mutation_response"] | undefined,
+	insertJobMethods?: GraphQLTypes["jobMethod_mutation_response"] | undefined,
 	/** insert a single row into the table: "job_status" */
-	insertJobStatus?:ModelTypes["jobStatus"] | undefined,
+	insertJobStatus?: GraphQLTypes["jobStatus"] | undefined,
 	/** insert data into the table: "job_status" */
-	insertJobStatuses?:ModelTypes["jobStatus_mutation_response"] | undefined,
+	insertJobStatuses?: GraphQLTypes["jobStatus_mutation_response"] | undefined,
 	/** insert data into the table: "job" */
-	insertJobs?:ModelTypes["job_mutation_response"] | undefined,
+	insertJobs?: GraphQLTypes["job_mutation_response"] | undefined,
 	/** insert a single row into the table: "line" */
-	insertLine?:ModelTypes["line"] | undefined,
+	insertLine?: GraphQLTypes["line"] | undefined,
 	/** insert data into the table: "line" */
-	insertLines?:ModelTypes["line_mutation_response"] | undefined,
+	insertLines?: GraphQLTypes["line_mutation_response"] | undefined,
 	/** insert a single row into the table: "metric" */
-	insertMetric?:ModelTypes["metric"] | undefined,
+	insertMetric?: GraphQLTypes["metric"] | undefined,
 	/** insert data into the table: "metric" */
-	insertMetrics?:ModelTypes["metric_mutation_response"] | undefined,
+	insertMetrics?: GraphQLTypes["metric_mutation_response"] | undefined,
 	/** insert a single row into the table: "normalized_type" */
-	insertNormalizedType?:ModelTypes["normalizedType"] | undefined,
+	insertNormalizedType?: GraphQLTypes["normalizedType"] | undefined,
 	/** insert data into the table: "normalized_type" */
-	insertNormalizedTypes?:ModelTypes["normalizedType_mutation_response"] | undefined,
+	insertNormalizedTypes?: GraphQLTypes["normalizedType_mutation_response"] | undefined,
 	/** insert a single row into the table: "payment" */
-	insertPayment?:ModelTypes["payment"] | undefined,
+	insertPayment?: GraphQLTypes["payment"] | undefined,
 	/** insert a single row into the table: "payment_status" */
-	insertPaymentStatus?:ModelTypes["paymentStatus"] | undefined,
+	insertPaymentStatus?: GraphQLTypes["paymentStatus"] | undefined,
 	/** insert data into the table: "payment_status" */
-	insertPaymentStatuses?:ModelTypes["paymentStatus_mutation_response"] | undefined,
+	insertPaymentStatuses?: GraphQLTypes["paymentStatus_mutation_response"] | undefined,
 	/** insert a single row into the table: "payment_type" */
-	insertPaymentType?:ModelTypes["paymentType"] | undefined,
+	insertPaymentType?: GraphQLTypes["paymentType"] | undefined,
 	/** insert data into the table: "payment_type" */
-	insertPaymentTypes?:ModelTypes["paymentType_mutation_response"] | undefined,
+	insertPaymentTypes?: GraphQLTypes["paymentType_mutation_response"] | undefined,
 	/** insert data into the table: "payment" */
-	insertPayments?:ModelTypes["payment_mutation_response"] | undefined,
+	insertPayments?: GraphQLTypes["payment_mutation_response"] | undefined,
 	/** insert a single row into the table: "subclassification" */
-	insertSubclassification?:ModelTypes["subclassification"] | undefined,
+	insertSubclassification?: GraphQLTypes["subclassification"] | undefined,
 	/** insert data into the table: "subclassification" */
-	insertSubclassifications?:ModelTypes["subclassification_mutation_response"] | undefined,
+	insertSubclassifications?: GraphQLTypes["subclassification_mutation_response"] | undefined,
 	/** insert a single row into the table: "tag" */
-	insertTag?:ModelTypes["tag"] | undefined,
+	insertTag?: GraphQLTypes["tag"] | undefined,
 	/** insert data into the table: "tag" */
-	insertTags?:ModelTypes["tag_mutation_response"] | undefined,
+	insertTags?: GraphQLTypes["tag_mutation_response"] | undefined,
 	/** insert a single row into the table: "team" */
-	insertTeam?:ModelTypes["team"] | undefined,
+	insertTeam?: GraphQLTypes["team"] | undefined,
 	/** insert a single row into the table: "team_user" */
-	insertTeamUser?:ModelTypes["teamUser"] | undefined,
+	insertTeamUser?: GraphQLTypes["teamUser"] | undefined,
 	/** insert data into the table: "team_user" */
-	insertTeamUsers?:ModelTypes["teamUser_mutation_response"] | undefined,
+	insertTeamUsers?: GraphQLTypes["teamUser_mutation_response"] | undefined,
 	/** insert data into the table: "team" */
-	insertTeams?:ModelTypes["team_mutation_response"] | undefined,
+	insertTeams?: GraphQLTypes["team_mutation_response"] | undefined,
 	/** insert a single row into the table: "unit" */
-	insertUnit?:ModelTypes["unit"] | undefined,
+	insertUnit?: GraphQLTypes["unit"] | undefined,
 	/** insert data into the table: "unit" */
-	insertUnits?:ModelTypes["unit_mutation_response"] | undefined,
+	insertUnits?: GraphQLTypes["unit_mutation_response"] | undefined,
 	/** insert a single row into the table: "user" */
-	insertUser?:ModelTypes["user"] | undefined,
+	insertUser?: GraphQLTypes["user"] | undefined,
 	/** insert a single row into the table: "user_status" */
-	insertUserStatus?:ModelTypes["userStatus"] | undefined,
+	insertUserStatus?: GraphQLTypes["userStatus"] | undefined,
 	/** insert data into the table: "user_status" */
-	insertUserStatuses?:ModelTypes["userStatus_mutation_response"] | undefined,
+	insertUserStatuses?: GraphQLTypes["userStatus_mutation_response"] | undefined,
 	/** insert data into the table: "user" */
-	insertUsers?:ModelTypes["user_mutation_response"] | undefined,
+	insertUsers?: GraphQLTypes["user_mutation_response"] | undefined,
 	/** insert a single row into the table: "webhook" */
-	insertWebhook?:ModelTypes["webhook"] | undefined,
+	insertWebhook?: GraphQLTypes["webhook"] | undefined,
 	/** insert data into the table: "webhook" */
-	insertWebhooks?:ModelTypes["webhook_mutation_response"] | undefined,
+	insertWebhooks?: GraphQLTypes["webhook_mutation_response"] | undefined,
 	/** insert data into the table: "booking_channel" */
-	insert_booking_channel?:ModelTypes["booking_channel_mutation_response"] | undefined,
+	insert_booking_channel?: GraphQLTypes["booking_channel_mutation_response"] | undefined,
 	/** insert a single row into the table: "booking_channel" */
-	insert_booking_channel_one?:ModelTypes["booking_channel"] | undefined,
+	insert_booking_channel_one?: GraphQLTypes["booking_channel"] | undefined,
 	/** update single row of the table: "booking" */
-	updateBooking?:ModelTypes["booking"] | undefined,
+	updateBooking?: GraphQLTypes["booking"] | undefined,
 	/** update single row of the table: "booking_status" */
-	updateBookingStatus?:ModelTypes["bookingStatus"] | undefined,
+	updateBookingStatus?: GraphQLTypes["bookingStatus"] | undefined,
 	/** update data of the table: "booking_status" */
-	updateBookingStatuses?:ModelTypes["bookingStatus_mutation_response"] | undefined,
+	updateBookingStatuses?: GraphQLTypes["bookingStatus_mutation_response"] | undefined,
 	/** update data of the table: "booking" */
-	updateBookings?:ModelTypes["booking_mutation_response"] | undefined,
+	updateBookings?: GraphQLTypes["booking_mutation_response"] | undefined,
 	/** update single row of the table: "classification" */
-	updateClassification?:ModelTypes["classification"] | undefined,
+	updateClassification?: GraphQLTypes["classification"] | undefined,
 	/** update data of the table: "classification" */
-	updateClassifications?:ModelTypes["classification_mutation_response"] | undefined,
+	updateClassifications?: GraphQLTypes["classification_mutation_response"] | undefined,
 	/** update single row of the table: "connection" */
-	updateConnection?:ModelTypes["connection"] | undefined,
+	updateConnection?: GraphQLTypes["connection"] | undefined,
 	/** update data of the table: "connection" */
-	updateConnections?:ModelTypes["connection_mutation_response"] | undefined,
+	updateConnections?: GraphQLTypes["connection_mutation_response"] | undefined,
 	/** update data of the table: "currency" */
-	updateCurrencies?:ModelTypes["currency_mutation_response"] | undefined,
+	updateCurrencies?: GraphQLTypes["currency_mutation_response"] | undefined,
 	/** update single row of the table: "currency" */
-	updateCurrency?:ModelTypes["currency"] | undefined,
+	updateCurrency?: GraphQLTypes["currency"] | undefined,
 	/** update data of the table: "entity" */
-	updateEntities?:ModelTypes["entity_mutation_response"] | undefined,
+	updateEntities?: GraphQLTypes["entity_mutation_response"] | undefined,
 	/** update single row of the table: "entity" */
-	updateEntity?:ModelTypes["entity"] | undefined,
+	updateEntity?: GraphQLTypes["entity"] | undefined,
 	/** update single row of the table: "entity_status" */
-	updateEntityStatus?:ModelTypes["entityStatus"] | undefined,
+	updateEntityStatus?: GraphQLTypes["entityStatus"] | undefined,
 	/** update data of the table: "entity_status" */
-	updateEntityStatuses?:ModelTypes["entityStatus_mutation_response"] | undefined,
+	updateEntityStatuses?: GraphQLTypes["entityStatus_mutation_response"] | undefined,
 	/** update single row of the table: "integration" */
-	updateIntegration?:ModelTypes["integration"] | undefined,
+	updateIntegration?: GraphQLTypes["integration"] | undefined,
 	/** update single row of the table: "integration_type" */
-	updateIntegrationType?:ModelTypes["integrationType"] | undefined,
+	updateIntegrationType?: GraphQLTypes["integrationType"] | undefined,
 	/** update data of the table: "integration_type" */
-	updateIntegrationTypes?:ModelTypes["integrationType_mutation_response"] | undefined,
+	updateIntegrationTypes?: GraphQLTypes["integrationType_mutation_response"] | undefined,
 	/** update data of the table: "integration" */
-	updateIntegrations?:ModelTypes["integration_mutation_response"] | undefined,
+	updateIntegrations?: GraphQLTypes["integration_mutation_response"] | undefined,
 	/** update single row of the table: "issue" */
-	updateIssue?:ModelTypes["issue"] | undefined,
+	updateIssue?: GraphQLTypes["issue"] | undefined,
 	/** update data of the table: "issue" */
-	updateIssues?:ModelTypes["issue_mutation_response"] | undefined,
+	updateIssues?: GraphQLTypes["issue_mutation_response"] | undefined,
 	/** update single row of the table: "job" */
-	updateJob?:ModelTypes["job"] | undefined,
+	updateJob?: GraphQLTypes["job"] | undefined,
 	/** update single row of the table: "job_method" */
-	updateJobMethod?:ModelTypes["jobMethod"] | undefined,
+	updateJobMethod?: GraphQLTypes["jobMethod"] | undefined,
 	/** update data of the table: "job_method" */
-	updateJobMethods?:ModelTypes["jobMethod_mutation_response"] | undefined,
+	updateJobMethods?: GraphQLTypes["jobMethod_mutation_response"] | undefined,
 	/** update single row of the table: "job_status" */
-	updateJobStatus?:ModelTypes["jobStatus"] | undefined,
+	updateJobStatus?: GraphQLTypes["jobStatus"] | undefined,
 	/** update data of the table: "job_status" */
-	updateJobStatuses?:ModelTypes["jobStatus_mutation_response"] | undefined,
+	updateJobStatuses?: GraphQLTypes["jobStatus_mutation_response"] | undefined,
 	/** update data of the table: "job" */
-	updateJobs?:ModelTypes["job_mutation_response"] | undefined,
+	updateJobs?: GraphQLTypes["job_mutation_response"] | undefined,
 	/** update single row of the table: "line" */
-	updateLine?:ModelTypes["line"] | undefined,
+	updateLine?: GraphQLTypes["line"] | undefined,
 	/** update data of the table: "line" */
-	updateLines?:ModelTypes["line_mutation_response"] | undefined,
+	updateLines?: GraphQLTypes["line_mutation_response"] | undefined,
 	/** update single row of the table: "metric" */
-	updateMetric?:ModelTypes["metric"] | undefined,
+	updateMetric?: GraphQLTypes["metric"] | undefined,
 	/** update data of the table: "metric" */
-	updateMetrics?:ModelTypes["metric_mutation_response"] | undefined,
+	updateMetrics?: GraphQLTypes["metric_mutation_response"] | undefined,
 	/** update single row of the table: "normalized_type" */
-	updateNormalizedType?:ModelTypes["normalizedType"] | undefined,
+	updateNormalizedType?: GraphQLTypes["normalizedType"] | undefined,
 	/** update data of the table: "normalized_type" */
-	updateNormalizedTypes?:ModelTypes["normalizedType_mutation_response"] | undefined,
+	updateNormalizedTypes?: GraphQLTypes["normalizedType_mutation_response"] | undefined,
 	/** update single row of the table: "payment" */
-	updatePayment?:ModelTypes["payment"] | undefined,
+	updatePayment?: GraphQLTypes["payment"] | undefined,
 	/** update single row of the table: "payment_status" */
-	updatePaymentStatus?:ModelTypes["paymentStatus"] | undefined,
+	updatePaymentStatus?: GraphQLTypes["paymentStatus"] | undefined,
 	/** update data of the table: "payment_status" */
-	updatePaymentStatuses?:ModelTypes["paymentStatus_mutation_response"] | undefined,
+	updatePaymentStatuses?: GraphQLTypes["paymentStatus_mutation_response"] | undefined,
 	/** update single row of the table: "payment_type" */
-	updatePaymentType?:ModelTypes["paymentType"] | undefined,
+	updatePaymentType?: GraphQLTypes["paymentType"] | undefined,
 	/** update data of the table: "payment_type" */
-	updatePaymentTypes?:ModelTypes["paymentType_mutation_response"] | undefined,
+	updatePaymentTypes?: GraphQLTypes["paymentType_mutation_response"] | undefined,
 	/** update data of the table: "payment" */
-	updatePayments?:ModelTypes["payment_mutation_response"] | undefined,
+	updatePayments?: GraphQLTypes["payment_mutation_response"] | undefined,
 	/** update single row of the table: "subclassification" */
-	updateSubclassification?:ModelTypes["subclassification"] | undefined,
+	updateSubclassification?: GraphQLTypes["subclassification"] | undefined,
 	/** update data of the table: "subclassification" */
-	updateSubclassifications?:ModelTypes["subclassification_mutation_response"] | undefined,
+	updateSubclassifications?: GraphQLTypes["subclassification_mutation_response"] | undefined,
 	/** update single row of the table: "tag" */
-	updateTag?:ModelTypes["tag"] | undefined,
+	updateTag?: GraphQLTypes["tag"] | undefined,
 	/** update data of the table: "tag" */
-	updateTags?:ModelTypes["tag_mutation_response"] | undefined,
+	updateTags?: GraphQLTypes["tag_mutation_response"] | undefined,
 	/** update single row of the table: "team" */
-	updateTeam?:ModelTypes["team"] | undefined,
+	updateTeam?: GraphQLTypes["team"] | undefined,
 	/** update single row of the table: "team_user" */
-	updateTeamUser?:ModelTypes["teamUser"] | undefined,
+	updateTeamUser?: GraphQLTypes["teamUser"] | undefined,
 	/** update data of the table: "team_user" */
-	updateTeamUsers?:ModelTypes["teamUser_mutation_response"] | undefined,
+	updateTeamUsers?: GraphQLTypes["teamUser_mutation_response"] | undefined,
 	/** update data of the table: "team" */
-	updateTeams?:ModelTypes["team_mutation_response"] | undefined,
+	updateTeams?: GraphQLTypes["team_mutation_response"] | undefined,
 	/** update single row of the table: "unit" */
-	updateUnit?:ModelTypes["unit"] | undefined,
+	updateUnit?: GraphQLTypes["unit"] | undefined,
 	/** update data of the table: "unit" */
-	updateUnits?:ModelTypes["unit_mutation_response"] | undefined,
+	updateUnits?: GraphQLTypes["unit_mutation_response"] | undefined,
 	/** update single row of the table: "user" */
-	updateUser?:ModelTypes["user"] | undefined,
+	updateUser?: GraphQLTypes["user"] | undefined,
 	/** update single row of the table: "user_status" */
-	updateUserStatus?:ModelTypes["userStatus"] | undefined,
+	updateUserStatus?: GraphQLTypes["userStatus"] | undefined,
 	/** update data of the table: "user_status" */
-	updateUserStatuses?:ModelTypes["userStatus_mutation_response"] | undefined,
+	updateUserStatuses?: GraphQLTypes["userStatus_mutation_response"] | undefined,
 	/** update data of the table: "user" */
-	updateUsers?:ModelTypes["user_mutation_response"] | undefined,
+	updateUsers?: GraphQLTypes["user_mutation_response"] | undefined,
 	/** update single row of the table: "webhook" */
-	updateWebhook?:ModelTypes["webhook"] | undefined,
+	updateWebhook?: GraphQLTypes["webhook"] | undefined,
 	/** update data of the table: "webhook" */
-	updateWebhooks?:ModelTypes["webhook_mutation_response"] | undefined,
+	updateWebhooks?: GraphQLTypes["webhook_mutation_response"] | undefined,
 	/** update data of the table: "booking_channel" */
-	update_booking_channel?:ModelTypes["booking_channel_mutation_response"] | undefined,
+	update_booking_channel?: GraphQLTypes["booking_channel_mutation_response"] | undefined,
 	/** update single row of the table: "booking_channel" */
-	update_booking_channel_by_pk?:ModelTypes["booking_channel"] | undefined
+	update_booking_channel_by_pk?: GraphQLTypes["booking_channel"] | undefined
 };
 	["normalized_type_enum"]: GraphQLTypes["normalized_type_enum"];
 	/** Boolean expression to compare columns of type "normalized_type_enum". All fields are combined with logical 'AND'. */
 ["normalized_type_enum_comparison_exp"]: GraphQLTypes["normalized_type_enum_comparison_exp"];
 	/** columns and relationships of "normalized_type" */
 ["normalizedType"]: {
-		name:string
+		name: string
 };
 	/** aggregated selection of "normalized_type" */
 ["normalizedType_aggregate"]: {
-		aggregate?:ModelTypes["normalizedType_aggregate_fields"] | undefined,
-	nodes:Array<ModelTypes["normalizedType"]> | undefined
+		aggregate?: GraphQLTypes["normalizedType_aggregate_fields"] | undefined,
+	nodes: Array<GraphQLTypes["normalizedType"]>
 };
 	/** aggregate fields of "normalized_type" */
 ["normalizedType_aggregate_fields"]: {
-		count:number,
-	max?:ModelTypes["normalizedType_max_fields"] | undefined,
-	min?:ModelTypes["normalizedType_min_fields"] | undefined
+		count: number,
+	max?: GraphQLTypes["normalizedType_max_fields"] | undefined,
+	min?: GraphQLTypes["normalizedType_min_fields"] | undefined
 };
 	/** Boolean expression to filter rows from the table "normalized_type". All fields are combined with a logical 'AND'. */
 ["normalizedType_bool_exp"]: GraphQLTypes["normalizedType_bool_exp"];
@@ -8713,18 +8713,18 @@ end). throws an error if top level container is not an array */
 ["normalizedType_insert_input"]: GraphQLTypes["normalizedType_insert_input"];
 	/** aggregate max on columns */
 ["normalizedType_max_fields"]: {
-		name?:string | undefined
+		name?: string | undefined
 };
 	/** aggregate min on columns */
 ["normalizedType_min_fields"]: {
-		name?:string | undefined
+		name?: string | undefined
 };
 	/** response of any mutation on the table "normalized_type" */
 ["normalizedType_mutation_response"]: {
 		/** number of rows affected by the mutation */
-	affected_rows:number,
+	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning:Array<ModelTypes["normalizedType"]> | undefined
+	returning: Array<GraphQLTypes["normalizedType"]>
 };
 	/** on conflict condition type for table "normalized_type" */
 ["normalizedType_on_conflict"]: GraphQLTypes["normalizedType_on_conflict"];
@@ -8745,54 +8745,54 @@ end). throws an error if top level container is not an array */
 ["order_by"]: GraphQLTypes["order_by"];
 	/** columns and relationships of "payment" */
 ["payment"]: {
-		arrivesAt?:ModelTypes["timestamptz"] | undefined,
-	centTotal?:number | undefined,
+		arrivesAt?: GraphQLTypes["timestamptz"] | undefined,
+	centTotal?: number | undefined,
 	/** An object relationship */
-	connection?:ModelTypes["connection"] | undefined,
-	connectionId?:ModelTypes["uuid"] | undefined,
-	createdAt?:ModelTypes["timestamptz"] | undefined,
-	currency?:ModelTypes["currency_enum"] | undefined,
-	description?:string | undefined,
+	connection?: GraphQLTypes["connection"] | undefined,
+	connectionId?: GraphQLTypes["uuid"] | undefined,
+	createdAt?: GraphQLTypes["timestamptz"] | undefined,
+	currency?: GraphQLTypes["currency_enum"] | undefined,
+	description?: string | undefined,
 	/** An object relationship */
-	entity?:ModelTypes["entity"] | undefined,
-	entityId?:ModelTypes["uuid"] | undefined,
-	id:ModelTypes["uuid"],
+	entity?: GraphQLTypes["entity"] | undefined,
+	entityId?: GraphQLTypes["uuid"] | undefined,
+	id: GraphQLTypes["uuid"],
 	/** An array relationship */
-	lines:Array<ModelTypes["line"]> | undefined,
+	lines: Array<GraphQLTypes["line"]>,
 	/** An aggregate relationship */
-	lines_aggregate:ModelTypes["line_aggregate"],
-	metadata?:ModelTypes["jsonb"] | undefined,
-	paidAt?:ModelTypes["timestamptz"] | undefined,
-	status?:ModelTypes["payment_status_enum"] | undefined,
+	lines_aggregate: GraphQLTypes["line_aggregate"],
+	metadata?: GraphQLTypes["jsonb"] | undefined,
+	paidAt?: GraphQLTypes["timestamptz"] | undefined,
+	status?: GraphQLTypes["payment_status_enum"] | undefined,
 	/** An array relationship */
-	tags:Array<ModelTypes["tag"]> | undefined,
+	tags: Array<GraphQLTypes["tag"]>,
 	/** An aggregate relationship */
-	tags_aggregate:ModelTypes["tag_aggregate"],
+	tags_aggregate: GraphQLTypes["tag_aggregate"],
 	/** An object relationship */
-	team?:ModelTypes["team"] | undefined,
-	teamId?:ModelTypes["uuid"] | undefined,
-	type?:string | undefined,
-	uniqueRef?:string | undefined,
-	updatedAt?:ModelTypes["timestamptz"] | undefined
+	team?: GraphQLTypes["team"] | undefined,
+	teamId?: GraphQLTypes["uuid"] | undefined,
+	type?: string | undefined,
+	uniqueRef?: string | undefined,
+	updatedAt?: GraphQLTypes["timestamptz"] | undefined
 };
 	/** aggregated selection of "payment" */
 ["payment_aggregate"]: {
-		aggregate?:ModelTypes["payment_aggregate_fields"] | undefined,
-	nodes:Array<ModelTypes["payment"]> | undefined
+		aggregate?: GraphQLTypes["payment_aggregate_fields"] | undefined,
+	nodes: Array<GraphQLTypes["payment"]>
 };
 	/** aggregate fields of "payment" */
 ["payment_aggregate_fields"]: {
-		avg?:ModelTypes["payment_avg_fields"] | undefined,
-	count:number,
-	max?:ModelTypes["payment_max_fields"] | undefined,
-	min?:ModelTypes["payment_min_fields"] | undefined,
-	stddev?:ModelTypes["payment_stddev_fields"] | undefined,
-	stddev_pop?:ModelTypes["payment_stddev_pop_fields"] | undefined,
-	stddev_samp?:ModelTypes["payment_stddev_samp_fields"] | undefined,
-	sum?:ModelTypes["payment_sum_fields"] | undefined,
-	var_pop?:ModelTypes["payment_var_pop_fields"] | undefined,
-	var_samp?:ModelTypes["payment_var_samp_fields"] | undefined,
-	variance?:ModelTypes["payment_variance_fields"] | undefined
+		avg?: GraphQLTypes["payment_avg_fields"] | undefined,
+	count: number,
+	max?: GraphQLTypes["payment_max_fields"] | undefined,
+	min?: GraphQLTypes["payment_min_fields"] | undefined,
+	stddev?: GraphQLTypes["payment_stddev_fields"] | undefined,
+	stddev_pop?: GraphQLTypes["payment_stddev_pop_fields"] | undefined,
+	stddev_samp?: GraphQLTypes["payment_stddev_samp_fields"] | undefined,
+	sum?: GraphQLTypes["payment_sum_fields"] | undefined,
+	var_pop?: GraphQLTypes["payment_var_pop_fields"] | undefined,
+	var_samp?: GraphQLTypes["payment_var_samp_fields"] | undefined,
+	variance?: GraphQLTypes["payment_variance_fields"] | undefined
 };
 	/** order by aggregate values of table "payment" */
 ["payment_aggregate_order_by"]: GraphQLTypes["payment_aggregate_order_by"];
@@ -8802,7 +8802,7 @@ end). throws an error if top level container is not an array */
 ["payment_arr_rel_insert_input"]: GraphQLTypes["payment_arr_rel_insert_input"];
 	/** aggregate avg on columns */
 ["payment_avg_fields"]: {
-		centTotal?:number | undefined
+		centTotal?: number | undefined
 };
 	/** order by avg() on columns of table "payment" */
 ["payment_avg_order_by"]: GraphQLTypes["payment_avg_order_by"];
@@ -8823,44 +8823,44 @@ end). throws an error if top level container is not an array */
 ["payment_insert_input"]: GraphQLTypes["payment_insert_input"];
 	/** aggregate max on columns */
 ["payment_max_fields"]: {
-		arrivesAt?:ModelTypes["timestamptz"] | undefined,
-	centTotal?:number | undefined,
-	connectionId?:ModelTypes["uuid"] | undefined,
-	createdAt?:ModelTypes["timestamptz"] | undefined,
-	description?:string | undefined,
-	entityId?:ModelTypes["uuid"] | undefined,
-	id?:ModelTypes["uuid"] | undefined,
-	paidAt?:ModelTypes["timestamptz"] | undefined,
-	teamId?:ModelTypes["uuid"] | undefined,
-	type?:string | undefined,
-	uniqueRef?:string | undefined,
-	updatedAt?:ModelTypes["timestamptz"] | undefined
+		arrivesAt?: GraphQLTypes["timestamptz"] | undefined,
+	centTotal?: number | undefined,
+	connectionId?: GraphQLTypes["uuid"] | undefined,
+	createdAt?: GraphQLTypes["timestamptz"] | undefined,
+	description?: string | undefined,
+	entityId?: GraphQLTypes["uuid"] | undefined,
+	id?: GraphQLTypes["uuid"] | undefined,
+	paidAt?: GraphQLTypes["timestamptz"] | undefined,
+	teamId?: GraphQLTypes["uuid"] | undefined,
+	type?: string | undefined,
+	uniqueRef?: string | undefined,
+	updatedAt?: GraphQLTypes["timestamptz"] | undefined
 };
 	/** order by max() on columns of table "payment" */
 ["payment_max_order_by"]: GraphQLTypes["payment_max_order_by"];
 	/** aggregate min on columns */
 ["payment_min_fields"]: {
-		arrivesAt?:ModelTypes["timestamptz"] | undefined,
-	centTotal?:number | undefined,
-	connectionId?:ModelTypes["uuid"] | undefined,
-	createdAt?:ModelTypes["timestamptz"] | undefined,
-	description?:string | undefined,
-	entityId?:ModelTypes["uuid"] | undefined,
-	id?:ModelTypes["uuid"] | undefined,
-	paidAt?:ModelTypes["timestamptz"] | undefined,
-	teamId?:ModelTypes["uuid"] | undefined,
-	type?:string | undefined,
-	uniqueRef?:string | undefined,
-	updatedAt?:ModelTypes["timestamptz"] | undefined
+		arrivesAt?: GraphQLTypes["timestamptz"] | undefined,
+	centTotal?: number | undefined,
+	connectionId?: GraphQLTypes["uuid"] | undefined,
+	createdAt?: GraphQLTypes["timestamptz"] | undefined,
+	description?: string | undefined,
+	entityId?: GraphQLTypes["uuid"] | undefined,
+	id?: GraphQLTypes["uuid"] | undefined,
+	paidAt?: GraphQLTypes["timestamptz"] | undefined,
+	teamId?: GraphQLTypes["uuid"] | undefined,
+	type?: string | undefined,
+	uniqueRef?: string | undefined,
+	updatedAt?: GraphQLTypes["timestamptz"] | undefined
 };
 	/** order by min() on columns of table "payment" */
 ["payment_min_order_by"]: GraphQLTypes["payment_min_order_by"];
 	/** response of any mutation on the table "payment" */
 ["payment_mutation_response"]: {
 		/** number of rows affected by the mutation */
-	affected_rows:number,
+	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning:Array<ModelTypes["payment"]> | undefined
+	returning: Array<GraphQLTypes["payment"]>
 };
 	/** input type for inserting object relation for remote table "payment" */
 ["payment_obj_rel_insert_input"]: GraphQLTypes["payment_obj_rel_insert_input"];
@@ -8881,25 +8881,25 @@ end). throws an error if top level container is not an array */
 ["payment_status_enum_comparison_exp"]: GraphQLTypes["payment_status_enum_comparison_exp"];
 	/** aggregate stddev on columns */
 ["payment_stddev_fields"]: {
-		centTotal?:number | undefined
+		centTotal?: number | undefined
 };
 	/** order by stddev() on columns of table "payment" */
 ["payment_stddev_order_by"]: GraphQLTypes["payment_stddev_order_by"];
 	/** aggregate stddev_pop on columns */
 ["payment_stddev_pop_fields"]: {
-		centTotal?:number | undefined
+		centTotal?: number | undefined
 };
 	/** order by stddev_pop() on columns of table "payment" */
 ["payment_stddev_pop_order_by"]: GraphQLTypes["payment_stddev_pop_order_by"];
 	/** aggregate stddev_samp on columns */
 ["payment_stddev_samp_fields"]: {
-		centTotal?:number | undefined
+		centTotal?: number | undefined
 };
 	/** order by stddev_samp() on columns of table "payment" */
 ["payment_stddev_samp_order_by"]: GraphQLTypes["payment_stddev_samp_order_by"];
 	/** aggregate sum on columns */
 ["payment_sum_fields"]: {
-		centTotal?:number | undefined
+		centTotal?: number | undefined
 };
 	/** order by sum() on columns of table "payment" */
 ["payment_sum_order_by"]: GraphQLTypes["payment_sum_order_by"];
@@ -8907,36 +8907,36 @@ end). throws an error if top level container is not an array */
 ["payment_update_column"]: GraphQLTypes["payment_update_column"];
 	/** aggregate var_pop on columns */
 ["payment_var_pop_fields"]: {
-		centTotal?:number | undefined
+		centTotal?: number | undefined
 };
 	/** order by var_pop() on columns of table "payment" */
 ["payment_var_pop_order_by"]: GraphQLTypes["payment_var_pop_order_by"];
 	/** aggregate var_samp on columns */
 ["payment_var_samp_fields"]: {
-		centTotal?:number | undefined
+		centTotal?: number | undefined
 };
 	/** order by var_samp() on columns of table "payment" */
 ["payment_var_samp_order_by"]: GraphQLTypes["payment_var_samp_order_by"];
 	/** aggregate variance on columns */
 ["payment_variance_fields"]: {
-		centTotal?:number | undefined
+		centTotal?: number | undefined
 };
 	/** order by variance() on columns of table "payment" */
 ["payment_variance_order_by"]: GraphQLTypes["payment_variance_order_by"];
 	/** columns and relationships of "payment_status" */
 ["paymentStatus"]: {
-		name:string
+		name: string
 };
 	/** aggregated selection of "payment_status" */
 ["paymentStatus_aggregate"]: {
-		aggregate?:ModelTypes["paymentStatus_aggregate_fields"] | undefined,
-	nodes:Array<ModelTypes["paymentStatus"]> | undefined
+		aggregate?: GraphQLTypes["paymentStatus_aggregate_fields"] | undefined,
+	nodes: Array<GraphQLTypes["paymentStatus"]>
 };
 	/** aggregate fields of "payment_status" */
 ["paymentStatus_aggregate_fields"]: {
-		count:number,
-	max?:ModelTypes["paymentStatus_max_fields"] | undefined,
-	min?:ModelTypes["paymentStatus_min_fields"] | undefined
+		count: number,
+	max?: GraphQLTypes["paymentStatus_max_fields"] | undefined,
+	min?: GraphQLTypes["paymentStatus_min_fields"] | undefined
 };
 	/** Boolean expression to filter rows from the table "payment_status". All fields are combined with a logical 'AND'. */
 ["paymentStatus_bool_exp"]: GraphQLTypes["paymentStatus_bool_exp"];
@@ -8946,18 +8946,18 @@ end). throws an error if top level container is not an array */
 ["paymentStatus_insert_input"]: GraphQLTypes["paymentStatus_insert_input"];
 	/** aggregate max on columns */
 ["paymentStatus_max_fields"]: {
-		name?:string | undefined
+		name?: string | undefined
 };
 	/** aggregate min on columns */
 ["paymentStatus_min_fields"]: {
-		name?:string | undefined
+		name?: string | undefined
 };
 	/** response of any mutation on the table "payment_status" */
 ["paymentStatus_mutation_response"]: {
 		/** number of rows affected by the mutation */
-	affected_rows:number,
+	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning:Array<ModelTypes["paymentStatus"]> | undefined
+	returning: Array<GraphQLTypes["paymentStatus"]>
 };
 	/** on conflict condition type for table "payment_status" */
 ["paymentStatus_on_conflict"]: GraphQLTypes["paymentStatus_on_conflict"];
@@ -8973,18 +8973,18 @@ end). throws an error if top level container is not an array */
 ["paymentStatus_update_column"]: GraphQLTypes["paymentStatus_update_column"];
 	/** columns and relationships of "payment_type" */
 ["paymentType"]: {
-		name:string
+		name: string
 };
 	/** aggregated selection of "payment_type" */
 ["paymentType_aggregate"]: {
-		aggregate?:ModelTypes["paymentType_aggregate_fields"] | undefined,
-	nodes:Array<ModelTypes["paymentType"]> | undefined
+		aggregate?: GraphQLTypes["paymentType_aggregate_fields"] | undefined,
+	nodes: Array<GraphQLTypes["paymentType"]>
 };
 	/** aggregate fields of "payment_type" */
 ["paymentType_aggregate_fields"]: {
-		count:number,
-	max?:ModelTypes["paymentType_max_fields"] | undefined,
-	min?:ModelTypes["paymentType_min_fields"] | undefined
+		count: number,
+	max?: GraphQLTypes["paymentType_max_fields"] | undefined,
+	min?: GraphQLTypes["paymentType_min_fields"] | undefined
 };
 	/** Boolean expression to filter rows from the table "payment_type". All fields are combined with a logical 'AND'. */
 ["paymentType_bool_exp"]: GraphQLTypes["paymentType_bool_exp"];
@@ -8994,18 +8994,18 @@ end). throws an error if top level container is not an array */
 ["paymentType_insert_input"]: GraphQLTypes["paymentType_insert_input"];
 	/** aggregate max on columns */
 ["paymentType_max_fields"]: {
-		name?:string | undefined
+		name?: string | undefined
 };
 	/** aggregate min on columns */
 ["paymentType_min_fields"]: {
-		name?:string | undefined
+		name?: string | undefined
 };
 	/** response of any mutation on the table "payment_type" */
 ["paymentType_mutation_response"]: {
 		/** number of rows affected by the mutation */
-	affected_rows:number,
+	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning:Array<ModelTypes["paymentType"]> | undefined
+	returning: Array<GraphQLTypes["paymentType"]>
 };
 	/** on conflict condition type for table "payment_type" */
 ["paymentType_on_conflict"]: GraphQLTypes["paymentType_on_conflict"];
@@ -9021,190 +9021,190 @@ end). throws an error if top level container is not an array */
 ["paymentType_update_column"]: GraphQLTypes["paymentType_update_column"];
 	["query_root"]: {
 		/** fetch aggregated fields from the table: "booking_status" */
-	aggregateBookingStatuses:ModelTypes["bookingStatus_aggregate"],
+	aggregateBookingStatuses: GraphQLTypes["bookingStatus_aggregate"],
 	/** fetch aggregated fields from the table: "booking" */
-	aggregateBookings:ModelTypes["booking_aggregate"],
+	aggregateBookings: GraphQLTypes["booking_aggregate"],
 	/** fetch aggregated fields from the table: "classification" */
-	aggregateClassifications:ModelTypes["classification_aggregate"],
+	aggregateClassifications: GraphQLTypes["classification_aggregate"],
 	/** fetch aggregated fields from the table: "connection" */
-	aggregateConnections:ModelTypes["connection_aggregate"],
+	aggregateConnections: GraphQLTypes["connection_aggregate"],
 	/** fetch aggregated fields from the table: "currency" */
-	aggregateCurrencies:ModelTypes["currency_aggregate"],
+	aggregateCurrencies: GraphQLTypes["currency_aggregate"],
 	/** fetch aggregated fields from the table: "entity" */
-	aggregateEntities:ModelTypes["entity_aggregate"],
+	aggregateEntities: GraphQLTypes["entity_aggregate"],
 	/** fetch aggregated fields from the table: "entity_status" */
-	aggregateEntityStatuses:ModelTypes["entityStatus_aggregate"],
+	aggregateEntityStatuses: GraphQLTypes["entityStatus_aggregate"],
 	/** fetch aggregated fields from the table: "integration_type" */
-	aggregateIntegrationTypes:ModelTypes["integrationType_aggregate"],
+	aggregateIntegrationTypes: GraphQLTypes["integrationType_aggregate"],
 	/** fetch aggregated fields from the table: "integration" */
-	aggregateIntegrations:ModelTypes["integration_aggregate"],
+	aggregateIntegrations: GraphQLTypes["integration_aggregate"],
 	/** fetch aggregated fields from the table: "issue" */
-	aggregateIssues:ModelTypes["issue_aggregate"],
+	aggregateIssues: GraphQLTypes["issue_aggregate"],
 	/** fetch aggregated fields from the table: "job_method" */
-	aggregateJobMethods:ModelTypes["jobMethod_aggregate"],
+	aggregateJobMethods: GraphQLTypes["jobMethod_aggregate"],
 	/** fetch aggregated fields from the table: "job_status" */
-	aggregateJobStatuses:ModelTypes["jobStatus_aggregate"],
+	aggregateJobStatuses: GraphQLTypes["jobStatus_aggregate"],
 	/** fetch aggregated fields from the table: "job" */
-	aggregateJobs:ModelTypes["job_aggregate"],
+	aggregateJobs: GraphQLTypes["job_aggregate"],
 	/** fetch aggregated fields from the table: "line" */
-	aggregateLines:ModelTypes["line_aggregate"],
+	aggregateLines: GraphQLTypes["line_aggregate"],
 	/** fetch aggregated fields from the table: "metric" */
-	aggregateMetrics:ModelTypes["metric_aggregate"],
+	aggregateMetrics: GraphQLTypes["metric_aggregate"],
 	/** fetch aggregated fields from the table: "normalized_type" */
-	aggregateNormalizedTypes:ModelTypes["normalizedType_aggregate"],
+	aggregateNormalizedTypes: GraphQLTypes["normalizedType_aggregate"],
 	/** fetch aggregated fields from the table: "payment_status" */
-	aggregatePaymentStatuses:ModelTypes["paymentStatus_aggregate"],
+	aggregatePaymentStatuses: GraphQLTypes["paymentStatus_aggregate"],
 	/** fetch aggregated fields from the table: "payment_type" */
-	aggregatePaymentTypes:ModelTypes["paymentType_aggregate"],
+	aggregatePaymentTypes: GraphQLTypes["paymentType_aggregate"],
 	/** fetch aggregated fields from the table: "payment" */
-	aggregatePayments:ModelTypes["payment_aggregate"],
+	aggregatePayments: GraphQLTypes["payment_aggregate"],
 	/** fetch aggregated fields from the table: "subclassification" */
-	aggregateSubclassifications:ModelTypes["subclassification_aggregate"],
+	aggregateSubclassifications: GraphQLTypes["subclassification_aggregate"],
 	/** fetch aggregated fields from the table: "tag" */
-	aggregateTags:ModelTypes["tag_aggregate"],
+	aggregateTags: GraphQLTypes["tag_aggregate"],
 	/** fetch aggregated fields from the table: "team_user" */
-	aggregateTeamUsers:ModelTypes["teamUser_aggregate"],
+	aggregateTeamUsers: GraphQLTypes["teamUser_aggregate"],
 	/** fetch aggregated fields from the table: "team" */
-	aggregateTeams:ModelTypes["team_aggregate"],
+	aggregateTeams: GraphQLTypes["team_aggregate"],
 	/** fetch aggregated fields from the table: "unit" */
-	aggregateUnits:ModelTypes["unit_aggregate"],
+	aggregateUnits: GraphQLTypes["unit_aggregate"],
 	/** fetch aggregated fields from the table: "user_status" */
-	aggregateUserStatuses:ModelTypes["userStatus_aggregate"],
+	aggregateUserStatuses: GraphQLTypes["userStatus_aggregate"],
 	/** fetch aggregated fields from the table: "user" */
-	aggregateUsers:ModelTypes["user_aggregate"],
+	aggregateUsers: GraphQLTypes["user_aggregate"],
 	/** fetch aggregated fields from the table: "webhook" */
-	aggregateWebhooks:ModelTypes["webhook_aggregate"],
+	aggregateWebhooks: GraphQLTypes["webhook_aggregate"],
 	/** fetch data from the table: "booking" using primary key columns */
-	booking?:ModelTypes["booking"] | undefined,
+	booking?: GraphQLTypes["booking"] | undefined,
 	/** fetch data from the table: "booking_status" using primary key columns */
-	bookingStatus?:ModelTypes["bookingStatus"] | undefined,
+	bookingStatus?: GraphQLTypes["bookingStatus"] | undefined,
 	/** fetch data from the table: "booking_status" */
-	bookingStatuses:Array<ModelTypes["bookingStatus"]> | undefined,
+	bookingStatuses: Array<GraphQLTypes["bookingStatus"]>,
 	/** fetch data from the table: "booking_channel" */
-	booking_channel:Array<ModelTypes["booking_channel"]> | undefined,
+	booking_channel: Array<GraphQLTypes["booking_channel"]>,
 	/** fetch aggregated fields from the table: "booking_channel" */
-	booking_channel_aggregate:ModelTypes["booking_channel_aggregate"],
+	booking_channel_aggregate: GraphQLTypes["booking_channel_aggregate"],
 	/** fetch data from the table: "booking_channel" using primary key columns */
-	booking_channel_by_pk?:ModelTypes["booking_channel"] | undefined,
+	booking_channel_by_pk?: GraphQLTypes["booking_channel"] | undefined,
 	/** An array relationship */
-	bookings:Array<ModelTypes["booking"]> | undefined,
+	bookings: Array<GraphQLTypes["booking"]>,
 	/** fetch data from the table: "classification" using primary key columns */
-	classification?:ModelTypes["classification"] | undefined,
+	classification?: GraphQLTypes["classification"] | undefined,
 	/** fetch data from the table: "classification" */
-	classifications:Array<ModelTypes["classification"]> | undefined,
+	classifications: Array<GraphQLTypes["classification"]>,
 	/** fetch data from the table: "connection" using primary key columns */
-	connection?:ModelTypes["connection"] | undefined,
+	connection?: GraphQLTypes["connection"] | undefined,
 	/** An array relationship */
-	connections:Array<ModelTypes["connection"]> | undefined,
+	connections: Array<GraphQLTypes["connection"]>,
 	/** fetch data from the table: "currency" */
-	currencies:Array<ModelTypes["currency"]> | undefined,
+	currencies: Array<GraphQLTypes["currency"]>,
 	/** fetch data from the table: "currency" using primary key columns */
-	currency?:ModelTypes["currency"] | undefined,
+	currency?: GraphQLTypes["currency"] | undefined,
 	/** An array relationship */
-	entities:Array<ModelTypes["entity"]> | undefined,
+	entities: Array<GraphQLTypes["entity"]>,
 	/** fetch data from the table: "entity" using primary key columns */
-	entity?:ModelTypes["entity"] | undefined,
+	entity?: GraphQLTypes["entity"] | undefined,
 	/** fetch data from the table: "entity_status" using primary key columns */
-	entityStatus?:ModelTypes["entityStatus"] | undefined,
+	entityStatus?: GraphQLTypes["entityStatus"] | undefined,
 	/** fetch data from the table: "entity_status" */
-	entityStatuses:Array<ModelTypes["entityStatus"]> | undefined,
+	entityStatuses: Array<GraphQLTypes["entityStatus"]>,
 	/** fetch data from the table: "integration" using primary key columns */
-	integration?:ModelTypes["integration"] | undefined,
+	integration?: GraphQLTypes["integration"] | undefined,
 	/** fetch data from the table: "integration_type" using primary key columns */
-	integrationType?:ModelTypes["integrationType"] | undefined,
+	integrationType?: GraphQLTypes["integrationType"] | undefined,
 	/** fetch data from the table: "integration_type" */
-	integrationTypes:Array<ModelTypes["integrationType"]> | undefined,
+	integrationTypes: Array<GraphQLTypes["integrationType"]>,
 	/** An array relationship */
-	integrations:Array<ModelTypes["integration"]> | undefined,
+	integrations: Array<GraphQLTypes["integration"]>,
 	/** fetch data from the table: "issue" using primary key columns */
-	issue?:ModelTypes["issue"] | undefined,
+	issue?: GraphQLTypes["issue"] | undefined,
 	/** An array relationship */
-	issues:Array<ModelTypes["issue"]> | undefined,
+	issues: Array<GraphQLTypes["issue"]>,
 	/** fetch data from the table: "job" using primary key columns */
-	job?:ModelTypes["job"] | undefined,
+	job?: GraphQLTypes["job"] | undefined,
 	/** fetch data from the table: "job_method" using primary key columns */
-	jobMethod?:ModelTypes["jobMethod"] | undefined,
+	jobMethod?: GraphQLTypes["jobMethod"] | undefined,
 	/** fetch data from the table: "job_method" */
-	jobMethods:Array<ModelTypes["jobMethod"]> | undefined,
+	jobMethods: Array<GraphQLTypes["jobMethod"]>,
 	/** fetch data from the table: "job_status" using primary key columns */
-	jobStatus?:ModelTypes["jobStatus"] | undefined,
+	jobStatus?: GraphQLTypes["jobStatus"] | undefined,
 	/** fetch data from the table: "job_status" */
-	jobStatuses:Array<ModelTypes["jobStatus"]> | undefined,
+	jobStatuses: Array<GraphQLTypes["jobStatus"]>,
 	/** An array relationship */
-	jobs:Array<ModelTypes["job"]> | undefined,
+	jobs: Array<GraphQLTypes["job"]>,
 	/** fetch data from the table: "line" using primary key columns */
-	line?:ModelTypes["line"] | undefined,
+	line?: GraphQLTypes["line"] | undefined,
 	/** An array relationship */
-	lines:Array<ModelTypes["line"]> | undefined,
+	lines: Array<GraphQLTypes["line"]>,
 	/** fetch data from the table: "metric" using primary key columns */
-	metric?:ModelTypes["metric"] | undefined,
+	metric?: GraphQLTypes["metric"] | undefined,
 	/** An array relationship */
-	metrics:Array<ModelTypes["metric"]> | undefined,
+	metrics: Array<GraphQLTypes["metric"]>,
 	/** fetch data from the table: "normalized_type" using primary key columns */
-	normalizedType?:ModelTypes["normalizedType"] | undefined,
+	normalizedType?: GraphQLTypes["normalizedType"] | undefined,
 	/** fetch data from the table: "normalized_type" */
-	normalizedTypes:Array<ModelTypes["normalizedType"]> | undefined,
+	normalizedTypes: Array<GraphQLTypes["normalizedType"]>,
 	/** fetch data from the table: "payment" using primary key columns */
-	payment?:ModelTypes["payment"] | undefined,
+	payment?: GraphQLTypes["payment"] | undefined,
 	/** fetch data from the table: "payment_status" using primary key columns */
-	paymentStatus?:ModelTypes["paymentStatus"] | undefined,
+	paymentStatus?: GraphQLTypes["paymentStatus"] | undefined,
 	/** fetch data from the table: "payment_status" */
-	paymentStatuses:Array<ModelTypes["paymentStatus"]> | undefined,
+	paymentStatuses: Array<GraphQLTypes["paymentStatus"]>,
 	/** fetch data from the table: "payment_type" using primary key columns */
-	paymentType?:ModelTypes["paymentType"] | undefined,
+	paymentType?: GraphQLTypes["paymentType"] | undefined,
 	/** fetch data from the table: "payment_type" */
-	paymentTypes:Array<ModelTypes["paymentType"]> | undefined,
+	paymentTypes: Array<GraphQLTypes["paymentType"]>,
 	/** An array relationship */
-	payments:Array<ModelTypes["payment"]> | undefined,
+	payments: Array<GraphQLTypes["payment"]>,
 	/** fetch data from the table: "subclassification" using primary key columns */
-	subclassification?:ModelTypes["subclassification"] | undefined,
+	subclassification?: GraphQLTypes["subclassification"] | undefined,
 	/** fetch data from the table: "subclassification" */
-	subclassifications:Array<ModelTypes["subclassification"]> | undefined,
+	subclassifications: Array<GraphQLTypes["subclassification"]>,
 	/** fetch data from the table: "tag" using primary key columns */
-	tag?:ModelTypes["tag"] | undefined,
+	tag?: GraphQLTypes["tag"] | undefined,
 	/** An array relationship */
-	tags:Array<ModelTypes["tag"]> | undefined,
+	tags: Array<GraphQLTypes["tag"]>,
 	/** fetch data from the table: "team" using primary key columns */
-	team?:ModelTypes["team"] | undefined,
+	team?: GraphQLTypes["team"] | undefined,
 	/** fetch data from the table: "team_user" using primary key columns */
-	teamUser?:ModelTypes["teamUser"] | undefined,
+	teamUser?: GraphQLTypes["teamUser"] | undefined,
 	/** fetch data from the table: "team_user" */
-	teamUsers:Array<ModelTypes["teamUser"]> | undefined,
+	teamUsers: Array<GraphQLTypes["teamUser"]>,
 	/** fetch data from the table: "team" */
-	teams:Array<ModelTypes["team"]> | undefined,
+	teams: Array<GraphQLTypes["team"]>,
 	/** fetch data from the table: "unit" using primary key columns */
-	unit?:ModelTypes["unit"] | undefined,
+	unit?: GraphQLTypes["unit"] | undefined,
 	/** An array relationship */
-	units:Array<ModelTypes["unit"]> | undefined,
+	units: Array<GraphQLTypes["unit"]>,
 	/** fetch data from the table: "user" using primary key columns */
-	user?:ModelTypes["user"] | undefined,
+	user?: GraphQLTypes["user"] | undefined,
 	/** fetch data from the table: "user_status" using primary key columns */
-	userStatus?:ModelTypes["userStatus"] | undefined,
+	userStatus?: GraphQLTypes["userStatus"] | undefined,
 	/** fetch data from the table: "user_status" */
-	userStatuses:Array<ModelTypes["userStatus"]> | undefined,
+	userStatuses: Array<GraphQLTypes["userStatus"]>,
 	/** fetch data from the table: "user" */
-	users:Array<ModelTypes["user"]> | undefined,
+	users: Array<GraphQLTypes["user"]>,
 	/** fetch data from the table: "webhook" using primary key columns */
-	webhook?:ModelTypes["webhook"] | undefined,
+	webhook?: GraphQLTypes["webhook"] | undefined,
 	/** An array relationship */
-	webhooks:Array<ModelTypes["webhook"]> | undefined
+	webhooks: Array<GraphQLTypes["webhook"]>
 };
 	/** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
 ["String_comparison_exp"]: GraphQLTypes["String_comparison_exp"];
 	/** columns and relationships of "subclassification" */
 ["subclassification"]: {
-		name:string
+		name: string
 };
 	/** aggregated selection of "subclassification" */
 ["subclassification_aggregate"]: {
-		aggregate?:ModelTypes["subclassification_aggregate_fields"] | undefined,
-	nodes:Array<ModelTypes["subclassification"]> | undefined
+		aggregate?: GraphQLTypes["subclassification_aggregate_fields"] | undefined,
+	nodes: Array<GraphQLTypes["subclassification"]>
 };
 	/** aggregate fields of "subclassification" */
 ["subclassification_aggregate_fields"]: {
-		count:number,
-	max?:ModelTypes["subclassification_max_fields"] | undefined,
-	min?:ModelTypes["subclassification_min_fields"] | undefined
+		count: number,
+	max?: GraphQLTypes["subclassification_max_fields"] | undefined,
+	min?: GraphQLTypes["subclassification_min_fields"] | undefined
 };
 	/** Boolean expression to filter rows from the table "subclassification". All fields are combined with a logical 'AND'. */
 ["subclassification_bool_exp"]: GraphQLTypes["subclassification_bool_exp"];
@@ -9217,18 +9217,18 @@ end). throws an error if top level container is not an array */
 ["subclassification_insert_input"]: GraphQLTypes["subclassification_insert_input"];
 	/** aggregate max on columns */
 ["subclassification_max_fields"]: {
-		name?:string | undefined
+		name?: string | undefined
 };
 	/** aggregate min on columns */
 ["subclassification_min_fields"]: {
-		name?:string | undefined
+		name?: string | undefined
 };
 	/** response of any mutation on the table "subclassification" */
 ["subclassification_mutation_response"]: {
 		/** number of rows affected by the mutation */
-	affected_rows:number,
+	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning:Array<ModelTypes["subclassification"]> | undefined
+	returning: Array<GraphQLTypes["subclassification"]>
 };
 	/** on conflict condition type for table "subclassification" */
 ["subclassification_on_conflict"]: GraphQLTypes["subclassification_on_conflict"];
@@ -9244,208 +9244,208 @@ end). throws an error if top level container is not an array */
 ["subclassification_update_column"]: GraphQLTypes["subclassification_update_column"];
 	["subscription_root"]: {
 		/** fetch aggregated fields from the table: "booking_status" */
-	aggregateBookingStatuses:ModelTypes["bookingStatus_aggregate"],
+	aggregateBookingStatuses: GraphQLTypes["bookingStatus_aggregate"],
 	/** fetch aggregated fields from the table: "booking" */
-	aggregateBookings:ModelTypes["booking_aggregate"],
+	aggregateBookings: GraphQLTypes["booking_aggregate"],
 	/** fetch aggregated fields from the table: "classification" */
-	aggregateClassifications:ModelTypes["classification_aggregate"],
+	aggregateClassifications: GraphQLTypes["classification_aggregate"],
 	/** fetch aggregated fields from the table: "connection" */
-	aggregateConnections:ModelTypes["connection_aggregate"],
+	aggregateConnections: GraphQLTypes["connection_aggregate"],
 	/** fetch aggregated fields from the table: "currency" */
-	aggregateCurrencies:ModelTypes["currency_aggregate"],
+	aggregateCurrencies: GraphQLTypes["currency_aggregate"],
 	/** fetch aggregated fields from the table: "entity" */
-	aggregateEntities:ModelTypes["entity_aggregate"],
+	aggregateEntities: GraphQLTypes["entity_aggregate"],
 	/** fetch aggregated fields from the table: "entity_status" */
-	aggregateEntityStatuses:ModelTypes["entityStatus_aggregate"],
+	aggregateEntityStatuses: GraphQLTypes["entityStatus_aggregate"],
 	/** fetch aggregated fields from the table: "integration_type" */
-	aggregateIntegrationTypes:ModelTypes["integrationType_aggregate"],
+	aggregateIntegrationTypes: GraphQLTypes["integrationType_aggregate"],
 	/** fetch aggregated fields from the table: "integration" */
-	aggregateIntegrations:ModelTypes["integration_aggregate"],
+	aggregateIntegrations: GraphQLTypes["integration_aggregate"],
 	/** fetch aggregated fields from the table: "issue" */
-	aggregateIssues:ModelTypes["issue_aggregate"],
+	aggregateIssues: GraphQLTypes["issue_aggregate"],
 	/** fetch aggregated fields from the table: "job_method" */
-	aggregateJobMethods:ModelTypes["jobMethod_aggregate"],
+	aggregateJobMethods: GraphQLTypes["jobMethod_aggregate"],
 	/** fetch aggregated fields from the table: "job_status" */
-	aggregateJobStatuses:ModelTypes["jobStatus_aggregate"],
+	aggregateJobStatuses: GraphQLTypes["jobStatus_aggregate"],
 	/** fetch aggregated fields from the table: "job" */
-	aggregateJobs:ModelTypes["job_aggregate"],
+	aggregateJobs: GraphQLTypes["job_aggregate"],
 	/** fetch aggregated fields from the table: "line" */
-	aggregateLines:ModelTypes["line_aggregate"],
+	aggregateLines: GraphQLTypes["line_aggregate"],
 	/** fetch aggregated fields from the table: "metric" */
-	aggregateMetrics:ModelTypes["metric_aggregate"],
+	aggregateMetrics: GraphQLTypes["metric_aggregate"],
 	/** fetch aggregated fields from the table: "normalized_type" */
-	aggregateNormalizedTypes:ModelTypes["normalizedType_aggregate"],
+	aggregateNormalizedTypes: GraphQLTypes["normalizedType_aggregate"],
 	/** fetch aggregated fields from the table: "payment_status" */
-	aggregatePaymentStatuses:ModelTypes["paymentStatus_aggregate"],
+	aggregatePaymentStatuses: GraphQLTypes["paymentStatus_aggregate"],
 	/** fetch aggregated fields from the table: "payment_type" */
-	aggregatePaymentTypes:ModelTypes["paymentType_aggregate"],
+	aggregatePaymentTypes: GraphQLTypes["paymentType_aggregate"],
 	/** fetch aggregated fields from the table: "payment" */
-	aggregatePayments:ModelTypes["payment_aggregate"],
+	aggregatePayments: GraphQLTypes["payment_aggregate"],
 	/** fetch aggregated fields from the table: "subclassification" */
-	aggregateSubclassifications:ModelTypes["subclassification_aggregate"],
+	aggregateSubclassifications: GraphQLTypes["subclassification_aggregate"],
 	/** fetch aggregated fields from the table: "tag" */
-	aggregateTags:ModelTypes["tag_aggregate"],
+	aggregateTags: GraphQLTypes["tag_aggregate"],
 	/** fetch aggregated fields from the table: "team_user" */
-	aggregateTeamUsers:ModelTypes["teamUser_aggregate"],
+	aggregateTeamUsers: GraphQLTypes["teamUser_aggregate"],
 	/** fetch aggregated fields from the table: "team" */
-	aggregateTeams:ModelTypes["team_aggregate"],
+	aggregateTeams: GraphQLTypes["team_aggregate"],
 	/** fetch aggregated fields from the table: "unit" */
-	aggregateUnits:ModelTypes["unit_aggregate"],
+	aggregateUnits: GraphQLTypes["unit_aggregate"],
 	/** fetch aggregated fields from the table: "user_status" */
-	aggregateUserStatuses:ModelTypes["userStatus_aggregate"],
+	aggregateUserStatuses: GraphQLTypes["userStatus_aggregate"],
 	/** fetch aggregated fields from the table: "user" */
-	aggregateUsers:ModelTypes["user_aggregate"],
+	aggregateUsers: GraphQLTypes["user_aggregate"],
 	/** fetch aggregated fields from the table: "webhook" */
-	aggregateWebhooks:ModelTypes["webhook_aggregate"],
+	aggregateWebhooks: GraphQLTypes["webhook_aggregate"],
 	/** fetch data from the table: "booking" using primary key columns */
-	booking?:ModelTypes["booking"] | undefined,
+	booking?: GraphQLTypes["booking"] | undefined,
 	/** fetch data from the table: "booking_status" using primary key columns */
-	bookingStatus?:ModelTypes["bookingStatus"] | undefined,
+	bookingStatus?: GraphQLTypes["bookingStatus"] | undefined,
 	/** fetch data from the table: "booking_status" */
-	bookingStatuses:Array<ModelTypes["bookingStatus"]> | undefined,
+	bookingStatuses: Array<GraphQLTypes["bookingStatus"]>,
 	/** fetch data from the table: "booking_channel" */
-	booking_channel:Array<ModelTypes["booking_channel"]> | undefined,
+	booking_channel: Array<GraphQLTypes["booking_channel"]>,
 	/** fetch aggregated fields from the table: "booking_channel" */
-	booking_channel_aggregate:ModelTypes["booking_channel_aggregate"],
+	booking_channel_aggregate: GraphQLTypes["booking_channel_aggregate"],
 	/** fetch data from the table: "booking_channel" using primary key columns */
-	booking_channel_by_pk?:ModelTypes["booking_channel"] | undefined,
+	booking_channel_by_pk?: GraphQLTypes["booking_channel"] | undefined,
 	/** An array relationship */
-	bookings:Array<ModelTypes["booking"]> | undefined,
+	bookings: Array<GraphQLTypes["booking"]>,
 	/** fetch data from the table: "classification" using primary key columns */
-	classification?:ModelTypes["classification"] | undefined,
+	classification?: GraphQLTypes["classification"] | undefined,
 	/** fetch data from the table: "classification" */
-	classifications:Array<ModelTypes["classification"]> | undefined,
+	classifications: Array<GraphQLTypes["classification"]>,
 	/** fetch data from the table: "connection" using primary key columns */
-	connection?:ModelTypes["connection"] | undefined,
+	connection?: GraphQLTypes["connection"] | undefined,
 	/** An array relationship */
-	connections:Array<ModelTypes["connection"]> | undefined,
+	connections: Array<GraphQLTypes["connection"]>,
 	/** fetch data from the table: "currency" */
-	currencies:Array<ModelTypes["currency"]> | undefined,
+	currencies: Array<GraphQLTypes["currency"]>,
 	/** fetch data from the table: "currency" using primary key columns */
-	currency?:ModelTypes["currency"] | undefined,
+	currency?: GraphQLTypes["currency"] | undefined,
 	/** An array relationship */
-	entities:Array<ModelTypes["entity"]> | undefined,
+	entities: Array<GraphQLTypes["entity"]>,
 	/** fetch data from the table: "entity" using primary key columns */
-	entity?:ModelTypes["entity"] | undefined,
+	entity?: GraphQLTypes["entity"] | undefined,
 	/** fetch data from the table: "entity_status" using primary key columns */
-	entityStatus?:ModelTypes["entityStatus"] | undefined,
+	entityStatus?: GraphQLTypes["entityStatus"] | undefined,
 	/** fetch data from the table: "entity_status" */
-	entityStatuses:Array<ModelTypes["entityStatus"]> | undefined,
+	entityStatuses: Array<GraphQLTypes["entityStatus"]>,
 	/** fetch data from the table: "integration" using primary key columns */
-	integration?:ModelTypes["integration"] | undefined,
+	integration?: GraphQLTypes["integration"] | undefined,
 	/** fetch data from the table: "integration_type" using primary key columns */
-	integrationType?:ModelTypes["integrationType"] | undefined,
+	integrationType?: GraphQLTypes["integrationType"] | undefined,
 	/** fetch data from the table: "integration_type" */
-	integrationTypes:Array<ModelTypes["integrationType"]> | undefined,
+	integrationTypes: Array<GraphQLTypes["integrationType"]>,
 	/** An array relationship */
-	integrations:Array<ModelTypes["integration"]> | undefined,
+	integrations: Array<GraphQLTypes["integration"]>,
 	/** fetch data from the table: "issue" using primary key columns */
-	issue?:ModelTypes["issue"] | undefined,
+	issue?: GraphQLTypes["issue"] | undefined,
 	/** An array relationship */
-	issues:Array<ModelTypes["issue"]> | undefined,
+	issues: Array<GraphQLTypes["issue"]>,
 	/** fetch data from the table: "job" using primary key columns */
-	job?:ModelTypes["job"] | undefined,
+	job?: GraphQLTypes["job"] | undefined,
 	/** fetch data from the table: "job_method" using primary key columns */
-	jobMethod?:ModelTypes["jobMethod"] | undefined,
+	jobMethod?: GraphQLTypes["jobMethod"] | undefined,
 	/** fetch data from the table: "job_method" */
-	jobMethods:Array<ModelTypes["jobMethod"]> | undefined,
+	jobMethods: Array<GraphQLTypes["jobMethod"]>,
 	/** fetch data from the table: "job_status" using primary key columns */
-	jobStatus?:ModelTypes["jobStatus"] | undefined,
+	jobStatus?: GraphQLTypes["jobStatus"] | undefined,
 	/** fetch data from the table: "job_status" */
-	jobStatuses:Array<ModelTypes["jobStatus"]> | undefined,
+	jobStatuses: Array<GraphQLTypes["jobStatus"]>,
 	/** An array relationship */
-	jobs:Array<ModelTypes["job"]> | undefined,
+	jobs: Array<GraphQLTypes["job"]>,
 	/** fetch data from the table: "line" using primary key columns */
-	line?:ModelTypes["line"] | undefined,
+	line?: GraphQLTypes["line"] | undefined,
 	/** An array relationship */
-	lines:Array<ModelTypes["line"]> | undefined,
+	lines: Array<GraphQLTypes["line"]>,
 	/** fetch data from the table: "metric" using primary key columns */
-	metric?:ModelTypes["metric"] | undefined,
+	metric?: GraphQLTypes["metric"] | undefined,
 	/** An array relationship */
-	metrics:Array<ModelTypes["metric"]> | undefined,
+	metrics: Array<GraphQLTypes["metric"]>,
 	/** fetch data from the table: "normalized_type" using primary key columns */
-	normalizedType?:ModelTypes["normalizedType"] | undefined,
+	normalizedType?: GraphQLTypes["normalizedType"] | undefined,
 	/** fetch data from the table: "normalized_type" */
-	normalizedTypes:Array<ModelTypes["normalizedType"]> | undefined,
+	normalizedTypes: Array<GraphQLTypes["normalizedType"]>,
 	/** fetch data from the table: "payment" using primary key columns */
-	payment?:ModelTypes["payment"] | undefined,
+	payment?: GraphQLTypes["payment"] | undefined,
 	/** fetch data from the table: "payment_status" using primary key columns */
-	paymentStatus?:ModelTypes["paymentStatus"] | undefined,
+	paymentStatus?: GraphQLTypes["paymentStatus"] | undefined,
 	/** fetch data from the table: "payment_status" */
-	paymentStatuses:Array<ModelTypes["paymentStatus"]> | undefined,
+	paymentStatuses: Array<GraphQLTypes["paymentStatus"]>,
 	/** fetch data from the table: "payment_type" using primary key columns */
-	paymentType?:ModelTypes["paymentType"] | undefined,
+	paymentType?: GraphQLTypes["paymentType"] | undefined,
 	/** fetch data from the table: "payment_type" */
-	paymentTypes:Array<ModelTypes["paymentType"]> | undefined,
+	paymentTypes: Array<GraphQLTypes["paymentType"]>,
 	/** An array relationship */
-	payments:Array<ModelTypes["payment"]> | undefined,
+	payments: Array<GraphQLTypes["payment"]>,
 	/** fetch data from the table: "subclassification" using primary key columns */
-	subclassification?:ModelTypes["subclassification"] | undefined,
+	subclassification?: GraphQLTypes["subclassification"] | undefined,
 	/** fetch data from the table: "subclassification" */
-	subclassifications:Array<ModelTypes["subclassification"]> | undefined,
+	subclassifications: Array<GraphQLTypes["subclassification"]>,
 	/** fetch data from the table: "tag" using primary key columns */
-	tag?:ModelTypes["tag"] | undefined,
+	tag?: GraphQLTypes["tag"] | undefined,
 	/** An array relationship */
-	tags:Array<ModelTypes["tag"]> | undefined,
+	tags: Array<GraphQLTypes["tag"]>,
 	/** fetch data from the table: "team" using primary key columns */
-	team?:ModelTypes["team"] | undefined,
+	team?: GraphQLTypes["team"] | undefined,
 	/** fetch data from the table: "team_user" using primary key columns */
-	teamUser?:ModelTypes["teamUser"] | undefined,
+	teamUser?: GraphQLTypes["teamUser"] | undefined,
 	/** fetch data from the table: "team_user" */
-	teamUsers:Array<ModelTypes["teamUser"]> | undefined,
+	teamUsers: Array<GraphQLTypes["teamUser"]>,
 	/** fetch data from the table: "team" */
-	teams:Array<ModelTypes["team"]> | undefined,
+	teams: Array<GraphQLTypes["team"]>,
 	/** fetch data from the table: "unit" using primary key columns */
-	unit?:ModelTypes["unit"] | undefined,
+	unit?: GraphQLTypes["unit"] | undefined,
 	/** An array relationship */
-	units:Array<ModelTypes["unit"]> | undefined,
+	units: Array<GraphQLTypes["unit"]>,
 	/** fetch data from the table: "user" using primary key columns */
-	user?:ModelTypes["user"] | undefined,
+	user?: GraphQLTypes["user"] | undefined,
 	/** fetch data from the table: "user_status" using primary key columns */
-	userStatus?:ModelTypes["userStatus"] | undefined,
+	userStatus?: GraphQLTypes["userStatus"] | undefined,
 	/** fetch data from the table: "user_status" */
-	userStatuses:Array<ModelTypes["userStatus"]> | undefined,
+	userStatuses: Array<GraphQLTypes["userStatus"]>,
 	/** fetch data from the table: "user" */
-	users:Array<ModelTypes["user"]> | undefined,
+	users: Array<GraphQLTypes["user"]>,
 	/** fetch data from the table: "webhook" using primary key columns */
-	webhook?:ModelTypes["webhook"] | undefined,
+	webhook?: GraphQLTypes["webhook"] | undefined,
 	/** An array relationship */
-	webhooks:Array<ModelTypes["webhook"]> | undefined
+	webhooks: Array<GraphQLTypes["webhook"]>
 };
 	/** columns and relationships of "tag" */
 ["tag"]: {
 		/** An object relationship */
-	booking:ModelTypes["booking"],
-	bookingId:ModelTypes["uuid"],
+	booking: GraphQLTypes["booking"],
+	bookingId: GraphQLTypes["uuid"],
 	/** An object relationship */
-	connection:ModelTypes["connection"],
-	connectionId:ModelTypes["uuid"],
-	createdAt?:ModelTypes["timestamptz"] | undefined,
-	id:ModelTypes["uuid"],
-	json:ModelTypes["jsonb"],
+	connection: GraphQLTypes["connection"],
+	connectionId: GraphQLTypes["uuid"],
+	createdAt?: GraphQLTypes["timestamptz"] | undefined,
+	id: GraphQLTypes["uuid"],
+	json: GraphQLTypes["jsonb"],
 	/** An object relationship */
-	payment:ModelTypes["payment"],
-	paymentId:ModelTypes["uuid"],
+	payment: GraphQLTypes["payment"],
+	paymentId: GraphQLTypes["uuid"],
 	/** An object relationship */
-	team:ModelTypes["team"],
-	teamId:ModelTypes["uuid"],
-	type:string,
-	uniqueRef:string,
+	team: GraphQLTypes["team"],
+	teamId: GraphQLTypes["uuid"],
+	type: string,
+	uniqueRef: string,
 	/** An object relationship */
-	unit:ModelTypes["unit"],
-	unitId:ModelTypes["uuid"],
-	updatedAt?:ModelTypes["timestamptz"] | undefined
+	unit: GraphQLTypes["unit"],
+	unitId: GraphQLTypes["uuid"],
+	updatedAt?: GraphQLTypes["timestamptz"] | undefined
 };
 	/** aggregated selection of "tag" */
 ["tag_aggregate"]: {
-		aggregate?:ModelTypes["tag_aggregate_fields"] | undefined,
-	nodes:Array<ModelTypes["tag"]> | undefined
+		aggregate?: GraphQLTypes["tag_aggregate_fields"] | undefined,
+	nodes: Array<GraphQLTypes["tag"]>
 };
 	/** aggregate fields of "tag" */
 ["tag_aggregate_fields"]: {
-		count:number,
-	max?:ModelTypes["tag_max_fields"] | undefined,
-	min?:ModelTypes["tag_min_fields"] | undefined
+		count: number,
+	max?: GraphQLTypes["tag_max_fields"] | undefined,
+	min?: GraphQLTypes["tag_min_fields"] | undefined
 };
 	/** order by aggregate values of table "tag" */
 ["tag_aggregate_order_by"]: GraphQLTypes["tag_aggregate_order_by"];
@@ -9468,40 +9468,40 @@ end). throws an error if top level container is not an array */
 ["tag_insert_input"]: GraphQLTypes["tag_insert_input"];
 	/** aggregate max on columns */
 ["tag_max_fields"]: {
-		bookingId?:ModelTypes["uuid"] | undefined,
-	connectionId?:ModelTypes["uuid"] | undefined,
-	createdAt?:ModelTypes["timestamptz"] | undefined,
-	id?:ModelTypes["uuid"] | undefined,
-	paymentId?:ModelTypes["uuid"] | undefined,
-	teamId?:ModelTypes["uuid"] | undefined,
-	type?:string | undefined,
-	uniqueRef?:string | undefined,
-	unitId?:ModelTypes["uuid"] | undefined,
-	updatedAt?:ModelTypes["timestamptz"] | undefined
+		bookingId?: GraphQLTypes["uuid"] | undefined,
+	connectionId?: GraphQLTypes["uuid"] | undefined,
+	createdAt?: GraphQLTypes["timestamptz"] | undefined,
+	id?: GraphQLTypes["uuid"] | undefined,
+	paymentId?: GraphQLTypes["uuid"] | undefined,
+	teamId?: GraphQLTypes["uuid"] | undefined,
+	type?: string | undefined,
+	uniqueRef?: string | undefined,
+	unitId?: GraphQLTypes["uuid"] | undefined,
+	updatedAt?: GraphQLTypes["timestamptz"] | undefined
 };
 	/** order by max() on columns of table "tag" */
 ["tag_max_order_by"]: GraphQLTypes["tag_max_order_by"];
 	/** aggregate min on columns */
 ["tag_min_fields"]: {
-		bookingId?:ModelTypes["uuid"] | undefined,
-	connectionId?:ModelTypes["uuid"] | undefined,
-	createdAt?:ModelTypes["timestamptz"] | undefined,
-	id?:ModelTypes["uuid"] | undefined,
-	paymentId?:ModelTypes["uuid"] | undefined,
-	teamId?:ModelTypes["uuid"] | undefined,
-	type?:string | undefined,
-	uniqueRef?:string | undefined,
-	unitId?:ModelTypes["uuid"] | undefined,
-	updatedAt?:ModelTypes["timestamptz"] | undefined
+		bookingId?: GraphQLTypes["uuid"] | undefined,
+	connectionId?: GraphQLTypes["uuid"] | undefined,
+	createdAt?: GraphQLTypes["timestamptz"] | undefined,
+	id?: GraphQLTypes["uuid"] | undefined,
+	paymentId?: GraphQLTypes["uuid"] | undefined,
+	teamId?: GraphQLTypes["uuid"] | undefined,
+	type?: string | undefined,
+	uniqueRef?: string | undefined,
+	unitId?: GraphQLTypes["uuid"] | undefined,
+	updatedAt?: GraphQLTypes["timestamptz"] | undefined
 };
 	/** order by min() on columns of table "tag" */
 ["tag_min_order_by"]: GraphQLTypes["tag_min_order_by"];
 	/** response of any mutation on the table "tag" */
 ["tag_mutation_response"]: {
 		/** number of rows affected by the mutation */
-	affected_rows:number,
+	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning:Array<ModelTypes["tag"]> | undefined
+	returning: Array<GraphQLTypes["tag"]>
 };
 	/** on conflict condition type for table "tag" */
 ["tag_on_conflict"]: GraphQLTypes["tag_on_conflict"];
@@ -9519,94 +9519,94 @@ end). throws an error if top level container is not an array */
 ["tag_update_column"]: GraphQLTypes["tag_update_column"];
 	/** columns and relationships of "team" */
 ["team"]: {
-		address?:string | undefined,
+		address?: string | undefined,
 	/** An array relationship */
-	bookings:Array<ModelTypes["booking"]> | undefined,
+	bookings: Array<GraphQLTypes["booking"]>,
 	/** An aggregate relationship */
-	bookings_aggregate:ModelTypes["booking_aggregate"],
-	commissionPercentage?:ModelTypes["numeric"] | undefined,
+	bookings_aggregate: GraphQLTypes["booking_aggregate"],
+	commissionPercentage?: GraphQLTypes["numeric"] | undefined,
 	/** An array relationship */
-	connections:Array<ModelTypes["connection"]> | undefined,
+	connections: Array<GraphQLTypes["connection"]>,
 	/** An aggregate relationship */
-	connections_aggregate:ModelTypes["connection_aggregate"],
-	createdAt:ModelTypes["timestamptz"],
-	email?:string | undefined,
+	connections_aggregate: GraphQLTypes["connection_aggregate"],
+	createdAt: GraphQLTypes["timestamptz"],
+	email?: string | undefined,
 	/** An array relationship */
-	entities:Array<ModelTypes["entity"]> | undefined,
+	entities: Array<GraphQLTypes["entity"]>,
 	/** An aggregate relationship */
-	entities_aggregate:ModelTypes["entity_aggregate"],
-	id:ModelTypes["uuid"],
+	entities_aggregate: GraphQLTypes["entity_aggregate"],
+	id: GraphQLTypes["uuid"],
 	/** An array relationship */
-	integrations:Array<ModelTypes["integration"]> | undefined,
+	integrations: Array<GraphQLTypes["integration"]>,
 	/** An aggregate relationship */
-	integrations_aggregate:ModelTypes["integration_aggregate"],
-	isActive?:boolean | undefined,
-	isTest?:boolean | undefined,
+	integrations_aggregate: GraphQLTypes["integration_aggregate"],
+	isActive?: boolean | undefined,
+	isTest?: boolean | undefined,
 	/** An array relationship */
-	issues:Array<ModelTypes["issue"]> | undefined,
+	issues: Array<GraphQLTypes["issue"]>,
 	/** An aggregate relationship */
-	issues_aggregate:ModelTypes["issue_aggregate"],
+	issues_aggregate: GraphQLTypes["issue_aggregate"],
 	/** An array relationship */
-	jobs:Array<ModelTypes["job"]> | undefined,
+	jobs: Array<GraphQLTypes["job"]>,
 	/** An aggregate relationship */
-	jobs_aggregate:ModelTypes["job_aggregate"],
+	jobs_aggregate: GraphQLTypes["job_aggregate"],
 	/** An array relationship */
-	lines:Array<ModelTypes["line"]> | undefined,
+	lines: Array<GraphQLTypes["line"]>,
 	/** An aggregate relationship */
-	lines_aggregate:ModelTypes["line_aggregate"],
+	lines_aggregate: GraphQLTypes["line_aggregate"],
 	/** An array relationship */
-	members:Array<ModelTypes["teamUser"]> | undefined,
+	members: Array<GraphQLTypes["teamUser"]>,
 	/** An aggregate relationship */
-	members_aggregate:ModelTypes["teamUser_aggregate"],
+	members_aggregate: GraphQLTypes["teamUser_aggregate"],
 	/** An array relationship */
-	metrics:Array<ModelTypes["metric"]> | undefined,
+	metrics: Array<GraphQLTypes["metric"]>,
 	/** An aggregate relationship */
-	metrics_aggregate:ModelTypes["metric_aggregate"],
-	name:string,
+	metrics_aggregate: GraphQLTypes["metric_aggregate"],
+	name: string,
 	/** An array relationship */
-	payments:Array<ModelTypes["payment"]> | undefined,
+	payments: Array<GraphQLTypes["payment"]>,
 	/** An aggregate relationship */
-	payments_aggregate:ModelTypes["payment_aggregate"],
-	stripeId?:string | undefined,
-	stripeSubscriptionItemId?:string | undefined,
-	supportEmail?:string | undefined,
-	supportPhone?:string | undefined,
+	payments_aggregate: GraphQLTypes["payment_aggregate"],
+	stripeId?: string | undefined,
+	stripeSubscriptionItemId?: string | undefined,
+	supportEmail?: string | undefined,
+	supportPhone?: string | undefined,
 	/** An array relationship */
-	tags:Array<ModelTypes["tag"]> | undefined,
+	tags: Array<GraphQLTypes["tag"]>,
 	/** An aggregate relationship */
-	tags_aggregate:ModelTypes["tag_aggregate"],
+	tags_aggregate: GraphQLTypes["tag_aggregate"],
 	/** An array relationship */
-	units:Array<ModelTypes["unit"]> | undefined,
+	units: Array<GraphQLTypes["unit"]>,
 	/** An aggregate relationship */
-	units_aggregate:ModelTypes["unit_aggregate"],
+	units_aggregate: GraphQLTypes["unit_aggregate"],
 	/** An array relationship */
-	webhooks:Array<ModelTypes["webhook"]> | undefined,
+	webhooks: Array<GraphQLTypes["webhook"]>,
 	/** An aggregate relationship */
-	webhooks_aggregate:ModelTypes["webhook_aggregate"],
-	website?:string | undefined
+	webhooks_aggregate: GraphQLTypes["webhook_aggregate"],
+	website?: string | undefined
 };
 	/** aggregated selection of "team" */
 ["team_aggregate"]: {
-		aggregate?:ModelTypes["team_aggregate_fields"] | undefined,
-	nodes:Array<ModelTypes["team"]> | undefined
+		aggregate?: GraphQLTypes["team_aggregate_fields"] | undefined,
+	nodes: Array<GraphQLTypes["team"]>
 };
 	/** aggregate fields of "team" */
 ["team_aggregate_fields"]: {
-		avg?:ModelTypes["team_avg_fields"] | undefined,
-	count:number,
-	max?:ModelTypes["team_max_fields"] | undefined,
-	min?:ModelTypes["team_min_fields"] | undefined,
-	stddev?:ModelTypes["team_stddev_fields"] | undefined,
-	stddev_pop?:ModelTypes["team_stddev_pop_fields"] | undefined,
-	stddev_samp?:ModelTypes["team_stddev_samp_fields"] | undefined,
-	sum?:ModelTypes["team_sum_fields"] | undefined,
-	var_pop?:ModelTypes["team_var_pop_fields"] | undefined,
-	var_samp?:ModelTypes["team_var_samp_fields"] | undefined,
-	variance?:ModelTypes["team_variance_fields"] | undefined
+		avg?: GraphQLTypes["team_avg_fields"] | undefined,
+	count: number,
+	max?: GraphQLTypes["team_max_fields"] | undefined,
+	min?: GraphQLTypes["team_min_fields"] | undefined,
+	stddev?: GraphQLTypes["team_stddev_fields"] | undefined,
+	stddev_pop?: GraphQLTypes["team_stddev_pop_fields"] | undefined,
+	stddev_samp?: GraphQLTypes["team_stddev_samp_fields"] | undefined,
+	sum?: GraphQLTypes["team_sum_fields"] | undefined,
+	var_pop?: GraphQLTypes["team_var_pop_fields"] | undefined,
+	var_samp?: GraphQLTypes["team_var_samp_fields"] | undefined,
+	variance?: GraphQLTypes["team_variance_fields"] | undefined
 };
 	/** aggregate avg on columns */
 ["team_avg_fields"]: {
-		commissionPercentage?:number | undefined
+		commissionPercentage?: number | undefined
 };
 	/** Boolean expression to filter rows from the table "team". All fields are combined with a logical 'AND'. */
 ["team_bool_exp"]: GraphQLTypes["team_bool_exp"];
@@ -9618,38 +9618,38 @@ end). throws an error if top level container is not an array */
 ["team_insert_input"]: GraphQLTypes["team_insert_input"];
 	/** aggregate max on columns */
 ["team_max_fields"]: {
-		address?:string | undefined,
-	commissionPercentage?:ModelTypes["numeric"] | undefined,
-	createdAt?:ModelTypes["timestamptz"] | undefined,
-	email?:string | undefined,
-	id?:ModelTypes["uuid"] | undefined,
-	name?:string | undefined,
-	stripeId?:string | undefined,
-	stripeSubscriptionItemId?:string | undefined,
-	supportEmail?:string | undefined,
-	supportPhone?:string | undefined,
-	website?:string | undefined
+		address?: string | undefined,
+	commissionPercentage?: GraphQLTypes["numeric"] | undefined,
+	createdAt?: GraphQLTypes["timestamptz"] | undefined,
+	email?: string | undefined,
+	id?: GraphQLTypes["uuid"] | undefined,
+	name?: string | undefined,
+	stripeId?: string | undefined,
+	stripeSubscriptionItemId?: string | undefined,
+	supportEmail?: string | undefined,
+	supportPhone?: string | undefined,
+	website?: string | undefined
 };
 	/** aggregate min on columns */
 ["team_min_fields"]: {
-		address?:string | undefined,
-	commissionPercentage?:ModelTypes["numeric"] | undefined,
-	createdAt?:ModelTypes["timestamptz"] | undefined,
-	email?:string | undefined,
-	id?:ModelTypes["uuid"] | undefined,
-	name?:string | undefined,
-	stripeId?:string | undefined,
-	stripeSubscriptionItemId?:string | undefined,
-	supportEmail?:string | undefined,
-	supportPhone?:string | undefined,
-	website?:string | undefined
+		address?: string | undefined,
+	commissionPercentage?: GraphQLTypes["numeric"] | undefined,
+	createdAt?: GraphQLTypes["timestamptz"] | undefined,
+	email?: string | undefined,
+	id?: GraphQLTypes["uuid"] | undefined,
+	name?: string | undefined,
+	stripeId?: string | undefined,
+	stripeSubscriptionItemId?: string | undefined,
+	supportEmail?: string | undefined,
+	supportPhone?: string | undefined,
+	website?: string | undefined
 };
 	/** response of any mutation on the table "team" */
 ["team_mutation_response"]: {
 		/** number of rows affected by the mutation */
-	affected_rows:number,
+	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning:Array<ModelTypes["team"]> | undefined
+	returning: Array<GraphQLTypes["team"]>
 };
 	/** input type for inserting object relation for remote table "team" */
 ["team_obj_rel_insert_input"]: GraphQLTypes["team_obj_rel_insert_input"];
@@ -9665,57 +9665,57 @@ end). throws an error if top level container is not an array */
 ["team_set_input"]: GraphQLTypes["team_set_input"];
 	/** aggregate stddev on columns */
 ["team_stddev_fields"]: {
-		commissionPercentage?:number | undefined
+		commissionPercentage?: number | undefined
 };
 	/** aggregate stddev_pop on columns */
 ["team_stddev_pop_fields"]: {
-		commissionPercentage?:number | undefined
+		commissionPercentage?: number | undefined
 };
 	/** aggregate stddev_samp on columns */
 ["team_stddev_samp_fields"]: {
-		commissionPercentage?:number | undefined
+		commissionPercentage?: number | undefined
 };
 	/** aggregate sum on columns */
 ["team_sum_fields"]: {
-		commissionPercentage?:ModelTypes["numeric"] | undefined
+		commissionPercentage?: GraphQLTypes["numeric"] | undefined
 };
 	/** update columns of table "team" */
 ["team_update_column"]: GraphQLTypes["team_update_column"];
 	/** aggregate var_pop on columns */
 ["team_var_pop_fields"]: {
-		commissionPercentage?:number | undefined
+		commissionPercentage?: number | undefined
 };
 	/** aggregate var_samp on columns */
 ["team_var_samp_fields"]: {
-		commissionPercentage?:number | undefined
+		commissionPercentage?: number | undefined
 };
 	/** aggregate variance on columns */
 ["team_variance_fields"]: {
-		commissionPercentage?:number | undefined
+		commissionPercentage?: number | undefined
 };
 	/** columns and relationships of "team_user" */
 ["teamUser"]: {
-		createdAt?:ModelTypes["timestamptz"] | undefined,
-	id:ModelTypes["uuid"],
-	role?:string | undefined,
+		createdAt?: GraphQLTypes["timestamptz"] | undefined,
+	id: GraphQLTypes["uuid"],
+	role?: string | undefined,
 	/** An object relationship */
-	team:ModelTypes["team"],
-	teamId:ModelTypes["uuid"],
-	updatedAt?:ModelTypes["timestamptz"] | undefined,
+	team: GraphQLTypes["team"],
+	teamId: GraphQLTypes["uuid"],
+	updatedAt?: GraphQLTypes["timestamptz"] | undefined,
 	/** An object relationship */
-	user:ModelTypes["user"],
-	userId:ModelTypes["uuid"]
+	user: GraphQLTypes["user"],
+	userId: GraphQLTypes["uuid"]
 };
 	/** aggregated selection of "team_user" */
 ["teamUser_aggregate"]: {
-		aggregate?:ModelTypes["teamUser_aggregate_fields"] | undefined,
-	nodes:Array<ModelTypes["teamUser"]> | undefined
+		aggregate?: GraphQLTypes["teamUser_aggregate_fields"] | undefined,
+	nodes: Array<GraphQLTypes["teamUser"]>
 };
 	/** aggregate fields of "team_user" */
 ["teamUser_aggregate_fields"]: {
-		count:number,
-	max?:ModelTypes["teamUser_max_fields"] | undefined,
-	min?:ModelTypes["teamUser_min_fields"] | undefined
+		count: number,
+	max?: GraphQLTypes["teamUser_max_fields"] | undefined,
+	min?: GraphQLTypes["teamUser_min_fields"] | undefined
 };
 	/** order by aggregate values of table "team_user" */
 ["teamUser_aggregate_order_by"]: GraphQLTypes["teamUser_aggregate_order_by"];
@@ -9729,32 +9729,32 @@ end). throws an error if top level container is not an array */
 ["teamUser_insert_input"]: GraphQLTypes["teamUser_insert_input"];
 	/** aggregate max on columns */
 ["teamUser_max_fields"]: {
-		createdAt?:ModelTypes["timestamptz"] | undefined,
-	id?:ModelTypes["uuid"] | undefined,
-	role?:string | undefined,
-	teamId?:ModelTypes["uuid"] | undefined,
-	updatedAt?:ModelTypes["timestamptz"] | undefined,
-	userId?:ModelTypes["uuid"] | undefined
+		createdAt?: GraphQLTypes["timestamptz"] | undefined,
+	id?: GraphQLTypes["uuid"] | undefined,
+	role?: string | undefined,
+	teamId?: GraphQLTypes["uuid"] | undefined,
+	updatedAt?: GraphQLTypes["timestamptz"] | undefined,
+	userId?: GraphQLTypes["uuid"] | undefined
 };
 	/** order by max() on columns of table "team_user" */
 ["teamUser_max_order_by"]: GraphQLTypes["teamUser_max_order_by"];
 	/** aggregate min on columns */
 ["teamUser_min_fields"]: {
-		createdAt?:ModelTypes["timestamptz"] | undefined,
-	id?:ModelTypes["uuid"] | undefined,
-	role?:string | undefined,
-	teamId?:ModelTypes["uuid"] | undefined,
-	updatedAt?:ModelTypes["timestamptz"] | undefined,
-	userId?:ModelTypes["uuid"] | undefined
+		createdAt?: GraphQLTypes["timestamptz"] | undefined,
+	id?: GraphQLTypes["uuid"] | undefined,
+	role?: string | undefined,
+	teamId?: GraphQLTypes["uuid"] | undefined,
+	updatedAt?: GraphQLTypes["timestamptz"] | undefined,
+	userId?: GraphQLTypes["uuid"] | undefined
 };
 	/** order by min() on columns of table "team_user" */
 ["teamUser_min_order_by"]: GraphQLTypes["teamUser_min_order_by"];
 	/** response of any mutation on the table "team_user" */
 ["teamUser_mutation_response"]: {
 		/** number of rows affected by the mutation */
-	affected_rows:number,
+	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning:Array<ModelTypes["teamUser"]> | undefined
+	returning: Array<GraphQLTypes["teamUser"]>
 };
 	/** on conflict condition type for table "team_user" */
 ["teamUser_on_conflict"]: GraphQLTypes["teamUser_on_conflict"];
@@ -9774,40 +9774,40 @@ end). throws an error if top level container is not an array */
 	/** columns and relationships of "unit" */
 ["unit"]: {
 		/** An array relationship */
-	bookings:Array<ModelTypes["booking"]> | undefined,
+	bookings: Array<GraphQLTypes["booking"]>,
 	/** An aggregate relationship */
-	bookings_aggregate:ModelTypes["booking_aggregate"],
+	bookings_aggregate: GraphQLTypes["booking_aggregate"],
 	/** An object relationship */
-	connection?:ModelTypes["connection"] | undefined,
-	connectionId?:ModelTypes["uuid"] | undefined,
-	createdAt:ModelTypes["timestamptz"],
+	connection?: GraphQLTypes["connection"] | undefined,
+	connectionId?: GraphQLTypes["uuid"] | undefined,
+	createdAt: GraphQLTypes["timestamptz"],
 	/** An object relationship */
-	entity?:ModelTypes["entity"] | undefined,
-	entityId?:ModelTypes["uuid"] | undefined,
-	id:ModelTypes["uuid"],
-	metadata?:ModelTypes["jsonb"] | undefined,
-	name?:string | undefined,
-	status?:string | undefined,
+	entity?: GraphQLTypes["entity"] | undefined,
+	entityId?: GraphQLTypes["uuid"] | undefined,
+	id: GraphQLTypes["uuid"],
+	metadata?: GraphQLTypes["jsonb"] | undefined,
+	name?: string | undefined,
+	status?: string | undefined,
 	/** An array relationship */
-	tags:Array<ModelTypes["tag"]> | undefined,
+	tags: Array<GraphQLTypes["tag"]>,
 	/** An aggregate relationship */
-	tags_aggregate:ModelTypes["tag_aggregate"],
+	tags_aggregate: GraphQLTypes["tag_aggregate"],
 	/** An object relationship */
-	team?:ModelTypes["team"] | undefined,
-	teamId?:ModelTypes["uuid"] | undefined,
-	uniqueRef?:string | undefined,
-	updatedAt:ModelTypes["timestamptz"]
+	team?: GraphQLTypes["team"] | undefined,
+	teamId?: GraphQLTypes["uuid"] | undefined,
+	uniqueRef?: string | undefined,
+	updatedAt: GraphQLTypes["timestamptz"]
 };
 	/** aggregated selection of "unit" */
 ["unit_aggregate"]: {
-		aggregate?:ModelTypes["unit_aggregate_fields"] | undefined,
-	nodes:Array<ModelTypes["unit"]> | undefined
+		aggregate?: GraphQLTypes["unit_aggregate_fields"] | undefined,
+	nodes: Array<GraphQLTypes["unit"]>
 };
 	/** aggregate fields of "unit" */
 ["unit_aggregate_fields"]: {
-		count:number,
-	max?:ModelTypes["unit_max_fields"] | undefined,
-	min?:ModelTypes["unit_min_fields"] | undefined
+		count: number,
+	max?: GraphQLTypes["unit_max_fields"] | undefined,
+	min?: GraphQLTypes["unit_min_fields"] | undefined
 };
 	/** order by aggregate values of table "unit" */
 ["unit_aggregate_order_by"]: GraphQLTypes["unit_aggregate_order_by"];
@@ -9830,38 +9830,38 @@ end). throws an error if top level container is not an array */
 ["unit_insert_input"]: GraphQLTypes["unit_insert_input"];
 	/** aggregate max on columns */
 ["unit_max_fields"]: {
-		connectionId?:ModelTypes["uuid"] | undefined,
-	createdAt?:ModelTypes["timestamptz"] | undefined,
-	entityId?:ModelTypes["uuid"] | undefined,
-	id?:ModelTypes["uuid"] | undefined,
-	name?:string | undefined,
-	status?:string | undefined,
-	teamId?:ModelTypes["uuid"] | undefined,
-	uniqueRef?:string | undefined,
-	updatedAt?:ModelTypes["timestamptz"] | undefined
+		connectionId?: GraphQLTypes["uuid"] | undefined,
+	createdAt?: GraphQLTypes["timestamptz"] | undefined,
+	entityId?: GraphQLTypes["uuid"] | undefined,
+	id?: GraphQLTypes["uuid"] | undefined,
+	name?: string | undefined,
+	status?: string | undefined,
+	teamId?: GraphQLTypes["uuid"] | undefined,
+	uniqueRef?: string | undefined,
+	updatedAt?: GraphQLTypes["timestamptz"] | undefined
 };
 	/** order by max() on columns of table "unit" */
 ["unit_max_order_by"]: GraphQLTypes["unit_max_order_by"];
 	/** aggregate min on columns */
 ["unit_min_fields"]: {
-		connectionId?:ModelTypes["uuid"] | undefined,
-	createdAt?:ModelTypes["timestamptz"] | undefined,
-	entityId?:ModelTypes["uuid"] | undefined,
-	id?:ModelTypes["uuid"] | undefined,
-	name?:string | undefined,
-	status?:string | undefined,
-	teamId?:ModelTypes["uuid"] | undefined,
-	uniqueRef?:string | undefined,
-	updatedAt?:ModelTypes["timestamptz"] | undefined
+		connectionId?: GraphQLTypes["uuid"] | undefined,
+	createdAt?: GraphQLTypes["timestamptz"] | undefined,
+	entityId?: GraphQLTypes["uuid"] | undefined,
+	id?: GraphQLTypes["uuid"] | undefined,
+	name?: string | undefined,
+	status?: string | undefined,
+	teamId?: GraphQLTypes["uuid"] | undefined,
+	uniqueRef?: string | undefined,
+	updatedAt?: GraphQLTypes["timestamptz"] | undefined
 };
 	/** order by min() on columns of table "unit" */
 ["unit_min_order_by"]: GraphQLTypes["unit_min_order_by"];
 	/** response of any mutation on the table "unit" */
 ["unit_mutation_response"]: {
 		/** number of rows affected by the mutation */
-	affected_rows:number,
+	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning:Array<ModelTypes["unit"]> | undefined
+	returning: Array<GraphQLTypes["unit"]>
 };
 	/** input type for inserting object relation for remote table "unit" */
 ["unit_obj_rel_insert_input"]: GraphQLTypes["unit_obj_rel_insert_input"];
@@ -9881,29 +9881,29 @@ end). throws an error if top level container is not an array */
 ["unit_update_column"]: GraphQLTypes["unit_update_column"];
 	/** columns and relationships of "user" */
 ["user"]: {
-		createdAt?:ModelTypes["timestamptz"] | undefined,
-	email:string,
-	id:ModelTypes["uuid"],
-	isAdmin:boolean,
+		createdAt?: GraphQLTypes["timestamptz"] | undefined,
+	email: string,
+	id: GraphQLTypes["uuid"],
+	isAdmin: boolean,
 	/** An array relationship */
-	memberships:Array<ModelTypes["teamUser"]> | undefined,
+	memberships: Array<GraphQLTypes["teamUser"]>,
 	/** An aggregate relationship */
-	memberships_aggregate:ModelTypes["teamUser_aggregate"],
-	name?:string | undefined,
-	status?:ModelTypes["user_status_enum"] | undefined,
-	sub?:string | undefined,
-	trialExpiryAt?:ModelTypes["timestamptz"] | undefined
+	memberships_aggregate: GraphQLTypes["teamUser_aggregate"],
+	name?: string | undefined,
+	status?: GraphQLTypes["user_status_enum"] | undefined,
+	sub?: string | undefined,
+	trialExpiryAt?: GraphQLTypes["timestamptz"] | undefined
 };
 	/** aggregated selection of "user" */
 ["user_aggregate"]: {
-		aggregate?:ModelTypes["user_aggregate_fields"] | undefined,
-	nodes:Array<ModelTypes["user"]> | undefined
+		aggregate?: GraphQLTypes["user_aggregate_fields"] | undefined,
+	nodes: Array<GraphQLTypes["user"]>
 };
 	/** aggregate fields of "user" */
 ["user_aggregate_fields"]: {
-		count:number,
-	max?:ModelTypes["user_max_fields"] | undefined,
-	min?:ModelTypes["user_min_fields"] | undefined
+		count: number,
+	max?: GraphQLTypes["user_max_fields"] | undefined,
+	min?: GraphQLTypes["user_min_fields"] | undefined
 };
 	/** Boolean expression to filter rows from the table "user". All fields are combined with a logical 'AND'. */
 ["user_bool_exp"]: GraphQLTypes["user_bool_exp"];
@@ -9913,28 +9913,28 @@ end). throws an error if top level container is not an array */
 ["user_insert_input"]: GraphQLTypes["user_insert_input"];
 	/** aggregate max on columns */
 ["user_max_fields"]: {
-		createdAt?:ModelTypes["timestamptz"] | undefined,
-	email?:string | undefined,
-	id?:ModelTypes["uuid"] | undefined,
-	name?:string | undefined,
-	sub?:string | undefined,
-	trialExpiryAt?:ModelTypes["timestamptz"] | undefined
+		createdAt?: GraphQLTypes["timestamptz"] | undefined,
+	email?: string | undefined,
+	id?: GraphQLTypes["uuid"] | undefined,
+	name?: string | undefined,
+	sub?: string | undefined,
+	trialExpiryAt?: GraphQLTypes["timestamptz"] | undefined
 };
 	/** aggregate min on columns */
 ["user_min_fields"]: {
-		createdAt?:ModelTypes["timestamptz"] | undefined,
-	email?:string | undefined,
-	id?:ModelTypes["uuid"] | undefined,
-	name?:string | undefined,
-	sub?:string | undefined,
-	trialExpiryAt?:ModelTypes["timestamptz"] | undefined
+		createdAt?: GraphQLTypes["timestamptz"] | undefined,
+	email?: string | undefined,
+	id?: GraphQLTypes["uuid"] | undefined,
+	name?: string | undefined,
+	sub?: string | undefined,
+	trialExpiryAt?: GraphQLTypes["timestamptz"] | undefined
 };
 	/** response of any mutation on the table "user" */
 ["user_mutation_response"]: {
 		/** number of rows affected by the mutation */
-	affected_rows:number,
+	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning:Array<ModelTypes["user"]> | undefined
+	returning: Array<GraphQLTypes["user"]>
 };
 	/** input type for inserting object relation for remote table "user" */
 ["user_obj_rel_insert_input"]: GraphQLTypes["user_obj_rel_insert_input"];
@@ -9955,18 +9955,18 @@ end). throws an error if top level container is not an array */
 ["user_update_column"]: GraphQLTypes["user_update_column"];
 	/** columns and relationships of "user_status" */
 ["userStatus"]: {
-		name:string
+		name: string
 };
 	/** aggregated selection of "user_status" */
 ["userStatus_aggregate"]: {
-		aggregate?:ModelTypes["userStatus_aggregate_fields"] | undefined,
-	nodes:Array<ModelTypes["userStatus"]> | undefined
+		aggregate?: GraphQLTypes["userStatus_aggregate_fields"] | undefined,
+	nodes: Array<GraphQLTypes["userStatus"]>
 };
 	/** aggregate fields of "user_status" */
 ["userStatus_aggregate_fields"]: {
-		count:number,
-	max?:ModelTypes["userStatus_max_fields"] | undefined,
-	min?:ModelTypes["userStatus_min_fields"] | undefined
+		count: number,
+	max?: GraphQLTypes["userStatus_max_fields"] | undefined,
+	min?: GraphQLTypes["userStatus_min_fields"] | undefined
 };
 	/** Boolean expression to filter rows from the table "user_status". All fields are combined with a logical 'AND'. */
 ["userStatus_bool_exp"]: GraphQLTypes["userStatus_bool_exp"];
@@ -9976,18 +9976,18 @@ end). throws an error if top level container is not an array */
 ["userStatus_insert_input"]: GraphQLTypes["userStatus_insert_input"];
 	/** aggregate max on columns */
 ["userStatus_max_fields"]: {
-		name?:string | undefined
+		name?: string | undefined
 };
 	/** aggregate min on columns */
 ["userStatus_min_fields"]: {
-		name?:string | undefined
+		name?: string | undefined
 };
 	/** response of any mutation on the table "user_status" */
 ["userStatus_mutation_response"]: {
 		/** number of rows affected by the mutation */
-	affected_rows:number,
+	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning:Array<ModelTypes["userStatus"]> | undefined
+	returning: Array<GraphQLTypes["userStatus"]>
 };
 	/** on conflict condition type for table "user_status" */
 ["userStatus_on_conflict"]: GraphQLTypes["userStatus_on_conflict"];
@@ -10006,26 +10006,26 @@ end). throws an error if top level container is not an array */
 ["uuid_comparison_exp"]: GraphQLTypes["uuid_comparison_exp"];
 	/** columns and relationships of "webhook" */
 ["webhook"]: {
-		createdAt:ModelTypes["timestamptz"],
-	headers?:ModelTypes["jsonb"] | undefined,
-	id:ModelTypes["uuid"],
+		createdAt: GraphQLTypes["timestamptz"],
+	headers?: GraphQLTypes["jsonb"] | undefined,
+	id: GraphQLTypes["uuid"],
 	/** An object relationship */
-	team:ModelTypes["team"],
-	teamId:ModelTypes["uuid"],
-	types:ModelTypes["jsonb"],
-	types2?:ModelTypes["_text"] | undefined,
-	url:string
+	team: GraphQLTypes["team"],
+	teamId: GraphQLTypes["uuid"],
+	types: GraphQLTypes["jsonb"],
+	types2?: GraphQLTypes["_text"] | undefined,
+	url: string
 };
 	/** aggregated selection of "webhook" */
 ["webhook_aggregate"]: {
-		aggregate?:ModelTypes["webhook_aggregate_fields"] | undefined,
-	nodes:Array<ModelTypes["webhook"]> | undefined
+		aggregate?: GraphQLTypes["webhook_aggregate_fields"] | undefined,
+	nodes: Array<GraphQLTypes["webhook"]>
 };
 	/** aggregate fields of "webhook" */
 ["webhook_aggregate_fields"]: {
-		count:number,
-	max?:ModelTypes["webhook_max_fields"] | undefined,
-	min?:ModelTypes["webhook_min_fields"] | undefined
+		count: number,
+	max?: GraphQLTypes["webhook_max_fields"] | undefined,
+	min?: GraphQLTypes["webhook_min_fields"] | undefined
 };
 	/** order by aggregate values of table "webhook" */
 ["webhook_aggregate_order_by"]: GraphQLTypes["webhook_aggregate_order_by"];
@@ -10048,28 +10048,28 @@ end). throws an error if top level container is not an array */
 ["webhook_insert_input"]: GraphQLTypes["webhook_insert_input"];
 	/** aggregate max on columns */
 ["webhook_max_fields"]: {
-		createdAt?:ModelTypes["timestamptz"] | undefined,
-	id?:ModelTypes["uuid"] | undefined,
-	teamId?:ModelTypes["uuid"] | undefined,
-	url?:string | undefined
+		createdAt?: GraphQLTypes["timestamptz"] | undefined,
+	id?: GraphQLTypes["uuid"] | undefined,
+	teamId?: GraphQLTypes["uuid"] | undefined,
+	url?: string | undefined
 };
 	/** order by max() on columns of table "webhook" */
 ["webhook_max_order_by"]: GraphQLTypes["webhook_max_order_by"];
 	/** aggregate min on columns */
 ["webhook_min_fields"]: {
-		createdAt?:ModelTypes["timestamptz"] | undefined,
-	id?:ModelTypes["uuid"] | undefined,
-	teamId?:ModelTypes["uuid"] | undefined,
-	url?:string | undefined
+		createdAt?: GraphQLTypes["timestamptz"] | undefined,
+	id?: GraphQLTypes["uuid"] | undefined,
+	teamId?: GraphQLTypes["uuid"] | undefined,
+	url?: string | undefined
 };
 	/** order by min() on columns of table "webhook" */
 ["webhook_min_order_by"]: GraphQLTypes["webhook_min_order_by"];
 	/** response of any mutation on the table "webhook" */
 ["webhook_mutation_response"]: {
 		/** number of rows affected by the mutation */
-	affected_rows:number,
+	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning:Array<ModelTypes["webhook"]> | undefined
+	returning: Array<GraphQLTypes["webhook"]>
 };
 	/** on conflict condition type for table "webhook" */
 ["webhook_on_conflict"]: GraphQLTypes["webhook_on_conflict"];
@@ -10088,18 +10088,18 @@ end). throws an error if top level container is not an array */
     }
 
 export type GraphQLTypes = {
-    ["_text"]:any;
+    ["_text"]: any;
 	/** Boolean expression to compare columns of type "_text". All fields are combined with logical 'AND'. */
 ["_text_comparison_exp"]: {
 		_eq?: GraphQLTypes["_text"] | undefined,
 	_gt?: GraphQLTypes["_text"] | undefined,
 	_gte?: GraphQLTypes["_text"] | undefined,
-	_in?: Array<GraphQLTypes["_text"]>,
+	_in?: Array<GraphQLTypes["_text"]> | undefined,
 	_is_null?: boolean | undefined,
 	_lt?: GraphQLTypes["_text"] | undefined,
 	_lte?: GraphQLTypes["_text"] | undefined,
 	_neq?: GraphQLTypes["_text"] | undefined,
-	_nin?: Array<GraphQLTypes["_text"]>
+	_nin?: Array<GraphQLTypes["_text"]> | undefined
 };
 	/** columns and relationships of "booking" */
 ["booking"]: {
@@ -10123,7 +10123,7 @@ export type GraphQLTypes = {
 	id: GraphQLTypes["uuid"],
 	isOTA?: boolean | undefined,
 	/** An array relationship */
-	lines: Array<GraphQLTypes["line"]> | undefined,
+	lines: Array<GraphQLTypes["line"]>,
 	/** An aggregate relationship */
 	lines_aggregate: GraphQLTypes["line_aggregate"],
 	metadata?: GraphQLTypes["jsonb"] | undefined,
@@ -10132,12 +10132,12 @@ export type GraphQLTypes = {
 	otaBooking?: GraphQLTypes["booking"] | undefined,
 	otaBookingId?: GraphQLTypes["uuid"] | undefined,
 	/** An array relationship */
-	relatedBookings: Array<GraphQLTypes["booking"]> | undefined,
+	relatedBookings: Array<GraphQLTypes["booking"]>,
 	/** An aggregate relationship */
 	relatedBookings_aggregate: GraphQLTypes["booking_aggregate"],
 	status?: GraphQLTypes["booking_status_enum"] | undefined,
 	/** An array relationship */
-	tags: Array<GraphQLTypes["tag"]> | undefined,
+	tags: Array<GraphQLTypes["tag"]>,
 	/** An aggregate relationship */
 	tags_aggregate: GraphQLTypes["tag_aggregate"],
 	/** An object relationship */
@@ -10153,7 +10153,7 @@ export type GraphQLTypes = {
 ["booking_aggregate"]: {
 	__typename: "booking_aggregate",
 	aggregate?: GraphQLTypes["booking_aggregate_fields"] | undefined,
-	nodes: Array<GraphQLTypes["booking"]> | undefined
+	nodes: Array<GraphQLTypes["booking"]>
 };
 	/** aggregate fields of "booking" */
 ["booking_aggregate_fields"]: {
@@ -10190,7 +10190,7 @@ export type GraphQLTypes = {
 };
 	/** input type for inserting array relation for remote table "booking" */
 ["booking_arr_rel_insert_input"]: {
-		data: Array<GraphQLTypes["booking_insert_input"]> | undefined,
+		data: Array<GraphQLTypes["booking_insert_input"]>,
 	/** on conflict condition */
 	on_conflict?: GraphQLTypes["booking_on_conflict"] | undefined
 };
@@ -10207,9 +10207,9 @@ export type GraphQLTypes = {
 };
 	/** Boolean expression to filter rows from the table "booking". All fields are combined with a logical 'AND'. */
 ["booking_bool_exp"]: {
-		_and?: Array<GraphQLTypes["booking_bool_exp"]>,
+		_and?: Array<GraphQLTypes["booking_bool_exp"]> | undefined,
 	_not?: GraphQLTypes["booking_bool_exp"] | undefined,
-	_or?: Array<GraphQLTypes["booking_bool_exp"]>,
+	_or?: Array<GraphQLTypes["booking_bool_exp"]> | undefined,
 	bookedAt?: GraphQLTypes["timestamptz_comparison_exp"] | undefined,
 	bookerName?: GraphQLTypes["String_comparison_exp"] | undefined,
 	bookingChannel?: GraphQLTypes["booking_channel_enum_comparison_exp"] | undefined,
@@ -10250,7 +10250,7 @@ export type GraphQLTypes = {
 ["booking_channel_aggregate"]: {
 	__typename: "booking_channel_aggregate",
 	aggregate?: GraphQLTypes["booking_channel_aggregate_fields"] | undefined,
-	nodes: Array<GraphQLTypes["booking_channel"]> | undefined
+	nodes: Array<GraphQLTypes["booking_channel"]>
 };
 	/** aggregate fields of "booking_channel" */
 ["booking_channel_aggregate_fields"]: {
@@ -10261,9 +10261,9 @@ export type GraphQLTypes = {
 };
 	/** Boolean expression to filter rows from the table "booking_channel". All fields are combined with a logical 'AND'. */
 ["booking_channel_bool_exp"]: {
-		_and?: Array<GraphQLTypes["booking_channel_bool_exp"]>,
+		_and?: Array<GraphQLTypes["booking_channel_bool_exp"]> | undefined,
 	_not?: GraphQLTypes["booking_channel_bool_exp"] | undefined,
-	_or?: Array<GraphQLTypes["booking_channel_bool_exp"]>,
+	_or?: Array<GraphQLTypes["booking_channel_bool_exp"]> | undefined,
 	name?: GraphQLTypes["String_comparison_exp"] | undefined
 };
 	/** unique or primary key constraints on table "booking_channel" */
@@ -10272,10 +10272,10 @@ export type GraphQLTypes = {
 	/** Boolean expression to compare columns of type "booking_channel_enum". All fields are combined with logical 'AND'. */
 ["booking_channel_enum_comparison_exp"]: {
 		_eq?: GraphQLTypes["booking_channel_enum"] | undefined,
-	_in?: Array<GraphQLTypes["booking_channel_enum"]>,
+	_in?: Array<GraphQLTypes["booking_channel_enum"]> | undefined,
 	_is_null?: boolean | undefined,
 	_neq?: GraphQLTypes["booking_channel_enum"] | undefined,
-	_nin?: Array<GraphQLTypes["booking_channel_enum"]>
+	_nin?: Array<GraphQLTypes["booking_channel_enum"]> | undefined
 };
 	/** input type for inserting data into table "booking_channel" */
 ["booking_channel_insert_input"]: {
@@ -10297,12 +10297,12 @@ export type GraphQLTypes = {
 	/** number of rows affected by the mutation */
 	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning: Array<GraphQLTypes["booking_channel"]> | undefined
+	returning: Array<GraphQLTypes["booking_channel"]>
 };
 	/** on conflict condition type for table "booking_channel" */
 ["booking_channel_on_conflict"]: {
 		constraint: GraphQLTypes["booking_channel_constraint"],
-	update_columns: Array<GraphQLTypes["booking_channel_update_column"]> | undefined,
+	update_columns: Array<GraphQLTypes["booking_channel_update_column"]>,
 	where?: GraphQLTypes["booking_channel_bool_exp"] | undefined
 };
 	/** Ordering options when selecting data from "booking_channel". */
@@ -10325,7 +10325,7 @@ export type GraphQLTypes = {
 ["booking_constraint"]: booking_constraint;
 	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
 ["booking_delete_at_path_input"]: {
-		metadata?: Array<string>
+		metadata?: Array<string> | undefined
 };
 	/** delete the array element with specified index (negative integers count from the
 end). throws an error if top level container is not an array */
@@ -10462,7 +10462,7 @@ end). throws an error if top level container is not an array */
 	/** number of rows affected by the mutation */
 	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning: Array<GraphQLTypes["booking"]> | undefined
+	returning: Array<GraphQLTypes["booking"]>
 };
 	/** input type for inserting object relation for remote table "booking" */
 ["booking_obj_rel_insert_input"]: {
@@ -10473,7 +10473,7 @@ end). throws an error if top level container is not an array */
 	/** on conflict condition type for table "booking" */
 ["booking_on_conflict"]: {
 		constraint: GraphQLTypes["booking_constraint"],
-	update_columns: Array<GraphQLTypes["booking_update_column"]> | undefined,
+	update_columns: Array<GraphQLTypes["booking_update_column"]>,
 	where?: GraphQLTypes["booking_bool_exp"] | undefined
 };
 	/** Ordering options when selecting data from "booking". */
@@ -10548,10 +10548,10 @@ end). throws an error if top level container is not an array */
 	/** Boolean expression to compare columns of type "booking_status_enum". All fields are combined with logical 'AND'. */
 ["booking_status_enum_comparison_exp"]: {
 		_eq?: GraphQLTypes["booking_status_enum"] | undefined,
-	_in?: Array<GraphQLTypes["booking_status_enum"]>,
+	_in?: Array<GraphQLTypes["booking_status_enum"]> | undefined,
 	_is_null?: boolean | undefined,
 	_neq?: GraphQLTypes["booking_status_enum"] | undefined,
-	_nin?: Array<GraphQLTypes["booking_status_enum"]>
+	_nin?: Array<GraphQLTypes["booking_status_enum"]> | undefined
 };
 	/** aggregate stddev on columns */
 ["booking_stddev_fields"]: {
@@ -10641,7 +10641,7 @@ end). throws an error if top level container is not an array */
 ["bookingStatus_aggregate"]: {
 	__typename: "bookingStatus_aggregate",
 	aggregate?: GraphQLTypes["bookingStatus_aggregate_fields"] | undefined,
-	nodes: Array<GraphQLTypes["bookingStatus"]> | undefined
+	nodes: Array<GraphQLTypes["bookingStatus"]>
 };
 	/** aggregate fields of "booking_status" */
 ["bookingStatus_aggregate_fields"]: {
@@ -10652,9 +10652,9 @@ end). throws an error if top level container is not an array */
 };
 	/** Boolean expression to filter rows from the table "booking_status". All fields are combined with a logical 'AND'. */
 ["bookingStatus_bool_exp"]: {
-		_and?: Array<GraphQLTypes["bookingStatus_bool_exp"]>,
+		_and?: Array<GraphQLTypes["bookingStatus_bool_exp"]> | undefined,
 	_not?: GraphQLTypes["bookingStatus_bool_exp"] | undefined,
-	_or?: Array<GraphQLTypes["bookingStatus_bool_exp"]>,
+	_or?: Array<GraphQLTypes["bookingStatus_bool_exp"]> | undefined,
 	name?: GraphQLTypes["String_comparison_exp"] | undefined
 };
 	/** unique or primary key constraints on table "booking_status" */
@@ -10679,12 +10679,12 @@ end). throws an error if top level container is not an array */
 	/** number of rows affected by the mutation */
 	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning: Array<GraphQLTypes["bookingStatus"]> | undefined
+	returning: Array<GraphQLTypes["bookingStatus"]>
 };
 	/** on conflict condition type for table "booking_status" */
 ["bookingStatus_on_conflict"]: {
 		constraint: GraphQLTypes["bookingStatus_constraint"],
-	update_columns: Array<GraphQLTypes["bookingStatus_update_column"]> | undefined,
+	update_columns: Array<GraphQLTypes["bookingStatus_update_column"]>,
 	where?: GraphQLTypes["bookingStatus_bool_exp"] | undefined
 };
 	/** Ordering options when selecting data from "booking_status". */
@@ -10708,12 +10708,12 @@ end). throws an error if top level container is not an array */
 		_eq?: boolean | undefined,
 	_gt?: boolean | undefined,
 	_gte?: boolean | undefined,
-	_in?: Array<boolean>,
+	_in?: Array<boolean> | undefined,
 	_is_null?: boolean | undefined,
 	_lt?: boolean | undefined,
 	_lte?: boolean | undefined,
 	_neq?: boolean | undefined,
-	_nin?: Array<boolean>
+	_nin?: Array<boolean> | undefined
 };
 	/** columns and relationships of "classification" */
 ["classification"]: {
@@ -10724,7 +10724,7 @@ end). throws an error if top level container is not an array */
 ["classification_aggregate"]: {
 	__typename: "classification_aggregate",
 	aggregate?: GraphQLTypes["classification_aggregate_fields"] | undefined,
-	nodes: Array<GraphQLTypes["classification"]> | undefined
+	nodes: Array<GraphQLTypes["classification"]>
 };
 	/** aggregate fields of "classification" */
 ["classification_aggregate_fields"]: {
@@ -10735,9 +10735,9 @@ end). throws an error if top level container is not an array */
 };
 	/** Boolean expression to filter rows from the table "classification". All fields are combined with a logical 'AND'. */
 ["classification_bool_exp"]: {
-		_and?: Array<GraphQLTypes["classification_bool_exp"]>,
+		_and?: Array<GraphQLTypes["classification_bool_exp"]> | undefined,
 	_not?: GraphQLTypes["classification_bool_exp"] | undefined,
-	_or?: Array<GraphQLTypes["classification_bool_exp"]>,
+	_or?: Array<GraphQLTypes["classification_bool_exp"]> | undefined,
 	name?: GraphQLTypes["String_comparison_exp"] | undefined
 };
 	/** unique or primary key constraints on table "classification" */
@@ -10746,10 +10746,10 @@ end). throws an error if top level container is not an array */
 	/** Boolean expression to compare columns of type "classification_enum". All fields are combined with logical 'AND'. */
 ["classification_enum_comparison_exp"]: {
 		_eq?: GraphQLTypes["classification_enum"] | undefined,
-	_in?: Array<GraphQLTypes["classification_enum"]>,
+	_in?: Array<GraphQLTypes["classification_enum"]> | undefined,
 	_is_null?: boolean | undefined,
 	_neq?: GraphQLTypes["classification_enum"] | undefined,
-	_nin?: Array<GraphQLTypes["classification_enum"]>
+	_nin?: Array<GraphQLTypes["classification_enum"]> | undefined
 };
 	/** input type for inserting data into table "classification" */
 ["classification_insert_input"]: {
@@ -10771,12 +10771,12 @@ end). throws an error if top level container is not an array */
 	/** number of rows affected by the mutation */
 	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning: Array<GraphQLTypes["classification"]> | undefined
+	returning: Array<GraphQLTypes["classification"]>
 };
 	/** on conflict condition type for table "classification" */
 ["classification_on_conflict"]: {
 		constraint: GraphQLTypes["classification_constraint"],
-	update_columns: Array<GraphQLTypes["classification_update_column"]> | undefined,
+	update_columns: Array<GraphQLTypes["classification_update_column"]>,
 	where?: GraphQLTypes["classification_bool_exp"] | undefined
 };
 	/** Ordering options when selecting data from "classification". */
@@ -10799,13 +10799,13 @@ end). throws an error if top level container is not an array */
 ["connection"]: {
 	__typename: "connection",
 	/** An array relationship */
-	bookings: Array<GraphQLTypes["booking"]> | undefined,
+	bookings: Array<GraphQLTypes["booking"]>,
 	/** An aggregate relationship */
 	bookings_aggregate: GraphQLTypes["booking_aggregate"],
 	createdAt: GraphQLTypes["timestamptz"],
 	credentials?: GraphQLTypes["jsonb"] | undefined,
 	/** An array relationship */
-	entities: Array<GraphQLTypes["entity"]> | undefined,
+	entities: Array<GraphQLTypes["entity"]>,
 	/** An aggregate relationship */
 	entities_aggregate: GraphQLTypes["entity_aggregate"],
 	id: GraphQLTypes["uuid"],
@@ -10813,33 +10813,33 @@ end). throws an error if top level container is not an array */
 	integration: GraphQLTypes["integration"],
 	integrationId: GraphQLTypes["uuid"],
 	/** An array relationship */
-	jobs: Array<GraphQLTypes["job"]> | undefined,
+	jobs: Array<GraphQLTypes["job"]>,
 	/** An aggregate relationship */
 	jobs_aggregate: GraphQLTypes["job_aggregate"],
 	/** An array relationship */
-	lines: Array<GraphQLTypes["line"]> | undefined,
+	lines: Array<GraphQLTypes["line"]>,
 	/** An aggregate relationship */
 	lines_aggregate: GraphQLTypes["line_aggregate"],
 	/** An array relationship */
-	metrics: Array<GraphQLTypes["metric"]> | undefined,
+	metrics: Array<GraphQLTypes["metric"]>,
 	/** An aggregate relationship */
 	metrics_aggregate: GraphQLTypes["metric_aggregate"],
 	name: string,
 	/** An array relationship */
-	payments: Array<GraphQLTypes["payment"]> | undefined,
+	payments: Array<GraphQLTypes["payment"]>,
 	/** An aggregate relationship */
 	payments_aggregate: GraphQLTypes["payment_aggregate"],
 	persistentState?: GraphQLTypes["jsonb"] | undefined,
 	status?: string | undefined,
 	/** An array relationship */
-	tags: Array<GraphQLTypes["tag"]> | undefined,
+	tags: Array<GraphQLTypes["tag"]>,
 	/** An aggregate relationship */
 	tags_aggregate: GraphQLTypes["tag_aggregate"],
 	/** An object relationship */
 	team: GraphQLTypes["team"],
 	teamId: GraphQLTypes["uuid"],
 	/** An array relationship */
-	units: Array<GraphQLTypes["unit"]> | undefined,
+	units: Array<GraphQLTypes["unit"]>,
 	/** An aggregate relationship */
 	units_aggregate: GraphQLTypes["unit_aggregate"],
 	webhookKey?: string | undefined
@@ -10848,7 +10848,7 @@ end). throws an error if top level container is not an array */
 ["connection_aggregate"]: {
 	__typename: "connection_aggregate",
 	aggregate?: GraphQLTypes["connection_aggregate_fields"] | undefined,
-	nodes: Array<GraphQLTypes["connection"]> | undefined
+	nodes: Array<GraphQLTypes["connection"]>
 };
 	/** aggregate fields of "connection" */
 ["connection_aggregate_fields"]: {
@@ -10870,15 +10870,15 @@ end). throws an error if top level container is not an array */
 };
 	/** input type for inserting array relation for remote table "connection" */
 ["connection_arr_rel_insert_input"]: {
-		data: Array<GraphQLTypes["connection_insert_input"]> | undefined,
+		data: Array<GraphQLTypes["connection_insert_input"]>,
 	/** on conflict condition */
 	on_conflict?: GraphQLTypes["connection_on_conflict"] | undefined
 };
 	/** Boolean expression to filter rows from the table "connection". All fields are combined with a logical 'AND'. */
 ["connection_bool_exp"]: {
-		_and?: Array<GraphQLTypes["connection_bool_exp"]>,
+		_and?: Array<GraphQLTypes["connection_bool_exp"]> | undefined,
 	_not?: GraphQLTypes["connection_bool_exp"] | undefined,
-	_or?: Array<GraphQLTypes["connection_bool_exp"]>,
+	_or?: Array<GraphQLTypes["connection_bool_exp"]> | undefined,
 	bookings?: GraphQLTypes["booking_bool_exp"] | undefined,
 	createdAt?: GraphQLTypes["timestamptz_comparison_exp"] | undefined,
 	credentials?: GraphQLTypes["jsonb_comparison_exp"] | undefined,
@@ -10903,8 +10903,8 @@ end). throws an error if top level container is not an array */
 ["connection_constraint"]: connection_constraint;
 	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
 ["connection_delete_at_path_input"]: {
-		credentials?: Array<string>,
-	persistentState?: Array<string>
+		credentials?: Array<string> | undefined,
+	persistentState?: Array<string> | undefined
 };
 	/** delete the array element with specified index (negative integers count from the
 end). throws an error if top level container is not an array */
@@ -10987,7 +10987,7 @@ end). throws an error if top level container is not an array */
 	/** number of rows affected by the mutation */
 	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning: Array<GraphQLTypes["connection"]> | undefined
+	returning: Array<GraphQLTypes["connection"]>
 };
 	/** input type for inserting object relation for remote table "connection" */
 ["connection_obj_rel_insert_input"]: {
@@ -10998,7 +10998,7 @@ end). throws an error if top level container is not an array */
 	/** on conflict condition type for table "connection" */
 ["connection_on_conflict"]: {
 		constraint: GraphQLTypes["connection_constraint"],
-	update_columns: Array<GraphQLTypes["connection_update_column"]> | undefined,
+	update_columns: Array<GraphQLTypes["connection_update_column"]>,
 	where?: GraphQLTypes["connection_bool_exp"] | undefined
 };
 	/** Ordering options when selecting data from "connection". */
@@ -11057,7 +11057,7 @@ end). throws an error if top level container is not an array */
 ["currency_aggregate"]: {
 	__typename: "currency_aggregate",
 	aggregate?: GraphQLTypes["currency_aggregate_fields"] | undefined,
-	nodes: Array<GraphQLTypes["currency"]> | undefined
+	nodes: Array<GraphQLTypes["currency"]>
 };
 	/** aggregate fields of "currency" */
 ["currency_aggregate_fields"]: {
@@ -11068,9 +11068,9 @@ end). throws an error if top level container is not an array */
 };
 	/** Boolean expression to filter rows from the table "currency". All fields are combined with a logical 'AND'. */
 ["currency_bool_exp"]: {
-		_and?: Array<GraphQLTypes["currency_bool_exp"]>,
+		_and?: Array<GraphQLTypes["currency_bool_exp"]> | undefined,
 	_not?: GraphQLTypes["currency_bool_exp"] | undefined,
-	_or?: Array<GraphQLTypes["currency_bool_exp"]>,
+	_or?: Array<GraphQLTypes["currency_bool_exp"]> | undefined,
 	name?: GraphQLTypes["String_comparison_exp"] | undefined
 };
 	/** unique or primary key constraints on table "currency" */
@@ -11079,10 +11079,10 @@ end). throws an error if top level container is not an array */
 	/** Boolean expression to compare columns of type "currency_enum". All fields are combined with logical 'AND'. */
 ["currency_enum_comparison_exp"]: {
 		_eq?: GraphQLTypes["currency_enum"] | undefined,
-	_in?: Array<GraphQLTypes["currency_enum"]>,
+	_in?: Array<GraphQLTypes["currency_enum"]> | undefined,
 	_is_null?: boolean | undefined,
 	_neq?: GraphQLTypes["currency_enum"] | undefined,
-	_nin?: Array<GraphQLTypes["currency_enum"]>
+	_nin?: Array<GraphQLTypes["currency_enum"]> | undefined
 };
 	/** input type for inserting data into table "currency" */
 ["currency_insert_input"]: {
@@ -11104,12 +11104,12 @@ end). throws an error if top level container is not an array */
 	/** number of rows affected by the mutation */
 	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning: Array<GraphQLTypes["currency"]> | undefined
+	returning: Array<GraphQLTypes["currency"]>
 };
 	/** on conflict condition type for table "currency" */
 ["currency_on_conflict"]: {
 		constraint: GraphQLTypes["currency_constraint"],
-	update_columns: Array<GraphQLTypes["currency_update_column"]> | undefined,
+	update_columns: Array<GraphQLTypes["currency_update_column"]>,
 	where?: GraphQLTypes["currency_bool_exp"] | undefined
 };
 	/** Ordering options when selecting data from "currency". */
@@ -11132,7 +11132,7 @@ end). throws an error if top level container is not an array */
 ["entity"]: {
 	__typename: "entity",
 	/** An array relationship */
-	bookings: Array<GraphQLTypes["booking"]> | undefined,
+	bookings: Array<GraphQLTypes["booking"]>,
 	/** An aggregate relationship */
 	bookings_aggregate: GraphQLTypes["booking_aggregate"],
 	/** An object relationship */
@@ -11151,7 +11151,7 @@ end). throws an error if top level container is not an array */
 	normalizedType?: GraphQLTypes["normalized_type_enum"] | undefined,
 	parsedAt?: GraphQLTypes["timestamptz"] | undefined,
 	/** An array relationship */
-	payments: Array<GraphQLTypes["payment"]> | undefined,
+	payments: Array<GraphQLTypes["payment"]>,
 	/** An aggregate relationship */
 	payments_aggregate: GraphQLTypes["payment_aggregate"],
 	/** An object relationship */
@@ -11160,7 +11160,7 @@ end). throws an error if top level container is not an array */
 	status: GraphQLTypes["entity_status_enum"],
 	statusText?: string | undefined,
 	/** An array relationship */
-	successorEntities: Array<GraphQLTypes["entity"]> | undefined,
+	successorEntities: Array<GraphQLTypes["entity"]>,
 	/** An aggregate relationship */
 	successorEntities_aggregate: GraphQLTypes["entity_aggregate"],
 	/** An object relationship */
@@ -11169,7 +11169,7 @@ end). throws an error if top level container is not an array */
 	type: string,
 	uniqueRef?: string | undefined,
 	/** An array relationship */
-	units: Array<GraphQLTypes["unit"]> | undefined,
+	units: Array<GraphQLTypes["unit"]>,
 	/** An aggregate relationship */
 	units_aggregate: GraphQLTypes["unit_aggregate"],
 	updatedAt: GraphQLTypes["timestamptz"]
@@ -11178,7 +11178,7 @@ end). throws an error if top level container is not an array */
 ["entity_aggregate"]: {
 	__typename: "entity_aggregate",
 	aggregate?: GraphQLTypes["entity_aggregate_fields"] | undefined,
-	nodes: Array<GraphQLTypes["entity"]> | undefined
+	nodes: Array<GraphQLTypes["entity"]>
 };
 	/** aggregate fields of "entity" */
 ["entity_aggregate_fields"]: {
@@ -11201,15 +11201,15 @@ end). throws an error if top level container is not an array */
 };
 	/** input type for inserting array relation for remote table "entity" */
 ["entity_arr_rel_insert_input"]: {
-		data: Array<GraphQLTypes["entity_insert_input"]> | undefined,
+		data: Array<GraphQLTypes["entity_insert_input"]>,
 	/** on conflict condition */
 	on_conflict?: GraphQLTypes["entity_on_conflict"] | undefined
 };
 	/** Boolean expression to filter rows from the table "entity". All fields are combined with a logical 'AND'. */
 ["entity_bool_exp"]: {
-		_and?: Array<GraphQLTypes["entity_bool_exp"]>,
+		_and?: Array<GraphQLTypes["entity_bool_exp"]> | undefined,
 	_not?: GraphQLTypes["entity_bool_exp"] | undefined,
-	_or?: Array<GraphQLTypes["entity_bool_exp"]>,
+	_or?: Array<GraphQLTypes["entity_bool_exp"]> | undefined,
 	bookings?: GraphQLTypes["booking_bool_exp"] | undefined,
 	connection?: GraphQLTypes["connection_bool_exp"] | undefined,
 	connectionId?: GraphQLTypes["uuid_comparison_exp"] | undefined,
@@ -11241,9 +11241,9 @@ end). throws an error if top level container is not an array */
 ["entity_constraint"]: entity_constraint;
 	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
 ["entity_delete_at_path_input"]: {
-		diffJson?: Array<string>,
-	json?: Array<string>,
-	normalizedJson?: Array<string>
+		diffJson?: Array<string> | undefined,
+	json?: Array<string> | undefined,
+	normalizedJson?: Array<string> | undefined
 };
 	/** delete the array element with specified index (negative integers count from the
 end). throws an error if top level container is not an array */
@@ -11359,7 +11359,7 @@ end). throws an error if top level container is not an array */
 	/** number of rows affected by the mutation */
 	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning: Array<GraphQLTypes["entity"]> | undefined
+	returning: Array<GraphQLTypes["entity"]>
 };
 	/** input type for inserting object relation for remote table "entity" */
 ["entity_obj_rel_insert_input"]: {
@@ -11370,7 +11370,7 @@ end). throws an error if top level container is not an array */
 	/** on conflict condition type for table "entity" */
 ["entity_on_conflict"]: {
 		constraint: GraphQLTypes["entity_constraint"],
-	update_columns: Array<GraphQLTypes["entity_update_column"]> | undefined,
+	update_columns: Array<GraphQLTypes["entity_update_column"]>,
 	where?: GraphQLTypes["entity_bool_exp"] | undefined
 };
 	/** Ordering options when selecting data from "entity". */
@@ -11439,10 +11439,10 @@ end). throws an error if top level container is not an array */
 	/** Boolean expression to compare columns of type "entity_status_enum". All fields are combined with logical 'AND'. */
 ["entity_status_enum_comparison_exp"]: {
 		_eq?: GraphQLTypes["entity_status_enum"] | undefined,
-	_in?: Array<GraphQLTypes["entity_status_enum"]>,
+	_in?: Array<GraphQLTypes["entity_status_enum"]> | undefined,
 	_is_null?: boolean | undefined,
 	_neq?: GraphQLTypes["entity_status_enum"] | undefined,
-	_nin?: Array<GraphQLTypes["entity_status_enum"]>
+	_nin?: Array<GraphQLTypes["entity_status_enum"]> | undefined
 };
 	/** update columns of table "entity" */
 ["entity_update_column"]: entity_update_column;
@@ -11455,7 +11455,7 @@ end). throws an error if top level container is not an array */
 ["entityStatus_aggregate"]: {
 	__typename: "entityStatus_aggregate",
 	aggregate?: GraphQLTypes["entityStatus_aggregate_fields"] | undefined,
-	nodes: Array<GraphQLTypes["entityStatus"]> | undefined
+	nodes: Array<GraphQLTypes["entityStatus"]>
 };
 	/** aggregate fields of "entity_status" */
 ["entityStatus_aggregate_fields"]: {
@@ -11466,9 +11466,9 @@ end). throws an error if top level container is not an array */
 };
 	/** Boolean expression to filter rows from the table "entity_status". All fields are combined with a logical 'AND'. */
 ["entityStatus_bool_exp"]: {
-		_and?: Array<GraphQLTypes["entityStatus_bool_exp"]>,
+		_and?: Array<GraphQLTypes["entityStatus_bool_exp"]> | undefined,
 	_not?: GraphQLTypes["entityStatus_bool_exp"] | undefined,
-	_or?: Array<GraphQLTypes["entityStatus_bool_exp"]>,
+	_or?: Array<GraphQLTypes["entityStatus_bool_exp"]> | undefined,
 	name?: GraphQLTypes["String_comparison_exp"] | undefined
 };
 	/** unique or primary key constraints on table "entity_status" */
@@ -11493,12 +11493,12 @@ end). throws an error if top level container is not an array */
 	/** number of rows affected by the mutation */
 	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning: Array<GraphQLTypes["entityStatus"]> | undefined
+	returning: Array<GraphQLTypes["entityStatus"]>
 };
 	/** on conflict condition type for table "entity_status" */
 ["entityStatus_on_conflict"]: {
 		constraint: GraphQLTypes["entityStatus_constraint"],
-	update_columns: Array<GraphQLTypes["entityStatus_update_column"]> | undefined,
+	update_columns: Array<GraphQLTypes["entityStatus_update_column"]>,
 	where?: GraphQLTypes["entityStatus_bool_exp"] | undefined
 };
 	/** Ordering options when selecting data from "entity_status". */
@@ -11517,30 +11517,30 @@ end). throws an error if top level container is not an array */
 };
 	/** update columns of table "entity_status" */
 ["entityStatus_update_column"]: entityStatus_update_column;
-	["float8"]:any;
+	["float8"]: any;
 	/** Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'. */
 ["float8_comparison_exp"]: {
 		_eq?: GraphQLTypes["float8"] | undefined,
 	_gt?: GraphQLTypes["float8"] | undefined,
 	_gte?: GraphQLTypes["float8"] | undefined,
-	_in?: Array<GraphQLTypes["float8"]>,
+	_in?: Array<GraphQLTypes["float8"]> | undefined,
 	_is_null?: boolean | undefined,
 	_lt?: GraphQLTypes["float8"] | undefined,
 	_lte?: GraphQLTypes["float8"] | undefined,
 	_neq?: GraphQLTypes["float8"] | undefined,
-	_nin?: Array<GraphQLTypes["float8"]>
+	_nin?: Array<GraphQLTypes["float8"]> | undefined
 };
 	/** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
 ["Int_comparison_exp"]: {
 		_eq?: number | undefined,
 	_gt?: number | undefined,
 	_gte?: number | undefined,
-	_in?: Array<number>,
+	_in?: Array<number> | undefined,
 	_is_null?: boolean | undefined,
 	_lt?: number | undefined,
 	_lte?: number | undefined,
 	_neq?: number | undefined,
-	_nin?: Array<number>
+	_nin?: Array<number> | undefined
 };
 	/** columns and relationships of "integration" */
 ["integration"]: {
@@ -11548,7 +11548,7 @@ end). throws an error if top level container is not an array */
 	apiDevUrl?: string | undefined,
 	apiUrl: string,
 	/** An array relationship */
-	connections: Array<GraphQLTypes["connection"]> | undefined,
+	connections: Array<GraphQLTypes["connection"]>,
 	/** An aggregate relationship */
 	connections_aggregate: GraphQLTypes["connection_aggregate"],
 	icon?: string | undefined,
@@ -11556,7 +11556,7 @@ end). throws an error if top level container is not an array */
 	isApproved?: boolean | undefined,
 	isPrivate: boolean,
 	/** An array relationship */
-	jobs: Array<GraphQLTypes["job"]> | undefined,
+	jobs: Array<GraphQLTypes["job"]>,
 	/** An aggregate relationship */
 	jobs_aggregate: GraphQLTypes["job_aggregate"],
 	name: string,
@@ -11570,7 +11570,7 @@ end). throws an error if top level container is not an array */
 ["integration_aggregate"]: {
 	__typename: "integration_aggregate",
 	aggregate?: GraphQLTypes["integration_aggregate_fields"] | undefined,
-	nodes: Array<GraphQLTypes["integration"]> | undefined
+	nodes: Array<GraphQLTypes["integration"]>
 };
 	/** aggregate fields of "integration" */
 ["integration_aggregate_fields"]: {
@@ -11587,15 +11587,15 @@ end). throws an error if top level container is not an array */
 };
 	/** input type for inserting array relation for remote table "integration" */
 ["integration_arr_rel_insert_input"]: {
-		data: Array<GraphQLTypes["integration_insert_input"]> | undefined,
+		data: Array<GraphQLTypes["integration_insert_input"]>,
 	/** on conflict condition */
 	on_conflict?: GraphQLTypes["integration_on_conflict"] | undefined
 };
 	/** Boolean expression to filter rows from the table "integration". All fields are combined with a logical 'AND'. */
 ["integration_bool_exp"]: {
-		_and?: Array<GraphQLTypes["integration_bool_exp"]>,
+		_and?: Array<GraphQLTypes["integration_bool_exp"]> | undefined,
 	_not?: GraphQLTypes["integration_bool_exp"] | undefined,
-	_or?: Array<GraphQLTypes["integration_bool_exp"]>,
+	_or?: Array<GraphQLTypes["integration_bool_exp"]> | undefined,
 	apiDevUrl?: GraphQLTypes["String_comparison_exp"] | undefined,
 	apiUrl?: GraphQLTypes["String_comparison_exp"] | undefined,
 	connections?: GraphQLTypes["connection_bool_exp"] | undefined,
@@ -11676,7 +11676,7 @@ end). throws an error if top level container is not an array */
 	/** number of rows affected by the mutation */
 	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning: Array<GraphQLTypes["integration"]> | undefined
+	returning: Array<GraphQLTypes["integration"]>
 };
 	/** input type for inserting object relation for remote table "integration" */
 ["integration_obj_rel_insert_input"]: {
@@ -11687,7 +11687,7 @@ end). throws an error if top level container is not an array */
 	/** on conflict condition type for table "integration" */
 ["integration_on_conflict"]: {
 		constraint: GraphQLTypes["integration_constraint"],
-	update_columns: Array<GraphQLTypes["integration_update_column"]> | undefined,
+	update_columns: Array<GraphQLTypes["integration_update_column"]>,
 	where?: GraphQLTypes["integration_bool_exp"] | undefined
 };
 	/** Ordering options when selecting data from "integration". */
@@ -11729,10 +11729,10 @@ end). throws an error if top level container is not an array */
 	/** Boolean expression to compare columns of type "integration_type_enum". All fields are combined with logical 'AND'. */
 ["integration_type_enum_comparison_exp"]: {
 		_eq?: GraphQLTypes["integration_type_enum"] | undefined,
-	_in?: Array<GraphQLTypes["integration_type_enum"]>,
+	_in?: Array<GraphQLTypes["integration_type_enum"]> | undefined,
 	_is_null?: boolean | undefined,
 	_neq?: GraphQLTypes["integration_type_enum"] | undefined,
-	_nin?: Array<GraphQLTypes["integration_type_enum"]>
+	_nin?: Array<GraphQLTypes["integration_type_enum"]> | undefined
 };
 	/** update columns of table "integration" */
 ["integration_update_column"]: integration_update_column;
@@ -11745,7 +11745,7 @@ end). throws an error if top level container is not an array */
 ["integrationType_aggregate"]: {
 	__typename: "integrationType_aggregate",
 	aggregate?: GraphQLTypes["integrationType_aggregate_fields"] | undefined,
-	nodes: Array<GraphQLTypes["integrationType"]> | undefined
+	nodes: Array<GraphQLTypes["integrationType"]>
 };
 	/** aggregate fields of "integration_type" */
 ["integrationType_aggregate_fields"]: {
@@ -11756,9 +11756,9 @@ end). throws an error if top level container is not an array */
 };
 	/** Boolean expression to filter rows from the table "integration_type". All fields are combined with a logical 'AND'. */
 ["integrationType_bool_exp"]: {
-		_and?: Array<GraphQLTypes["integrationType_bool_exp"]>,
+		_and?: Array<GraphQLTypes["integrationType_bool_exp"]> | undefined,
 	_not?: GraphQLTypes["integrationType_bool_exp"] | undefined,
-	_or?: Array<GraphQLTypes["integrationType_bool_exp"]>,
+	_or?: Array<GraphQLTypes["integrationType_bool_exp"]> | undefined,
 	name?: GraphQLTypes["String_comparison_exp"] | undefined
 };
 	/** unique or primary key constraints on table "integration_type" */
@@ -11783,12 +11783,12 @@ end). throws an error if top level container is not an array */
 	/** number of rows affected by the mutation */
 	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning: Array<GraphQLTypes["integrationType"]> | undefined
+	returning: Array<GraphQLTypes["integrationType"]>
 };
 	/** on conflict condition type for table "integration_type" */
 ["integrationType_on_conflict"]: {
 		constraint: GraphQLTypes["integrationType_constraint"],
-	update_columns: Array<GraphQLTypes["integrationType_update_column"]> | undefined,
+	update_columns: Array<GraphQLTypes["integrationType_update_column"]>,
 	where?: GraphQLTypes["integrationType_bool_exp"] | undefined
 };
 	/** Ordering options when selecting data from "integration_type". */
@@ -11831,7 +11831,7 @@ end). throws an error if top level container is not an array */
 ["issue_aggregate"]: {
 	__typename: "issue_aggregate",
 	aggregate?: GraphQLTypes["issue_aggregate_fields"] | undefined,
-	nodes: Array<GraphQLTypes["issue"]> | undefined
+	nodes: Array<GraphQLTypes["issue"]>
 };
 	/** aggregate fields of "issue" */
 ["issue_aggregate_fields"]: {
@@ -11853,15 +11853,15 @@ end). throws an error if top level container is not an array */
 };
 	/** input type for inserting array relation for remote table "issue" */
 ["issue_arr_rel_insert_input"]: {
-		data: Array<GraphQLTypes["issue_insert_input"]> | undefined,
+		data: Array<GraphQLTypes["issue_insert_input"]>,
 	/** on conflict condition */
 	on_conflict?: GraphQLTypes["issue_on_conflict"] | undefined
 };
 	/** Boolean expression to filter rows from the table "issue". All fields are combined with a logical 'AND'. */
 ["issue_bool_exp"]: {
-		_and?: Array<GraphQLTypes["issue_bool_exp"]>,
+		_and?: Array<GraphQLTypes["issue_bool_exp"]> | undefined,
 	_not?: GraphQLTypes["issue_bool_exp"] | undefined,
-	_or?: Array<GraphQLTypes["issue_bool_exp"]>,
+	_or?: Array<GraphQLTypes["issue_bool_exp"]> | undefined,
 	code?: GraphQLTypes["String_comparison_exp"] | undefined,
 	createdAt?: GraphQLTypes["timestamptz_comparison_exp"] | undefined,
 	id?: GraphQLTypes["uuid_comparison_exp"] | undefined,
@@ -11881,8 +11881,8 @@ end). throws an error if top level container is not an array */
 ["issue_constraint"]: issue_constraint;
 	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
 ["issue_delete_at_path_input"]: {
-		requestParams?: Array<string>,
-	resolveParams?: Array<string>
+		requestParams?: Array<string> | undefined,
+	resolveParams?: Array<string> | undefined
 };
 	/** delete the array element with specified index (negative integers count from the
 end). throws an error if top level container is not an array */
@@ -11964,12 +11964,12 @@ end). throws an error if top level container is not an array */
 	/** number of rows affected by the mutation */
 	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning: Array<GraphQLTypes["issue"]> | undefined
+	returning: Array<GraphQLTypes["issue"]>
 };
 	/** on conflict condition type for table "issue" */
 ["issue_on_conflict"]: {
 		constraint: GraphQLTypes["issue_constraint"],
-	update_columns: Array<GraphQLTypes["issue_update_column"]> | undefined,
+	update_columns: Array<GraphQLTypes["issue_update_column"]>,
 	where?: GraphQLTypes["issue_bool_exp"] | undefined
 };
 	/** Ordering options when selecting data from "issue". */
@@ -12027,7 +12027,7 @@ end). throws an error if top level container is not an array */
 	createdAt: GraphQLTypes["timestamptz"],
 	endedAt?: GraphQLTypes["timestamptz"] | undefined,
 	/** An array relationship */
-	entities: Array<GraphQLTypes["entity"]> | undefined,
+	entities: Array<GraphQLTypes["entity"]>,
 	/** An aggregate relationship */
 	entities_aggregate: GraphQLTypes["entity_aggregate"],
 	id: GraphQLTypes["uuid"],
@@ -12037,7 +12037,7 @@ end). throws an error if top level container is not an array */
 	integrationSdkVersion?: string | undefined,
 	integrationVersion?: string | undefined,
 	/** An array relationship */
-	issues: Array<GraphQLTypes["issue"]> | undefined,
+	issues: Array<GraphQLTypes["issue"]>,
 	/** An aggregate relationship */
 	issues_aggregate: GraphQLTypes["issue_aggregate"],
 	logFile?: string | undefined,
@@ -12059,7 +12059,7 @@ end). throws an error if top level container is not an array */
 ["job_aggregate"]: {
 	__typename: "job_aggregate",
 	aggregate?: GraphQLTypes["job_aggregate_fields"] | undefined,
-	nodes: Array<GraphQLTypes["job"]> | undefined
+	nodes: Array<GraphQLTypes["job"]>
 };
 	/** aggregate fields of "job" */
 ["job_aggregate_fields"]: {
@@ -12082,15 +12082,15 @@ end). throws an error if top level container is not an array */
 };
 	/** input type for inserting array relation for remote table "job" */
 ["job_arr_rel_insert_input"]: {
-		data: Array<GraphQLTypes["job_insert_input"]> | undefined,
+		data: Array<GraphQLTypes["job_insert_input"]>,
 	/** on conflict condition */
 	on_conflict?: GraphQLTypes["job_on_conflict"] | undefined
 };
 	/** Boolean expression to filter rows from the table "job". All fields are combined with a logical 'AND'. */
 ["job_bool_exp"]: {
-		_and?: Array<GraphQLTypes["job_bool_exp"]>,
+		_and?: Array<GraphQLTypes["job_bool_exp"]> | undefined,
 	_not?: GraphQLTypes["job_bool_exp"] | undefined,
-	_or?: Array<GraphQLTypes["job_bool_exp"]>,
+	_or?: Array<GraphQLTypes["job_bool_exp"]> | undefined,
 	apiVersion?: GraphQLTypes["String_comparison_exp"] | undefined,
 	connection?: GraphQLTypes["connection_bool_exp"] | undefined,
 	connectionId?: GraphQLTypes["uuid_comparison_exp"] | undefined,
@@ -12121,9 +12121,9 @@ end). throws an error if top level container is not an array */
 ["job_constraint"]: job_constraint;
 	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
 ["job_delete_at_path_input"]: {
-		logs?: Array<string>,
-	params?: Array<string>,
-	response?: Array<string>
+		logs?: Array<string> | undefined,
+	params?: Array<string> | undefined,
+	response?: Array<string> | undefined
 };
 	/** delete the array element with specified index (negative integers count from the
 end). throws an error if top level container is not an array */
@@ -12207,10 +12207,10 @@ end). throws an error if top level container is not an array */
 	/** Boolean expression to compare columns of type "job_method_enum". All fields are combined with logical 'AND'. */
 ["job_method_enum_comparison_exp"]: {
 		_eq?: GraphQLTypes["job_method_enum"] | undefined,
-	_in?: Array<GraphQLTypes["job_method_enum"]>,
+	_in?: Array<GraphQLTypes["job_method_enum"]> | undefined,
 	_is_null?: boolean | undefined,
 	_neq?: GraphQLTypes["job_method_enum"] | undefined,
-	_nin?: Array<GraphQLTypes["job_method_enum"]>
+	_nin?: Array<GraphQLTypes["job_method_enum"]> | undefined
 };
 	/** aggregate min on columns */
 ["job_min_fields"]: {
@@ -12255,7 +12255,7 @@ end). throws an error if top level container is not an array */
 	/** number of rows affected by the mutation */
 	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning: Array<GraphQLTypes["job"]> | undefined
+	returning: Array<GraphQLTypes["job"]>
 };
 	/** input type for inserting object relation for remote table "job" */
 ["job_obj_rel_insert_input"]: {
@@ -12266,7 +12266,7 @@ end). throws an error if top level container is not an array */
 	/** on conflict condition type for table "job" */
 ["job_on_conflict"]: {
 		constraint: GraphQLTypes["job_constraint"],
-	update_columns: Array<GraphQLTypes["job_update_column"]> | undefined,
+	update_columns: Array<GraphQLTypes["job_update_column"]>,
 	where?: GraphQLTypes["job_bool_exp"] | undefined
 };
 	/** Ordering options when selecting data from "job". */
@@ -12336,10 +12336,10 @@ end). throws an error if top level container is not an array */
 	/** Boolean expression to compare columns of type "job_status_enum". All fields are combined with logical 'AND'. */
 ["job_status_enum_comparison_exp"]: {
 		_eq?: GraphQLTypes["job_status_enum"] | undefined,
-	_in?: Array<GraphQLTypes["job_status_enum"]>,
+	_in?: Array<GraphQLTypes["job_status_enum"]> | undefined,
 	_is_null?: boolean | undefined,
 	_neq?: GraphQLTypes["job_status_enum"] | undefined,
-	_nin?: Array<GraphQLTypes["job_status_enum"]>
+	_nin?: Array<GraphQLTypes["job_status_enum"]> | undefined
 };
 	/** update columns of table "job" */
 ["job_update_column"]: job_update_column;
@@ -12352,7 +12352,7 @@ end). throws an error if top level container is not an array */
 ["jobMethod_aggregate"]: {
 	__typename: "jobMethod_aggregate",
 	aggregate?: GraphQLTypes["jobMethod_aggregate_fields"] | undefined,
-	nodes: Array<GraphQLTypes["jobMethod"]> | undefined
+	nodes: Array<GraphQLTypes["jobMethod"]>
 };
 	/** aggregate fields of "job_method" */
 ["jobMethod_aggregate_fields"]: {
@@ -12363,9 +12363,9 @@ end). throws an error if top level container is not an array */
 };
 	/** Boolean expression to filter rows from the table "job_method". All fields are combined with a logical 'AND'. */
 ["jobMethod_bool_exp"]: {
-		_and?: Array<GraphQLTypes["jobMethod_bool_exp"]>,
+		_and?: Array<GraphQLTypes["jobMethod_bool_exp"]> | undefined,
 	_not?: GraphQLTypes["jobMethod_bool_exp"] | undefined,
-	_or?: Array<GraphQLTypes["jobMethod_bool_exp"]>,
+	_or?: Array<GraphQLTypes["jobMethod_bool_exp"]> | undefined,
 	name?: GraphQLTypes["String_comparison_exp"] | undefined
 };
 	/** unique or primary key constraints on table "job_method" */
@@ -12390,12 +12390,12 @@ end). throws an error if top level container is not an array */
 	/** number of rows affected by the mutation */
 	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning: Array<GraphQLTypes["jobMethod"]> | undefined
+	returning: Array<GraphQLTypes["jobMethod"]>
 };
 	/** on conflict condition type for table "job_method" */
 ["jobMethod_on_conflict"]: {
 		constraint: GraphQLTypes["jobMethod_constraint"],
-	update_columns: Array<GraphQLTypes["jobMethod_update_column"]> | undefined,
+	update_columns: Array<GraphQLTypes["jobMethod_update_column"]>,
 	where?: GraphQLTypes["jobMethod_bool_exp"] | undefined
 };
 	/** Ordering options when selecting data from "job_method". */
@@ -12423,7 +12423,7 @@ end). throws an error if top level container is not an array */
 ["jobStatus_aggregate"]: {
 	__typename: "jobStatus_aggregate",
 	aggregate?: GraphQLTypes["jobStatus_aggregate_fields"] | undefined,
-	nodes: Array<GraphQLTypes["jobStatus"]> | undefined
+	nodes: Array<GraphQLTypes["jobStatus"]>
 };
 	/** aggregate fields of "job_status" */
 ["jobStatus_aggregate_fields"]: {
@@ -12434,9 +12434,9 @@ end). throws an error if top level container is not an array */
 };
 	/** Boolean expression to filter rows from the table "job_status". All fields are combined with a logical 'AND'. */
 ["jobStatus_bool_exp"]: {
-		_and?: Array<GraphQLTypes["jobStatus_bool_exp"]>,
+		_and?: Array<GraphQLTypes["jobStatus_bool_exp"]> | undefined,
 	_not?: GraphQLTypes["jobStatus_bool_exp"] | undefined,
-	_or?: Array<GraphQLTypes["jobStatus_bool_exp"]>,
+	_or?: Array<GraphQLTypes["jobStatus_bool_exp"]> | undefined,
 	name?: GraphQLTypes["String_comparison_exp"] | undefined
 };
 	/** unique or primary key constraints on table "job_status" */
@@ -12461,12 +12461,12 @@ end). throws an error if top level container is not an array */
 	/** number of rows affected by the mutation */
 	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning: Array<GraphQLTypes["jobStatus"]> | undefined
+	returning: Array<GraphQLTypes["jobStatus"]>
 };
 	/** on conflict condition type for table "job_status" */
 ["jobStatus_on_conflict"]: {
 		constraint: GraphQLTypes["jobStatus_constraint"],
-	update_columns: Array<GraphQLTypes["jobStatus_update_column"]> | undefined,
+	update_columns: Array<GraphQLTypes["jobStatus_update_column"]>,
 	where?: GraphQLTypes["jobStatus_bool_exp"] | undefined
 };
 	/** Ordering options when selecting data from "job_status". */
@@ -12485,7 +12485,7 @@ end). throws an error if top level container is not an array */
 };
 	/** update columns of table "job_status" */
 ["jobStatus_update_column"]: jobStatus_update_column;
-	["jsonb"]:any;
+	["jsonb"]: any;
 	/** Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'. */
 ["jsonb_comparison_exp"]: {
 		/** is the column contained in the given json value */
@@ -12498,15 +12498,15 @@ end). throws an error if top level container is not an array */
 	/** does the string exist as a top-level key in the column */
 	_has_key?: string | undefined,
 	/** do all of these strings exist as top-level keys in the column */
-	_has_keys_all?: Array<string>,
+	_has_keys_all?: Array<string> | undefined,
 	/** do any of these strings exist as top-level keys in the column */
-	_has_keys_any?: Array<string>,
-	_in?: Array<GraphQLTypes["jsonb"]>,
+	_has_keys_any?: Array<string> | undefined,
+	_in?: Array<GraphQLTypes["jsonb"]> | undefined,
 	_is_null?: boolean | undefined,
 	_lt?: GraphQLTypes["jsonb"] | undefined,
 	_lte?: GraphQLTypes["jsonb"] | undefined,
 	_neq?: GraphQLTypes["jsonb"] | undefined,
-	_nin?: Array<GraphQLTypes["jsonb"]>
+	_nin?: Array<GraphQLTypes["jsonb"]> | undefined
 };
 	/** columns and relationships of "line" */
 ["line"]: {
@@ -12522,7 +12522,7 @@ end). throws an error if top level container is not an array */
 	createdAt: GraphQLTypes["timestamptz"],
 	description?: string | undefined,
 	/** An array relationship */
-	enhancementLines: Array<GraphQLTypes["line"]> | undefined,
+	enhancementLines: Array<GraphQLTypes["line"]>,
 	/** An aggregate relationship */
 	enhancementLines_aggregate: GraphQLTypes["line_aggregate"],
 	/** An object relationship */
@@ -12551,7 +12551,7 @@ end). throws an error if top level container is not an array */
 ["line_aggregate"]: {
 	__typename: "line_aggregate",
 	aggregate?: GraphQLTypes["line_aggregate_fields"] | undefined,
-	nodes: Array<GraphQLTypes["line"]> | undefined
+	nodes: Array<GraphQLTypes["line"]>
 };
 	/** aggregate fields of "line" */
 ["line_aggregate_fields"]: {
@@ -12588,7 +12588,7 @@ end). throws an error if top level container is not an array */
 };
 	/** input type for inserting array relation for remote table "line" */
 ["line_arr_rel_insert_input"]: {
-		data: Array<GraphQLTypes["line_insert_input"]> | undefined,
+		data: Array<GraphQLTypes["line_insert_input"]>,
 	/** on conflict condition */
 	on_conflict?: GraphQLTypes["line_on_conflict"] | undefined
 };
@@ -12607,9 +12607,9 @@ end). throws an error if top level container is not an array */
 };
 	/** Boolean expression to filter rows from the table "line". All fields are combined with a logical 'AND'. */
 ["line_bool_exp"]: {
-		_and?: Array<GraphQLTypes["line_bool_exp"]>,
+		_and?: Array<GraphQLTypes["line_bool_exp"]> | undefined,
 	_not?: GraphQLTypes["line_bool_exp"] | undefined,
-	_or?: Array<GraphQLTypes["line_bool_exp"]>,
+	_or?: Array<GraphQLTypes["line_bool_exp"]> | undefined,
 	booking?: GraphQLTypes["booking_bool_exp"] | undefined,
 	bookingId?: GraphQLTypes["uuid_comparison_exp"] | undefined,
 	centTotal?: GraphQLTypes["Int_comparison_exp"] | undefined,
@@ -12642,7 +12642,7 @@ end). throws an error if top level container is not an array */
 ["line_constraint"]: line_constraint;
 	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
 ["line_delete_at_path_input"]: {
-		metadata?: Array<string>
+		metadata?: Array<string> | undefined
 };
 	/** delete the array element with specified index (negative integers count from the
 end). throws an error if top level container is not an array */
@@ -12777,7 +12777,7 @@ end). throws an error if top level container is not an array */
 	/** number of rows affected by the mutation */
 	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning: Array<GraphQLTypes["line"]> | undefined
+	returning: Array<GraphQLTypes["line"]>
 };
 	/** input type for inserting object relation for remote table "line" */
 ["line_obj_rel_insert_input"]: {
@@ -12788,7 +12788,7 @@ end). throws an error if top level container is not an array */
 	/** on conflict condition type for table "line" */
 ["line_on_conflict"]: {
 		constraint: GraphQLTypes["line_constraint"],
-	update_columns: Array<GraphQLTypes["line_update_column"]> | undefined,
+	update_columns: Array<GraphQLTypes["line_update_column"]>,
 	where?: GraphQLTypes["line_bool_exp"] | undefined
 };
 	/** Ordering options when selecting data from "line". */
@@ -12972,7 +12972,7 @@ end). throws an error if top level container is not an array */
 ["metric_aggregate"]: {
 	__typename: "metric_aggregate",
 	aggregate?: GraphQLTypes["metric_aggregate_fields"] | undefined,
-	nodes: Array<GraphQLTypes["metric"]> | undefined
+	nodes: Array<GraphQLTypes["metric"]>
 };
 	/** aggregate fields of "metric" */
 ["metric_aggregate_fields"]: {
@@ -13009,7 +13009,7 @@ end). throws an error if top level container is not an array */
 };
 	/** input type for inserting array relation for remote table "metric" */
 ["metric_arr_rel_insert_input"]: {
-		data: Array<GraphQLTypes["metric_insert_input"]> | undefined,
+		data: Array<GraphQLTypes["metric_insert_input"]>,
 	/** on conflict condition */
 	on_conflict?: GraphQLTypes["metric_on_conflict"] | undefined
 };
@@ -13024,9 +13024,9 @@ end). throws an error if top level container is not an array */
 };
 	/** Boolean expression to filter rows from the table "metric". All fields are combined with a logical 'AND'. */
 ["metric_bool_exp"]: {
-		_and?: Array<GraphQLTypes["metric_bool_exp"]>,
+		_and?: Array<GraphQLTypes["metric_bool_exp"]> | undefined,
 	_not?: GraphQLTypes["metric_bool_exp"] | undefined,
-	_or?: Array<GraphQLTypes["metric_bool_exp"]>,
+	_or?: Array<GraphQLTypes["metric_bool_exp"]> | undefined,
 	connection?: GraphQLTypes["connection_bool_exp"] | undefined,
 	connectionId?: GraphQLTypes["uuid_comparison_exp"] | undefined,
 	createdAt?: GraphQLTypes["timestamptz_comparison_exp"] | undefined,
@@ -13046,7 +13046,7 @@ end). throws an error if top level container is not an array */
 ["metric_constraint"]: metric_constraint;
 	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
 ["metric_delete_at_path_input"]: {
-		metadata?: Array<string>
+		metadata?: Array<string> | undefined
 };
 	/** delete the array element with specified index (negative integers count from the
 end). throws an error if top level container is not an array */
@@ -13142,12 +13142,12 @@ end). throws an error if top level container is not an array */
 	/** number of rows affected by the mutation */
 	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning: Array<GraphQLTypes["metric"]> | undefined
+	returning: Array<GraphQLTypes["metric"]>
 };
 	/** on conflict condition type for table "metric" */
 ["metric_on_conflict"]: {
 		constraint: GraphQLTypes["metric_constraint"],
-	update_columns: Array<GraphQLTypes["metric_update_column"]> | undefined,
+	update_columns: Array<GraphQLTypes["metric_update_column"]>,
 	where?: GraphQLTypes["metric_bool_exp"] | undefined
 };
 	/** Ordering options when selecting data from "metric". */
@@ -13601,10 +13601,10 @@ end). throws an error if top level container is not an array */
 	/** Boolean expression to compare columns of type "normalized_type_enum". All fields are combined with logical 'AND'. */
 ["normalized_type_enum_comparison_exp"]: {
 		_eq?: GraphQLTypes["normalized_type_enum"] | undefined,
-	_in?: Array<GraphQLTypes["normalized_type_enum"]>,
+	_in?: Array<GraphQLTypes["normalized_type_enum"]> | undefined,
 	_is_null?: boolean | undefined,
 	_neq?: GraphQLTypes["normalized_type_enum"] | undefined,
-	_nin?: Array<GraphQLTypes["normalized_type_enum"]>
+	_nin?: Array<GraphQLTypes["normalized_type_enum"]> | undefined
 };
 	/** columns and relationships of "normalized_type" */
 ["normalizedType"]: {
@@ -13615,7 +13615,7 @@ end). throws an error if top level container is not an array */
 ["normalizedType_aggregate"]: {
 	__typename: "normalizedType_aggregate",
 	aggregate?: GraphQLTypes["normalizedType_aggregate_fields"] | undefined,
-	nodes: Array<GraphQLTypes["normalizedType"]> | undefined
+	nodes: Array<GraphQLTypes["normalizedType"]>
 };
 	/** aggregate fields of "normalized_type" */
 ["normalizedType_aggregate_fields"]: {
@@ -13626,9 +13626,9 @@ end). throws an error if top level container is not an array */
 };
 	/** Boolean expression to filter rows from the table "normalized_type". All fields are combined with a logical 'AND'. */
 ["normalizedType_bool_exp"]: {
-		_and?: Array<GraphQLTypes["normalizedType_bool_exp"]>,
+		_and?: Array<GraphQLTypes["normalizedType_bool_exp"]> | undefined,
 	_not?: GraphQLTypes["normalizedType_bool_exp"] | undefined,
-	_or?: Array<GraphQLTypes["normalizedType_bool_exp"]>,
+	_or?: Array<GraphQLTypes["normalizedType_bool_exp"]> | undefined,
 	name?: GraphQLTypes["String_comparison_exp"] | undefined
 };
 	/** unique or primary key constraints on table "normalized_type" */
@@ -13653,12 +13653,12 @@ end). throws an error if top level container is not an array */
 	/** number of rows affected by the mutation */
 	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning: Array<GraphQLTypes["normalizedType"]> | undefined
+	returning: Array<GraphQLTypes["normalizedType"]>
 };
 	/** on conflict condition type for table "normalized_type" */
 ["normalizedType_on_conflict"]: {
 		constraint: GraphQLTypes["normalizedType_constraint"],
-	update_columns: Array<GraphQLTypes["normalizedType_update_column"]> | undefined,
+	update_columns: Array<GraphQLTypes["normalizedType_update_column"]>,
 	where?: GraphQLTypes["normalizedType_bool_exp"] | undefined
 };
 	/** Ordering options when selecting data from "normalized_type". */
@@ -13677,18 +13677,18 @@ end). throws an error if top level container is not an array */
 };
 	/** update columns of table "normalized_type" */
 ["normalizedType_update_column"]: normalizedType_update_column;
-	["numeric"]:any;
+	["numeric"]: any;
 	/** Boolean expression to compare columns of type "numeric". All fields are combined with logical 'AND'. */
 ["numeric_comparison_exp"]: {
 		_eq?: GraphQLTypes["numeric"] | undefined,
 	_gt?: GraphQLTypes["numeric"] | undefined,
 	_gte?: GraphQLTypes["numeric"] | undefined,
-	_in?: Array<GraphQLTypes["numeric"]>,
+	_in?: Array<GraphQLTypes["numeric"]> | undefined,
 	_is_null?: boolean | undefined,
 	_lt?: GraphQLTypes["numeric"] | undefined,
 	_lte?: GraphQLTypes["numeric"] | undefined,
 	_neq?: GraphQLTypes["numeric"] | undefined,
-	_nin?: Array<GraphQLTypes["numeric"]>
+	_nin?: Array<GraphQLTypes["numeric"]> | undefined
 };
 	/** column ordering options */
 ["order_by"]: order_by;
@@ -13708,14 +13708,14 @@ end). throws an error if top level container is not an array */
 	entityId?: GraphQLTypes["uuid"] | undefined,
 	id: GraphQLTypes["uuid"],
 	/** An array relationship */
-	lines: Array<GraphQLTypes["line"]> | undefined,
+	lines: Array<GraphQLTypes["line"]>,
 	/** An aggregate relationship */
 	lines_aggregate: GraphQLTypes["line_aggregate"],
 	metadata?: GraphQLTypes["jsonb"] | undefined,
 	paidAt?: GraphQLTypes["timestamptz"] | undefined,
 	status?: GraphQLTypes["payment_status_enum"] | undefined,
 	/** An array relationship */
-	tags: Array<GraphQLTypes["tag"]> | undefined,
+	tags: Array<GraphQLTypes["tag"]>,
 	/** An aggregate relationship */
 	tags_aggregate: GraphQLTypes["tag_aggregate"],
 	/** An object relationship */
@@ -13729,7 +13729,7 @@ end). throws an error if top level container is not an array */
 ["payment_aggregate"]: {
 	__typename: "payment_aggregate",
 	aggregate?: GraphQLTypes["payment_aggregate_fields"] | undefined,
-	nodes: Array<GraphQLTypes["payment"]> | undefined
+	nodes: Array<GraphQLTypes["payment"]>
 };
 	/** aggregate fields of "payment" */
 ["payment_aggregate_fields"]: {
@@ -13766,7 +13766,7 @@ end). throws an error if top level container is not an array */
 };
 	/** input type for inserting array relation for remote table "payment" */
 ["payment_arr_rel_insert_input"]: {
-		data: Array<GraphQLTypes["payment_insert_input"]> | undefined,
+		data: Array<GraphQLTypes["payment_insert_input"]>,
 	/** on conflict condition */
 	on_conflict?: GraphQLTypes["payment_on_conflict"] | undefined
 };
@@ -13781,9 +13781,9 @@ end). throws an error if top level container is not an array */
 };
 	/** Boolean expression to filter rows from the table "payment". All fields are combined with a logical 'AND'. */
 ["payment_bool_exp"]: {
-		_and?: Array<GraphQLTypes["payment_bool_exp"]>,
+		_and?: Array<GraphQLTypes["payment_bool_exp"]> | undefined,
 	_not?: GraphQLTypes["payment_bool_exp"] | undefined,
-	_or?: Array<GraphQLTypes["payment_bool_exp"]>,
+	_or?: Array<GraphQLTypes["payment_bool_exp"]> | undefined,
 	arrivesAt?: GraphQLTypes["timestamptz_comparison_exp"] | undefined,
 	centTotal?: GraphQLTypes["Int_comparison_exp"] | undefined,
 	connection?: GraphQLTypes["connection_bool_exp"] | undefined,
@@ -13809,7 +13809,7 @@ end). throws an error if top level container is not an array */
 ["payment_constraint"]: payment_constraint;
 	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
 ["payment_delete_at_path_input"]: {
-		metadata?: Array<string>
+		metadata?: Array<string> | undefined
 };
 	/** delete the array element with specified index (negative integers count from the
 end). throws an error if top level container is not an array */
@@ -13915,7 +13915,7 @@ end). throws an error if top level container is not an array */
 	/** number of rows affected by the mutation */
 	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning: Array<GraphQLTypes["payment"]> | undefined
+	returning: Array<GraphQLTypes["payment"]>
 };
 	/** input type for inserting object relation for remote table "payment" */
 ["payment_obj_rel_insert_input"]: {
@@ -13926,7 +13926,7 @@ end). throws an error if top level container is not an array */
 	/** on conflict condition type for table "payment" */
 ["payment_on_conflict"]: {
 		constraint: GraphQLTypes["payment_constraint"],
-	update_columns: Array<GraphQLTypes["payment_update_column"]> | undefined,
+	update_columns: Array<GraphQLTypes["payment_update_column"]>,
 	where?: GraphQLTypes["payment_bool_exp"] | undefined
 };
 	/** Ordering options when selecting data from "payment". */
@@ -13984,10 +13984,10 @@ end). throws an error if top level container is not an array */
 	/** Boolean expression to compare columns of type "payment_status_enum". All fields are combined with logical 'AND'. */
 ["payment_status_enum_comparison_exp"]: {
 		_eq?: GraphQLTypes["payment_status_enum"] | undefined,
-	_in?: Array<GraphQLTypes["payment_status_enum"]>,
+	_in?: Array<GraphQLTypes["payment_status_enum"]> | undefined,
 	_is_null?: boolean | undefined,
 	_neq?: GraphQLTypes["payment_status_enum"] | undefined,
-	_nin?: Array<GraphQLTypes["payment_status_enum"]>
+	_nin?: Array<GraphQLTypes["payment_status_enum"]> | undefined
 };
 	/** aggregate stddev on columns */
 ["payment_stddev_fields"]: {
@@ -14063,7 +14063,7 @@ end). throws an error if top level container is not an array */
 ["paymentStatus_aggregate"]: {
 	__typename: "paymentStatus_aggregate",
 	aggregate?: GraphQLTypes["paymentStatus_aggregate_fields"] | undefined,
-	nodes: Array<GraphQLTypes["paymentStatus"]> | undefined
+	nodes: Array<GraphQLTypes["paymentStatus"]>
 };
 	/** aggregate fields of "payment_status" */
 ["paymentStatus_aggregate_fields"]: {
@@ -14074,9 +14074,9 @@ end). throws an error if top level container is not an array */
 };
 	/** Boolean expression to filter rows from the table "payment_status". All fields are combined with a logical 'AND'. */
 ["paymentStatus_bool_exp"]: {
-		_and?: Array<GraphQLTypes["paymentStatus_bool_exp"]>,
+		_and?: Array<GraphQLTypes["paymentStatus_bool_exp"]> | undefined,
 	_not?: GraphQLTypes["paymentStatus_bool_exp"] | undefined,
-	_or?: Array<GraphQLTypes["paymentStatus_bool_exp"]>,
+	_or?: Array<GraphQLTypes["paymentStatus_bool_exp"]> | undefined,
 	name?: GraphQLTypes["String_comparison_exp"] | undefined
 };
 	/** unique or primary key constraints on table "payment_status" */
@@ -14101,12 +14101,12 @@ end). throws an error if top level container is not an array */
 	/** number of rows affected by the mutation */
 	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning: Array<GraphQLTypes["paymentStatus"]> | undefined
+	returning: Array<GraphQLTypes["paymentStatus"]>
 };
 	/** on conflict condition type for table "payment_status" */
 ["paymentStatus_on_conflict"]: {
 		constraint: GraphQLTypes["paymentStatus_constraint"],
-	update_columns: Array<GraphQLTypes["paymentStatus_update_column"]> | undefined,
+	update_columns: Array<GraphQLTypes["paymentStatus_update_column"]>,
 	where?: GraphQLTypes["paymentStatus_bool_exp"] | undefined
 };
 	/** Ordering options when selecting data from "payment_status". */
@@ -14134,7 +14134,7 @@ end). throws an error if top level container is not an array */
 ["paymentType_aggregate"]: {
 	__typename: "paymentType_aggregate",
 	aggregate?: GraphQLTypes["paymentType_aggregate_fields"] | undefined,
-	nodes: Array<GraphQLTypes["paymentType"]> | undefined
+	nodes: Array<GraphQLTypes["paymentType"]>
 };
 	/** aggregate fields of "payment_type" */
 ["paymentType_aggregate_fields"]: {
@@ -14145,9 +14145,9 @@ end). throws an error if top level container is not an array */
 };
 	/** Boolean expression to filter rows from the table "payment_type". All fields are combined with a logical 'AND'. */
 ["paymentType_bool_exp"]: {
-		_and?: Array<GraphQLTypes["paymentType_bool_exp"]>,
+		_and?: Array<GraphQLTypes["paymentType_bool_exp"]> | undefined,
 	_not?: GraphQLTypes["paymentType_bool_exp"] | undefined,
-	_or?: Array<GraphQLTypes["paymentType_bool_exp"]>,
+	_or?: Array<GraphQLTypes["paymentType_bool_exp"]> | undefined,
 	name?: GraphQLTypes["String_comparison_exp"] | undefined
 };
 	/** unique or primary key constraints on table "payment_type" */
@@ -14172,12 +14172,12 @@ end). throws an error if top level container is not an array */
 	/** number of rows affected by the mutation */
 	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning: Array<GraphQLTypes["paymentType"]> | undefined
+	returning: Array<GraphQLTypes["paymentType"]>
 };
 	/** on conflict condition type for table "payment_type" */
 ["paymentType_on_conflict"]: {
 		constraint: GraphQLTypes["paymentType_constraint"],
-	update_columns: Array<GraphQLTypes["paymentType_update_column"]> | undefined,
+	update_columns: Array<GraphQLTypes["paymentType_update_column"]>,
 	where?: GraphQLTypes["paymentType_bool_exp"] | undefined
 };
 	/** Ordering options when selecting data from "payment_type". */
@@ -14257,115 +14257,115 @@ end). throws an error if top level container is not an array */
 	/** fetch data from the table: "booking_status" using primary key columns */
 	bookingStatus?: GraphQLTypes["bookingStatus"] | undefined,
 	/** fetch data from the table: "booking_status" */
-	bookingStatuses: Array<GraphQLTypes["bookingStatus"]> | undefined,
+	bookingStatuses: Array<GraphQLTypes["bookingStatus"]>,
 	/** fetch data from the table: "booking_channel" */
-	booking_channel: Array<GraphQLTypes["booking_channel"]> | undefined,
+	booking_channel: Array<GraphQLTypes["booking_channel"]>,
 	/** fetch aggregated fields from the table: "booking_channel" */
 	booking_channel_aggregate: GraphQLTypes["booking_channel_aggregate"],
 	/** fetch data from the table: "booking_channel" using primary key columns */
 	booking_channel_by_pk?: GraphQLTypes["booking_channel"] | undefined,
 	/** An array relationship */
-	bookings: Array<GraphQLTypes["booking"]> | undefined,
+	bookings: Array<GraphQLTypes["booking"]>,
 	/** fetch data from the table: "classification" using primary key columns */
 	classification?: GraphQLTypes["classification"] | undefined,
 	/** fetch data from the table: "classification" */
-	classifications: Array<GraphQLTypes["classification"]> | undefined,
+	classifications: Array<GraphQLTypes["classification"]>,
 	/** fetch data from the table: "connection" using primary key columns */
 	connection?: GraphQLTypes["connection"] | undefined,
 	/** An array relationship */
-	connections: Array<GraphQLTypes["connection"]> | undefined,
+	connections: Array<GraphQLTypes["connection"]>,
 	/** fetch data from the table: "currency" */
-	currencies: Array<GraphQLTypes["currency"]> | undefined,
+	currencies: Array<GraphQLTypes["currency"]>,
 	/** fetch data from the table: "currency" using primary key columns */
 	currency?: GraphQLTypes["currency"] | undefined,
 	/** An array relationship */
-	entities: Array<GraphQLTypes["entity"]> | undefined,
+	entities: Array<GraphQLTypes["entity"]>,
 	/** fetch data from the table: "entity" using primary key columns */
 	entity?: GraphQLTypes["entity"] | undefined,
 	/** fetch data from the table: "entity_status" using primary key columns */
 	entityStatus?: GraphQLTypes["entityStatus"] | undefined,
 	/** fetch data from the table: "entity_status" */
-	entityStatuses: Array<GraphQLTypes["entityStatus"]> | undefined,
+	entityStatuses: Array<GraphQLTypes["entityStatus"]>,
 	/** fetch data from the table: "integration" using primary key columns */
 	integration?: GraphQLTypes["integration"] | undefined,
 	/** fetch data from the table: "integration_type" using primary key columns */
 	integrationType?: GraphQLTypes["integrationType"] | undefined,
 	/** fetch data from the table: "integration_type" */
-	integrationTypes: Array<GraphQLTypes["integrationType"]> | undefined,
+	integrationTypes: Array<GraphQLTypes["integrationType"]>,
 	/** An array relationship */
-	integrations: Array<GraphQLTypes["integration"]> | undefined,
+	integrations: Array<GraphQLTypes["integration"]>,
 	/** fetch data from the table: "issue" using primary key columns */
 	issue?: GraphQLTypes["issue"] | undefined,
 	/** An array relationship */
-	issues: Array<GraphQLTypes["issue"]> | undefined,
+	issues: Array<GraphQLTypes["issue"]>,
 	/** fetch data from the table: "job" using primary key columns */
 	job?: GraphQLTypes["job"] | undefined,
 	/** fetch data from the table: "job_method" using primary key columns */
 	jobMethod?: GraphQLTypes["jobMethod"] | undefined,
 	/** fetch data from the table: "job_method" */
-	jobMethods: Array<GraphQLTypes["jobMethod"]> | undefined,
+	jobMethods: Array<GraphQLTypes["jobMethod"]>,
 	/** fetch data from the table: "job_status" using primary key columns */
 	jobStatus?: GraphQLTypes["jobStatus"] | undefined,
 	/** fetch data from the table: "job_status" */
-	jobStatuses: Array<GraphQLTypes["jobStatus"]> | undefined,
+	jobStatuses: Array<GraphQLTypes["jobStatus"]>,
 	/** An array relationship */
-	jobs: Array<GraphQLTypes["job"]> | undefined,
+	jobs: Array<GraphQLTypes["job"]>,
 	/** fetch data from the table: "line" using primary key columns */
 	line?: GraphQLTypes["line"] | undefined,
 	/** An array relationship */
-	lines: Array<GraphQLTypes["line"]> | undefined,
+	lines: Array<GraphQLTypes["line"]>,
 	/** fetch data from the table: "metric" using primary key columns */
 	metric?: GraphQLTypes["metric"] | undefined,
 	/** An array relationship */
-	metrics: Array<GraphQLTypes["metric"]> | undefined,
+	metrics: Array<GraphQLTypes["metric"]>,
 	/** fetch data from the table: "normalized_type" using primary key columns */
 	normalizedType?: GraphQLTypes["normalizedType"] | undefined,
 	/** fetch data from the table: "normalized_type" */
-	normalizedTypes: Array<GraphQLTypes["normalizedType"]> | undefined,
+	normalizedTypes: Array<GraphQLTypes["normalizedType"]>,
 	/** fetch data from the table: "payment" using primary key columns */
 	payment?: GraphQLTypes["payment"] | undefined,
 	/** fetch data from the table: "payment_status" using primary key columns */
 	paymentStatus?: GraphQLTypes["paymentStatus"] | undefined,
 	/** fetch data from the table: "payment_status" */
-	paymentStatuses: Array<GraphQLTypes["paymentStatus"]> | undefined,
+	paymentStatuses: Array<GraphQLTypes["paymentStatus"]>,
 	/** fetch data from the table: "payment_type" using primary key columns */
 	paymentType?: GraphQLTypes["paymentType"] | undefined,
 	/** fetch data from the table: "payment_type" */
-	paymentTypes: Array<GraphQLTypes["paymentType"]> | undefined,
+	paymentTypes: Array<GraphQLTypes["paymentType"]>,
 	/** An array relationship */
-	payments: Array<GraphQLTypes["payment"]> | undefined,
+	payments: Array<GraphQLTypes["payment"]>,
 	/** fetch data from the table: "subclassification" using primary key columns */
 	subclassification?: GraphQLTypes["subclassification"] | undefined,
 	/** fetch data from the table: "subclassification" */
-	subclassifications: Array<GraphQLTypes["subclassification"]> | undefined,
+	subclassifications: Array<GraphQLTypes["subclassification"]>,
 	/** fetch data from the table: "tag" using primary key columns */
 	tag?: GraphQLTypes["tag"] | undefined,
 	/** An array relationship */
-	tags: Array<GraphQLTypes["tag"]> | undefined,
+	tags: Array<GraphQLTypes["tag"]>,
 	/** fetch data from the table: "team" using primary key columns */
 	team?: GraphQLTypes["team"] | undefined,
 	/** fetch data from the table: "team_user" using primary key columns */
 	teamUser?: GraphQLTypes["teamUser"] | undefined,
 	/** fetch data from the table: "team_user" */
-	teamUsers: Array<GraphQLTypes["teamUser"]> | undefined,
+	teamUsers: Array<GraphQLTypes["teamUser"]>,
 	/** fetch data from the table: "team" */
-	teams: Array<GraphQLTypes["team"]> | undefined,
+	teams: Array<GraphQLTypes["team"]>,
 	/** fetch data from the table: "unit" using primary key columns */
 	unit?: GraphQLTypes["unit"] | undefined,
 	/** An array relationship */
-	units: Array<GraphQLTypes["unit"]> | undefined,
+	units: Array<GraphQLTypes["unit"]>,
 	/** fetch data from the table: "user" using primary key columns */
 	user?: GraphQLTypes["user"] | undefined,
 	/** fetch data from the table: "user_status" using primary key columns */
 	userStatus?: GraphQLTypes["userStatus"] | undefined,
 	/** fetch data from the table: "user_status" */
-	userStatuses: Array<GraphQLTypes["userStatus"]> | undefined,
+	userStatuses: Array<GraphQLTypes["userStatus"]>,
 	/** fetch data from the table: "user" */
-	users: Array<GraphQLTypes["user"]> | undefined,
+	users: Array<GraphQLTypes["user"]>,
 	/** fetch data from the table: "webhook" using primary key columns */
 	webhook?: GraphQLTypes["webhook"] | undefined,
 	/** An array relationship */
-	webhooks: Array<GraphQLTypes["webhook"]> | undefined
+	webhooks: Array<GraphQLTypes["webhook"]>
 };
 	/** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
 ["String_comparison_exp"]: {
@@ -14374,7 +14374,7 @@ end). throws an error if top level container is not an array */
 	_gte?: string | undefined,
 	/** does the column match the given case-insensitive pattern */
 	_ilike?: string | undefined,
-	_in?: Array<string>,
+	_in?: Array<string> | undefined,
 	/** does the column match the given POSIX regular expression, case insensitive */
 	_iregex?: string | undefined,
 	_is_null?: boolean | undefined,
@@ -14385,7 +14385,7 @@ end). throws an error if top level container is not an array */
 	_neq?: string | undefined,
 	/** does the column NOT match the given case-insensitive pattern */
 	_nilike?: string | undefined,
-	_nin?: Array<string>,
+	_nin?: Array<string> | undefined,
 	/** does the column NOT match the given POSIX regular expression, case insensitive */
 	_niregex?: string | undefined,
 	/** does the column NOT match the given pattern */
@@ -14408,7 +14408,7 @@ end). throws an error if top level container is not an array */
 ["subclassification_aggregate"]: {
 	__typename: "subclassification_aggregate",
 	aggregate?: GraphQLTypes["subclassification_aggregate_fields"] | undefined,
-	nodes: Array<GraphQLTypes["subclassification"]> | undefined
+	nodes: Array<GraphQLTypes["subclassification"]>
 };
 	/** aggregate fields of "subclassification" */
 ["subclassification_aggregate_fields"]: {
@@ -14419,9 +14419,9 @@ end). throws an error if top level container is not an array */
 };
 	/** Boolean expression to filter rows from the table "subclassification". All fields are combined with a logical 'AND'. */
 ["subclassification_bool_exp"]: {
-		_and?: Array<GraphQLTypes["subclassification_bool_exp"]>,
+		_and?: Array<GraphQLTypes["subclassification_bool_exp"]> | undefined,
 	_not?: GraphQLTypes["subclassification_bool_exp"] | undefined,
-	_or?: Array<GraphQLTypes["subclassification_bool_exp"]>,
+	_or?: Array<GraphQLTypes["subclassification_bool_exp"]> | undefined,
 	name?: GraphQLTypes["String_comparison_exp"] | undefined
 };
 	/** unique or primary key constraints on table "subclassification" */
@@ -14430,10 +14430,10 @@ end). throws an error if top level container is not an array */
 	/** Boolean expression to compare columns of type "subclassification_enum". All fields are combined with logical 'AND'. */
 ["subclassification_enum_comparison_exp"]: {
 		_eq?: GraphQLTypes["subclassification_enum"] | undefined,
-	_in?: Array<GraphQLTypes["subclassification_enum"]>,
+	_in?: Array<GraphQLTypes["subclassification_enum"]> | undefined,
 	_is_null?: boolean | undefined,
 	_neq?: GraphQLTypes["subclassification_enum"] | undefined,
-	_nin?: Array<GraphQLTypes["subclassification_enum"]>
+	_nin?: Array<GraphQLTypes["subclassification_enum"]> | undefined
 };
 	/** input type for inserting data into table "subclassification" */
 ["subclassification_insert_input"]: {
@@ -14455,12 +14455,12 @@ end). throws an error if top level container is not an array */
 	/** number of rows affected by the mutation */
 	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning: Array<GraphQLTypes["subclassification"]> | undefined
+	returning: Array<GraphQLTypes["subclassification"]>
 };
 	/** on conflict condition type for table "subclassification" */
 ["subclassification_on_conflict"]: {
 		constraint: GraphQLTypes["subclassification_constraint"],
-	update_columns: Array<GraphQLTypes["subclassification_update_column"]> | undefined,
+	update_columns: Array<GraphQLTypes["subclassification_update_column"]>,
 	where?: GraphQLTypes["subclassification_bool_exp"] | undefined
 };
 	/** Ordering options when selecting data from "subclassification". */
@@ -14540,115 +14540,115 @@ end). throws an error if top level container is not an array */
 	/** fetch data from the table: "booking_status" using primary key columns */
 	bookingStatus?: GraphQLTypes["bookingStatus"] | undefined,
 	/** fetch data from the table: "booking_status" */
-	bookingStatuses: Array<GraphQLTypes["bookingStatus"]> | undefined,
+	bookingStatuses: Array<GraphQLTypes["bookingStatus"]>,
 	/** fetch data from the table: "booking_channel" */
-	booking_channel: Array<GraphQLTypes["booking_channel"]> | undefined,
+	booking_channel: Array<GraphQLTypes["booking_channel"]>,
 	/** fetch aggregated fields from the table: "booking_channel" */
 	booking_channel_aggregate: GraphQLTypes["booking_channel_aggregate"],
 	/** fetch data from the table: "booking_channel" using primary key columns */
 	booking_channel_by_pk?: GraphQLTypes["booking_channel"] | undefined,
 	/** An array relationship */
-	bookings: Array<GraphQLTypes["booking"]> | undefined,
+	bookings: Array<GraphQLTypes["booking"]>,
 	/** fetch data from the table: "classification" using primary key columns */
 	classification?: GraphQLTypes["classification"] | undefined,
 	/** fetch data from the table: "classification" */
-	classifications: Array<GraphQLTypes["classification"]> | undefined,
+	classifications: Array<GraphQLTypes["classification"]>,
 	/** fetch data from the table: "connection" using primary key columns */
 	connection?: GraphQLTypes["connection"] | undefined,
 	/** An array relationship */
-	connections: Array<GraphQLTypes["connection"]> | undefined,
+	connections: Array<GraphQLTypes["connection"]>,
 	/** fetch data from the table: "currency" */
-	currencies: Array<GraphQLTypes["currency"]> | undefined,
+	currencies: Array<GraphQLTypes["currency"]>,
 	/** fetch data from the table: "currency" using primary key columns */
 	currency?: GraphQLTypes["currency"] | undefined,
 	/** An array relationship */
-	entities: Array<GraphQLTypes["entity"]> | undefined,
+	entities: Array<GraphQLTypes["entity"]>,
 	/** fetch data from the table: "entity" using primary key columns */
 	entity?: GraphQLTypes["entity"] | undefined,
 	/** fetch data from the table: "entity_status" using primary key columns */
 	entityStatus?: GraphQLTypes["entityStatus"] | undefined,
 	/** fetch data from the table: "entity_status" */
-	entityStatuses: Array<GraphQLTypes["entityStatus"]> | undefined,
+	entityStatuses: Array<GraphQLTypes["entityStatus"]>,
 	/** fetch data from the table: "integration" using primary key columns */
 	integration?: GraphQLTypes["integration"] | undefined,
 	/** fetch data from the table: "integration_type" using primary key columns */
 	integrationType?: GraphQLTypes["integrationType"] | undefined,
 	/** fetch data from the table: "integration_type" */
-	integrationTypes: Array<GraphQLTypes["integrationType"]> | undefined,
+	integrationTypes: Array<GraphQLTypes["integrationType"]>,
 	/** An array relationship */
-	integrations: Array<GraphQLTypes["integration"]> | undefined,
+	integrations: Array<GraphQLTypes["integration"]>,
 	/** fetch data from the table: "issue" using primary key columns */
 	issue?: GraphQLTypes["issue"] | undefined,
 	/** An array relationship */
-	issues: Array<GraphQLTypes["issue"]> | undefined,
+	issues: Array<GraphQLTypes["issue"]>,
 	/** fetch data from the table: "job" using primary key columns */
 	job?: GraphQLTypes["job"] | undefined,
 	/** fetch data from the table: "job_method" using primary key columns */
 	jobMethod?: GraphQLTypes["jobMethod"] | undefined,
 	/** fetch data from the table: "job_method" */
-	jobMethods: Array<GraphQLTypes["jobMethod"]> | undefined,
+	jobMethods: Array<GraphQLTypes["jobMethod"]>,
 	/** fetch data from the table: "job_status" using primary key columns */
 	jobStatus?: GraphQLTypes["jobStatus"] | undefined,
 	/** fetch data from the table: "job_status" */
-	jobStatuses: Array<GraphQLTypes["jobStatus"]> | undefined,
+	jobStatuses: Array<GraphQLTypes["jobStatus"]>,
 	/** An array relationship */
-	jobs: Array<GraphQLTypes["job"]> | undefined,
+	jobs: Array<GraphQLTypes["job"]>,
 	/** fetch data from the table: "line" using primary key columns */
 	line?: GraphQLTypes["line"] | undefined,
 	/** An array relationship */
-	lines: Array<GraphQLTypes["line"]> | undefined,
+	lines: Array<GraphQLTypes["line"]>,
 	/** fetch data from the table: "metric" using primary key columns */
 	metric?: GraphQLTypes["metric"] | undefined,
 	/** An array relationship */
-	metrics: Array<GraphQLTypes["metric"]> | undefined,
+	metrics: Array<GraphQLTypes["metric"]>,
 	/** fetch data from the table: "normalized_type" using primary key columns */
 	normalizedType?: GraphQLTypes["normalizedType"] | undefined,
 	/** fetch data from the table: "normalized_type" */
-	normalizedTypes: Array<GraphQLTypes["normalizedType"]> | undefined,
+	normalizedTypes: Array<GraphQLTypes["normalizedType"]>,
 	/** fetch data from the table: "payment" using primary key columns */
 	payment?: GraphQLTypes["payment"] | undefined,
 	/** fetch data from the table: "payment_status" using primary key columns */
 	paymentStatus?: GraphQLTypes["paymentStatus"] | undefined,
 	/** fetch data from the table: "payment_status" */
-	paymentStatuses: Array<GraphQLTypes["paymentStatus"]> | undefined,
+	paymentStatuses: Array<GraphQLTypes["paymentStatus"]>,
 	/** fetch data from the table: "payment_type" using primary key columns */
 	paymentType?: GraphQLTypes["paymentType"] | undefined,
 	/** fetch data from the table: "payment_type" */
-	paymentTypes: Array<GraphQLTypes["paymentType"]> | undefined,
+	paymentTypes: Array<GraphQLTypes["paymentType"]>,
 	/** An array relationship */
-	payments: Array<GraphQLTypes["payment"]> | undefined,
+	payments: Array<GraphQLTypes["payment"]>,
 	/** fetch data from the table: "subclassification" using primary key columns */
 	subclassification?: GraphQLTypes["subclassification"] | undefined,
 	/** fetch data from the table: "subclassification" */
-	subclassifications: Array<GraphQLTypes["subclassification"]> | undefined,
+	subclassifications: Array<GraphQLTypes["subclassification"]>,
 	/** fetch data from the table: "tag" using primary key columns */
 	tag?: GraphQLTypes["tag"] | undefined,
 	/** An array relationship */
-	tags: Array<GraphQLTypes["tag"]> | undefined,
+	tags: Array<GraphQLTypes["tag"]>,
 	/** fetch data from the table: "team" using primary key columns */
 	team?: GraphQLTypes["team"] | undefined,
 	/** fetch data from the table: "team_user" using primary key columns */
 	teamUser?: GraphQLTypes["teamUser"] | undefined,
 	/** fetch data from the table: "team_user" */
-	teamUsers: Array<GraphQLTypes["teamUser"]> | undefined,
+	teamUsers: Array<GraphQLTypes["teamUser"]>,
 	/** fetch data from the table: "team" */
-	teams: Array<GraphQLTypes["team"]> | undefined,
+	teams: Array<GraphQLTypes["team"]>,
 	/** fetch data from the table: "unit" using primary key columns */
 	unit?: GraphQLTypes["unit"] | undefined,
 	/** An array relationship */
-	units: Array<GraphQLTypes["unit"]> | undefined,
+	units: Array<GraphQLTypes["unit"]>,
 	/** fetch data from the table: "user" using primary key columns */
 	user?: GraphQLTypes["user"] | undefined,
 	/** fetch data from the table: "user_status" using primary key columns */
 	userStatus?: GraphQLTypes["userStatus"] | undefined,
 	/** fetch data from the table: "user_status" */
-	userStatuses: Array<GraphQLTypes["userStatus"]> | undefined,
+	userStatuses: Array<GraphQLTypes["userStatus"]>,
 	/** fetch data from the table: "user" */
-	users: Array<GraphQLTypes["user"]> | undefined,
+	users: Array<GraphQLTypes["user"]>,
 	/** fetch data from the table: "webhook" using primary key columns */
 	webhook?: GraphQLTypes["webhook"] | undefined,
 	/** An array relationship */
-	webhooks: Array<GraphQLTypes["webhook"]> | undefined
+	webhooks: Array<GraphQLTypes["webhook"]>
 };
 	/** columns and relationships of "tag" */
 ["tag"]: {
@@ -14679,7 +14679,7 @@ end). throws an error if top level container is not an array */
 ["tag_aggregate"]: {
 	__typename: "tag_aggregate",
 	aggregate?: GraphQLTypes["tag_aggregate_fields"] | undefined,
-	nodes: Array<GraphQLTypes["tag"]> | undefined
+	nodes: Array<GraphQLTypes["tag"]>
 };
 	/** aggregate fields of "tag" */
 ["tag_aggregate_fields"]: {
@@ -14700,15 +14700,15 @@ end). throws an error if top level container is not an array */
 };
 	/** input type for inserting array relation for remote table "tag" */
 ["tag_arr_rel_insert_input"]: {
-		data: Array<GraphQLTypes["tag_insert_input"]> | undefined,
+		data: Array<GraphQLTypes["tag_insert_input"]>,
 	/** on conflict condition */
 	on_conflict?: GraphQLTypes["tag_on_conflict"] | undefined
 };
 	/** Boolean expression to filter rows from the table "tag". All fields are combined with a logical 'AND'. */
 ["tag_bool_exp"]: {
-		_and?: Array<GraphQLTypes["tag_bool_exp"]>,
+		_and?: Array<GraphQLTypes["tag_bool_exp"]> | undefined,
 	_not?: GraphQLTypes["tag_bool_exp"] | undefined,
-	_or?: Array<GraphQLTypes["tag_bool_exp"]>,
+	_or?: Array<GraphQLTypes["tag_bool_exp"]> | undefined,
 	booking?: GraphQLTypes["booking_bool_exp"] | undefined,
 	bookingId?: GraphQLTypes["uuid_comparison_exp"] | undefined,
 	connection?: GraphQLTypes["connection_bool_exp"] | undefined,
@@ -14730,7 +14730,7 @@ end). throws an error if top level container is not an array */
 ["tag_constraint"]: tag_constraint;
 	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
 ["tag_delete_at_path_input"]: {
-		json?: Array<string>
+		json?: Array<string> | undefined
 };
 	/** delete the array element with specified index (negative integers count from the
 end). throws an error if top level container is not an array */
@@ -14820,12 +14820,12 @@ end). throws an error if top level container is not an array */
 	/** number of rows affected by the mutation */
 	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning: Array<GraphQLTypes["tag"]> | undefined
+	returning: Array<GraphQLTypes["tag"]>
 };
 	/** on conflict condition type for table "tag" */
 ["tag_on_conflict"]: {
 		constraint: GraphQLTypes["tag_constraint"],
-	update_columns: Array<GraphQLTypes["tag_update_column"]> | undefined,
+	update_columns: Array<GraphQLTypes["tag_update_column"]>,
 	where?: GraphQLTypes["tag_bool_exp"] | undefined
 };
 	/** Ordering options when selecting data from "tag". */
@@ -14878,50 +14878,50 @@ end). throws an error if top level container is not an array */
 	__typename: "team",
 	address?: string | undefined,
 	/** An array relationship */
-	bookings: Array<GraphQLTypes["booking"]> | undefined,
+	bookings: Array<GraphQLTypes["booking"]>,
 	/** An aggregate relationship */
 	bookings_aggregate: GraphQLTypes["booking_aggregate"],
 	commissionPercentage?: GraphQLTypes["numeric"] | undefined,
 	/** An array relationship */
-	connections: Array<GraphQLTypes["connection"]> | undefined,
+	connections: Array<GraphQLTypes["connection"]>,
 	/** An aggregate relationship */
 	connections_aggregate: GraphQLTypes["connection_aggregate"],
 	createdAt: GraphQLTypes["timestamptz"],
 	email?: string | undefined,
 	/** An array relationship */
-	entities: Array<GraphQLTypes["entity"]> | undefined,
+	entities: Array<GraphQLTypes["entity"]>,
 	/** An aggregate relationship */
 	entities_aggregate: GraphQLTypes["entity_aggregate"],
 	id: GraphQLTypes["uuid"],
 	/** An array relationship */
-	integrations: Array<GraphQLTypes["integration"]> | undefined,
+	integrations: Array<GraphQLTypes["integration"]>,
 	/** An aggregate relationship */
 	integrations_aggregate: GraphQLTypes["integration_aggregate"],
 	isActive?: boolean | undefined,
 	isTest?: boolean | undefined,
 	/** An array relationship */
-	issues: Array<GraphQLTypes["issue"]> | undefined,
+	issues: Array<GraphQLTypes["issue"]>,
 	/** An aggregate relationship */
 	issues_aggregate: GraphQLTypes["issue_aggregate"],
 	/** An array relationship */
-	jobs: Array<GraphQLTypes["job"]> | undefined,
+	jobs: Array<GraphQLTypes["job"]>,
 	/** An aggregate relationship */
 	jobs_aggregate: GraphQLTypes["job_aggregate"],
 	/** An array relationship */
-	lines: Array<GraphQLTypes["line"]> | undefined,
+	lines: Array<GraphQLTypes["line"]>,
 	/** An aggregate relationship */
 	lines_aggregate: GraphQLTypes["line_aggregate"],
 	/** An array relationship */
-	members: Array<GraphQLTypes["teamUser"]> | undefined,
+	members: Array<GraphQLTypes["teamUser"]>,
 	/** An aggregate relationship */
 	members_aggregate: GraphQLTypes["teamUser_aggregate"],
 	/** An array relationship */
-	metrics: Array<GraphQLTypes["metric"]> | undefined,
+	metrics: Array<GraphQLTypes["metric"]>,
 	/** An aggregate relationship */
 	metrics_aggregate: GraphQLTypes["metric_aggregate"],
 	name: string,
 	/** An array relationship */
-	payments: Array<GraphQLTypes["payment"]> | undefined,
+	payments: Array<GraphQLTypes["payment"]>,
 	/** An aggregate relationship */
 	payments_aggregate: GraphQLTypes["payment_aggregate"],
 	stripeId?: string | undefined,
@@ -14929,15 +14929,15 @@ end). throws an error if top level container is not an array */
 	supportEmail?: string | undefined,
 	supportPhone?: string | undefined,
 	/** An array relationship */
-	tags: Array<GraphQLTypes["tag"]> | undefined,
+	tags: Array<GraphQLTypes["tag"]>,
 	/** An aggregate relationship */
 	tags_aggregate: GraphQLTypes["tag_aggregate"],
 	/** An array relationship */
-	units: Array<GraphQLTypes["unit"]> | undefined,
+	units: Array<GraphQLTypes["unit"]>,
 	/** An aggregate relationship */
 	units_aggregate: GraphQLTypes["unit_aggregate"],
 	/** An array relationship */
-	webhooks: Array<GraphQLTypes["webhook"]> | undefined,
+	webhooks: Array<GraphQLTypes["webhook"]>,
 	/** An aggregate relationship */
 	webhooks_aggregate: GraphQLTypes["webhook_aggregate"],
 	website?: string | undefined
@@ -14946,7 +14946,7 @@ end). throws an error if top level container is not an array */
 ["team_aggregate"]: {
 	__typename: "team_aggregate",
 	aggregate?: GraphQLTypes["team_aggregate_fields"] | undefined,
-	nodes: Array<GraphQLTypes["team"]> | undefined
+	nodes: Array<GraphQLTypes["team"]>
 };
 	/** aggregate fields of "team" */
 ["team_aggregate_fields"]: {
@@ -14970,9 +14970,9 @@ end). throws an error if top level container is not an array */
 };
 	/** Boolean expression to filter rows from the table "team". All fields are combined with a logical 'AND'. */
 ["team_bool_exp"]: {
-		_and?: Array<GraphQLTypes["team_bool_exp"]>,
+		_and?: Array<GraphQLTypes["team_bool_exp"]> | undefined,
 	_not?: GraphQLTypes["team_bool_exp"] | undefined,
-	_or?: Array<GraphQLTypes["team_bool_exp"]>,
+	_or?: Array<GraphQLTypes["team_bool_exp"]> | undefined,
 	address?: GraphQLTypes["String_comparison_exp"] | undefined,
 	bookings?: GraphQLTypes["booking_bool_exp"] | undefined,
 	commissionPercentage?: GraphQLTypes["numeric_comparison_exp"] | undefined,
@@ -15071,7 +15071,7 @@ end). throws an error if top level container is not an array */
 	/** number of rows affected by the mutation */
 	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning: Array<GraphQLTypes["team"]> | undefined
+	returning: Array<GraphQLTypes["team"]>
 };
 	/** input type for inserting object relation for remote table "team" */
 ["team_obj_rel_insert_input"]: {
@@ -15082,7 +15082,7 @@ end). throws an error if top level container is not an array */
 	/** on conflict condition type for table "team" */
 ["team_on_conflict"]: {
 		constraint: GraphQLTypes["team_constraint"],
-	update_columns: Array<GraphQLTypes["team_update_column"]> | undefined,
+	update_columns: Array<GraphQLTypes["team_update_column"]>,
 	where?: GraphQLTypes["team_bool_exp"] | undefined
 };
 	/** Ordering options when selecting data from "team". */
@@ -15191,7 +15191,7 @@ end). throws an error if top level container is not an array */
 ["teamUser_aggregate"]: {
 	__typename: "teamUser_aggregate",
 	aggregate?: GraphQLTypes["teamUser_aggregate_fields"] | undefined,
-	nodes: Array<GraphQLTypes["teamUser"]> | undefined
+	nodes: Array<GraphQLTypes["teamUser"]>
 };
 	/** aggregate fields of "team_user" */
 ["teamUser_aggregate_fields"]: {
@@ -15208,15 +15208,15 @@ end). throws an error if top level container is not an array */
 };
 	/** input type for inserting array relation for remote table "team_user" */
 ["teamUser_arr_rel_insert_input"]: {
-		data: Array<GraphQLTypes["teamUser_insert_input"]> | undefined,
+		data: Array<GraphQLTypes["teamUser_insert_input"]>,
 	/** on conflict condition */
 	on_conflict?: GraphQLTypes["teamUser_on_conflict"] | undefined
 };
 	/** Boolean expression to filter rows from the table "team_user". All fields are combined with a logical 'AND'. */
 ["teamUser_bool_exp"]: {
-		_and?: Array<GraphQLTypes["teamUser_bool_exp"]>,
+		_and?: Array<GraphQLTypes["teamUser_bool_exp"]> | undefined,
 	_not?: GraphQLTypes["teamUser_bool_exp"] | undefined,
-	_or?: Array<GraphQLTypes["teamUser_bool_exp"]>,
+	_or?: Array<GraphQLTypes["teamUser_bool_exp"]> | undefined,
 	createdAt?: GraphQLTypes["timestamptz_comparison_exp"] | undefined,
 	id?: GraphQLTypes["uuid_comparison_exp"] | undefined,
 	role?: GraphQLTypes["String_comparison_exp"] | undefined,
@@ -15283,12 +15283,12 @@ end). throws an error if top level container is not an array */
 	/** number of rows affected by the mutation */
 	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning: Array<GraphQLTypes["teamUser"]> | undefined
+	returning: Array<GraphQLTypes["teamUser"]>
 };
 	/** on conflict condition type for table "team_user" */
 ["teamUser_on_conflict"]: {
 		constraint: GraphQLTypes["teamUser_constraint"],
-	update_columns: Array<GraphQLTypes["teamUser_update_column"]> | undefined,
+	update_columns: Array<GraphQLTypes["teamUser_update_column"]>,
 	where?: GraphQLTypes["teamUser_bool_exp"] | undefined
 };
 	/** Ordering options when selecting data from "team_user". */
@@ -15319,24 +15319,24 @@ end). throws an error if top level container is not an array */
 };
 	/** update columns of table "team_user" */
 ["teamUser_update_column"]: teamUser_update_column;
-	["timestamptz"]:any;
+	["timestamptz"]: any;
 	/** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
 ["timestamptz_comparison_exp"]: {
 		_eq?: GraphQLTypes["timestamptz"] | undefined,
 	_gt?: GraphQLTypes["timestamptz"] | undefined,
 	_gte?: GraphQLTypes["timestamptz"] | undefined,
-	_in?: Array<GraphQLTypes["timestamptz"]>,
+	_in?: Array<GraphQLTypes["timestamptz"]> | undefined,
 	_is_null?: boolean | undefined,
 	_lt?: GraphQLTypes["timestamptz"] | undefined,
 	_lte?: GraphQLTypes["timestamptz"] | undefined,
 	_neq?: GraphQLTypes["timestamptz"] | undefined,
-	_nin?: Array<GraphQLTypes["timestamptz"]>
+	_nin?: Array<GraphQLTypes["timestamptz"]> | undefined
 };
 	/** columns and relationships of "unit" */
 ["unit"]: {
 	__typename: "unit",
 	/** An array relationship */
-	bookings: Array<GraphQLTypes["booking"]> | undefined,
+	bookings: Array<GraphQLTypes["booking"]>,
 	/** An aggregate relationship */
 	bookings_aggregate: GraphQLTypes["booking_aggregate"],
 	/** An object relationship */
@@ -15351,7 +15351,7 @@ end). throws an error if top level container is not an array */
 	name?: string | undefined,
 	status?: string | undefined,
 	/** An array relationship */
-	tags: Array<GraphQLTypes["tag"]> | undefined,
+	tags: Array<GraphQLTypes["tag"]>,
 	/** An aggregate relationship */
 	tags_aggregate: GraphQLTypes["tag_aggregate"],
 	/** An object relationship */
@@ -15364,7 +15364,7 @@ end). throws an error if top level container is not an array */
 ["unit_aggregate"]: {
 	__typename: "unit_aggregate",
 	aggregate?: GraphQLTypes["unit_aggregate_fields"] | undefined,
-	nodes: Array<GraphQLTypes["unit"]> | undefined
+	nodes: Array<GraphQLTypes["unit"]>
 };
 	/** aggregate fields of "unit" */
 ["unit_aggregate_fields"]: {
@@ -15385,15 +15385,15 @@ end). throws an error if top level container is not an array */
 };
 	/** input type for inserting array relation for remote table "unit" */
 ["unit_arr_rel_insert_input"]: {
-		data: Array<GraphQLTypes["unit_insert_input"]> | undefined,
+		data: Array<GraphQLTypes["unit_insert_input"]>,
 	/** on conflict condition */
 	on_conflict?: GraphQLTypes["unit_on_conflict"] | undefined
 };
 	/** Boolean expression to filter rows from the table "unit". All fields are combined with a logical 'AND'. */
 ["unit_bool_exp"]: {
-		_and?: Array<GraphQLTypes["unit_bool_exp"]>,
+		_and?: Array<GraphQLTypes["unit_bool_exp"]> | undefined,
 	_not?: GraphQLTypes["unit_bool_exp"] | undefined,
-	_or?: Array<GraphQLTypes["unit_bool_exp"]>,
+	_or?: Array<GraphQLTypes["unit_bool_exp"]> | undefined,
 	bookings?: GraphQLTypes["booking_bool_exp"] | undefined,
 	connection?: GraphQLTypes["connection_bool_exp"] | undefined,
 	connectionId?: GraphQLTypes["uuid_comparison_exp"] | undefined,
@@ -15414,7 +15414,7 @@ end). throws an error if top level container is not an array */
 ["unit_constraint"]: unit_constraint;
 	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
 ["unit_delete_at_path_input"]: {
-		metadata?: Array<string>
+		metadata?: Array<string> | undefined
 };
 	/** delete the array element with specified index (negative integers count from the
 end). throws an error if top level container is not an array */
@@ -15499,7 +15499,7 @@ end). throws an error if top level container is not an array */
 	/** number of rows affected by the mutation */
 	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning: Array<GraphQLTypes["unit"]> | undefined
+	returning: Array<GraphQLTypes["unit"]>
 };
 	/** input type for inserting object relation for remote table "unit" */
 ["unit_obj_rel_insert_input"]: {
@@ -15510,7 +15510,7 @@ end). throws an error if top level container is not an array */
 	/** on conflict condition type for table "unit" */
 ["unit_on_conflict"]: {
 		constraint: GraphQLTypes["unit_constraint"],
-	update_columns: Array<GraphQLTypes["unit_update_column"]> | undefined,
+	update_columns: Array<GraphQLTypes["unit_update_column"]>,
 	where?: GraphQLTypes["unit_bool_exp"] | undefined
 };
 	/** Ordering options when selecting data from "unit". */
@@ -15564,7 +15564,7 @@ end). throws an error if top level container is not an array */
 	id: GraphQLTypes["uuid"],
 	isAdmin: boolean,
 	/** An array relationship */
-	memberships: Array<GraphQLTypes["teamUser"]> | undefined,
+	memberships: Array<GraphQLTypes["teamUser"]>,
 	/** An aggregate relationship */
 	memberships_aggregate: GraphQLTypes["teamUser_aggregate"],
 	name?: string | undefined,
@@ -15576,7 +15576,7 @@ end). throws an error if top level container is not an array */
 ["user_aggregate"]: {
 	__typename: "user_aggregate",
 	aggregate?: GraphQLTypes["user_aggregate_fields"] | undefined,
-	nodes: Array<GraphQLTypes["user"]> | undefined
+	nodes: Array<GraphQLTypes["user"]>
 };
 	/** aggregate fields of "user" */
 ["user_aggregate_fields"]: {
@@ -15587,9 +15587,9 @@ end). throws an error if top level container is not an array */
 };
 	/** Boolean expression to filter rows from the table "user". All fields are combined with a logical 'AND'. */
 ["user_bool_exp"]: {
-		_and?: Array<GraphQLTypes["user_bool_exp"]>,
+		_and?: Array<GraphQLTypes["user_bool_exp"]> | undefined,
 	_not?: GraphQLTypes["user_bool_exp"] | undefined,
-	_or?: Array<GraphQLTypes["user_bool_exp"]>,
+	_or?: Array<GraphQLTypes["user_bool_exp"]> | undefined,
 	createdAt?: GraphQLTypes["timestamptz_comparison_exp"] | undefined,
 	email?: GraphQLTypes["String_comparison_exp"] | undefined,
 	id?: GraphQLTypes["uuid_comparison_exp"] | undefined,
@@ -15640,7 +15640,7 @@ end). throws an error if top level container is not an array */
 	/** number of rows affected by the mutation */
 	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning: Array<GraphQLTypes["user"]> | undefined
+	returning: Array<GraphQLTypes["user"]>
 };
 	/** input type for inserting object relation for remote table "user" */
 ["user_obj_rel_insert_input"]: {
@@ -15651,7 +15651,7 @@ end). throws an error if top level container is not an array */
 	/** on conflict condition type for table "user" */
 ["user_on_conflict"]: {
 		constraint: GraphQLTypes["user_constraint"],
-	update_columns: Array<GraphQLTypes["user_update_column"]> | undefined,
+	update_columns: Array<GraphQLTypes["user_update_column"]>,
 	where?: GraphQLTypes["user_bool_exp"] | undefined
 };
 	/** Ordering options when selecting data from "user". */
@@ -15687,10 +15687,10 @@ end). throws an error if top level container is not an array */
 	/** Boolean expression to compare columns of type "user_status_enum". All fields are combined with logical 'AND'. */
 ["user_status_enum_comparison_exp"]: {
 		_eq?: GraphQLTypes["user_status_enum"] | undefined,
-	_in?: Array<GraphQLTypes["user_status_enum"]>,
+	_in?: Array<GraphQLTypes["user_status_enum"]> | undefined,
 	_is_null?: boolean | undefined,
 	_neq?: GraphQLTypes["user_status_enum"] | undefined,
-	_nin?: Array<GraphQLTypes["user_status_enum"]>
+	_nin?: Array<GraphQLTypes["user_status_enum"]> | undefined
 };
 	/** update columns of table "user" */
 ["user_update_column"]: user_update_column;
@@ -15703,7 +15703,7 @@ end). throws an error if top level container is not an array */
 ["userStatus_aggregate"]: {
 	__typename: "userStatus_aggregate",
 	aggregate?: GraphQLTypes["userStatus_aggregate_fields"] | undefined,
-	nodes: Array<GraphQLTypes["userStatus"]> | undefined
+	nodes: Array<GraphQLTypes["userStatus"]>
 };
 	/** aggregate fields of "user_status" */
 ["userStatus_aggregate_fields"]: {
@@ -15714,9 +15714,9 @@ end). throws an error if top level container is not an array */
 };
 	/** Boolean expression to filter rows from the table "user_status". All fields are combined with a logical 'AND'. */
 ["userStatus_bool_exp"]: {
-		_and?: Array<GraphQLTypes["userStatus_bool_exp"]>,
+		_and?: Array<GraphQLTypes["userStatus_bool_exp"]> | undefined,
 	_not?: GraphQLTypes["userStatus_bool_exp"] | undefined,
-	_or?: Array<GraphQLTypes["userStatus_bool_exp"]>,
+	_or?: Array<GraphQLTypes["userStatus_bool_exp"]> | undefined,
 	name?: GraphQLTypes["String_comparison_exp"] | undefined
 };
 	/** unique or primary key constraints on table "user_status" */
@@ -15741,12 +15741,12 @@ end). throws an error if top level container is not an array */
 	/** number of rows affected by the mutation */
 	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning: Array<GraphQLTypes["userStatus"]> | undefined
+	returning: Array<GraphQLTypes["userStatus"]>
 };
 	/** on conflict condition type for table "user_status" */
 ["userStatus_on_conflict"]: {
 		constraint: GraphQLTypes["userStatus_constraint"],
-	update_columns: Array<GraphQLTypes["userStatus_update_column"]> | undefined,
+	update_columns: Array<GraphQLTypes["userStatus_update_column"]>,
 	where?: GraphQLTypes["userStatus_bool_exp"] | undefined
 };
 	/** Ordering options when selecting data from "user_status". */
@@ -15765,18 +15765,18 @@ end). throws an error if top level container is not an array */
 };
 	/** update columns of table "user_status" */
 ["userStatus_update_column"]: userStatus_update_column;
-	["uuid"]:any;
+	["uuid"]: any;
 	/** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
 ["uuid_comparison_exp"]: {
 		_eq?: GraphQLTypes["uuid"] | undefined,
 	_gt?: GraphQLTypes["uuid"] | undefined,
 	_gte?: GraphQLTypes["uuid"] | undefined,
-	_in?: Array<GraphQLTypes["uuid"]>,
+	_in?: Array<GraphQLTypes["uuid"]> | undefined,
 	_is_null?: boolean | undefined,
 	_lt?: GraphQLTypes["uuid"] | undefined,
 	_lte?: GraphQLTypes["uuid"] | undefined,
 	_neq?: GraphQLTypes["uuid"] | undefined,
-	_nin?: Array<GraphQLTypes["uuid"]>
+	_nin?: Array<GraphQLTypes["uuid"]> | undefined
 };
 	/** columns and relationships of "webhook" */
 ["webhook"]: {
@@ -15795,7 +15795,7 @@ end). throws an error if top level container is not an array */
 ["webhook_aggregate"]: {
 	__typename: "webhook_aggregate",
 	aggregate?: GraphQLTypes["webhook_aggregate_fields"] | undefined,
-	nodes: Array<GraphQLTypes["webhook"]> | undefined
+	nodes: Array<GraphQLTypes["webhook"]>
 };
 	/** aggregate fields of "webhook" */
 ["webhook_aggregate_fields"]: {
@@ -15817,15 +15817,15 @@ end). throws an error if top level container is not an array */
 };
 	/** input type for inserting array relation for remote table "webhook" */
 ["webhook_arr_rel_insert_input"]: {
-		data: Array<GraphQLTypes["webhook_insert_input"]> | undefined,
+		data: Array<GraphQLTypes["webhook_insert_input"]>,
 	/** on conflict condition */
 	on_conflict?: GraphQLTypes["webhook_on_conflict"] | undefined
 };
 	/** Boolean expression to filter rows from the table "webhook". All fields are combined with a logical 'AND'. */
 ["webhook_bool_exp"]: {
-		_and?: Array<GraphQLTypes["webhook_bool_exp"]>,
+		_and?: Array<GraphQLTypes["webhook_bool_exp"]> | undefined,
 	_not?: GraphQLTypes["webhook_bool_exp"] | undefined,
-	_or?: Array<GraphQLTypes["webhook_bool_exp"]>,
+	_or?: Array<GraphQLTypes["webhook_bool_exp"]> | undefined,
 	createdAt?: GraphQLTypes["timestamptz_comparison_exp"] | undefined,
 	headers?: GraphQLTypes["jsonb_comparison_exp"] | undefined,
 	id?: GraphQLTypes["uuid_comparison_exp"] | undefined,
@@ -15839,8 +15839,8 @@ end). throws an error if top level container is not an array */
 ["webhook_constraint"]: webhook_constraint;
 	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
 ["webhook_delete_at_path_input"]: {
-		headers?: Array<string>,
-	types?: Array<string>
+		headers?: Array<string> | undefined,
+	types?: Array<string> | undefined
 };
 	/** delete the array element with specified index (negative integers count from the
 end). throws an error if top level container is not an array */
@@ -15900,12 +15900,12 @@ end). throws an error if top level container is not an array */
 	/** number of rows affected by the mutation */
 	affected_rows: number,
 	/** data from the rows affected by the mutation */
-	returning: Array<GraphQLTypes["webhook"]> | undefined
+	returning: Array<GraphQLTypes["webhook"]>
 };
 	/** on conflict condition type for table "webhook" */
 ["webhook_on_conflict"]: {
 		constraint: GraphQLTypes["webhook_constraint"],
-	update_columns: Array<GraphQLTypes["webhook_update_column"]> | undefined,
+	update_columns: Array<GraphQLTypes["webhook_update_column"]>,
 	where?: GraphQLTypes["webhook_bool_exp"] | undefined
 };
 	/** Ordering options when selecting data from "webhook". */

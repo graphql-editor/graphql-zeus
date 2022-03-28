@@ -1,4 +1,4 @@
-import { MODEL_TYPES } from '@/TreeToTS/templates/returnedModelTypes';
+import { MODEL_TYPES } from '@/TreeToTS/templates/modelTypes';
 import { StringFunction } from './models';
 
 export const resolverForFunction: StringFunction = {

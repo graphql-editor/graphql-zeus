@@ -1,4 +1,5 @@
-import { TYPES } from '@/TreeToTS/templates/returnedTypes';
+import { TYPES } from '@/TreeToTS/templates/returnedTypes/models';
+import { replSpace } from '@/__tests__/TestUtils';
 import { Parser, ScalarTypes } from 'graphql-js-tree';
 import { TreeToTS } from '../../TreeToTS';
 
@@ -12,9 +13,9 @@ describe('Fields tests on TypeScript code', () => {
         verified: ${ScalarTypes.Boolean}
     }`;
     const tree = Parser.parse(schema);
-    const typeScriptCode = TreeToTS.resolveTree({ tree });
+    const m = replSpace(TreeToTS.resolveTree({ tree }));
     const mockFields = [`id?: string`, `name?: string`, `age?: number`, `weight?: number`, `verified?: boolean`];
-    mockFields.forEach((mf) => expect(typeScriptCode).toContain(mf));
+    mockFields.forEach((mf) => m(mf));
   });
   test('Type objects', () => {
     const schema = `
@@ -23,8 +24,8 @@ describe('Fields tests on TypeScript code', () => {
         car: Car
     }`;
     const tree = Parser.parse(schema);
-    const typeScriptCode = TreeToTS.resolveTree({ tree });
-    expect(typeScriptCode).toContain(`car?: ${TYPES}["Car"]`);
+    const m = replSpace(TreeToTS.resolveTree({ tree }));
+    m(`car?: ${TYPES}["Car"]`);
   });
   test('Interface objects', () => {
     const schema = `
@@ -33,8 +34,8 @@ describe('Fields tests on TypeScript code', () => {
         car: Car
     }`;
     const tree = Parser.parse(schema);
-    const typeScriptCode = TreeToTS.resolveTree({ tree });
-    expect(typeScriptCode).toContain(`car?: ${TYPES}["Car"]`);
+    const m = replSpace(TreeToTS.resolveTree({ tree }));
+    m(`car?: ${TYPES}["Car"]`);
   });
   test('Enum objects', () => {
     const schema = `
@@ -44,8 +45,8 @@ describe('Fields tests on TypeScript code', () => {
     }`;
 
     const tree = Parser.parse(schema);
-    const typeScriptCode = TreeToTS.resolveTree({ tree });
-    expect(typeScriptCode).toContain(`car?: ${TYPES}["Car"]`);
+    const m = replSpace(TreeToTS.resolveTree({ tree }));
+    m(`car?: ${TYPES}["Car"]`);
   });
   test('Custom scalar objects', () => {
     const schema = `
@@ -55,8 +56,8 @@ describe('Fields tests on TypeScript code', () => {
     }`;
 
     const tree = Parser.parse(schema);
-    const typeScriptCode = TreeToTS.resolveTree({ tree });
-    expect(typeScriptCode).toContain(`car?: ${TYPES}["Car"]`);
+    const m = replSpace(TreeToTS.resolveTree({ tree }));
+    m(`car?: ${TYPES}["Car"]`);
   });
   test('Union objects', () => {
     const schema = `
@@ -68,8 +69,8 @@ describe('Fields tests on TypeScript code', () => {
     }`;
 
     const tree = Parser.parse(schema);
-    const typeScriptCode = TreeToTS.resolveTree({ tree });
-    expect(typeScriptCode).toContain(`machine?: ${TYPES}["Machine"]`);
+    const m = replSpace(TreeToTS.resolveTree({ tree }));
+    m(`machine?: ${TYPES}["Machine"]`);
   });
   test(`Required fields`, () => {
     const schema = `type Person{
@@ -77,8 +78,8 @@ describe('Fields tests on TypeScript code', () => {
     }`;
 
     const tree = Parser.parse(schema);
-    const typeScriptCode = TreeToTS.resolveTree({ tree });
-    expect(typeScriptCode).toContain(`id: string`);
+    const m = replSpace(TreeToTS.resolveTree({ tree }));
+    m(`id: string`);
   });
   test(`ListType fields`, () => {
     const schema = `type Person{
@@ -87,9 +88,9 @@ describe('Fields tests on TypeScript code', () => {
     }`;
 
     const tree = Parser.parse(schema);
-    const typeScriptCode = TreeToTS.resolveTree({ tree });
-    expect(typeScriptCode).toContain(`name?: Array<string | undefined>`);
-    expect(typeScriptCode).toContain(`friends: Array<${TYPES}["Person"]>`);
+    const m = replSpace(TreeToTS.resolveTree({ tree }));
+    m(`name?: Array<string | undefined>`);
+    m(`friends: Array<${TYPES}["Person"]>`);
   });
   test(`Arguments`, () => {
     const schema = `type Person{
@@ -97,7 +98,7 @@ describe('Fields tests on TypeScript code', () => {
     }`;
 
     const tree = Parser.parse(schema);
-    const typeScriptCode = TreeToTS.resolveTree({ tree });
-    expect(typeScriptCode).toContain(`name?: string | undefined | null`);
+    const m = replSpace(TreeToTS.resolveTree({ tree }));
+    m(`name?: string | undefined | null`);
   });
 });

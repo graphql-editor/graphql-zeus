@@ -1,21 +1,7 @@
 /* eslint-disable */
 
 export const AllTypesProps: Record<string,any> = {
-	Query:{
-		cardById:{
-			cardId:{
-				type:"String"
-			}
-		}
-	},
 	SpecialSkills: "enum",
-	Card:{
-		attack:{
-			cardID:{
-				type:"[String!]!"
-			}
-		}
-	},
 	Mutation:{
 		addCard:{
 			card:{
@@ -24,9 +10,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	createCard:{
-		Children:{
-			type:"Int"
-		},
 		Attack:{
 			type:"Int!"
 		},
@@ -41,11 +24,63 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		description:{
 			type:"String!"
+		},
+		Children:{
+			type:"Int"
+		}
+	},
+	Card:{
+		attack:{
+			cardID:{
+				type:"[String!]!"
+			}
+		}
+	},
+	Query:{
+		cardById:{
+			cardId:{
+				type:"String"
+			}
 		}
 	}
 }
 
 export const ReturnTypes: Record<string,any> = {
+	Mutation:{
+		addCard:"Card"
+	},
+	Subscription:{
+		deck:"Card"
+	},
+	Card:{
+		Attack:"Int",
+		Children:"Int",
+		Defense:"Int",
+		attack:"Card",
+		cardImage:"S3Object",
+		description:"String",
+		id:"ID",
+		image:"String",
+		name:"String",
+		skills:"SpecialSkills"
+	},
+	S3Object:{
+		bucket:"String",
+		key:"String",
+		region:"String"
+	},
+	SpecialCard:{
+		effect:"String",
+		name:"String"
+	},
+	ChangeCard:{
+		"...on SpecialCard":"SpecialCard",
+		"...on EffectCard":"EffectCard"
+	},
+	CardStack:{
+		cards:"Card",
+		name:"String"
+	},
 	Query:{
 		cardById:"Card",
 		drawCard:"Card",
@@ -61,43 +96,8 @@ export const ReturnTypes: Record<string,any> = {
 		"...on EffectCard": "EffectCard",
 		name:"String"
 	},
-	S3Object:{
-		bucket:"String",
-		key:"String",
-		region:"String"
-	},
-	ChangeCard:{
-		"...on SpecialCard":"SpecialCard",
-		"...on EffectCard":"EffectCard"
-	},
-	Card:{
-		Attack:"Int",
-		Children:"Int",
-		Defense:"Int",
-		attack:"Card",
-		cardImage:"S3Object",
-		description:"String",
-		id:"ID",
-		image:"String",
-		name:"String",
-		skills:"SpecialSkills"
-	},
-	SpecialCard:{
-		effect:"String",
-		name:"String"
-	},
-	CardStack:{
-		cards:"Card",
-		name:"String"
-	},
-	Subscription:{
-		deck:"Card"
-	},
 	EffectCard:{
 		effectSize:"Float",
 		name:"String"
-	},
-	Mutation:{
-		addCard:"Card"
 	}
 }

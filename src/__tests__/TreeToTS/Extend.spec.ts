@@ -1,3 +1,4 @@
+import { replSpace } from '@/__tests__/TestUtils';
 import { Parser } from 'graphql-js-tree';
 import { TreeToTS } from '../../TreeToTS';
 
@@ -10,7 +11,7 @@ describe('Extend tests on parser', () => {
         }
         `;
     const tree = Parser.parseAddExtensions(schema);
-    const typeScriptCode = TreeToTS.resolveTree({ tree });
-    expect(typeScriptCode).toContain(`age?:number`);
+    const m = replSpace(TreeToTS.resolveTree({ tree }));
+    m(`age?:number`);
   });
 });

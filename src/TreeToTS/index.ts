@@ -1,10 +1,12 @@
+import { resolveModelTypes } from '@/TreeToTS/templates/modelTypes';
+import { resolveInterfaces } from '@/TreeToTS/templates/returnedTypes/interfaces';
+import { resolveUnions } from '@/TreeToTS/templates/returnedTypes/unions';
+import { resolveValueTypes } from '@/TreeToTS/templates/valueTypes';
 import { ParserField, OperationType, ParserTree, TypeDefinition } from 'graphql-js-tree';
 import { Environment } from '../Models';
-import { resolveValueTypes } from './templates/resolveValueTypes';
-import { resolveModelTypes } from './templates/returnedModelTypes';
 import { resolvePropTypeFromRoot } from './templates/returnedPropTypes';
 import { resolveReturnFromRoot } from './templates/returnedReturns';
-import { resolveInterfaces, resolveUnions, resolveTypes } from './templates/returnedTypes';
+import { resolveTypes } from './templates/returnedTypes';
 import {
   bodyTypeScript,
   constantTypesTypescript,

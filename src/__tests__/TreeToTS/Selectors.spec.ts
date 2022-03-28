@@ -1,3 +1,4 @@
+import { replSpace } from '@/__tests__/TestUtils';
 import { Parser } from 'graphql-js-tree';
 import { TreeToTS } from '../../TreeToTS';
 
@@ -11,7 +12,7 @@ schema{
 describe('Thunder tests', () => {
   it('TypeScript: Selectors', () => {
     const tree = Parser.parseAddExtensions(schema);
-    const { index } = TreeToTS.resolveTreeSplit({ tree });
-    expect(index).toContain(`Selector =`);
+    const m = replSpace(TreeToTS.resolveTreeSplit({ tree }).index);
+    m(`Selector =`);
   });
 });

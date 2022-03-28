@@ -1,3 +1,4 @@
+import { replSpace } from '@/__tests__/TestUtils';
 import { Parser } from 'graphql-js-tree';
 import { TreeToTS } from '../../TreeToTS';
 
@@ -11,7 +12,7 @@ describe('Chain tests', () => {
         }
         `;
     const tree = Parser.parseAddExtensions(schema);
-    const typeScriptCode = TreeToTS.resolveTreeSplit({ tree });
-    expect(typeScriptCode.index).toContain(`Chain = (...options: chainOptions) => Thunder(apiFetch(options));`);
+    const m = replSpace(TreeToTS.resolveTreeSplit({ tree }).index);
+    m(`Chain = (...options: chainOptions) => Thunder(apiFetch(options));`);
   });
 });
