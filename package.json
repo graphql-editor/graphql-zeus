@@ -20,7 +20,8 @@
     "generate-typescript-node-big": "node ./lib/CLI/index.js examples/typescript-node-big-schema/x.gql  examples/typescript-node-big-schema/src --ts --n --apollo --reactQuery --stuccoSubscriptions",
     "run-example-typescript-node": "./run-example.sh examples/typescript-node",
     "lint": "ttsc  && eslint \"./src/**/*.{ts,js}\" --quiet --fix",
-    "doc:ci": "cd doc && npm i && npm run build"
+    "doc:ci": "cd doc && npm i && npm run build",
+    "produce-lib": "ts-node src/CLI/libBuilder.ts"
   },
   "repository": {
     "type": "git",
