@@ -17,7 +17,7 @@ import {
   fullSubscriptionConstruct,
 } from '@/TreeToTS/functions';
 
-export const typescriptFunctions = (env: Environment): string => `
+export const typescriptFunctions = (env: Environment, esModule?: boolean): string => `
 ${ZeusSelectFunction.ts}
 ${ScalarResolverFunction.ts}
 ${TypePropsResolverFunction.ts}
@@ -27,12 +27,12 @@ ${objectToTreeFunction.ts}
 ${traverseToSeekArraysFunction.ts}
 ${buildQueryFunction.ts}
 ${inspectVariablesFunction.ts}
-${queryConstructFunction.ts}  
+${queryConstructFunction.ts}
 ${fullChainConstructFunction.ts}
 ${fullSubscriptionConstruct.ts}
 ${seekForAliasesFunction.ts}
 ${VariableFunction.ts}
 ${resolverForFunction.ts}
-${require(`./${env}/fetchFunction`).default}
-${require(`./${env}/apiSubscription`).default}
+${require(`./${env}/fetchFunction`).default(esModule)}
+${require(`./${env}/apiSubscription`).default(esModule)}
 `;

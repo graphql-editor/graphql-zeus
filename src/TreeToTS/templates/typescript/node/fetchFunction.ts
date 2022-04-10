@@ -1,4 +1,4 @@
-export default `
+export default (esModule?: boolean) => `
 const handleFetchResponse = (
   response: Parameters<Extract<Parameters<ReturnType<typeof fetch>['then']>[0], Function>>[0]
 ): Promise<GraphQLResponse> => {
@@ -10,25 +10,28 @@ const handleFetchResponse = (
       }).catch(reject);
     });
   }
-  return response.json();
+  return response.json() as Promise<GraphQLResponse>;
 };
 
-export const apiFetch = (options: fetchOptions) => (query: string, variables: Record<string, any> = {}) => {
+
+
+
+export const apiFetch = (options: fetchOptions) => async (query: string, variables: Record<string, any> = {}) => {
     let fetchFunction;
     let queryString = query;
     let fetchOptions = options[1] || {};
     try {
-        fetchFunction = require('node-fetch');
+        fetchFunction = ${require('./fetchImport')[esModule ? 'cjsImport' : 'esmImport']}
     } catch (error) {
         throw new Error("Please install 'node-fetch' to use zeus in nodejs environment");
     }
     if (fetchOptions.method && fetchOptions.method === 'GET') {
-      try {
-          queryString = require('querystring').stringify(query);
-      } catch (error) {
-          throw new Error("Something gone wrong 'querystring' is a part of nodejs environment");
-      }
-      return fetchFunction(\`\${options[0]}?query=\${queryString}\`, fetchOptions)
+      // try {
+      //     queryString = require('querystring').stringify(query);
+      // } catch (error) {
+      //     throw new Error("Something gone wrong 'querystring' is a part of nodejs environment");
+      // }
+      return fetchFunction(\`\${options[0]}?query=\${encodeURIComponent(queryString)}\`, fetchOptions)
         .then(handleFetchResponse)
         .then((response: GraphQLResponse) => {
           if (response.errors) {

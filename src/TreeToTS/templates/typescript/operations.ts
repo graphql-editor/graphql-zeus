@@ -34,8 +34,8 @@ export const Thunder = (fn: FetchFunction) => <
 ) => <Z extends ${VALUETYPES}[R]>(o: Z | ${VALUETYPES}[R], ops?: OperationOptions) =>
   fullChainConstruct(fn)(operation, allOperations[operation])(o as any, ops) as Promise<InputType<${TYPES}[R], Z>>;
 
-export const Chain = (...options: chainOptions) => Thunder(apiFetch(options));  
-  
+export const Chain = (...options: chainOptions) => Thunder(apiFetch(options));
+
 export const SubscriptionThunder = (fn: SubscriptionFunction) => <
   O extends ${orOpsType},
   R extends keyof ValueTypes = GenericOperation<O>
@@ -48,7 +48,7 @@ export const SubscriptionThunder = (fn: SubscriptionFunction) => <
   fullSubscriptionConstruct(fn)(operation, allOperations[operation])(
     o as any,
     ops,
-  ) as SubscriptionToGraphQL<Z, ${TYPES}[R]>;
+  ) as Promise<SubscriptionToGraphQL<Z, ${TYPES}[R]>>;
 
 export const Subscription = (...options: chainOptions) => SubscriptionThunder(apiSubscription(options));`;
 };

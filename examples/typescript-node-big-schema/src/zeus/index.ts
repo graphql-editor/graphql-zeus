@@ -1,6 +1,9 @@
 /* eslint-disable */
 
 import { AllTypesProps, ReturnTypes } from './const';
+import type fetch from 'node-fetch';
+import type WebSocket from 'ws';
+
 type ZEUS_INTERFACES = never
 type ZEUS_UNIONS = never
 
@@ -17247,7 +17250,7 @@ const inspectVariables = (query: string) => {
 
 export const queryConstruct = (t: 'query' | 'mutation' | 'subscription', tName: string, operationName?: string) => (o: Record<any, any>) =>
   `${t.toLowerCase()}${operationName ? ' ' + operationName : ''}${inspectVariables(buildQuery(tName, o))}`;
-  
+
 
 export const fullChainConstruct = (fn: FetchFunction) => (t: 'query' | 'mutation' | 'subscription', tName: string) => (
   o: Record<any, any>,
@@ -17323,25 +17326,28 @@ const handleFetchResponse = (
       }).catch(reject);
     });
   }
-  return response.json();
+  return response.json() as Promise<GraphQLResponse>;
 };
 
-export const apiFetch = (options: fetchOptions) => (query: string, variables: Record<string, any> = {}) => {
+
+
+
+export const apiFetch = (options: fetchOptions) => async (query: string, variables: Record<string, any> = {}) => {
     let fetchFunction;
     let queryString = query;
     let fetchOptions = options[1] || {};
     try {
-        fetchFunction = require('node-fetch');
+        fetchFunction = await import('node-fetch').then(module => module.default);
     } catch (error) {
         throw new Error("Please install 'node-fetch' to use zeus in nodejs environment");
     }
     if (fetchOptions.method && fetchOptions.method === 'GET') {
-      try {
-          queryString = require('querystring').stringify(query);
-      } catch (error) {
-          throw new Error("Something gone wrong 'querystring' is a part of nodejs environment");
-      }
-      return fetchFunction(`${options[0]}?query=${queryString}`, fetchOptions)
+      // try {
+      //     queryString = require('querystring').stringify(query);
+      // } catch (error) {
+      //     throw new Error("Something gone wrong 'querystring' is a part of nodejs environment");
+      // }
+      return fetchFunction(`${options[0]}?query=${encodeURIComponent(queryString)}`, fetchOptions)
         .then(handleFetchResponse)
         .then((response: GraphQLResponse) => {
           if (response.errors) {
@@ -17368,11 +17374,11 @@ export const apiFetch = (options: fetchOptions) => (query: string, variables: Re
   };
   
 
-export const apiSubscription = (options: chainOptions) => (
+export const apiSubscription = (options: chainOptions) => async (
     query: string,
   ) => {
     try {
-      const WebSocket =  require('ws');
+      const WebSocket = await import('ws').then(module => module.default);
       const queryString = options[0] + '?query=' + encodeURIComponent(query);
       const wsString = queryString.replace('http', 'ws');
       const host = (options.length > 1 && options[1]?.websocket?.[0]) || wsString;
@@ -17429,8 +17435,8 @@ export const Thunder = (fn: FetchFunction) => <
 ) => <Z extends ValueTypes[R]>(o: Z | ValueTypes[R], ops?: OperationOptions) =>
   fullChainConstruct(fn)(operation, allOperations[operation])(o as any, ops) as Promise<InputType<GraphQLTypes[R], Z>>;
 
-export const Chain = (...options: chainOptions) => Thunder(apiFetch(options));  
-  
+export const Chain = (...options: chainOptions) => Thunder(apiFetch(options));
+
 export const SubscriptionThunder = (fn: SubscriptionFunction) => <
   O extends 'query' | 'mutation' | 'subscription',
   R extends keyof ValueTypes = GenericOperation<O>
@@ -17443,7 +17449,7 @@ export const SubscriptionThunder = (fn: SubscriptionFunction) => <
   fullSubscriptionConstruct(fn)(operation, allOperations[operation])(
     o as any,
     ops,
-  ) as SubscriptionToGraphQL<Z, GraphQLTypes[R]>;
+  ) as Promise<SubscriptionToGraphQL<Z, GraphQLTypes[R]>>;
 
 export const Subscription = (...options: chainOptions) => SubscriptionThunder(apiSubscription(options));
 export const Zeus = <

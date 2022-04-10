@@ -129,7 +129,7 @@ export class TreeToTS {
       const: TreeToTS.resolveBasisCode(tree),
       index: TreeToTS.resolveBasisTypes(tree)
         .concat(graphqlErrorTypeScript.concat('\n').concat(constantTypesTypescript).concat('\n\n'))
-        .concat(typescriptFunctions(env))
+        .concat(typescriptFunctions(env, esModule))
         .concat(operations)
         .concat(host ? '\n\n' : '')
         .concat(host ? `export const Gql = Chain('${host}')` : ''),

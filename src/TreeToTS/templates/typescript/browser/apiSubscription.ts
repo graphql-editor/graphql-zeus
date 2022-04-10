@@ -1,4 +1,4 @@
-export default `
+export default () => `
 export const apiSubscription = (options: chainOptions) => (
     query: string,
   ) => {

@@ -1,9 +1,9 @@
-export default `
-export const apiSubscription = (options: chainOptions) => (
+export default (esModule?: boolean) => `
+export const apiSubscription = (options: chainOptions) => async (
     query: string,
   ) => {
     try {
-      const WebSocket =  require('ws');
+      const WebSocket = ${require('./websocketsImport')[esModule ? 'cjsImport' : 'esmImport']}
       const queryString = options[0] + '?query=' + encodeURIComponent(query);
       const wsString = queryString.replace('http', 'ws');
       const host = (options.length > 1 && options[1]?.websocket?.[0]) || wsString;
