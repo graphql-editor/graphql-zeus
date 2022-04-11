@@ -1,5 +1,6 @@
 import { InternalsBuildQuery } from '@/TreeToTS/functions/new/buildQuery';
 import { AllTypesProps, Ops, ReturnTypes } from '@/TreeToTS/functions/new/mocks';
+import { useZeusVariables } from '@/TreeToTS/functions/new/useZeusVariables';
 import { replSpace } from '@/__tests__/TestUtils';
 
 const builder = InternalsBuildQuery(AllTypesProps, ReturnTypes, Ops);
@@ -16,6 +17,25 @@ describe('Test generated function buildQuery', () => {
       }),
     );
     matchExact(`query{
+        cards{
+            name
+            age
+            bio
+        }
+    }`);
+  });
+  test('Simple query with operation name', () => {
+    const builder = InternalsBuildQuery(AllTypesProps, ReturnTypes, Ops, { operationName: 'MyQuery' });
+    const matchExact = replSpace(
+      builder('query', {
+        cards: {
+          name: true,
+          age: true,
+          bio: true,
+        },
+      }),
+    );
+    matchExact(`query MyQuery{
         cards{
             name
             age
@@ -49,6 +69,39 @@ describe('Test generated function buildQuery', () => {
         }
     }`);
   });
+  test('Query with arguments and variables', () => {
+    const variables = useZeusVariables({ id: 'String!' })({
+      id: 'a1',
+    });
+    const builder = InternalsBuildQuery(AllTypesProps, ReturnTypes, Ops, {
+      variables,
+    });
+    const { $ } = variables;
+    const matchExact = replSpace(
+      builder('query', {
+        cardById: [
+          {
+            id: $('id'),
+            name: 'blabla',
+            age: 123,
+            me: true,
+          },
+          {
+            name: true,
+            age: true,
+            bio: true,
+          },
+        ],
+      }),
+    );
+    matchExact(`query($id: String!){
+        cardById(id: $id, name: "blabla", age: 123, me: true){
+            name
+            age
+            bio
+        }
+    }`);
+  });
   test('Mutation with arguments', () => {
     const enum Status {
       CREATED = 'CREATED',
@@ -76,6 +129,72 @@ describe('Test generated function buildQuery', () => {
       }){
             name
         }
+    }`);
+  });
+  test('Mutation with complicated string', () => {
+    const complicated = 'lorem """ \' ipsum \n lorem ipsum';
+    const matchExact = replSpace(
+      builder('mutation', {
+        createCard: [
+          {
+            card: {
+              name: complicated,
+            },
+          },
+          {
+            name: true,
+          },
+        ],
+      }),
+    );
+    matchExact(`mutation{
+      createCard(card:{
+        name: ${JSON.stringify(complicated)}
+      }){
+            name
+        }
+    }`);
+  });
+  test('Undefined param', () => {
+    const Children = undefined;
+    const matchExact = replSpace(
+      builder('mutation', {
+        addCard: [
+          {
+            card: {
+              Attack: 1,
+              Children,
+            },
+          },
+          {
+            id: true,
+          },
+        ],
+      }),
+    );
+    matchExact(`mutation {
+      addCard(card: {Attack:1}){id}
+    }`);
+  });
+  test('Undefined getter', () => {
+    const Children: boolean | undefined = undefined;
+    const matchExact = replSpace(
+      builder('mutation', {
+        addCard: [
+          {
+            card: {
+              Attack: 1,
+            },
+          },
+          {
+            id: true,
+            Children,
+          },
+        ],
+      }),
+    );
+    matchExact(`mutation {
+      addCard(card: {Attack:1}){id}
     }`);
   });
   test('Simple query with alias', () => {

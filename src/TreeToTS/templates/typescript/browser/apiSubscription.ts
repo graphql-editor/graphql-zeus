@@ -15,9 +15,6 @@ export const apiSubscription = (options: chainOptions) => (
             if(event.data){
               const parsed = JSON.parse(event.data)
               const data = parsed.data
-              if (data) {
-                seekForAliases(data);
-              }
               return e(data);
             }
           };

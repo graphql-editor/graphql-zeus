@@ -7,12 +7,7 @@ import { Environment } from '../Models';
 import { resolvePropTypeFromRoot } from './templates/returnedPropTypes';
 import { resolveReturnFromRoot } from './templates/returnedReturns';
 import { resolveTypes } from './templates/returnedTypes';
-import {
-  bodyTypeScript,
-  constantTypesTypescript,
-  graphqlErrorTypeScript,
-  typescriptFunctions,
-} from './templates/typescript';
+import { typescriptFunctions } from './templates/typescript';
 
 export interface OperationName {
   name: string;
@@ -93,7 +88,15 @@ export class TreeToTS {
       )
       .filter((pt) => pt)
       .join(',\n')}\n}`;
-    return propTypes.concat('\n\n').concat(returnTypes);
+    const Ops = TreeToTS.resolveOperations(tree);
+    const opsString = `export const Ops = {
+    query: ${Ops.query.operationName?.name ? `"${Ops.query.operationName.name}" as const` : `never`},
+    mutation: ${Ops.mutation.operationName?.name ? `"${Ops.mutation.operationName.name}" as const` : `never`},
+    subscription: ${
+      Ops.subscription.operationName?.name ? `"${Ops.subscription.operationName.name}" as const` : `never`
+    }
+}`;
+    return propTypes.concat('\n\n').concat(returnTypes).concat('\n\n').concat(opsString);
   }
   static resolveBasisTypes(tree: ParserTree): string {
     const rootTypes = resolveTypes(tree.nodes);
@@ -125,16 +128,15 @@ export class TreeToTS {
     host?: string;
     esModule?: boolean;
   }) {
-    const operations = bodyTypeScript(env, TreeToTS.resolveOperations(tree));
     return {
-      indexImports: `import { AllTypesProps, ReturnTypes } from './const${esModule ? '.js' : ''}';`,
+      indexImports: `import { AllTypesProps, ReturnTypes, Ops } from './const${esModule ? '.js' : ''}';`,
       const: TreeToTS.resolveBasisCode(tree),
-      index: TreeToTS.resolveBasisTypes(tree)
-        .concat(graphqlErrorTypeScript.concat('\n').concat(constantTypesTypescript).concat('\n\n'))
+      index: ''
+        .concat(host ? `export const HOST = "${host}"` : '\n\nexport const HOST="Specify host"')
+        .concat('\n')
         .concat(typescriptFunctions(env))
-        .concat(operations)
-        .concat(host ? '\n\n' : '')
-        .concat(host ? `export const Gql = Chain('${host}')` : ''),
+        .concat('\n')
+        .concat(TreeToTS.resolveBasisTypes(tree)),
     };
   }
   static resolveTree({ tree, env = 'browser', host }: { tree: ParserTree; env?: Environment; host?: string }) {

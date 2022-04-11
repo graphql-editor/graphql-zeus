@@ -1,617 +1,7 @@
 /* eslint-disable */
 
-import { AllTypesProps, ReturnTypes } from './const';
-type ZEUS_INTERFACES = GraphQLTypes['Nameable'];
-type ZEUS_UNIONS = GraphQLTypes['ChangeCard'];
-
-export type ValueTypes = {
-  ['SpecialSkills']: SpecialSkills;
-  ['Mutation']: AliasType<{
-    addCard?: [{ card: ValueTypes['createCard'] }, ValueTypes['Card']];
-    __typename?: boolean;
-  }>;
-  /** create card inputs<br> */
-  ['createCard']: {
-    /** The attack power<br> */
-    Attack: number;
-    /** The defense power<br> */
-    Defense: number;
-    /** input skills */
-    skills?: ValueTypes['SpecialSkills'][];
-    /** The name of a card<br> */
-    name: string;
-    /** Description of a card<br> */
-    description: string;
-    /** <div>How many children the greek god had</div> */
-    Children?: number | undefined | null;
-  };
-  ['Subscription']: AliasType<{
-    deck?: ValueTypes['Card'];
-    __typename?: boolean;
-  }>;
-  /** Card used in card game<br> */
-  ['Card']: AliasType<{
-    /** The attack power<br> */
-    Attack?: boolean;
-    /** <div>How many children the greek god had</div> */
-    Children?: boolean;
-    /** The defense power<br> */
-    Defense?: boolean;
-    attack?: [
-      {
-        /** Attacked card/card ids<br> */ cardID: string[] | undefined | null;
-      },
-      ValueTypes['Card'],
-    ];
-    /** Put your description here */
-    cardImage?: ValueTypes['S3Object'];
-    /** Description of a card<br> */
-    description?: boolean;
-    id?: boolean;
-    image?: boolean;
-    /** The name of a card<br> */
-    name?: boolean;
-    skills?: boolean;
-    __typename?: boolean;
-  }>;
-  /** Aws S3 File */
-  ['S3Object']: AliasType<{
-    bucket?: boolean;
-    key?: boolean;
-    region?: boolean;
-    __typename?: boolean;
-  }>;
-  ['SpecialCard']: AliasType<{
-    effect?: boolean;
-    name?: boolean;
-    __typename?: boolean;
-  }>;
-  ['ChangeCard']: AliasType<{
-    ['...on SpecialCard']: ValueTypes['SpecialCard'];
-    ['...on EffectCard']: ValueTypes['EffectCard'];
-    __typename?: boolean;
-  }>;
-  /** Stack of cards */
-  ['CardStack']: AliasType<{
-    cards?: ValueTypes['Card'];
-    name?: boolean;
-    __typename?: boolean;
-  }>;
-  ['Query']: AliasType<{
-    cardById?: [{ cardId?: string | undefined | null }, ValueTypes['Card']];
-    /** Draw a card<br> */
-    drawCard?: ValueTypes['Card'];
-    drawChangeCard?: ValueTypes['ChangeCard'];
-    /** list All Cards availble<br> */
-    listCards?: ValueTypes['Card'];
-    myStacks?: ValueTypes['CardStack'];
-    nameables?: ValueTypes['Nameable'];
-    __typename?: boolean;
-  }>;
-  ['Nameable']: AliasType<{
-    name?: boolean;
-    ['...on Card']?: Omit<ValueTypes['Card'], keyof ValueTypes['Nameable']>;
-    ['...on SpecialCard']?: Omit<ValueTypes['SpecialCard'], keyof ValueTypes['Nameable']>;
-    ['...on CardStack']?: Omit<ValueTypes['CardStack'], keyof ValueTypes['Nameable']>;
-    ['...on EffectCard']?: Omit<ValueTypes['EffectCard'], keyof ValueTypes['Nameable']>;
-    __typename?: boolean;
-  }>;
-  ['EffectCard']: AliasType<{
-    effectSize?: boolean;
-    name?: boolean;
-    __typename?: boolean;
-  }>;
-};
-
-export type ModelTypes = {
-  ['SpecialSkills']: GraphQLTypes['SpecialSkills'];
-  ['Mutation']: {
-    /** add Card to Cards database<br> */
-    addCard: GraphQLTypes['Card'];
-  };
-  /** create card inputs<br> */
-  ['createCard']: GraphQLTypes['createCard'];
-  ['Subscription']: {
-    deck?: Array<GraphQLTypes['Card']> | undefined;
-  };
-  /** Card used in card game<br> */
-  ['Card']: {
-    /** The attack power<br> */
-    Attack: number;
-    /** <div>How many children the greek god had</div> */
-    Children?: number | undefined;
-    /** The defense power<br> */
-    Defense: number;
-    /** Attack other cards on the table , returns Cards after attack<br> */
-    attack?: Array<GraphQLTypes['Card']> | undefined;
-    /** Put your description here */
-    cardImage?: GraphQLTypes['S3Object'] | undefined;
-    /** Description of a card<br> */
-    description: string;
-    id: string;
-    image: string;
-    /** The name of a card<br> */
-    name: string;
-    skills?: Array<GraphQLTypes['SpecialSkills']> | undefined;
-  };
-  /** Aws S3 File */
-  ['S3Object']: {
-    bucket: string;
-    key: string;
-    region: string;
-  };
-  ['SpecialCard']: {
-    effect: string;
-    name: string;
-  };
-  ['ChangeCard']: ModelTypes['SpecialCard'] | ModelTypes['EffectCard'];
-  /** Stack of cards */
-  ['CardStack']: {
-    cards?: Array<GraphQLTypes['Card']> | undefined;
-    name: string;
-  };
-  ['Query']: {
-    cardById?: GraphQLTypes['Card'] | undefined;
-    /** Draw a card<br> */
-    drawCard: GraphQLTypes['Card'];
-    drawChangeCard: GraphQLTypes['ChangeCard'];
-    /** list All Cards availble<br> */
-    listCards: Array<GraphQLTypes['Card']>;
-    myStacks?: Array<GraphQLTypes['CardStack']> | undefined;
-    nameables: Array<GraphQLTypes['Nameable']>;
-  };
-  ['Nameable']: ModelTypes['Card'] | ModelTypes['SpecialCard'] | ModelTypes['CardStack'] | ModelTypes['EffectCard'];
-  ['EffectCard']: {
-    effectSize: number;
-    name: string;
-  };
-};
-
-export type GraphQLTypes = {
-  ['SpecialSkills']: SpecialSkills;
-  ['Mutation']: {
-    __typename: 'Mutation';
-    /** add Card to Cards database<br> */
-    addCard: GraphQLTypes['Card'];
-  };
-  /** create card inputs<br> */
-  ['createCard']: {
-    /** The attack power<br> */
-    Attack: number;
-    /** The defense power<br> */
-    Defense: number;
-    /** input skills */
-    skills?: Array<GraphQLTypes['SpecialSkills']> | undefined;
-    /** The name of a card<br> */
-    name: string;
-    /** Description of a card<br> */
-    description: string;
-    /** <div>How many children the greek god had</div> */
-    Children?: number | undefined;
-  };
-  ['Subscription']: {
-    __typename: 'Subscription';
-    deck?: Array<GraphQLTypes['Card']> | undefined;
-  };
-  /** Card used in card game<br> */
-  ['Card']: {
-    __typename: 'Card';
-    /** The attack power<br> */
-    Attack: number;
-    /** <div>How many children the greek god had</div> */
-    Children?: number | undefined;
-    /** The defense power<br> */
-    Defense: number;
-    /** Attack other cards on the table , returns Cards after attack<br> */
-    attack?: Array<GraphQLTypes['Card']> | undefined;
-    /** Put your description here */
-    cardImage?: GraphQLTypes['S3Object'] | undefined;
-    /** Description of a card<br> */
-    description: string;
-    id: string;
-    image: string;
-    /** The name of a card<br> */
-    name: string;
-    skills?: Array<GraphQLTypes['SpecialSkills']> | undefined;
-  };
-  /** Aws S3 File */
-  ['S3Object']: {
-    __typename: 'S3Object';
-    bucket: string;
-    key: string;
-    region: string;
-  };
-  ['SpecialCard']: {
-    __typename: 'SpecialCard';
-    effect: string;
-    name: string;
-  };
-  ['ChangeCard']: {
-    __typename: 'SpecialCard' | 'EffectCard';
-    ['...on SpecialCard']: '__union' & GraphQLTypes['SpecialCard'];
-    ['...on EffectCard']: '__union' & GraphQLTypes['EffectCard'];
-  };
-  /** Stack of cards */
-  ['CardStack']: {
-    __typename: 'CardStack';
-    cards?: Array<GraphQLTypes['Card']> | undefined;
-    name: string;
-  };
-  ['Query']: {
-    __typename: 'Query';
-    cardById?: GraphQLTypes['Card'] | undefined;
-    /** Draw a card<br> */
-    drawCard: GraphQLTypes['Card'];
-    drawChangeCard: GraphQLTypes['ChangeCard'];
-    /** list All Cards availble<br> */
-    listCards: Array<GraphQLTypes['Card']>;
-    myStacks?: Array<GraphQLTypes['CardStack']> | undefined;
-    nameables: Array<GraphQLTypes['Nameable']>;
-  };
-  ['Nameable']: {
-    __typename: 'Card' | 'SpecialCard' | 'CardStack' | 'EffectCard';
-    name: string;
-    ['...on Card']: '__union' & GraphQLTypes['Card'];
-    ['...on SpecialCard']: '__union' & GraphQLTypes['SpecialCard'];
-    ['...on CardStack']: '__union' & GraphQLTypes['CardStack'];
-    ['...on EffectCard']: '__union' & GraphQLTypes['EffectCard'];
-  };
-  ['EffectCard']: {
-    __typename: 'EffectCard';
-    effectSize: number;
-    name: string;
-  };
-};
-export const enum SpecialSkills {
-  THUNDER = 'THUNDER',
-  RAIN = 'RAIN',
-  FIRE = 'FIRE',
-}
-export class GraphQLError extends Error {
-  constructor(public response: GraphQLResponse) {
-    super('');
-    console.error(response);
-  }
-  toString() {
-    return 'GraphQL Response Error';
-  }
-}
-
-export type UnwrapPromise<T> = T extends Promise<infer R> ? R : T;
-export type ZeusState<T extends (...args: any[]) => Promise<any>> = NonNullable<UnwrapPromise<ReturnType<T>>>;
-export type ZeusHook<
-  T extends (...args: any[]) => Record<string, (...args: any[]) => Promise<any>>,
-  N extends keyof ReturnType<T>
-> = ZeusState<ReturnType<T>[N]>;
-
-type WithTypeNameValue<T> = T & {
-  __typename?: boolean;
-};
-type AliasType<T> = WithTypeNameValue<T> & {
-  __alias?: Record<string, WithTypeNameValue<T>>;
-};
-export interface GraphQLResponse {
-  data?: Record<string, any>;
-  errors?: Array<{
-    message: string;
-  }>;
-}
-type DeepAnify<T> = {
-  [P in keyof T]?: any;
-};
-type IsPayLoad<T> = T extends [any, infer PayLoad] ? PayLoad : T;
-type IsArray<T, U> = T extends Array<infer R> ? InputType<R, U>[] : InputType<T, U>;
-type FlattenArray<T> = T extends Array<infer R> ? R : T;
-
-type IsInterfaced<SRC extends DeepAnify<DST>, DST> = FlattenArray<SRC> extends ZEUS_INTERFACES | ZEUS_UNIONS
-  ? {
-      [P in keyof SRC]: SRC[P] extends '__union' & infer R
-        ? P extends keyof DST
-          ? IsArray<R, '__typename' extends keyof DST ? DST[P] & { __typename: true } : DST[P]>
-          : {}
-        : never;
-    }[keyof DST] &
-      {
-        [P in keyof Omit<
-          Pick<
-            SRC,
-            {
-              [P in keyof DST]: SRC[P] extends '__union' & infer R ? never : P;
-            }[keyof DST]
-          >,
-          '__typename'
-        >]: IsPayLoad<DST[P]> extends boolean ? SRC[P] : IsArray<SRC[P], DST[P]>;
-      }
-  : {
-      [P in keyof Pick<SRC, keyof DST>]: IsPayLoad<DST[P]> extends boolean ? SRC[P] : IsArray<SRC[P], DST[P]>;
-    };
-
-export type MapType<SRC, DST> = SRC extends DeepAnify<DST> ? IsInterfaced<SRC, DST> : never;
-export type InputType<SRC, DST> = IsPayLoad<DST> extends { __alias: infer R }
-  ? {
-      [P in keyof R]: MapType<SRC, R[P]>;
-    } &
-      MapType<SRC, Omit<IsPayLoad<DST>, '__alias'>>
-  : MapType<SRC, IsPayLoad<DST>>;
-export type InputValueType = {
-  [x: string]: boolean | [any, boolean | InputValueType] | InputValueType;
-};
-type Func<P extends any[], R> = (...args: P) => R;
-type AnyFunc = Func<any, any>;
-export type ArgsType<F extends AnyFunc> = F extends Func<infer P, any> ? P : never;
-export type OperationOptions = {
-  variables?: Record<string, any>;
-  operationName?: string;
-};
-export type SubscriptionToGraphQL<Z, T> = {
-  ws: WebSocket;
-  on: (fn: (args: InputType<T, Z>) => void) => void;
-  off: (fn: (e: { data?: InputType<T, Z>; code?: number; reason?: string; message?: string }) => void) => void;
-  error: (fn: (e: { data?: InputType<T, Z>; errors?: string[] }) => void) => void;
-  open: () => void;
-};
-export type SelectionFunction<V> = <T>(t: T | V) => T;
-export type fetchOptions = ArgsType<typeof fetch>;
-type websocketOptions = typeof WebSocket extends new (...args: infer R) => WebSocket ? R : never;
-export type chainOptions = [fetchOptions[0], fetchOptions[1] & { websocket?: websocketOptions }] | [fetchOptions[0]];
-export type FetchFunction = (query: string, variables?: Record<string, any>) => Promise<any>;
-export type SubscriptionFunction = (query: string) => any;
-type NotUndefined<T> = T extends undefined ? never : T;
-export type ResolverType<F> = NotUndefined<F extends [infer ARGS, any] ? ARGS : undefined>;
-
-export const ZeusSelect = <T>() => ((t: any) => t) as SelectionFunction<T>;
-
-export const ScalarResolver = (scalar: string, value: any) => {
-  switch (scalar) {
-    case 'String':
-      return `${JSON.stringify(value)}`;
-    case 'Int':
-      return `${value}`;
-    case 'Float':
-      return `${value}`;
-    case 'Boolean':
-      return `${value}`;
-    case 'ID':
-      return `"${value}"`;
-    case 'enum':
-      return `${value}`;
-    case 'scalar':
-      return `${value}`;
-    default:
-      return false;
-  }
-};
-
-export const TypesPropsResolver = ({
-  value,
-  type,
-  name,
-  key,
-  blockArrays,
-}: {
-  value: any;
-  type: string;
-  name: string;
-  key?: string;
-  blockArrays?: boolean;
-}): string => {
-  if (value === null) {
-    return `null`;
-  }
-  let resolvedValue = AllTypesProps[type][name];
-  if (key) {
-    resolvedValue = resolvedValue[key];
-  }
-  if (!resolvedValue) {
-    throw new Error(`Cannot resolve ${type} ${name}${key ? ` ${key}` : ''}`);
-  }
-  const typeResolved = resolvedValue.type;
-  const isArray = resolvedValue.array;
-  const isArrayRequired = resolvedValue.arrayRequired;
-  if (typeof value === 'string' && value.startsWith(`ZEUS_VAR$`)) {
-    const isRequired = resolvedValue.required ? '!' : '';
-    let t = `${typeResolved}`;
-    if (isArray) {
-      if (isRequired) {
-        t = `${t}!`;
-      }
-      t = `[${t}]`;
-      if (isArrayRequired) {
-        t = `${t}!`;
-      }
-    } else {
-      if (isRequired) {
-        t = `${t}!`;
-      }
-    }
-    return `\$${value.split(`ZEUS_VAR$`)[1]}__ZEUS_VAR__${t}`;
-  }
-  if (isArray && !blockArrays) {
-    return `[${value.map((v: any) => TypesPropsResolver({ value: v, type, name, key, blockArrays: true })).join(',')}]`;
-  }
-  const reslovedScalar = ScalarResolver(typeResolved, value);
-  if (!reslovedScalar) {
-    const resolvedType = AllTypesProps[typeResolved];
-    if (typeof resolvedType === 'object') {
-      const argsKeys = Object.keys(resolvedType);
-      return `{${argsKeys
-        .filter((ak) => value[ak] !== undefined)
-        .map((ak) => `${ak}:${TypesPropsResolver({ value: value[ak], type: typeResolved, name: ak })}`)}}`;
-    }
-    return ScalarResolver(AllTypesProps[typeResolved], value) as string;
-  }
-  return reslovedScalar;
-};
-
-const isArrayFunction = (parent: string[], a: any[]) => {
-  const [values, r] = a;
-  const [mainKey, key, ...keys] = parent;
-  const keyValues = Object.keys(values).filter((k) => typeof values[k] !== 'undefined');
-
-  if (!keys.length) {
-    return keyValues.length > 0
-      ? `(${keyValues
-          .map(
-            (v) =>
-              `${v}:${TypesPropsResolver({
-                value: values[v],
-                type: mainKey,
-                name: key,
-                key: v,
-              })}`,
-          )
-          .join(',')})${r ? traverseToSeekArrays(parent, r) : ''}`
-      : traverseToSeekArrays(parent, r);
-  }
-
-  const [typeResolverKey] = keys.splice(keys.length - 1, 1);
-  let valueToResolve = ReturnTypes[mainKey][key];
-  for (const k of keys) {
-    valueToResolve = ReturnTypes[valueToResolve][k];
-  }
-
-  const argumentString =
-    keyValues.length > 0
-      ? `(${keyValues
-          .map(
-            (v) =>
-              `${v}:${TypesPropsResolver({
-                value: values[v],
-                type: valueToResolve,
-                name: typeResolverKey,
-                key: v,
-              })}`,
-          )
-          .join(',')})${r ? traverseToSeekArrays(parent, r) : ''}`
-      : traverseToSeekArrays(parent, r);
-  return argumentString;
-};
-
-const resolveKV = (k: string, v: boolean | string | { [x: string]: boolean | string }) =>
-  typeof v === 'boolean' ? k : typeof v === 'object' ? `${k}{${objectToTree(v)}}` : `${k}${v}`;
-
-const objectToTree = (o: { [x: string]: boolean | string }): string =>
-  `{${Object.keys(o)
-    .map((k) => `${resolveKV(k, o[k])}`)
-    .join(' ')}}`;
-
-const traverseToSeekArrays = (parent: string[], a?: any): string => {
-  if (!a) return '';
-  if (Object.keys(a).length === 0) {
-    return '';
-  }
-  let b: Record<string, any> = {};
-  if (Array.isArray(a)) {
-    return isArrayFunction([...parent], a);
-  } else {
-    if (typeof a === 'object') {
-      Object.keys(a)
-        .filter((k) => typeof a[k] !== 'undefined')
-        .forEach((k) => {
-          if (k === '__alias') {
-            Object.keys(a[k]).forEach((aliasKey) => {
-              const aliasOperations = a[k][aliasKey];
-              const aliasOperationName = Object.keys(aliasOperations)[0];
-              const aliasOperation = aliasOperations[aliasOperationName];
-              b[`${aliasOperationName}__alias__${aliasKey}: ${aliasOperationName}`] = traverseToSeekArrays(
-                [...parent, aliasOperationName],
-                aliasOperation,
-              );
-            });
-          } else {
-            b[k] = traverseToSeekArrays([...parent, k], a[k]);
-          }
-        });
-    } else {
-      return '';
-    }
-  }
-  return objectToTree(b);
-};
-
-const buildQuery = (type: string, a?: Record<any, any>) => traverseToSeekArrays([type], a);
-
-const inspectVariables = (query: string) => {
-  const regex = /\$\b\w*__ZEUS_VAR__\[?[^!^\]^\s^,^\)^\}]*[!]?[\]]?[!]?/g;
-  let result;
-  const AllVariables: string[] = [];
-  while ((result = regex.exec(query))) {
-    if (AllVariables.includes(result[0])) {
-      continue;
-    }
-    AllVariables.push(result[0]);
-  }
-  if (!AllVariables.length) {
-    return query;
-  }
-  let filteredQuery = query;
-  AllVariables.forEach((variable) => {
-    while (filteredQuery.includes(variable)) {
-      filteredQuery = filteredQuery.replace(variable, variable.split('__ZEUS_VAR__')[0]);
-    }
-  });
-  return `(${AllVariables.map((a) => a.split('__ZEUS_VAR__'))
-    .map(([variableName, variableType]) => `${variableName}:${variableType}`)
-    .join(', ')})${filteredQuery}`;
-};
-
-export const queryConstruct = (t: 'query' | 'mutation' | 'subscription', tName: string, operationName?: string) => (
-  o: Record<any, any>,
-) => `${t.toLowerCase()}${operationName ? ' ' + operationName : ''}${inspectVariables(buildQuery(tName, o))}`;
-
-export const fullChainConstruct = (fn: FetchFunction) => (t: 'query' | 'mutation' | 'subscription', tName: string) => (
-  o: Record<any, any>,
-  options?: OperationOptions,
-) =>
-  fn(queryConstruct(t, tName, options?.operationName)(o), options?.variables).then((r: any) => {
-    seekForAliases(r);
-    return r;
-  });
-
-export const fullSubscriptionConstruct = (fn: SubscriptionFunction) => (
-  t: 'query' | 'mutation' | 'subscription',
-  tName: string,
-) => (o: Record<any, any>, options?: OperationOptions) => fn(queryConstruct(t, tName, options?.operationName)(o));
-
-const seekForAliases = (response: any) => {
-  const traverseAlias = (value: any) => {
-    if (Array.isArray(value)) {
-      value.forEach(seekForAliases);
-    } else {
-      if (typeof value === 'object') {
-        seekForAliases(value);
-      }
-    }
-  };
-  if (typeof response === 'object' && response) {
-    const keys = Object.keys(response);
-    if (keys.length < 1) {
-      return;
-    }
-    keys.forEach((k) => {
-      const value = response[k];
-      if (k.indexOf('__alias__') !== -1) {
-        const [operation, alias] = k.split('__alias__');
-        response[alias] = {
-          [operation]: value,
-        };
-        delete response[k];
-      }
-      traverseAlias(value);
-    });
-  }
-};
-
-export const $ = (t: TemplateStringsArray): any => `ZEUS_VAR$${t.join('')}`;
-
-export const resolverFor = <X, T extends keyof ValueTypes, Z extends keyof ValueTypes[T]>(
-  type: T,
-  field: Z,
-  fn: (
-    args: Required<ValueTypes[T]>[Z] extends [infer Input, any] ? Input : any,
-    source: any,
-  ) => Z extends keyof ModelTypes[T] ? ModelTypes[T][Z] | Promise<ModelTypes[T][Z]> | X : any,
-) => fn as (args?: any, source?: any) => any;
+import { AllTypesProps, ReturnTypes, Ops } from './const';
+export const HOST = 'https://faker.graphqleditor.com/a-team/olympus/graphql';
 
 const handleFetchResponse = (
   response: Parameters<Extract<Parameters<ReturnType<typeof fetch>['then']>[0], Function>>[0],
@@ -689,9 +79,6 @@ export const apiSubscription = (options: chainOptions) => (query: string) => {
           if (event.data) {
             const parsed = JSON.parse(event.data);
             const data = parsed.data;
-            if (data) {
-              seekForAliases(data);
-            }
             return e(data);
           }
         };
@@ -711,45 +98,652 @@ export const apiSubscription = (options: chainOptions) => (query: string) => {
   }
 };
 
-const allOperations = {
-  query: 'Query',
-  mutation: 'Mutation',
-  subscription: 'Subscription',
+export const InternalsBuildQuery = (
+  props: AllTypesPropsType,
+  returns: ReturnTypesType,
+  ops: Operations,
+  options?: OperationOptions,
+) => {
+  const ibb = (k: string, o: InputValueType | VType, p = '', root = true): string => {
+    const keyForPath = purifyGraphQLKey(k);
+    const newPath = [p, keyForPath].join(SEPARATOR);
+    if (!o) {
+      return '';
+    }
+    if (typeof o === 'boolean') {
+      return k;
+    }
+    if (Array.isArray(o)) {
+      return `${ibb(
+        `${k}(${InternalArgsBuilt(props, returns, ops, options?.variables?.values)(o[0], newPath)})`,
+        o[1],
+        p,
+        false,
+      )}`;
+    }
+    if (k === '__alias') {
+      const alias = Object.keys(o)[0];
+      const objectUnderAlias = o[alias];
+      if (typeof objectUnderAlias !== 'object' || Array.isArray(objectUnderAlias)) {
+        throw new Error('Invalid alias it should be __alias:{ YOUR_ALIAS_NAME: { OPERATION_NAME: { ...selectors }}}');
+      }
+      const operationName = Object.keys(objectUnderAlias)[0];
+      const operation = objectUnderAlias[operationName];
+      return ibb(`${alias}:${operationName}`, operation, p, false);
+    }
+    const hasOperationName = root && options?.operationName ? ' ' + options.operationName : '';
+    const hasVariables = root && options?.variables?.$params ? `(${options.variables?.$params})` : '';
+
+    return `${k}${hasOperationName}${hasVariables}{${Object.entries(o)
+      .map((e) => ibb(...e, [p, `field<>${keyForPath}`].join(SEPARATOR), false))
+      .join('\n')}}`;
+  };
+  return ibb;
 };
 
-export type GenericOperation<O> = O extends 'query' ? 'Query' : O extends 'mutation' ? 'Mutation' : 'Subscription';
-
 export const Thunder = (fn: FetchFunction) => <
-  O extends 'query' | 'mutation' | 'subscription',
+  O extends keyof typeof Ops,
   R extends keyof ValueTypes = GenericOperation<O>
 >(
   operation: O,
 ) => <Z extends ValueTypes[R]>(o: Z | ValueTypes[R], ops?: OperationOptions) =>
-  fullChainConstruct(fn)(operation, allOperations[operation])(o as any, ops) as Promise<InputType<GraphQLTypes[R], Z>>;
+  fullChainConstruct(fn)(operation)(o as any, ops) as Promise<InputType<GraphQLTypes[R], Z>>;
 
 export const Chain = (...options: chainOptions) => Thunder(apiFetch(options));
 
 export const SubscriptionThunder = (fn: SubscriptionFunction) => <
-  O extends 'query' | 'mutation' | 'subscription',
+  O extends keyof typeof Ops,
   R extends keyof ValueTypes = GenericOperation<O>
 >(
   operation: O,
 ) => <Z extends ValueTypes[R]>(o: Z | ValueTypes[R], ops?: OperationOptions) =>
-  fullSubscriptionConstruct(fn)(operation, allOperations[operation])(o as any, ops) as SubscriptionToGraphQL<
-    Z,
-    GraphQLTypes[R]
-  >;
+  fullSubscriptionConstruct(fn)(operation)(o as any, ops) as SubscriptionToGraphQL<Z, GraphQLTypes[R]>;
 
 export const Subscription = (...options: chainOptions) => SubscriptionThunder(apiSubscription(options));
 export const Zeus = <
   Z extends ValueTypes[R],
-  O extends 'query' | 'mutation' | 'subscription',
+  O extends keyof typeof Ops,
   R extends keyof ValueTypes = GenericOperation<O>
 >(
   operation: O,
   o: Z | ValueTypes[R],
-  operationName?: string,
-) => queryConstruct(operation, allOperations[operation], operationName)(o as any);
+  ops?: OperationOptions,
+) => InternalsBuildQuery(AllTypesProps, ReturnTypes, Ops, ops)(operation, o as any);
 export const Selector = <T extends keyof ValueTypes>(key: T) => ZeusSelect<ValueTypes[T]>();
 
-export const Gql = Chain('https://faker.graphqleditor.com/a-team/olympus/graphql');
+export const Gql = Chain(HOST);
+
+export const fullChainConstruct = (fn: FetchFunction) => (t: 'query' | 'mutation' | 'subscription') => (
+  o: Record<any, any>,
+  options?: OperationOptions,
+) => {
+  const builder = InternalsBuildQuery(AllTypesProps, ReturnTypes, Ops, options);
+  return fn(builder(t, o), options?.variables?.values);
+};
+
+export const fullSubscriptionConstruct = (fn: SubscriptionFunction) => (t: 'query' | 'mutation' | 'subscription') => (
+  o: Record<any, any>,
+  options?: OperationOptions,
+) => {
+  const builder = InternalsBuildQuery(AllTypesProps, ReturnTypes, Ops, options);
+  return fn(builder(t, o));
+};
+
+export type AllTypesPropsType = {
+  [x: string]:
+    | undefined
+    | boolean
+    | {
+        [x: string]:
+          | undefined
+          | string
+          | {
+              [x: string]: string | undefined;
+            };
+      };
+};
+
+export type ReturnTypesType = {
+  [x: string]:
+    | {
+        [x: string]: string | undefined;
+      }
+    | undefined;
+};
+export type InputValueType = {
+  [x: string]: undefined | boolean | [any, undefined | boolean | InputValueType] | InputValueType;
+};
+export type VType = undefined | boolean | [any, undefined | boolean | InputValueType] | InputValueType;
+
+export type PlainType = boolean | number | string | null | undefined;
+export type ZeusArgsType =
+  | PlainType
+  | {
+      [x: string]: ZeusArgsType;
+    }
+  | Array<ZeusArgsType>;
+
+export type Operations = Record<string, string | undefined>;
+
+export type VariableDefinition = {
+  [x: string]: unknown;
+};
+
+export const SEPARATOR = '|';
+
+export type fetchOptions = Parameters<typeof fetch>;
+type websocketOptions = typeof WebSocket extends new (...args: infer R) => WebSocket ? R : never;
+export type chainOptions = [fetchOptions[0], fetchOptions[1] & { websocket?: websocketOptions }] | [fetchOptions[0]];
+export type FetchFunction = (query: string, variables?: Record<string, any>) => Promise<any>;
+export type SubscriptionFunction = (query: string) => any;
+type NotUndefined<T> = T extends undefined ? never : T;
+export type ResolverType<F> = NotUndefined<F extends [infer ARGS, any] ? ARGS : undefined>;
+
+export type OperationOptions = {
+  variables?: VariableInput;
+  operationName?: string;
+};
+export interface GraphQLResponse {
+  data?: Record<string, any>;
+  errors?: Array<{
+    message: string;
+  }>;
+}
+export class GraphQLError extends Error {
+  constructor(public response: GraphQLResponse) {
+    super('');
+    console.error(response);
+  }
+  toString() {
+    return 'GraphQL Response Error';
+  }
+}
+export type GenericOperation<O> = O extends keyof typeof Ops ? typeof Ops[O] : never;
+
+export const purifyGraphQLKey = (k: string) => k.replace(/\([^)]*\)/g, '').replace(/^[^:]*\:/g, '');
+
+const mapPart = (p: string) => {
+  const [isArg, isField] = p.split('<>');
+  if (isField) {
+    return {
+      v: isField,
+      __type: 'field',
+    } as const;
+  }
+  return {
+    v: isArg,
+    __type: 'arg',
+  } as const;
+};
+
+type Part = ReturnType<typeof mapPart>;
+
+export const ResolveFromPath = (props: AllTypesPropsType, returns: ReturnTypesType, ops: Operations) => {
+  const ResolvePropsType = (mappedParts: Part[]) => {
+    const oKey = ops[mappedParts[0].v];
+    const propsP1 = oKey ? props[oKey] : props[mappedParts[0].v];
+    if (typeof propsP1 === 'boolean' && mappedParts.length === 1) {
+      return 'enum';
+    }
+    if (typeof propsP1 === 'object') {
+      const propsP2 = propsP1[mappedParts[1].v];
+      if (typeof propsP2 === 'string') {
+        return rpp(
+          `${propsP2}${SEPARATOR}${mappedParts
+            .slice(2)
+            .map((mp) => mp.v)
+            .join(SEPARATOR)}`,
+        );
+      }
+      if (typeof propsP2 === 'object') {
+        const propsP3 = propsP2[mappedParts[2].v];
+        if (propsP3 && mappedParts[2].__type === 'arg') {
+          return rpp(
+            `${propsP3}${SEPARATOR}${mappedParts
+              .slice(3)
+              .map((mp) => mp.v)
+              .join(SEPARATOR)}`,
+          );
+        }
+      }
+    }
+  };
+  const ResolveReturnType = (mappedParts: Part[]) => {
+    const oKey = ops[mappedParts[0].v];
+    const returnP1 = oKey ? returns[oKey] : returns[mappedParts[0].v];
+    if (typeof returnP1 === 'object') {
+      const returnP2 = returnP1[mappedParts[1].v];
+      if (returnP2) {
+        return rpp(
+          `${returnP2}${SEPARATOR}${mappedParts
+            .slice(2)
+            .map((mp) => mp.v)
+            .join(SEPARATOR)}`,
+        );
+      }
+    }
+  };
+  const rpp = (path: string): 'enum' | 'not' => {
+    const parts = path.split(SEPARATOR).filter((l) => l.length > 0);
+    const mappedParts = parts.map(mapPart);
+    const propsP1 = ResolvePropsType(mappedParts);
+    if (propsP1) {
+      return propsP1;
+    }
+    const returnP1 = ResolveReturnType(mappedParts);
+    if (returnP1) {
+      return returnP1;
+    }
+    return 'not';
+  };
+  return rpp;
+};
+
+export const InternalArgsBuilt = (
+  props: AllTypesPropsType,
+  returns: ReturnTypesType,
+  ops: Operations,
+  variables?: Record<string, unknown>,
+) => {
+  const arb = (a: ZeusArgsType, p = '', root = true): string => {
+    if (Array.isArray(a)) {
+      return `[${a.map((arr) => arb(arr, p)).join(', ')}]`;
+    }
+    if (typeof a === 'string') {
+      if (a.startsWith('$') && variables?.[a.slice(1)]) {
+        return a;
+      }
+      const checkType = ResolveFromPath(props, returns, ops)(p);
+      if (checkType === 'enum') {
+        return a;
+      }
+      return `${JSON.stringify(a)}`;
+    }
+    if (typeof a === 'object') {
+      if (a === null) {
+        return `null`;
+      }
+      const returnedObjectString = Object.entries(a)
+        .filter(([, v]) => typeof v !== 'undefined')
+        .map(([k, v]) => `${k}: ${arb(v, [p, k].join(SEPARATOR), false)}`)
+        .join(',\n');
+      if (!root) {
+        return `{${returnedObjectString}}`;
+      }
+      return returnedObjectString;
+    }
+    return `${a}`;
+  };
+  return arb;
+};
+
+export const resolverFor = <X, T extends keyof ValueTypes, Z extends keyof ValueTypes[T]>(
+  type: T,
+  field: Z,
+  fn: (
+    args: Required<ValueTypes[T]>[Z] extends [infer Input, any] ? Input : any,
+    source: any,
+  ) => Z extends keyof ModelTypes[T] ? ModelTypes[T][Z] | Promise<ModelTypes[T][Z]> | X : any,
+) => fn as (args?: any, source?: any) => any;
+
+export type SelectionFunction<V> = <T>(t: T | V) => T;
+export const ZeusSelect = <T>() => ((t: unknown) => t) as SelectionFunction<T>;
+
+export type UnwrapPromise<T> = T extends Promise<infer R> ? R : T;
+export type ZeusState<T extends (...args: any[]) => Promise<any>> = NonNullable<UnwrapPromise<ReturnType<T>>>;
+export type ZeusHook<
+  T extends (...args: any[]) => Record<string, (...args: any[]) => Promise<any>>,
+  N extends keyof ReturnType<T>
+> = ZeusState<ReturnType<T>[N]>;
+
+export type WithTypeNameValue<T> = T & {
+  __typename?: boolean;
+};
+export type AliasType<T> = WithTypeNameValue<T> & {
+  __alias?: Record<string, WithTypeNameValue<T>>;
+};
+type DeepAnify<T> = {
+  [P in keyof T]?: any;
+};
+type IsPayLoad<T> = T extends [any, infer PayLoad] ? PayLoad : T;
+type IsArray<T, U> = T extends Array<infer R> ? InputType<R, U>[] : InputType<T, U>;
+type FlattenArray<T> = T extends Array<infer R> ? R : T;
+
+type IsInterfaced<SRC extends DeepAnify<DST>, DST> = FlattenArray<SRC> extends ZEUS_INTERFACES | ZEUS_UNIONS
+  ? {
+      [P in keyof SRC]: SRC[P] extends '__union' & infer R
+        ? P extends keyof DST
+          ? IsArray<R, '__typename' extends keyof DST ? DST[P] & { __typename: true } : DST[P]>
+          : Record<string, unknown>
+        : never;
+    }[keyof DST] &
+      {
+        [P in keyof Omit<
+          Pick<
+            SRC,
+            {
+              [P in keyof DST]: SRC[P] extends '__union' & infer R ? never : P;
+            }[keyof DST]
+          >,
+          '__typename'
+        >]: IsPayLoad<DST[P]> extends boolean ? SRC[P] : IsArray<SRC[P], DST[P]>;
+      }
+  : {
+      [P in keyof Pick<SRC, keyof DST>]: IsPayLoad<DST[P]> extends boolean ? SRC[P] : IsArray<SRC[P], DST[P]>;
+    };
+
+export type MapType<SRC, DST> = SRC extends DeepAnify<DST> ? IsInterfaced<SRC, DST> : never;
+export type InputType<SRC, DST> = IsPayLoad<DST> extends { __alias: infer R }
+  ? {
+      [P in keyof R]: MapType<SRC, R[P]>;
+    } &
+      MapType<SRC, Omit<IsPayLoad<DST>, '__alias'>>
+  : MapType<SRC, IsPayLoad<DST>>;
+export type SubscriptionToGraphQL<Z, T> = {
+  ws: WebSocket;
+  on: (fn: (args: InputType<T, Z>) => void) => void;
+  off: (fn: (e: { data?: InputType<T, Z>; code?: number; reason?: string; message?: string }) => void) => void;
+  error: (fn: (e: { data?: InputType<T, Z>; errors?: string[] }) => void) => void;
+  open: () => void;
+};
+
+export const useZeusVariables = <T>(variables: T) => <
+  Z extends {
+    [P in keyof T]: unknown;
+  }
+>(
+  values: Z,
+) => {
+  return {
+    $params: Object.keys(variables)
+      .map((k) => `$${k}: ${variables[k as keyof T]}`)
+      .join(', '),
+    $: <U extends keyof Z>(variable: U) => {
+      return (`$${variable}` as unknown) as Z[U];
+    },
+    values,
+  };
+};
+
+export type VariableInput = {
+  $params: ReturnType<ReturnType<typeof useZeusVariables>>['$params'];
+  values: Record<string, unknown>;
+};
+
+export const VariableParameters = <T>(variables: T) => (
+  values: {
+    // eslint-disable-next-line prettier/prettier
+    [P in keyof T]: string;
+  },
+) => {
+  return Object.keys(variables)
+    .map((k) => `${k}: ${values[k as keyof T]}`)
+    .join(', ');
+};
+
+type ZEUS_INTERFACES = GraphQLTypes['Nameable'];
+type ZEUS_UNIONS = GraphQLTypes['ChangeCard'];
+
+export type ValueTypes = {
+  /** create card inputs<br> */
+  ['createCard']: {
+    /** <div>How many children the greek god had</div> */
+    Children?: number | undefined | null;
+    /** The attack power<br> */
+    Attack: number;
+    /** The defense power<br> */
+    Defense: number;
+    /** input skills */
+    skills?: ValueTypes['SpecialSkills'][];
+    /** The name of a card<br> */
+    name: string;
+    /** Description of a card<br> */
+    description: string;
+  };
+  ['EffectCard']: AliasType<{
+    effectSize?: boolean;
+    name?: boolean;
+    __typename?: boolean;
+  }>;
+  ['Mutation']: AliasType<{
+    addCard?: [{ card: ValueTypes['createCard'] }, ValueTypes['Card']];
+    __typename?: boolean;
+  }>;
+  ['SpecialCard']: AliasType<{
+    effect?: boolean;
+    name?: boolean;
+    __typename?: boolean;
+  }>;
+  ['SpecialSkills']: SpecialSkills;
+  /** Aws S3 File */
+  ['S3Object']: AliasType<{
+    bucket?: boolean;
+    key?: boolean;
+    region?: boolean;
+    __typename?: boolean;
+  }>;
+  ['Subscription']: AliasType<{
+    deck?: ValueTypes['Card'];
+    __typename?: boolean;
+  }>;
+  ['Query']: AliasType<{
+    cardById?: [{ cardId?: string | undefined | null }, ValueTypes['Card']];
+    /** Draw a card<br> */
+    drawCard?: ValueTypes['Card'];
+    drawChangeCard?: ValueTypes['ChangeCard'];
+    /** list All Cards availble<br> */
+    listCards?: ValueTypes['Card'];
+    myStacks?: ValueTypes['CardStack'];
+    nameables?: ValueTypes['Nameable'];
+    __typename?: boolean;
+  }>;
+  ['Nameable']: AliasType<{
+    name?: boolean;
+    ['...on EffectCard']?: Omit<ValueTypes['EffectCard'], keyof ValueTypes['Nameable']>;
+    ['...on SpecialCard']?: Omit<ValueTypes['SpecialCard'], keyof ValueTypes['Nameable']>;
+    ['...on CardStack']?: Omit<ValueTypes['CardStack'], keyof ValueTypes['Nameable']>;
+    ['...on Card']?: Omit<ValueTypes['Card'], keyof ValueTypes['Nameable']>;
+    __typename?: boolean;
+  }>;
+  ['ChangeCard']: AliasType<{
+    ['...on SpecialCard']: ValueTypes['SpecialCard'];
+    ['...on EffectCard']: ValueTypes['EffectCard'];
+    __typename?: boolean;
+  }>;
+  /** Stack of cards */
+  ['CardStack']: AliasType<{
+    cards?: ValueTypes['Card'];
+    name?: boolean;
+    __typename?: boolean;
+  }>;
+  /** Card used in card game<br> */
+  ['Card']: AliasType<{
+    /** The attack power<br> */
+    Attack?: boolean;
+    /** <div>How many children the greek god had</div> */
+    Children?: boolean;
+    /** The defense power<br> */
+    Defense?: boolean;
+    attack?: [
+      {
+        /** Attacked card/card ids<br> */ cardID: string[] | undefined | null;
+      },
+      ValueTypes['Card'],
+    ];
+    /** Put your description here */
+    cardImage?: ValueTypes['S3Object'];
+    /** Description of a card<br> */
+    description?: boolean;
+    id?: boolean;
+    image?: boolean;
+    /** The name of a card<br> */
+    name?: boolean;
+    skills?: boolean;
+    __typename?: boolean;
+  }>;
+};
+
+export type ModelTypes = {
+  /** create card inputs<br> */
+  ['createCard']: GraphQLTypes['createCard'];
+  ['EffectCard']: {
+    effectSize: number;
+    name: string;
+  };
+  ['Mutation']: {
+    /** add Card to Cards database<br> */
+    addCard: GraphQLTypes['Card'];
+  };
+  ['SpecialCard']: {
+    effect: string;
+    name: string;
+  };
+  ['SpecialSkills']: GraphQLTypes['SpecialSkills'];
+  /** Aws S3 File */
+  ['S3Object']: {
+    bucket: string;
+    key: string;
+    region: string;
+  };
+  ['Subscription']: {
+    deck?: Array<GraphQLTypes['Card']> | undefined;
+  };
+  ['Query']: {
+    cardById?: GraphQLTypes['Card'] | undefined;
+    /** Draw a card<br> */
+    drawCard: GraphQLTypes['Card'];
+    drawChangeCard: GraphQLTypes['ChangeCard'];
+    /** list All Cards availble<br> */
+    listCards: Array<GraphQLTypes['Card']>;
+    myStacks?: Array<GraphQLTypes['CardStack']> | undefined;
+    nameables: Array<GraphQLTypes['Nameable']>;
+  };
+  ['Nameable']: ModelTypes['EffectCard'] | ModelTypes['SpecialCard'] | ModelTypes['CardStack'] | ModelTypes['Card'];
+  ['ChangeCard']: ModelTypes['SpecialCard'] | ModelTypes['EffectCard'];
+  /** Stack of cards */
+  ['CardStack']: {
+    cards?: Array<GraphQLTypes['Card']> | undefined;
+    name: string;
+  };
+  /** Card used in card game<br> */
+  ['Card']: {
+    /** The attack power<br> */
+    Attack: number;
+    /** <div>How many children the greek god had</div> */
+    Children?: number | undefined;
+    /** The defense power<br> */
+    Defense: number;
+    /** Attack other cards on the table , returns Cards after attack<br> */
+    attack?: Array<GraphQLTypes['Card']> | undefined;
+    /** Put your description here */
+    cardImage?: GraphQLTypes['S3Object'] | undefined;
+    /** Description of a card<br> */
+    description: string;
+    id: string;
+    image: string;
+    /** The name of a card<br> */
+    name: string;
+    skills?: Array<GraphQLTypes['SpecialSkills']> | undefined;
+  };
+};
+
+export type GraphQLTypes = {
+  /** create card inputs<br> */
+  ['createCard']: {
+    /** <div>How many children the greek god had</div> */
+    Children?: number | undefined;
+    /** The attack power<br> */
+    Attack: number;
+    /** The defense power<br> */
+    Defense: number;
+    /** input skills */
+    skills?: Array<GraphQLTypes['SpecialSkills']> | undefined;
+    /** The name of a card<br> */
+    name: string;
+    /** Description of a card<br> */
+    description: string;
+  };
+  ['EffectCard']: {
+    __typename: 'EffectCard';
+    effectSize: number;
+    name: string;
+  };
+  ['Mutation']: {
+    __typename: 'Mutation';
+    /** add Card to Cards database<br> */
+    addCard: GraphQLTypes['Card'];
+  };
+  ['SpecialCard']: {
+    __typename: 'SpecialCard';
+    effect: string;
+    name: string;
+  };
+  ['SpecialSkills']: SpecialSkills;
+  /** Aws S3 File */
+  ['S3Object']: {
+    __typename: 'S3Object';
+    bucket: string;
+    key: string;
+    region: string;
+  };
+  ['Subscription']: {
+    __typename: 'Subscription';
+    deck?: Array<GraphQLTypes['Card']> | undefined;
+  };
+  ['Query']: {
+    __typename: 'Query';
+    cardById?: GraphQLTypes['Card'] | undefined;
+    /** Draw a card<br> */
+    drawCard: GraphQLTypes['Card'];
+    drawChangeCard: GraphQLTypes['ChangeCard'];
+    /** list All Cards availble<br> */
+    listCards: Array<GraphQLTypes['Card']>;
+    myStacks?: Array<GraphQLTypes['CardStack']> | undefined;
+    nameables: Array<GraphQLTypes['Nameable']>;
+  };
+  ['Nameable']: {
+    __typename: 'EffectCard' | 'SpecialCard' | 'CardStack' | 'Card';
+    name: string;
+    ['...on EffectCard']: '__union' & GraphQLTypes['EffectCard'];
+    ['...on SpecialCard']: '__union' & GraphQLTypes['SpecialCard'];
+    ['...on CardStack']: '__union' & GraphQLTypes['CardStack'];
+    ['...on Card']: '__union' & GraphQLTypes['Card'];
+  };
+  ['ChangeCard']: {
+    __typename: 'SpecialCard' | 'EffectCard';
+    ['...on SpecialCard']: '__union' & GraphQLTypes['SpecialCard'];
+    ['...on EffectCard']: '__union' & GraphQLTypes['EffectCard'];
+  };
+  /** Stack of cards */
+  ['CardStack']: {
+    __typename: 'CardStack';
+    cards?: Array<GraphQLTypes['Card']> | undefined;
+    name: string;
+  };
+  /** Card used in card game<br> */
+  ['Card']: {
+    __typename: 'Card';
+    /** The attack power<br> */
+    Attack: number;
+    /** <div>How many children the greek god had</div> */
+    Children?: number | undefined;
+    /** The defense power<br> */
+    Defense: number;
+    /** Attack other cards on the table , returns Cards after attack<br> */
+    attack?: Array<GraphQLTypes['Card']> | undefined;
+    /** Put your description here */
+    cardImage?: GraphQLTypes['S3Object'] | undefined;
+    /** Description of a card<br> */
+    description: string;
+    id: string;
+    image: string;
+    /** The name of a card<br> */
+    name: string;
+    skills?: Array<GraphQLTypes['SpecialSkills']> | undefined;
+  };
+};
+export const enum SpecialSkills {
+  THUNDER = 'THUNDER',
+  RAIN = 'RAIN',
+  FIRE = 'FIRE',
+}

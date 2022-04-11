@@ -1,12 +1,14 @@
-import { ParserField, TypeSystemDefinition, TypeDefinition, compileType } from 'graphql-js-tree';
+import { ParserField, TypeSystemDefinition, TypeDefinition, getTypeName, ScalarTypes } from 'graphql-js-tree';
 
 const resolveArg = (f: ParserField, tabs = '\t\t\t'): string => {
   const {
     type: { fieldType },
   } = f;
-  const aTabs = `\n${tabs}\t`;
-
-  return `${tabs}${f.name}:{${aTabs}type:"${compileType(fieldType)}"\n${tabs}}`;
+  const fType = getTypeName(fieldType);
+  if (Object.keys(ScalarTypes).includes(fType)) {
+    return '';
+  }
+  return `${tabs}${f.name}:"${fType}"`;
 };
 const resolveField = (f: ParserField): string => {
   const { args, name } = f;
@@ -18,13 +20,16 @@ export const resolvePropTypeFromRoot = (i: ParserField): string => {
     return '';
   }
   if (i.data.type === TypeDefinition.EnumTypeDefinition) {
-    return `\t${i.name}: "enum"`;
+    return `\t${i.name}: true`;
   }
   if (i.data.type === TypeDefinition.ScalarTypeDefinition) {
     return `\t${i.name}: "String"`;
   }
   if (i.data.type === TypeDefinition.InputObjectTypeDefinition) {
-    return `\t${i.name}:{\n${i.args.map((f) => resolveArg(f, '\t\t')).join(',\n')}\n\t}`;
+    return `\t${i.name}:{\n${i.args
+      .map((f) => resolveArg(f, '\t\t'))
+      .filter((f) => !!f)
+      .join(',\n')}\n\t}`;
   }
   if (!i.args.length) {
     return '';

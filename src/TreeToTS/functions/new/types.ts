@@ -1,29 +1,18 @@
-import { truthyType } from '@/TreeToTS/templates/truthy';
+import { ZEUS_INTERFACES, ZEUS_UNIONS } from '@/TreeToTS/functions/new/mocks';
 
-export const constantTypesTypescript = `
 export type UnwrapPromise<T> = T extends Promise<infer R> ? R : T;
-export type ZeusState<T extends (...args: any[]) => Promise<any>> = NonNullable<
-  UnwrapPromise<ReturnType<T>>
->;
+export type ZeusState<T extends (...args: any[]) => Promise<any>> = NonNullable<UnwrapPromise<ReturnType<T>>>;
 export type ZeusHook<
-  T extends (
-    ...args: any[]
-  ) => Record<string, (...args: any[]) => Promise<any>>,
+  T extends (...args: any[]) => Record<string, (...args: any[]) => Promise<any>>,
   N extends keyof ReturnType<T>
 > = ZeusState<ReturnType<T>[N]>;
 
-type WithTypeNameValue<T> = T & {
-  __typename?: ${truthyType};
+export type WithTypeNameValue<T> = T & {
+  __typename?: boolean;
 };
-type AliasType<T> = WithTypeNameValue<T> & {
+export type AliasType<T> = WithTypeNameValue<T> & {
   __alias?: Record<string, WithTypeNameValue<T>>;
 };
-export interface GraphQLResponse {
-  data?: Record<string, any>;
-  errors?: Array<{
-    message: string;
-  }>;
-}
 type DeepAnify<T> = {
   [P in keyof T]?: any;
 };
@@ -36,7 +25,7 @@ type IsInterfaced<SRC extends DeepAnify<DST>, DST> = FlattenArray<SRC> extends Z
       [P in keyof SRC]: SRC[P] extends '__union' & infer R
         ? P extends keyof DST
           ? IsArray<R, '__typename' extends keyof DST ? DST[P] & { __typename: true } : DST[P]>
-          : {}
+          : Record<string, unknown>
         : never;
     }[keyof DST] &
       {
@@ -48,10 +37,10 @@ type IsInterfaced<SRC extends DeepAnify<DST>, DST> = FlattenArray<SRC> extends Z
             }[keyof DST]
           >,
           '__typename'
-        >]: IsPayLoad<DST[P]> extends ${truthyType} ? SRC[P] : IsArray<SRC[P], DST[P]>;
+        >]: IsPayLoad<DST[P]> extends boolean ? SRC[P] : IsArray<SRC[P], DST[P]>;
       }
   : {
-      [P in keyof Pick<SRC, keyof DST>]: IsPayLoad<DST[P]> extends ${truthyType} ? SRC[P] : IsArray<SRC[P], DST[P]>;
+      [P in keyof Pick<SRC, keyof DST>]: IsPayLoad<DST[P]> extends boolean ? SRC[P] : IsArray<SRC[P], DST[P]>;
     };
 
 export type MapType<SRC, DST> = SRC extends DeepAnify<DST> ? IsInterfaced<SRC, DST> : never;
@@ -61,13 +50,6 @@ export type InputType<SRC, DST> = IsPayLoad<DST> extends { __alias: infer R }
     } &
       MapType<SRC, Omit<IsPayLoad<DST>, '__alias'>>
   : MapType<SRC, IsPayLoad<DST>>;
-type Func<P extends any[], R> = (...args: P) => R;
-type AnyFunc = Func<any, any>;
-export type ArgsType<F extends AnyFunc> = F extends Func<infer P, any> ? P : never;
-export type OperationOptions = {
-  variables?: Record<string, any>;
-  operationName?: string;
-};
 export type SubscriptionToGraphQL<Z, T> = {
   ws: WebSocket;
   on: (fn: (args: InputType<T, Z>) => void) => void;
@@ -75,21 +57,3 @@ export type SubscriptionToGraphQL<Z, T> = {
   error: (fn: (e: { data?: InputType<T, Z>; errors?: string[] }) => void) => void;
   open: () => void;
 };
-export type SelectionFunction<V> = <T>(t: T | V) => T;
-export type fetchOptions = ArgsType<typeof fetch>;
-type websocketOptions = typeof WebSocket extends new (
-  ...args: infer R
-) => WebSocket
-  ? R
-  : never;
-export type chainOptions =
-  | [fetchOptions[0], fetchOptions[1] & {websocket?: websocketOptions}]
-  | [fetchOptions[0]];
-export type FetchFunction = (
-  query: string,
-  variables?: Record<string, any>,
-) => Promise<any>;
-export type SubscriptionFunction = (query: string) => any;
-type NotUndefined<T> = T extends undefined ? never : T;
-export type ResolverType<F> = NotUndefined<F extends [infer ARGS, any] ? ARGS : undefined>;
-`;

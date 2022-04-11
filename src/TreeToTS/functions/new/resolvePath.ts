@@ -1,4 +1,10 @@
-import { AllTypesPropsType, Operations, ReturnTypesType, ZeusArgsType } from '@/TreeToTS/functions/new/models';
+import {
+  AllTypesPropsType,
+  Operations,
+  ReturnTypesType,
+  SEPARATOR,
+  ZeusArgsType,
+} from '@/TreeToTS/functions/new/models';
 
 const mapPart = (p: string) => {
   const [isArg, isField] = p.split('<>');
@@ -27,20 +33,20 @@ export const ResolveFromPath = (props: AllTypesPropsType, returns: ReturnTypesTy
       const propsP2 = propsP1[mappedParts[1].v];
       if (typeof propsP2 === 'string') {
         return rpp(
-          `${propsP2}.${mappedParts
+          `${propsP2}${SEPARATOR}${mappedParts
             .slice(2)
             .map((mp) => mp.v)
-            .join('.')}`,
+            .join(SEPARATOR)}`,
         );
       }
       if (typeof propsP2 === 'object') {
         const propsP3 = propsP2[mappedParts[2].v];
         if (propsP3 && mappedParts[2].__type === 'arg') {
           return rpp(
-            `${propsP3}.${mappedParts
+            `${propsP3}${SEPARATOR}${mappedParts
               .slice(3)
               .map((mp) => mp.v)
-              .join('.')}`,
+              .join(SEPARATOR)}`,
           );
         }
       }
@@ -53,16 +59,16 @@ export const ResolveFromPath = (props: AllTypesPropsType, returns: ReturnTypesTy
       const returnP2 = returnP1[mappedParts[1].v];
       if (returnP2) {
         return rpp(
-          `${returnP2}.${mappedParts
+          `${returnP2}${SEPARATOR}${mappedParts
             .slice(2)
             .map((mp) => mp.v)
-            .join('.')}`,
+            .join(SEPARATOR)}`,
         );
       }
     }
   };
   const rpp = (path: string): 'enum' | 'not' => {
-    const parts = path.split('.').filter((l) => l.length > 0);
+    const parts = path.split(SEPARATOR).filter((l) => l.length > 0);
     const mappedParts = parts.map(mapPart);
     const propsP1 = ResolvePropsType(mappedParts);
     if (propsP1) {
@@ -77,24 +83,33 @@ export const ResolveFromPath = (props: AllTypesPropsType, returns: ReturnTypesTy
   return rpp;
 };
 
-export const InternalArgsBuilt = (props: AllTypesPropsType, returns: ReturnTypesType, ops: Operations) => {
+export const InternalArgsBuilt = (
+  props: AllTypesPropsType,
+  returns: ReturnTypesType,
+  ops: Operations,
+  variables?: Record<string, unknown>,
+) => {
   const arb = (a: ZeusArgsType, p = '', root = true): string => {
     if (Array.isArray(a)) {
       return `[${a.map((arr) => arb(arr, p)).join(', ')}]`;
     }
     if (typeof a === 'string') {
+      if (a.startsWith('$') && variables?.[a.slice(1)]) {
+        return a;
+      }
       const checkType = ResolveFromPath(props, returns, ops)(p);
       if (checkType === 'enum') {
-        return `${a}`;
+        return a;
       }
-      return `"${a}"`;
+      return `${JSON.stringify(a)}`;
     }
     if (typeof a === 'object') {
       if (a === null) {
         return `null`;
       }
       const returnedObjectString = Object.entries(a)
-        .map(([k, v]) => `${k}: ${arb(v, [p, k].join('.'), false)}`)
+        .filter(([, v]) => typeof v !== 'undefined')
+        .map(([k, v]) => `${k}: ${arb(v, [p, k].join(SEPARATOR), false)}`)
         .join(',\n');
       if (!root) {
         return `{${returnedObjectString}}`;
