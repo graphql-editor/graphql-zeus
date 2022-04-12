@@ -12,7 +12,10 @@ const resolveArg = (f: ParserField, tabs = '\t\t\t'): string => {
 };
 const resolveField = (f: ParserField): string => {
   const { args, name } = f;
-  return `\t\t${name}:{\n${args.map((a) => resolveArg(a)).join(',\n')}\n\t\t}`;
+  return `\t\t${name}:{\n${args
+    .map((a) => resolveArg(a))
+    .filter((f) => !!f)
+    .join(',\n')}\n\t\t}`;
 };
 
 export const resolvePropTypeFromRoot = (i: ParserField): string => {
@@ -40,5 +43,6 @@ export const resolvePropTypeFromRoot = (i: ParserField): string => {
   return `\t${i.name}:{\n${i.args
     .filter((f) => f.args && f.args.length)
     .map((f) => resolveField(f))
+    .filter((f) => !!f)
     .join(',\n')}\n\t}`;
 };
