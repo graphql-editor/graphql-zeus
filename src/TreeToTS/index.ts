@@ -1,8 +1,9 @@
 import { resolveModelTypes } from '@/TreeToTS/templates/modelTypes';
+import { resolveOperations } from '@/TreeToTS/templates/operations';
 import { resolveInterfaces } from '@/TreeToTS/templates/returnedTypes/interfaces';
 import { resolveUnions } from '@/TreeToTS/templates/returnedTypes/unions';
 import { resolveValueTypes } from '@/TreeToTS/templates/valueTypes';
-import { ParserField, OperationType, ParserTree, TypeDefinition } from 'graphql-js-tree';
+import { ParserTree, TypeDefinition } from 'graphql-js-tree';
 import { Environment } from '../Models';
 import { resolvePropTypeFromRoot } from './templates/returnedPropTypes';
 import { resolveReturnFromRoot } from './templates/returnedReturns';
@@ -30,47 +31,8 @@ const disableLintersComments = ['eslint-disable'];
  * Class Responsible for generating typescript and javascript code
  */
 export class TreeToTS {
-  static findOperations(nodes: ParserField[], ot: OperationType): OperationDetails {
-    const node: ParserField = nodes.filter((n) => n.type.operations && n.type.operations.find((o) => o === ot))[0];
-
-    if (node === undefined) {
-      return { operationName: undefined, operations: [] };
-    }
-
-    const args = node.args ? node.args : [];
-
-    const operations = args.map((f: { name: string }) => f.name);
-
-    return { operationName: { name: node.name, type: 'operation' }, operations };
-  }
-  static resolveOperations(tree: ParserTree): ResolvedOperations {
-    const nodes = tree.nodes;
-    return {
-      query: TreeToTS.findOperations(nodes, OperationType.query),
-      mutation: TreeToTS.findOperations(nodes, OperationType.mutation),
-      subscription: TreeToTS.findOperations(nodes, OperationType.subscription),
-    };
-  }
   static resolveBasisHeader(): string {
     return `${disableLintersComments.map((rule) => `/* ${rule} */\n`).join('')}\n`;
-  }
-  static resolveBasisCodeJavascript(tree: ParserTree): string {
-    const propTypes = `export const AllTypesProps = {\n${tree.nodes
-      .map(resolvePropTypeFromRoot)
-      .filter((pt) => pt)
-      .join(',\n')}\n}`;
-    const returnTypes = `export const ReturnTypes = {\n${tree.nodes
-      .map((f) =>
-        resolveReturnFromRoot(
-          f,
-          f.data.type === TypeDefinition.InterfaceTypeDefinition
-            ? tree.nodes.filter((n) => n.interfaces?.includes(f.name)).map((n) => n.name)
-            : undefined,
-        ),
-      )
-      .filter((pt) => pt)
-      .join(',\n')}\n}`;
-    return propTypes.concat('\n\n').concat(returnTypes);
   }
   static resolveBasisCode(tree: ParserTree): string {
     const propTypes = `export const AllTypesProps: Record<string,any> = {\n${tree.nodes
@@ -88,14 +50,7 @@ export class TreeToTS {
       )
       .filter((pt) => pt)
       .join(',\n')}\n}`;
-    const Ops = TreeToTS.resolveOperations(tree);
-    const opsString = `export const Ops = {
-    query: ${Ops.query.operationName?.name ? `"${Ops.query.operationName.name}" as const` : `never`},
-    mutation: ${Ops.mutation.operationName?.name ? `"${Ops.mutation.operationName.name}" as const` : `never`},
-    subscription: ${
-      Ops.subscription.operationName?.name ? `"${Ops.subscription.operationName.name}" as const` : `never`
-    }
-}`;
+    const opsString = resolveOperations(tree);
     return propTypes.concat('\n\n').concat(returnTypes).concat('\n\n').concat(opsString);
   }
   static resolveBasisTypes(tree: ParserTree): string {

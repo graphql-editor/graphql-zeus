@@ -1,5 +1,23 @@
+"""Aws S3 File"""
+type S3Object {
+  """"""
+  bucket: String!
+
+  """"""
+  key: String!
+
+  """"""
+  region: String!
+}
+
 """create card inputs<br>"""
 input createCard {
+  """The name of a card<br>"""
+  name: String!
+
+  """Description of a card<br>"""
+  description: String!
+
   """<div>How many children the greek god had</div>"""
   Children: Int
 
@@ -11,28 +29,25 @@ input createCard {
 
   """input skills"""
   skills: [SpecialSkills!]
-
-  """The name of a card<br>"""
-  name: String!
-
-  """Description of a card<br>"""
-  description: String!
 }
 
-""""""
-type EffectCard implements Nameable {
+"""Stack of cards"""
+type CardStack implements Nameable {
   """"""
-  effectSize: Float!
+  cards: [Card!]
 
   """"""
   name: String!
 }
 
 """"""
-type Mutation {
-  """add Card to Cards database<br>"""
-  addCard(card: createCard!): Card!
+interface Nameable {
+  """"""
+  name: String!
 }
+
+""""""
+union ChangeCard = SpecialCard | EffectCard
 
 """"""
 type SpecialCard implements Nameable {
@@ -44,27 +59,12 @@ type SpecialCard implements Nameable {
 }
 
 """"""
-enum SpecialSkills {
-  """Lower enemy defense -5<br>"""
-  THUNDER
-
-  """Attack multiple Cards at once<br>"""
-  RAIN
-
-  """50% chance to avoid any attack<br>"""
-  FIRE
-}
-
-"""Aws S3 File"""
-type S3Object {
+type EffectCard implements Nameable {
   """"""
-  bucket: String!
+  effectSize: Float!
 
   """"""
-  key: String!
-
-  """"""
-  region: String!
+  name: String!
 }
 
 """"""
@@ -92,24 +92,6 @@ type Query {
 
   """"""
   nameables: [Nameable!]!
-}
-
-""""""
-interface Nameable {
-  """"""
-  name: String!
-}
-
-""""""
-union ChangeCard = SpecialCard | EffectCard
-
-"""Stack of cards"""
-type CardStack implements Nameable {
-  """"""
-  cards: [Card!]
-
-  """"""
-  name: String!
 }
 
 """Card used in card game<br>"""
@@ -146,6 +128,24 @@ type Card implements Nameable {
 
   """"""
   skills: [SpecialSkills!]
+}
+
+""""""
+enum SpecialSkills {
+  """Lower enemy defense -5<br>"""
+  THUNDER
+
+  """Attack multiple Cards at once<br>"""
+  RAIN
+
+  """50% chance to avoid any attack<br>"""
+  FIRE
+}
+
+""""""
+type Mutation {
+  """add Card to Cards database<br>"""
+  addCard(card: createCard!): Card!
 }
 
 schema{
