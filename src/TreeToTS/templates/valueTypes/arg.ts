@@ -40,7 +40,7 @@ export const resolveValueFieldType = (
     return resolveValueFieldType(
       name,
       fType.nest,
-      isRequired ? (x) => `(${fn(x)})[] | undefined | null` : (x) => `(${fn(x)})[]`,
+      isRequired ? (x) => `Array<${fn(x)}>` : (x) => `Array<${fn(x)}> | undefined | null`,
       false,
     );
   }
