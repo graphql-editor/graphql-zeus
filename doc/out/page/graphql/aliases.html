@@ -8,7 +8,7 @@
           const Component = m.default;
         
             import ReactDOM from 'https://cdn.skypack.dev/react-dom';
-            ReactDOM.hydrate(Component({"content":{"content":"\n## GraphQL Aliases\n\nZeus supports declaring aliases 🥸\n\n```ts\nconst aliasedQueryExecute = await chain('query')({\n  listCards: {\n    __alias: {\n      atak: {\n        attack: [\n          { cardID: ['1'] },\n          {\n            name: true,\n            description: true,\n          },\n        ],\n      },\n    },\n  },\n});\n```\n\nResponse:\n\n```json\n{\n  \"listCards\": [\n    {\n      \"atak\": {\n        \"attack\": [\n          {\n            \"name\": \"Zelma\",\n            \"description\": \"Central\"\n          }\n        ]\n      }\n    }\n  ]\n}\n```\n\nNow you can access properties type-safe like this\n\n```javascript\naliasedQueryExecute.listCards.map((c) => c.atak.attack);\n```\n","data":{"link":"graphql/aliases","title":"Aliases","order":3,"category":"GraphQL"},"excerpt":""},"routes":{"Basics":[{"link":"getting-started","title":"Getting Started","order":0,"category":"Basics"},{"link":"selector","title":"Selector","order":1,"category":"Basics"},{"link":"examples","title":"Examples","order":2,"category":"Basics"},{"link":"esmodules","title":"EsModules","order":3,"category":"Basics"},{"link":"spec","title":"Specification","order":4,"category":"Basics"},{"link":"library","title":"Use as a library","order":5,"category":"Basics"},{"link":"javascript","title":"Javascript","order":6,"category":"Basics"},{"link":"custom-fetch","title":"Custom fetch","order":7,"category":"Basics"}],"GraphQL":[{"link":"graphql/interfaces-and-unions","title":"Interfaces and Unions","order":1,"category":"GraphQL"},{"link":"graphql/variables","title":"Variables","order":2,"category":"GraphQL"},{"link":"graphql/aliases","title":"Aliases","order":3,"category":"GraphQL"},{"link":"graphql/gql","title":"Gql string","order":4,"category":"GraphQL"}],"Plugins":[{"link":"plugins/apollo","title":"Apollo","order":1,"category":"Plugins"},{"link":"plugins/react-query","title":"React Query","order":2,"category":"Plugins"},{"link":"plugins/stucco","title":"Stucco","order":3,"category":"Plugins"}]},"activeRoute":"graphql/aliases","prefix":""}),document.body)
+            ReactDOM.hydrate(Component({"content":{"content":"\n## GraphQL Aliases\n\nZeus supports declaring aliases 🥸\n\n```ts\nconst aliasedQueryExecute = await chain('query')({\n  listCards: {\n    __alias: {\n      atak: {\n        attack: [\n          { cardID: ['1'] },\n          {\n            name: true,\n            description: true,\n          },\n        ],\n      },\n    },\n  },\n});\n```\n\nResponse:\n\n```json\n{\n  \"listCards\": [\n    {\n      \"atak\": [\n        {\n          \"name\": \"Zelma\",\n          \"description\": \"Central\"\n        }\n      ]\n    }\n  ]\n}\n```\n\nNow you can access properties type-safe like this\n\n```javascript\naliasedQueryExecute.listCards.map((c) => c.atak);\n```\n","data":{"link":"graphql/aliases","title":"Aliases","order":3,"category":"GraphQL"},"excerpt":""},"routes":{"Basics":[{"link":"getting-started","title":"Getting Started","order":0,"category":"Basics"},{"link":"selector","title":"Selector","order":1,"category":"Basics"},{"link":"examples","title":"Examples","order":2,"category":"Basics"},{"link":"esmodules","title":"EsModules","order":3,"category":"Basics"},{"link":"spec","title":"Specification","order":4,"category":"Basics"},{"link":"library","title":"Use as a library","order":5,"category":"Basics"},{"link":"javascript","title":"Javascript","order":6,"category":"Basics"},{"link":"custom-fetch","title":"Custom fetch","order":7,"category":"Basics"}],"GraphQL":[{"link":"graphql/interfaces-and-unions","title":"Interfaces and Unions","order":1,"category":"GraphQL"},{"link":"graphql/variables","title":"Variables","order":2,"category":"GraphQL"},{"link":"graphql/aliases","title":"Aliases","order":3,"category":"GraphQL"},{"link":"graphql/gql","title":"Gql string","order":4,"category":"GraphQL"}],"Plugins":[{"link":"plugins/apollo","title":"Apollo","order":1,"category":"Plugins"},{"link":"plugins/react-query","title":"React Query","order":2,"category":"Plugins"},{"link":"plugins/stucco","title":"Stucco","order":3,"category":"Plugins"}]},"activeRoute":"graphql/aliases","prefix":""}),document.body)
       </script>
 
             <link
@@ -42,20 +42,18 @@
 <pre><code class="language-json"><span class="hljs-punctuation">{</span>
   <span class="hljs-attr">"listCards"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
     <span class="hljs-punctuation">{</span>
-      <span class="hljs-attr">"atak"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
-        <span class="hljs-attr">"attack"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
-          <span class="hljs-punctuation">{</span>
-            <span class="hljs-attr">"name"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"Zelma"</span><span class="hljs-punctuation">,</span>
-            <span class="hljs-attr">"description"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"Central"</span>
-          <span class="hljs-punctuation">}</span>
-        <span class="hljs-punctuation">]</span>
-      <span class="hljs-punctuation">}</span>
+      <span class="hljs-attr">"atak"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+        <span class="hljs-punctuation">{</span>
+          <span class="hljs-attr">"name"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"Zelma"</span><span class="hljs-punctuation">,</span>
+          <span class="hljs-attr">"description"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"Central"</span>
+        <span class="hljs-punctuation">}</span>
+      <span class="hljs-punctuation">]</span>
     <span class="hljs-punctuation">}</span>
   <span class="hljs-punctuation">]</span>
 <span class="hljs-punctuation">}</span>
 </code></pre>
 <p>Now you can access properties type-safe like this</p>
-<pre><code class="language-javascript">aliasedQueryExecute.<span class="hljs-property">listCards</span>.<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">c</span>) =&gt;</span> c.<span class="hljs-property">atak</span>.<span class="hljs-property">attack</span>);
+<pre><code class="language-javascript">aliasedQueryExecute.<span class="hljs-property">listCards</span>.<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">c</span>) =&gt;</span> c.<span class="hljs-property">atak</span>);
 </code></pre>
 </div></div></div></div>
     </body>

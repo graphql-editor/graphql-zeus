@@ -10,17 +10,16 @@ category: GraphQL
 It's simple to perform queries with variables by importing and using the `$` function from the Zeus output and calling it with the variable name in backticks.
 
 ```ts
-import { Gql, variablizer } from './zeus';
-const variables = {
+import { Gql, useZeusVariables } from './zeus';
+const variables = useZeusVariables({ Attack: 'Int!', Defense: 'Int!' })({
   card: {
     Attack: 2,
     Defense: 3,
     description: 'Lord of the mountains',
     name: 'Golrog',
   },
-};
-
-const $ = variablizer(variables);
+});
+const { $ } = variables;
 
 const addCardResult = await Gql('mutation')(
   {
@@ -56,6 +55,6 @@ Note: The mutation function created by the Zeus versions of React Hooks like the
 const [addCard, { data, loading, error }] = useTypedMutation({ ...myMutation });
 
 await addCard({
-  variables,
+  variables: variables.values,
 });
 ```

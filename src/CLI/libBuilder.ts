@@ -15,13 +15,10 @@ const bundleFunctions = () => {
     .map((d) => path.join(baseDir, d))
     .map((d) => {
       const content = fs.readFileSync(d);
-      return (
-        content
-          .toString('utf-8')
-          .replace(/import\s(\n|\w|{|}|\s|,)*.*;/gm, '')
-          // .replace(/export\s/gm, '')
-          .replace(/\\/gm, '\\\\')
-      );
+      return content
+        .toString('utf-8')
+        .replace(/import\s(\n|\w|{|}|\s|,)*.*;/gm, '')
+        .replace(/\\/gm, '\\\\');
     });
   const content = toTemplateString(allFunctions.join('\n\n'));
   fs.writeFileSync(path.join(baseDirFunctions, 'generated.ts'), toExport(content));

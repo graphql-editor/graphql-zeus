@@ -46,7 +46,7 @@ type IsInterfaced<SRC extends DeepAnify<DST>, DST> = FlattenArray<SRC> extends Z
 export type MapType<SRC, DST> = SRC extends DeepAnify<DST> ? IsInterfaced<SRC, DST> : never;
 export type InputType<SRC, DST> = IsPayLoad<DST> extends { __alias: infer R }
   ? {
-      [P in keyof R]: MapType<SRC, R[P]>;
+      [P in keyof R]: MapType<SRC, R[P]>[keyof MapType<SRC, R[P]>];
     } &
       MapType<SRC, Omit<IsPayLoad<DST>, '__alias'>>
   : MapType<SRC, IsPayLoad<DST>>;

@@ -33,14 +33,12 @@ Response:
 {
   "listCards": [
     {
-      "atak": {
-        "attack": [
-          {
-            "name": "Zelma",
-            "description": "Central"
-          }
-        ]
-      }
+      "atak": [
+        {
+          "name": "Zelma",
+          "description": "Central"
+        }
+      ]
     }
   ]
 }
@@ -49,5 +47,5 @@ Response:
 Now you can access properties type-safe like this
 
 ```javascript
-aliasedQueryExecute.listCards.map((c) => c.atak.attack);
+aliasedQueryExecute.listCards.map((c) => c.atak);
 ```
