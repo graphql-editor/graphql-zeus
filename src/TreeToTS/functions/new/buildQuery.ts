@@ -22,8 +22,11 @@ export const InternalsBuildQuery = (
     if (!o) {
       return '';
     }
-    if (typeof o === 'boolean') {
+    if (typeof o === 'boolean' || typeof o === 'number') {
       return k;
+    }
+    if (typeof o === 'string') {
+      return `${k} ${o}`;
     }
     if (Array.isArray(o)) {
       return `${ibb(

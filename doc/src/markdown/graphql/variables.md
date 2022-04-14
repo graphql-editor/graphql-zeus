@@ -7,7 +7,7 @@ category: GraphQL
 
 ## GraphQL Variables
 
-It's simple to perform queries with variables by importing and using the `$` function from the Zeus output and calling it with the variable name in backticks.
+It's simple to perform queries with variables by using `useZeusVariables` function. It forces you to be type-safe also
 
 ```ts
 import { Gql, useZeusVariables } from './zeus';

@@ -19,6 +19,7 @@ type DeepAnify<T> = {
 type IsPayLoad<T> = T extends [any, infer PayLoad] ? PayLoad : T;
 type IsArray<T, U> = T extends Array<infer R> ? InputType<R, U>[] : InputType<T, U>;
 type FlattenArray<T> = T extends Array<infer R> ? R : T;
+type BaseZeusResolver = boolean | 1 | string;
 
 type IsInterfaced<SRC extends DeepAnify<DST>, DST> = FlattenArray<SRC> extends ZEUS_INTERFACES | ZEUS_UNIONS
   ? {
@@ -37,10 +38,10 @@ type IsInterfaced<SRC extends DeepAnify<DST>, DST> = FlattenArray<SRC> extends Z
             }[keyof DST]
           >,
           '__typename'
-        >]: IsPayLoad<DST[P]> extends boolean ? SRC[P] : IsArray<SRC[P], DST[P]>;
+        >]: IsPayLoad<DST[P]> extends BaseZeusResolver ? SRC[P] : IsArray<SRC[P], DST[P]>;
       }
   : {
-      [P in keyof Pick<SRC, keyof DST>]: IsPayLoad<DST[P]> extends boolean ? SRC[P] : IsArray<SRC[P], DST[P]>;
+      [P in keyof Pick<SRC, keyof DST>]: IsPayLoad<DST[P]> extends BaseZeusResolver ? SRC[P] : IsArray<SRC[P], DST[P]>;
     };
 
 export type MapType<SRC, DST> = SRC extends DeepAnify<DST> ? IsInterfaced<SRC, DST> : never;

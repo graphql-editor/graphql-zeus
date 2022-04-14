@@ -1,6 +1,6 @@
 {
   "name": "graphql-zeus",
-  "version": "5.0.0-rc-4",
+  "version": "5.0.0-rc-5",
   "private": false,
   "license": "MIT",
   "description": "Generate Client Libary for GraphQL Schema",
@@ -20,6 +20,7 @@
     "run-example-typescript-node": "./run-example.sh examples/typescript-node",
     "lint": "ttsc  && eslint \"./src/**/*.{ts,js}\" --quiet --fix",
     "doc:ci": "cd doc && npm i && npm run build",
+    "doc:watch": "cd doc && npm run start && cd ..",
     "produce-lib": "ts-node src/CLI/libBuilder.ts && eslint src/TreeToTS/functions/generated.ts --quiet --fix"
   },
   "repository": {

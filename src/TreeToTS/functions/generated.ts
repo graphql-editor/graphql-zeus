@@ -1,5 +1,91 @@
 export default `
 
+const handleFetchResponse = (response: Response): Promise<GraphQLResponse> => {
+  if (!response.ok) {
+    return new Promise((_, reject) => {
+      response
+        .text()
+        .then((text) => {
+          try {
+            reject(JSON.parse(text));
+          } catch (err) {
+            reject(text);
+          }
+        })
+        .catch(reject);
+    });
+  }
+  return response.json();
+};
+
+export const apiFetch = (options: fetchOptions) => (query: string, variables: Record<string, unknown> = {}) => {
+  const fetchOptions = options[1] || {};
+  if (fetchOptions.method && fetchOptions.method === 'GET') {
+    return fetch(\`\${options[0]}?query=\${encodeURIComponent(query)}\`, fetchOptions)
+      .then(handleFetchResponse)
+      .then((response: GraphQLResponse) => {
+        if (response.errors) {
+          throw new GraphQLError(response);
+        }
+        return response.data;
+      });
+  }
+  return fetch(\`\${options[0]}\`, {
+    body: JSON.stringify({ query, variables }),
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    ...fetchOptions,
+  })
+    .then(handleFetchResponse)
+    .then((response: GraphQLResponse) => {
+      if (response.errors) {
+        throw new GraphQLError(response);
+      }
+      return response.data;
+    });
+};
+
+
+
+
+export const apiSubscription = (options: chainOptions) => (query: string) => {
+  try {
+    const queryString = options[0] + '?query=' + encodeURIComponent(query);
+    const wsString = queryString.replace('http', 'ws');
+    const host = (options.length > 1 && options[1]?.websocket?.[0]) || wsString;
+    const webSocketOptions = options[1]?.websocket || [host];
+    const ws = new WebSocket(...webSocketOptions);
+    return {
+      ws,
+      on: (e: (args: any) => void) => {
+        ws.onmessage = (event: any) => {
+          if (event.data) {
+            const parsed = JSON.parse(event.data);
+            const data = parsed.data;
+            return e(data);
+          }
+        };
+      },
+      off: (e: (args: any) => void) => {
+        ws.onclose = e;
+      },
+      error: (e: (args: any) => void) => {
+        ws.onerror = e;
+      },
+      open: (e: () => void) => {
+        ws.onopen = e;
+      },
+    };
+  } catch {
+    throw new Error('No websockets implemented');
+  }
+};
+
+
+
+
 
 
 export const InternalsBuildQuery = (
@@ -14,8 +100,11 @@ export const InternalsBuildQuery = (
     if (!o) {
       return '';
     }
-    if (typeof o === 'boolean') {
+    if (typeof o === 'boolean' || typeof o === 'number') {
       return k;
+    }
+    if (typeof o === 'string') {
+      return \`\${k} \${o}\`;
     }
     if (Array.isArray(o)) {
       return \`\${ibb(
@@ -138,9 +227,15 @@ export type ReturnTypesType = {
     | undefined;
 };
 export type InputValueType = {
-  [x: string]: undefined | boolean | [any, undefined | boolean | InputValueType] | InputValueType;
+  [x: string]: undefined | boolean | string | number | [any, undefined | boolean | InputValueType] | InputValueType;
 };
-export type VType = undefined | boolean | [any, undefined | boolean | InputValueType] | InputValueType;
+export type VType =
+  | undefined
+  | boolean
+  | string
+  | number
+  | [any, undefined | boolean | InputValueType]
+  | InputValueType;
 
 export type PlainType = boolean | number | string | null | undefined;
 export type ZeusArgsType =
@@ -346,13 +441,14 @@ type DeepAnify<T> = {
 type IsPayLoad<T> = T extends [any, infer PayLoad] ? PayLoad : T;
 type IsArray<T, U> = T extends Array<infer R> ? InputType<R, U>[] : InputType<T, U>;
 type FlattenArray<T> = T extends Array<infer R> ? R : T;
+type BaseZeusResolver = boolean | 1 | string;
 
 type IsInterfaced<SRC extends DeepAnify<DST>, DST> = FlattenArray<SRC> extends ZEUS_INTERFACES | ZEUS_UNIONS
   ? {
       [P in keyof SRC]: SRC[P] extends '__union' & infer R
         ? P extends keyof DST
           ? IsArray<R, '__typename' extends keyof DST ? DST[P] & { __typename: true } : DST[P]>
-          : {}
+          : Record<string, unknown>
         : never;
     }[keyof DST] &
       {
@@ -364,16 +460,16 @@ type IsInterfaced<SRC extends DeepAnify<DST>, DST> = FlattenArray<SRC> extends Z
             }[keyof DST]
           >,
           '__typename'
-        >]: IsPayLoad<DST[P]> extends boolean ? SRC[P] : IsArray<SRC[P], DST[P]>;
+        >]: IsPayLoad<DST[P]> extends BaseZeusResolver ? SRC[P] : IsArray<SRC[P], DST[P]>;
       }
   : {
-      [P in keyof Pick<SRC, keyof DST>]: IsPayLoad<DST[P]> extends boolean ? SRC[P] : IsArray<SRC[P], DST[P]>;
+      [P in keyof Pick<SRC, keyof DST>]: IsPayLoad<DST[P]> extends BaseZeusResolver ? SRC[P] : IsArray<SRC[P], DST[P]>;
     };
 
 export type MapType<SRC, DST> = SRC extends DeepAnify<DST> ? IsInterfaced<SRC, DST> : never;
 export type InputType<SRC, DST> = IsPayLoad<DST> extends { __alias: infer R }
   ? {
-      [P in keyof R]: MapType<SRC, R[P]>;
+      [P in keyof R]: MapType<SRC, R[P]>[keyof MapType<SRC, R[P]>];
     } &
       MapType<SRC, Omit<IsPayLoad<DST>, '__alias'>>
   : MapType<SRC, IsPayLoad<DST>>;

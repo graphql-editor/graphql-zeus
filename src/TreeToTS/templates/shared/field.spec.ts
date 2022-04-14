@@ -58,4 +58,26 @@ describe('Test type field generation', () => {
     });
     expect(resolvedString).toEqual(`Array<Person>`);
   });
+  test('Required nested Array Required Field generation', () => {
+    const resolvedString = resolveFieldType('Person', {
+      type: Options.required,
+      nest: {
+        type: Options.array,
+        nest: {
+          type: Options.required,
+          nest: {
+            type: Options.array,
+            nest: {
+              type: Options.required,
+              nest: {
+                type: Options.name,
+                name: 'Int',
+              },
+            },
+          },
+        },
+      },
+    });
+    expect(resolvedString).toEqual(`Array<Array<Person>>`);
+  });
 });

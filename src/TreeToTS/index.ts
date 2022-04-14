@@ -84,12 +84,18 @@ export class TreeToTS {
     esModule?: boolean;
   }) {
     return {
-      indexImports: `import { AllTypesProps, ReturnTypes, Ops } from './const${esModule ? '.js' : ''}';`,
+      indexImports: `import { AllTypesProps, ReturnTypes, Ops } from './const${esModule ? '.js' : ''}';`.concat(
+        env === 'node'
+          ? `
+import fetch, { Response } from 'node-fetch';
+import WebSocket from 'ws';`
+          : ``,
+      ),
       const: TreeToTS.resolveBasisCode(tree),
       index: ''
         .concat(host ? `export const HOST = "${host}"` : '\n\nexport const HOST="Specify host"')
         .concat('\n')
-        .concat(typescriptFunctions(env))
+        .concat(typescriptFunctions())
         .concat('\n')
         .concat(TreeToTS.resolveBasisTypes(tree)),
     };

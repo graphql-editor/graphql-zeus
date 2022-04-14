@@ -285,4 +285,23 @@ describe('Test generated function buildQuery', () => {
       }
     }`);
   });
+  test('Simple query with  directives', () => {
+    const builder = InternalsBuildQuery(AllTypesProps, ReturnTypes, Ops, { operationName: 'MyQuery' });
+    const matchExact = replSpace(
+      builder('query', {
+        cards: {
+          name: `@skip(if: true)`,
+          age: true,
+          bio: true,
+        },
+      }),
+    );
+    matchExact(`query MyQuery{
+        cards{
+            name @skip(if: true)
+            age
+            bio
+        }
+    }`);
+  });
 });

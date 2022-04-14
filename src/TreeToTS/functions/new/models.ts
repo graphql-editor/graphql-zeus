@@ -23,9 +23,15 @@ export type ReturnTypesType = {
     | undefined;
 };
 export type InputValueType = {
-  [x: string]: undefined | boolean | [any, undefined | boolean | InputValueType] | InputValueType;
+  [x: string]: undefined | boolean | string | number | [any, undefined | boolean | InputValueType] | InputValueType;
 };
-export type VType = undefined | boolean | [any, undefined | boolean | InputValueType] | InputValueType;
+export type VType =
+  | undefined
+  | boolean
+  | string
+  | number
+  | [any, undefined | boolean | InputValueType]
+  | InputValueType;
 
 export type PlainType = boolean | number | string | null | undefined;
 export type ZeusArgsType =
