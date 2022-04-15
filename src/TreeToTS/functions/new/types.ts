@@ -9,6 +9,7 @@ export type ZeusHook<
 
 export type WithTypeNameValue<T> = T & {
   __typename?: boolean;
+  __directives?: string;
 };
 export type AliasType<T> = WithTypeNameValue<T> & {
   __alias?: Record<string, WithTypeNameValue<T>>;

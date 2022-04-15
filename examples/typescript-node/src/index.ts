@@ -109,6 +109,7 @@ const run = async () => {
     },
     drawCard: {
       Attack: true,
+      name: `@skip(if:true)`,
     },
     drawChangeCard: {
       '...on SpecialCard': {

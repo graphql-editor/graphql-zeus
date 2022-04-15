@@ -37,6 +37,10 @@ export const ReturnTypes = {
   },
 };
 
+export const CustomScalars = {
+  JSON: true,
+};
+
 export const Ops = {
   query: 'Query' as const,
   mutation: 'Mutation' as const,

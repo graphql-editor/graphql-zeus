@@ -126,8 +126,8 @@ export const InternalsBuildQuery = (
     }
     const hasOperationName = root && options?.operationName ? ' ' + options.operationName : '';
     const hasVariables = root && options?.variables?.$params ? \`(\${options.variables?.$params})\` : '';
-
-    return \`\${k}\${hasOperationName}\${hasVariables}{\${Object.entries(o)
+    const keyForDirectives = o.__directives ? \`\${k} \${o.__directives}\` : k;
+    return \`\${keyForDirectives}\${hasOperationName}\${hasVariables}{\${Object.entries(o)
       .map((e) => ibb(...e, [p, \`field<>\${keyForPath}\`].join(SEPARATOR), false))
       .join('\\n')}}\`;
   };
@@ -431,6 +431,7 @@ export type ZeusHook<
 
 export type WithTypeNameValue<T> = T & {
   __typename?: boolean;
+  __directives?: string;
 };
 export type AliasType<T> = WithTypeNameValue<T> & {
   __alias?: Record<string, WithTypeNameValue<T>>;

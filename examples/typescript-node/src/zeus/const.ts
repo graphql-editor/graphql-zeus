@@ -1,86 +1,84 @@
 /* eslint-disable */
 
-export const AllTypesProps: Record<string,any> = {
-	Query:{
-		cardById:{
+export const AllTypesProps: Record<string, any> = {
+  SpecialSkills: true,
+  JSON: 'String',
+  createCard: {
+    skills: 'SpecialSkills',
+  },
+  Query: {
+    cardById: {},
+  },
+  Mutation: {
+    addCard: {
+      card: 'createCard',
+    },
+  },
+  Card: {
+    attack: {},
+  },
+};
 
-		}
-	},
-	SpecialSkills: true,
-	Mutation:{
-		addCard:{
-			card:"createCard"
-		}
-	},
-	createCard:{
-		skills:"SpecialSkills"
-	},
-	Card:{
-		attack:{
-
-		}
-	}
-}
-
-export const ReturnTypes: Record<string,any> = {
-	Nameable:{
-		"...on EffectCard": "EffectCard",
-		"...on SpecialCard": "SpecialCard",
-		"...on CardStack": "CardStack",
-		"...on Card": "Card",
-		name:"String"
-	},
-	S3Object:{
-		bucket:"String",
-		key:"String",
-		region:"String"
-	},
-	Query:{
-		cardById:"Card",
-		drawCard:"Card",
-		drawChangeCard:"ChangeCard",
-		listCards:"Card",
-		myStacks:"CardStack",
-		nameables:"Nameable"
-	},
-	ChangeCard:{
-		"...on SpecialCard":"SpecialCard",
-		"...on EffectCard":"EffectCard"
-	},
-	EffectCard:{
-		effectSize:"Float",
-		name:"String"
-	},
-	SpecialCard:{
-		effect:"String",
-		name:"String"
-	},
-	CardStack:{
-		cards:"Card",
-		name:"String"
-	},
-	Mutation:{
-		addCard:"Card"
-	},
-	Card:{
-		Attack:"Int",
-		Children:"Int",
-		Defense:"Int",
-		attack:"Card",
-		cardImage:"S3Object",
-		description:"String",
-		id:"ID",
-		image:"String",
-		name:"String",
-		skills:"SpecialSkills"
-	},
-	Subscription:{
-		deck:"Card"
-	}
-}
+export const ReturnTypes: Record<string, any> = {
+  CardStack: {
+    cards: 'Card',
+    name: 'String',
+  },
+  Query: {
+    cardById: 'Card',
+    drawCard: 'Card',
+    drawChangeCard: 'ChangeCard',
+    listCards: 'Card',
+    myStacks: 'CardStack',
+    nameables: 'Nameable',
+  },
+  Nameable: {
+    '...on CardStack': 'CardStack',
+    '...on SpecialCard': 'SpecialCard',
+    '...on Card': 'Card',
+    '...on EffectCard': 'EffectCard',
+    name: 'String',
+  },
+  S3Object: {
+    bucket: 'String',
+    key: 'String',
+    region: 'String',
+  },
+  SpecialCard: {
+    effect: 'String',
+    name: 'String',
+  },
+  Mutation: {
+    addCard: 'Card',
+  },
+  Subscription: {
+    deck: 'Card',
+  },
+  Card: {
+    Attack: 'Int',
+    Children: 'Int',
+    Defense: 'Int',
+    attack: 'Card',
+    cardImage: 'S3Object',
+    description: 'String',
+    id: 'ID',
+    image: 'String',
+    info: 'JSON',
+    name: 'String',
+    skills: 'SpecialSkills',
+  },
+  ChangeCard: {
+    '...on SpecialCard': 'SpecialCard',
+    '...on EffectCard': 'EffectCard',
+  },
+  EffectCard: {
+    effectSize: 'Float',
+    name: 'String',
+  },
+};
 
 export const Ops = {
-query: "Query" as const,
-	mutation: "Mutation" as const,
-	subscription: "Subscription" as const
-}
+  query: 'Query' as const,
+  mutation: 'Mutation' as const,
+  subscription: 'Subscription' as const,
+};
