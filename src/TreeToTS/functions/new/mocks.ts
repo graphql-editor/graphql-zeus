@@ -48,6 +48,7 @@ export const Ops = {
 
 export type ZEUS_INTERFACES = GraphQLTypes['Nameable'];
 export type ZEUS_UNIONS = GraphQLTypes['ChangeCard'];
+export type ZEUS_SCALARS = GraphQLTypes['JSON'];
 
 export type ValueTypes = {
   ['Nameable']: AliasType<{
@@ -110,6 +111,7 @@ export type ValueTypes = {
     description?: boolean;
     id?: boolean;
     image?: boolean;
+    info?: boolean;
     /** The name of a card<br> */
     name?: boolean;
     skills?: boolean;
@@ -190,10 +192,12 @@ export type ModelTypes = {
     description: string;
     id: string;
     image: string;
+    info?: GraphQLTypes['JSON'] | undefined;
     /** The name of a card<br> */
     name: string;
     skills?: Array<GraphQLTypes['SpecialSkills']> | undefined;
   };
+  ['JSON']: unknown;
   ['SpecialSkills']: GraphQLTypes['SpecialSkills'];
   ['SpecialCard']: {
     effect: string;
@@ -228,6 +232,7 @@ export type GraphQLTypes = {
     key: string;
     region: string;
   };
+  ['JSON']: unknown;
   ['ChangeCard']: {
     __typename: 'SpecialCard' | 'EffectCard';
     ['...on SpecialCard']: '__union' & GraphQLTypes['SpecialCard'];
@@ -270,6 +275,7 @@ export type GraphQLTypes = {
     description: string;
     id: string;
     image: string;
+    info?: GraphQLTypes['JSON'] | undefined;
     /** The name of a card<br> */
     name: string;
     skills?: Array<GraphQLTypes['SpecialSkills']> | undefined;
