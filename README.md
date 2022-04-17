@@ -35,7 +35,7 @@ Example using a generated `chain` client. Queries, mutations and subscriptions a
 
 ![](images/example.png)
 
-## Join the Community and Spread the Word 
+## Join the Zeus Community and Spread the Word 
 
 ⚡️ [Join the Discussion forum on GitHub](https://github.com/graphql-editor/graphql-zeus/discussions) 📣
 
