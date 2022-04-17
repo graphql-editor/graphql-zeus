@@ -6,6 +6,7 @@ const sel = Selector('Query')({
   drawCard: {
     Children: true,
     Attack: true,
+    info: true,
     attack: [{ cardID: ['sss'] }, { Attack: true }],
   },
   cardById: [{ cardId: '' }, { Attack: true }],

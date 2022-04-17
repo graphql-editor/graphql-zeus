@@ -505,16 +505,4 @@ export type VariableInput = {
   $params: ReturnType<ReturnType<typeof useZeusVariables>>['$params'];
   values: Record<string, unknown>;
 };
-
-
-export const VariableParameters = <T>(variables: T) => (
-  values: {
-    // eslint-disable-next-line prettier/prettier
-    [P in keyof T]: string;
-  },
-) => {
-  return Object.keys(variables)
-    .map((k) => \`\${k}: \${values[k as keyof T]}\`)
-    .join(', ');
-};
 `;

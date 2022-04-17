@@ -1,6 +1,6 @@
 {
   "name": "graphql-zeus",
-  "version": "5.0.0-rc-7",
+  "version": "5.0.0-rc-8",
   "private": false,
   "license": "MIT",
   "description": "Generate Client Libary for GraphQL Schema",
@@ -16,7 +16,7 @@
     "test": "jest",
     "cli": "node ./lib/CLI/index.js",
     "examples-generate": "npm run generate-typescript-node",
-    "generate-typescript-node": "node ./lib/CLI/index.js https://faker.graphqleditor.com/a-team/olympus/graphql examples/typescript-node/src --ts --n -g examples/typescript-node/zeus.graphql --apollo --reactQuery --stuccoSubscriptions",
+    "generate-typescript-node": "node ./lib/CLI/index.js https://faker.graphqleditor.com/a-team/olympus/graphql examples/typescript-node/src --n -g examples/typescript-node/zeus.graphql --apollo --reactQuery --stuccoSubscriptions",
     "run-example-typescript-node": "./run-example.sh examples/typescript-node",
     "lint": "ttsc  && eslint \"./src/**/*.{ts,js}\" --quiet --fix",
     "doc:ci": "cd doc && npm i && npm run build",
