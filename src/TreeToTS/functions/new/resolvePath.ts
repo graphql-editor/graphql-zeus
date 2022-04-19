@@ -91,7 +91,7 @@ export const InternalArgsBuilt = (
 ) => {
   const arb = (a: ZeusArgsType, p = '', root = true): string => {
     if (Array.isArray(a)) {
-      return `[${a.map((arr) => arb(arr, p)).join(', ')}]`;
+      return `[${a.map((arr) => arb(arr, p, false)).join(', ')}]`;
     }
     if (typeof a === 'string') {
       if (a.startsWith('$') && variables?.[a.slice(1)]) {
