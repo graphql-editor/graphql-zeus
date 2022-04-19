@@ -1,16 +1,14 @@
-import { Environment, OperationType, ParserField, ParserTree, TypeDefinition } from '../Models';
-import { resolveValueTypes } from './templates/resolveValueTypes';
-import { resolveModelTypes } from './templates/returnedModelTypes';
+import { resolveModelTypes } from '@/TreeToTS/templates/modelTypes';
+import { resolveOperations } from '@/TreeToTS/templates/operations';
+import { resolveInterfaces } from '@/TreeToTS/templates/returnedTypes/interfaces';
+import { resolveUnions } from '@/TreeToTS/templates/returnedTypes/unions';
+import { resolveValueTypes } from '@/TreeToTS/templates/valueTypes';
+import { ParserTree, TypeDefinition } from 'graphql-js-tree';
+import { Environment } from '../Models';
 import { resolvePropTypeFromRoot } from './templates/returnedPropTypes';
 import { resolveReturnFromRoot } from './templates/returnedReturns';
-import { resolveInterfaces, resolveUnions, resolveTypes } from './templates/returnedTypes';
-import {
-  bodyTypeScript,
-  constantTypesTypescript,
-  graphqlErrorTypeScript,
-  typescriptFunctions,
-} from './templates/typescript';
-import { commonImports, envSpecificImports } from './templates/typescript/indexImports';
+import { resolveTypes } from './templates/returnedTypes';
+import { typescriptFunctions } from './templates/typescript';
 
 export interface OperationName {
   name: string;
@@ -33,47 +31,8 @@ const disableLintersComments = ['eslint-disable'];
  * Class Responsible for generating typescript and javascript code
  */
 export class TreeToTS {
-  static findOperations(nodes: ParserField[], ot: OperationType): OperationDetails {
-    const node: ParserField = nodes.filter((n) => n.type.operations && n.type.operations.find((o) => o === ot))[0];
-
-    if (node === undefined) {
-      return { operationName: undefined, operations: [] };
-    }
-
-    const args = node.args ? node.args : [];
-
-    const operations = args.map((f: { name: string }) => f.name);
-
-    return { operationName: { name: node.name, type: 'operation' }, operations };
-  }
-  static resolveOperations(tree: ParserTree): ResolvedOperations {
-    const nodes = tree.nodes;
-    return {
-      query: TreeToTS.findOperations(nodes, OperationType.query),
-      mutation: TreeToTS.findOperations(nodes, OperationType.mutation),
-      subscription: TreeToTS.findOperations(nodes, OperationType.subscription),
-    };
-  }
   static resolveBasisHeader(): string {
     return `${disableLintersComments.map((rule) => `/* ${rule} */\n`).join('')}\n`;
-  }
-  static resolveBasisCodeJavascript(tree: ParserTree): string {
-    const propTypes = `export const AllTypesProps = {\n${tree.nodes
-      .map(resolvePropTypeFromRoot)
-      .filter((pt) => pt)
-      .join(',\n')}\n}`;
-    const returnTypes = `export const ReturnTypes = {\n${tree.nodes
-      .map((f) =>
-        resolveReturnFromRoot(
-          f,
-          f.data.type === TypeDefinition.InterfaceTypeDefinition
-            ? tree.nodes.filter((n) => n.interfaces?.includes(f.name)).map((n) => n.name)
-            : undefined,
-        ),
-      )
-      .filter((pt) => pt)
-      .join(',\n')}\n}`;
-    return propTypes.concat('\n\n').concat(returnTypes);
   }
   static resolveBasisCode(tree: ParserTree): string {
     const propTypes = `export const AllTypesProps: Record<string,any> = {\n${tree.nodes
@@ -91,7 +50,8 @@ export class TreeToTS {
       )
       .filter((pt) => pt)
       .join(',\n')}\n}`;
-    return propTypes.concat('\n\n').concat(returnTypes);
+    const opsString = resolveOperations(tree);
+    return propTypes.concat('\n\n').concat(returnTypes).concat('\n\n').concat(opsString);
   }
   static resolveBasisTypes(tree: ParserTree): string {
     const rootTypes = resolveTypes(tree.nodes);
@@ -123,16 +83,21 @@ export class TreeToTS {
     host?: string;
     esModule?: boolean;
   }) {
-    const operations = bodyTypeScript(env, TreeToTS.resolveOperations(tree));
     return {
-      indexImports: commonImports(esModule).concat(envSpecificImports(env)),
+      indexImports: `import { AllTypesProps, ReturnTypes, Ops } from './const${esModule ? '.js' : ''}';`.concat(
+        env === 'node'
+          ? `
+import fetch, { Response } from 'node-fetch';
+import WebSocket from 'ws';`
+          : ``,
+      ),
       const: TreeToTS.resolveBasisCode(tree),
-      index: TreeToTS.resolveBasisTypes(tree)
-        .concat(graphqlErrorTypeScript.concat('\n').concat(constantTypesTypescript).concat('\n\n'))
-        .concat(typescriptFunctions(env))
-        .concat(operations)
-        .concat(host ? '\n\n' : '')
-        .concat(host ? `export const Gql = Chain('${host}')` : ''),
+      index: ''
+        .concat(host ? `export const HOST = "${host}"` : '\n\nexport const HOST="Specify host"')
+        .concat('\n')
+        .concat(typescriptFunctions())
+        .concat('\n')
+        .concat(TreeToTS.resolveBasisTypes(tree)),
     };
   }
   static resolveTree({ tree, env = 'browser', host }: { tree: ParserTree; env?: Environment; host?: string }) {

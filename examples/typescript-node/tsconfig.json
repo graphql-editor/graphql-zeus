@@ -12,7 +12,6 @@
     "noUnusedLocals": true,
     "strict": true,
     "outDir": "./lib",
-    "lib": ["es6", "es7", "esnext", "dom"],
     "rootDir": "./src",
     "baseUrl": "./src/"
   },

@@ -1,1 +1,1 @@
-export const truthyType = 'boolean';
+export const truthyType = 'boolean | `@${string}`';

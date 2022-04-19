@@ -1,11 +1,12 @@
 import chalk from 'chalk';
 import fetch from 'node-fetch';
-import { $, Gql, SpecialSkills, Thunder, Zeus, InputType, Selector, GraphQLTypes } from './zeus';
+import { Gql, SpecialSkills, Thunder, Zeus, InputType, Selector, GraphQLTypes, useZeusVariables } from './zeus';
 
 const sel = Selector('Query')({
   drawCard: {
     Children: true,
     Attack: true,
+    info: true,
     attack: [{ cardID: ['sss'] }, { Attack: true }],
   },
   cardById: [{ cardId: '' }, { Attack: true }],
@@ -109,6 +110,7 @@ const run = async () => {
     },
     drawCard: {
       Attack: true,
+      name: `@skip(if:true)`,
     },
     drawChangeCard: {
       '...on SpecialCard': {
@@ -159,16 +161,19 @@ const run = async () => {
         Attack: true,
       },
     },
-    'ListCards',
+    {
+      operationName: 'ListCards',
+    },
   );
   printGQLString('operationName ListCards', operationName);
+  const { $, values, $params } = useZeusVariables({ cardIds: '[String!]!' })({ cardIds: ['1', '2'] });
   const aliasedQueryExecute = await Gql('query')(
     {
       listCards: {
         __alias: {
           atak: {
             attack: [
-              { cardID: $`cardIds` },
+              { cardID: $('cardIds') },
               {
                 name: true,
                 __alias: {
@@ -187,7 +192,10 @@ const run = async () => {
       },
     },
     {
-      variables: { cardIds: ['1', '2'] },
+      variables: {
+        $params,
+        values,
+      },
     },
   );
   printQueryResult('aliasedQuery', aliasedQueryExecute);
@@ -242,13 +250,18 @@ const run = async () => {
 
   printQueryResult('interfaceTest', interfaceTest);
   // Variable test
+  const mutationVars = useZeusVariables({ Attack: 'Int!', Defense: 'Int!' })({
+    Attack: 1,
+    Defense: 10,
+  });
+
   const test = await Gql('mutation')(
     {
       addCard: [
         {
           card: {
-            Attack: $`Attack`,
-            Defense: $`Attack`,
+            Attack: mutationVars.$('Attack'),
+            Defense: mutationVars.$('Defense'),
             name: 'aa',
             description: 'aa',
           },
@@ -270,9 +283,7 @@ const run = async () => {
       ],
     },
     {
-      variables: {
-        Attack: 4,
-      },
+      variables: mutationVars,
     },
   );
   printQueryResult('variable Test', test);
