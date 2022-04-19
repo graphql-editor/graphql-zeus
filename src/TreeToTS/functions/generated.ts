@@ -107,12 +107,8 @@ export const InternalsBuildQuery = (
       return \`\${k} \${o}\`;
     }
     if (Array.isArray(o)) {
-      return \`\${ibb(
-        \`\${k}(\${InternalArgsBuilt(props, returns, ops, options?.variables?.values)(o[0], newPath)})\`,
-        o[1],
-        p,
-        false,
-      )}\`;
+      const args = InternalArgsBuilt(props, returns, ops, options?.variables?.values)(o[0], newPath);
+      return \`\${ibb(args ? \`\${k}(\${args})\` : k, o[1], p, false)}\`;
     }
     if (k === '__alias') {
       const alias = Object.keys(o)[0];
@@ -373,7 +369,7 @@ export const InternalArgsBuilt = (
 ) => {
   const arb = (a: ZeusArgsType, p = '', root = true): string => {
     if (Array.isArray(a)) {
-      return \`[\${a.map((arr) => arb(arr, p)).join(', ')}]\`;
+      return \`[\${a.map((arr) => arb(arr, p, false)).join(', ')}]\`;
     }
     if (typeof a === 'string') {
       if (a.startsWith('$') && variables?.[a.slice(1)]) {
