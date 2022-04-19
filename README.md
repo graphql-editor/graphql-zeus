@@ -35,17 +35,17 @@ Example using a generated `chain` client. Queries, mutations and subscriptions a
 
 ![](images/example.png)
 
-## Support And Community
+## Join the Zeus Community and Spread the Word 
 
-[Join our GraphQL Editor Channel on Slack!](https://join.slack.com/t/graphqleditor/shared_invite/enQtNDkwOTgyOTM5OTc1LWI4YjU3N2U5NGVkNzQ2NzY5MGUxMTJiNjFlZDM1Zjc2OWRmNTI0NDM3OWUxYTk4Yjk3MzZlY2QwOWUzZmM2NDI)
+⚡️ [Join the Discussion forum on GitHub](https://github.com/graphql-editor/graphql-zeus/discussions) 📣
 
-Leave a GitHub star ⭐️ 😊
+⚡️ Leave a GitHub star ⭐️ 👆
 
-Spread the word!
+⚡️ Spread the word on your socials and with your networks! 🗣
 
 ## Contribute
 
-For a complete guide to contributing to GraphQL Editor, see the [Contribution Guide](CONTRIBUTING.md).
+For a complete guide to contributing to GraphQL Zeus, see the [Contribution Guide](CONTRIBUTING.md).
 
 1.  Fork this repo
 2.  Create your feature branch: git checkout -b feature-name
@@ -55,4 +55,4 @@ For a complete guide to contributing to GraphQL Editor, see the [Contribution Gu
 
 ## License
 
-MIT 🕊
+[MIT](https://opensource.org/licenses/MIT) 🕊
