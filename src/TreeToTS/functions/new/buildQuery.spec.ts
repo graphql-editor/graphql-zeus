@@ -69,6 +69,30 @@ describe('Test generated function buildQuery', () => {
         }
     }`);
   });
+  test('Query with array and object arguments', () => {
+    const matchExact = replSpace(
+      builder('query', {
+        cards: [
+          {
+            where: { active: true },
+            order_by: [{ date: 'asc' }, { age: 'desc' }],
+          },
+          {
+            name: true,
+            age: true,
+            bio: true,
+          },
+        ],
+      }),
+    );
+    matchExact(`query{
+        cards(where: {active: true}, order_by: [{date: "asc"}, {age: "desc"}]){
+            name
+            age
+            bio
+        }
+    }`);
+  });
   test('Query with arguments and variables', () => {
     const variables = useZeusVariables({ id: 'String!' })({
       id: 'a1',
@@ -96,6 +120,28 @@ describe('Test generated function buildQuery', () => {
     );
     matchExact(`query($id: String!){
         cardById(id: $id, name: "blabla", age: 123, me: true){
+            name
+            age
+            bio
+        }
+    }`);
+  });
+
+  test('Query with empty arguments params', () => {
+    const matchExact = replSpace(
+      builder('query', {
+        cards: [
+          {},
+          {
+            name: true,
+            age: true,
+            bio: true,
+          },
+        ],
+      }),
+    );
+    matchExact(`query{
+        cards {
             name
             age
             bio
@@ -155,6 +201,7 @@ describe('Test generated function buildQuery', () => {
         }
     }`);
   });
+
   test('Undefined param', () => {
     const Children = undefined;
     const matchExact = replSpace(

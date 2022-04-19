@@ -29,12 +29,8 @@ export const InternalsBuildQuery = (
       return `${k} ${o}`;
     }
     if (Array.isArray(o)) {
-      return `${ibb(
-        `${k}(${InternalArgsBuilt(props, returns, ops, options?.variables?.values)(o[0], newPath)})`,
-        o[1],
-        p,
-        false,
-      )}`;
+      const args = InternalArgsBuilt(props, returns, ops, options?.variables?.values)(o[0], newPath);
+      return `${ibb(args ? `${k}(${args})` : k, o[1], p, false)}`;
     }
     if (k === '__alias') {
       const alias = Object.keys(o)[0];
