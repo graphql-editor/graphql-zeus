@@ -33,14 +33,18 @@ export const InternalsBuildQuery = (
       return `${ibb(args ? `${k}(${args})` : k, o[1], p, false)}`;
     }
     if (k === '__alias') {
-      const alias = Object.keys(o)[0];
-      const objectUnderAlias = o[alias];
-      if (typeof objectUnderAlias !== 'object' || Array.isArray(objectUnderAlias)) {
-        throw new Error('Invalid alias it should be __alias:{ YOUR_ALIAS_NAME: { OPERATION_NAME: { ...selectors }}}');
-      }
-      const operationName = Object.keys(objectUnderAlias)[0];
-      const operation = objectUnderAlias[operationName];
-      return ibb(`${alias}:${operationName}`, operation, p, false);
+      return Object.entries(o)
+        .map(([alias, objectUnderAlias]) => {
+          if (typeof objectUnderAlias !== 'object' || Array.isArray(objectUnderAlias)) {
+            throw new Error(
+              'Invalid alias it should be __alias:{ YOUR_ALIAS_NAME: { OPERATION_NAME: { ...selectors }}}',
+            );
+          }
+          const operationName = Object.keys(objectUnderAlias)[0];
+          const operation = objectUnderAlias[operationName];
+          return ibb(`${alias}:${operationName}`, operation, p, false);
+        })
+        .join('\n');
     }
     const hasOperationName = root && options?.operationName ? ' ' + options.operationName : '';
     const hasVariables = root && options?.variables?.$params ? `(${options.variables?.$params})` : '';
