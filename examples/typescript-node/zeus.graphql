@@ -1,64 +1,4 @@
 """"""
-scalar JSON
-
-"""Aws S3 File"""
-type S3Object {
-  """"""
-  bucket: String!
-
-  """"""
-  key: String!
-
-  """"""
-  region: String!
-}
-
-"""create card inputs<br>"""
-input createCard {
-  """Description of a card<br>"""
-  description: String!
-
-  """<div>How many children the greek god had</div>"""
-  Children: Int
-
-  """The attack power<br>"""
-  Attack: Int!
-
-  """The defense power<br>"""
-  Defense: Int!
-
-  """input skills"""
-  skills: [SpecialSkills!]
-
-  """The name of a card<br>"""
-  name: String!
-}
-
-""""""
-type Subscription {
-  """"""
-  deck: [Card!]
-}
-
-""""""
-type SpecialCard implements Nameable {
-  """"""
-  effect: String!
-
-  """"""
-  name: String!
-}
-
-""""""
-type EffectCard implements Nameable {
-  """"""
-  effectSize: Float!
-
-  """"""
-  name: String!
-}
-
-""""""
 type Query {
   """"""
   cardById(cardId: String): Card
@@ -79,11 +19,11 @@ type Query {
   nameables: [Nameable!]!
 }
 
-""""""
-union ChangeCard = SpecialCard | EffectCard
+"""Stack of cards"""
+type CardStack implements Nameable {
+  """"""
+  cards: [Card!]
 
-""""""
-interface Nameable {
   """"""
   name: String!
 }
@@ -100,19 +40,28 @@ enum SpecialSkills {
   FIRE
 }
 
-"""Stack of cards"""
-type CardStack implements Nameable {
+"""Aws S3 File"""
+type S3Object {
   """"""
-  cards: [Card!]
+  bucket: String!
 
   """"""
-  name: String!
+  key: String!
+
+  """"""
+  region: String!
 }
 
 """"""
-type Mutation {
-  """add Card to Cards database<br>"""
-  addCard(card: createCard!): Card!
+scalar JSON
+
+""""""
+union ChangeCard = SpecialCard | EffectCard
+
+""""""
+interface Nameable {
+  """"""
+  name: String!
 }
 
 """Card used in card game<br>"""
@@ -152,6 +101,57 @@ type Card implements Nameable {
 
   """"""
   skills: [SpecialSkills!]
+}
+
+""""""
+type Mutation {
+  """add Card to Cards database<br>"""
+  addCard(card: createCard!): Card!
+}
+
+""""""
+type Subscription {
+  """"""
+  deck: [Card!]
+}
+
+""""""
+type SpecialCard implements Nameable {
+  """"""
+  effect: String!
+
+  """"""
+  name: String!
+}
+
+""""""
+type EffectCard implements Nameable {
+  """"""
+  effectSize: Float!
+
+  """"""
+  name: String!
+}
+
+"""create card inputs<br>"""
+input createCard {
+  """input skills"""
+  skills: [SpecialSkills!]
+
+  """The name of a card<br>"""
+  name: String!
+
+  """Description of a card<br>"""
+  description: String!
+
+  """<div>How many children the greek god had</div>"""
+  Children: Int
+
+  """The attack power<br>"""
+  Attack: Int!
+
+  """The defense power<br>"""
+  Defense: Int!
 }
 
 schema{

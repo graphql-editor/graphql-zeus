@@ -13,6 +13,7 @@ jobs:
           node-version: '14.x'
           registry-url: 'https://registry.npmjs.org'
       - run: npm install
+      - run: npm run produce-lib
       - run: npm test
       - run: npm run build
       - run: npm publish --access public --tag latest

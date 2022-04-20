@@ -1,45 +1,29 @@
 /* eslint-disable */
 
 export const AllTypesProps: Record<string,any> = {
-	JSON: "String",
-	createCard:{
-		skills:"SpecialSkills"
-	},
 	Query:{
 		cardById:{
 
 		}
 	},
 	SpecialSkills: true,
+	JSON: "String",
+	Card:{
+		attack:{
+
+		}
+	},
 	Mutation:{
 		addCard:{
 			card:"createCard"
 		}
 	},
-	Card:{
-		attack:{
-
-		}
+	createCard:{
+		skills:"SpecialSkills"
 	}
 }
 
 export const ReturnTypes: Record<string,any> = {
-	S3Object:{
-		bucket:"String",
-		key:"String",
-		region:"String"
-	},
-	Subscription:{
-		deck:"Card"
-	},
-	SpecialCard:{
-		effect:"String",
-		name:"String"
-	},
-	EffectCard:{
-		effectSize:"Float",
-		name:"String"
-	},
 	Query:{
 		cardById:"Card",
 		drawCard:"Card",
@@ -48,23 +32,25 @@ export const ReturnTypes: Record<string,any> = {
 		myStacks:"CardStack",
 		nameables:"Nameable"
 	},
+	CardStack:{
+		cards:"Card",
+		name:"String"
+	},
+	S3Object:{
+		bucket:"String",
+		key:"String",
+		region:"String"
+	},
 	ChangeCard:{
 		"...on SpecialCard":"SpecialCard",
 		"...on EffectCard":"EffectCard"
 	},
 	Nameable:{
-		"...on SpecialCard": "SpecialCard",
-		"...on EffectCard": "EffectCard",
 		"...on CardStack": "CardStack",
 		"...on Card": "Card",
+		"...on SpecialCard": "SpecialCard",
+		"...on EffectCard": "EffectCard",
 		name:"String"
-	},
-	CardStack:{
-		cards:"Card",
-		name:"String"
-	},
-	Mutation:{
-		addCard:"Card"
 	},
 	Card:{
 		Attack:"Int",
@@ -78,11 +64,25 @@ export const ReturnTypes: Record<string,any> = {
 		info:"JSON",
 		name:"String",
 		skills:"SpecialSkills"
+	},
+	Mutation:{
+		addCard:"Card"
+	},
+	Subscription:{
+		deck:"Card"
+	},
+	SpecialCard:{
+		effect:"String",
+		name:"String"
+	},
+	EffectCard:{
+		effectSize:"Float",
+		name:"String"
 	}
 }
 
 export const Ops = {
-subscription: "Subscription" as const,
-	query: "Query" as const,
-	mutation: "Mutation" as const
+query: "Query" as const,
+	mutation: "Mutation" as const,
+	subscription: "Subscription" as const
 }

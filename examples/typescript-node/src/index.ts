@@ -101,7 +101,11 @@ const run = async () => {
   });
   printQueryResult('drawChangeCard thunder', blalbaThunder.drawChangeCard);
 
-  const { listCards: stack, drawCard: newCard, drawChangeCard } = await Gql('query')({
+  const {
+    listCards: stack,
+    drawCard: newCard,
+    drawChangeCard,
+  } = await Gql('query')({
     listCards: {
       name: true,
       cardImage: {
@@ -171,6 +175,9 @@ const run = async () => {
     {
       listCards: {
         __alias: {
+          namy: {
+            name: true,
+          },
           atak: {
             attack: [
               { cardID: $('cardIds') },
