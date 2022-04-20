@@ -266,6 +266,40 @@ describe('Test generated function buildQuery', () => {
         }
     }`);
   });
+  test('Query with multiple aliases', () => {
+    const matchExact = replSpace(
+      builder('query', {
+        __alias: {
+          play: {
+            cards: {
+              name: true,
+              age: true,
+              bio: true,
+            },
+          },
+          shuffle: {
+            cards: {
+              name: true,
+              age: true,
+              bio: true,
+            },
+          },
+        },
+      }),
+    );
+    matchExact(`query{
+        play:cards{
+            name
+            age
+            bio
+        }
+        shuffle:cards{
+            name
+            age
+            bio
+        }
+    }`);
+  });
   test('Simple query with enums', () => {
     const enum Status {
       CREATED = 'CREATED',
