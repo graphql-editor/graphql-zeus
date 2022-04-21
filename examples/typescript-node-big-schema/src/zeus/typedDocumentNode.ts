@@ -2,14 +2,14 @@ import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
 import gql from 'graphql-tag';
 import { GraphQLTypes, InputType, ValueTypes, Zeus, $ } from './index';
 
-// const $$ = new Proxy(
-//   {},
-//   {
-//     get(target, propName, receiver) {
-//       return 'ZEUS_VAR$' + propName.toString();
-//     },
-//   },
-// ) as any as X
+const $$ = new Proxy(
+  {},
+  {
+    get(target, propName, receiver) {
+      return 'ZEUS_VAR$' + propName.toString();
+    },
+  },
+);
 
 const $$ = <Name extends string>(name: Name) => {
   return ('ZEUS_VAR$' + name) as any as Variable<any, Name>;

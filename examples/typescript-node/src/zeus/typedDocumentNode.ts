@@ -1,21 +1,10 @@
 import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
 import gql from 'graphql-tag';
-import { GraphQLTypes, InputType, ValueTypes, Zeus, $ } from './index';
+import { GraphQLTypes, InputType, ValueTypes, Zeus } from './index';
 
-// const $$ = new Proxy(
-//   {},
-//   {
-//     get(target, propName, receiver) {
-//       return 'ZEUS_VAR$' + propName.toString();
-//     },
-//   },
-// ) as any as X
-
-const $$ = <Name extends string>(name: Name) => {
-  return ('ZEUS_VAR$' + name) as any as Variable<any, Name>;
+const $$ = <Type, Name extends string>(name: Name) => {
+  return ('ZEUS_VAR$' + name) as any as Variable<Type, Name>;
 };
-
-type X<K extends string> = { [Key in K]: Variable<any, K> };
 
 type Variable<T, Name extends string> = {
   __zeus_name: Name;
@@ -30,13 +19,26 @@ type VariablizedQuery<T> = T extends [infer Input, infer Output]
   ? [VariablizedInput<Input>, VariablizedQuery<Output>]
   : { [K in keyof T]: VariablizedQuery<T[K]> };
 
-type ExtractVariables<C> = C extends Variable<infer VType, infer VName>
+type ExtractVariables<Query> = Query extends Variable<infer VType, infer VName>
   ? { [key in VName]: VType }
-  : { [K in keyof C]: ExtractVariables<C[K]> };
+  : Query extends [infer Inputs, infer Outputs]
+  ? Intersectionize<{ inputs: ExtractVariables<Inputs>; outputs: ExtractVariables<Outputs> }>
+  : Query extends string | number | boolean
+  ? {}
+  : Intersectionize<{ [K in keyof Query]: ExtractVariables<Query[K]> }>;
+
+type Intersectionize<ObjectKeys> = UnionToIntersection<ObjectKeys[keyof ObjectKeys]>;
+
+type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (k: infer I) => void ? I : never;
+
+// Unit testing:
+// type TestExtractor = ExtractVariables<{
+//   cardById: [{ cardId: Variable<any, 'test'> }, { attack: true; defense: true }];
+// }>;
 
 export function tq<ResultType extends VariablizedQuery<ValueTypes['Query']>>(
   query: ResultType,
-): TypedDocumentNode<InputType<GraphQLTypes['Query'], ResultType>, VariablesType> {
+): TypedDocumentNode<InputType<GraphQLTypes['Query'], ResultType>, ExtractVariables<ResultType>> {
   return gql(Zeus('query', query as any));
 }
 
