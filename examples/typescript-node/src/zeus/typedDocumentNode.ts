@@ -30,69 +30,66 @@ type VariablizedQuery<T> = T extends [infer Input, infer Output]
   ? [VariablizedInput<Input>, VariablizedQuery<Output>]
   : { [K in keyof T]: VariablizedQuery<T[K]> };
 
-type ConnValue = ValueTypes['connection'];
-type Test = VariablizedQuery<ConnValue>;
-export function tq<ResultType extends ValueTypes['query_root'], VariablesType>(
-  query: VariablizedQuery<ResultType>,
-): TypedDocumentNode<InputType<GraphQLTypes['query_root'], ResultType>, VariablesType> {
+type ExtractVariables<C> = C extends Variable<infer VType, infer VName>
+  ? { [key in VName]: VType }
+  : { [K in keyof C]: ExtractVariables<C[K]> };
+
+export function tq<ResultType extends VariablizedQuery<ValueTypes['Query']>>(
+  query: ResultType,
+): TypedDocumentNode<InputType<GraphQLTypes['Query'], ResultType>, VariablesType> {
   return gql(Zeus('query', query as any));
 }
 
-export function tm<Z extends ValueTypes['mutation_root']>(
+export function tm<Z extends ValueTypes['Mutation']>(
   mutation: Z,
-): TypedDocumentNode<InputType<GraphQLTypes['mutation_root'], Z>, {}> {
+): TypedDocumentNode<InputType<GraphQLTypes['Mutation'], Z>, {}> {
   return gql(Zeus('mutation', mutation));
 }
 
-export function ts<Z extends ValueTypes['subscription_root']>(
+export function ts<Z extends ValueTypes['Subscription']>(
   mutation: Z,
-): TypedDocumentNode<InputType<GraphQLTypes['subscription_root'], Z>, {}> {
+): TypedDocumentNode<InputType<GraphQLTypes['Subscription'], Z>, {}> {
   return gql(Zeus('mutation', mutation));
 }
 
-tq({
-  aggregateBookings: [
+const q = tq({
+  cardById: [
     {
-      where: {
-        bookerName: { _eq: $$('bookerName') },
-      },
+      cardId: $$('test'),
     },
     {
-      aggregate: {
-        avg: {
-          nights: true,
-        },
-      },
+      Attack: true,
+      Defense: true,
     },
   ],
 });
 
 // Example
-const userMemberships = tq({
-  user: [
-    {
-      id: $$('id'),
-    },
-    {
-      memberships: [
-        {
-          limit: $$('limit'),
-        },
-        {
-          role: true,
-        },
-      ],
-    },
-  ],
-});
+// const userMemberships = tq({
+//   user: [
+//     {
+//       id: $$('id'),
+//     },
+//     {
+//       memberships: [
+//         {
+//           limit: $$('limit'),
+//         },
+//         {
+//           role: true,
+//         },
+//       ],
+//     },
+//   ],
+// });
 
-const mutate = tm({
-  insertBooking: [
-    {
-      object: {},
-    },
-    {
-      bookerName: true,
-    },
-  ],
-});
+// const mutate = tm({
+//   insertBooking: [
+//     {
+//       object: {},
+//     },
+//     {
+//       bookerName: true,
+//     },
+//   ],
+// });
