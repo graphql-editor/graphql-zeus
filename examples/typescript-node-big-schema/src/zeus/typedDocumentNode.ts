@@ -1,98 +1,48 @@
 import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
 import gql from 'graphql-tag';
-import { GraphQLTypes, InputType, ValueTypes, Zeus, $ } from './index';
-
-const $$ = new Proxy(
-  {},
-  {
-    get(target, propName, receiver) {
-      return 'ZEUS_VAR$' + propName.toString();
-    },
-  },
-);
-
-const $$ = <Name extends string>(name: Name) => {
-  return ('ZEUS_VAR$' + name) as any as Variable<any, Name>;
-};
-
-type X<K extends string> = { [Key in K]: Variable<any, K> };
+import { GraphQLTypes, InputType, ValueTypes, Zeus } from './index';
 
 type Variable<T, Name extends string> = {
-  __zeus_name: Name;
-  __zeus_type: T;
+  ' __zeus_name': Name;
+  ' __zeus_type': T;
 };
 
-type VariablizedInput<T> = T extends string | number | Array<any>
-  ? T | Variable<T, any>
-  : T | Variable<T, any> | { [K in keyof T]: VariablizedInput<T[K]> };
+type QueryInputWithVariables<T> = T extends string | number | Array<any>
+  ? Variable<T, any> | T
+  : Variable<T, any> | { [K in keyof T]: QueryInputWithVariables<T[K]> } | T;
 
-type VariablizedQuery<T> = T extends [infer Input, infer Output]
-  ? [VariablizedInput<Input>, VariablizedQuery<Output>]
-  : { [K in keyof T]: VariablizedQuery<T[K]> };
+type QueryWithVariables<T> = T extends [infer Input, infer Output]
+  ? [QueryInputWithVariables<Input>, QueryWithVariables<Output>]
+  : { [K in keyof T]: QueryWithVariables<T[K]> };
 
-type ConnValue = ValueTypes['connection'];
-type Test = VariablizedQuery<ConnValue>;
-export function tq<ResultType extends ValueTypes['query_root'], VariablesType>(
-  query: VariablizedQuery<ResultType>,
-): TypedDocumentNode<InputType<GraphQLTypes['query_root'], ResultType>, VariablesType> {
+type ExtractVariables<Query> = Query extends Variable<infer VType, infer VName>
+  ? { [key in VName]: VType }
+  : Query extends [infer Inputs, infer Outputs]
+  ? ExtractVariables<Inputs> & ExtractVariables<Outputs>
+  : Query extends string | number | boolean
+  ? {}
+  : UnionToIntersection<{ [K in keyof Query]: ExtractVariables<Query[K]> }[keyof Query]>;
+
+type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (k: infer I) => void ? I : never;
+
+export const $ = <Type, Name extends string>(name: Name) => {
+  return ('ZEUS_VAR$' + name) as any as Variable<Type, Name>;
+};
+
+export function query<Z extends QueryWithVariables<ValueTypes['query_root']>>(
+  query: Z,
+): TypedDocumentNode<InputType<GraphQLTypes['query_root'], Z>, ExtractVariables<Z>> {
   return gql(Zeus('query', query as any));
 }
 
-export function tm<Z extends ValueTypes['mutation_root']>(
+export function mutation<Z extends QueryWithVariables<ValueTypes['mutation_root']>>(
   mutation: Z,
-): TypedDocumentNode<InputType<GraphQLTypes['mutation_root'], Z>, {}> {
-  return gql(Zeus('mutation', mutation));
+): TypedDocumentNode<InputType<GraphQLTypes['mutation_root'], Z>, ExtractVariables<Z>> {
+  return gql(Zeus('mutation', mutation as any));
 }
 
-export function ts<Z extends ValueTypes['subscription_root']>(
-  mutation: Z,
-): TypedDocumentNode<InputType<GraphQLTypes['subscription_root'], Z>, {}> {
-  return gql(Zeus('mutation', mutation));
+export function subscription<Z extends QueryWithVariables<ValueTypes['subscription_root']>>(
+  subscription: Z,
+): TypedDocumentNode<InputType<GraphQLTypes['subscription_root'], Z>, ExtractVariables<Z>> {
+  return gql(Zeus('subscription', subscription as any));
 }
-
-tq({
-  aggregateBookings: [
-    {
-      where: {
-        bookerName: { _eq: $$('bookerName') },
-      },
-    },
-    {
-      aggregate: {
-        avg: {
-          nights: true,
-        },
-      },
-    },
-  ],
-});
-
-// Example
-const userMemberships = tq({
-  user: [
-    {
-      id: $$('id'),
-    },
-    {
-      memberships: [
-        {
-          limit: $$('limit'),
-        },
-        {
-          role: true,
-        },
-      ],
-    },
-  ],
-});
-
-const mutate = tm({
-  insertBooking: [
-    {
-      object: {},
-    },
-    {
-      bookerName: true,
-    },
-  ],
-});
