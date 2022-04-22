@@ -1,9 +1,8 @@
-import { ParserField } from '@/Models';
-import { TypeDefinition, TypeSystemDefinition } from '@/Models/Spec';
+import { getTypeName, ParserField, TypeDefinition, TypeSystemDefinition } from 'graphql-js-tree';
 
 const resolveField = (f: ParserField): string => {
   const { type, name } = f;
-  return `\t\t${name}:"${type.name}"`;
+  return `\t\t${name}:"${getTypeName(type.fieldType)}"`;
 };
 
 export const resolveReturnFromRoot = (i: ParserField, usages?: string[]): string => {

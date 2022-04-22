@@ -9,14 +9,16 @@
   "author": "Aexol <aexol@aexol.com> (http://aexol.com)",
   "license": "ISC",
   "devDependencies": {
+    "@types/ws": "^8.5.3",
     "ts-node": "^8.3.0",
-    "typescript": "3.8.3"
+    "typescript": "^4.5.5"
   },
   "dependencies": {
     "@apollo/client": "^3.4.16",
     "node-fetch": "^2.6.0",
     "react-query": "^3.27.0",
     "@graphql-typed-document-node/core":"^3.1.1",
-    "graphql-tag":"^2.12.6"
+    "graphql-tag":"^2.12.6",
+    "ws": "^8.5.0"
   }
 }

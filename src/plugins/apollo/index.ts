@@ -10,9 +10,9 @@ const pluginApolloOps = ({ queryName, operation }: { queryName: string; operatio
     ts: `export function useTyped${capitalized}<Z extends ValueTypes[O], O extends "${queryName}">(
   ${operation}: Z | ValueTypes[O],
   options?: ${capitalized}HookOptions<InputType<GraphQLTypes[O], Z>>,
-  operationName?: string,
+  operationOptions?: OperationOptions,
 ) {
-  return use${capitalized}<InputType<GraphQLTypes[O], Z>>(gql(Zeus("${zeusOperation}",${operation}, operationName)), options);
+  return use${capitalized}<InputType<GraphQLTypes[O], Z>>(gql(Zeus("${zeusOperation}",${operation}, operationOptions)), options);
 }`,
   };
 };
@@ -49,7 +49,7 @@ export const pluginApollo = ({ tree, esModule }: { tree: ParserTree; esModule?: 
   return {
     ts: `/* eslint-disable */
 
-import { Zeus, GraphQLTypes, InputType, ValueTypes } from './index${esModule ? '.js' : ''}';
+import { Zeus, GraphQLTypes, InputType, ValueTypes, OperationOptions } from './index${esModule ? '.js' : ''}';
 import { gql, ${capitalizedOps.map((o) => `use${o}`).join(', ')} } from '@apollo/client';
 import type { ${capitalizedOps.map((o) => `${o}HookOptions`).join(', ')} } from '@apollo/client';
 

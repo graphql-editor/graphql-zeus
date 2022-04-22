@@ -23,8 +23,6 @@ schema{
 `;
 
 const typeScriptDefinition = TreeToTS.resolveTree(Parser.parse(schemaFileContents));
-
-const jsDefinition = TreeToTS.javascript(Parser.parse(schemaFileContents));
 ```
 
 ## Dynamically Fetch Schema

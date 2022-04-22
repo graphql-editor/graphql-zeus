@@ -7,7 +7,7 @@
     "style": "tailwindcss -i ./input.css -o ./src/tw.css --watch",
     "dev": "purplehaze",
     "start": "concurrently \"npm run dev\" \"npm run style\" ",
-    "build": "purplehaze --build"
+    "build": "purplehaze --build && echo \"https://zeus.graphqleditor.com\" > out/CNAME"
   },
   "author": "",
   "license": "ISC",

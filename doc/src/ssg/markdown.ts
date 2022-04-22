@@ -9,6 +9,16 @@ export const htmlContent = {
         },
         "excerpt": ""
     },
+    "markdown/plugins/react-query.md": {
+        "content": "\n## Usage with React Query\n\nZeus can generate type-safe versions of React Query's `useQuery`, `useMutation` etc.. React hooks as `useTypedQuery`, `useTypedMutation` etc... by adding the `--reactQuery` flag to the CLI. All types `data` response are then inherited from the Zeus query. 🚀\n\n```sh\n$ zeus schema.graphql ./  --reactQuery\n```\n\n```tsx\nimport { useTypedQuery } from './zeus/reactQuery';\n\nconst Main = () => {\n  const { data } = useTypedQuery({\n    // Get autocomplete here:\n    drawCard: {\n      name: true,\n    },\n  });\n  // data response is now typed\n  return <div>{data.drawCard.name}</div>;\n};\n```\n",
+        "data": {
+            "link": "plugins/react-query",
+            "title": "React Query",
+            "order": 2,
+            "category": "Plugins"
+        },
+        "excerpt": ""
+    },
     "markdown/plugins/apollo.md": {
         "content": "\n## Usage with Apollo GraphQL\n\nZeus can generate type-safe versions of Apollo Client's `useQuery`, `useMutation`, `useSubscription` and `useLazyQuery` React hooks as `useTypedQuery`, `useTypedMutation` etc... by adding the `--apollo` flag to the CLI. All types in the `data` response are then inherited from the Zeus query. 🚀\n\n### Generate Type-Safe Zeus Schema And Apollo Client Type-Safe Hooks\n\n```sh\n$ zeus schema.graphql ./  --apollo\n# apollo.ts file with typed hooks is now in the output destination\n```\n\n### Apollo Client `useTypedQuery` Hook Example\n\n```tsx\nimport { useTypedQuery } from './zeus/apollo';\n\nconst Main = () => {\n  const { data } = useTypedQuery({\n    // Get autocomplete here:\n    drawCard: {\n      name: true,\n    },\n  });\n  // data response is now typed\n  return <div>{data.drawCard.name}</div>;\n};\n```\n\n### Inferring the response type for Apollo Client\n\nIf you would like to infer the response type of your query for Apollo Client you can use the Zeus `Selector` function and `InputType` utility from the Zeus generated library\n\n```tsx\nimport { Selector, InputType, GraphQLTypes } from './zeus';\n\nexport const drawCardQuery = Selector('Card')({\n  drawCard: {\n    id: true,\n    name: true,\n    Attack: true,\n    Children: true,\n  },\n});\n\ntype DrawCardResponseType = InputType<GraphQLTypes['Card'], typeof drawCardQuery>;\n// DrawCardResponseType is now the response type from the query\n```\n\nNow `drawCardQuery` can be reused directly in the typed Apollo Client `useTypedQuery` later\n\n```tsx\nimport { useTypedQuery } from './zeus/apollo';\nimport { drawCardQuery } from './';\n\nconst Main = () => {\n  const { data } = useTypedQuery(drawCardQuery);\n  // data is of type DrawCardResponseType as per the above example\n  return <div>{data.drawCard.name}</div>;\n};\n```\n",
         "data": {
@@ -27,18 +37,8 @@ export const htmlContent = {
         },
         "excerpt": ""
     },
-    "markdown/plugins/react-query.md": {
-        "content": "\n## Usage with React Query\n\nZeus can generate type-safe versions of React Query's `useQuery`, `useMutation` etc.. React hooks as `useTypedQuery`, `useTypedMutation` etc... by adding the `--reactQuery` flag to the CLI. All types `data` response are then inherited from the Zeus query. 🚀\n\n```sh\n$ zeus schema.graphql ./  --reactQuery\n```\n\n```tsx\nimport { useTypedQuery } from './zeus/reactQuery';\n\nconst Main = () => {\n  const { data } = useTypedQuery({\n    // Get autocomplete here:\n    drawCard: {\n      name: true,\n    },\n  });\n  // data response is now typed\n  return <div>{data.drawCard.name}</div>;\n};\n```\n",
-        "data": {
-            "link": "plugins/react-query",
-            "title": "React Query",
-            "order": 2,
-            "category": "Plugins"
-        },
-        "excerpt": ""
-    },
     "markdown/graphql/variables.md": {
-        "content": "\n## GraphQL Variables\n\nIt's simple to perform queries with variables by importing and using the `$` function from the Zeus output and calling it with the variable name in backticks.\n\n```ts\nimport { Gql, $ } from './zeus';\n\nconst addCardResult = await Gql('mutation')(\n  {\n    addCard: [\n      {\n        card: $`card`,\n      },\n      {\n        id: true,\n        description: true,\n        name: true,\n        Attack: true,\n        skills: true,\n        Children: true,\n        Defense: true,\n        cardImage: {\n          bucket: true,\n          region: true,\n          key: true,\n        },\n      },\n    ],\n  },\n  {\n    variables: {\n      card: {\n        Attack: 2,\n        Defense: 3,\n        description: 'Lord of the mountains',\n        name: 'Golrog',\n      },\n    },\n  },\n);\n```\n\nNote: The mutation function created by the Zeus versions of React Hooks like the Apollo Client version of `useTypedMutation` can be supplied with variable values at invocation eg:\n\n```typescript\nconst [addCard, { data, loading, error }] = useTypedMutation({ ...myMutation });\n\nawait addCard({\n  variables: {\n    card: {\n      Attack: 2,\n      Defense: 3,\n      description: 'Lord of the mountains',\n      name: 'Golrog',\n    },\n  },\n});\n```\n",
+        "content": "\n## GraphQL Variables\n\nIt's simple to perform queries with variables by using `useZeusVariables` function. It forces you to be type-safe also\n\n```ts\nimport { Gql, useZeusVariables } from './zeus';\nconst variables = useZeusVariables({ Attack: 'Int!', Defense: 'Int!' })({\n  card: {\n    Attack: 2,\n    Defense: 3,\n    description: 'Lord of the mountains',\n    name: 'Golrog',\n  },\n});\nconst { $ } = variables;\n\nconst addCardResult = await Gql('mutation')(\n  {\n    addCard: [\n      {\n        card: $('card'),\n      },\n      {\n        id: true,\n        description: true,\n        name: true,\n        Attack: true,\n        skills: true,\n        Children: true,\n        Defense: true,\n        cardImage: {\n          bucket: true,\n          region: true,\n          key: true,\n        },\n      },\n    ],\n  },\n  {\n    variables,\n  },\n);\n```\n\nNote: The mutation function created by the Zeus versions of React Hooks like the Apollo Client version of `useTypedMutation` can be supplied with variable values at invocation eg:\n\n```typescript\nconst [addCard, { data, loading, error }] = useTypedMutation({ ...myMutation });\n\nawait addCard({\n  variables: variables.values,\n});\n```\n",
         "data": {
             "link": "graphql/variables",
             "title": "Variables",
@@ -67,8 +67,18 @@ export const htmlContent = {
         },
         "excerpt": ""
     },
+    "markdown/graphql/directives.md": {
+        "content": "\n## GraphQL Directives\n\nZeus supports using directives on fields.\n\n```ts\nimport { Chain } from './zeus';\n\n// Create a Chain client instance with the endpoint\nconst chain = Chain('https://faker.graphqleditor.com/a-team/olympus/graphql');\n\n// Query the endpoint with Typescript autocomplete for arguments and response fields\nconst listCardsAndDraw = await chain('query')({\n  drawCard: {\n    name: true,\n    skills: true,\n    Attack: `@skip(if: true)`,\n  },\n});\n```\n\nSo you need to put full string instead of `true`.\n\n#### Use it with variables\n\n```ts\nimport { Chain } from './zeus';\n\n// Create a Chain client instance with the endpoint\nconst chain = Chain('https://faker.graphqleditor.com/a-team/olympus/graphql');\nconst variables = useZeusVariables({\n    isDefense: 'Boolean!'\n})({\n    isDefense:true\n});\nconst { $ } = variables;\n// Query the endpoint with Typescript autocomplete for arguments and response fields\nconst listCardsAndDraw = await chain('query')({\n  drawCard: {\n    name: true,\n    skills: true,\n    Attack: `@skip(if: ${$('isDefense')})`,\n  },\n  {\n      variables\n  }\n});\n```\n",
+        "data": {
+            "link": "graphql/directives",
+            "title": "Directives",
+            "order": 5,
+            "category": "GraphQL"
+        },
+        "excerpt": ""
+    },
     "markdown/graphql/aliases.md": {
-        "content": "\n## GraphQL Aliases\n\nZeus supports declaring aliases 🥸\n\n```ts\nconst aliasedQueryExecute = await chain('query')({\n  listCards: {\n    __alias: {\n      atak: {\n        attack: [\n          { cardID: ['1'] },\n          {\n            name: true,\n            description: true,\n          },\n        ],\n      },\n    },\n  },\n});\n```\n\nResponse:\n\n```json\n{\n  \"listCards\": [\n    {\n      \"atak\": {\n        \"attack\": [\n          {\n            \"name\": \"Zelma\",\n            \"description\": \"Central\"\n          }\n        ]\n      }\n    }\n  ]\n}\n```\n\nNow you can access properties type-safe like this\n\n```javascript\naliasedQueryExecute.listCards.map((c) => c.atak.attack);\n```\n",
+        "content": "\n## GraphQL Aliases\n\nZeus supports declaring aliases 🥸\n\n```ts\nconst aliasedQueryExecute = await chain('query')({\n  listCards: {\n    __alias: {\n      atak: {\n        attack: [\n          { cardID: ['1'] },\n          {\n            name: true,\n            description: true,\n          },\n        ],\n      },\n    },\n  },\n});\n```\n\nResponse:\n\n```json\n{\n  \"listCards\": [\n    {\n      \"atak\": [\n        {\n          \"name\": \"Zelma\",\n          \"description\": \"Central\"\n        }\n      ]\n    }\n  ]\n}\n```\n\nNow you can access properties type-safe like this\n\n```javascript\naliasedQueryExecute.listCards.map((c) => c.atak);\n```\n",
         "data": {
             "link": "graphql/aliases",
             "title": "Aliases",
@@ -78,7 +88,7 @@ export const htmlContent = {
         "excerpt": ""
     },
     "markdown/basics/use-as-a-library.md": {
-        "content": "\n## Generate Code\n\nThis will be rarely used, but here you are! Generate Typescript and Javascript from GraphQL definitions\n\n```js\nimport { TreeToTS } from 'graphql-zeus';\nimport { Parser } from 'graphql-js-tree';\n\nconst schemaFileContents = `\ntype Query{\n    hello: String!\n}\nschema{\n    query: Query\n}\n`;\n\nconst typeScriptDefinition = TreeToTS.resolveTree(Parser.parse(schemaFileContents));\n\nconst jsDefinition = TreeToTS.javascript(Parser.parse(schemaFileContents));\n```\n\n## Dynamically Fetch Schema\n\nThis is useful when you need your schema fetched from your GraphQL endpoint in-code\n\n```js\nimport { Utils } from 'graphql-zeus';\n\nUtils.getFromUrl('https://faker.graphqleditor.com/a-team/olympus/graphql').then((schemaContent) => {\n  // Use schema content here\n});\n```\n",
+        "content": "\n## Generate Code\n\nThis will be rarely used, but here you are! Generate Typescript and Javascript from GraphQL definitions\n\n```js\nimport { TreeToTS } from 'graphql-zeus';\nimport { Parser } from 'graphql-js-tree';\n\nconst schemaFileContents = `\ntype Query{\n    hello: String!\n}\nschema{\n    query: Query\n}\n`;\n\nconst typeScriptDefinition = TreeToTS.resolveTree(Parser.parse(schemaFileContents));\n```\n\n## Dynamically Fetch Schema\n\nThis is useful when you need your schema fetched from your GraphQL endpoint in-code\n\n```js\nimport { Utils } from 'graphql-zeus';\n\nUtils.getFromUrl('https://faker.graphqleditor.com/a-team/olympus/graphql').then((schemaContent) => {\n  // Use schema content here\n});\n```\n",
         "data": {
             "link": "library",
             "title": "Use as a library",
@@ -88,7 +98,7 @@ export const htmlContent = {
         "excerpt": ""
     },
     "markdown/basics/spec.md": {
-        "content": "\n## Zeus Spec\n\nPromise of type query data object is returned.\n\n```\nPROMISE_RETURNING_OBJECT = Chain.[OPERATION_NAME]({\n    ...FUNCTION_FIELD_PARAMS\n})(\n    ...QUERY_OBJECT\n).then ( RESPONSE_OBJECT => RESPONSE_OBJECT[OPERATION_FIELD] )\n```\n\nSimple function params object\n\n```\nFUNCTION_FIELD_PARAMS = {\n  KEY: VALUE\n}\n```\n\nQuery object\n\n```\nQUERY_OBJECT = {\n    ...RETURN_PARAMS\n}\n```\n\nReturn params is an object containing RETURN_KEY - true if it is a `scalar`, RETURN_PARAMS if `type` otherwise it is a function where you pass field params and type return params.\n\n```\nRETURN_PARAMS = {\n    RETURN_KEY: true,\n    RETURN_KEY: {\n        ...RETURN_PARAMS\n    },\n    RETURN_FUNCTION_KEY:[\n        {\n            ...FUNCTION_FIELD_PARAMS\n        },\n        {\n            ...RETURN_PARAMS\n        }\n    ]\n}\n```\n\n### Use Alias Spec\n\n```\nRETURN_PARAMS = {\n  __alias: RETURN_PARAMS\n}\n```\n\nAccess aliased operation type-safe\n\n```\nPROMISE_RETURNING_OBJECT[ALIAS_STRING][OPERATION_NAME]\n```\n",
+        "content": "\n## Zeus Spec\n\nPromise of type query data object is returned.\n\n```\nPROMISE_RETURNING_OBJECT = Chain.[OPERATION_NAME]({\n    ...FUNCTION_FIELD_PARAMS\n})(\n    ...QUERY_OBJECT\n).then ( RESPONSE_OBJECT => RESPONSE_OBJECT[OPERATION_FIELD] )\n```\n\nSimple function params object\n\n```\nFUNCTION_FIELD_PARAMS = {\n  KEY: VALUE\n}\n```\n\nQuery object\n\n```\nQUERY_OBJECT = {\n    ...RETURN_PARAMS\n}\n```\n\nReturn params is an object containing RETURN_KEY - true if it is a `scalar`, RETURN_PARAMS if `type` otherwise it is a function where you pass field params and type return params.\n\n```\nRETURN_PARAMS = {\n    RETURN_KEY: true,\n    RETURN_KEY: {\n        ...RETURN_PARAMS\n    },\n    RETURN_FUNCTION_KEY:[\n        {\n            ...FUNCTION_FIELD_PARAMS\n        },\n        {\n            ...RETURN_PARAMS\n        }\n    ]\n}\n```\n\n### Use Alias Spec\n\n```\nRETURN_PARAMS = {\n  __alias: RETURN_PARAMS\n}\n```\n\nAccess aliased operation type-safe\n\n```\nPROMISE_RETURNING_OBJECT[ALIAS_STRING]\n```\n",
         "data": {
             "link": "spec",
             "title": "Specification",

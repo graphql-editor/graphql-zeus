@@ -16,11 +16,6 @@ zeus [path] [output_path] [options]
     describe: 'Generate client for NodeJS( default is for browser and react-native )',
     boolean: true,
   })
-  .option('typescript', {
-    alias: 'ts',
-    describe: 'Output TypeScript only',
-    boolean: true,
-  })
   .option('esModule', {
     alias: 'es',
     describe: 'Use .js import in TypeScript to use with esModules',
