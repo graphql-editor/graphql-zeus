@@ -15,7 +15,7 @@ const handleFetchResponse = (response: Response): Promise<GraphQLResponse> => {
         .catch(reject);
     });
   }
-  return response.json();
+  return response.json() as Promise<GraphQLResponse>;
 };
 
 export const apiFetch = (options: fetchOptions) => (query: string, variables: Record<string, unknown> = {}) => {
