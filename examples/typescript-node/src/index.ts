@@ -1,5 +1,6 @@
 import chalk from 'chalk';
 import fetch from 'node-fetch';
+import { ZeusTD } from './zeus/typedDocumentNode';
 import { Gql, SpecialSkills, Thunder, Zeus, InputType, Selector, GraphQLTypes, useZeusVariables } from './zeus';
 
 const sel = Selector('Query')({
@@ -294,5 +295,21 @@ const run = async () => {
     },
   );
   printQueryResult('variable Test', test);
+
+  const zeusTDDVars = useZeusVariables({ cardId: 'String!' })({
+    cardId: 'blabla',
+  });
+
+  const selectorTDD = Selector('Query')({
+    drawCard: {
+      id: true,
+      Attack: true,
+      Defense: true,
+    },
+    cardById: [{ cardId: zeusTDDVars.$('cardId') }, { id: true }],
+  });
+
+  const generatedTypedDocumentNode = ZeusTD('query', selectorTDD, { variables: zeusTDDVars });
+  printQueryResult('Generated TypedDocumentNode Test', generatedTypedDocumentNode);
 };
 run();

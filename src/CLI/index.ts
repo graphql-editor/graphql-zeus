@@ -31,6 +31,11 @@ zeus [path] [output_path] [options]
     describe: 'Generate Stucco.js stuccoSubscriptions module',
     boolean: true,
   })
+  .option('typedDocumentNode', {
+    alias: 'td',
+    describe: 'Generate TypedDocumentNode createQuery module',
+    boolean: true,
+  })
   .option('reactQuery', {
     alias: 'rq',
     describe: 'Generate React Query useTypedQuery module',
