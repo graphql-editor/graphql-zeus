@@ -57,10 +57,11 @@ export type SubscriptionFunction = (query: string) => any;
 type NotUndefined<T> = T extends undefined ? never : T;
 export type ResolverType<F> = NotUndefined<F extends [infer ARGS, any] ? ARGS : undefined>;
 
-export type OperationOptions = {
-  variables?: VariableInput;
+export type OperationOptions<Z extends Record<string, unknown> = Record<string, unknown>> = {
+  variables?: VariableInput<Z>;
   operationName?: string;
 };
+
 export interface GraphQLResponse {
   data?: Record<string, any>;
   errors?: Array<{
