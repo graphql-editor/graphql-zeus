@@ -49,7 +49,7 @@ const listCardsAndDraw = await chain('query')({
 
 ### Use on function
 
-````ts
+```ts
 import { Chain } from './zeus';
 
 // Create a Chain client instance with the endpoint
@@ -74,7 +74,7 @@ const listCardsAndDraw = await chain('query')({
 });
 ```
 
-#### Use it with variables
+### Use it with variables
 
 ```ts
 import { Chain } from './zeus';
@@ -98,4 +98,4 @@ const listCardsAndDraw = await chain('query')({
       variables
   }
 });
-````
+```
