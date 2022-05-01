@@ -48,8 +48,9 @@ export const InternalsBuildQuery = (
     }
     const hasOperationName = root && options?.operationName ? ' ' + options.operationName : '';
     const hasVariables = root && options?.variables?.$params ? `(${options.variables?.$params})` : '';
-    const keyForDirectives = o.__directives ? `${k} ${o.__directives}` : k;
-    return `${keyForDirectives}${hasOperationName}${hasVariables}{${Object.entries(o)
+    const keyForDirectives = o.__directives ?? '';
+    return `${k} ${keyForDirectives}${hasOperationName}${hasVariables}{${Object.entries(o)
+      .filter(([k]) => k !== '__directives')
       .map((e) => ibb(...e, [p, `field<>${keyForPath}`].join(SEPARATOR), false))
       .join('\n')}}`;
   };

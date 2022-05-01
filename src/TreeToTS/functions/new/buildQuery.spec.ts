@@ -385,4 +385,24 @@ describe('Test generated function buildQuery', () => {
         }
     }`);
   });
+  test('Simple query with  directives on object', () => {
+    const builder = InternalsBuildQuery(AllTypesProps, ReturnTypes, Ops, { operationName: 'MyQuery' });
+    const matchExact = replSpace(
+      builder('query', {
+        cards: {
+          __directives: `@skip(if: true)`,
+          name: true,
+          age: true,
+          bio: true,
+        },
+      }),
+    );
+    matchExact(`query MyQuery{
+        cards @skip(if:true){
+            name
+            age
+            bio
+        }
+    }`);
+  });
 });
