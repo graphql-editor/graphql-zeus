@@ -29,7 +29,7 @@ export const Layout: React.FC<{
           GraphQL Zeus
         </a>
         <span className="text-gray-400 block ml-2 text-md mt-1">Autocomplete client for GraphQL</span>
-        <span className="ml-auto mr-2 text-gray-500">4.0.4</span>
+        <span className="ml-auto mr-2 text-gray-500">5.0.x</span>
         <a href="https://github.com/graphql-editor/graphql-zeus" className="text-purple-500" title="Github repository">
           <GithubIcon />
         </a>

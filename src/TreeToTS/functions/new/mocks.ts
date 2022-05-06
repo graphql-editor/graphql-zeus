@@ -320,7 +320,7 @@ export const enum SpecialSkills {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const apiSubscription = (opts: chainOptions) => (((q: string) => 1) as unknown) as SubscriptionFunction;
+export const apiSubscription = (opts: chainOptions) => ((q: string) => 1) as unknown as SubscriptionFunction;
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const apiFetch = (options: chainOptions) => (((q: string, vars?: unknown) => 1) as unknown) as FetchFunction;
+export const apiFetch = (options: chainOptions) => ((q: string, vars?: unknown) => 1) as unknown as FetchFunction;
 export const HOST = 'https://faker.graphqleditor.com/a-team/olympus/graphql';

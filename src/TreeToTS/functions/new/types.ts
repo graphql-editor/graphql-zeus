@@ -4,7 +4,7 @@ export type UnwrapPromise<T> = T extends Promise<infer R> ? R : T;
 export type ZeusState<T extends (...args: any[]) => Promise<any>> = NonNullable<UnwrapPromise<ReturnType<T>>>;
 export type ZeusHook<
   T extends (...args: any[]) => Record<string, (...args: any[]) => Promise<any>>,
-  N extends keyof ReturnType<T>
+  N extends keyof ReturnType<T>,
 > = ZeusState<ReturnType<T>[N]>;
 
 export type WithTypeNameValue<T> = T & {
@@ -29,18 +29,17 @@ type IsInterfaced<SRC extends DeepAnify<DST>, DST> = FlattenArray<SRC> extends Z
           ? IsArray<R, '__typename' extends keyof DST ? DST[P] & { __typename: true } : DST[P]>
           : Record<string, unknown>
         : never;
-    }[keyof DST] &
-      {
-        [P in keyof Omit<
-          Pick<
-            SRC,
-            {
-              [P in keyof DST]: SRC[P] extends '__union' & infer R ? never : P;
-            }[keyof DST]
-          >,
-          '__typename'
-        >]: IsPayLoad<DST[P]> extends BaseZeusResolver ? SRC[P] : IsArray<SRC[P], DST[P]>;
-      }
+    }[keyof DST] & {
+      [P in keyof Omit<
+        Pick<
+          SRC,
+          {
+            [P in keyof DST]: SRC[P] extends '__union' & infer R ? never : P;
+          }[keyof DST]
+        >,
+        '__typename'
+      >]: IsPayLoad<DST[P]> extends BaseZeusResolver ? SRC[P] : IsArray<SRC[P], DST[P]>;
+    }
   : {
       [P in keyof Pick<SRC, keyof DST>]: IsPayLoad<DST[P]> extends BaseZeusResolver ? SRC[P] : IsArray<SRC[P], DST[P]>;
     };
@@ -49,8 +48,7 @@ export type MapType<SRC, DST> = SRC extends DeepAnify<DST> ? IsInterfaced<SRC, D
 export type InputType<SRC, DST> = IsPayLoad<DST> extends { __alias: infer R }
   ? {
       [P in keyof R]: MapType<SRC, R[P]>[keyof MapType<SRC, R[P]>];
-    } &
-      MapType<SRC, Omit<IsPayLoad<DST>, '__alias'>>
+    } & MapType<SRC, Omit<IsPayLoad<DST>, '__alias'>>
   : MapType<SRC, IsPayLoad<DST>>;
 export type SubscriptionToGraphQL<Z, T> = {
   ws: WebSocket;

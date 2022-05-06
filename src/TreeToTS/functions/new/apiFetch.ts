@@ -18,10 +18,28 @@ const handleFetchResponse = (response: Response): Promise<GraphQLResponse> => {
   return response.json();
 };
 
-export const apiFetch = (options: fetchOptions) => (query: string, variables: Record<string, unknown> = {}) => {
-  const fetchOptions = options[1] || {};
-  if (fetchOptions.method && fetchOptions.method === 'GET') {
-    return fetch(`${options[0]}?query=${encodeURIComponent(query)}`, fetchOptions)
+export const apiFetch =
+  (options: fetchOptions) =>
+  (query: string, variables: Record<string, unknown> = {}) => {
+    const fetchOptions = options[1] || {};
+    if (fetchOptions.method && fetchOptions.method === 'GET') {
+      return fetch(`${options[0]}?query=${encodeURIComponent(query)}`, fetchOptions)
+        .then(handleFetchResponse)
+        .then((response: GraphQLResponse) => {
+          if (response.errors) {
+            throw new GraphQLError(response);
+          }
+          return response.data;
+        });
+    }
+    return fetch(`${options[0]}`, {
+      body: JSON.stringify({ query, variables }),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      ...fetchOptions,
+    })
       .then(handleFetchResponse)
       .then((response: GraphQLResponse) => {
         if (response.errors) {
@@ -29,20 +47,4 @@ export const apiFetch = (options: fetchOptions) => (query: string, variables: Re
         }
         return response.data;
       });
-  }
-  return fetch(`${options[0]}`, {
-    body: JSON.stringify({ query, variables }),
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    ...fetchOptions,
-  })
-    .then(handleFetchResponse)
-    .then((response: GraphQLResponse) => {
-      if (response.errors) {
-        throw new GraphQLError(response);
-      }
-      return response.data;
-    });
-};
+  };

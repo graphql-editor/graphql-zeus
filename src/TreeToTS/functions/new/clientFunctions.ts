@@ -21,29 +21,25 @@ import {
 import { ZeusSelect } from '@/TreeToTS/functions/new/selectFunction';
 import { InputType, SubscriptionToGraphQL } from '@/TreeToTS/functions/new/types';
 
-export const Thunder = (fn: FetchFunction) => <
-  O extends keyof typeof Ops,
-  R extends keyof ValueTypes = GenericOperation<O>
->(
-  operation: O,
-) => <Z extends ValueTypes[R]>(o: Z | ValueTypes[R], ops?: OperationOptions) =>
-  fullChainConstruct(fn)(operation)(o as any, ops) as Promise<InputType<GraphQLTypes[R], Z>>;
+export const Thunder =
+  (fn: FetchFunction) =>
+  <O extends keyof typeof Ops, R extends keyof ValueTypes = GenericOperation<O>>(operation: O) =>
+  <Z extends ValueTypes[R]>(o: Z | ValueTypes[R], ops?: OperationOptions) =>
+    fullChainConstruct(fn)(operation)(o as any, ops) as Promise<InputType<GraphQLTypes[R], Z>>;
 
 export const Chain = (...options: chainOptions) => Thunder(apiFetch(options));
 
-export const SubscriptionThunder = (fn: SubscriptionFunction) => <
-  O extends keyof typeof Ops,
-  R extends keyof ValueTypes = GenericOperation<O>
->(
-  operation: O,
-) => <Z extends ValueTypes[R]>(o: Z | ValueTypes[R], ops?: OperationOptions) =>
-  fullSubscriptionConstruct(fn)(operation)(o as any, ops) as SubscriptionToGraphQL<Z, GraphQLTypes[R]>;
+export const SubscriptionThunder =
+  (fn: SubscriptionFunction) =>
+  <O extends keyof typeof Ops, R extends keyof ValueTypes = GenericOperation<O>>(operation: O) =>
+  <Z extends ValueTypes[R]>(o: Z | ValueTypes[R], ops?: OperationOptions) =>
+    fullSubscriptionConstruct(fn)(operation)(o as any, ops) as SubscriptionToGraphQL<Z, GraphQLTypes[R]>;
 
 export const Subscription = (...options: chainOptions) => SubscriptionThunder(apiSubscription(options));
 export const Zeus = <
   Z extends ValueTypes[R],
   O extends keyof typeof Ops,
-  R extends keyof ValueTypes = GenericOperation<O>
+  R extends keyof ValueTypes = GenericOperation<O>,
 >(
   operation: O,
   o: Z | ValueTypes[R],
