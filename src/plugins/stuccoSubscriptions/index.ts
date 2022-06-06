@@ -50,7 +50,7 @@ export const stuccoSubscriptions = <S extends "${subscriptionNode.name}">(
         });
       },
     };
-  })('subscription')(o as any, ops) as SubscriptionToGraphQL<Z, GraphQLTypes[S]>;
+  })('subscription')(o as any, ops) as SubscriptionToGraphQL<Z, GraphQLTypes[S], {}>;
 `,
   };
 };

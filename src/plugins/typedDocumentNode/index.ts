@@ -15,7 +15,12 @@ export const ZeusTD = <
 ) => {
   const varValues = ops?.variables?.values;
 
-  return gql(InternalsBuildQuery(AllTypesProps, ReturnTypes, Ops, ops)(operation, o as any)) as TypedQueryDocumentNode<
+  return gql(InternalsBuildQuery({
+    props: AllTypesProps,
+    returns: ReturnTypes,
+    options: ops,
+    ops: Ops,
+  })(operation, o as any)) as TypedQueryDocumentNode<
     InputType<GraphQLTypes[R], Z>,
     typeof varValues
   >;

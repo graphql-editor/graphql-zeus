@@ -21,7 +21,7 @@ describe('Prop types generation test', () => {
         },
       }),
     );
-    matchExact(`Status: true`);
+    matchExact(`Status: "enum" as const`);
   });
   it('Correctly resolves type with fields without enums and inputs', () => {
     const matchExact = replSpace(

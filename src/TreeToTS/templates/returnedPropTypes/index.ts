@@ -23,10 +23,10 @@ export const resolvePropTypeFromRoot = (i: ParserField): string => {
     return '';
   }
   if (i.data.type === TypeDefinition.EnumTypeDefinition) {
-    return `\t${i.name}: true`;
+    return `\t${i.name}: "enum" as const`;
   }
   if (i.data.type === TypeDefinition.ScalarTypeDefinition) {
-    return `\t${i.name}: "String"`;
+    return `\t${i.name}: \`scalar.${i.name}\` as const`;
   }
   if (i.data.type === TypeDefinition.InputObjectTypeDefinition) {
     return `\t${i.name}:{\n${i.args

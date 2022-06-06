@@ -6,6 +6,9 @@ const resolveField = (f: ParserField): string => {
 };
 
 export const resolveReturnFromRoot = (i: ParserField, usages?: string[]): string => {
+  if (i.data.type === TypeDefinition.ScalarTypeDefinition) {
+    return `\t${i.name}: \`scalar.${i.name}\` as const`;
+  }
   if (
     i.data.type !== TypeDefinition.ObjectTypeDefinition &&
     i.data.type !== TypeDefinition.UnionTypeDefinition &&

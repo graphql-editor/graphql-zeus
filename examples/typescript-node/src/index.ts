@@ -13,7 +13,17 @@ const sel = Selector('Query')({
   cardById: [{ cardId: '' }, { Attack: true }],
 });
 
-export type IRT = InputType<GraphQLTypes['Query'], typeof sel>;
+const decoders = {
+  JSON: {
+    encode: (e: unknown) => JSON.stringify(e),
+    decode: (e: unknown) => {
+      console.log(e);
+      return e as { power: number };
+    },
+  },
+};
+
+export type IRT = InputType<GraphQLTypes['Query'], typeof sel, typeof decoders>;
 
 const printQueryResult = (name: string, result: any) =>
   console.log(`${chalk.greenBright(name)} result:\n${chalk.cyan(JSON.stringify(result, null, 4))}\n\n`);
@@ -58,6 +68,18 @@ const run = async () => {
     },
   });
   printQueryResult('drawChangeCard', blalba.drawChangeCard);
+  const blalbaScalars = await Gql('query')(
+    {
+      drawCard: {
+        info: true,
+      },
+    },
+    { scalars: decoders },
+  );
+  if (typeof blalbaScalars.drawCard.info.power !== 'number') {
+    throw new Error('Invalid scalar decoder');
+  }
+  printQueryResult('blalbaScalars', blalbaScalars.drawCard.info.power);
 
   // Thunder example
   const thunder = Thunder(async (query) => {
@@ -85,21 +107,27 @@ const run = async () => {
     const json = await response.json();
     return json.data;
   });
-  const blalbaThunder = await thunder('query')({
-    drawCard: {
-      Attack: true,
-    },
-    drawChangeCard: {
-      __typename: true,
-      '...on EffectCard': {
-        effectSize: true,
-        name: true,
+  const blalbaThunder = await thunder('query')(
+    {
+      drawCard: {
+        Attack: true,
+        info: true,
       },
-      '...on SpecialCard': {
-        name: true,
+      drawChangeCard: {
+        __typename: true,
+        '...on EffectCard': {
+          effectSize: true,
+          name: true,
+        },
+        '...on SpecialCard': {
+          name: true,
+        },
       },
     },
-  });
+    {
+      scalars: decoders,
+    },
+  );
   printQueryResult('drawChangeCard thunder', blalbaThunder.drawChangeCard);
 
   const {

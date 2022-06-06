@@ -21,7 +21,7 @@ ${args.map((f) => resolveField(f)).join(',\n')}
     case TypeDefinition.ObjectTypeDefinition:
       return `["${name}"]: {\n\t__typename: "${name}",\n${args.map((f) => resolveField(f)).join(',\n')}\n}`;
     case TypeDefinition.ScalarTypeDefinition:
-      return `["${name}"]: any`;
+      return `["${name}"]: "scalar" & { name: "${name}" }`;
     case TypeDefinition.UnionTypeDefinition:
       return `["${name}"]:{
         \t__typename:${args.length ? args.map((ti) => `"${ti.name}"`).join(' | ') : 'never'}

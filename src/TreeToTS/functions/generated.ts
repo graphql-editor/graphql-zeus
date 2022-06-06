@@ -18,10 +18,28 @@ const handleFetchResponse = (response: Response): Promise<GraphQLResponse> => {
   return response.json();
 };
 
-export const apiFetch = (options: fetchOptions) => (query: string, variables: Record<string, unknown> = {}) => {
-  const fetchOptions = options[1] || {};
-  if (fetchOptions.method && fetchOptions.method === 'GET') {
-    return fetch(\`\${options[0]}?query=\${encodeURIComponent(query)}\`, fetchOptions)
+export const apiFetch =
+  (options: fetchOptions) =>
+  (query: string, variables: Record<string, unknown> = {}) => {
+    const fetchOptions = options[1] || {};
+    if (fetchOptions.method && fetchOptions.method === 'GET') {
+      return fetch(\`\${options[0]}?query=\${encodeURIComponent(query)}\`, fetchOptions)
+        .then(handleFetchResponse)
+        .then((response: GraphQLResponse) => {
+          if (response.errors) {
+            throw new GraphQLError(response);
+          }
+          return response.data;
+        });
+    }
+    return fetch(\`\${options[0]}\`, {
+      body: JSON.stringify({ query, variables }),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      ...fetchOptions,
+    })
       .then(handleFetchResponse)
       .then((response: GraphQLResponse) => {
         if (response.errors) {
@@ -29,23 +47,7 @@ export const apiFetch = (options: fetchOptions) => (query: string, variables: Re
         }
         return response.data;
       });
-  }
-  return fetch(\`\${options[0]}\`, {
-    body: JSON.stringify({ query, variables }),
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    ...fetchOptions,
-  })
-    .then(handleFetchResponse)
-    .then((response: GraphQLResponse) => {
-      if (response.errors) {
-        throw new GraphQLError(response);
-      }
-      return response.data;
-    });
-};
+  };
 
 
 
@@ -88,12 +90,20 @@ export const apiSubscription = (options: chainOptions) => (query: string) => {
 
 
 
-export const InternalsBuildQuery = (
-  props: AllTypesPropsType,
-  returns: ReturnTypesType,
-  ops: Operations,
-  options?: OperationOptions,
-) => {
+
+export const InternalsBuildQuery = ({
+  ops,
+  props,
+  returns,
+  options,
+}: {
+  props: AllTypesPropsType;
+  returns: ReturnTypesType;
+  ops: Operations;
+  options?: OperationOptions & {
+    scalars?: ScalarDefinition;
+  };
+}) => {
   const ibb = (k: string, o: InputValueType | VType, p = '', root = true): string => {
     const keyForPath = purifyGraphQLKey(k);
     const newPath = [p, keyForPath].join(SEPARATOR);
@@ -107,7 +117,13 @@ export const InternalsBuildQuery = (
       return \`\${k} \${o}\`;
     }
     if (Array.isArray(o)) {
-      const args = InternalArgsBuilt(props, returns, ops, options?.variables?.values)(o[0], newPath);
+      const args = InternalArgsBuilt({
+        props,
+        returns,
+        ops,
+        variables: options?.variables?.values,
+        scalars: options?.scalars,
+      })(o[0], newPath);
       return \`\${ibb(args ? \`\${k}(\${args})\` : k, o[1], p, false)}\`;
     }
     if (k === '__alias') {
@@ -126,8 +142,9 @@ export const InternalsBuildQuery = (
     }
     const hasOperationName = root && options?.operationName ? ' ' + options.operationName : '';
     const hasVariables = root && options?.variables?.$params ? \`(\${options.variables?.$params})\` : '';
-    const keyForDirectives = o.__directives ? \`\${k} \${o.__directives}\` : k;
-    return \`\${keyForDirectives}\${hasOperationName}\${hasVariables}{\${Object.entries(o)
+    const keyForDirectives = o.__directives ?? '';
+    return \`\${k} \${keyForDirectives}\${hasOperationName}\${hasVariables}{\${Object.entries(o)
+      .filter(([k]) => k !== '__directives')
       .map((e) => ibb(...e, [p, \`field<>\${keyForPath}\`].join(SEPARATOR), false))
       .join('\\n')}}\`;
   };
@@ -143,34 +160,35 @@ export const InternalsBuildQuery = (
 
 
 
-export const Thunder = (fn: FetchFunction) => <
-  O extends keyof typeof Ops,
-  R extends keyof ValueTypes = GenericOperation<O>
->(
-  operation: O,
-) => <Z extends ValueTypes[R]>(o: Z | ValueTypes[R], ops?: OperationOptions) =>
-  fullChainConstruct(fn)(operation)(o as any, ops) as Promise<InputType<GraphQLTypes[R], Z>>;
+export const Thunder =
+  (fn: FetchFunction) =>
+  <O extends keyof typeof Ops, R extends keyof ValueTypes = GenericOperation<O>>(operation: O) =>
+  <Z extends ValueTypes[R], SCLR extends ScalarDefinition>(
+    o: Z | ValueTypes[R],
+    ops?: OperationOptions & {
+      scalars?: SCLR;
+    },
+  ) =>
+    fullChainConstruct(fn)(operation)(o as any, ops) as Promise<InputType<GraphQLTypes[R], Z, SCLR>>;
 
 export const Chain = (...options: chainOptions) => Thunder(apiFetch(options));
 
-export const SubscriptionThunder = (fn: SubscriptionFunction) => <
-  O extends keyof typeof Ops,
-  R extends keyof ValueTypes = GenericOperation<O>
->(
-  operation: O,
-) => <Z extends ValueTypes[R]>(o: Z | ValueTypes[R], ops?: OperationOptions) =>
-  fullSubscriptionConstruct(fn)(operation)(o as any, ops) as SubscriptionToGraphQL<Z, GraphQLTypes[R]>;
+export const SubscriptionThunder =
+  (fn: SubscriptionFunction) =>
+  <O extends keyof typeof Ops, R extends keyof ValueTypes = GenericOperation<O>>(operation: O) =>
+  <Z extends ValueTypes[R], SCLR extends ScalarDefinition>(o: Z | ValueTypes[R], ops?: OperationOptions) =>
+    fullSubscriptionConstruct(fn)(operation)(o as any, ops) as SubscriptionToGraphQL<Z, GraphQLTypes[R], SCLR>;
 
 export const Subscription = (...options: chainOptions) => SubscriptionThunder(apiSubscription(options));
 export const Zeus = <
   Z extends ValueTypes[R],
   O extends keyof typeof Ops,
-  R extends keyof ValueTypes = GenericOperation<O>
+  R extends keyof ValueTypes = GenericOperation<O>,
 >(
   operation: O,
   o: Z | ValueTypes[R],
   ops?: OperationOptions,
-) => InternalsBuildQuery(AllTypesProps, ReturnTypes, Ops, ops)(operation, o as any);
+) => InternalsBuildQuery({ props: AllTypesProps, returns: ReturnTypes, ops: Ops, options: ops })(operation, o as any);
 export const Selector = <T extends keyof ValueTypes>(key: T) => ZeusSelect<ValueTypes[T]>();
 
 export const Gql = Chain(HOST);
@@ -180,12 +198,65 @@ export const Gql = Chain(HOST);
 
 
 
-export const fullChainConstruct = (fn: FetchFunction) => (t: 'query' | 'mutation' | 'subscription') => (
-  o: Record<any, any>,
-  options?: OperationOptions,
-) => {
-  const builder = InternalsBuildQuery(AllTypesProps, ReturnTypes, Ops, options);
-  return fn(builder(t, o), options?.variables?.values);
+
+export const decodeScalarsInResponse = <O extends Operations>({
+  response,
+  scalars,
+  returns,
+  ops,
+  initialZeusQuery,
+  initialOp,
+}: {
+  ops: O;
+  response: any;
+  returns: ReturnTypesType;
+  scalars?: Record<string, ScalarResolver | undefined>;
+  initialOp: keyof O;
+  initialZeusQuery: InputValueType | VType;
+}) => {
+  if (!scalars) {
+    return response;
+  }
+  const builder = PrepareScalarPaths({
+    ops,
+    returns,
+  });
+
+  const scalarPaths = builder(initialOp as string, ops[initialOp], initialZeusQuery);
+  if (scalarPaths) {
+    const r = traverseResponse({ scalarPaths, resolvers: scalars })('Query', response, ['Query']);
+    return r;
+  }
+  return response;
+};
+
+export const traverseResponse = ({
+  resolvers,
+  scalarPaths,
+}: {
+  scalarPaths: { [x: string]: \`scalar.\${string}\` };
+  resolvers: {
+    [x: string]: ScalarResolver | undefined;
+  };
+}) => {
+  const ibb = (k: string, o: InputValueType | VType, p: string[] = []): unknown => {
+    if (Array.isArray(o)) {
+      return o.map((eachO) => ibb(k, eachO, p));
+    }
+    const scalarPathString = p.join(SEPARATOR);
+    const currentScalarString = scalarPaths[scalarPathString];
+    if (currentScalarString) {
+      const currentDecoder = resolvers[currentScalarString.split('.')[1]]?.decode;
+      if (currentDecoder) {
+        return currentDecoder(o);
+      }
+    }
+    if (typeof o === 'boolean' || typeof o === 'number' || typeof o === 'string' || !o) {
+      return o;
+    }
+    return Object.fromEntries(Object.entries(o).map(([k, v]) => [k, ibb(k, v, [...p, purifyGraphQLKey(k)])]));
+  };
+  return ibb;
 };
 
 
@@ -193,13 +264,61 @@ export const fullChainConstruct = (fn: FetchFunction) => (t: 'query' | 'mutation
 
 
 
-export const fullSubscriptionConstruct = (fn: SubscriptionFunction) => (t: 'query' | 'mutation' | 'subscription') => (
-  o: Record<any, any>,
-  options?: OperationOptions,
-) => {
-  const builder = InternalsBuildQuery(AllTypesProps, ReturnTypes, Ops, options);
-  return fn(builder(t, o));
-};
+
+
+export const fullChainConstruct =
+  (fn: FetchFunction) =>
+  (t: keyof typeof Ops) =>
+  (o: Record<any, any>, options?: OperationOptions & { scalars?: ScalarDefinition }) => {
+    const builder = InternalsBuildQuery({ props: AllTypesProps, returns: ReturnTypes, ops: Ops, options });
+    return fn(builder(t, o), options?.variables?.values).then((data) => {
+      if (options?.scalars) {
+        return decodeScalarsInResponse({
+          response: data,
+          initialOp: t,
+          initialZeusQuery: o,
+          returns: ReturnTypes,
+          scalars: options.scalars,
+          ops: Ops,
+        });
+      }
+      return data;
+    });
+  };
+
+
+
+
+
+
+
+
+export const fullSubscriptionConstruct =
+  (fn: SubscriptionFunction) =>
+  (t: keyof typeof Ops) =>
+  (o: Record<any, any>, options?: OperationOptions & { scalars?: ScalarDefinition }) => {
+    const builder = InternalsBuildQuery({ props: AllTypesProps, returns: ReturnTypes, ops: Ops, options });
+    const returnedFunction = fn(builder(t, o));
+    if (returnedFunction?.on) {
+      returnedFunction.on = (fnToCall: (v: any) => void) =>
+        returnedFunction.on((data: any) => {
+          if (options?.scalars) {
+            return fnToCall(
+              decodeScalarsInResponse({
+                response: data,
+                initialOp: t,
+                initialZeusQuery: o,
+                returns: ReturnTypes,
+                scalars: options.scalars,
+                ops: Ops,
+              }),
+            );
+          }
+          return fnToCall(data);
+        });
+    }
+    return returnedFunction;
+  };
 
 
 
@@ -208,7 +327,8 @@ export const fullSubscriptionConstruct = (fn: SubscriptionFunction) => (t: 'quer
 export type AllTypesPropsType = {
   [x: string]:
     | undefined
-    | boolean
+    | \`scalar.\${string}\`
+    | 'enum'
     | {
         [x: string]:
           | undefined
@@ -224,6 +344,7 @@ export type ReturnTypesType = {
     | {
         [x: string]: string | undefined;
       }
+    | \`scalar.\${string}\`
     | undefined;
 };
 export type InputValueType = {
@@ -245,7 +366,7 @@ export type ZeusArgsType =
     }
   | Array<ZeusArgsType>;
 
-export type Operations = Record<string, string | undefined>;
+export type Operations = Record<string, string>;
 
 export type VariableDefinition = {
   [x: string]: unknown;
@@ -266,6 +387,8 @@ export type OperationOptions<Z extends Record<string, unknown> = Record<string, 
   operationName?: string;
 };
 
+export type ScalarCoder = Record<string, (s: unknown) => string>;
+
 export interface GraphQLResponse {
   data?: Record<string, any>;
   errors?: Array<{
@@ -284,7 +407,85 @@ export class GraphQLError extends Error {
 export type GenericOperation<O> = O extends keyof typeof Ops ? typeof Ops[O] : never;
 
 
+
+
+
+const ExtractScalar = (mappedParts: string[], returns: ReturnTypesType): \`scalar.\${string}\` | undefined => {
+  if (mappedParts.length === 0) {
+    return;
+  }
+  const oKey = mappedParts[0];
+  const returnP1 = returns[oKey];
+  if (typeof returnP1 === 'object') {
+    const returnP2 = returnP1[mappedParts[1]];
+    if (returnP2) {
+      return ExtractScalar([returnP2, ...mappedParts.slice(2)], returns);
+    }
+    return undefined;
+  }
+  return returnP1 as \`scalar.\${string}\` | undefined;
+};
+
+export const PrepareScalarPaths = ({ ops, returns }: { returns: ReturnTypesType; ops: Operations }) => {
+  const ibb = (
+    k: string,
+    originalKey: string,
+    o: InputValueType | VType,
+    p: string[] = [],
+    pOriginals: string[] = [],
+    root = true,
+  ): { [x: string]: \`scalar.\${string}\` } | undefined => {
+    if (!o) {
+      return;
+    }
+    if (typeof o === 'boolean' || typeof o === 'number' || typeof o === 'string') {
+      const extractionArray = [...pOriginals, originalKey];
+      const isScalar = ExtractScalar(extractionArray, returns);
+      if (isScalar?.startsWith('scalar')) {
+        const partOfTree = {
+          [[...p, k].join(SEPARATOR)]: isScalar,
+        };
+        return partOfTree;
+      }
+      return {};
+    }
+    if (Array.isArray(o)) {
+      return ibb(k, k, o[1], p, pOriginals, false);
+    }
+    if (k === '__alias') {
+      return Object.entries(o)
+        .map(([alias, objectUnderAlias]) => {
+          if (typeof objectUnderAlias !== 'object' || Array.isArray(objectUnderAlias)) {
+            throw new Error(
+              'Invalid alias it should be __alias:{ YOUR_ALIAS_NAME: { OPERATION_NAME: { ...selectors }}}',
+            );
+          }
+          const operationName = Object.keys(objectUnderAlias)[0];
+          const operation = objectUnderAlias[operationName];
+          return ibb(alias, operationName, operation, p, pOriginals, false);
+        })
+        .reduce((a, b) => ({
+          ...a,
+          ...b,
+        }));
+    }
+    const keyName = root ? ops[k] : k;
+    return Object.entries(o)
+      .filter(([k]) => k !== '__directives')
+      .map(([k, v]) =>
+        ibb(k, k, v, [...p, purifyGraphQLKey(keyName || k)], [...pOriginals, purifyGraphQLKey(originalKey)], false),
+      )
+      .reduce((a, b) => ({
+        ...a,
+        ...b,
+      }));
+  };
+  return ibb;
+};
+
+
 export const purifyGraphQLKey = (k: string) => k.replace(/\\([^)]*\\)/g, '').replace(/^[^:]*\\:/g, '');
+
 
 
 
@@ -309,10 +510,16 @@ export const ResolveFromPath = (props: AllTypesPropsType, returns: ReturnTypesTy
   const ResolvePropsType = (mappedParts: Part[]) => {
     const oKey = ops[mappedParts[0].v];
     const propsP1 = oKey ? props[oKey] : props[mappedParts[0].v];
-    if (typeof propsP1 === 'boolean' && mappedParts.length === 1) {
+    if (propsP1 === 'enum' && mappedParts.length === 1) {
       return 'enum';
     }
+    if (typeof propsP1 === 'string' && propsP1.startsWith('scalar.') && mappedParts.length === 1) {
+      return propsP1;
+    }
     if (typeof propsP1 === 'object') {
+      if (mappedParts.length < 2) {
+        return 'not';
+      }
       const propsP2 = propsP1[mappedParts[1].v];
       if (typeof propsP2 === 'string') {
         return rpp(
@@ -323,6 +530,9 @@ export const ResolveFromPath = (props: AllTypesPropsType, returns: ReturnTypesTy
         );
       }
       if (typeof propsP2 === 'object') {
+        if (mappedParts.length < 3) {
+          return 'not';
+        }
         const propsP3 = propsP2[mappedParts[2].v];
         if (propsP3 && mappedParts[2].__type === 'arg') {
           return rpp(
@@ -336,6 +546,9 @@ export const ResolveFromPath = (props: AllTypesPropsType, returns: ReturnTypesTy
     }
   };
   const ResolveReturnType = (mappedParts: Part[]) => {
+    if (mappedParts.length === 0) {
+      return 'not';
+    }
     const oKey = ops[mappedParts[0].v];
     const returnP1 = oKey ? returns[oKey] : returns[mappedParts[0].v];
     if (typeof returnP1 === 'object') {
@@ -350,7 +563,7 @@ export const ResolveFromPath = (props: AllTypesPropsType, returns: ReturnTypesTy
       }
     }
   };
-  const rpp = (path: string): 'enum' | 'not' => {
+  const rpp = (path: string): 'enum' | 'not' | \`scalar.\${string}\` => {
     const parts = path.split(SEPARATOR).filter((l) => l.length > 0);
     const mappedParts = parts.map(mapPart);
     const propsP1 = ResolvePropsType(mappedParts);
@@ -366,13 +579,26 @@ export const ResolveFromPath = (props: AllTypesPropsType, returns: ReturnTypesTy
   return rpp;
 };
 
-export const InternalArgsBuilt = (
-  props: AllTypesPropsType,
-  returns: ReturnTypesType,
-  ops: Operations,
-  variables?: Record<string, unknown>,
-) => {
+export const InternalArgsBuilt = ({
+  props,
+  ops,
+  returns,
+  scalars,
+  variables,
+}: {
+  props: AllTypesPropsType;
+  returns: ReturnTypesType;
+  ops: Operations;
+  variables?: Record<string, unknown>;
+  scalars?: ScalarDefinition;
+}) => {
   const arb = (a: ZeusArgsType, p = '', root = true): string => {
+    const checkType = ResolveFromPath(props, returns, ops)(p);
+    if (checkType.startsWith('scalar.')) {
+      const [_, ...splittedScalar] = checkType.split('.');
+      const scalarKey = splittedScalar.join('.');
+      return (scalars?.[scalarKey]?.encode?.(a) as string) || (a as string);
+    }
     if (Array.isArray(a)) {
       return \`[\${a.map((arr) => arb(arr, p, false)).join(', ')}]\`;
     }
@@ -380,7 +606,6 @@ export const InternalArgsBuilt = (
       if (a.startsWith('$') && variables?.[a.slice(1)]) {
         return a;
       }
-      const checkType = ResolveFromPath(props, returns, ops)(p);
       if (checkType === 'enum') {
         return a;
       }
@@ -427,7 +652,7 @@ export type UnwrapPromise<T> = T extends Promise<infer R> ? R : T;
 export type ZeusState<T extends (...args: any[]) => Promise<any>> = NonNullable<UnwrapPromise<ReturnType<T>>>;
 export type ZeusHook<
   T extends (...args: any[]) => Record<string, (...args: any[]) => Promise<any>>,
-  N extends keyof ReturnType<T>
+  N extends keyof ReturnType<T>,
 > = ZeusState<ReturnType<T>[N]>;
 
 export type WithTypeNameValue<T> = T & {
@@ -441,46 +666,66 @@ type DeepAnify<T> = {
   [P in keyof T]?: any;
 };
 type IsPayLoad<T> = T extends [any, infer PayLoad] ? PayLoad : T;
-type IsArray<T, U> = T extends Array<infer R> ? InputType<R, U>[] : InputType<T, U>;
+export type ScalarDefinition = Record<string, ScalarResolver>;
+type IsScalar<S, SCLR extends ScalarDefinition> = S extends 'scalar' & { name: infer T }
+  ? T extends keyof SCLR
+    ? SCLR[T]['decode'] extends (s: unknown) => unknown
+      ? ReturnType<SCLR[T]['decode']>
+      : unknown
+    : unknown
+  : S;
+type IsArray<T, U, SCLR extends ScalarDefinition> = T extends Array<infer R>
+  ? InputType<R, U, SCLR>[]
+  : InputType<T, U, SCLR>;
 type FlattenArray<T> = T extends Array<infer R> ? R : T;
 type BaseZeusResolver = boolean | 1 | string;
 
-type IsInterfaced<SRC extends DeepAnify<DST>, DST> = FlattenArray<SRC> extends ZEUS_INTERFACES | ZEUS_UNIONS
+type IsInterfaced<SRC extends DeepAnify<DST>, DST, SCLR extends ScalarDefinition> = FlattenArray<SRC> extends
+  | ZEUS_INTERFACES
+  | ZEUS_UNIONS
   ? {
       [P in keyof SRC]: SRC[P] extends '__union' & infer R
         ? P extends keyof DST
-          ? IsArray<R, '__typename' extends keyof DST ? DST[P] & { __typename: true } : DST[P]>
+          ? IsArray<R, '__typename' extends keyof DST ? DST[P] & { __typename: true } : DST[P], SCLR>
           : Record<string, unknown>
         : never;
-    }[keyof DST] &
-      {
-        [P in keyof Omit<
-          Pick<
-            SRC,
-            {
-              [P in keyof DST]: SRC[P] extends '__union' & infer R ? never : P;
-            }[keyof DST]
-          >,
-          '__typename'
-        >]: IsPayLoad<DST[P]> extends BaseZeusResolver ? SRC[P] : IsArray<SRC[P], DST[P]>;
-      }
+    }[keyof DST] & {
+      [P in keyof Omit<
+        Pick<
+          SRC,
+          {
+            [P in keyof DST]: SRC[P] extends '__union' & infer R ? never : P;
+          }[keyof DST]
+        >,
+        '__typename'
+      >]: IsPayLoad<DST[P]> extends BaseZeusResolver ? IsScalar<SRC[P], SCLR> : IsArray<SRC[P], DST[P], SCLR>;
+    }
   : {
-      [P in keyof Pick<SRC, keyof DST>]: IsPayLoad<DST[P]> extends BaseZeusResolver ? SRC[P] : IsArray<SRC[P], DST[P]>;
+      [P in keyof Pick<SRC, keyof DST>]: IsPayLoad<DST[P]> extends BaseZeusResolver
+        ? IsScalar<SRC[P], SCLR>
+        : IsArray<SRC[P], DST[P], SCLR>;
     };
 
-export type MapType<SRC, DST> = SRC extends DeepAnify<DST> ? IsInterfaced<SRC, DST> : never;
-export type InputType<SRC, DST> = IsPayLoad<DST> extends { __alias: infer R }
+export type MapType<SRC, DST, SCLR extends ScalarDefinition> = SRC extends DeepAnify<DST>
+  ? IsInterfaced<SRC, DST, SCLR>
+  : never;
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type InputType<SRC, DST, SCLR extends ScalarDefinition = {}> = IsPayLoad<DST> extends { __alias: infer R }
   ? {
-      [P in keyof R]: MapType<SRC, R[P]>[keyof MapType<SRC, R[P]>];
-    } &
-      MapType<SRC, Omit<IsPayLoad<DST>, '__alias'>>
-  : MapType<SRC, IsPayLoad<DST>>;
-export type SubscriptionToGraphQL<Z, T> = {
+      [P in keyof R]: MapType<SRC, R[P], SCLR>[keyof MapType<SRC, R[P], SCLR>];
+    } & MapType<SRC, Omit<IsPayLoad<DST>, '__alias'>, SCLR>
+  : MapType<SRC, IsPayLoad<DST>, SCLR>;
+export type SubscriptionToGraphQL<Z, T, SCLR extends ScalarDefinition> = {
   ws: WebSocket;
-  on: (fn: (args: InputType<T, Z>) => void) => void;
-  off: (fn: (e: { data?: InputType<T, Z>; code?: number; reason?: string; message?: string }) => void) => void;
-  error: (fn: (e: { data?: InputType<T, Z>; errors?: string[] }) => void) => void;
+  on: (fn: (args: InputType<T, Z, SCLR>) => void) => void;
+  off: (fn: (e: { data?: InputType<T, Z, SCLR>; code?: number; reason?: string; message?: string }) => void) => void;
+  error: (fn: (e: { data?: InputType<T, Z, SCLR>; errors?: string[] }) => void) => void;
   open: () => void;
+};
+
+export type ScalarResolver = {
+  encode?: (s: unknown) => string;
+  decode?: (s: unknown) => unknown;
 };
 
 

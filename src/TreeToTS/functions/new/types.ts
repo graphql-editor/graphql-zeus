@@ -19,11 +19,13 @@ type DeepAnify<T> = {
 };
 type IsPayLoad<T> = T extends [any, infer PayLoad] ? PayLoad : T;
 export type ScalarDefinition = Record<string, ScalarResolver>;
-type IsScalar<T, SCLR extends ScalarDefinition> = T extends keyof SCLR
-  ? SCLR[T]['decode'] extends (s: unknown) => void
-    ? ReturnType<SCLR[T]['decode']>
+type IsScalar<S, SCLR extends ScalarDefinition> = S extends 'scalar' & { name: infer T }
+  ? T extends keyof SCLR
+    ? SCLR[T]['decode'] extends (s: unknown) => unknown
+      ? ReturnType<SCLR[T]['decode']>
+      : unknown
     : unknown
-  : T;
+  : S;
 type IsArray<T, U, SCLR extends ScalarDefinition> = T extends Array<infer R>
   ? InputType<R, U, SCLR>[]
   : InputType<T, U, SCLR>;
@@ -48,7 +50,7 @@ type IsInterfaced<SRC extends DeepAnify<DST>, DST, SCLR extends ScalarDefinition
           }[keyof DST]
         >,
         '__typename'
-      >]: IsPayLoad<DST[P]> extends BaseZeusResolver ? SRC[P] : IsArray<SRC[P], DST[P], SCLR>;
+      >]: IsPayLoad<DST[P]> extends BaseZeusResolver ? IsScalar<SRC[P], SCLR> : IsArray<SRC[P], DST[P], SCLR>;
     }
   : {
       [P in keyof Pick<SRC, keyof DST>]: IsPayLoad<DST[P]> extends BaseZeusResolver
@@ -59,7 +61,8 @@ type IsInterfaced<SRC extends DeepAnify<DST>, DST, SCLR extends ScalarDefinition
 export type MapType<SRC, DST, SCLR extends ScalarDefinition> = SRC extends DeepAnify<DST>
   ? IsInterfaced<SRC, DST, SCLR>
   : never;
-export type InputType<SRC, DST, SCLR extends ScalarDefinition> = IsPayLoad<DST> extends { __alias: infer R }
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type InputType<SRC, DST, SCLR extends ScalarDefinition = {}> = IsPayLoad<DST> extends { __alias: infer R }
   ? {
       [P in keyof R]: MapType<SRC, R[P], SCLR>[keyof MapType<SRC, R[P], SCLR>];
     } & MapType<SRC, Omit<IsPayLoad<DST>, '__alias'>, SCLR>
