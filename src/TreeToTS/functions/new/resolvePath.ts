@@ -5,6 +5,7 @@ import {
   SEPARATOR,
   ZeusArgsType,
 } from '@/TreeToTS/functions/new/models';
+import { ScalarDefinition } from '@/TreeToTS/functions/new/types';
 
 const mapPart = (p: string) => {
   const [isArg, isField] = p.split('<>');
@@ -26,10 +27,16 @@ export const ResolveFromPath = (props: AllTypesPropsType, returns: ReturnTypesTy
   const ResolvePropsType = (mappedParts: Part[]) => {
     const oKey = ops[mappedParts[0].v];
     const propsP1 = oKey ? props[oKey] : props[mappedParts[0].v];
-    if (typeof propsP1 === 'boolean' && mappedParts.length === 1) {
+    if (propsP1 === 'enum' && mappedParts.length === 1) {
       return 'enum';
     }
+    if (typeof propsP1 === 'string' && propsP1.startsWith('scalar.') && mappedParts.length === 1) {
+      return propsP1;
+    }
     if (typeof propsP1 === 'object') {
+      if (mappedParts.length < 2) {
+        return 'not';
+      }
       const propsP2 = propsP1[mappedParts[1].v];
       if (typeof propsP2 === 'string') {
         return rpp(
@@ -40,6 +47,9 @@ export const ResolveFromPath = (props: AllTypesPropsType, returns: ReturnTypesTy
         );
       }
       if (typeof propsP2 === 'object') {
+        if (mappedParts.length < 3) {
+          return 'not';
+        }
         const propsP3 = propsP2[mappedParts[2].v];
         if (propsP3 && mappedParts[2].__type === 'arg') {
           return rpp(
@@ -53,6 +63,9 @@ export const ResolveFromPath = (props: AllTypesPropsType, returns: ReturnTypesTy
     }
   };
   const ResolveReturnType = (mappedParts: Part[]) => {
+    if (mappedParts.length === 0) {
+      return 'not';
+    }
     const oKey = ops[mappedParts[0].v];
     const returnP1 = oKey ? returns[oKey] : returns[mappedParts[0].v];
     if (typeof returnP1 === 'object') {
@@ -67,7 +80,7 @@ export const ResolveFromPath = (props: AllTypesPropsType, returns: ReturnTypesTy
       }
     }
   };
-  const rpp = (path: string): 'enum' | 'not' => {
+  const rpp = (path: string): 'enum' | 'not' | `scalar.${string}` => {
     const parts = path.split(SEPARATOR).filter((l) => l.length > 0);
     const mappedParts = parts.map(mapPart);
     const propsP1 = ResolvePropsType(mappedParts);
@@ -83,13 +96,26 @@ export const ResolveFromPath = (props: AllTypesPropsType, returns: ReturnTypesTy
   return rpp;
 };
 
-export const InternalArgsBuilt = (
-  props: AllTypesPropsType,
-  returns: ReturnTypesType,
-  ops: Operations,
-  variables?: Record<string, unknown>,
-) => {
+export const InternalArgsBuilt = ({
+  props,
+  ops,
+  returns,
+  scalars,
+  variables,
+}: {
+  props: AllTypesPropsType;
+  returns: ReturnTypesType;
+  ops: Operations;
+  variables?: Record<string, unknown>;
+  scalars?: ScalarDefinition;
+}) => {
   const arb = (a: ZeusArgsType, p = '', root = true): string => {
+    const checkType = ResolveFromPath(props, returns, ops)(p);
+    if (checkType.startsWith('scalar.')) {
+      const [_, ...splittedScalar] = checkType.split('.');
+      const scalarKey = splittedScalar.join('.');
+      return (scalars?.[scalarKey]?.encode?.(a) as string) || (a as string);
+    }
     if (Array.isArray(a)) {
       return `[${a.map((arr) => arb(arr, p, false)).join(', ')}]`;
     }
@@ -97,7 +123,6 @@ export const InternalArgsBuilt = (
       if (a.startsWith('$') && variables?.[a.slice(1)]) {
         return a;
       }
-      const checkType = ResolveFromPath(props, returns, ops)(p);
       if (checkType === 'enum') {
         return a;
       }

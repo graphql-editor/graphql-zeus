@@ -9,13 +9,21 @@ import {
 } from '@/TreeToTS/functions/new/models';
 import { purifyGraphQLKey } from '@/TreeToTS/functions/new/purifyGraphQLKey';
 import { InternalArgsBuilt } from '@/TreeToTS/functions/new/resolvePath';
+import { ScalarDefinition } from '@/TreeToTS/functions/new/types';
 
-export const InternalsBuildQuery = (
-  props: AllTypesPropsType,
-  returns: ReturnTypesType,
-  ops: Operations,
-  options?: OperationOptions,
-) => {
+export const InternalsBuildQuery = ({
+  ops,
+  props,
+  returns,
+  options,
+}: {
+  props: AllTypesPropsType;
+  returns: ReturnTypesType;
+  ops: Operations;
+  options?: OperationOptions & {
+    scalars?: ScalarDefinition;
+  };
+}) => {
   const ibb = (k: string, o: InputValueType | VType, p = '', root = true): string => {
     const keyForPath = purifyGraphQLKey(k);
     const newPath = [p, keyForPath].join(SEPARATOR);
@@ -29,7 +37,13 @@ export const InternalsBuildQuery = (
       return `${k} ${o}`;
     }
     if (Array.isArray(o)) {
-      const args = InternalArgsBuilt(props, returns, ops, options?.variables?.values)(o[0], newPath);
+      const args = InternalArgsBuilt({
+        props,
+        returns,
+        ops,
+        variables: options?.variables?.values,
+        scalars: options?.scalars,
+      })(o[0], newPath);
       return `${ibb(args ? `${k}(${args})` : k, o[1], p, false)}`;
     }
     if (k === '__alias') {

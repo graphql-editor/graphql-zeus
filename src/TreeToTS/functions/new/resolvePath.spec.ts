@@ -8,9 +8,13 @@ describe(`Resolves correct type from pregenerated AllTypesProps and ReturnTypes`
     const r = resolver('|field<>Query|field<>cardByStatus|status');
     expect(r).toEqual('enum');
   });
-  test('It correctly resolves path for input field', () => {
+  test('It correctly resolves path for input field, which is enum', () => {
     const r = resolver('|field<>Mutation|field<>createCard|card|status');
     expect(r).toEqual('enum');
+  });
+  test('It correctly resolves path for input field, which is scalar', () => {
+    const r = resolver('|field<>Mutation|field<>createCard|card|settings');
+    expect(r).toEqual('scalar.JSON');
   });
   test('It correctly resolves path for input field which is not enum', () => {
     const r = resolver('|field<>Mutation|field<>createCard|card|name');

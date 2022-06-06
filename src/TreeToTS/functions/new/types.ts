@@ -18,15 +18,25 @@ type DeepAnify<T> = {
   [P in keyof T]?: any;
 };
 type IsPayLoad<T> = T extends [any, infer PayLoad] ? PayLoad : T;
-type IsArray<T, U> = T extends Array<infer R> ? InputType<R, U>[] : InputType<T, U>;
+export type ScalarDefinition = Record<string, ScalarResolver>;
+type IsScalar<T, SCLR extends ScalarDefinition> = T extends keyof SCLR
+  ? SCLR[T]['decode'] extends (s: unknown) => void
+    ? ReturnType<SCLR[T]['decode']>
+    : unknown
+  : T;
+type IsArray<T, U, SCLR extends ScalarDefinition> = T extends Array<infer R>
+  ? InputType<R, U, SCLR>[]
+  : InputType<T, U, SCLR>;
 type FlattenArray<T> = T extends Array<infer R> ? R : T;
 type BaseZeusResolver = boolean | 1 | string;
 
-type IsInterfaced<SRC extends DeepAnify<DST>, DST> = FlattenArray<SRC> extends ZEUS_INTERFACES | ZEUS_UNIONS
+type IsInterfaced<SRC extends DeepAnify<DST>, DST, SCLR extends ScalarDefinition> = FlattenArray<SRC> extends
+  | ZEUS_INTERFACES
+  | ZEUS_UNIONS
   ? {
       [P in keyof SRC]: SRC[P] extends '__union' & infer R
         ? P extends keyof DST
-          ? IsArray<R, '__typename' extends keyof DST ? DST[P] & { __typename: true } : DST[P]>
+          ? IsArray<R, '__typename' extends keyof DST ? DST[P] & { __typename: true } : DST[P], SCLR>
           : Record<string, unknown>
         : never;
     }[keyof DST] & {
@@ -38,22 +48,31 @@ type IsInterfaced<SRC extends DeepAnify<DST>, DST> = FlattenArray<SRC> extends Z
           }[keyof DST]
         >,
         '__typename'
-      >]: IsPayLoad<DST[P]> extends BaseZeusResolver ? SRC[P] : IsArray<SRC[P], DST[P]>;
+      >]: IsPayLoad<DST[P]> extends BaseZeusResolver ? SRC[P] : IsArray<SRC[P], DST[P], SCLR>;
     }
   : {
-      [P in keyof Pick<SRC, keyof DST>]: IsPayLoad<DST[P]> extends BaseZeusResolver ? SRC[P] : IsArray<SRC[P], DST[P]>;
+      [P in keyof Pick<SRC, keyof DST>]: IsPayLoad<DST[P]> extends BaseZeusResolver
+        ? IsScalar<SRC[P], SCLR>
+        : IsArray<SRC[P], DST[P], SCLR>;
     };
 
-export type MapType<SRC, DST> = SRC extends DeepAnify<DST> ? IsInterfaced<SRC, DST> : never;
-export type InputType<SRC, DST> = IsPayLoad<DST> extends { __alias: infer R }
+export type MapType<SRC, DST, SCLR extends ScalarDefinition> = SRC extends DeepAnify<DST>
+  ? IsInterfaced<SRC, DST, SCLR>
+  : never;
+export type InputType<SRC, DST, SCLR extends ScalarDefinition> = IsPayLoad<DST> extends { __alias: infer R }
   ? {
-      [P in keyof R]: MapType<SRC, R[P]>[keyof MapType<SRC, R[P]>];
-    } & MapType<SRC, Omit<IsPayLoad<DST>, '__alias'>>
-  : MapType<SRC, IsPayLoad<DST>>;
-export type SubscriptionToGraphQL<Z, T> = {
+      [P in keyof R]: MapType<SRC, R[P], SCLR>[keyof MapType<SRC, R[P], SCLR>];
+    } & MapType<SRC, Omit<IsPayLoad<DST>, '__alias'>, SCLR>
+  : MapType<SRC, IsPayLoad<DST>, SCLR>;
+export type SubscriptionToGraphQL<Z, T, SCLR extends ScalarDefinition> = {
   ws: WebSocket;
-  on: (fn: (args: InputType<T, Z>) => void) => void;
-  off: (fn: (e: { data?: InputType<T, Z>; code?: number; reason?: string; message?: string }) => void) => void;
-  error: (fn: (e: { data?: InputType<T, Z>; errors?: string[] }) => void) => void;
+  on: (fn: (args: InputType<T, Z, SCLR>) => void) => void;
+  off: (fn: (e: { data?: InputType<T, Z, SCLR>; code?: number; reason?: string; message?: string }) => void) => void;
+  error: (fn: (e: { data?: InputType<T, Z, SCLR>; errors?: string[] }) => void) => void;
   open: () => void;
+};
+
+export type ScalarResolver = {
+  encode?: (s: unknown) => string;
+  decode?: (s: unknown) => unknown;
 };

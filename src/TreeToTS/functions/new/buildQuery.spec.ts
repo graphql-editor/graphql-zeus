@@ -3,7 +3,7 @@ import { AllTypesProps, Ops, ReturnTypes } from '@/TreeToTS/functions/new/mocks'
 import { useZeusVariables } from '@/TreeToTS/functions/new/useZeusVariables';
 import { replSpace } from '@/__tests__/TestUtils';
 
-const builder = InternalsBuildQuery(AllTypesProps, ReturnTypes, Ops);
+const builder = InternalsBuildQuery({ props: AllTypesProps, returns: ReturnTypes, ops: Ops });
 
 describe('Test generated function buildQuery', () => {
   test('Simple query', () => {
@@ -25,7 +25,12 @@ describe('Test generated function buildQuery', () => {
     }`);
   });
   test('Simple query with operation name', () => {
-    const builder = InternalsBuildQuery(AllTypesProps, ReturnTypes, Ops, { operationName: 'MyQuery' });
+    const builder = InternalsBuildQuery({
+      props: AllTypesProps,
+      returns: ReturnTypes,
+      ops: Ops,
+      options: { operationName: 'MyQuery' },
+    });
     const matchExact = replSpace(
       builder('query', {
         cards: {
@@ -97,8 +102,13 @@ describe('Test generated function buildQuery', () => {
     const variables = useZeusVariables({ id: 'String!' })({
       id: 'a1',
     });
-    const builder = InternalsBuildQuery(AllTypesProps, ReturnTypes, Ops, {
-      variables,
+    const builder = InternalsBuildQuery({
+      props: AllTypesProps,
+      returns: ReturnTypes,
+      ops: Ops,
+      options: {
+        variables,
+      },
     });
     const { $ } = variables;
     const matchExact = replSpace(
@@ -331,6 +341,49 @@ describe('Test generated function buildQuery', () => {
         }
     }`);
   });
+  test('Simple query with scalars string encoder', () => {
+    const customBuilder = InternalsBuildQuery({
+      props: AllTypesProps,
+      returns: ReturnTypes,
+      ops: Ops,
+      options: {
+        scalars: {
+          JSON: {
+            encode: (e) => JSON.stringify(e),
+          },
+        },
+      },
+    });
+    const settings = {
+      mysettingcustom: {
+        name: 'hello',
+        values: [1, 2, 3],
+      },
+    };
+    const matchExact = replSpace(
+      customBuilder('mutation', {
+        createCard: [
+          {
+            card: {
+              name: 'Hello',
+              settings,
+            },
+          },
+          {
+            name: true,
+          },
+        ],
+      }),
+    );
+    matchExact(`mutation{
+      createCard(card:{
+        name: "Hello",
+        settings: ${JSON.stringify(settings)}
+      }){
+            name
+        }
+    }`);
+  });
   test('Simple query with alias and enum', () => {
     const enum Status {
       CREATED = 'CREATED',
@@ -367,7 +420,12 @@ describe('Test generated function buildQuery', () => {
     }`);
   });
   test('Simple query with  directives', () => {
-    const builder = InternalsBuildQuery(AllTypesProps, ReturnTypes, Ops, { operationName: 'MyQuery' });
+    const builder = InternalsBuildQuery({
+      props: AllTypesProps,
+      returns: ReturnTypes,
+      ops: Ops,
+      options: { operationName: 'MyQuery' },
+    });
     const matchExact = replSpace(
       builder('query', {
         cards: {
@@ -386,7 +444,12 @@ describe('Test generated function buildQuery', () => {
     }`);
   });
   test('Simple query with  directives on object', () => {
-    const builder = InternalsBuildQuery(AllTypesProps, ReturnTypes, Ops, { operationName: 'MyQuery' });
+    const builder = InternalsBuildQuery({
+      props: AllTypesProps,
+      returns: ReturnTypes,
+      ops: Ops,
+      options: { operationName: 'MyQuery' },
+    });
     const matchExact = replSpace(
       builder('query', {
         cards: {

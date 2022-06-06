@@ -1,5 +1,5 @@
 import { chainOptions, FetchFunction, SubscriptionFunction } from '@/TreeToTS/functions/new/models';
-import { AliasType } from '@/TreeToTS/functions/new/types';
+import { AliasType, ScalarResolver } from '@/TreeToTS/functions/new/types';
 
 export const AllTypesProps = {
   Query: {
@@ -22,19 +22,24 @@ export const AllTypesProps = {
   },
   CreateCard: {
     status: 'Status',
+    settings: 'JSON',
   },
-  Status: true,
-  TypeOfAttack: true,
+  Status: 'enum' as const,
+  TypeOfAttack: 'enum' as const,
+  JSON: 'scalar.JSON' as const,
 };
 
 export const ReturnTypes = {
   Query: {
     cardByStatus: 'Card',
+    drawCard: 'Card',
     cards: 'Card',
   },
   Card: {
     attack: 'Card',
+    info: 'JSON',
   },
+  JSON: 'scalar.JSON' as const,
 };
 
 export const CustomScalars = {
@@ -232,7 +237,7 @@ export type GraphQLTypes = {
     key: string;
     region: string;
   };
-  ['JSON']: unknown;
+  ['JSON']: 'JSON';
   ['ChangeCard']: {
     __typename: 'SpecialCard' | 'EffectCard';
     ['...on SpecialCard']: '__union' & GraphQLTypes['SpecialCard'];
@@ -324,3 +329,7 @@ export const apiSubscription = (opts: chainOptions) => ((q: string) => 1) as unk
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const apiFetch = (options: chainOptions) => ((q: string, vars?: unknown) => 1) as unknown as FetchFunction;
 export const HOST = 'https://faker.graphqleditor.com/a-team/olympus/graphql';
+
+export type GraphQLScalars = {
+  JSON?: ScalarResolver;
+};

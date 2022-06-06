@@ -4,7 +4,8 @@ import { VariableInput } from '@/TreeToTS/functions/new/useZeusVariables';
 export type AllTypesPropsType = {
   [x: string]:
     | undefined
-    | boolean
+    | `scalar.${string}`
+    | 'enum'
     | {
         [x: string]:
           | undefined
@@ -20,6 +21,7 @@ export type ReturnTypesType = {
     | {
         [x: string]: string | undefined;
       }
+    | `scalar.${string}`
     | undefined;
 };
 export type InputValueType = {
@@ -41,7 +43,7 @@ export type ZeusArgsType =
     }
   | Array<ZeusArgsType>;
 
-export type Operations = Record<string, string | undefined>;
+export type Operations = Record<string, string>;
 
 export type VariableDefinition = {
   [x: string]: unknown;
@@ -57,10 +59,11 @@ export type SubscriptionFunction = (query: string) => any;
 type NotUndefined<T> = T extends undefined ? never : T;
 export type ResolverType<F> = NotUndefined<F extends [infer ARGS, any] ? ARGS : undefined>;
 
-export type OperationOptions<Z extends Record<string, unknown> = Record<string, unknown>> = {
-  variables?: VariableInput<Z>;
+export type OperationOptions = {
+  variables?: VariableInput<Record<string, unknown>>;
   operationName?: string;
 };
+export type ScalarCoder = Record<string, (s: unknown) => string>;
 
 export interface GraphQLResponse {
   data?: Record<string, any>;
