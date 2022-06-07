@@ -8,7 +8,7 @@ import { Environment } from '../Models';
 import { resolvePropTypeFromRoot } from './templates/returnedPropTypes';
 import { resolveReturnFromRoot } from './templates/returnedReturns';
 import { resolveTypes } from './templates/returnedTypes';
-import { typescriptFunctions } from './templates/typescript';
+import { default as typescriptFunctions } from './functions/generated';
 
 export interface OperationName {
   name: string;
@@ -95,7 +95,7 @@ import WebSocket from 'ws';`
       index: ''
         .concat(host ? `export const HOST = "${host}"` : '\n\nexport const HOST="Specify host"')
         .concat('\n')
-        .concat(typescriptFunctions())
+        .concat(typescriptFunctions)
         .concat('\n')
         .concat(TreeToTS.resolveBasisTypes(tree)),
     };
