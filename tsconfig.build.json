@@ -12,7 +12,7 @@
     "strict": true,
     "outDir": "./lib",
     "sourceMap": true,
-    "lib": ["es6", "es7", "esnext", "dom"],
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "rootDir": "./src",
     "baseUrl": "./src/",
     "paths": {

@@ -1,6 +1,4 @@
-export default `
-
-const handleFetchResponse = (response: Response): Promise<GraphQLResponse> => {
+export default `const handleFetchResponse = (response: Response): Promise<GraphQLResponse> => {
   if (!response.ok) {
     return new Promise((_, reject) => {
       response
@@ -48,48 +46,6 @@ export const apiFetch =
         return response.data;
       });
   };
-
-
-
-
-export const apiSubscription = (options: chainOptions) => (query: string) => {
-  try {
-    const queryString = options[0] + '?query=' + encodeURIComponent(query);
-    const wsString = queryString.replace('http', 'ws');
-    const host = (options.length > 1 && options[1]?.websocket?.[0]) || wsString;
-    const webSocketOptions = options[1]?.websocket || [host];
-    const ws = new WebSocket(...webSocketOptions);
-    return {
-      ws,
-      on: (e: (args: any) => void) => {
-        ws.onmessage = (event: any) => {
-          if (event.data) {
-            const parsed = JSON.parse(event.data);
-            const data = parsed.data;
-            return e(data);
-          }
-        };
-      },
-      off: (e: (args: any) => void) => {
-        ws.onclose = e;
-      },
-      error: (e: (args: any) => void) => {
-        ws.onerror = e;
-      },
-      open: (e: () => void) => {
-        ws.onopen = e;
-      },
-    };
-  } catch {
-    throw new Error('No websockets implemented');
-  }
-};
-
-
-
-
-
-
 
 export const InternalsBuildQuery = ({
   ops,
@@ -160,14 +116,6 @@ export const InternalsBuildQuery = ({
   };
   return ibb;
 };
-
-
-
-
-
-
-
-
 
 export const Thunder =
   (fn: FetchFunction) =>
@@ -267,12 +215,6 @@ export const Gql = Chain(HOST, {
 
 export const ZeusScalars = ZeusSelect<ScalarCoders>();
 
-
-
-
-
-
-
 export const decodeScalarsInResponse = <O extends Operations>({
   response,
   scalars,
@@ -332,10 +274,6 @@ export const traverseResponse = ({
   };
   return ibb;
 };
-
-
-
-
 
 export type AllTypesPropsType = {
   [x: string]:
@@ -421,10 +359,6 @@ export type ThunderGraphQLOptions<SCLR extends ScalarDefinition> = {
   scalars?: SCLR | ScalarCoders;
 };
 
-
-
-
-
 const ExtractScalar = (mappedParts: string[], returns: ReturnTypesType): \`scalar.\${string}\` | undefined => {
   if (mappedParts.length === 0) {
     return;
@@ -498,13 +432,7 @@ export const PrepareScalarPaths = ({ ops, returns }: { returns: ReturnTypesType;
   return ibb;
 };
 
-
 export const purifyGraphQLKey = (k: string) => k.replace(/\\([^)]*\\)/g, '').replace(/^[^:]*\\:/g, '');
-
-
-
-
-
 
 const mapPart = (p: string) => {
   const [isArg, isField] = p.split('<>');
@@ -662,9 +590,6 @@ export const InternalArgsBuilt = ({
   return arb;
 };
 
-
-
-
 export const resolverFor = <X, T extends keyof ResolverInputTypes, Z extends keyof ResolverInputTypes[T]>(
   type: T,
   field: Z,
@@ -673,10 +598,6 @@ export const resolverFor = <X, T extends keyof ResolverInputTypes, Z extends key
     source: any,
   ) => Z extends keyof ModelTypes[T] ? ModelTypes[T][Z] | Promise<ModelTypes[T][Z]> | X : any,
 ) => fn as (args?: any, source?: any) => any;
-
-
-
-
 
 export type UnwrapPromise<T> = T extends Promise<infer R> ? R : T;
 export type ZeusState<T extends (...args: any[]) => Promise<any>> = NonNullable<UnwrapPromise<ReturnType<T>>>;
@@ -823,9 +744,6 @@ type OptionalKeys<T> = {
 
 export type WithOptionalNullables<T> = OptionalKeys<WithNullableKeys<T>> & WithNonNullableKeys<T>;
 
-
-
-
 export type Variable<T extends GraphQLVariableType, Name extends string> = {
   ' __zeus_name': Name;
   ' __zeus_type': T;
@@ -847,5 +765,94 @@ export const GRAPHQL_TYPE_SEPARATOR = \`__$GRAPHQL__\`;
 
 export const $ = <Type extends GraphQLVariableType, Name extends string>(name: Name, graphqlType: Type) => {
   return (START_VAR_NAME + name + GRAPHQL_TYPE_SEPARATOR + graphqlType) as unknown as Variable<Type, Name>;
+};`;
+
+export const subscriptionFunctions = {
+  'graphql-ws': `import { createClient, type Sink } from 'graphql-ws'; // keep
+
+export const apiSubscription = (options: chainOptions) => {
+  const client = createClient({
+    url: String(options[0]),
+    connectionParams: Object.fromEntries(new Headers(options[1]?.headers).entries()),
+  });
+
+  const ws = new Proxy(
+    {
+      close: () => client.dispose(),
+    } as WebSocket,
+    {
+      get(target, key) {
+        if (key === 'close') return target.close;
+        throw new Error(\`Unimplemented property '\${String(key)}', only 'close()' is available.\`);
+      },
+    },
+  );
+
+  return (query: string) => {
+    let onMessage: ((event: any) => void) | undefined;
+    let onError: Sink['error'] | undefined;
+
+    client.subscribe(
+      { query },
+      {
+        next({ data }) {
+          onMessage && onMessage(data);
+        },
+        error(error) {
+          onError && onError(error);
+        },
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        complete() {},
+      },
+    );
+
+    return {
+      ws,
+      on(listener: typeof onMessage) {
+        onMessage = listener;
+      },
+      error(listener: typeof onError) {
+        onError = listener;
+      },
+      open() {
+        throw new Error('Unimplemented');
+      },
+      off() {
+        throw new Error('Unimplemented');
+      },
+    };
+  };
+};`,
+  legacy: `export const apiSubscription = (options: chainOptions) => (query: string) => {
+  try {
+    const queryString = options[0] + '?query=' + encodeURIComponent(query);
+    const wsString = queryString.replace('http', 'ws');
+    const host = (options.length > 1 && options[1]?.websocket?.[0]) || wsString;
+    const webSocketOptions = options[1]?.websocket || [host];
+    const ws = new WebSocket(...webSocketOptions);
+    return {
+      ws,
+      on: (e: (args: any) => void) => {
+        ws.onmessage = (event: any) => {
+          if (event.data) {
+            const parsed = JSON.parse(event.data);
+            const data = parsed.data;
+            return e(data);
+          }
+        };
+      },
+      off: (e: (args: any) => void) => {
+        ws.onclose = e;
+      },
+      error: (e: (args: any) => void) => {
+        ws.onerror = e;
+      },
+      open: (e: () => void) => {
+        ws.onopen = e;
+      },
+    };
+  } catch {
+    throw new Error('No websockets implemented');
+  }
+};`,
 };
-`;
