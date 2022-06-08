@@ -743,7 +743,7 @@ export const useZeusVariables =
         .map((k) => \`$\${k}: \${variables[k as keyof T]}\`)
         .join(', '),
       $: <U extends keyof Z>(variable: U) => {
-        return \`$\${variable}\` as unknown as Z[U];
+        return \`$\${String(variable)}\` as unknown as Z[U];
       },
       values,
     };
