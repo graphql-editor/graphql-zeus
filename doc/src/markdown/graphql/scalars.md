@@ -32,25 +32,22 @@ import { Chain } from './zeus';
 const chain = Chain('https://faker.graphqleditor.com/a-team/olympus/graphql');
 
 // Query the endpoint with Typescript autocomplete for arguments and response fields
-const data = await chain('query')(
-  {
-    drawCard: {
-      info: true,
+const data = await chain('query', {
+  scalars: {
+    JSON: {
+      encode: (e: unknown) => JSON.stringify(e),
+      decode: (e: unknown) => JSON.parse(e as string),
+    },
+    Datetime: {
+      decode: (e: unknown) => new Date(e as string),
+      encode: (e: unknown) => (e as Date).toISOString(),
     },
   },
-  {
-    scalars: {
-      JSON: {
-        encode: (e: unknown) => JSON.stringify(e),
-        decode: (e: unknown) => JSON.parse(e as string),
-      },
-      Datetime: {
-        decode: (e: unknown) => new Date(e as string),
-        encode: (e: unknown) => (e as Date).toISOString(),
-      },
-    },
+})({
+  drawCard: {
+    info: true,
   },
-);
+});
 ```
 
 So the `data.drawCard.info` will be of type `Date` as provided by decoder `ReturnType`
@@ -66,25 +63,22 @@ import { Chain } from './zeus';
 const chain = Chain('https://faker.graphqleditor.com/a-team/olympus/graphql');
 
 // Query the endpoint with Typescript autocomplete for arguments and response fields
-const listCardsAndDraw = await chain('query')(
-  {
-    drawCard: {
-      info: true,
+const listCardsAndDraw = await chain('query', {
+  scalars: {
+    JSON: {
+      encode: (e: unknown) => JSON.stringify(e),
+      decode: (e: unknown) => JSON.parse(e as string),
+    },
+    Datetime: {
+      decode: (e: unknown) => new Date(e as string),
+      encode: (e: unknown) => (e as Date).toISOString(),
     },
   },
-  {
-    scalars: {
-      JSON: {
-        encode: (e: unknown) => JSON.stringify(e),
-        decode: (e: unknown) => JSON.parse(e as string),
-      },
-      Datetime: {
-        decode: (e: unknown) => new Date(e as string),
-        encode: (e: unknown) => (e as Date).toISOString(),
-      },
-    },
+})({
+  drawCard: {
+    info: true,
   },
-);
+});
 ```
 
 Encoders require value to be encoded to string and don't work with variables yet.

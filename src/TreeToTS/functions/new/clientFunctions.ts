@@ -29,7 +29,13 @@ export const Thunder =
     graphqlOptions?: ThunderGraphQLOptions<SCLR>,
   ) =>
   <Z extends ValueTypes[R]>(o: Z | ValueTypes[R], ops?: OperationOptions) =>
-    fn(Zeus(operation, o, ops), ops?.variables).then((data) => {
+    fn(
+      Zeus(operation, o, {
+        operationOptions: ops,
+        scalars: graphqlOptions?.scalars,
+      }),
+      ops?.variables?.values,
+    ).then((data) => {
       if (graphqlOptions?.scalars) {
         return decodeScalarsInResponse({
           response: data,
@@ -52,7 +58,12 @@ export const SubscriptionThunder =
     graphqlOptions?: ThunderGraphQLOptions<SCLR>,
   ) =>
   <Z extends ValueTypes[R]>(o: Z | ValueTypes[R], ops?: OperationOptions) => {
-    const returnedFunction = fn(Zeus(operation, o, ops)) as SubscriptionToGraphQL<Z, GraphQLTypes[R], SCLR>;
+    const returnedFunction = fn(
+      Zeus(operation, o, {
+        operationOptions: ops,
+        scalars: graphqlOptions?.scalars,
+      }),
+    ) as SubscriptionToGraphQL<Z, GraphQLTypes[R], SCLR>;
     if (returnedFunction?.on) {
       returnedFunction.on = (fnToCall: (args: InputType<GraphQLTypes[R], Z, SCLR>) => void) =>
         returnedFunction.on((data: InputType<GraphQLTypes[R], Z, SCLR>) => {
@@ -82,8 +93,18 @@ export const Zeus = <
 >(
   operation: O,
   o: Z | ValueTypes[R],
-  ops?: OperationOptions,
-) => InternalsBuildQuery({ props: AllTypesProps, returns: ReturnTypes, ops: Ops, options: ops })(operation, o as VType);
+  ops?: {
+    operationOptions?: OperationOptions;
+    scalars?: ScalarDefinition;
+  },
+) =>
+  InternalsBuildQuery({
+    props: AllTypesProps,
+    returns: ReturnTypes,
+    ops: Ops,
+    options: ops?.operationOptions,
+    scalars: ops?.scalars,
+  })(operation, o as VType);
 
 export const Selector = <T extends keyof ValueTypes>(key: T) => key && ZeusSelect<ValueTypes[T]>();
 

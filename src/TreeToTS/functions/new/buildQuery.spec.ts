@@ -346,11 +346,9 @@ describe('Test generated function buildQuery', () => {
       props: AllTypesProps,
       returns: ReturnTypes,
       ops: Ops,
-      options: {
-        scalars: {
-          JSON: {
-            encode: (e) => JSON.stringify(e),
-          },
+      scalars: {
+        JSON: {
+          encode: (e) => JSON.stringify(e),
         },
       },
     });

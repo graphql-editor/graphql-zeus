@@ -1,100 +1,13 @@
 """"""
-type Query {
+union ChangeCard = SpecialCard | EffectCard
+
+""""""
+type EffectCard implements Nameable {
   """"""
-  cardById(cardId: String): Card
-
-  """Draw a card<br>"""
-  drawCard: Card!
-
-  """"""
-  drawChangeCard: ChangeCard!
-
-  """list All Cards availble<br>"""
-  listCards: [Card!]!
-
-  """"""
-  myStacks: [CardStack!]
-
-  """"""
-  nameables: [Nameable!]!
-}
-
-"""Stack of cards"""
-type CardStack implements Nameable {
-  """"""
-  cards: [Card!]
+  effectSize: Float!
 
   """"""
   name: String!
-}
-
-"""create card inputs<br>"""
-input createCard {
-  """input skills"""
-  skills: [SpecialSkills!]
-
-  """The name of a card<br>"""
-  name: String!
-
-  """Description of a card<br>"""
-  description: String!
-
-  """<div>How many children the greek god had</div>"""
-  Children: Int
-
-  """The attack power<br>"""
-  Attack: Int!
-
-  """The defense power<br>"""
-  Defense: Int!
-}
-
-""""""
-type Subscription {
-  """"""
-  deck: [Card!]
-}
-
-"""Aws S3 File"""
-type S3Object {
-  """"""
-  bucket: String!
-
-  """"""
-  key: String!
-
-  """"""
-  region: String!
-}
-
-""""""
-enum SpecialSkills {
-  """Attack multiple Cards at once<br>"""
-  RAIN
-
-  """50% chance to avoid any attack<br>"""
-  FIRE
-
-  """Lower enemy defense -5<br>"""
-  THUNDER
-}
-
-""""""
-type SpecialCard implements Nameable {
-  """"""
-  effect: String!
-
-  """"""
-  name: String!
-}
-
-""""""
-scalar JSON
-
-""""""
-type Mutation {
-  """add Card to Cards database<br>"""
-  addCard(card: createCard!): Card!
 }
 
 """Card used in card game<br>"""
@@ -137,21 +50,108 @@ type Card implements Nameable {
 }
 
 """"""
+type SpecialCard implements Nameable {
+  """"""
+  effect: String!
+
+  """"""
+  name: String!
+}
+
+""""""
 interface Nameable {
   """"""
   name: String!
 }
 
 """"""
-union ChangeCard = SpecialCard | EffectCard
+enum SpecialSkills {
+  """Lower enemy defense -5<br>"""
+  THUNDER
+
+  """Attack multiple Cards at once<br>"""
+  RAIN
+
+  """50% chance to avoid any attack<br>"""
+  FIRE
+}
 
 """"""
-type EffectCard implements Nameable {
+type Subscription {
   """"""
-  effectSize: Float!
+  deck: [Card!]
+}
+
+""""""
+type Query {
+  """"""
+  cardById(cardId: String): Card
+
+  """Draw a card<br>"""
+  drawCard: Card!
+
+  """"""
+  drawChangeCard: ChangeCard!
+
+  """list All Cards availble<br>"""
+  listCards: [Card!]!
+
+  """"""
+  myStacks: [CardStack!]
+
+  """"""
+  nameables: [Nameable!]!
+}
+
+"""Aws S3 File"""
+type S3Object {
+  """"""
+  bucket: String!
+
+  """"""
+  key: String!
+
+  """"""
+  region: String!
+}
+
+""""""
+type Mutation {
+  """add Card to Cards database<br>"""
+  addCard(card: createCard!): Card!
+}
+
+"""Stack of cards"""
+type CardStack implements Nameable {
+  """"""
+  cards: [Card!]
 
   """"""
   name: String!
+}
+
+""""""
+scalar JSON
+
+"""create card inputs<br>"""
+input createCard {
+  """<div>How many children the greek god had</div>"""
+  Children: Int
+
+  """The attack power<br>"""
+  Attack: Int!
+
+  """The defense power<br>"""
+  Defense: Int!
+
+  """input skills"""
+  skills: [SpecialSkills!]
+
+  """The name of a card<br>"""
+  name: String!
+
+  """Description of a card<br>"""
+  description: String!
 }
 
 schema{

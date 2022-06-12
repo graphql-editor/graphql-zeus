@@ -68,14 +68,11 @@ const run = async () => {
     },
   });
   printQueryResult('drawChangeCard', blalba.drawChangeCard);
-  const blalbaScalars = await Gql('query')(
-    {
-      drawCard: {
-        info: true,
-      },
+  const blalbaScalars = await Gql('query', { scalars: decoders })({
+    drawCard: {
+      info: true,
     },
-    { scalars: decoders },
-  );
+  });
   if (typeof blalbaScalars.drawCard.info.power !== 'number') {
     throw new Error('Invalid scalar decoder');
   }
@@ -107,27 +104,24 @@ const run = async () => {
     const json = await response.json();
     return json.data;
   });
-  const blalbaThunder = await thunder('query')(
-    {
-      drawCard: {
-        Attack: true,
-        info: true,
+  const blalbaThunder = await thunder('query', {
+    scalars: decoders,
+  })({
+    drawCard: {
+      Attack: true,
+      info: true,
+    },
+    drawChangeCard: {
+      __typename: true,
+      '...on EffectCard': {
+        effectSize: true,
+        name: true,
       },
-      drawChangeCard: {
-        __typename: true,
-        '...on EffectCard': {
-          effectSize: true,
-          name: true,
-        },
-        '...on SpecialCard': {
-          name: true,
-        },
+      '...on SpecialCard': {
+        name: true,
       },
     },
-    {
-      scalars: decoders,
-    },
-  );
+  });
   printQueryResult('drawChangeCard thunder', blalbaThunder.drawChangeCard);
 
   const {
@@ -195,7 +189,9 @@ const run = async () => {
       },
     },
     {
-      operationName: 'ListCards',
+      operationOptions: {
+        operationName: 'ListCards',
+      },
     },
   );
   printGQLString('operationName ListCards', operationName);

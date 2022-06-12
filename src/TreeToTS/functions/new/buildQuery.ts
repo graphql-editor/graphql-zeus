@@ -16,13 +16,13 @@ export const InternalsBuildQuery = ({
   props,
   returns,
   options,
+  scalars,
 }: {
   props: AllTypesPropsType;
   returns: ReturnTypesType;
   ops: Operations;
-  options?: OperationOptions & {
-    scalars?: ScalarDefinition;
-  };
+  options?: OperationOptions;
+  scalars?: ScalarDefinition;
 }) => {
   const ibb = (k: string, o: InputValueType | VType, p = '', root = true): string => {
     const keyForPath = purifyGraphQLKey(k);
@@ -41,8 +41,8 @@ export const InternalsBuildQuery = ({
         props,
         returns,
         ops,
+        scalars,
         variables: options?.variables?.values,
-        scalars: options?.scalars,
       })(o[0], newPath);
       return `${ibb(args ? `${k}(${args})` : k, o[1], p, false)}`;
     }
