@@ -159,25 +159,57 @@ export const InternalsBuildQuery = ({
 
 
 
-
 export const Thunder =
   (fn: FetchFunction) =>
-  <O extends keyof typeof Ops, R extends keyof ValueTypes = GenericOperation<O>>(operation: O) =>
-  <Z extends ValueTypes[R], SCLR extends ScalarDefinition>(
-    o: Z | ValueTypes[R],
-    ops?: OperationOptions & {
-      scalars?: SCLR;
-    },
+  <O extends keyof typeof Ops, SCLR extends ScalarDefinition, R extends keyof ValueTypes = GenericOperation<O>>(
+    operation: O,
+    graphqlOptions?: ThunderGraphQLOptions<SCLR>,
   ) =>
-    fullChainConstruct(fn)(operation)(o as any, ops) as Promise<InputType<GraphQLTypes[R], Z, SCLR>>;
+  <Z extends ValueTypes[R]>(o: Z | ValueTypes[R], ops?: OperationOptions) =>
+    fn(Zeus(operation, o, ops), ops?.variables).then((data) => {
+      if (graphqlOptions?.scalars) {
+        return decodeScalarsInResponse({
+          response: data,
+          initialOp: operation,
+          initialZeusQuery: o as VType,
+          returns: ReturnTypes,
+          scalars: graphqlOptions.scalars,
+          ops: Ops,
+        });
+      }
+      return data;
+    }) as Promise<InputType<GraphQLTypes[R], Z, SCLR>>;
 
 export const Chain = (...options: chainOptions) => Thunder(apiFetch(options));
 
 export const SubscriptionThunder =
   (fn: SubscriptionFunction) =>
-  <O extends keyof typeof Ops, R extends keyof ValueTypes = GenericOperation<O>>(operation: O) =>
-  <Z extends ValueTypes[R], SCLR extends ScalarDefinition>(o: Z | ValueTypes[R], ops?: OperationOptions) =>
-    fullSubscriptionConstruct(fn)(operation)(o as any, ops) as SubscriptionToGraphQL<Z, GraphQLTypes[R], SCLR>;
+  <O extends keyof typeof Ops, SCLR extends ScalarDefinition, R extends keyof ValueTypes = GenericOperation<O>>(
+    operation: O,
+    graphqlOptions?: ThunderGraphQLOptions<SCLR>,
+  ) =>
+  <Z extends ValueTypes[R]>(o: Z | ValueTypes[R], ops?: OperationOptions) => {
+    const returnedFunction = fn(Zeus(operation, o, ops)) as SubscriptionToGraphQL<Z, GraphQLTypes[R], SCLR>;
+    if (returnedFunction?.on) {
+      returnedFunction.on = (fnToCall: (args: InputType<GraphQLTypes[R], Z, SCLR>) => void) =>
+        returnedFunction.on((data: InputType<GraphQLTypes[R], Z, SCLR>) => {
+          if (graphqlOptions?.scalars) {
+            return fnToCall(
+              decodeScalarsInResponse({
+                response: data,
+                initialOp: operation,
+                initialZeusQuery: o as VType,
+                returns: ReturnTypes,
+                scalars: graphqlOptions.scalars,
+                ops: Ops,
+              }),
+            );
+          }
+          return fnToCall(data);
+        });
+    }
+    return returnedFunction;
+  };
 
 export const Subscription = (...options: chainOptions) => SubscriptionThunder(apiSubscription(options));
 export const Zeus = <
@@ -188,8 +220,9 @@ export const Zeus = <
   operation: O,
   o: Z | ValueTypes[R],
   ops?: OperationOptions,
-) => InternalsBuildQuery({ props: AllTypesProps, returns: ReturnTypes, ops: Ops, options: ops })(operation, o as any);
-export const Selector = <T extends keyof ValueTypes>(key: T) => ZeusSelect<ValueTypes[T]>();
+) => InternalsBuildQuery({ props: AllTypesProps, returns: ReturnTypes, ops: Ops, options: ops })(operation, o as VType);
+
+export const Selector = <T extends keyof ValueTypes>(key: T) => key && ZeusSelect<ValueTypes[T]>();
 
 export const Gql = Chain(HOST);
 
@@ -259,66 +292,6 @@ export const traverseResponse = ({
   return ibb;
 };
 
-
-
-
-
-
-
-
-export const fullChainConstruct =
-  (fn: FetchFunction) =>
-  (t: keyof typeof Ops) =>
-  (o: Record<any, any>, options?: OperationOptions & { scalars?: ScalarDefinition }) => {
-    const builder = InternalsBuildQuery({ props: AllTypesProps, returns: ReturnTypes, ops: Ops, options });
-    return fn(builder(t, o), options?.variables?.values).then((data) => {
-      if (options?.scalars) {
-        return decodeScalarsInResponse({
-          response: data,
-          initialOp: t,
-          initialZeusQuery: o,
-          returns: ReturnTypes,
-          scalars: options.scalars,
-          ops: Ops,
-        });
-      }
-      return data;
-    });
-  };
-
-
-
-
-
-
-
-
-export const fullSubscriptionConstruct =
-  (fn: SubscriptionFunction) =>
-  (t: keyof typeof Ops) =>
-  (o: Record<any, any>, options?: OperationOptions & { scalars?: ScalarDefinition }) => {
-    const builder = InternalsBuildQuery({ props: AllTypesProps, returns: ReturnTypes, ops: Ops, options });
-    const returnedFunction = fn(builder(t, o));
-    if (returnedFunction?.on) {
-      returnedFunction.on = (fnToCall: (v: any) => void) =>
-        returnedFunction.on((data: any) => {
-          if (options?.scalars) {
-            return fnToCall(
-              decodeScalarsInResponse({
-                response: data,
-                initialOp: t,
-                initialZeusQuery: o,
-                returns: ReturnTypes,
-                scalars: options.scalars,
-                ops: Ops,
-              }),
-            );
-          }
-          return fnToCall(data);
-        });
-    }
-    return returnedFunction;
-  };
 
 
 
@@ -405,6 +378,9 @@ export class GraphQLError extends Error {
   }
 }
 export type GenericOperation<O> = O extends keyof typeof Ops ? typeof Ops[O] : never;
+export type ThunderGraphQLOptions<SCLR extends ScalarDefinition> = {
+  scalars?: SCLR;
+};
 
 
 
@@ -743,7 +719,7 @@ export const useZeusVariables =
         .map((k) => \`$\${k}: \${variables[k as keyof T]}\`)
         .join(', '),
       $: <U extends keyof Z>(variable: U) => {
-        return \`$\${variable}\` as unknown as Z[U];
+        return \`$\${String(variable)}\` as unknown as Z[U];
       },
       values,
     };
