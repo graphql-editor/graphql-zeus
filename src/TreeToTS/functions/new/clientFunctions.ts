@@ -1,6 +1,5 @@
 import { InternalsBuildQuery } from '@/TreeToTS/functions/new/buildQuery';
-import { fullChainConstruct } from '@/TreeToTS/functions/new/fullChainConstruct';
-import { fullSubscriptionConstruct } from '@/TreeToTS/functions/new/fullSubscriptionConstruct';
+import { decodeScalarsInResponse } from '@/TreeToTS/functions/new/decodeScalarsInResponse';
 import {
   AllTypesProps,
   GraphQLTypes,
@@ -17,28 +16,63 @@ import {
   GenericOperation,
   OperationOptions,
   SubscriptionFunction,
+  ThunderGraphQLOptions,
+  VType,
 } from '@/TreeToTS/functions/new/models';
 import { ZeusSelect } from '@/TreeToTS/functions/new/selectFunction';
 import { InputType, ScalarDefinition, SubscriptionToGraphQL } from '@/TreeToTS/functions/new/types';
 
 export const Thunder =
   (fn: FetchFunction) =>
-  <O extends keyof typeof Ops, R extends keyof ValueTypes = GenericOperation<O>>(operation: O) =>
-  <Z extends ValueTypes[R], SCLR extends ScalarDefinition>(
-    o: Z | ValueTypes[R],
-    ops?: OperationOptions & {
-      scalars?: SCLR;
-    },
+  <O extends keyof typeof Ops, SCLR extends ScalarDefinition, R extends keyof ValueTypes = GenericOperation<O>>(
+    operation: O,
+    graphqlOptions?: ThunderGraphQLOptions<SCLR>,
   ) =>
-    fullChainConstruct(fn)(operation)(o as any, ops) as Promise<InputType<GraphQLTypes[R], Z, SCLR>>;
+  <Z extends ValueTypes[R]>(o: Z | ValueTypes[R], ops?: OperationOptions) =>
+    fn(Zeus(operation, o, ops), ops?.variables).then((data) => {
+      if (graphqlOptions?.scalars) {
+        return decodeScalarsInResponse({
+          response: data,
+          initialOp: operation,
+          initialZeusQuery: o as VType,
+          returns: ReturnTypes,
+          scalars: graphqlOptions.scalars,
+          ops: Ops,
+        });
+      }
+      return data;
+    }) as Promise<InputType<GraphQLTypes[R], Z, SCLR>>;
 
 export const Chain = (...options: chainOptions) => Thunder(apiFetch(options));
 
 export const SubscriptionThunder =
   (fn: SubscriptionFunction) =>
-  <O extends keyof typeof Ops, R extends keyof ValueTypes = GenericOperation<O>>(operation: O) =>
-  <Z extends ValueTypes[R], SCLR extends ScalarDefinition>(o: Z | ValueTypes[R], ops?: OperationOptions) =>
-    fullSubscriptionConstruct(fn)(operation)(o as any, ops) as SubscriptionToGraphQL<Z, GraphQLTypes[R], SCLR>;
+  <O extends keyof typeof Ops, SCLR extends ScalarDefinition, R extends keyof ValueTypes = GenericOperation<O>>(
+    operation: O,
+    graphqlOptions?: ThunderGraphQLOptions<SCLR>,
+  ) =>
+  <Z extends ValueTypes[R]>(o: Z | ValueTypes[R], ops?: OperationOptions) => {
+    const returnedFunction = fn(Zeus(operation, o, ops)) as SubscriptionToGraphQL<Z, GraphQLTypes[R], SCLR>;
+    if (returnedFunction?.on) {
+      returnedFunction.on = (fnToCall: (args: InputType<GraphQLTypes[R], Z, SCLR>) => void) =>
+        returnedFunction.on((data: InputType<GraphQLTypes[R], Z, SCLR>) => {
+          if (graphqlOptions?.scalars) {
+            return fnToCall(
+              decodeScalarsInResponse({
+                response: data,
+                initialOp: operation,
+                initialZeusQuery: o as VType,
+                returns: ReturnTypes,
+                scalars: graphqlOptions.scalars,
+                ops: Ops,
+              }),
+            );
+          }
+          return fnToCall(data);
+        });
+    }
+    return returnedFunction;
+  };
 
 export const Subscription = (...options: chainOptions) => SubscriptionThunder(apiSubscription(options));
 export const Zeus = <
@@ -49,7 +83,8 @@ export const Zeus = <
   operation: O,
   o: Z | ValueTypes[R],
   ops?: OperationOptions,
-) => InternalsBuildQuery({ props: AllTypesProps, returns: ReturnTypes, ops: Ops, options: ops })(operation, o as any);
-export const Selector = <T extends keyof ValueTypes>(key: T) => ZeusSelect<ValueTypes[T]>();
+) => InternalsBuildQuery({ props: AllTypesProps, returns: ReturnTypes, ops: Ops, options: ops })(operation, o as VType);
+
+export const Selector = <T extends keyof ValueTypes>(key: T) => key && ZeusSelect<ValueTypes[T]>();
 
 export const Gql = Chain(HOST);

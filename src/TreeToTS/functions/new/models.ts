@@ -1,4 +1,5 @@
 import { Ops } from '@/TreeToTS/functions/new/mocks';
+import { ScalarDefinition } from '@/TreeToTS/functions/new/types';
 import { VariableInput } from '@/TreeToTS/functions/new/useZeusVariables';
 
 export type AllTypesPropsType = {
@@ -82,3 +83,6 @@ export class GraphQLError extends Error {
   }
 }
 export type GenericOperation<O> = O extends keyof typeof Ops ? typeof Ops[O] : never;
+export type ThunderGraphQLOptions<SCLR extends ScalarDefinition> = {
+  scalars?: SCLR;
+};
