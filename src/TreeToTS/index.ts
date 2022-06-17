@@ -100,6 +100,7 @@ import WebSocket from 'ws';`
       const: TreeToTS.resolveBasisCode(tree),
       index: ''
         .concat(host ? `export const HOST = "${host}"` : '\n\nexport const HOST="Specify host"')
+        .concat('\n')
         .concat(headers ? `export const HEADERS = ${JSON.stringify(headers)}` : '\n\nexport const HEADERS = {}')
         .concat('\n')
         .concat(typescriptFunctions)
