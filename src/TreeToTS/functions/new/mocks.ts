@@ -1,5 +1,5 @@
 import { chainOptions, FetchFunction, SubscriptionFunction } from '@/TreeToTS/functions/new/models';
-import { AliasType } from '@/TreeToTS/functions/new/types';
+import { AliasType, ScalarResolver } from '@/TreeToTS/functions/new/types';
 
 export const AllTypesProps = {
   Query: {
@@ -42,10 +42,6 @@ export const ReturnTypes = {
   JSON: 'scalar.JSON' as const,
 };
 
-export const CustomScalars = {
-  JSON: true,
-};
-
 export const Ops = {
   query: 'Query' as const,
   mutation: 'Mutation' as const,
@@ -53,7 +49,6 @@ export const Ops = {
 
 export type ZEUS_INTERFACES = GraphQLTypes['Nameable'];
 export type ZEUS_UNIONS = GraphQLTypes['ChangeCard'];
-export type ZEUS_SCALARS = GraphQLTypes['JSON'];
 
 export type ValueTypes = {
   ['Nameable']: AliasType<{
@@ -323,6 +318,10 @@ export const enum SpecialSkills {
   RAIN = 'RAIN',
   FIRE = 'FIRE',
 }
+
+export type ScalarCoders = {
+  JSON?: ScalarResolver;
+};
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const apiSubscription = (opts: chainOptions) => ((q: string) => 1) as unknown as SubscriptionFunction;

@@ -1,17 +1,24 @@
-import { Chain } from '@/TreeToTS/functions/new/clientFunctions';
+import { Chain, ZeusScalars, Selector } from '@/TreeToTS/functions/new/clientFunctions';
+import { FromSelector } from '@/TreeToTS/functions/new/types';
+
+const cardSelector = Selector('Card')({ name: true, id: true });
+
+export type CardType = FromSelector<typeof cardSelector, 'Card'>;
+
+const scalars = ZeusScalars({
+  JSON: {
+    decode: (e: unknown) => {
+      if (typeof e === 'string') {
+        return parseInt(e);
+      }
+      return undefined;
+    },
+  },
+});
 
 export const test1 = async () => {
   const ch = await Chain('')('query', {
-    scalars: {
-      JSON: {
-        decode: (e: unknown) => {
-          if (typeof e === 'string') {
-            return parseInt(e);
-          }
-          return undefined;
-        },
-      },
-    },
+    scalars,
   })({
     drawCard: {
       info: true,

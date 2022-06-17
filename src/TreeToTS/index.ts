@@ -9,6 +9,7 @@ import { resolvePropTypeFromRoot } from './templates/returnedPropTypes';
 import { resolveReturnFromRoot } from './templates/returnedReturns';
 import { resolveTypes } from './templates/returnedTypes';
 import { default as typescriptFunctions } from './functions/generated';
+import { generateScalars } from '@/TreeToTS/templates/scalars';
 
 export interface OperationName {
   name: string;
@@ -59,7 +60,10 @@ export class TreeToTS {
     const modelTypes = resolveModelTypes(tree.nodes);
     const unionTypes = resolveUnions(tree.nodes);
     const interfaceTypes = resolveInterfaces(tree.nodes);
+    const scalarTypes = generateScalars(tree.nodes);
     return interfaceTypes
+      .concat('\n')
+      .concat(scalarTypes)
       .concat('\n')
       .concat(unionTypes)
       .concat('\n\n')

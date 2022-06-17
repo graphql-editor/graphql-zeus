@@ -158,7 +158,6 @@ export const InternalsBuildQuery = ({
 
 
 
-
 export const Thunder =
   (fn: FetchFunction) =>
   <O extends keyof typeof Ops, SCLR extends ScalarDefinition, R extends keyof ValueTypes = GenericOperation<O>>(
@@ -243,9 +242,14 @@ export const Zeus = <
     scalars: ops?.scalars,
   })(operation, o as VType);
 
+export const ZeusSelect = <T>() => ((t: unknown) => t) as SelectionFunction<T>;
+
 export const Selector = <T extends keyof ValueTypes>(key: T) => key && ZeusSelect<ValueTypes[T]>();
 
+export const TypeFromSelector = <T extends keyof ValueTypes>(key: T) => key && ZeusSelect<ValueTypes[T]>();
 export const Gql = Chain(HOST);
+
+export const ZeusScalars = ZeusSelect<ScalarCoders>();
 
 
 
@@ -400,7 +404,7 @@ export class GraphQLError extends Error {
 }
 export type GenericOperation<O> = O extends keyof typeof Ops ? typeof Ops[O] : never;
 export type ThunderGraphQLOptions<SCLR extends ScalarDefinition> = {
-  scalars?: SCLR;
+  scalars?: SCLR | ScalarCoders;
 };
 
 
@@ -639,10 +643,6 @@ export const resolverFor = <X, T extends keyof ValueTypes, Z extends keyof Value
 ) => fn as (args?: any, source?: any) => any;
 
 
-export type SelectionFunction<V> = <T>(t: T | V) => T;
-export const ZeusSelect = <T>() => ((t: unknown) => t) as SelectionFunction<T>;
-
-
 
 
 export type UnwrapPromise<T> = T extends Promise<infer R> ? R : T;
@@ -720,10 +720,19 @@ export type SubscriptionToGraphQL<Z, T, SCLR extends ScalarDefinition> = {
   open: () => void;
 };
 
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type FromSelector<SELECTOR, NAME extends keyof GraphQLTypes, SCLR extends ScalarDefinition = {}> = InputType<
+  GraphQLTypes[NAME],
+  SELECTOR,
+  SCLR
+>;
+
 export type ScalarResolver = {
   encode?: (s: unknown) => string;
   decode?: (s: unknown) => unknown;
 };
+
+export type SelectionFunction<V> = <T>(t: T | V) => T;
 
 
 export const useZeusVariables =

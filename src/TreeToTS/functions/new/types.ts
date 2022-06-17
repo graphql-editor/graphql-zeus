@@ -1,4 +1,4 @@
-import { ZEUS_INTERFACES, ZEUS_UNIONS } from '@/TreeToTS/functions/new/mocks';
+import { GraphQLTypes, ZEUS_INTERFACES, ZEUS_UNIONS } from '@/TreeToTS/functions/new/mocks';
 
 export type UnwrapPromise<T> = T extends Promise<infer R> ? R : T;
 export type ZeusState<T extends (...args: any[]) => Promise<any>> = NonNullable<UnwrapPromise<ReturnType<T>>>;
@@ -75,7 +75,16 @@ export type SubscriptionToGraphQL<Z, T, SCLR extends ScalarDefinition> = {
   open: () => void;
 };
 
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type FromSelector<SELECTOR, NAME extends keyof GraphQLTypes, SCLR extends ScalarDefinition = {}> = InputType<
+  GraphQLTypes[NAME],
+  SELECTOR,
+  SCLR
+>;
+
 export type ScalarResolver = {
   encode?: (s: unknown) => string;
   decode?: (s: unknown) => unknown;
 };
+
+export type SelectionFunction<V> = <T>(t: T | V) => T;

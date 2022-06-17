@@ -12,7 +12,7 @@ const pluginApolloOps = ({ queryName, operation }: { queryName: string; operatio
   options?: ${capitalized}HookOptions<InputType<GraphQLTypes[O], Z>>,
   operationOptions?: OperationOptions,
 ) {
-  return use${capitalized}<InputType<GraphQLTypes[O], Z>>(gql(Zeus("${zeusOperation}",${operation}, operationOptions)), options);
+  return use${capitalized}<InputType<GraphQLTypes[O], Z>>(gql(Zeus("${zeusOperation}",${operation}, {operationOptions})), options);
 }`,
   };
 };

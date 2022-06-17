@@ -1,10 +1,9 @@
 /* eslint-disable */
 
 export const AllTypesProps: Record<string,any> = {
-	Card:{
-		attack:{
-
-		}
+	JSON: `scalar.JSON` as const,
+	createCard:{
+		skills:"SpecialSkills"
 	},
 	SpecialSkills: "enum" as const,
 	Query:{
@@ -12,25 +11,58 @@ export const AllTypesProps: Record<string,any> = {
 
 		}
 	},
+	Card:{
+		attack:{
+
+		}
+	},
 	Mutation:{
 		addCard:{
 			card:"createCard"
 		}
-	},
-	JSON: `scalar.JSON` as const,
-	createCard:{
-		skills:"SpecialSkills"
 	}
 }
 
 export const ReturnTypes: Record<string,any> = {
-	ChangeCard:{
-		"...on SpecialCard":"SpecialCard",
-		"...on EffectCard":"EffectCard"
+	JSON: `scalar.JSON` as const,
+	SpecialCard:{
+		effect:"String",
+		name:"String"
 	},
 	EffectCard:{
 		effectSize:"Float",
 		name:"String"
+	},
+	ChangeCard:{
+		"...on SpecialCard":"SpecialCard",
+		"...on EffectCard":"EffectCard"
+	},
+	CardStack:{
+		cards:"Card",
+		name:"String"
+	},
+	Subscription:{
+		deck:"Card"
+	},
+	Nameable:{
+		"...on SpecialCard": "SpecialCard",
+		"...on EffectCard": "EffectCard",
+		"...on CardStack": "CardStack",
+		"...on Card": "Card",
+		name:"String"
+	},
+	S3Object:{
+		bucket:"String",
+		key:"String",
+		region:"String"
+	},
+	Query:{
+		cardById:"Card",
+		drawCard:"Card",
+		drawChangeCard:"ChangeCard",
+		listCards:"Card",
+		myStacks:"CardStack",
+		nameables:"Nameable"
 	},
 	Card:{
 		Attack:"Int",
@@ -45,41 +77,9 @@ export const ReturnTypes: Record<string,any> = {
 		name:"String",
 		skills:"SpecialSkills"
 	},
-	SpecialCard:{
-		effect:"String",
-		name:"String"
-	},
-	Nameable:{
-		"...on EffectCard": "EffectCard",
-		"...on Card": "Card",
-		"...on SpecialCard": "SpecialCard",
-		"...on CardStack": "CardStack",
-		name:"String"
-	},
-	Subscription:{
-		deck:"Card"
-	},
-	Query:{
-		cardById:"Card",
-		drawCard:"Card",
-		drawChangeCard:"ChangeCard",
-		listCards:"Card",
-		myStacks:"CardStack",
-		nameables:"Nameable"
-	},
-	S3Object:{
-		bucket:"String",
-		key:"String",
-		region:"String"
-	},
 	Mutation:{
 		addCard:"Card"
-	},
-	CardStack:{
-		cards:"Card",
-		name:"String"
-	},
-	JSON: `scalar.JSON` as const
+	}
 }
 
 export const Ops = {

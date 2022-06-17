@@ -9,6 +9,7 @@ import {
   apiFetch,
   apiSubscription,
   HOST,
+  ScalarCoders,
 } from '@/TreeToTS/functions/new/mocks';
 import {
   chainOptions,
@@ -19,8 +20,7 @@ import {
   ThunderGraphQLOptions,
   VType,
 } from '@/TreeToTS/functions/new/models';
-import { ZeusSelect } from '@/TreeToTS/functions/new/selectFunction';
-import { InputType, ScalarDefinition, SubscriptionToGraphQL } from '@/TreeToTS/functions/new/types';
+import { InputType, ScalarDefinition, SelectionFunction, SubscriptionToGraphQL } from '@/TreeToTS/functions/new/types';
 
 export const Thunder =
   (fn: FetchFunction) =>
@@ -106,6 +106,11 @@ export const Zeus = <
     scalars: ops?.scalars,
   })(operation, o as VType);
 
+export const ZeusSelect = <T>() => ((t: unknown) => t) as SelectionFunction<T>;
+
 export const Selector = <T extends keyof ValueTypes>(key: T) => key && ZeusSelect<ValueTypes[T]>();
 
+export const TypeFromSelector = <T extends keyof ValueTypes>(key: T) => key && ZeusSelect<ValueTypes[T]>();
 export const Gql = Chain(HOST);
+
+export const ZeusScalars = ZeusSelect<ScalarCoders>();

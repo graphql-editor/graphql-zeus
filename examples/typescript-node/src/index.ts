@@ -1,7 +1,17 @@
 import chalk from 'chalk';
 import fetch from 'node-fetch';
 import { ZeusTD } from './zeus/typedDocumentNode';
-import { Gql, SpecialSkills, Thunder, Zeus, InputType, Selector, GraphQLTypes, useZeusVariables } from './zeus';
+import {
+  Gql,
+  SpecialSkills,
+  Thunder,
+  Zeus,
+  InputType,
+  Selector,
+  GraphQLTypes,
+  useZeusVariables,
+  ZeusScalars,
+} from './zeus';
 
 const sel = Selector('Query')({
   drawCard: {
@@ -13,7 +23,7 @@ const sel = Selector('Query')({
   cardById: [{ cardId: '' }, { Attack: true }],
 });
 
-const decoders = {
+const decoders = ZeusScalars({
   JSON: {
     encode: (e: unknown) => JSON.stringify(e),
     decode: (e: unknown) => {
@@ -21,7 +31,7 @@ const decoders = {
       return e as { power: number };
     },
   },
-};
+});
 
 export type IRT = InputType<GraphQLTypes['Query'], typeof sel, typeof decoders>;
 

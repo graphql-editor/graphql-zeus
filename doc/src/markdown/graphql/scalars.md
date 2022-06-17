@@ -82,3 +82,31 @@ const listCardsAndDraw = await chain('query', {
 ```
 
 Encoders require value to be encoded to string and don't work with variables yet.
+
+## Place decoders and encoders in one place for reuse
+
+```ts
+import { Chain, ZeusScalars } from './zeus';
+
+// Create a Chain client instance with the endpoint
+const chain = Chain('https://faker.graphqleditor.com/a-team/olympus/graphql');
+const scalars = ZeusScalars({
+  JSON: {
+    encode: (e: unknown) => JSON.stringify(e),
+    decode: (e: unknown) => JSON.parse(e as string),
+  },
+  Datetime: {
+    decode: (e: unknown) => new Date(e as string),
+    encode: (e: unknown) => (e as Date).toISOString(),
+  },
+});
+
+// Query the endpoint with Typescript autocomplete for arguments and response fields
+const listCardsAndDraw = await chain('query', {
+  scalars,
+})({
+  drawCard: {
+    info: true,
+  },
+});
+```
