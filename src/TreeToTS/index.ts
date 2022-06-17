@@ -81,10 +81,12 @@ export class TreeToTS {
     env = 'browser',
     host,
     esModule,
+    headers,
   }: {
     tree: ParserTree;
     env?: Environment;
     host?: string;
+    headers?: Record<string, string>;
     esModule?: boolean;
   }) {
     return {
@@ -98,14 +100,25 @@ import WebSocket from 'ws';`
       const: TreeToTS.resolveBasisCode(tree),
       index: ''
         .concat(host ? `export const HOST = "${host}"` : '\n\nexport const HOST="Specify host"')
+        .concat(headers ? `export const HEADERS = ${JSON.stringify(headers)}` : '\n\nexport const HEADERS = {}')
         .concat('\n')
         .concat(typescriptFunctions)
         .concat('\n')
         .concat(TreeToTS.resolveBasisTypes(tree)),
     };
   }
-  static resolveTree({ tree, env = 'browser', host }: { tree: ParserTree; env?: Environment; host?: string }) {
-    const t = TreeToTS.resolveTreeSplit({ tree, env, host });
+  static resolveTree({
+    tree,
+    env = 'browser',
+    host,
+    headers,
+  }: {
+    tree: ParserTree;
+    env?: Environment;
+    host?: string;
+    headers?: Record<string, string>;
+  }) {
+    const t = TreeToTS.resolveTreeSplit({ tree, env, host, headers });
     return TreeToTS.resolveBasisHeader().concat(t.const).concat('\n').concat(t.index);
   }
 }

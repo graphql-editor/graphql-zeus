@@ -247,7 +247,12 @@ export const ZeusSelect = <T>() => ((t: unknown) => t) as SelectionFunction<T>;
 export const Selector = <T extends keyof ValueTypes>(key: T) => key && ZeusSelect<ValueTypes[T]>();
 
 export const TypeFromSelector = <T extends keyof ValueTypes>(key: T) => key && ZeusSelect<ValueTypes[T]>();
-export const Gql = Chain(HOST);
+export const Gql = Chain(HOST, {
+  headers: {
+    'Content-Type': 'application/json',
+    ...HEADERS,
+  },
+});
 
 export const ZeusScalars = ZeusSelect<ScalarCoders>();
 
