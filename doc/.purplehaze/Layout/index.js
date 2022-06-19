@@ -42,7 +42,7 @@ var Layout = ({children, routes, activeRoute, prefix = ""}) => {
   }), /* @__PURE__ */ React.createElement("div", {
     className: "h-2 w-10 bg-purple-500 mb-2 rounded"
   })), mobileMenuOpen && /* @__PURE__ */ React.createElement("div", {
-    className: "py-10 px-20 bg-gray-100 h-full w-80 sm:hidden block absolute top-0 left-0"
+    className: "py-10 px-10 sm:px-20 bg-gray-100 h-full w-80 sm:hidden block absolute top-0 left-0 overflow-y-auto"
   }, /* @__PURE__ */ React.createElement("a", {
     className: "block py-4 text-lg text-purple-900 font-black",
     href: `${prefix}/`
@@ -65,7 +65,7 @@ var Layout = ({children, routes, activeRoute, prefix = ""}) => {
       href: `${prefix}/page/${r.link}.html`
     }, r.title))));
   })), /* @__PURE__ */ React.createElement("div", {
-    className: "container mx-auto px-20 py-6 pb-20 h-full overflow-auto"
+    className: "container mx-auto px-6 sm:px-20 py-6 pb-20 h-full overflow-auto"
   }, children)));
 };
 export {
