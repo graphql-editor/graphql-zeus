@@ -44,7 +44,7 @@ export const Layout: React.FC<{
           <div className="h-2 w-10 bg-purple-500 mb-2 rounded"></div>
         </div>
         {mobileMenuOpen && (
-          <div className="py-10 px-20 bg-gray-100 h-full w-80 sm:hidden block absolute top-0 left-0">
+          <div className="py-10 px-10 sm:px-20 bg-gray-100 h-full w-80 sm:hidden block absolute top-0 left-0 overflow-y-auto">
             <a className="block py-4 text-lg text-purple-900 font-black" href={`${prefix}/`}>
               GraphQL Zeus
             </a>
@@ -90,7 +90,7 @@ export const Layout: React.FC<{
             );
           })}
         </div>
-        <div className="container mx-auto px-20 py-6 pb-20 h-full overflow-auto">{children}</div>
+        <div className="container mx-auto px-6 sm:px-20 py-6 pb-20 h-full overflow-auto">{children}</div>
       </div>
     </div>
   );
