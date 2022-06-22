@@ -1,6 +1,6 @@
 {
   "name": "graphql-zeus",
-  "version": "5.0.7",
+  "version": "5.0.8",
   "private": false,
   "license": "MIT",
   "description": "Generate Client Libary for GraphQL Schema",
@@ -62,7 +62,7 @@
   },
   "dependencies": {
     "cross-fetch": "^3.0.4",
-    "graphql": "^15.4.0",
+    "graphql": "^16.5.0",
     "graphql-js-tree": "^0.1.1",
     "yargs": "^16.1.1"
   },

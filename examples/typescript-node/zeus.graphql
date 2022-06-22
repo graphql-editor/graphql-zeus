@@ -1,25 +1,31 @@
-"""Aws S3 File"""
-type S3Object {
+""""""
+type EffectCard implements Nameable {
   """"""
-  bucket: String!
+  effectSize: Float!
 
   """"""
-  key: String!
-
-  """"""
-  region: String!
+  name: String!
 }
 
-""""""
-type Mutation {
-  """add Card to Cards database<br>"""
-  addCard(card: createCard!): Card!
-}
+"""create card inputs<br>"""
+input createCard {
+  """input skills"""
+  skills: [SpecialSkills!]
 
-""""""
-type Subscription {
-  """"""
-  deck: [Card!]
+  """The name of a card<br>"""
+  name: String!
+
+  """Description of a card<br>"""
+  description: String!
+
+  """<div>How many children the greek god had</div>"""
+  Children: Int
+
+  """The attack power<br>"""
+  Attack: Int!
+
+  """The defense power<br>"""
+  Defense: Int!
 }
 
 """"""
@@ -43,18 +49,6 @@ type Query {
   nameables: [Nameable!]!
 }
 
-"""Stack of cards"""
-type CardStack implements Nameable {
-  """"""
-  cards: [Card!]
-
-  """"""
-  name: String!
-}
-
-""""""
-union ChangeCard = SpecialCard | EffectCard
-
 """"""
 enum SpecialSkills {
   """Lower enemy defense -5<br>"""
@@ -68,12 +62,48 @@ enum SpecialSkills {
 }
 
 """"""
-type EffectCard implements Nameable {
+union ChangeCard = SpecialCard | EffectCard
+
+""""""
+type SpecialCard implements Nameable {
   """"""
-  effectSize: Float!
+  effect: String!
 
   """"""
   name: String!
+}
+
+""""""
+type Mutation {
+  """add Card to Cards database<br>"""
+  addCard(card: createCard!): Card!
+}
+
+""""""
+type Subscription {
+  """"""
+  deck: [Card!]
+}
+
+""""""
+interface Nameable {
+  """"""
+  name: String!
+}
+
+""""""
+scalar JSON
+
+"""Aws S3 File"""
+type S3Object {
+  """"""
+  bucket: String!
+
+  """"""
+  key: String!
+
+  """"""
+  region: String!
 }
 
 """Card used in card game<br>"""
@@ -115,45 +145,14 @@ type Card implements Nameable {
   skills: [SpecialSkills!]
 }
 
-""""""
-scalar JSON
-
-""""""
-type SpecialCard implements Nameable {
+"""Stack of cards"""
+type CardStack implements Nameable {
   """"""
-  effect: String!
+  cards: [Card!]
 
   """"""
   name: String!
 }
-
-"""create card inputs<br>"""
-input createCard {
-  """<div>How many children the greek god had</div>"""
-  Children: Int
-
-  """The attack power<br>"""
-  Attack: Int!
-
-  """The defense power<br>"""
-  Defense: Int!
-
-  """input skills"""
-  skills: [SpecialSkills!]
-
-  """The name of a card<br>"""
-  name: String!
-
-  """Description of a card<br>"""
-  description: String!
-}
-
-""""""
-interface Nameable {
-  """"""
-  name: String!
-}
-
 schema{
 	query: Query,
 	mutation: Mutation,

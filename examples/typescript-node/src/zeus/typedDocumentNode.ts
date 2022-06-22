@@ -1,4 +1,4 @@
-import { TypedQueryDocumentNode } from 'graphql';
+import { TypedDocumentNode } from '@graphql-typed-document-node/core';
 import gql from 'graphql-tag';
 import { ValueTypes, GenericOperation, OperationOptions, InternalsBuildQuery, GraphQLTypes, InputType } from './';
 import { Ops, AllTypesProps, ReturnTypes } from './const';
@@ -20,7 +20,7 @@ export const ZeusTD = <
     returns: ReturnTypes,
     options: ops,
     ops: Ops,
-  })(operation, o as any)) as TypedQueryDocumentNode<
+  })(operation, o as any)) as TypedDocumentNode<
     InputType<GraphQLTypes[R], Z>,
     typeof varValues
   >;

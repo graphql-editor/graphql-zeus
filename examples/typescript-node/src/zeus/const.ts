@@ -1,10 +1,8 @@
 /* eslint-disable */
 
 export const AllTypesProps: Record<string,any> = {
-	Mutation:{
-		addCard:{
-			card:"createCard"
-		}
+	createCard:{
+		skills:"SpecialSkills"
 	},
 	Query:{
 		cardById:{
@@ -12,28 +10,23 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	SpecialSkills: "enum" as const,
+	Mutation:{
+		addCard:{
+			card:"createCard"
+		}
+	},
+	JSON: `scalar.JSON` as const,
 	Card:{
 		attack:{
 
 		}
-	},
-	JSON: `scalar.JSON` as const,
-	createCard:{
-		skills:"SpecialSkills"
 	}
 }
 
 export const ReturnTypes: Record<string,any> = {
-	S3Object:{
-		bucket:"String",
-		key:"String",
-		region:"String"
-	},
-	Mutation:{
-		addCard:"Card"
-	},
-	Subscription:{
-		deck:"Card"
+	EffectCard:{
+		effectSize:"Float",
+		name:"String"
 	},
 	Query:{
 		cardById:"Card",
@@ -43,17 +36,32 @@ export const ReturnTypes: Record<string,any> = {
 		myStacks:"CardStack",
 		nameables:"Nameable"
 	},
-	CardStack:{
-		cards:"Card",
-		name:"String"
-	},
 	ChangeCard:{
 		"...on SpecialCard":"SpecialCard",
 		"...on EffectCard":"EffectCard"
 	},
-	EffectCard:{
-		effectSize:"Float",
+	SpecialCard:{
+		effect:"String",
 		name:"String"
+	},
+	Mutation:{
+		addCard:"Card"
+	},
+	Subscription:{
+		deck:"Card"
+	},
+	Nameable:{
+		"...on EffectCard": "EffectCard",
+		"...on SpecialCard": "SpecialCard",
+		"...on Card": "Card",
+		"...on CardStack": "CardStack",
+		name:"String"
+	},
+	JSON: `scalar.JSON` as const,
+	S3Object:{
+		bucket:"String",
+		key:"String",
+		region:"String"
 	},
 	Card:{
 		Attack:"Int",
@@ -68,22 +76,14 @@ export const ReturnTypes: Record<string,any> = {
 		name:"String",
 		skills:"SpecialSkills"
 	},
-	JSON: `scalar.JSON` as const,
-	SpecialCard:{
-		effect:"String",
-		name:"String"
-	},
-	Nameable:{
-		"...on CardStack": "CardStack",
-		"...on EffectCard": "EffectCard",
-		"...on Card": "Card",
-		"...on SpecialCard": "SpecialCard",
+	CardStack:{
+		cards:"Card",
 		name:"String"
 	}
 }
 
 export const Ops = {
-mutation: "Mutation" as const,
-	subscription: "Subscription" as const,
-	query: "Query" as const
+query: "Query" as const,
+	mutation: "Mutation" as const,
+	subscription: "Subscription" as const
 }
