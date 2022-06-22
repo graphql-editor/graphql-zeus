@@ -23,7 +23,7 @@ $ zeus https://yourschema.com/graphql ./  --typedDocumentNode
 The following example demonstrates usage with Apollo. Other clients should work similarly.
 
 ```tsx
-import { ZeusTD } from './zeus/typedDocumentNode';
+import { typedGql } from './zeus/typedDocumentNode';
 import { Gql, SpecialSkills, Thunder, Zeus, InputType, Selector, GraphQLTypes, useZeusVariables } from './zeus';
 import { useQuery } from '@apollo/client';
 
@@ -32,8 +32,7 @@ const variables = useZeusVariables({ cardId: 'String!' })({
 });
 const { $ } = variables;
 
-const myQuery = ZeusTD(
-  'query',
+const myQuery = typedGql('query')(
   {
     drawCard: {
       id: true,
@@ -47,6 +46,7 @@ const myQuery = ZeusTD(
 
 const Main = () => {
   const { data } = useQuery(myQuery, {
+    // use those values or provide other values than default
     variables: variables.values,
   });
   // data response is typed

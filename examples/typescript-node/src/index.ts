@@ -1,6 +1,5 @@
 import chalk from 'chalk';
 import fetch from 'node-fetch';
-import { ZeusTD } from './zeus/typedDocumentNode';
 import {
   Gql,
   SpecialSkills,
@@ -12,6 +11,22 @@ import {
   useZeusVariables,
   ZeusScalars,
 } from './zeus';
+import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { typedGql } from './zeus/typedDocumentNode';
+
+export const testMutate = () => {
+  const client = new ApolloClient({
+    cache: new InMemoryCache(),
+  });
+  const td = typedGql('mutation')({
+    addCard: [{ card: { Attack: 1, Defense: 2, name: 'Pokemon', description: 'Stronk' } }, { id: true }],
+  });
+  client
+    .mutate({
+      mutation: td,
+    })
+    .then((data) => data.data?.addCard?.id);
+};
 
 const sel = Selector('Query')({
   drawCard: {
@@ -343,7 +358,7 @@ const run = async () => {
     cardById: [{ cardId: zeusTDDVars.$('cardId') }, { id: true }],
   });
 
-  const generatedTypedDocumentNode = ZeusTD('query', selectorTDD, { variables: zeusTDDVars });
+  const generatedTypedDocumentNode = typedGql('query')(selectorTDD, { variables: zeusTDDVars });
   printQueryResult('Generated TypedDocumentNode Test', generatedTypedDocumentNode);
 };
 run();

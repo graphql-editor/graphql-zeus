@@ -1,20 +1,10 @@
 /* eslint-disable */
 
 import { ValueTypes, GraphQLTypes, InputType, Chain, OperationOptions, chainOptions } from './index';
-import { useQuery, useMutation } from 'react-query';
-import type { UseQueryOptions, UseMutationOptions } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
+import type { UseMutationOptions, UseQueryOptions } from 'react-query';
 
 
-export function useTypedQuery<O extends "Query", TData extends ValueTypes[O], TResult = InputType<GraphQLTypes[O], TData>>(
-  queryKey: string | unknown[],
-  query: TData | ValueTypes[O],
-  options?: Omit<UseQueryOptions<TResult>, 'queryKey' | 'queryFn'>,
-  zeusOptions?: OperationOptions,
-  host = "https://faker.graphqleditor.com/a-team/olympus/graphql",
-  hostOptions: chainOptions[1] = {},
-) {
-  return useQuery<TResult>(queryKey, () => Chain(host, hostOptions)("query")(query, zeusOptions) as Promise<TResult>, options);
-}
 export function useTypedMutation<O extends "Mutation", TData extends ValueTypes[O], TResult = InputType<GraphQLTypes[O], TData>>(
   mutationKey: string | unknown[],
   mutation: TData | ValueTypes[O],
@@ -24,4 +14,14 @@ export function useTypedMutation<O extends "Mutation", TData extends ValueTypes[
   hostOptions: chainOptions[1] = {},
 ) {
   return useMutation<TResult>(mutationKey, () => Chain(host, hostOptions)("mutation")(mutation, zeusOptions) as Promise<TResult>, options);
+}
+export function useTypedQuery<O extends "Query", TData extends ValueTypes[O], TResult = InputType<GraphQLTypes[O], TData>>(
+  queryKey: string | unknown[],
+  query: TData | ValueTypes[O],
+  options?: Omit<UseQueryOptions<TResult>, 'queryKey' | 'queryFn'>,
+  zeusOptions?: OperationOptions,
+  host = "https://faker.graphqleditor.com/a-team/olympus/graphql",
+  hostOptions: chainOptions[1] = {},
+) {
+  return useQuery<TResult>(queryKey, () => Chain(host, hostOptions)("query")(query, zeusOptions) as Promise<TResult>, options);
 }
