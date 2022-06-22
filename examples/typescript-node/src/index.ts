@@ -11,7 +11,7 @@ import {
   useZeusVariables,
   ZeusScalars,
 } from './zeus';
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloClient, InMemoryCache, useQuery } from '@apollo/client';
 import { typedGql } from './zeus/typedDocumentNode';
 
 export const testMutate = () => {
