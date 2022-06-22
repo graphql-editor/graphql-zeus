@@ -22,7 +22,7 @@ export const typedGql =
       operationOptions: ops,
       scalars: graphqlOptions?.scalars,
     });
-    const vars = ops?.variables;
+    const vars = ops?.variables?.values;
     return gql(str) as TypedDocumentNode<InputType<GraphQLTypes[R], Z, SCLR>, typeof vars>;
   };
 `;
