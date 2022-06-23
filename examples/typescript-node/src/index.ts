@@ -11,7 +11,7 @@ import {
   useZeusVariables,
   ZeusScalars,
 } from './zeus';
-import { ApolloClient, InMemoryCache, useQuery } from '@apollo/client';
+import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { typedGql } from './zeus/typedDocumentNode';
 
 export const testMutate = () => {
@@ -50,7 +50,7 @@ const decoders = ZeusScalars({
 
 export type IRT = InputType<GraphQLTypes['Query'], typeof sel, typeof decoders>;
 
-const printQueryResult = (name: string, result: any) =>
+const printQueryResult = (name: string, result: unknown) =>
   console.log(`${chalk.greenBright(name)} result:\n${chalk.cyan(JSON.stringify(result, null, 4))}\n\n`);
 const printGQLString = (name: string, result: string) =>
   console.log(`${chalk.blue(name)} query:\n${chalk.magenta(result)}\n\n`);

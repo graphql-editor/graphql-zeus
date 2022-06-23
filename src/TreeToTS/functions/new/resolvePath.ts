@@ -112,9 +112,10 @@ export const InternalArgsBuilt = ({
   const arb = (a: ZeusArgsType, p = '', root = true): string => {
     const checkType = ResolveFromPath(props, returns, ops)(p);
     if (checkType.startsWith('scalar.')) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const [_, ...splittedScalar] = checkType.split('.');
       const scalarKey = splittedScalar.join('.');
-      return (scalars?.[scalarKey]?.encode?.(a) as string) || (a as string);
+      return (scalars?.[scalarKey]?.encode?.(a) as string) || JSON.stringify(a);
     }
     if (Array.isArray(a)) {
       return `[${a.map((arr) => arb(arr, p, false)).join(', ')}]`;

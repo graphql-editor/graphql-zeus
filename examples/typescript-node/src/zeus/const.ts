@@ -1,32 +1,56 @@
 /* eslint-disable */
 
 export const AllTypesProps: Record<string,any> = {
-	Card:{
-		attack:{
-
-		}
-	},
-	JSON: `scalar.JSON` as const,
-	Mutation:{
-		addCard:{
-			card:"createCard"
-		}
-	},
+	SpecialSkills: "enum" as const,
 	Query:{
 		cardById:{
 
 		}
 	},
-	SpecialSkills: "enum" as const,
+	Mutation:{
+		addCard:{
+			card:"createCard"
+		}
+	},
+	JSON: `scalar.JSON` as const,
 	createCard:{
 		skills:"SpecialSkills"
+	},
+	Card:{
+		attack:{
+
+		}
 	}
 }
 
 export const ReturnTypes: Record<string,any> = {
-	SpecialCard:{
-		effect:"String",
+	Nameable:{
+		"...on EffectCard": "EffectCard",
+		"...on Card": "Card",
+		"...on SpecialCard": "SpecialCard",
+		"...on CardStack": "CardStack",
 		name:"String"
+	},
+	EffectCard:{
+		effectSize:"Float",
+		name:"String"
+	},
+	Query:{
+		cardById:"Card",
+		drawCard:"Card",
+		drawChangeCard:"ChangeCard",
+		listCards:"Card",
+		myStacks:"CardStack",
+		nameables:"Nameable"
+	},
+	Mutation:{
+		addCard:"Card"
+	},
+	JSON: `scalar.JSON` as const,
+	S3Object:{
+		bucket:"String",
+		key:"String",
+		region:"String"
 	},
 	Card:{
 		Attack:"Int",
@@ -41,49 +65,25 @@ export const ReturnTypes: Record<string,any> = {
 		name:"String",
 		skills:"SpecialSkills"
 	},
-	JSON: `scalar.JSON` as const,
-	CardStack:{
-		cards:"Card",
-		name:"String"
-	},
-	Mutation:{
-		addCard:"Card"
-	},
-	Nameable:{
-		"...on SpecialCard": "SpecialCard",
-		"...on Card": "Card",
-		"...on CardStack": "CardStack",
-		"...on EffectCard": "EffectCard",
-		name:"String"
-	},
-	S3Object:{
-		bucket:"String",
-		key:"String",
-		region:"String"
-	},
 	ChangeCard:{
 		"...on SpecialCard":"SpecialCard",
 		"...on EffectCard":"EffectCard"
 	},
+	SpecialCard:{
+		effect:"String",
+		name:"String"
+	},
+	CardStack:{
+		cards:"Card",
+		name:"String"
+	},
 	Subscription:{
 		deck:"Card"
-	},
-	Query:{
-		cardById:"Card",
-		drawCard:"Card",
-		drawChangeCard:"ChangeCard",
-		listCards:"Card",
-		myStacks:"CardStack",
-		nameables:"Nameable"
-	},
-	EffectCard:{
-		effectSize:"Float",
-		name:"String"
 	}
 }
 
 export const Ops = {
-mutation: "Mutation" as const,
-	subscription: "Subscription" as const,
-	query: "Query" as const
+query: "Query" as const,
+	mutation: "Mutation" as const,
+	subscription: "Subscription" as const
 }

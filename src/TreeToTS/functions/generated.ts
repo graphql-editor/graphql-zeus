@@ -603,7 +603,7 @@ export const InternalArgsBuilt = ({
     if (checkType.startsWith('scalar.')) {
       const [_, ...splittedScalar] = checkType.split('.');
       const scalarKey = splittedScalar.join('.');
-      return (scalars?.[scalarKey]?.encode?.(a) as string) || (a as string);
+      return (scalars?.[scalarKey]?.encode?.(a) as string) || JSON.stringify(a);
     }
     if (Array.isArray(a)) {
       return \`[\${a.map((arr) => arb(arr, p, false)).join(', ')}]\`;
