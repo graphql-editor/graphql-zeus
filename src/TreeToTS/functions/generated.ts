@@ -791,6 +791,7 @@ export const apiSubscription = (options: chainOptions) => {
   return (query: string) => {
     let onMessage: ((event: any) => void) | undefined;
     let onError: Sink['error'] | undefined;
+    let onClose: Sink['complete'] | undefined;
 
     client.subscribe(
       { query },
@@ -801,8 +802,9 @@ export const apiSubscription = (options: chainOptions) => {
         error(error) {
           onError && onError(error);
         },
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-        complete() {},
+        complete() {
+          onClose && onClose();
+        },
       },
     );
 
@@ -814,11 +816,11 @@ export const apiSubscription = (options: chainOptions) => {
       error(listener: typeof onError) {
         onError = listener;
       },
-      open() {
-        throw new Error('Unimplemented');
+      open(listener: (socket: unknown) => void) {
+        client.on('opened', listener);
       },
-      off() {
-        throw new Error('Unimplemented');
+      off(listener: typeof onClose) {
+        onClose = listener;
       },
     };
   };

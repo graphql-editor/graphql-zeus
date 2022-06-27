@@ -1,41 +1,21 @@
 // src/ssg/markdown.ts
 var htmlContent = {
-  "markdown/plugins/typedDocumentNode.md": {
-    "content": "\n## Usage with Typed Document Node\n\nZeus can generate builders for [`TypedDocumentNode`][typed-document-node], a type-safe query\nrepresentation understood by most GraphQL clients (including Apollo, urql etc) by adding the\n`--typedDocumentNode` or `--td` flag to the CLI.\n\n### Generate Type-Safe Zeus Schema And TypedDocumentNode query builders\n\n```sh\n$ zeus https://yourschema.com/graphql ./  --typedDocumentNode\n# typedDocumentNode.ts file with typed document node builders is now in the output destination\n```\n\n### TypedDocumentNode + Apollo Client useQuery examples\n\nThe following example demonstrates usage with Apollo. Other clients should work similarly.\n\n```tsx\nimport { typedGql } from './zeus/typedDocumentNode';\nimport { Gql, SpecialSkills, Thunder, Zeus, InputType, Selector, GraphQLTypes, useZeusVariables } from './zeus';\nimport { useQuery } from '@apollo/client';\n\nconst variables = useZeusVariables({ cardId: 'String!' })({\n  cardId: 'blabla',\n});\nconst { $ } = variables;\n\nconst myQuery = typedGql('query')(\n  {\n    drawCard: {\n      id: true,\n      Attack: true,\n      Defense: true,\n    },\n    cardById: [{ cardId: $('cardId') }, { id: true }],\n  },\n  { variables },\n);\n\nconst Main = () => {\n  const { data } = useQuery(myQuery, {\n    // use those values or provide other values than default\n    variables: variables.values,\n  });\n  // data response is typed\n  return <div>{data.drawCard.name}</div>;\n};\n```\n\n[typed-document-node]: https://www.graphql-code-generator.com/plugins/typed-document-node\n",
-    "data": {
-      "link": "plugins/typedDocumentNode",
-      "title": "TypedDocumentNode",
-      "order": 4,
-      "category": "Plugins"
-    },
-    "excerpt": ""
-  },
-  "markdown/plugins/stucco.md": {
-    "content": "\n## Usage with Stucco Subscriptions\n\nZeus can generate types for the Stucco Subscription library by adding the --stuccoSubscriptions flag to the CLI. All types in `data` are then inherited from the Zeus Query\n\n```sh\n$ zeus schema.graphql ./  --stuccoSubscriptions\n```\n\n```typescript\nstuccoSubscriptions(\n  (apiFetchResult) => [apiFetchResult.url],\n  'https://my.backend/graphql',\n)({ drawCard: { Attack: true } }).on((args) => args.drawCard.Attack);\n```\n",
-    "data": {
-      "link": "plugins/stucco",
-      "title": "Stucco",
-      "order": 3,
-      "category": "Plugins"
-    },
-    "excerpt": ""
-  },
-  "markdown/plugins/react-query.md": {
-    "content": "\n## Usage with React Query\n\nZeus can generate type-safe versions of React Query's `useQuery`, `useMutation` etc.. React hooks as `useTypedQuery`, `useTypedMutation` etc... by adding the `--reactQuery` flag to the CLI. All types `data` response are then inherited from the Zeus query. \u{1F680}\n\n```sh\n$ zeus schema.graphql ./  --reactQuery\n```\n\n```tsx\nimport { useTypedQuery } from './zeus/reactQuery';\n\nconst Main = () => {\n  const { data } = useTypedQuery({\n    // Get autocomplete here:\n    drawCard: {\n      name: true,\n    },\n  });\n  // data response is now typed\n  return <div>{data.drawCard.name}</div>;\n};\n```\n",
-    "data": {
-      "link": "plugins/react-query",
-      "title": "React Query",
-      "order": 2,
-      "category": "Plugins"
-    },
-    "excerpt": ""
-  },
   "markdown/plugins/apollo.md": {
     "content": "\n## Usage with Apollo GraphQL\n\nZeus can generate type-safe versions of Apollo Client's `useQuery`, `useMutation`, `useSubscription` and `useLazyQuery` React hooks as `useTypedQuery`, `useTypedMutation` etc... by adding the `--apollo` flag to the CLI. All types in the `data` response are then inherited from the Zeus query. \u{1F680}\n\n### Generate Type-Safe Zeus Schema And Apollo Client Type-Safe Hooks\n\n```sh\n$ zeus schema.graphql ./  --apollo\n# apollo.ts file with typed hooks is now in the output destination\n```\n\n### Apollo Client `useTypedQuery` Hook Example\n\n```tsx\nimport { useTypedQuery } from './zeus/apollo';\n\nconst Main = () => {\n  const { data } = useTypedQuery({\n    // Get autocomplete here:\n    drawCard: {\n      name: true,\n    },\n  });\n  // data response is now typed\n  return <div>{data.drawCard.name}</div>;\n};\n```\n\n### Inferring the response type for Apollo Client\n\nIf you would like to infer the response type of your query for Apollo Client you can use the Zeus `Selector` function and `InputType` utility from the Zeus generated library\n\n```tsx\nimport { Selector, InputType, GraphQLTypes } from './zeus';\n\nexport const drawCardQuery = Selector('Card')({\n  drawCard: {\n    id: true,\n    name: true,\n    Attack: true,\n    Children: true,\n  },\n});\n\ntype DrawCardResponseType = InputType<GraphQLTypes['Card'], typeof drawCardQuery>;\n// DrawCardResponseType is now the response type from the query\n```\n\nNow `drawCardQuery` can be reused directly in the typed Apollo Client `useTypedQuery` later\n\n```tsx\nimport { useTypedQuery } from './zeus/apollo';\nimport { drawCardQuery } from './';\n\nconst Main = () => {\n  const { data } = useTypedQuery(drawCardQuery);\n  // data is of type DrawCardResponseType as per the above example\n  return <div>{data.drawCard.name}</div>;\n};\n```\n",
     "data": {
       "link": "plugins/apollo",
       "title": "Apollo",
       "order": 1,
+      "category": "Plugins"
+    },
+    "excerpt": ""
+  },
+  "markdown/plugins/typedDocumentNode.md": {
+    "content": "\n## Usage with Typed Document Node\n\nZeus can generate builders for [`TypedDocumentNode`][typed-document-node], a type-safe query\nrepresentation understood by most GraphQL clients (including Apollo, urql etc) by adding the\n`--typedDocumentNode` or `--td` flag to the CLI.\n\n### Generate Type-Safe Zeus Schema And TypedDocumentNode query builders\n\n```sh\n$ zeus https://yourschema.com/graphql ./  --typedDocumentNode\n# typedDocumentNode.ts file with typed document node builders is now in the output destination\n```\n\n### TypedDocumentNode + Apollo Client useQuery examples\n\nThe following example demonstrates usage with Apollo. Other clients should work similarly.\n\n```tsx\nimport { typedGql } from './zeus/typedDocumentNode';\nimport { Gql, SpecialSkills, Thunder, Zeus, InputType, Selector, GraphQLTypes, useZeusVariables } from './zeus';\nimport { useQuery } from '@apollo/client';\n\nconst variables = useZeusVariables({ cardId: 'String!' })({\n  cardId: 'blabla',\n});\nconst { $ } = variables;\n\nconst myQuery = typedGql('query')(\n  {\n    drawCard: {\n      id: true,\n      Attack: true,\n      Defense: true,\n    },\n    cardById: [{ cardId: $('cardId') }, { id: true }],\n  },\n  { variables },\n);\n\nconst Main = () => {\n  const { data } = useQuery(myQuery, {\n    // use those values or provide other values than default\n    variables: variables.values,\n  });\n  // data response is typed\n  return <div>{data.drawCard.name}</div>;\n};\n```\n\n[typed-document-node]: https://www.graphql-code-generator.com/plugins/typed-document-node\n",
+    "data": {
+      "link": "plugins/typedDocumentNode",
+      "title": "TypedDocumentNode",
+      "order": 4,
       "category": "Plugins"
     },
     "excerpt": ""
@@ -58,22 +38,22 @@ var htmlContent = {
     },
     "excerpt": ""
   },
+  "markdown/plugins/stucco.md": {
+    "content": "\n## Usage with Stucco Subscriptions\n\nZeus can generate types for the Stucco Subscription library by adding the --stuccoSubscriptions flag to the CLI. All types in `data` are then inherited from the Zeus Query\n\n```sh\n$ zeus schema.graphql ./  --stuccoSubscriptions\n```\n\n```typescript\nstuccoSubscriptions(\n  (apiFetchResult) => [apiFetchResult.url],\n  'https://my.backend/graphql',\n)({ drawCard: { Attack: true } }).on((args) => args.drawCard.Attack);\n```\n",
+    "data": {
+      "link": "plugins/stucco",
+      "title": "Stucco",
+      "order": 3,
+      "category": "Plugins"
+    },
+    "excerpt": ""
+  },
   "markdown/graphql/scalars.md": {
     "content": "\n## Scalars\n\nIn Zeus you can encode and decode scalars\n\n### Decode\n\nDecode function is called every time scalar returns from backend before passing the result from Chain,Subscription functions\n\n```gql\nscalar JSON\nscalar Datetime\ntype Card{\n    info: JSON!\n    createdAt: Datetime\n}\ntype Query:{\n    drawCard: Card!\n}\n```\n\n```ts\nimport { Chain } from './zeus';\n\n// Create a Chain client instance with the endpoint\nconst chain = Chain('https://faker.graphqleditor.com/a-team/olympus/graphql');\n\n// Query the endpoint with Typescript autocomplete for arguments and response fields\nconst data = await chain('query', {\n  scalars: {\n    JSON: {\n      encode: (e: unknown) => JSON.stringify(e),\n      decode: (e: unknown) => JSON.parse(e as string),\n    },\n    Datetime: {\n      decode: (e: unknown) => new Date(e as string),\n      encode: (e: unknown) => (e as Date).toISOString(),\n    },\n  },\n})({\n  drawCard: {\n    info: true,\n  },\n});\n```\n\nSo the `data.drawCard.info` will be of type `Date` as provided by decoder `ReturnType`\n\n### Encode Scalars\n\nYou can also encode scalars before sending them to backend\n\n```ts\nimport { Chain } from './zeus';\n\n// Create a Chain client instance with the endpoint\nconst chain = Chain('https://faker.graphqleditor.com/a-team/olympus/graphql');\n\n// Query the endpoint with Typescript autocomplete for arguments and response fields\nconst listCardsAndDraw = await chain('query', {\n  scalars: {\n    JSON: {\n      encode: (e: unknown) => JSON.stringify(e),\n      decode: (e: unknown) => JSON.parse(e as string),\n    },\n    Datetime: {\n      decode: (e: unknown) => new Date(e as string),\n      encode: (e: unknown) => (e as Date).toISOString(),\n    },\n  },\n})({\n  drawCard: {\n    info: true,\n  },\n});\n```\n\nEncoders require value to be encoded to string and don't work with variables yet.\n\n## Place decoders and encoders in one place for reuse\n\n```ts\nimport { Chain, ZeusScalars } from './zeus';\n\n// Create a Chain client instance with the endpoint\nconst chain = Chain('https://faker.graphqleditor.com/a-team/olympus/graphql');\nconst scalars = ZeusScalars({\n  JSON: {\n    encode: (e: unknown) => JSON.stringify(e),\n    decode: (e: unknown) => JSON.parse(e as string),\n  },\n  Datetime: {\n    decode: (e: unknown) => new Date(e as string),\n    encode: (e: unknown) => (e as Date).toISOString(),\n  },\n});\n\n// Query the endpoint with Typescript autocomplete for arguments and response fields\nconst listCardsAndDraw = await chain('query', {\n  scalars,\n})({\n  drawCard: {\n    info: true,\n  },\n});\n```\n",
     "data": {
       "link": "graphql/scalars",
       "title": "Scalars",
       "order": 6,
-      "category": "GraphQL"
-    },
-    "excerpt": ""
-  },
-  "markdown/graphql/interfaces-and-unions.md": {
-    "content": '\n## GraphQL Unions\n\nYou can use Zeus with [GraphQL Unions](https://spec.graphql.org/June2018/#sec-Unions):\n\n```js\nconst { drawChangeCard } = await chain(\'query\')({\n  drawChangeCard: {\n    __typename: true,\n    \'...on EffectCard\': {\n      effectSize: true,\n      name: true,\n    },\n    \'...on SpecialCard\': {\n      effect: true,\n      name: true,\n    },\n  },\n});\n```\n\nResponse:\n\n```json\n{\n  "effectSize": 195.99532210956377,\n  "name": "Destinee",\n  "__typename": "EffectCard"\n}\n```\n\n## GraphQL Interfaces\n\nZeus works with [GraphQL Interfaces](http://spec.graphql.org/June2018/#sec-Interfaces)\n\n```ts\nconst { nameables } = await Gql(\'query\')({\n  nameables: {\n    __typename: true,\n    name: true,\n    \'...on CardStack\': {\n      cards: {\n        Defense: true,\n      },\n    },\n    \'...on Card\': {\n      Attack: true,\n    },\n  },\n});\n```\n\nResponse:\n\n```json\n{\n  "nameables": [\n    {\n      "__typename": "EffectCard",\n      "name": "Hector"\n    },\n    {\n      "__typename": "CardStack",\n      "name": "Scotty",\n      "cards": [\n        {\n          "Defense": 1950\n        },\n        {\n          "Defense": 76566\n        }\n      ]\n    },\n    {\n      "__typename": "SpecialCard",\n      "name": "Itzel"\n    }\n  ]\n}\n```\n',
-    "data": {
-      "link": "graphql/interfaces-and-unions",
-      "title": "Interfaces and Unions",
-      "order": 1,
       "category": "GraphQL"
     },
     "excerpt": ""
@@ -94,6 +74,26 @@ var htmlContent = {
       "link": "graphql/directives",
       "title": "Directives",
       "order": 5,
+      "category": "GraphQL"
+    },
+    "excerpt": ""
+  },
+  "markdown/plugins/react-query.md": {
+    "content": "\n## Usage with React Query\n\nZeus can generate type-safe versions of React Query's `useQuery`, `useMutation` etc.. React hooks as `useTypedQuery`, `useTypedMutation` etc... by adding the `--reactQuery` flag to the CLI. All types `data` response are then inherited from the Zeus query. \u{1F680}\n\n```sh\n$ zeus schema.graphql ./  --reactQuery\n```\n\n```tsx\nimport { useTypedQuery } from './zeus/reactQuery';\n\nconst Main = () => {\n  const { data } = useTypedQuery({\n    // Get autocomplete here:\n    drawCard: {\n      name: true,\n    },\n  });\n  // data response is now typed\n  return <div>{data.drawCard.name}</div>;\n};\n```\n",
+    "data": {
+      "link": "plugins/react-query",
+      "title": "React Query",
+      "order": 2,
+      "category": "Plugins"
+    },
+    "excerpt": ""
+  },
+  "markdown/graphql/interfaces-and-unions.md": {
+    "content": '\n## GraphQL Unions\n\nYou can use Zeus with [GraphQL Unions](https://spec.graphql.org/June2018/#sec-Unions):\n\n```js\nconst { drawChangeCard } = await chain(\'query\')({\n  drawChangeCard: {\n    __typename: true,\n    \'...on EffectCard\': {\n      effectSize: true,\n      name: true,\n    },\n    \'...on SpecialCard\': {\n      effect: true,\n      name: true,\n    },\n  },\n});\n```\n\nResponse:\n\n```json\n{\n  "effectSize": 195.99532210956377,\n  "name": "Destinee",\n  "__typename": "EffectCard"\n}\n```\n\n## GraphQL Interfaces\n\nZeus works with [GraphQL Interfaces](http://spec.graphql.org/June2018/#sec-Interfaces)\n\n```ts\nconst { nameables } = await Gql(\'query\')({\n  nameables: {\n    __typename: true,\n    name: true,\n    \'...on CardStack\': {\n      cards: {\n        Defense: true,\n      },\n    },\n    \'...on Card\': {\n      Attack: true,\n    },\n  },\n});\n```\n\nResponse:\n\n```json\n{\n  "nameables": [\n    {\n      "__typename": "EffectCard",\n      "name": "Hector"\n    },\n    {\n      "__typename": "CardStack",\n      "name": "Scotty",\n      "cards": [\n        {\n          "Defense": 1950\n        },\n        {\n          "Defense": 76566\n        }\n      ]\n    },\n    {\n      "__typename": "SpecialCard",\n      "name": "Itzel"\n    }\n  ]\n}\n```\n',
+    "data": {
+      "link": "graphql/interfaces-and-unions",
+      "title": "Interfaces and Unions",
+      "order": 1,
       "category": "GraphQL"
     },
     "excerpt": ""
@@ -138,42 +138,12 @@ var htmlContent = {
     },
     "excerpt": ""
   },
-  "markdown/basics/subscriptions.md": {
-    "content": "\n## Subscriptions\n\nZeus supports [GraphQL subscriptions](https://github.com/enisdenjo/graphql-ws/blob/master/PROTOCOL.md) out-of-the-box and is compatible with many popular GraphQL servers.\n\nTwo standards are supported:\n\n- **graphql-ws**: the modern WebSocket-based transport, implemented by [the graphql-ws package](https://www.npmjs.com/package/graphql-ws). It is the standard [used by Apollo](https://www.apollographql.com/docs/react/data/subscriptions/#choosing-a-subscription-library).\n- **legacy** (default): a transport based on raw WebSockets.\n\n### Generating the client\n\nTo use [graphql-ws](https://www.npmjs.com/package/graphql-ws) as your subscription transport you'll need to do the following:\n\n```sh\n# Generate the client\nzeus schema.gql ./ --subscriptions graphql-ws\n# Add graphql-ws to your project's dependencies\nnpm install graphql-ws\n```\n\nIf you want to use **legacy**, use `--subscriptions legacy` instead.\n\nNo matter what implementation you chose, usage is the same:\n\n```ts\n// Create a new Subscription with some authentication headers\nconst sub = Subscription('wss://localhost:4000/graphql', {\n  get headers() {\n    return { Authorization: `Bearer ${getToken()}` };\n  },\n});\n\n// Subscribe to new messages\nsub('subscription')({\n  message: {\n    body: true,\n  },\n}).on(({ message }) => {\n  console.log(message.body);\n});\n```\n\nIf you need to unsubscribe from a subscription (e.g. you are developing as Single Page App), you can do as follows:\n\n```ts\n// Subscribe to new messages\nconst onMessage = sub('subscription')({\n  message: {\n    body: true,\n  },\n});\nonMessage.on(({ message }) => {\n  console.log(message.body);\n});\n\n// Close the underlying connection\nonMessage.ws.close();\n```\n",
-    "data": {
-      "link": "subscriptions",
-      "title": "Subscriptions",
-      "order": 8,
-      "category": "Basics"
-    },
-    "excerpt": ""
-  },
   "markdown/basics/spec.md": {
     "content": "\n## Zeus Spec\n\nPromise of type query data object is returned.\n\n```\nPROMISE_RETURNING_OBJECT = Chain.[OPERATION_NAME]({\n    ...FUNCTION_FIELD_PARAMS\n})(\n    ...QUERY_OBJECT\n).then ( RESPONSE_OBJECT => RESPONSE_OBJECT[OPERATION_FIELD] )\n```\n\nSimple function params object\n\n```\nFUNCTION_FIELD_PARAMS = {\n  KEY: VALUE\n}\n```\n\nQuery object\n\n```\nQUERY_OBJECT = {\n    ...RETURN_PARAMS\n}\n```\n\nReturn params is an object containing RETURN_KEY - true if it is a `scalar`, RETURN_PARAMS if `type` otherwise it is a function where you pass field params and type return params.\n\n```\nRETURN_PARAMS = {\n    RETURN_KEY: true,\n    RETURN_KEY: {\n        ...RETURN_PARAMS\n    },\n    RETURN_FUNCTION_KEY:[\n        {\n            ...FUNCTION_FIELD_PARAMS\n        },\n        {\n            ...RETURN_PARAMS\n        }\n    ]\n}\n```\n\n### Use Alias Spec\n\n```\nRETURN_PARAMS = {\n  __alias: RETURN_PARAMS\n}\n```\n\nAccess aliased operation type-safe\n\n```\nPROMISE_RETURNING_OBJECT[ALIAS_STRING]\n```\n",
     "data": {
       "link": "spec",
       "title": "Specification",
       "order": 4,
-      "category": "Basics"
-    },
-    "excerpt": ""
-  },
-  "markdown/basics/selector.md": {
-    "content": "\n## Generate Reusable Selection Sets\n\nIn TypeScript Zeus can help make type-safe Zeus selection sets to reuse across queries.\n\n```ts\nimport { Selector, Chain } from './zeus';\n\nconst chain = Chain('https://faker.graphqleditor.com/a-team/olympus/graphql');\n\nconst cardSelector = Selector('Card')({\n  name: true,\n  description: true,\n  Attack: true,\n  skills: true,\n  Defense: true,\n  cardImage: {\n    key: true,\n    bucket: true,\n  },\n});\n\nconst queryWithSelectionSet = await chain('query')({\n  drawCard: cardSelector,\n});\n```\n\n## Inferring the response type\n\nSometimes you would like to infer the response type. The it is best to use selectors\n\n```tsx\nimport { Selector, InputType, GraphQLTypes } from './zeus';\n\nexport const drawCardQuery = Selector(\"Query\"){\n  drawCard: {\n    Attack: true,\n    Children: true,\n    id: true,\n  },\n});\n\ntype InferredResponseType = InputType<GraphQLTypes['Query'], typeof drawCardQuery>;\n```\n",
-    "data": {
-      "link": "selector",
-      "title": "Selector",
-      "order": 1,
-      "category": "Basics"
-    },
-    "excerpt": ""
-  },
-  "markdown/basics/javascript.md": {
-    "content": "\n### JavaScript\n\nTo use with Javascript as an autocomplete tool you need to install Typescript, run the Zeus CLI, and then transform the result to JS using `tsc`\n\n```sh\n$ npm i -D typescript\n# OR\n# yarn add -D typescript\n```\n\nGenerate Zeus:\n\n```sh\n$ zeus schema.graphql ./\n```\n\nAnd transform it using Typescript:\n\n```sh\n$ npx tsc ./zeus/*.ts --declaration --target es5 --skipLibCheck\n# OR\n# yarn tsc ./zeus/*.ts --declaration --target es5 --skipLibCheck\n```\n\nThis will generate an `out.d.ts` file so that you can have autocompletion.\n",
-    "data": {
-      "link": "javascript",
-      "title": "Javascript",
-      "order": 6,
       "category": "Basics"
     },
     "excerpt": ""
@@ -188,12 +158,22 @@ var htmlContent = {
     },
     "excerpt": ""
   },
-  "markdown/basics/esmodule.md": {
-    "content": "\n#### Return with .js import for esModules\n\nDue to validity of `.js` imports in TS for esmodules you can use flag `es` to generate `.js` imports\n\n```sh\n$ zeus schema.graphql ./ --es\n```\n",
+  "markdown/basics/selector.md": {
+    "content": "\n## Generate Reusable Selection Sets\n\nIn TypeScript Zeus can help make type-safe Zeus selection sets to reuse across queries.\n\n```ts\nimport { Selector, Chain } from './zeus';\n\nconst chain = Chain('https://faker.graphqleditor.com/a-team/olympus/graphql');\n\nconst cardSelector = Selector('Card')({\n  name: true,\n  description: true,\n  Attack: true,\n  skills: true,\n  Defense: true,\n  cardImage: {\n    key: true,\n    bucket: true,\n  },\n});\n\nconst queryWithSelectionSet = await chain('query')({\n  drawCard: cardSelector,\n});\n```\n\n## Inferring the response type\n\nSometimes you would like to infer the response type. The it is best to use selectors\n\n```tsx\nimport { Selector, InputType, GraphQLTypes } from './zeus';\n\nexport const drawCardQuery = Selector(\"Query\"){\n  drawCard: {\n    Attack: true,\n    Children: true,\n    id: true,\n  },\n});\n\ntype InferredResponseType = InputType<GraphQLTypes['Query'], typeof drawCardQuery>;\n```\n",
     "data": {
-      "link": "esmodules",
-      "title": "EsModules",
-      "order": 3,
+      "link": "selector",
+      "title": "Selector",
+      "order": 1,
+      "category": "Basics"
+    },
+    "excerpt": ""
+  },
+  "markdown/basics/subscriptions.md": {
+    "content": "\n## Subscriptions\n\nZeus supports [GraphQL subscriptions](https://github.com/enisdenjo/graphql-ws/blob/master/PROTOCOL.md) out-of-the-box and is compatible with many popular GraphQL servers.\n\nTwo standards are supported:\n\n- **graphql-ws**: the modern WebSocket-based transport, implemented by [the graphql-ws package](https://www.npmjs.com/package/graphql-ws). It is the standard [used by Apollo](https://www.apollographql.com/docs/react/data/subscriptions/#choosing-a-subscription-library).\n- **legacy** (default): a transport based on raw WebSockets.\n\n### Generating the client\n\nTo use [graphql-ws](https://www.npmjs.com/package/graphql-ws) as your subscription transport you'll need to do the following:\n\n```sh\n# Generate the client\nzeus schema.gql ./ --subscriptions graphql-ws\n# Add graphql-ws to your project's dependencies\nnpm install graphql-ws\n```\n\nIf you want to use **legacy**, use `--subscriptions legacy` instead.\n\nNo matter what implementation you chose, usage is the same:\n\n```ts\n// Create a new Subscription with some authentication headers\nconst sub = Subscription('wss://localhost:4000/graphql', {\n  get headers() {\n    return { Authorization: `Bearer ${getToken()}` };\n  },\n});\n\n// Subscribe to new messages\nsub('subscription')({\n  message: {\n    body: true,\n  },\n}).on(({ message }) => {\n  console.log(message.body);\n});\n```\n\nIf you need to unsubscribe from a subscription (e.g. you are developing as Single Page App), you can do as follows:\n\n```ts\n// Subscribe to new messages\nconst onMessage = sub('subscription')({\n  message: {\n    body: true,\n  },\n});\nonMessage.on(({ message }) => {\n  console.log(message.body);\n});\n\n// Close the underlying connection\nonMessage.ws.close();\n```\n",
+    "data": {
+      "link": "subscriptions",
+      "title": "Subscriptions",
+      "order": 8,
       "category": "Basics"
     },
     "excerpt": ""
@@ -204,6 +184,26 @@ var htmlContent = {
       "link": "custom-fetch",
       "title": "Custom fetch",
       "order": 7,
+      "category": "Basics"
+    },
+    "excerpt": ""
+  },
+  "markdown/basics/javascript.md": {
+    "content": "\n### JavaScript\n\nTo use with Javascript as an autocomplete tool you need to install Typescript, run the Zeus CLI, and then transform the result to JS using `tsc`\n\n```sh\n$ npm i -D typescript\n# OR\n# yarn add -D typescript\n```\n\nGenerate Zeus:\n\n```sh\n$ zeus schema.graphql ./\n```\n\nAnd transform it using Typescript:\n\n```sh\n$ npx tsc ./zeus/*.ts --declaration --target es5 --skipLibCheck\n# OR\n# yarn tsc ./zeus/*.ts --declaration --target es5 --skipLibCheck\n```\n\nThis will generate an `out.d.ts` file so that you can have autocompletion.\n",
+    "data": {
+      "link": "javascript",
+      "title": "Javascript",
+      "order": 6,
+      "category": "Basics"
+    },
+    "excerpt": ""
+  },
+  "markdown/basics/esmodule.md": {
+    "content": "\n#### Return with .js import for esModules\n\nDue to validity of `.js` imports in TS for esmodules you can use flag `es` to generate `.js` imports\n\n```sh\n$ zeus schema.graphql ./ --es\n```\n",
+    "data": {
+      "link": "esmodules",
+      "title": "EsModules",
+      "order": 3,
       "category": "Basics"
     },
     "excerpt": ""
