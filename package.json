@@ -67,6 +67,14 @@
     "graphql-js-tree": "^0.1.1",
     "yargs": "^16.1.1"
   },
+  "peerDependencies": {
+    "graphql-wq": ">=5"
+  },
+  "peerDependenciesMeta": {
+    "graphql-wq": {
+      "optional": true
+    }
+  },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"

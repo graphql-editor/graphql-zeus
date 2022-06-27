@@ -114,6 +114,8 @@ sub('subscription')({
 });
 ```
 
+[Read more about subscriptions](./subscriptions)
+
 ## Usage with NodeJS
 
 Generates clients for use with Node.js
