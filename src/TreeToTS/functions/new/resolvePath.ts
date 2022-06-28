@@ -69,6 +69,7 @@ export const ResolveFromPath = (props: AllTypesPropsType, returns: ReturnTypesTy
     const oKey = ops[mappedParts[0].v];
     const returnP1 = oKey ? returns[oKey] : returns[mappedParts[0].v];
     if (typeof returnP1 === 'object') {
+      if (!mappedParts[1]) throw new Error(`${mappedParts[0].v} does not take arguments`);
       const returnP2 = returnP1[mappedParts[1].v];
       if (returnP2) {
         return rpp(
