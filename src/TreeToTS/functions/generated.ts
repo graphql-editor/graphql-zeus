@@ -159,9 +159,10 @@ export const SubscriptionThunder =
         scalars: graphqlOptions?.scalars,
       }),
     ) as SubscriptionToGraphQL<Z, GraphQLTypes[R], SCLR>;
-    if (returnedFunction?.on) {
+    if (returnedFunction?.on && graphqlOptions?.scalars) {
+      const wrapped = returnedFunction.on;
       returnedFunction.on = (fnToCall: (args: InputType<GraphQLTypes[R], Z, SCLR>) => void) =>
-        returnedFunction.on((data: InputType<GraphQLTypes[R], Z, SCLR>) => {
+        wrapped((data: InputType<GraphQLTypes[R], Z, SCLR>) => {
           if (graphqlOptions?.scalars) {
             return fnToCall(
               decodeScalarsInResponse({
