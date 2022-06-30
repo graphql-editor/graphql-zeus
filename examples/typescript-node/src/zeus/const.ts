@@ -6,21 +6,21 @@ export const AllTypesProps: Record<string,any> = {
 
 		}
 	},
-	JSON: `scalar.JSON` as const,
+	SpecialSkills: "enum" as const,
 	createCard:{
 		skills:"SpecialSkills"
 	},
-	Mutation:{
-		addCard:{
-			card:"createCard"
-		}
-	},
+	JSON: `scalar.JSON` as const,
 	Query:{
 		cardById:{
 
 		}
 	},
-	SpecialSkills: "enum" as const
+	Mutation:{
+		addCard:{
+			card:"createCard"
+		}
+	}
 }
 
 export const ReturnTypes: Record<string,any> = {
@@ -37,23 +37,19 @@ export const ReturnTypes: Record<string,any> = {
 		name:"String",
 		skills:"SpecialSkills"
 	},
-	SpecialCard:{
-		effect:"String",
+	EffectCard:{
+		effectSize:"Float",
 		name:"String"
-	},
-	Subscription:{
-		deck:"Card"
 	},
 	Nameable:{
 		"...on Card": "Card",
-		"...on SpecialCard": "SpecialCard",
 		"...on EffectCard": "EffectCard",
 		"...on CardStack": "CardStack",
+		"...on SpecialCard": "SpecialCard",
 		name:"String"
 	},
-	JSON: `scalar.JSON` as const,
-	EffectCard:{
-		effectSize:"Float",
+	CardStack:{
+		cards:"Card",
 		name:"String"
 	},
 	S3Object:{
@@ -61,13 +57,7 @@ export const ReturnTypes: Record<string,any> = {
 		key:"String",
 		region:"String"
 	},
-	CardStack:{
-		cards:"Card",
-		name:"String"
-	},
-	Mutation:{
-		addCard:"Card"
-	},
+	JSON: `scalar.JSON` as const,
 	Query:{
 		cardById:"Card",
 		drawCard:"Card",
@@ -79,11 +69,21 @@ export const ReturnTypes: Record<string,any> = {
 	ChangeCard:{
 		"...on SpecialCard":"SpecialCard",
 		"...on EffectCard":"EffectCard"
+	},
+	SpecialCard:{
+		effect:"String",
+		name:"String"
+	},
+	Mutation:{
+		addCard:"Card"
+	},
+	Subscription:{
+		deck:"Card"
 	}
 }
 
 export const Ops = {
-subscription: "Subscription" as const,
+query: "Query" as const,
 	mutation: "Mutation" as const,
-	query: "Query" as const
+	subscription: "Subscription" as const
 }

@@ -111,16 +111,6 @@ export const InternalArgsBuilt = ({
   vars: Array<{ name: string; graphQLType: string }>;
 }) => {
   const arb = (a: ZeusArgsType, p = '', root = true): string => {
-    const checkType = ResolveFromPath(props, returns, ops)(p);
-    if (checkType.startsWith('scalar.')) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const [_, ...splittedScalar] = checkType.split('.');
-      const scalarKey = splittedScalar.join('.');
-      return (scalars?.[scalarKey]?.encode?.(a) as string) || JSON.stringify(a);
-    }
-    if (Array.isArray(a)) {
-      return `[${a.map((arr) => arb(arr, p, false)).join(', ')}]`;
-    }
     if (typeof a === 'string') {
       if (a.startsWith(START_VAR_NAME)) {
         const [varName, graphQLType] = a.replace(START_VAR_NAME, '$').split(GRAPHQL_TYPE_SEPARATOR);
@@ -139,6 +129,18 @@ export const InternalArgsBuilt = ({
         }
         return varName;
       }
+    }
+    const checkType = ResolveFromPath(props, returns, ops)(p);
+    if (checkType.startsWith('scalar.')) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const [_, ...splittedScalar] = checkType.split('.');
+      const scalarKey = splittedScalar.join('.');
+      return (scalars?.[scalarKey]?.encode?.(a) as string) || JSON.stringify(a);
+    }
+    if (Array.isArray(a)) {
+      return `[${a.map((arr) => arb(arr, p, false)).join(', ')}]`;
+    }
+    if (typeof a === 'string') {
       if (checkType === 'enum') {
         return a;
       }

@@ -38,28 +38,16 @@ type Card implements Nameable {
 }
 
 """"""
-type SpecialCard implements Nameable {
-  """"""
-  effect: String!
+enum SpecialSkills {
+  """Attack multiple Cards at once<br>"""
+  RAIN
 
-  """"""
-  name: String!
+  """50% chance to avoid any attack<br>"""
+  FIRE
+
+  """Lower enemy defense -5<br>"""
+  THUNDER
 }
-
-""""""
-type Subscription {
-  """"""
-  deck: [Card!]
-}
-
-""""""
-interface Nameable {
-  """"""
-  name: String!
-}
-
-""""""
-scalar JSON
 
 """"""
 type EffectCard implements Nameable {
@@ -70,14 +58,23 @@ type EffectCard implements Nameable {
   name: String!
 }
 
+""""""
+interface Nameable {
+  """"""
+  name: String!
+}
+
+"""Stack of cards"""
+type CardStack implements Nameable {
+  """"""
+  cards: [Card!]
+
+  """"""
+  name: String!
+}
+
 """create card inputs<br>"""
 input createCard {
-  """The defense power<br>"""
-  Defense: Int!
-
-  """input skills"""
-  skills: [SpecialSkills!]
-
   """The name of a card<br>"""
   name: String!
 
@@ -89,6 +86,12 @@ input createCard {
 
   """The attack power<br>"""
   Attack: Int!
+
+  """The defense power<br>"""
+  Defense: Int!
+
+  """input skills"""
+  skills: [SpecialSkills!]
 }
 
 """Aws S3 File"""
@@ -103,20 +106,8 @@ type S3Object {
   region: String!
 }
 
-"""Stack of cards"""
-type CardStack implements Nameable {
-  """"""
-  cards: [Card!]
-
-  """"""
-  name: String!
-}
-
 """"""
-type Mutation {
-  """add Card to Cards database<br>"""
-  addCard(card: createCard!): Card!
-}
+scalar JSON
 
 """"""
 type Query {
@@ -140,19 +131,28 @@ type Query {
 }
 
 """"""
-enum SpecialSkills {
-  """50% chance to avoid any attack<br>"""
-  FIRE
+union ChangeCard = SpecialCard | EffectCard
 
-  """Lower enemy defense -5<br>"""
-  THUNDER
+""""""
+type SpecialCard implements Nameable {
+  """"""
+  effect: String!
 
-  """Attack multiple Cards at once<br>"""
-  RAIN
+  """"""
+  name: String!
 }
 
 """"""
-union ChangeCard = SpecialCard | EffectCard
+type Mutation {
+  """add Card to Cards database<br>"""
+  addCard(card: createCard!): Card!
+}
+
+""""""
+type Subscription {
+  """"""
+  deck: [Card!]
+}
 schema{
 	query: Query,
 	mutation: Mutation,
