@@ -1,6 +1,5 @@
 import { Ops, ScalarCoders } from '@/TreeToTS/functions/new/mocks';
 import { ScalarDefinition } from '@/TreeToTS/functions/new/types';
-import { VariableInput } from '@/TreeToTS/functions/new/useZeusVariables';
 
 export type AllTypesPropsType = {
   [x: string]:
@@ -55,13 +54,12 @@ export const SEPARATOR = '|';
 export type fetchOptions = Parameters<typeof fetch>;
 type websocketOptions = typeof WebSocket extends new (...args: infer R) => WebSocket ? R : never;
 export type chainOptions = [fetchOptions[0], fetchOptions[1] & { websocket?: websocketOptions }] | [fetchOptions[0]];
-export type FetchFunction = (query: string, variables?: Record<string, any>) => Promise<any>;
+export type FetchFunction = (query: string, variables?: Record<string, unknown>) => Promise<any>;
 export type SubscriptionFunction = (query: string) => any;
 type NotUndefined<T> = T extends undefined ? never : T;
 export type ResolverType<F> = NotUndefined<F extends [infer ARGS, any] ? ARGS : undefined>;
 
-export type OperationOptions<Z extends Record<string, unknown> = Record<string, unknown>> = {
-  variables?: VariableInput<Z>;
+export type OperationOptions = {
   operationName?: string;
 };
 

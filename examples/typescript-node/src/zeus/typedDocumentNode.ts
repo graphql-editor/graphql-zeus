@@ -9,6 +9,7 @@ import {
   ScalarDefinition,
   ThunderGraphQLOptions,
   Zeus,
+  ExtractVariables,
 } from './';
 import { Ops } from './const';
 
@@ -22,6 +23,5 @@ export const typedGql =
       operationOptions: ops,
       scalars: graphqlOptions?.scalars,
     });
-    const vars = ops?.variables?.values;
-    return gql(str) as TypedDocumentNode<InputType<GraphQLTypes[R], Z, SCLR>, typeof vars>;
+    return gql(str) as TypedDocumentNode<InputType<GraphQLTypes[R], Z, SCLR>, ExtractVariables<Z>>;
   };

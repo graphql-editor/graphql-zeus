@@ -1,5 +1,6 @@
 import { Chain, ZeusScalars, Selector } from '@/TreeToTS/functions/new/clientFunctions';
 import { FromSelector } from '@/TreeToTS/functions/new/types';
+import { $ } from '@/TreeToTS/functions/new/variableExtract';
 
 const cardSelector = Selector('Card')({ name: true, id: true });
 
@@ -24,6 +25,17 @@ export const test1 = async () => {
       info: true,
       name: true,
     },
+  });
+  return ch;
+};
+export const test2 = async () => {
+  const sel = Selector('Card')({
+    name: $('name', 'String!'),
+  });
+  const ch = await Chain('')('query', {
+    scalars,
+  })({
+    drawCard: sel,
   });
   return ch;
 };

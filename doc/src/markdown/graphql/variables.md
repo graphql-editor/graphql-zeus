@@ -10,16 +10,7 @@ category: GraphQL
 It's simple to perform queries with variables by using `useZeusVariables` function. It forces you to be type-safe also
 
 ```ts
-import { Gql, useZeusVariables } from './zeus';
-const variables = useZeusVariables({ Attack: 'Int!', Defense: 'Int!' })({
-  card: {
-    Attack: 2,
-    Defense: 3,
-    description: 'Lord of the mountains',
-    name: 'Golrog',
-  },
-});
-const { $ } = variables;
+import { Gql, $ } from './zeus';
 
 const addCardResult = await Gql('mutation')(
   {
@@ -44,17 +35,45 @@ const addCardResult = await Gql('mutation')(
     ],
   },
   {
-    variables,
+    variables: {
+      Attack: 2,
+      Defense: 3,
+      description: 'Lord of the mountains',
+      name: 'Golrog',
+    },
   },
 );
 ```
 
-Note: The mutation function created by the Zeus versions of React Hooks like the Apollo Client version of `useTypedMutation` can be supplied with variable values at invocation eg:
+### TypedDocumentNode + Apollo Client useQuery examples
 
-```typescript
-const [addCard, { data, loading, error }] = useTypedMutation({ ...myMutation });
+The following example demonstrates usage with Apollo. Other clients should work similarly.
 
-await addCard({
-  variables: variables.values,
+```tsx
+import { typedGql } from './zeus/typedDocumentNode';
+import { $ } from './zeus';
+import { useQuery } from '@apollo/client';
+
+const myMutation = typedGql('mutation')({
+  cardById: [{ cardId: $('cardId') }, { name: true }],
 });
+
+const Main = () => {
+  const [mutate] = useMutation(myMutation);
+  // data response is typed
+  return (
+    <div
+      onClick={() => {
+        // this are typesafe vars
+        mutate({
+          variables: {
+            cardId: 'du1hn298u1eh',
+          },
+        });
+      }}
+    >
+      Click
+    </div>
+  );
+};
 ```

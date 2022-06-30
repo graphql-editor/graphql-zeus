@@ -10,6 +10,7 @@ import { resolveReturnFromRoot } from './templates/returnedReturns';
 import { resolveTypes } from './templates/returnedTypes';
 import { default as typescriptFunctions } from './functions/generated';
 import { generateScalars } from '@/TreeToTS/templates/scalars';
+import { resolveVariableTypes } from '@/TreeToTS/templates/variableTypes';
 
 export interface OperationName {
   name: string;
@@ -61,6 +62,7 @@ export class TreeToTS {
     const unionTypes = resolveUnions(tree.nodes);
     const interfaceTypes = resolveInterfaces(tree.nodes);
     const scalarTypes = generateScalars(tree.nodes);
+    const variableTypes = resolveVariableTypes(tree.nodes);
     return interfaceTypes
       .concat('\n')
       .concat(scalarTypes)
@@ -71,7 +73,9 @@ export class TreeToTS {
       .concat('\n\n')
       .concat(modelTypes)
       .concat('\n\n')
-      .concat(rootTypes);
+      .concat(rootTypes)
+      .concat('\n\n')
+      .concat(variableTypes);
   }
   /**
    * Generate typescript file

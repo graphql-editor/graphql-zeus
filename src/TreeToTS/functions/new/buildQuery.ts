@@ -24,7 +24,13 @@ export const InternalsBuildQuery = ({
   options?: OperationOptions;
   scalars?: ScalarDefinition;
 }) => {
-  const ibb = (k: string, o: InputValueType | VType, p = '', root = true): string => {
+  const ibb = (
+    k: string,
+    o: InputValueType | VType,
+    p = '',
+    root = true,
+    vars: Array<{ name: string; graphQLType: string }> = [],
+  ): string => {
     const keyForPath = purifyGraphQLKey(k);
     const newPath = [p, keyForPath].join(SEPARATOR);
     if (!o) {
@@ -42,9 +48,9 @@ export const InternalsBuildQuery = ({
         returns,
         ops,
         scalars,
-        variables: options?.variables?.values,
+        vars,
       })(o[0], newPath);
-      return `${ibb(args ? `${k}(${args})` : k, o[1], p, false)}`;
+      return `${ibb(args ? `${k}(${args})` : k, o[1], p, false, vars)}`;
     }
     if (k === '__alias') {
       return Object.entries(o)
@@ -56,17 +62,21 @@ export const InternalsBuildQuery = ({
           }
           const operationName = Object.keys(objectUnderAlias)[0];
           const operation = objectUnderAlias[operationName];
-          return ibb(`${alias}:${operationName}`, operation, p, false);
+          return ibb(`${alias}:${operationName}`, operation, p, false, vars);
         })
         .join('\n');
     }
     const hasOperationName = root && options?.operationName ? ' ' + options.operationName : '';
-    const hasVariables = root && options?.variables?.$params ? `(${options.variables?.$params})` : '';
     const keyForDirectives = o.__directives ?? '';
-    return `${k} ${keyForDirectives}${hasOperationName}${hasVariables}{${Object.entries(o)
+    const query = `{${Object.entries(o)
       .filter(([k]) => k !== '__directives')
-      .map((e) => ibb(...e, [p, `field<>${keyForPath}`].join(SEPARATOR), false))
+      .map((e) => ibb(...e, [p, `field<>${keyForPath}`].join(SEPARATOR), false, vars))
       .join('\n')}}`;
+    if (!root) {
+      return `${k} ${keyForDirectives}${hasOperationName} ${query}`;
+    }
+    const varsString = vars.map((v) => `${v.name}: ${v.graphQLType}`).join(', ');
+    return `${k} ${keyForDirectives}${hasOperationName}${varsString ? `(${varsString})` : ''} ${query}`;
   };
   return ibb;
 };

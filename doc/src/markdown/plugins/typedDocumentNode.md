@@ -7,6 +7,10 @@ category: Plugins
 
 ## Usage with Typed Document Node
 
+```
+npm i @graphql-codegen/typed-document-node
+```
+
 Zeus can generate builders for [`TypedDocumentNode`][typed-document-node], a type-safe query
 representation understood by most GraphQL clients (including Apollo, urql etc) by adding the
 `--typedDocumentNode` or `--td` flag to the CLI.
@@ -24,33 +28,30 @@ The following example demonstrates usage with Apollo. Other clients should work 
 
 ```tsx
 import { typedGql } from './zeus/typedDocumentNode';
-import { Gql, SpecialSkills, Thunder, Zeus, InputType, Selector, GraphQLTypes, useZeusVariables } from './zeus';
+import { $ } from './zeus';
 import { useQuery } from '@apollo/client';
 
-const variables = useZeusVariables({ cardId: 'String!' })({
-  cardId: 'blabla',
+const myMutation = typedGql('mutation')({
+  cardById: [{ cardId: $('cardId') }, { name: true }],
 });
-const { $ } = variables;
-
-const myQuery = typedGql('query')(
-  {
-    drawCard: {
-      id: true,
-      Attack: true,
-      Defense: true,
-    },
-    cardById: [{ cardId: $('cardId') }, { id: true }],
-  },
-  { variables },
-);
 
 const Main = () => {
-  const { data } = useQuery(myQuery, {
-    // use those values or provide other values than default
-    variables: variables.values,
-  });
+  const [mutate] = useMutation(myMutation);
   // data response is typed
-  return <div>{data.drawCard.name}</div>;
+  return (
+    <div
+      onClick={() => {
+        // this are typesafe vars
+        mutate({
+          variables: {
+            cardId: 'du1hn298u1eh',
+          },
+        });
+      }}
+    >
+      Click
+    </div>
+  );
 };
 ```
 

@@ -1,3 +1,4 @@
+import { TYPES } from '@/TreeToTS/templates/returnedTypes/models';
 import { plusDescription } from '@/TreeToTS/templates/shared/description';
 import { toTypeScriptPrimitive } from '@/TreeToTS/templates/shared/primitive';
 import { ParserField, Options, getTypeName, FieldType } from 'graphql-js-tree';
@@ -25,11 +26,11 @@ export const resolveFieldType = (
   throw new Error('Invalid field type');
 };
 
-export const resolveField = (f: ParserField): string => {
+export const resolveField = (f: ParserField, t = TYPES): string => {
   const isNullType = (type: string): string => {
     return f.type.fieldType.type === Options.required ? `: ${type}` : `?: ${type}`;
   };
   return `${plusDescription(f.description, '\t')}\t${f.name}${isNullType(
-    resolveFieldType(toTypeScriptPrimitive(getTypeName(f.type.fieldType)), f.type.fieldType),
+    resolveFieldType(toTypeScriptPrimitive(getTypeName(f.type.fieldType), t), f.type.fieldType),
   )}`;
 };

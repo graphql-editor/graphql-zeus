@@ -6,6 +6,7 @@ import {
   ZeusArgsType,
 } from '@/TreeToTS/functions/new/models';
 import { ScalarDefinition } from '@/TreeToTS/functions/new/types';
+import { GRAPHQL_TYPE_SEPARATOR, START_VAR_NAME } from '@/TreeToTS/functions/new/variableExtract';
 
 const mapPart = (p: string) => {
   const [isArg, isField] = p.split('<>');
@@ -101,13 +102,13 @@ export const InternalArgsBuilt = ({
   ops,
   returns,
   scalars,
-  variables,
+  vars,
 }: {
   props: AllTypesPropsType;
   returns: ReturnTypesType;
   ops: Operations;
-  variables?: Record<string, unknown>;
   scalars?: ScalarDefinition;
+  vars: Array<{ name: string; graphQLType: string }>;
 }) => {
   const arb = (a: ZeusArgsType, p = '', root = true): string => {
     const checkType = ResolveFromPath(props, returns, ops)(p);
@@ -121,8 +122,22 @@ export const InternalArgsBuilt = ({
       return `[${a.map((arr) => arb(arr, p, false)).join(', ')}]`;
     }
     if (typeof a === 'string') {
-      if (a.startsWith('$') && variables?.[a.slice(1)]) {
-        return a;
+      if (a.startsWith(START_VAR_NAME)) {
+        const [varName, graphQLType] = a.replace(START_VAR_NAME, '$').split(GRAPHQL_TYPE_SEPARATOR);
+        const v = vars.find((v) => v.name === varName);
+        if (!v) {
+          vars.push({
+            name: varName,
+            graphQLType,
+          });
+        } else {
+          if (v.graphQLType !== graphQLType) {
+            throw new Error(
+              `Invalid variable exists with two different GraphQL Types, "${v.graphQLType}" and ${graphQLType}`,
+            );
+          }
+        }
+        return varName;
       }
       if (checkType === 'enum') {
         return a;

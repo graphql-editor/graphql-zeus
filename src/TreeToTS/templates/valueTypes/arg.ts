@@ -4,6 +4,8 @@ import { truthyType } from '@/TreeToTS/templates/truthy';
 import { VALUETYPES } from '@/TreeToTS/templates/valueTypes/models';
 import { ParserField, Options, getTypeName, FieldType } from 'graphql-js-tree';
 
+const orVar = (name: string) => `${name} | Variable<any, string>`;
+
 export const resolveArg = (f: ParserField): string => {
   const {
     type: { fieldType },
@@ -19,9 +21,8 @@ export const resolveArg = (f: ParserField): string => {
   };
   const typeName = getTypeName(f.type.fieldType);
   const tsp = toTypeScriptPrimitive(typeName);
-  return `${plusDescription(f.description, '\t')}\t${resolveArgsName(f.name)}${resolveValueFieldType(
-    isTypeScriptPrimitive(typeName) ? tsp : createValueType(typeName),
-    f.type.fieldType,
+  return `${plusDescription(f.description, '\t')}\t${resolveArgsName(f.name)}${orVar(
+    resolveValueFieldType(isTypeScriptPrimitive(typeName) ? tsp : createValueType(typeName), f.type.fieldType),
   )}`;
 };
 

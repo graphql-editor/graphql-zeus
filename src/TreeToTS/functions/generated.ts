@@ -104,7 +104,13 @@ export const InternalsBuildQuery = ({
   options?: OperationOptions;
   scalars?: ScalarDefinition;
 }) => {
-  const ibb = (k: string, o: InputValueType | VType, p = '', root = true): string => {
+  const ibb = (
+    k: string,
+    o: InputValueType | VType,
+    p = '',
+    root = true,
+    vars: Array<{ name: string; graphQLType: string }> = [],
+  ): string => {
     const keyForPath = purifyGraphQLKey(k);
     const newPath = [p, keyForPath].join(SEPARATOR);
     if (!o) {
@@ -122,9 +128,9 @@ export const InternalsBuildQuery = ({
         returns,
         ops,
         scalars,
-        variables: options?.variables?.values,
+        vars,
       })(o[0], newPath);
-      return \`\${ibb(args ? \`\${k}(\${args})\` : k, o[1], p, false)}\`;
+      return \`\${ibb(args ? \`\${k}(\${args})\` : k, o[1], p, false, vars)}\`;
     }
     if (k === '__alias') {
       return Object.entries(o)
@@ -136,20 +142,25 @@ export const InternalsBuildQuery = ({
           }
           const operationName = Object.keys(objectUnderAlias)[0];
           const operation = objectUnderAlias[operationName];
-          return ibb(\`\${alias}:\${operationName}\`, operation, p, false);
+          return ibb(\`\${alias}:\${operationName}\`, operation, p, false, vars);
         })
         .join('\\n');
     }
     const hasOperationName = root && options?.operationName ? ' ' + options.operationName : '';
-    const hasVariables = root && options?.variables?.$params ? \`(\${options.variables?.$params})\` : '';
     const keyForDirectives = o.__directives ?? '';
-    return \`\${k} \${keyForDirectives}\${hasOperationName}\${hasVariables}{\${Object.entries(o)
+    const query = \`{\${Object.entries(o)
       .filter(([k]) => k !== '__directives')
-      .map((e) => ibb(...e, [p, \`field<>\${keyForPath}\`].join(SEPARATOR), false))
+      .map((e) => ibb(...e, [p, \`field<>\${keyForPath}\`].join(SEPARATOR), false, vars))
       .join('\\n')}}\`;
+    if (!root) {
+      return \`\${k} \${keyForDirectives}\${hasOperationName} \${query}\`;
+    }
+    const varsString = vars.map((v) => \`\${v.name}: \${v.graphQLType}\`).join(', ');
+    return \`\${k} \${keyForDirectives}\${hasOperationName}\${varsString ? \`(\${varsString})\` : ''} \${query}\`;
   };
   return ibb;
 };
+
 
 
 
@@ -164,13 +175,13 @@ export const Thunder =
     operation: O,
     graphqlOptions?: ThunderGraphQLOptions<SCLR>,
   ) =>
-  <Z extends ValueTypes[R]>(o: Z | ValueTypes[R], ops?: OperationOptions) =>
+  <Z extends ValueTypes[R]>(o: Z | ValueTypes[R], ops?: OperationOptions & { variables?: Record<string, unknown> }) =>
     fn(
       Zeus(operation, o, {
         operationOptions: ops,
         scalars: graphqlOptions?.scalars,
       }),
-      ops?.variables?.values,
+      ops?.variables,
     ).then((data) => {
       if (graphqlOptions?.scalars) {
         return decodeScalarsInResponse({
@@ -193,7 +204,7 @@ export const SubscriptionThunder =
     operation: O,
     graphqlOptions?: ThunderGraphQLOptions<SCLR>,
   ) =>
-  <Z extends ValueTypes[R]>(o: Z | ValueTypes[R], ops?: OperationOptions) => {
+  <Z extends ValueTypes[R]>(o: Z | ValueTypes[R], ops?: OperationOptions & { variables?: ExtractVariables<Z> }) => {
     const returnedFunction = fn(
       Zeus(operation, o, {
         operationOptions: ops,
@@ -326,7 +337,6 @@ export const traverseResponse = ({
 
 
 
-
 export type AllTypesPropsType = {
   [x: string]:
     | undefined
@@ -380,13 +390,12 @@ export const SEPARATOR = '|';
 export type fetchOptions = Parameters<typeof fetch>;
 type websocketOptions = typeof WebSocket extends new (...args: infer R) => WebSocket ? R : never;
 export type chainOptions = [fetchOptions[0], fetchOptions[1] & { websocket?: websocketOptions }] | [fetchOptions[0]];
-export type FetchFunction = (query: string, variables?: Record<string, any>) => Promise<any>;
+export type FetchFunction = (query: string, variables?: Record<string, unknown>) => Promise<any>;
 export type SubscriptionFunction = (query: string) => any;
 type NotUndefined<T> = T extends undefined ? never : T;
 export type ResolverType<F> = NotUndefined<F extends [infer ARGS, any] ? ARGS : undefined>;
 
-export type OperationOptions<Z extends Record<string, unknown> = Record<string, unknown>> = {
-  variables?: VariableInput<Z>;
+export type OperationOptions = {
   operationName?: string;
 };
 
@@ -496,6 +505,7 @@ export const purifyGraphQLKey = (k: string) => k.replace(/\\([^)]*\\)/g, '').rep
 
 
 
+
 const mapPart = (p: string) => {
   const [isArg, isField] = p.split('<>');
   if (isField) {
@@ -590,17 +600,18 @@ export const InternalArgsBuilt = ({
   ops,
   returns,
   scalars,
-  variables,
+  vars,
 }: {
   props: AllTypesPropsType;
   returns: ReturnTypesType;
   ops: Operations;
-  variables?: Record<string, unknown>;
   scalars?: ScalarDefinition;
+  vars: Array<{ name: string; graphQLType: string }>;
 }) => {
   const arb = (a: ZeusArgsType, p = '', root = true): string => {
     const checkType = ResolveFromPath(props, returns, ops)(p);
     if (checkType.startsWith('scalar.')) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const [_, ...splittedScalar] = checkType.split('.');
       const scalarKey = splittedScalar.join('.');
       return (scalars?.[scalarKey]?.encode?.(a) as string) || JSON.stringify(a);
@@ -609,8 +620,22 @@ export const InternalArgsBuilt = ({
       return \`[\${a.map((arr) => arb(arr, p, false)).join(', ')}]\`;
     }
     if (typeof a === 'string') {
-      if (a.startsWith('$') && variables?.[a.slice(1)]) {
-        return a;
+      if (a.startsWith(START_VAR_NAME)) {
+        const [varName, graphQLType] = a.replace(START_VAR_NAME, '$').split(GRAPHQL_TYPE_SEPARATOR);
+        const v = vars.find((v) => v.name === varName);
+        if (!v) {
+          vars.push({
+            name: varName,
+            graphQLType,
+          });
+        } else {
+          if (v.graphQLType !== graphQLType) {
+            throw new Error(
+              \`Invalid variable exists with two different GraphQL Types, "\${v.graphQLType}" and \${graphQLType}\`,
+            );
+          }
+        }
+        return varName;
       }
       if (checkType === 'enum') {
         return a;
@@ -650,6 +675,7 @@ export const resolverFor = <X, T extends keyof ValueTypes, Z extends keyof Value
 
 
 
+
 export type UnwrapPromise<T> = T extends Promise<infer R> ? R : T;
 export type ZeusState<T extends (...args: any[]) => Promise<any>> = NonNullable<UnwrapPromise<ReturnType<T>>>;
 export type ZeusHook<
@@ -669,6 +695,7 @@ type DeepAnify<T> = {
 };
 type IsPayLoad<T> = T extends [any, infer PayLoad] ? PayLoad : T;
 export type ScalarDefinition = Record<string, ScalarResolver>;
+
 type IsScalar<S, SCLR extends ScalarDefinition> = S extends 'scalar' & { name: infer T }
   ? T extends keyof SCLR
     ? SCLR[T]['decode'] extends (s: unknown) => unknown
@@ -680,7 +707,7 @@ type IsArray<T, U, SCLR extends ScalarDefinition> = T extends Array<infer R>
   ? InputType<R, U, SCLR>[]
   : InputType<T, U, SCLR>;
 type FlattenArray<T> = T extends Array<infer R> ? R : T;
-type BaseZeusResolver = boolean | 1 | string;
+type BaseZeusResolver = boolean | 1 | string | Variable<any, string>;
 
 type IsInterfaced<SRC extends DeepAnify<DST>, DST, SCLR extends ScalarDefinition> = FlattenArray<SRC> extends
   | ZEUS_INTERFACES
@@ -739,29 +766,84 @@ export type ScalarResolver = {
 
 export type SelectionFunction<V> = <T>(t: T | V) => T;
 
+type BuiltInVariableTypes = {
+  ['String']: string;
+  ['Int']: number;
+  ['Float']: number;
+  ['ID']: unknown;
+  ['Boolean']: boolean;
+};
+type AllVariableTypes = keyof BuiltInVariableTypes | keyof ZEUS_VARIABLES;
+type VariableRequired<T extends string> = \`\${T}!\` | T | \`[\${T}]\` | \`[\${T}]!\` | \`[\${T}!]\` | \`[\${T}!]!\`;
+type VR<T extends string> = VariableRequired<VariableRequired<T>>;
 
-export const useZeusVariables =
-  <T>(variables: T) =>
-  <
-    Z extends {
-      [P in keyof T]: unknown;
-    },
-  >(
-    values: Z,
-  ) => {
-    return {
-      $params: Object.keys(variables)
-        .map((k) => \`$\${k}: \${variables[k as keyof T]}\`)
-        .join(', '),
-      $: <U extends keyof Z>(variable: U) => {
-        return \`$\${String(variable)}\` as unknown as Z[U];
-      },
-      values,
-    };
-  };
+export type GraphQLVariableType = VR<AllVariableTypes>;
 
-export type VariableInput<Z extends Record<string, unknown>> = {
-  $params: ReturnType<ReturnType<typeof useZeusVariables>>['$params'];
-  values: Z;
+type ExtractVariableTypeString<T extends string> = T extends VR<infer R1>
+  ? R1 extends VR<infer R2>
+    ? R2 extends VR<infer R3>
+      ? R3 extends VR<infer R4>
+        ? R4 extends VR<infer R5>
+          ? R5
+          : R4
+        : R3
+      : R2
+    : R1
+  : T;
+
+type DecomposeType<T, Type> = T extends \`[\${infer R}]\`
+  ? Array<DecomposeType<R, Type>> | undefined
+  : T extends \`\${infer R}!\`
+  ? NonNullable<DecomposeType<R, Type>>
+  : Type | undefined;
+
+type ExtractTypeFromGraphQLType<T extends string> = T extends keyof ZEUS_VARIABLES
+  ? ZEUS_VARIABLES[T]
+  : T extends keyof BuiltInVariableTypes
+  ? BuiltInVariableTypes[T]
+  : any;
+
+export type GetVariableType<T extends string> = DecomposeType<
+  T,
+  ExtractTypeFromGraphQLType<ExtractVariableTypeString<T>>
+>;
+
+type UndefinedKeys<T> = {
+  [K in keyof T]-?: T[K] extends NonNullable<T[K]> ? never : K;
+}[keyof T];
+
+type WithNullableKeys<T> = Pick<T, UndefinedKeys<T>>;
+type WithNonNullableKeys<T> = Omit<T, UndefinedKeys<T>>;
+
+type OptionalKeys<T> = {
+  [P in keyof T]?: T[P];
+};
+
+export type WithOptionalNullables<T> = OptionalKeys<WithNullableKeys<T>> & WithNonNullableKeys<T>;
+
+
+
+
+export type Variable<T extends GraphQLVariableType, Name extends string> = {
+  ' __zeus_name': Name;
+  ' __zeus_type': T;
+};
+
+export type ExtractVariables<Query> = Query extends Variable<infer VType, infer VName>
+  ? { [key in VName]: GetVariableType<VType> }
+  : Query extends [infer Inputs, infer Outputs]
+  ? ExtractVariables<Inputs> & ExtractVariables<Outputs>
+  : Query extends string | number | boolean
+  ? // eslint-disable-next-line @typescript-eslint/ban-types
+    {}
+  : UnionToIntersection<{ [K in keyof Query]: WithOptionalNullables<ExtractVariables<Query[K]>> }[keyof Query]>;
+
+type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (k: infer I) => void ? I : never;
+
+export const START_VAR_NAME = \`$ZEUS_VAR\`;
+export const GRAPHQL_TYPE_SEPARATOR = \`__$GRAPHQL__\`;
+
+export const $ = <Type extends GraphQLVariableType, Name extends string>(name: Name, graphqlType: Type) => {
+  return (START_VAR_NAME + name + GRAPHQL_TYPE_SEPARATOR + graphqlType) as unknown as Variable<Type, Name>;
 };
 `;

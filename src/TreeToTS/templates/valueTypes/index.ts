@@ -5,7 +5,6 @@ import { plusDescription } from '@/TreeToTS/templates/shared/description';
 import { VALUETYPES } from '@/TreeToTS/templates/valueTypes/models';
 
 const AliasType = (code: string): string => `AliasType<${code}>`;
-
 const resolveValueTypeFromRoot = (i: ParserField, rootNodes: ParserField[], enumsAndScalars: string[]): string => {
   if (!i.args || !i.args.length) {
     return `["${i.name}"]:unknown`;

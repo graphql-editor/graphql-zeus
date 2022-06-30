@@ -1,6 +1,6 @@
 import { InternalsBuildQuery } from '@/TreeToTS/functions/new/buildQuery';
 import { AllTypesProps, Ops, ReturnTypes } from '@/TreeToTS/functions/new/mocks';
-import { useZeusVariables } from '@/TreeToTS/functions/new/useZeusVariables';
+import { $ } from '@/TreeToTS/functions/new/variableExtract';
 import { replSpace } from '@/__tests__/TestUtils';
 
 const builder = InternalsBuildQuery({ props: AllTypesProps, returns: ReturnTypes, ops: Ops });
@@ -99,23 +99,17 @@ describe('Test generated function buildQuery', () => {
     }`);
   });
   test('Query with arguments and variables', () => {
-    const variables = useZeusVariables({ id: 'String!' })({
-      id: 'a1',
-    });
     const builder = InternalsBuildQuery({
       props: AllTypesProps,
       returns: ReturnTypes,
       ops: Ops,
-      options: {
-        variables,
-      },
+      options: {},
     });
-    const { $ } = variables;
     const matchExact = replSpace(
       builder('query', {
         cardById: [
           {
-            id: $('id'),
+            id: $('id', 'String!'),
             name: 'blabla',
             age: 123,
             me: true,

@@ -8,4 +8,4 @@ const typeScriptMap: Record<string, string> = {
   String: 'string',
 };
 export const isTypeScriptPrimitive = (a: string) => !!typeScriptMap[a];
-export const toTypeScriptPrimitive = (a: string): string => typeScriptMap[a] || `${TYPES}["${a}"]`;
+export const toTypeScriptPrimitive = (a: string, t = TYPES): string => typeScriptMap[a] || `${t}["${a}"]`;

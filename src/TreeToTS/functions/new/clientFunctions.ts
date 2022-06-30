@@ -22,6 +22,7 @@ import {
   VType,
 } from '@/TreeToTS/functions/new/models';
 import { InputType, ScalarDefinition, SelectionFunction, SubscriptionToGraphQL } from '@/TreeToTS/functions/new/types';
+import { ExtractVariables } from '@/TreeToTS/functions/new/variableExtract';
 
 export const Thunder =
   (fn: FetchFunction) =>
@@ -29,13 +30,13 @@ export const Thunder =
     operation: O,
     graphqlOptions?: ThunderGraphQLOptions<SCLR>,
   ) =>
-  <Z extends ValueTypes[R]>(o: Z | ValueTypes[R], ops?: OperationOptions) =>
+  <Z extends ValueTypes[R]>(o: Z | ValueTypes[R], ops?: OperationOptions & { variables?: Record<string, unknown> }) =>
     fn(
       Zeus(operation, o, {
         operationOptions: ops,
         scalars: graphqlOptions?.scalars,
       }),
-      ops?.variables?.values,
+      ops?.variables,
     ).then((data) => {
       if (graphqlOptions?.scalars) {
         return decodeScalarsInResponse({
@@ -58,7 +59,7 @@ export const SubscriptionThunder =
     operation: O,
     graphqlOptions?: ThunderGraphQLOptions<SCLR>,
   ) =>
-  <Z extends ValueTypes[R]>(o: Z | ValueTypes[R], ops?: OperationOptions) => {
+  <Z extends ValueTypes[R]>(o: Z | ValueTypes[R], ops?: OperationOptions & { variables?: ExtractVariables<Z> }) => {
     const returnedFunction = fn(
       Zeus(operation, o, {
         operationOptions: ops,

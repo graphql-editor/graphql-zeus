@@ -8,24 +8,41 @@ import {
   InputType,
   Selector,
   GraphQLTypes,
-  useZeusVariables,
   ZeusScalars,
+  ValueTypes,
+  $,
 } from './zeus';
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloClient, InMemoryCache, useMutation } from '@apollo/client';
 import { typedGql } from './zeus/typedDocumentNode';
 
+const client = new ApolloClient({
+  cache: new InMemoryCache(),
+});
+
+export const useMyMutation = () => {
+  return ({ card }: { card: ValueTypes['createCard'] }) =>
+    client.mutate({
+      mutation: typedGql('mutation')({
+        addCard: [{ card }, { id: true }],
+      }),
+    });
+};
+
 export const testMutate = () => {
-  const client = new ApolloClient({
-    cache: new InMemoryCache(),
+  const [mutate] = useMutation(
+    typedGql('mutation')({
+      addCard: [
+        { card: { Attack: $('attt', 'Int'), Defense: 2, name: $('name', 'String!'), description: 'Stronk' } },
+        { id: true },
+      ],
+    }),
+  );
+  mutate({
+    variables: {
+      name: 'DDD',
+      attt: 1,
+    },
   });
-  const td = typedGql('mutation')({
-    addCard: [{ card: { Attack: 1, Defense: 2, name: 'Pokemon', description: 'Stronk' } }, { id: true }],
-  });
-  client
-    .mutate({
-      mutation: td,
-    })
-    .then((data) => data.data?.addCard?.id);
 };
 
 const sel = Selector('Query')({
@@ -220,7 +237,6 @@ const run = async () => {
     },
   );
   printGQLString('operationName ListCards', operationName);
-  const { $, values, $params } = useZeusVariables({ cardIds: '[String!]!' })({ cardIds: ['1', '2'] });
   const aliasedQueryExecute = await Gql('query')(
     {
       listCards: {
@@ -230,7 +246,7 @@ const run = async () => {
           },
           atak: {
             attack: [
-              { cardID: $('cardIds') },
+              { cardID: $('cardIds', '[String!]!') },
               {
                 name: true,
                 __alias: {
@@ -250,8 +266,7 @@ const run = async () => {
     },
     {
       variables: {
-        $params,
-        values,
+        cardIds: ['aaa'],
       },
     },
   );
@@ -307,18 +322,14 @@ const run = async () => {
 
   printQueryResult('interfaceTest', interfaceTest);
   // Variable test
-  const mutationVars = useZeusVariables({ Attack: 'Int!', Defense: 'Int!' })({
-    Attack: 1,
-    Defense: 10,
-  });
 
   const test = await Gql('mutation')(
     {
       addCard: [
         {
           card: {
-            Attack: mutationVars.$('Attack'),
-            Defense: mutationVars.$('Defense'),
+            Attack: $('Attack', 'Int!'),
+            Defense: $('Defense', 'Int!'),
             name: 'aa',
             description: 'aa',
           },
@@ -340,14 +351,10 @@ const run = async () => {
       ],
     },
     {
-      variables: mutationVars,
+      variables: { Attack: 1, Defense: 1 },
     },
   );
   printQueryResult('variable Test', test);
-
-  const zeusTDDVars = useZeusVariables({ cardId: 'String!' })({
-    cardId: 'blabla',
-  });
 
   const selectorTDD = Selector('Query')({
     drawCard: {
@@ -355,10 +362,10 @@ const run = async () => {
       Attack: true,
       Defense: true,
     },
-    cardById: [{ cardId: zeusTDDVars.$('cardId') }, { id: true }],
+    cardById: [{ cardId: $('cardId', 'String!') }, { id: true }],
   });
 
-  const generatedTypedDocumentNode = typedGql('query')(selectorTDD, { variables: zeusTDDVars });
+  const generatedTypedDocumentNode = typedGql('query')(selectorTDD);
   printQueryResult('Generated TypedDocumentNode Test', generatedTypedDocumentNode);
 };
 run();

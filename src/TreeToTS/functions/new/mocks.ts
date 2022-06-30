@@ -1,5 +1,6 @@
 import { chainOptions, FetchFunction, SubscriptionFunction } from '@/TreeToTS/functions/new/models';
 import { AliasType, ScalarResolver } from '@/TreeToTS/functions/new/types';
+import { Variable } from '@/TreeToTS/functions/new/variableExtract';
 
 export const AllTypesProps = {
   Query: {
@@ -49,36 +50,41 @@ export const Ops = {
 
 export type ZEUS_INTERFACES = GraphQLTypes['Nameable'];
 export type ZEUS_UNIONS = GraphQLTypes['ChangeCard'];
+export type ZEUS_VARIABLES = {
+  ['createCard']: ValueTypes['createCard'];
+  ['JSON']: ValueTypes['JSON'];
+};
 
 export type ValueTypes = {
   ['Nameable']: AliasType<{
-    name?: boolean;
+    name?: boolean | Variable<any, string>;
     ['...on EffectCard']?: Omit<ValueTypes['EffectCard'], keyof ValueTypes['Nameable']>;
     ['...on Card']?: Omit<ValueTypes['Card'], keyof ValueTypes['Nameable']>;
     ['...on SpecialCard']?: Omit<ValueTypes['SpecialCard'], keyof ValueTypes['Nameable']>;
     ['...on CardStack']?: Omit<ValueTypes['CardStack'], keyof ValueTypes['Nameable']>;
-    __typename?: boolean;
+    __typename?: boolean | Variable<any, string>;
   }>;
+  ['JSON']: 'unknown';
   /** Aws S3 File */
   ['S3Object']: AliasType<{
-    bucket?: boolean;
-    key?: boolean;
-    region?: boolean;
-    __typename?: boolean;
+    bucket?: boolean | Variable<any, string>;
+    key?: boolean | Variable<any, string>;
+    region?: boolean | Variable<any, string>;
+    __typename?: boolean | Variable<any, string>;
   }>;
   ['ChangeCard']: AliasType<{
     ['...on SpecialCard']: ValueTypes['SpecialCard'];
     ['...on EffectCard']: ValueTypes['EffectCard'];
-    __typename?: boolean;
+    __typename?: boolean | Variable<any, string>;
   }>;
   ['EffectCard']: AliasType<{
-    effectSize?: boolean;
-    name?: boolean;
-    __typename?: boolean;
+    effectSize?: boolean | Variable<any, string>;
+    name?: boolean | Variable<any, string>;
+    __typename?: boolean | Variable<any, string>;
   }>;
   ['Subscription']: AliasType<{
     deck?: ValueTypes['Card'];
-    __typename?: boolean;
+    __typename?: boolean | Variable<any, string>;
   }>;
   ['Query']: AliasType<{
     cardById?: [{ cardId?: string | undefined | null }, ValueTypes['Card']];
@@ -89,16 +95,16 @@ export type ValueTypes = {
     listCards?: ValueTypes['Card'];
     myStacks?: ValueTypes['CardStack'];
     nameables?: ValueTypes['Nameable'];
-    __typename?: boolean;
+    __typename?: boolean | Variable<any, string>;
   }>;
   /** Card used in card game<br> */
   ['Card']: AliasType<{
     /** The attack power<br> */
-    Attack?: boolean;
+    Attack?: boolean | Variable<any, string>;
     /** <div>How many children the greek god had</div> */
-    Children?: boolean;
+    Children?: boolean | Variable<any, string>;
     /** The defense power<br> */
-    Defense?: boolean;
+    Defense?: boolean | Variable<any, string>;
     attack?: [
       {
         /** Attacked card/card ids<br> */ cardID: string[] | undefined | null;
@@ -108,30 +114,30 @@ export type ValueTypes = {
     /** Put your description here */
     cardImage?: ValueTypes['S3Object'];
     /** Description of a card<br> */
-    description?: boolean;
-    id?: boolean;
-    image?: boolean;
-    info?: boolean;
+    description?: boolean | Variable<any, string>;
+    id?: boolean | Variable<any, string>;
+    image?: boolean | Variable<any, string>;
+    info?: boolean | Variable<any, string>;
     /** The name of a card<br> */
-    name?: boolean;
-    skills?: boolean;
-    __typename?: boolean;
+    name?: boolean | Variable<any, string>;
+    skills?: boolean | Variable<any, string>;
+    __typename?: boolean | Variable<any, string>;
   }>;
   ['SpecialSkills']: SpecialSkills;
   ['SpecialCard']: AliasType<{
-    effect?: boolean;
-    name?: boolean;
-    __typename?: boolean;
+    effect?: boolean | Variable<any, string>;
+    name?: boolean | Variable<any, string>;
+    __typename?: boolean | Variable<any, string>;
   }>;
   ['Mutation']: AliasType<{
     addCard?: [{ card: ValueTypes['createCard'] }, ValueTypes['Card']];
-    __typename?: boolean;
+    __typename?: boolean | Variable<any, string>;
   }>;
   /** Stack of cards */
   ['CardStack']: AliasType<{
     cards?: ValueTypes['Card'];
-    name?: boolean;
-    __typename?: boolean;
+    name?: boolean | Variable<any, string>;
+    __typename?: boolean | Variable<any, string>;
   }>;
   /** create card inputs<br> */
   ['createCard']: {
