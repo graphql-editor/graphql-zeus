@@ -22,14 +22,14 @@ $ zeus https://yourschema.com/graphql ./  --typedDocumentNode
 # typedDocumentNode.ts file with typed document node builders is now in the output destination
 ```
 
-### TypedDocumentNode + Apollo Client useQuery examples
+### TypedDocumentNode + Apollo Client useMutation examples
 
 The following example demonstrates usage with Apollo. Other clients should work similarly.
 
 ```tsx
 import { typedGql } from './zeus/typedDocumentNode';
 import { $ } from './zeus';
-import { useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 
 const myMutation = typedGql('mutation')({
   cardById: [{ cardId: $('cardId', 'String!') }, { name: true }],

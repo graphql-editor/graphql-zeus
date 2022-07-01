@@ -45,17 +45,17 @@ const addCardResult = await Gql('mutation')(
 );
 ```
 
-### TypedDocumentNode + Apollo Client useQuery examples
+### TypedDocumentNode + Apollo Client useMutation examples
 
 The following example demonstrates usage with Apollo. Other clients should work similarly.
 
 ```tsx
 import { typedGql } from './zeus/typedDocumentNode';
 import { $ } from './zeus';
-import { useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 
 const myMutation = typedGql('mutation')({
-  cardById: [{ cardId: $('cardId') }, { name: true }],
+  cardById: [{ cardId: $('cardId', 'String!') }, { name: true }],
 });
 
 const Main = () => {
@@ -77,3 +77,5 @@ const Main = () => {
   );
 };
 ```
+
+[typed-document-node]: https://www.graphql-code-generator.com/plugins/typed-document-node
