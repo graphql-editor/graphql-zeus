@@ -33,7 +33,9 @@ const resolveTypeFromRoot = (i: ParserField, rootNodes: ParserField[]): string =
       .map((f) => resolveField(f, MODEL_TYPES))
       .join(',\n')}\n}`;
   }
-  return `${plusDescription(i.description)}["${i.name}"]: {\n\t${i.args.map((f) => resolveField(f)).join(',\n')}\n}`;
+  return `${plusDescription(i.description)}["${i.name}"]: {\n\t${i.args
+    .map((f) => resolveField(f, MODEL_TYPES))
+    .join(',\n')}\n}`;
 };
 export const resolveModelTypes = (rootNodes: ParserField[]): string => {
   return `export type ${MODEL_TYPES} = {

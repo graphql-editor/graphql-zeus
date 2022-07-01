@@ -1,29 +1,65 @@
 /* eslint-disable */
 
 export const AllTypesProps: Record<string,any> = {
-	Card:{
-		attack:{
-
-		}
-	},
-	SpecialSkills: "enum" as const,
-	createCard:{
-		skills:"SpecialSkills"
-	},
-	JSON: `scalar.JSON` as const,
 	Query:{
 		cardById:{
 
 		}
 	},
+	JSON: `scalar.JSON` as const,
 	Mutation:{
 		addCard:{
 			card:"createCard"
 		}
-	}
+	},
+	createCard:{
+		skills:"SpecialSkills"
+	},
+	Card:{
+		attack:{
+
+		}
+	},
+	SpecialSkills: "enum" as const
 }
 
 export const ReturnTypes: Record<string,any> = {
+	Query:{
+		cardById:"Card",
+		drawCard:"Card",
+		drawChangeCard:"ChangeCard",
+		listCards:"Card",
+		myStacks:"CardStack",
+		nameables:"Nameable"
+	},
+	JSON: `scalar.JSON` as const,
+	Nameable:{
+		"...on EffectCard": "EffectCard",
+		"...on CardStack": "CardStack",
+		"...on Card": "Card",
+		"...on SpecialCard": "SpecialCard",
+		name:"String"
+	},
+	S3Object:{
+		bucket:"String",
+		key:"String",
+		region:"String"
+	},
+	ChangeCard:{
+		"...on SpecialCard":"SpecialCard",
+		"...on EffectCard":"EffectCard"
+	},
+	EffectCard:{
+		effectSize:"Float",
+		name:"String"
+	},
+	Mutation:{
+		addCard:"Card"
+	},
+	CardStack:{
+		cards:"Card",
+		name:"String"
+	},
 	Card:{
 		Attack:"Int",
 		Children:"Int",
@@ -37,45 +73,9 @@ export const ReturnTypes: Record<string,any> = {
 		name:"String",
 		skills:"SpecialSkills"
 	},
-	EffectCard:{
-		effectSize:"Float",
-		name:"String"
-	},
-	Nameable:{
-		"...on Card": "Card",
-		"...on EffectCard": "EffectCard",
-		"...on CardStack": "CardStack",
-		"...on SpecialCard": "SpecialCard",
-		name:"String"
-	},
-	CardStack:{
-		cards:"Card",
-		name:"String"
-	},
-	S3Object:{
-		bucket:"String",
-		key:"String",
-		region:"String"
-	},
-	JSON: `scalar.JSON` as const,
-	Query:{
-		cardById:"Card",
-		drawCard:"Card",
-		drawChangeCard:"ChangeCard",
-		listCards:"Card",
-		myStacks:"CardStack",
-		nameables:"Nameable"
-	},
-	ChangeCard:{
-		"...on SpecialCard":"SpecialCard",
-		"...on EffectCard":"EffectCard"
-	},
 	SpecialCard:{
 		effect:"String",
 		name:"String"
-	},
-	Mutation:{
-		addCard:"Card"
 	},
 	Subscription:{
 		deck:"Card"
