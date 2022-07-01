@@ -32,7 +32,7 @@ import { $ } from './zeus';
 import { useQuery } from '@apollo/client';
 
 const myMutation = typedGql('mutation')({
-  cardById: [{ cardId: $('cardId') }, { name: true }],
+  cardById: [{ cardId: $('cardId', 'String!') }, { name: true }],
 });
 
 const Main = () => {
