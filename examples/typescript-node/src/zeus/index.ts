@@ -674,11 +674,11 @@ export const InternalArgsBuilt = ({
 
 
 
-export const resolverFor = <X, T extends keyof ValueTypes, Z extends keyof ValueTypes[T]>(
+export const resolverFor = <X, T extends keyof ResolverInputTypes, Z extends keyof ResolverInputTypes[T]>(
   type: T,
   field: Z,
   fn: (
-    args: Required<ValueTypes[T]>[Z] extends [infer Input, any] ? Input : any,
+    args: Required<ResolverInputTypes[T]>[Z] extends [infer Input, any] ? Input : any,
     source: any,
   ) => Z extends keyof ModelTypes[T] ? ModelTypes[T][Z] | Promise<ModelTypes[T][Z]> | X : any,
 ) => fn as (args?: any, source?: any) => any;
@@ -865,7 +865,45 @@ export type ScalarCoders = {
 type ZEUS_UNIONS = GraphQLTypes["ChangeCard"]
 
 export type ValueTypes = {
-    ["Query"]: AliasType<{
+    /** Stack of cards */
+["CardStack"]: AliasType<{
+	cards?:ValueTypes["Card"],
+	name?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["Mutation"]: AliasType<{
+addCard?: [{	card: ValueTypes["createCard"] | Variable<any, string>},ValueTypes["Card"]],
+		__typename?: boolean | `@${string}`
+}>;
+	/** create card inputs<br> */
+["createCard"]: {
+	/** The name of a card<br> */
+	name: string | Variable<any, string>,
+	/** Description of a card<br> */
+	description: string | Variable<any, string>,
+	/** <div>How many children the greek god had</div> */
+	Children?: number | undefined | null | Variable<any, string>,
+	/** The attack power<br> */
+	Attack: number | Variable<any, string>,
+	/** The defense power<br> */
+	Defense: number | Variable<any, string>,
+	/** input skills */
+	skills?: Array<ValueTypes["SpecialSkills"]> | undefined | null | Variable<any, string>
+};
+	/** Aws S3 File */
+["S3Object"]: AliasType<{
+	bucket?:boolean | `@${string}`,
+	key?:boolean | `@${string}`,
+	region?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["JSON"]:unknown;
+	["EffectCard"]: AliasType<{
+	effectSize?:boolean | `@${string}`,
+	name?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["Query"]: AliasType<{
 cardById?: [{	cardId?: string | undefined | null | Variable<any, string>},ValueTypes["Card"]],
 	/** Draw a card<br> */
 	drawCard?:ValueTypes["Card"],
@@ -876,56 +914,19 @@ cardById?: [{	cardId?: string | undefined | null | Variable<any, string>},ValueT
 	nameables?:ValueTypes["Nameable"],
 		__typename?: boolean | `@${string}`
 }>;
-	["JSON"]:unknown;
 	["Nameable"]:AliasType<{
 		name?:boolean | `@${string}`;
-		['...on EffectCard']?: Omit<ValueTypes["EffectCard"],keyof ValueTypes["Nameable"]>;
 		['...on CardStack']?: Omit<ValueTypes["CardStack"],keyof ValueTypes["Nameable"]>;
+		['...on EffectCard']?: Omit<ValueTypes["EffectCard"],keyof ValueTypes["Nameable"]>;
 		['...on Card']?: Omit<ValueTypes["Card"],keyof ValueTypes["Nameable"]>;
 		['...on SpecialCard']?: Omit<ValueTypes["SpecialCard"],keyof ValueTypes["Nameable"]>;
 		__typename?: boolean | `@${string}`
 }>;
-	/** Aws S3 File */
-["S3Object"]: AliasType<{
-	bucket?:boolean | `@${string}`,
-	key?:boolean | `@${string}`,
-	region?:boolean | `@${string}`,
+	["Subscription"]: AliasType<{
+	deck?:ValueTypes["Card"],
 		__typename?: boolean | `@${string}`
 }>;
-	["ChangeCard"]: AliasType<{		["...on SpecialCard"] : ValueTypes["SpecialCard"],
-		["...on EffectCard"] : ValueTypes["EffectCard"]
-		__typename?: boolean | `@${string}`
-}>;
-	["EffectCard"]: AliasType<{
-	effectSize?:boolean | `@${string}`,
-	name?:boolean | `@${string}`,
-		__typename?: boolean | `@${string}`
-}>;
-	["Mutation"]: AliasType<{
-addCard?: [{	card: ValueTypes["createCard"] | Variable<any, string>},ValueTypes["Card"]],
-		__typename?: boolean | `@${string}`
-}>;
-	/** create card inputs<br> */
-["createCard"]: {
-	/** The attack power<br> */
-	Attack: number | Variable<any, string>,
-	/** The defense power<br> */
-	Defense: number | Variable<any, string>,
-	/** input skills */
-	skills?: Array<ValueTypes["SpecialSkills"]> | undefined | null | Variable<any, string>,
-	/** The name of a card<br> */
-	name: string | Variable<any, string>,
-	/** Description of a card<br> */
-	description: string | Variable<any, string>,
-	/** <div>How many children the greek god had</div> */
-	Children?: number | undefined | null | Variable<any, string>
-};
-	/** Stack of cards */
-["CardStack"]: AliasType<{
-	cards?:ValueTypes["Card"],
-	name?:boolean | `@${string}`,
-		__typename?: boolean | `@${string}`
-}>;
+	["SpecialSkills"]:SpecialSkills;
 	/** Card used in card game<br> */
 ["Card"]: AliasType<{
 	/** The attack power<br> */
@@ -948,20 +949,151 @@ attack?: [{	/** Attacked card/card ids<br> */
 	skills?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
+	["ChangeCard"]: AliasType<{		["...on SpecialCard"] : ValueTypes["SpecialCard"],
+		["...on EffectCard"] : ValueTypes["EffectCard"]
+		__typename?: boolean | `@${string}`
+}>;
 	["SpecialCard"]: AliasType<{
 	effect?:boolean | `@${string}`,
 	name?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
-}>;
-	["Subscription"]: AliasType<{
-	deck?:ValueTypes["Card"],
+}>
+  }
+
+export type ResolverInputTypes = {
+    /** Stack of cards */
+["CardStack"]: AliasType<{
+	cards?:ResolverInputTypes["Card"],
+	name?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
-	["SpecialSkills"]:SpecialSkills
+	["Mutation"]: AliasType<{
+addCard?: [{	card: ResolverInputTypes["createCard"]},ResolverInputTypes["Card"]],
+		__typename?: boolean | `@${string}`
+}>;
+	/** create card inputs<br> */
+["createCard"]: {
+	/** The name of a card<br> */
+	name: string,
+	/** Description of a card<br> */
+	description: string,
+	/** <div>How many children the greek god had</div> */
+	Children?: number | undefined | null,
+	/** The attack power<br> */
+	Attack: number,
+	/** The defense power<br> */
+	Defense: number,
+	/** input skills */
+	skills?: Array<ResolverInputTypes["SpecialSkills"]> | undefined | null
+};
+	/** Aws S3 File */
+["S3Object"]: AliasType<{
+	bucket?:boolean | `@${string}`,
+	key?:boolean | `@${string}`,
+	region?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["JSON"]:unknown;
+	["EffectCard"]: AliasType<{
+	effectSize?:boolean | `@${string}`,
+	name?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["Query"]: AliasType<{
+cardById?: [{	cardId?: string | undefined | null},ResolverInputTypes["Card"]],
+	/** Draw a card<br> */
+	drawCard?:ResolverInputTypes["Card"],
+	drawChangeCard?:ResolverInputTypes["ChangeCard"],
+	/** list All Cards availble<br> */
+	listCards?:ResolverInputTypes["Card"],
+	myStacks?:ResolverInputTypes["CardStack"],
+	nameables?:ResolverInputTypes["Nameable"],
+		__typename?: boolean | `@${string}`
+}>;
+	["Nameable"]:AliasType<{
+		name?:boolean | `@${string}`;
+		['...on CardStack']?: Omit<ResolverInputTypes["CardStack"],keyof ResolverInputTypes["Nameable"]>;
+		['...on EffectCard']?: Omit<ResolverInputTypes["EffectCard"],keyof ResolverInputTypes["Nameable"]>;
+		['...on Card']?: Omit<ResolverInputTypes["Card"],keyof ResolverInputTypes["Nameable"]>;
+		['...on SpecialCard']?: Omit<ResolverInputTypes["SpecialCard"],keyof ResolverInputTypes["Nameable"]>;
+		__typename?: boolean | `@${string}`
+}>;
+	["Subscription"]: AliasType<{
+	deck?:ResolverInputTypes["Card"],
+		__typename?: boolean | `@${string}`
+}>;
+	["SpecialSkills"]:SpecialSkills;
+	/** Card used in card game<br> */
+["Card"]: AliasType<{
+	/** The attack power<br> */
+	Attack?:boolean | `@${string}`,
+	/** <div>How many children the greek god had</div> */
+	Children?:boolean | `@${string}`,
+	/** The defense power<br> */
+	Defense?:boolean | `@${string}`,
+attack?: [{	/** Attacked card/card ids<br> */
+	cardID: Array<string>},ResolverInputTypes["Card"]],
+	/** Put your description here */
+	cardImage?:ResolverInputTypes["S3Object"],
+	/** Description of a card<br> */
+	description?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	image?:boolean | `@${string}`,
+	info?:boolean | `@${string}`,
+	/** The name of a card<br> */
+	name?:boolean | `@${string}`,
+	skills?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["ChangeCard"]: AliasType<{
+	SpecialCard?:ResolverInputTypes["SpecialCard"],
+	EffectCard?:ResolverInputTypes["EffectCard"],
+		__typename?: boolean | `@${string}`
+}>;
+	["SpecialCard"]: AliasType<{
+	effect?:boolean | `@${string}`,
+	name?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>
   }
 
 export type ModelTypes = {
-    ["Query"]: {
+    /** Stack of cards */
+["CardStack"]: {
+		cards?: Array<ModelTypes["Card"]> | undefined,
+	name: string
+};
+	["Mutation"]: {
+		/** add Card to Cards database<br> */
+	addCard: ModelTypes["Card"]
+};
+	/** create card inputs<br> */
+["createCard"]: {
+	/** The name of a card<br> */
+	name: string,
+	/** Description of a card<br> */
+	description: string,
+	/** <div>How many children the greek god had</div> */
+	Children?: number | undefined,
+	/** The attack power<br> */
+	Attack: number,
+	/** The defense power<br> */
+	Defense: number,
+	/** input skills */
+	skills?: Array<ModelTypes["SpecialSkills"]> | undefined
+};
+	/** Aws S3 File */
+["S3Object"]: {
+		bucket: string,
+	key: string,
+	region: string
+};
+	["JSON"]:any;
+	["EffectCard"]: {
+		effectSize: number,
+	name: string
+};
+	["Query"]: {
 		cardById?: ModelTypes["Card"] | undefined,
 	/** Draw a card<br> */
 	drawCard: ModelTypes["Card"],
@@ -971,43 +1103,11 @@ export type ModelTypes = {
 	myStacks?: Array<ModelTypes["CardStack"]> | undefined,
 	nameables: Array<ModelTypes["Nameable"]>
 };
-	["JSON"]:any;
-	["Nameable"]: ModelTypes["EffectCard"] | ModelTypes["CardStack"] | ModelTypes["Card"] | ModelTypes["SpecialCard"];
-	/** Aws S3 File */
-["S3Object"]: {
-		bucket: string,
-	key: string,
-	region: string
+	["Nameable"]: ModelTypes["CardStack"] | ModelTypes["EffectCard"] | ModelTypes["Card"] | ModelTypes["SpecialCard"];
+	["Subscription"]: {
+		deck?: Array<ModelTypes["Card"]> | undefined
 };
-	["ChangeCard"]:ModelTypes["SpecialCard"] | ModelTypes["EffectCard"];
-	["EffectCard"]: {
-		effectSize: number,
-	name: string
-};
-	["Mutation"]: {
-		/** add Card to Cards database<br> */
-	addCard: ModelTypes["Card"]
-};
-	/** create card inputs<br> */
-["createCard"]: {
-	/** The attack power<br> */
-	Attack: number,
-	/** The defense power<br> */
-	Defense: number,
-	/** input skills */
-	skills?: Array<ModelTypes["SpecialSkills"]> | undefined,
-	/** The name of a card<br> */
-	name: string,
-	/** Description of a card<br> */
-	description: string,
-	/** <div>How many children the greek god had</div> */
-	Children?: number | undefined
-};
-	/** Stack of cards */
-["CardStack"]: {
-		cards?: Array<ModelTypes["Card"]> | undefined,
-	name: string
-};
+	["SpecialSkills"]:SpecialSkills;
 	/** Card used in card game<br> */
 ["Card"]: {
 		/** The attack power<br> */
@@ -1029,18 +1129,54 @@ export type ModelTypes = {
 	name: string,
 	skills?: Array<ModelTypes["SpecialSkills"]> | undefined
 };
+	["ChangeCard"]:ModelTypes["SpecialCard"] | ModelTypes["EffectCard"];
 	["SpecialCard"]: {
 		effect: string,
 	name: string
-};
-	["Subscription"]: {
-		deck?: Array<ModelTypes["Card"]> | undefined
-};
-	["SpecialSkills"]:SpecialSkills
+}
     }
 
 export type GraphQLTypes = {
-    ["Query"]: {
+    /** Stack of cards */
+["CardStack"]: {
+	__typename: "CardStack",
+	cards?: Array<GraphQLTypes["Card"]> | undefined,
+	name: string
+};
+	["Mutation"]: {
+	__typename: "Mutation",
+	/** add Card to Cards database<br> */
+	addCard: GraphQLTypes["Card"]
+};
+	/** create card inputs<br> */
+["createCard"]: {
+		/** The name of a card<br> */
+	name: string,
+	/** Description of a card<br> */
+	description: string,
+	/** <div>How many children the greek god had</div> */
+	Children?: number | undefined,
+	/** The attack power<br> */
+	Attack: number,
+	/** The defense power<br> */
+	Defense: number,
+	/** input skills */
+	skills?: Array<GraphQLTypes["SpecialSkills"]> | undefined
+};
+	/** Aws S3 File */
+["S3Object"]: {
+	__typename: "S3Object",
+	bucket: string,
+	key: string,
+	region: string
+};
+	["JSON"]: "scalar" & { name: "JSON" };
+	["EffectCard"]: {
+	__typename: "EffectCard",
+	effectSize: number,
+	name: string
+};
+	["Query"]: {
 	__typename: "Query",
 	cardById?: GraphQLTypes["Card"] | undefined,
 	/** Draw a card<br> */
@@ -1051,58 +1187,19 @@ export type GraphQLTypes = {
 	myStacks?: Array<GraphQLTypes["CardStack"]> | undefined,
 	nameables: Array<GraphQLTypes["Nameable"]>
 };
-	["JSON"]: "scalar" & { name: "JSON" };
 	["Nameable"]: {
-	__typename:"EffectCard" | "CardStack" | "Card" | "SpecialCard",
+	__typename:"CardStack" | "EffectCard" | "Card" | "SpecialCard",
 	name: string
-	['...on EffectCard']: '__union' & GraphQLTypes["EffectCard"];
 	['...on CardStack']: '__union' & GraphQLTypes["CardStack"];
+	['...on EffectCard']: '__union' & GraphQLTypes["EffectCard"];
 	['...on Card']: '__union' & GraphQLTypes["Card"];
 	['...on SpecialCard']: '__union' & GraphQLTypes["SpecialCard"];
 };
-	/** Aws S3 File */
-["S3Object"]: {
-	__typename: "S3Object",
-	bucket: string,
-	key: string,
-	region: string
+	["Subscription"]: {
+	__typename: "Subscription",
+	deck?: Array<GraphQLTypes["Card"]> | undefined
 };
-	["ChangeCard"]:{
-        	__typename:"SpecialCard" | "EffectCard"
-        	['...on SpecialCard']: '__union' & GraphQLTypes["SpecialCard"];
-	['...on EffectCard']: '__union' & GraphQLTypes["EffectCard"];
-};
-	["EffectCard"]: {
-	__typename: "EffectCard",
-	effectSize: number,
-	name: string
-};
-	["Mutation"]: {
-	__typename: "Mutation",
-	/** add Card to Cards database<br> */
-	addCard: GraphQLTypes["Card"]
-};
-	/** create card inputs<br> */
-["createCard"]: {
-		/** The attack power<br> */
-	Attack: number,
-	/** The defense power<br> */
-	Defense: number,
-	/** input skills */
-	skills?: Array<GraphQLTypes["SpecialSkills"]> | undefined,
-	/** The name of a card<br> */
-	name: string,
-	/** Description of a card<br> */
-	description: string,
-	/** <div>How many children the greek god had</div> */
-	Children?: number | undefined
-};
-	/** Stack of cards */
-["CardStack"]: {
-	__typename: "CardStack",
-	cards?: Array<GraphQLTypes["Card"]> | undefined,
-	name: string
-};
+	["SpecialSkills"]: SpecialSkills;
 	/** Card used in card game<br> */
 ["Card"]: {
 	__typename: "Card",
@@ -1125,25 +1222,25 @@ export type GraphQLTypes = {
 	name: string,
 	skills?: Array<GraphQLTypes["SpecialSkills"]> | undefined
 };
+	["ChangeCard"]:{
+        	__typename:"SpecialCard" | "EffectCard"
+        	['...on SpecialCard']: '__union' & GraphQLTypes["SpecialCard"];
+	['...on EffectCard']: '__union' & GraphQLTypes["EffectCard"];
+};
 	["SpecialCard"]: {
 	__typename: "SpecialCard",
 	effect: string,
 	name: string
-};
-	["Subscription"]: {
-	__typename: "Subscription",
-	deck?: Array<GraphQLTypes["Card"]> | undefined
-};
-	["SpecialSkills"]: SpecialSkills
+}
     }
 export const enum SpecialSkills {
+	THUNDER = "THUNDER",
 	RAIN = "RAIN",
-	FIRE = "FIRE",
-	THUNDER = "THUNDER"
+	FIRE = "FIRE"
 }
 
 type ZEUS_VARIABLES = {
-	["JSON"]: ValueTypes["JSON"];
 	["createCard"]: ValueTypes["createCard"];
+	["JSON"]: ValueTypes["JSON"];
 	["SpecialSkills"]: ValueTypes["SpecialSkills"];
 }

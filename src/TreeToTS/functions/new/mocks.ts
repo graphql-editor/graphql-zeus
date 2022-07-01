@@ -335,3 +335,104 @@ export const apiSubscription = (opts: chainOptions) => ((q: string) => 1) as unk
 export const apiFetch = (options: chainOptions) => ((q: string, vars?: unknown) => 1) as unknown as FetchFunction;
 export const HOST = 'https://faker.graphqleditor.com/a-team/olympus/graphql';
 export const HEADERS = {};
+
+export type ResolverInputTypes = {
+  ['Query']: AliasType<{
+    cardById?: [{ cardId?: string | undefined | null }, ResolverInputTypes['Card']];
+    /** Draw a card<br> */
+    drawCard?: ResolverInputTypes['Card'];
+    drawChangeCard?: ResolverInputTypes['ChangeCard'];
+    /** list All Cards availble<br> */
+    listCards?: ResolverInputTypes['Card'];
+    myStacks?: ResolverInputTypes['CardStack'];
+    nameables?: ResolverInputTypes['Nameable'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['SpecialSkills']: SpecialSkills;
+  ['EffectCard']: AliasType<{
+    effectSize?: boolean | `@${string}`;
+    name?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** create card inputs<br> */
+  ['createCard']: {
+    /** input skills */
+    skills?: Array<ResolverInputTypes['SpecialSkills']> | undefined | null;
+    /** The name of a card<br> */
+    name: string;
+    /** Description of a card<br> */
+    description: string;
+    /** <div>How many children the greek god had</div> */
+    Children?: number | undefined | null;
+    /** The attack power<br> */
+    Attack: number;
+    /** The defense power<br> */
+    Defense: number;
+  };
+  /** Aws S3 File */
+  ['S3Object']: AliasType<{
+    bucket?: boolean | `@${string}`;
+    key?: boolean | `@${string}`;
+    region?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['ChangeCard']: AliasType<{
+    SpecialCard?: ResolverInputTypes['SpecialCard'];
+    EffectCard?: ResolverInputTypes['EffectCard'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['SpecialCard']: AliasType<{
+    effect?: boolean | `@${string}`;
+    name?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Card used in card game<br> */
+  ['Card']: AliasType<{
+    /** The attack power<br> */
+    Attack?: boolean | `@${string}`;
+    /** <div>How many children the greek god had</div> */
+    Children?: boolean | `@${string}`;
+    /** The defense power<br> */
+    Defense?: boolean | `@${string}`;
+    attack?: [
+      {
+        /** Attacked card/card ids<br> */ cardID: Array<string>;
+      },
+      ResolverInputTypes['Card'],
+    ];
+    /** Put your description here */
+    cardImage?: ResolverInputTypes['S3Object'];
+    /** Description of a card<br> */
+    description?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    image?: boolean | `@${string}`;
+    info?: boolean | `@${string}`;
+    /** The name of a card<br> */
+    name?: boolean | `@${string}`;
+    skills?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['Nameable']: AliasType<{
+    name?: boolean | `@${string}`;
+    ['...on EffectCard']?: Omit<ResolverInputTypes['EffectCard'], keyof ResolverInputTypes['Nameable']>;
+    ['...on SpecialCard']?: Omit<ResolverInputTypes['SpecialCard'], keyof ResolverInputTypes['Nameable']>;
+    ['...on Card']?: Omit<ResolverInputTypes['Card'], keyof ResolverInputTypes['Nameable']>;
+    ['...on CardStack']?: Omit<ResolverInputTypes['CardStack'], keyof ResolverInputTypes['Nameable']>;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Stack of cards */
+  ['CardStack']: AliasType<{
+    cards?: ResolverInputTypes['Card'];
+    name?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['Mutation']: AliasType<{
+    addCard?: [{ card: ResolverInputTypes['createCard'] }, ResolverInputTypes['Card']];
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['JSON']: unknown;
+  ['Subscription']: AliasType<{
+    deck?: ResolverInputTypes['Card'];
+    __typename?: boolean | `@${string}`;
+  }>;
+};

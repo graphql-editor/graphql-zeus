@@ -11,6 +11,7 @@ import { resolveTypes } from './templates/returnedTypes';
 import { default as typescriptFunctions } from './functions/generated';
 import { generateScalars } from '@/TreeToTS/templates/scalars';
 import { resolveVariableTypes } from '@/TreeToTS/templates/variableTypes';
+import { resolveInputTypes } from '@/TreeToTS/templates/valueTypes/inputTypes';
 
 export interface OperationName {
   name: string;
@@ -58,6 +59,7 @@ export class TreeToTS {
   static resolveBasisTypes(tree: ParserTree): string {
     const rootTypes = resolveTypes(tree.nodes);
     const valueTypes = resolveValueTypes(tree.nodes);
+    const inputTypes = resolveInputTypes(tree.nodes);
     const modelTypes = resolveModelTypes(tree.nodes);
     const unionTypes = resolveUnions(tree.nodes);
     const interfaceTypes = resolveInterfaces(tree.nodes);
@@ -70,6 +72,8 @@ export class TreeToTS {
       .concat(unionTypes)
       .concat('\n\n')
       .concat(valueTypes)
+      .concat('\n\n')
+      .concat(inputTypes)
       .concat('\n\n')
       .concat(modelTypes)
       .concat('\n\n')

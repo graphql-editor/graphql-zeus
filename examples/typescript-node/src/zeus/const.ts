@@ -1,12 +1,6 @@
 /* eslint-disable */
 
 export const AllTypesProps: Record<string,any> = {
-	Query:{
-		cardById:{
-
-		}
-	},
-	JSON: `scalar.JSON` as const,
 	Mutation:{
 		addCard:{
 			card:"createCard"
@@ -15,15 +9,38 @@ export const AllTypesProps: Record<string,any> = {
 	createCard:{
 		skills:"SpecialSkills"
 	},
+	JSON: `scalar.JSON` as const,
+	Query:{
+		cardById:{
+
+		}
+	},
+	SpecialSkills: "enum" as const,
 	Card:{
 		attack:{
 
 		}
-	},
-	SpecialSkills: "enum" as const
+	}
 }
 
 export const ReturnTypes: Record<string,any> = {
+	CardStack:{
+		cards:"Card",
+		name:"String"
+	},
+	Mutation:{
+		addCard:"Card"
+	},
+	S3Object:{
+		bucket:"String",
+		key:"String",
+		region:"String"
+	},
+	JSON: `scalar.JSON` as const,
+	EffectCard:{
+		effectSize:"Float",
+		name:"String"
+	},
 	Query:{
 		cardById:"Card",
 		drawCard:"Card",
@@ -32,33 +49,15 @@ export const ReturnTypes: Record<string,any> = {
 		myStacks:"CardStack",
 		nameables:"Nameable"
 	},
-	JSON: `scalar.JSON` as const,
 	Nameable:{
-		"...on EffectCard": "EffectCard",
 		"...on CardStack": "CardStack",
+		"...on EffectCard": "EffectCard",
 		"...on Card": "Card",
 		"...on SpecialCard": "SpecialCard",
 		name:"String"
 	},
-	S3Object:{
-		bucket:"String",
-		key:"String",
-		region:"String"
-	},
-	ChangeCard:{
-		"...on SpecialCard":"SpecialCard",
-		"...on EffectCard":"EffectCard"
-	},
-	EffectCard:{
-		effectSize:"Float",
-		name:"String"
-	},
-	Mutation:{
-		addCard:"Card"
-	},
-	CardStack:{
-		cards:"Card",
-		name:"String"
+	Subscription:{
+		deck:"Card"
 	},
 	Card:{
 		Attack:"Int",
@@ -73,17 +72,18 @@ export const ReturnTypes: Record<string,any> = {
 		name:"String",
 		skills:"SpecialSkills"
 	},
+	ChangeCard:{
+		"...on SpecialCard":"SpecialCard",
+		"...on EffectCard":"EffectCard"
+	},
 	SpecialCard:{
 		effect:"String",
 		name:"String"
-	},
-	Subscription:{
-		deck:"Card"
 	}
 }
 
 export const Ops = {
-query: "Query" as const,
-	mutation: "Mutation" as const,
+mutation: "Mutation" as const,
+	query: "Query" as const,
 	subscription: "Subscription" as const
 }
