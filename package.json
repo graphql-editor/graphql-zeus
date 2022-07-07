@@ -46,13 +46,13 @@
     "cz-conventional-changelog": "^3.1.0",
     "eslint": "^7.19.0",
     "eslint-config-prettier": "^7.2.0",
-    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-prettier": "^4.2.1",
     "graphql-ws": "^5.8.2",
     "husky": "^4.2.3",
     "jest": "^27.5.1",
     "json-schema": "^0.3.0",
     "mocha": "^7.1.0",
-    "prettier": "^2.0.2",
+    "prettier": "^2.7.1",
     "ts-jest": "^27.1.4",
     "ts-node": "^10.8.1",
     "ts-toolbelt": "^6.3.6",
@@ -68,10 +68,10 @@
     "yargs": "^16.1.1"
   },
   "peerDependencies": {
-    "graphql-wq": ">=5"
+    "graphql-ws": ">=5"
   },
   "peerDependenciesMeta": {
-    "graphql-wq": {
+    "graphql-ws": {
       "optional": true
     }
   },

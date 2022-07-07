@@ -35,7 +35,7 @@ export interface ResolveOptions {
   host?: string;
   headers?: Record<string, string>;
   esModule?: boolean;
-  subscriptions: 'legacy' | 'graphql-ws';
+  subscriptions?: 'legacy' | 'graphql-ws';
 }
 
 const disableLintersComments = ['eslint-disable'];
@@ -96,7 +96,14 @@ export class TreeToTS {
   /**
    * Generate typescript file
    */
-  static resolveTreeSplit({ tree, env = 'browser', host, esModule, headers, subscriptions }: ResolveOptions) {
+  static resolveTreeSplit({
+    tree,
+    env = 'browser',
+    host,
+    esModule,
+    headers,
+    subscriptions = 'legacy',
+  }: ResolveOptions) {
     return {
       indexImports: `import { AllTypesProps, ReturnTypes, Ops } from './const${esModule ? '.js' : ''}';`.concat(
         env === 'node'

@@ -81,7 +81,7 @@ export class CLI {
       env,
       host,
       esModule: !!args.esModule,
-      subscriptions: args.subscriptions == 'graphql-ws' ? 'graphql-ws' : 'legacy',
+      subscriptions: args.subscriptions === 'graphql-ws' ? 'graphql-ws' : 'legacy',
     });
     Object.keys(typeScriptDefinition).forEach((k) =>
       writeFileRecursive(
