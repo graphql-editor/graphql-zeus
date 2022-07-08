@@ -117,6 +117,7 @@ import WebSocket from 'ws';`
         .concat(host ? `export const HOST = "${host}"` : '\n\nexport const HOST="Specify host"')
         .concat('\n')
         .concat(headers ? `export const HEADERS = ${JSON.stringify(headers)}` : '\n\nexport const HEADERS = {}')
+        .concat('\n')
         .concat(subscriptionFunctions[subscriptions])
         .concat('\n')
         .concat(typescriptFunctions)
