@@ -2,16 +2,16 @@ import { resolveModelTypes } from '@/TreeToTS/templates/modelTypes';
 import { resolveOperations } from '@/TreeToTS/templates/operations';
 import { resolveInterfaces } from '@/TreeToTS/templates/returnedTypes/interfaces';
 import { resolveUnions } from '@/TreeToTS/templates/returnedTypes/unions';
+import { generateScalars } from '@/TreeToTS/templates/scalars';
 import { resolveValueTypes } from '@/TreeToTS/templates/valueTypes';
+import { resolveInputTypes } from '@/TreeToTS/templates/valueTypes/inputTypes';
+import { resolveVariableTypes } from '@/TreeToTS/templates/variableTypes';
 import { ParserTree, TypeDefinition } from 'graphql-js-tree';
 import { Environment } from '../Models';
+import { default as typescriptFunctions, subscriptionFunctions } from './functions/generated';
 import { resolvePropTypeFromRoot } from './templates/returnedPropTypes';
 import { resolveReturnFromRoot } from './templates/returnedReturns';
 import { resolveTypes } from './templates/returnedTypes';
-import { default as typescriptFunctions } from './functions/generated';
-import { generateScalars } from '@/TreeToTS/templates/scalars';
-import { resolveVariableTypes } from '@/TreeToTS/templates/variableTypes';
-import { resolveInputTypes } from '@/TreeToTS/templates/valueTypes/inputTypes';
 
 export interface OperationName {
   name: string;
@@ -29,6 +29,15 @@ export interface OperationDetails {
   operations: string[];
 }
 
+export interface ResolveOptions {
+  tree: ParserTree;
+  env?: Environment;
+  host?: string;
+  headers?: Record<string, string>;
+  esModule?: boolean;
+  subscriptions?: 'legacy' | 'graphql-ws';
+}
+
 const disableLintersComments = ['eslint-disable'];
 /**
  * Class Responsible for generating typescript and javascript code
@@ -37,6 +46,7 @@ export class TreeToTS {
   static resolveBasisHeader(): string {
     return `${disableLintersComments.map((rule) => `/* ${rule} */\n`).join('')}\n`;
   }
+
   static resolveBasisCode(tree: ParserTree): string {
     const propTypes = `export const AllTypesProps: Record<string,any> = {\n${tree.nodes
       .map(resolvePropTypeFromRoot)
@@ -56,6 +66,7 @@ export class TreeToTS {
     const opsString = resolveOperations(tree);
     return propTypes.concat('\n\n').concat(returnTypes).concat('\n\n').concat(opsString);
   }
+
   static resolveBasisTypes(tree: ParserTree): string {
     const rootTypes = resolveTypes(tree.nodes);
     const valueTypes = resolveValueTypes(tree.nodes);
@@ -81,6 +92,7 @@ export class TreeToTS {
       .concat('\n\n')
       .concat(variableTypes);
   }
+
   /**
    * Generate typescript file
    */
@@ -90,13 +102,8 @@ export class TreeToTS {
     host,
     esModule,
     headers,
-  }: {
-    tree: ParserTree;
-    env?: Environment;
-    host?: string;
-    headers?: Record<string, string>;
-    esModule?: boolean;
-  }) {
+    subscriptions = 'legacy',
+  }: ResolveOptions) {
     return {
       indexImports: `import { AllTypesProps, ReturnTypes, Ops } from './const${esModule ? '.js' : ''}';`.concat(
         env === 'node'
@@ -110,24 +117,16 @@ import WebSocket from 'ws';`
         .concat(host ? `export const HOST = "${host}"` : '\n\nexport const HOST="Specify host"')
         .concat('\n')
         .concat(headers ? `export const HEADERS = ${JSON.stringify(headers)}` : '\n\nexport const HEADERS = {}')
+        .concat(subscriptionFunctions[subscriptions])
         .concat('\n')
         .concat(typescriptFunctions)
         .concat('\n')
         .concat(TreeToTS.resolveBasisTypes(tree)),
     };
   }
-  static resolveTree({
-    tree,
-    env = 'browser',
-    host,
-    headers,
-  }: {
-    tree: ParserTree;
-    env?: Environment;
-    host?: string;
-    headers?: Record<string, string>;
-  }) {
-    const t = TreeToTS.resolveTreeSplit({ tree, env, host, headers });
+
+  static resolveTree(options: ResolveOptions) {
+    const t = TreeToTS.resolveTreeSplit(options);
     return TreeToTS.resolveBasisHeader().concat(t.const).concat('\n').concat(t.index);
   }
 }

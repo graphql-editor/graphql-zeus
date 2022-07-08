@@ -31,6 +31,7 @@ interface CliArgs extends Yargs {
   reactQuery?: boolean;
   stuccoSubscriptions?: boolean;
   typedDocumentNode?: boolean;
+  subscriptions?: string;
 }
 /**
  * Main class for controlling CLI
@@ -80,6 +81,7 @@ export class CLI {
       env,
       host,
       esModule: !!args.esModule,
+      subscriptions: args.subscriptions === 'graphql-ws' ? 'graphql-ws' : 'legacy',
     });
     Object.keys(typeScriptDefinition).forEach((k) =>
       writeFileRecursive(

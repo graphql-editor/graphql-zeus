@@ -26,7 +26,7 @@ var Layout = ({children, routes, activeRoute, prefix = ""}) => {
     className: "text-gray-400 block ml-2 text-md mt-1"
   }, "Autocomplete client for GraphQL"), /* @__PURE__ */ React.createElement("span", {
     className: "ml-auto mr-2 text-gray-500"
-  }, "5.0.x"), /* @__PURE__ */ React.createElement("a", {
+  }, "5.1.x"), /* @__PURE__ */ React.createElement("a", {
     href: "https://github.com/graphql-editor/graphql-zeus",
     className: "text-purple-500",
     title: "Github repository"

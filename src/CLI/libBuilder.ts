@@ -2,8 +2,8 @@
 import * as fs from 'fs';
 import path = require('path');
 
+const removeImports = (s: string) => s.replace(/import\s(\n|\w|{|}|\s|,)*.*;(?! \/\/ keep)/gm, '');
 const toTemplateString = (s: string) => '`' + s.replace(/\$\{/gm, '\\${').replace(/`/gm, '\\`') + '`';
-const toExport = (s: string) => `export default ${s};`;
 
 const bundleFunctions = () => {
   const baseDirFunctions = path.join(process.cwd(), 'src/TreeToTS/functions');
@@ -14,14 +14,27 @@ const bundleFunctions = () => {
     .filter((d) => !d.endsWith('spec.ts'))
     .map((d) => path.join(baseDir, d))
     .map((d) => {
-      const content = fs.readFileSync(d);
-      return content
-        .toString('utf-8')
-        .replace(/import\s(\n|\w|{|}|\s|,)*.*;/gm, '')
-        .replace(/\\/gm, '\\\\');
+      const content = fs.readFileSync(d).toString('utf-8');
+      return removeImports(content).replace(/\\/gm, '\\\\').trim();
     });
-  const content = toTemplateString(allFunctions.join('\n\n'));
-  fs.writeFileSync(path.join(baseDirFunctions, 'generated.ts'), toExport(content));
+
+  const subscriptionDir = path.join(baseDirFunctions, 'apiSubscription');
+  const subscriptionFunctions = fs.readdirSync(subscriptionDir).map((file) => {
+    // The key is the filename without its extension
+    const key = path.basename(file, '.ts');
+    const content = fs.readFileSync(path.join(subscriptionDir, file)).toString('utf-8');
+    const code = removeImports(content).replace(/\\/gm, '\\\\').trim();
+    return [key, code];
+  });
+
+  const content = `
+  export default ${toTemplateString(allFunctions.join('\n\n'))};
+
+  export const subscriptionFunctions = {${subscriptionFunctions
+    .map(([key, value]) => JSON.stringify(key) + ': ' + toTemplateString(value))
+    .join(',\n')}}`;
+
+  fs.writeFileSync(path.join(baseDirFunctions, 'generated.ts'), content);
 };
 
 bundleFunctions();

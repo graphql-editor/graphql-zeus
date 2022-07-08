@@ -58,5 +58,11 @@ zeus [path] [output_path] [options]
       'Generate JSON Schema to create forms from inputs and type fields with args. Path where .json schema file should be put. ',
     string: true,
   })
+  .option('subscriptions', {
+    alias: 's',
+    describe: 'The underlying implementation of realtime subscriptions.',
+    choices: ['legacy', 'graphql-ws'],
+    default: 'legacy',
+  })
   .demandCommand(1).argv;
 CLI.execute(args);
