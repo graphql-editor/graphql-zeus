@@ -1,4 +1,4 @@
-import { fetchOptions, GraphQLError, GraphQLResponse } from '@/TreeToTS/functions/new/models';
+import { fetchOptions, ZeusError, GraphQLResponse } from '@/TreeToTS/functions/new/models';
 
 const handleFetchResponse = (response: Response): Promise<GraphQLResponse> => {
   if (!response.ok) {
@@ -27,7 +27,7 @@ export const apiFetch =
         .then(handleFetchResponse)
         .then((response: GraphQLResponse) => {
           if (response.errors) {
-            throw new GraphQLError(response);
+            throw new ZeusError(response);
           }
           return response.data;
         });
@@ -43,7 +43,7 @@ export const apiFetch =
       .then(handleFetchResponse)
       .then((response: GraphQLResponse) => {
         if (response.errors) {
-          throw new GraphQLError(response);
+          throw new ZeusError(response);
         }
         return response.data;
       });
