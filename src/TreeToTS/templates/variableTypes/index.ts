@@ -12,5 +12,5 @@ export const resolveVariableTypes = (rootNodes: ParserField[]): string => {
     )
     .map((rn) => `\t["${rn.name}"]: ${VALUETYPES}["${rn.name}"];`)
     .join('\n');
-  return `type ${ZEUS_VARIABLES} = ${variableTypes ? `{\n${variableTypes}\n}` : 'never'}`;
+  return `type ${ZEUS_VARIABLES} = ${variableTypes ? `{\n${variableTypes}\n}` : '{}'}`;
 };
