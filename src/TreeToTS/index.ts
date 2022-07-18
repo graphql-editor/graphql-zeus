@@ -114,9 +114,9 @@ import WebSocket from 'ws';`
       ),
       const: TreeToTS.resolveBasisCode(tree),
       index: ''
-        .concat(host ? `export const HOST = "${host}"` : '\n\nexport const HOST="Specify host"')
+        .concat(`export const HOST = ${JSON.stringify(host ?? 'Specify host')};`)
         .concat('\n')
-        .concat(headers ? `export const HEADERS = ${JSON.stringify(headers)}` : '\n\nexport const HEADERS = {}')
+        .concat(`export const HEADERS = ${JSON.stringify(headers ?? {})};`)
         .concat('\n')
         .concat(subscriptionFunctions[subscriptions])
         .concat('\n')
