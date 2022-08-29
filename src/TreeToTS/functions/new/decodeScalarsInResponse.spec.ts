@@ -34,4 +34,40 @@ describe('Scalars in response get decoded', () => {
     });
     expect(decodedResponse['drawCard']?.['info']).toEqual(cardInfo);
   });
+
+  test('Inline fragments get decoded correctly', () => {
+    const cardInfo = {
+      power: 9001,
+      speed: 100,
+    };
+    const response = {
+      drawCard: {
+        name: 'Adanos',
+        info: JSON.stringify(cardInfo),
+      },
+    };
+
+    const decodedResponse = decodeScalarsInResponse({
+      ops: Ops,
+      response,
+      returns: ReturnTypes,
+      initialOp: 'query',
+      initialZeusQuery: {
+        drawCard: {
+          '...on Card': {
+            name: true,
+            info: true,
+          },
+        },
+      },
+      scalars: {
+        JSON: {
+          decode: (e) => {
+            return JSON.parse(e as string) as typeof cardInfo;
+          },
+        },
+      },
+    });
+    expect(decodedResponse['drawCard']?.['info']).toEqual(cardInfo);
+  });
 });
