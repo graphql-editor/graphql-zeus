@@ -260,6 +260,9 @@ export const traverseResponse = ({
     if (Array.isArray(o)) {
       return o.map((eachO) => ibb(k, eachO, p));
     }
+    if (o == null) {
+      return o;
+    }
     const scalarPathString = p.join(SEPARATOR);
     const currentScalarString = scalarPaths[scalarPathString];
     if (currentScalarString) {
