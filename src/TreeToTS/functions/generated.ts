@@ -422,9 +422,18 @@ export const PrepareScalarPaths = ({ ops, returns }: { returns: ReturnTypesType;
     const keyName = root ? ops[k] : k;
     return Object.entries(o)
       .filter(([k]) => k !== '__directives')
-      .map(([k, v]) =>
-        ibb(k, k, v, [...p, purifyGraphQLKey(keyName || k)], [...pOriginals, purifyGraphQLKey(originalKey)], false),
-      )
+      .map(([k, v]) => {
+        // Inline fragments shouldn't be added to the path as they aren't a field
+        const isInlineFragment = originalKey.match(/^...\\s*on/) != null;
+        return ibb(
+          k,
+          k,
+          v,
+          isInlineFragment ? p : [...p, purifyGraphQLKey(keyName || k)],
+          isInlineFragment ? pOriginals : [...pOriginals, purifyGraphQLKey(originalKey)],
+          false,
+        );
+      })
       .reduce((a, b) => ({
         ...a,
         ...b,
