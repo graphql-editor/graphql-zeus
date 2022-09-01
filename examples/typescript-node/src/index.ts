@@ -37,6 +37,7 @@ export const testMutate = () => {
       ],
     }),
   );
+
   mutate({
     variables: {
       name: 'DDD',

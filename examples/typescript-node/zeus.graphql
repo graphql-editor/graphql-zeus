@@ -1,15 +1,3 @@
-"""Aws S3 File"""
-type S3Object {
-  """"""
-  bucket: String!
-
-  """"""
-  key: String!
-
-  """"""
-  region: String!
-}
-
 """"""
 type Subscription {
   """"""
@@ -34,17 +22,8 @@ enum SpecialSkills {
   FIRE
 }
 
-""""""
-type Mutation {
-  """add Card to Cards database<br>"""
-  addCard(card: createCard!): Card!
-}
-
 """create card inputs<br>"""
 input createCard {
-  """input skills"""
-  skills: [SpecialSkills!]
-
   """The name of a card<br>"""
   name: String!
 
@@ -59,48 +38,9 @@ input createCard {
 
   """The defense power<br>"""
   Defense: Int!
-}
 
-""""""
-union ChangeCard = SpecialCard | EffectCard
-
-""""""
-type SpecialCard implements Nameable {
-  """"""
-  effect: String!
-
-  """"""
-  name: String!
-}
-
-""""""
-type EffectCard implements Nameable {
-  """"""
-  effectSize: Float!
-
-  """"""
-  name: String!
-}
-
-""""""
-type Query {
-  """"""
-  cardById(cardId: String): Card
-
-  """Draw a card<br>"""
-  drawCard: Card!
-
-  """"""
-  drawChangeCard: ChangeCard!
-
-  """list All Cards availble<br>"""
-  listCards: [Card!]!
-
-  """"""
-  myStacks: [CardStack!]
-
-  """"""
-  nameables: [Nameable!]!
+  """input skills"""
+  skills: [SpecialSkills!]
 }
 
 """Card used in card game<br>"""
@@ -142,13 +82,73 @@ type Card implements Nameable {
   skills: [SpecialSkills!]
 }
 
-""""""
-scalar JSON
-
 """Stack of cards"""
 type CardStack implements Nameable {
   """"""
   cards: [Card!]
+
+  """"""
+  name: String!
+}
+
+""""""
+type Query {
+  """"""
+  cardById(cardId: String): Card
+
+  """Draw a card<br>"""
+  drawCard: Card!
+
+  """"""
+  drawChangeCard: ChangeCard!
+
+  """list All Cards availble<br>"""
+  listCards: [Card!]!
+
+  """"""
+  myStacks: [CardStack!]
+
+  """"""
+  nameables: [Nameable!]!
+}
+
+""""""
+scalar JSON
+
+""""""
+union ChangeCard = SpecialCard | EffectCard
+
+""""""
+type Mutation {
+  """add Card to Cards database<br>"""
+  addCard(card: createCard!): Card!
+}
+
+"""Aws S3 File"""
+type S3Object {
+  """"""
+  bucket: String!
+
+  """"""
+  key: String!
+
+  """"""
+  region: String!
+}
+
+""""""
+type SpecialCard implements Nameable {
+  """"""
+  effect: String!
+
+  """"""
+  name: String!
+}
+
+""""""
+type EffectCard implements Nameable {
+  """"""
+  effectSize: Float!
 
   """"""
   name: String!

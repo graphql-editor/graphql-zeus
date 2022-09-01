@@ -36,6 +36,9 @@ export const ReturnTypes = {
     drawCard: 'Card',
     cards: 'Card',
   },
+  Mutation: {
+    getCardAndPop: 'Card',
+  },
   Card: {
     attack: 'Card',
     info: 'JSON',

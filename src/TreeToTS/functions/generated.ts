@@ -241,7 +241,7 @@ export const decodeScalarsInResponse = <O extends Operations>({
 
   const scalarPaths = builder(initialOp as string, ops[initialOp], initialZeusQuery);
   if (scalarPaths) {
-    const r = traverseResponse({ scalarPaths, resolvers: scalars })('Query', response, ['Query']);
+    const r = traverseResponse({ scalarPaths, resolvers: scalars })(initialOp as string, response, [ops[initialOp]]);
     return r;
   }
   return response;
