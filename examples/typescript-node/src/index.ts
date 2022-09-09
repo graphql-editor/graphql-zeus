@@ -167,6 +167,16 @@ const run = async () => {
   });
   printQueryResult('drawChangeCard thunder', blalbaThunder.drawChangeCard);
 
+  const resPowerups = await Gql('query')(
+    {
+      public: {
+        powerups: [{ filter: 'dupa' }, { name: true }],
+      },
+    },
+    { operationName: 'Powerups' },
+  );
+  printQueryResult('Powerups', resPowerups?.public?.powerups);
+
   const {
     listCards: stack,
     drawCard: newCard,

@@ -1,7 +1,6 @@
 /* eslint-disable */
 
 export const AllTypesProps: Record<string,any> = {
-	SpecialSkills: "enum" as const,
 	createCard:{
 		skills:"SpecialSkills"
 	},
@@ -10,28 +9,41 @@ export const AllTypesProps: Record<string,any> = {
 
 		}
 	},
+	Public:{
+		powerups:{
+
+		}
+	},
+	SpecialSkills: "enum" as const,
 	Query:{
 		cardById:{
 
 		}
 	},
-	JSON: `scalar.JSON` as const,
 	Mutation:{
 		addCard:{
 			card:"createCard"
 		}
-	}
+	},
+	JSON: `scalar.JSON` as const
 }
 
 export const ReturnTypes: Record<string,any> = {
 	Subscription:{
 		deck:"Card"
 	},
+	CardStack:{
+		cards:"Card",
+		name:"String"
+	},
 	Nameable:{
-		"...on Card": "Card",
 		"...on CardStack": "CardStack",
+		"...on Card": "Card",
 		"...on SpecialCard": "SpecialCard",
 		"...on EffectCard": "EffectCard",
+		name:"String"
+	},
+	Powerup:{
 		name:"String"
 	},
 	Card:{
@@ -47,25 +59,8 @@ export const ReturnTypes: Record<string,any> = {
 		name:"String",
 		skills:"SpecialSkills"
 	},
-	CardStack:{
-		cards:"Card",
-		name:"String"
-	},
-	Query:{
-		cardById:"Card",
-		drawCard:"Card",
-		drawChangeCard:"ChangeCard",
-		listCards:"Card",
-		myStacks:"CardStack",
-		nameables:"Nameable"
-	},
-	JSON: `scalar.JSON` as const,
-	ChangeCard:{
-		"...on SpecialCard":"SpecialCard",
-		"...on EffectCard":"EffectCard"
-	},
-	Mutation:{
-		addCard:"Card"
+	Public:{
+		powerups:"Powerup"
 	},
 	S3Object:{
 		bucket:"String",
@@ -76,10 +71,27 @@ export const ReturnTypes: Record<string,any> = {
 		effect:"String",
 		name:"String"
 	},
+	Query:{
+		cardById:"Card",
+		drawCard:"Card",
+		drawChangeCard:"ChangeCard",
+		listCards:"Card",
+		myStacks:"CardStack",
+		nameables:"Nameable",
+		public:"Public"
+	},
+	ChangeCard:{
+		"...on SpecialCard":"SpecialCard",
+		"...on EffectCard":"EffectCard"
+	},
 	EffectCard:{
 		effectSize:"Float",
 		name:"String"
-	}
+	},
+	Mutation:{
+		addCard:"Card"
+	},
+	JSON: `scalar.JSON` as const
 }
 
 export const Ops = {

@@ -4,6 +4,15 @@ type Subscription {
   deck: [Card!]
 }
 
+"""Stack of cards"""
+type CardStack implements Nameable {
+  """"""
+  cards: [Card!]
+
+  """"""
+  name: String!
+}
+
 """"""
 interface Nameable {
   """"""
@@ -11,25 +20,13 @@ interface Nameable {
 }
 
 """"""
-enum SpecialSkills {
-  """Lower enemy defense -5<br>"""
-  THUNDER
-
-  """Attack multiple Cards at once<br>"""
-  RAIN
-
-  """50% chance to avoid any attack<br>"""
-  FIRE
+type Powerup {
+  """"""
+  name: String
 }
 
 """create card inputs<br>"""
 input createCard {
-  """The name of a card<br>"""
-  name: String!
-
-  """Description of a card<br>"""
-  description: String!
-
   """<div>How many children the greek god had</div>"""
   Children: Int
 
@@ -41,6 +38,12 @@ input createCard {
 
   """input skills"""
   skills: [SpecialSkills!]
+
+  """The name of a card<br>"""
+  name: String!
+
+  """Description of a card<br>"""
+  description: String!
 }
 
 """Card used in card game<br>"""
@@ -82,46 +85,22 @@ type Card implements Nameable {
   skills: [SpecialSkills!]
 }
 
-"""Stack of cards"""
-type CardStack implements Nameable {
+""""""
+type Public {
   """"""
-  cards: [Card!]
-
-  """"""
-  name: String!
+  powerups(filter: String!): [Powerup!]
 }
 
 """"""
-type Query {
-  """"""
-  cardById(cardId: String): Card
+enum SpecialSkills {
+  """Lower enemy defense -5<br>"""
+  THUNDER
 
-  """Draw a card<br>"""
-  drawCard: Card!
+  """Attack multiple Cards at once<br>"""
+  RAIN
 
-  """"""
-  drawChangeCard: ChangeCard!
-
-  """list All Cards availble<br>"""
-  listCards: [Card!]!
-
-  """"""
-  myStacks: [CardStack!]
-
-  """"""
-  nameables: [Nameable!]!
-}
-
-""""""
-scalar JSON
-
-""""""
-union ChangeCard = SpecialCard | EffectCard
-
-""""""
-type Mutation {
-  """add Card to Cards database<br>"""
-  addCard(card: createCard!): Card!
+  """50% chance to avoid any attack<br>"""
+  FIRE
 }
 
 """Aws S3 File"""
@@ -146,6 +125,33 @@ type SpecialCard implements Nameable {
 }
 
 """"""
+type Query {
+  """"""
+  cardById(cardId: String): Card
+
+  """Draw a card<br>"""
+  drawCard: Card!
+
+  """"""
+  drawChangeCard: ChangeCard!
+
+  """list All Cards availble<br>"""
+  listCards: [Card!]!
+
+  """"""
+  myStacks: [CardStack!]
+
+  """"""
+  nameables: [Nameable!]!
+
+  """"""
+  public: Public
+}
+
+""""""
+union ChangeCard = SpecialCard | EffectCard
+
+""""""
 type EffectCard implements Nameable {
   """"""
   effectSize: Float!
@@ -153,6 +159,15 @@ type EffectCard implements Nameable {
   """"""
   name: String!
 }
+
+""""""
+type Mutation {
+  """add Card to Cards database<br>"""
+  addCard(card: createCard!): Card!
+}
+
+""""""
+scalar JSON
 schema{
 	query: Query,
 	mutation: Mutation,
