@@ -1,11 +1,11 @@
 import { resolveInterfaces } from '@/TreeToTS/templates/returnedTypes/interfaces';
 import { TYPES, ZEUS_INTERFACES } from '@/TreeToTS/templates/returnedTypes/models';
-import { Options, TypeDefinition } from 'graphql-js-tree';
+import { createParserField, Options, TypeDefinition } from 'graphql-js-tree';
 
 describe('Test interface => ZEUS_INTERFACES generation', () => {
   test('Single interface generation', () => {
     const interfaceString = resolveInterfaces([
-      {
+      createParserField({
         type: {
           fieldType: {
             type: Options.name,
@@ -19,7 +19,7 @@ describe('Test interface => ZEUS_INTERFACES generation', () => {
         directives: [],
         interfaces: [],
         name: 'WithId',
-      },
+      }),
     ]);
     expect(interfaceString).toEqual(`type ${ZEUS_INTERFACES} = ${TYPES}["WithId"]`);
   });
@@ -29,7 +29,7 @@ describe('Test interface => ZEUS_INTERFACES generation', () => {
   });
   test('Multiple interface generation', () => {
     const interfaceString = resolveInterfaces([
-      {
+      createParserField({
         type: {
           fieldType: {
             type: Options.name,
@@ -43,8 +43,8 @@ describe('Test interface => ZEUS_INTERFACES generation', () => {
         directives: [],
         interfaces: [],
         name: 'WithId',
-      },
-      {
+      }),
+      createParserField({
         type: {
           fieldType: {
             type: Options.name,
@@ -58,7 +58,7 @@ describe('Test interface => ZEUS_INTERFACES generation', () => {
         directives: [],
         interfaces: [],
         name: 'WithName',
-      },
+      }),
     ]);
     expect(interfaceString).toEqual(`type ${ZEUS_INTERFACES} = ${TYPES}["WithId"] | ${TYPES}["WithName"]`);
   });

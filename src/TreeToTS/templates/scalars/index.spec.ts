@@ -1,6 +1,6 @@
 import { generateScalars, SCALAR_TYPES } from '@/TreeToTS/templates/scalars';
 import { replSpace } from '@/__tests__/TestUtils';
-import { Options, TypeDefinition } from 'graphql-js-tree';
+import { createParserField, Options, TypeDefinition } from 'graphql-js-tree';
 describe('Tests scalars object generation', () => {
   test('Generate empty objects if no scalars', () => {
     const result = generateScalars([]);
@@ -9,7 +9,7 @@ describe('Tests scalars object generation', () => {
   test('Generate empty objects if no scalars', () => {
     const result = replSpace(
       generateScalars([
-        {
+        createParserField({
           args: [],
           data: {
             type: TypeDefinition.ScalarTypeDefinition,
@@ -23,8 +23,8 @@ describe('Tests scalars object generation', () => {
               type: Options.name,
             },
           },
-        },
-        {
+        }),
+        createParserField({
           args: [],
           data: {
             type: TypeDefinition.ScalarTypeDefinition,
@@ -38,7 +38,7 @@ describe('Tests scalars object generation', () => {
               type: Options.name,
             },
           },
-        },
+        }),
       ]),
     );
     result(`export type ${SCALAR_TYPES} = {

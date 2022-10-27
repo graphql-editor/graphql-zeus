@@ -1,6 +1,11 @@
 /* eslint-disable */
 
 export const AllTypesProps: Record<string,any> = {
+	Query:{
+		cardById:{
+
+		}
+	},
 	createCard:{
 		skills:"SpecialSkills"
 	},
@@ -9,14 +14,10 @@ export const AllTypesProps: Record<string,any> = {
 
 		}
 	},
+	SpecialSkills: "enum" as const,
+	JSON: `scalar.JSON` as const,
 	Public:{
 		powerups:{
-
-		}
-	},
-	SpecialSkills: "enum" as const,
-	Query:{
-		cardById:{
 
 		}
 	},
@@ -24,27 +25,45 @@ export const AllTypesProps: Record<string,any> = {
 		addCard:{
 			card:"createCard"
 		}
-	},
-	JSON: `scalar.JSON` as const
+	}
 }
 
 export const ReturnTypes: Record<string,any> = {
-	Subscription:{
-		deck:"Card"
-	},
 	CardStack:{
 		cards:"Card",
 		name:"String"
 	},
+	Subscription:{
+		deck:"Card"
+	},
 	Nameable:{
 		"...on CardStack": "CardStack",
-		"...on Card": "Card",
 		"...on SpecialCard": "SpecialCard",
+		"...on Card": "Card",
 		"...on EffectCard": "EffectCard",
 		name:"String"
 	},
-	Powerup:{
+	Query:{
+		cardById:"Card",
+		drawCard:"Card",
+		drawChangeCard:"ChangeCard",
+		listCards:"Card",
+		myStacks:"CardStack",
+		nameables:"Nameable",
+		public:"Public"
+	},
+	S3Object:{
+		bucket:"String",
+		key:"String",
+		region:"String"
+	},
+	SpecialCard:{
+		effect:"String",
 		name:"String"
+	},
+	ChangeCard:{
+		"...on SpecialCard":"SpecialCard",
+		"...on EffectCard":"EffectCard"
 	},
 	Card:{
 		Attack:"Int",
@@ -59,39 +78,20 @@ export const ReturnTypes: Record<string,any> = {
 		name:"String",
 		skills:"SpecialSkills"
 	},
+	JSON: `scalar.JSON` as const,
 	Public:{
 		powerups:"Powerup"
-	},
-	S3Object:{
-		bucket:"String",
-		key:"String",
-		region:"String"
-	},
-	SpecialCard:{
-		effect:"String",
-		name:"String"
-	},
-	Query:{
-		cardById:"Card",
-		drawCard:"Card",
-		drawChangeCard:"ChangeCard",
-		listCards:"Card",
-		myStacks:"CardStack",
-		nameables:"Nameable",
-		public:"Public"
-	},
-	ChangeCard:{
-		"...on SpecialCard":"SpecialCard",
-		"...on EffectCard":"EffectCard"
-	},
-	EffectCard:{
-		effectSize:"Float",
-		name:"String"
 	},
 	Mutation:{
 		addCard:"Card"
 	},
-	JSON: `scalar.JSON` as const
+	Powerup:{
+		name:"String"
+	},
+	EffectCard:{
+		effectSize:"Float",
+		name:"String"
+	}
 }
 
 export const Ops = {

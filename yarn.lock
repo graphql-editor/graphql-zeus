@@ -3097,10 +3097,10 @@
   "resolved" "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.10.tgz"
   "version" "4.2.10"
 
-"graphql-js-tree@^0.1.1":
-  "integrity" "sha512-mPEqogLPmsoUzCi0WVddPFHBdCAQikwaYPe8kn6/+ft81ziei5qutP+cpquvFU5eBVHCFzx0PH5Khc9kutOkeQ=="
-  "resolved" "https://registry.npmjs.org/graphql-js-tree/-/graphql-js-tree-0.1.1.tgz"
-  "version" "0.1.1"
+"graphql-js-tree@^0.1.9":
+  "integrity" "sha512-DiUp0I9ZAc7+kcOzX9dllM1uFjCPbu/8ZLxjCW5dl38ROGen/7Z70oDDaxtDZmwR6bC6COqQGjf9ZWPvz+vD3w=="
+  "resolved" "https://registry.npmjs.org/graphql-js-tree/-/graphql-js-tree-0.1.9.tgz"
+  "version" "0.1.9"
   dependencies:
     "graphql" "^15.4.0"
 
