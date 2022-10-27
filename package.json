@@ -50,7 +50,7 @@
     "graphql-ws": "^5.8.2",
     "husky": "^4.2.3",
     "jest": "^27.5.1",
-    "json-schema": "^0.3.0",
+    "json-schema": "^0.4.0",
     "mocha": "^7.1.0",
     "prettier": "^2.7.1",
     "ts-jest": "^27.1.4",
