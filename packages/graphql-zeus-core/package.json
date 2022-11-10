@@ -1,0 +1,70 @@
+{
+  "name": "graphql-zeus-core",
+  "version": "5.2.0",
+  "private": false,
+  "scripts": {
+    "build": "ttsc --build tsconfig.build.json",
+    "start": "ttsc --build tsconfig.build.json --watch",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/graphql-editor/graphql-zeus.git"
+  },
+  "bugs": {
+    "url": "https://github.com/graphql-editor/graphql-zeus/issues"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/node": "^7.10.5",
+    "@babel/preset-env": "^7.11.5",
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
+    "@types/graphql": "^14.5.0",
+    "@types/jest": "^27.4.1",
+    "@types/node": "^13.9.0",
+    "@types/node-fetch": "^2.3.7",
+    "@types/yargs": "^15.0.11",
+    "@typescript-eslint/eslint-plugin": "^4.15.0",
+    "@typescript-eslint/parser": "^4.15.0",
+    "cz-conventional-changelog": "^3.1.0",
+    "eslint": "^7.19.0",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "graphql-ws": "^5.8.2",
+    "husky": "^4.2.3",
+    "jest": "^27.5.1",
+    "json-schema": "^0.3.0",
+    "mocha": "^7.1.0",
+    "prettier": "^2.7.1",
+    "ts-jest": "^27.1.4",
+    "ts-node": "^10.8.1",
+    "ts-toolbelt": "^6.3.6",
+    "tslint-config-prettier": "^1.18.0",
+    "ttypescript": "^1.5.13",
+    "typescript": "^4.7.3",
+    "typescript-transform-paths": "^2.0.0"
+  },
+  "dependencies": {
+    "graphql": "^16.5.0",
+    "graphql-js-tree": "^0.1.9"
+  },
+  "peerDependencies": {
+    "graphql-ws": ">=5"
+  },
+  "peerDependenciesMeta": {
+    "graphql-ws": {
+      "optional": true
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
+  }
+}
