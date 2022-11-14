@@ -3706,7 +3706,7 @@
   "resolved" "https://registry.npmjs.org/graphql-ws/-/graphql-ws-5.11.2.tgz"
   "version" "5.11.2"
 
-"graphql-zeus-core@file:C:\\Users\\jedrz\\Documents\\Aexol\\graphql-zeus\\packages\\graphql-zeus-core":
+"graphql-zeus-core@*", "graphql-zeus-core@file:C:\\Users\\jedrz\\Documents\\Aexol\\graphql-zeus\\packages\\graphql-zeus-core":
   "resolved" "file:packages/graphql-zeus-core"
   "version" "5.2.0"
   dependencies:
@@ -6398,7 +6398,7 @@
     "astral-regex" "^2.0.0"
     "is-fullwidth-code-point" "^3.0.0"
 
-"source-map-support@^0.5.16", "source-map-support@^0.5.17", "source-map-support@^0.5.6":
+"source-map-support@^0.5.16", "source-map-support@^0.5.6":
   "integrity" "sha512-n1lZZ8Ve4ksRqizaBQgxXDgKwttHDhyfQjA6YZZn8+AroHbsIz+JjwxQDxbp+7y5OYCI8t1Yk7etjD9CRd2hIw=="
   "resolved" "https://registry.npmjs.org/source-map-support/-/source-map-support-0.5.20.tgz"
   "version" "0.5.20"
@@ -6830,17 +6830,6 @@
     "v8-compile-cache-lib" "^3.0.1"
     "yn" "3.1.1"
 
-"ts-node@^8.3.0":
-  "integrity" "sha512-ISJJGgkIpDdBhWVu3jufsWpK3Rzo7bdiIXJjQc0ynKxVOVcg2oIrf2H2cejminGrptVc6q6/uynAHNCuWGbpVA=="
-  "resolved" "https://registry.npmjs.org/ts-node/-/ts-node-8.10.2.tgz"
-  "version" "8.10.2"
-  dependencies:
-    "arg" "^4.1.0"
-    "diff" "^4.0.1"
-    "make-error" "^1.1.1"
-    "source-map-support" "^0.5.17"
-    "yn" "3.1.1"
-
 "ts-toolbelt@^6.3.6":
   "integrity" "sha512-FZIXf1ksVyLcfr7M317jbB67XFJhOO1YqdTcuGaq9q5jLUoTikukZ+98TPjKiP2jC5CgmYdWWYs0s2nLSU0/1A=="
   "resolved" "https://registry.npmjs.org/ts-toolbelt/-/ts-toolbelt-6.15.5.tgz"
@@ -6941,13 +6930,6 @@
     "react-query" "^3.27.0"
     "ws" "^8.5.0"
 
-"typescript-transform-paths@^2.0.0":
-  "integrity" "sha512-i+/sgp3rw1ZronMCm2TKGBy1dlvN88Kd8CCb+HWnOE8+Hv0uIVnbC8xM5AD2t1JBCWabEhuH9p3n8DOVi0+R6g=="
-  "resolved" "https://registry.npmjs.org/typescript-transform-paths/-/typescript-transform-paths-2.2.4.tgz"
-  "version" "2.2.4"
-  dependencies:
-    "minimatch" "^3.0.4"
-
 "typescript-transform-paths@^3.3.1":
   "integrity" "sha512-b+6JTpJbO9CxVyt9+fIKXpLNUEyzrKXdflsVo/nXbQqelCYkpSsRdI+ikg3SelyE04rUeKlb+Kdt1D8Doa9JoQ=="
   "resolved" "https://registry.npmjs.org/typescript-transform-paths/-/typescript-transform-paths-3.4.4.tgz"
@@ -6955,7 +6937,7 @@
   dependencies:
     "minimatch" "^3.0.4"
 
-"typescript@^4.5.5", "typescript@^4.7.3", "typescript@^4.8.4", "typescript@>=2.7", "typescript@>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta", "typescript@>=3.2.2", "typescript@>=3.6.5", "typescript@>=3.8 <5.0", "typescript@>=4.3":
+"typescript@^4.7.3", "typescript@^4.8.4", "typescript@>=2.7", "typescript@>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta", "typescript@>=3.2.2", "typescript@>=3.6.5", "typescript@>=3.8 <5.0", "typescript@>=4.3":
   "integrity" "sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ=="
   "resolved" "https://registry.npmjs.org/typescript/-/typescript-4.8.4.tgz"
   "version" "4.8.4"

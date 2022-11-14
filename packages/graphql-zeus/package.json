@@ -26,7 +26,8 @@
   "private": "false",
   "dependencies": {
     "yargs": "^16.1.1",
-    "cross-fetch": "^3.0.4"
+    "cross-fetch": "^3.0.4",
+    "graphql-zeus-core": "*"
   },
   "husky": {
     "hooks": {

@@ -6,7 +6,7 @@ import { pluginApollo } from '@/plugins/apollo';
 import { pluginReactQuery } from '@/plugins/react-query';
 import { pluginStucco } from '@/plugins/stuccoSubscriptions';
 import { pluginTypedDocumentNode } from '@/plugins/typedDocumentNode';
-import { Utils } from 'graphql-zeus-core/Utils';
+import { Utils } from '@/Utils';
 /**
  * basic yargs interface
  */
