@@ -12,7 +12,6 @@
     "strictNullChecks": true,
     "skipLibCheck": true,
     "strict": true,
-    "noEmit": true,
     "outDir": "./lib",
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "rootDir": "./",
