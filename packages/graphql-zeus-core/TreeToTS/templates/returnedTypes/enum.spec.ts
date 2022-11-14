@@ -1,4 +1,4 @@
-import { resolveEnum } from '@//TreeToTS/templates/returnedTypes/enum';
+import { resolveEnum } from '@/TreeToTS/templates/returnedTypes/enum';
 import { createParserField, Options, TypeDefinition, ValueDefinition } from 'graphql-js-tree';
 
 describe('It creates correct TypeScript const enums', () => {

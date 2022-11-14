@@ -1,8 +1,8 @@
-import { resolveEnum } from '@//TreeToTS/templates/returnedTypes/enum';
-import { TYPES } from '@//TreeToTS/templates/returnedTypes/models';
-import { resolveUnionMember } from '@//TreeToTS/templates/returnedTypes/unionMember';
-import { plusDescription } from '@//TreeToTS/templates/shared/description';
-import { resolveField } from '@//TreeToTS/templates/shared/field';
+import { resolveEnum } from '@/TreeToTS/templates/returnedTypes/enum';
+import { TYPES } from '@/TreeToTS/templates/returnedTypes/models';
+import { resolveUnionMember } from '@/TreeToTS/templates/returnedTypes/unionMember';
+import { plusDescription } from '@/TreeToTS/templates/shared/description';
+import { resolveField } from '@/TreeToTS/templates/shared/field';
 import { ParserField, TypeDefinition, TypeSystemDefinition, Helpers } from 'graphql-js-tree';
 
 const resolveType = ({ data, name, args }: ParserField, rootNodes: ParserField[]) => {

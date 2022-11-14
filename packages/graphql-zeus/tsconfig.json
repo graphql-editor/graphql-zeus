@@ -17,7 +17,7 @@
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "rootDir": "./",
     "baseUrl": "./",
-    "typeRoots": ["./node_modules/@types", "./types"],
+    "typeRoots": ["../../node_modules/@types"],
     "paths": {
       "@/*": ["./*"]
     },
@@ -31,5 +31,5 @@
       }
     ]
   },
-  "exclude": ["lib", "node_modules", "docs", "generated", "examples", "doc"]
+  "exclude": ["lib", "node_modules"]
 }

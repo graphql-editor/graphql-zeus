@@ -4,9 +4,9 @@ import {
   ReturnTypesType,
   SEPARATOR,
   ZeusArgsType,
-} from '@//TreeToTS/functions/new/models';
-import { ScalarDefinition } from '@//TreeToTS/functions/new/types';
-import { GRAPHQL_TYPE_SEPARATOR, START_VAR_NAME } from '@//TreeToTS/functions/new/variableExtract';
+} from '@/TreeToTS/functions/new/models';
+import { ScalarDefinition } from '@/TreeToTS/functions/new/types';
+import { GRAPHQL_TYPE_SEPARATOR, START_VAR_NAME } from '@/TreeToTS/functions/new/variableExtract';
 
 const mapPart = (p: string) => {
   const [isArg, isField] = p.split('<>');

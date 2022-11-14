@@ -1,4 +1,4 @@
-import { toTypeScriptPrimitive } from '@//TreeToTS/templates/shared/primitive';
+import { toTypeScriptPrimitive } from '@/TreeToTS/templates/shared/primitive';
 
 describe('TypeScript primitive generation', () => {
   test('for inexistent Ts type', () => {

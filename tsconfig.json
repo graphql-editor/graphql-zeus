@@ -1,35 +1,14 @@
 {
-  "compilerOptions": {
-    "sourceMap": true,
-    "target": "es6",
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "experimentalDecorators": true,
-    "declaration": true,
-    "incremental": true,
-    "removeComments": true,
-    "noUnusedLocals": true,
-    "strictNullChecks": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "noEmit": true,
-    "outDir": "./lib",
-    "lib": ["ESNext", "DOM", "DOM.Iterable"],
-    "rootDir": "packages/graphql-zeus-core/src",
-    "baseUrl": "packages/graphql-zeus-core/src",
-    "typeRoots": ["./node_modules/@types", "./types"],
-    "paths": {
-      "@/*": ["./*"]
+  "files": [],
+  "references": [
+    {
+      "path": "./packages/graphql-zeus-core"
     },
-    "plugins": [
-      {
-        "transform": "typescript-transform-paths"
-      },
-      {
-        "transform": "typescript-transform-paths",
-        "afterDeclarations": true
-      }
-    ]
-  },
-  "exclude": ["lib", "node_modules", "docs", "generated", "examples", "doc"]
+    {
+      "path": "./packages/graphql-zeus"
+    },
+    {
+      "path": "./examples/typescript-node"
+    }
+  ]
 }

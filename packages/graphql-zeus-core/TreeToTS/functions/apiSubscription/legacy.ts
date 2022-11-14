@@ -1,4 +1,4 @@
-import { chainOptions } from '@//TreeToTS/functions/new/models';
+import { chainOptions } from '@/TreeToTS/functions/new/models';
 
 export const apiSubscription = (options: chainOptions) => (query: string) => {
   try {

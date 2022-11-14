@@ -1,11 +1,12 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { TreeToJSONSchema, Utils, TranslateGraphQL, Environment } from 'graphql-zeus-core';
+import { TreeToJSONSchema, TranslateGraphQL, Environment } from 'graphql-zeus-core';
 import { Parser } from 'graphql-js-tree';
 import { pluginApollo } from '@/plugins/apollo';
 import { pluginReactQuery } from '@/plugins/react-query';
 import { pluginStucco } from '@/plugins/stuccoSubscriptions';
 import { pluginTypedDocumentNode } from '@/plugins/typedDocumentNode';
+import { Utils } from 'graphql-zeus-core/Utils';
 /**
  * basic yargs interface
  */
@@ -102,7 +103,7 @@ export class CLI {
   };
 }
 
-function writeFileRecursive(pathToFile: string, filename: string, data?: string): void {
+function writeFileRecursive(pathToFile: string, filename: string, data: string): void {
   fs.mkdirSync(pathToFile, { recursive: true });
   fs.writeFileSync(path.join(pathToFile, filename), data);
 }

@@ -1,4 +1,4 @@
-import { GetVariableType, GraphQLVariableType, WithOptionalNullables } from '@//TreeToTS/functions/new/types';
+import { GetVariableType, GraphQLVariableType, WithOptionalNullables } from '@/TreeToTS/functions/new/types';
 
 export type Variable<T extends GraphQLVariableType, Name extends string> = {
   ' __zeus_name': Name;

@@ -1,6 +1,6 @@
-import { TYPES } from '@//TreeToTS/templates/returnedTypes/models';
-import { plusDescription } from '@//TreeToTS/templates/shared/description';
-import { toTypeScriptPrimitive } from '@//TreeToTS/templates/shared/primitive';
+import { TYPES } from '@/TreeToTS/templates/returnedTypes/models';
+import { plusDescription } from '@/TreeToTS/templates/shared/description';
+import { toTypeScriptPrimitive } from '@/TreeToTS/templates/shared/primitive';
 import { ParserField, Options, getTypeName, FieldType } from 'graphql-js-tree';
 
 export const resolveFieldType = (

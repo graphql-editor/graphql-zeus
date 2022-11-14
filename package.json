@@ -1,10 +1,11 @@
 {
-  "name": "mdtx-repo",
+  "name": "graphql-zeus-repo",
   "version": "0.0.1",
   "private": false,
   "license": "MIT",
-  "description": "Elm inspired markdown parser and stritcly typed files generator. Generate TS files from markdown",
-  "homepage": "https://github.com/aexol-studio/mdtx#readme",
+  "description": "Generate Client Library for GraphQL Schema",
+  "homepage": "https://github.com/graphql-editor/graphql-zeus",
+  "readme": "https://github.com/graphql-editor/graphql-zeus#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/graphql-editor/graphql-zeus.git"
@@ -13,17 +14,17 @@
     "url": "https://github.com/graphql-editor/graphql-zeus.git"
   },
   "scripts": {
-    "build": "npm run build -ws",
-    "doc:ci": "cd doc && npm i && npm run build",
-    "doc:watch": "cd doc && npm run start && cd ..",
+    "build": "npm run build -ws --if-present",
     "lint": "ttsc  && eslint \"./packages/**/*.{ts,js}\" --quiet --fix",
     "produce-lib": "ts-node packages/graphql-zeus/libBuilder.ts && eslint packages/graphql-zeus-core/TreeToTS/functions/generated.ts --quiet --fix",
     "run-example-typescript-node": "./run-example.sh examples/typescript-node",
-    "examples-generate": "npm run generate-typescript-node -w packages/graphql-zeus"
+    "examples-generate": "npm run generate-typescript-node -w packages/graphql-zeus",
+    "test": "npm run test -w packages/graphql-zeus-core"
   },
   "devDependencies": {
     "@types/jest": "^29.1.2",
     "@types/ws": "^8.5.3",
+    "@types/node": "^18.11.2",
     "@typescript-eslint/eslint-plugin": "^5.40.0",
     "@typescript-eslint/parser": "^5.40.0",
     "eslint": "^8.25.0",
@@ -38,6 +39,7 @@
     "typescript-transform-paths": "^3.3.1"
   },
   "workspaces": [
-    "./packages/*"
+    "./packages/*",
+    "./examples/typescript-node"
   ]
 }

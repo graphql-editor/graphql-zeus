@@ -1,5 +1,5 @@
-import { plusDescription } from '@//TreeToTS/templates/shared/description';
-import { resolveField } from '@//TreeToTS/templates/shared/field';
+import { plusDescription } from '@/TreeToTS/templates/shared/description';
+import { resolveField } from '@/TreeToTS/templates/shared/field';
 import { ParserField, TypeSystemDefinition, TypeDefinition } from 'graphql-js-tree';
 
 export const MODEL_TYPES = 'ModelTypes';

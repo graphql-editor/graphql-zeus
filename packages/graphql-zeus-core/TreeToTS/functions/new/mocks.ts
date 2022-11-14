@@ -1,6 +1,6 @@
-import { chainOptions, FetchFunction, SubscriptionFunction } from '@//TreeToTS/functions/new/models';
-import { AliasType, ScalarResolver } from '@//TreeToTS/functions/new/types';
-import { Variable } from '@//TreeToTS/functions/new/variableExtract';
+import { chainOptions, FetchFunction, SubscriptionFunction } from '@/TreeToTS/functions/new/models';
+import { AliasType, ScalarResolver } from '@/TreeToTS/functions/new/types';
+import { Variable } from '@/TreeToTS/functions/new/variableExtract';
 
 export const AllTypesProps = {
   Query: {

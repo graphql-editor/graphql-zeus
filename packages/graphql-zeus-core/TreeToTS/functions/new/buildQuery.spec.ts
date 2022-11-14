@@ -1,7 +1,7 @@
-import { InternalsBuildQuery } from '@//TreeToTS/functions/new/buildQuery';
-import { AllTypesProps, Ops, ReturnTypes } from '@//TreeToTS/functions/new/mocks';
-import { $ } from '@//TreeToTS/functions/new/variableExtract';
-import { replSpace } from '@//__tests__/TestUtils';
+import { InternalsBuildQuery } from '@/TreeToTS/functions/new/buildQuery';
+import { AllTypesProps, Ops, ReturnTypes } from '@/TreeToTS/functions/new/mocks';
+import { $ } from '@/TreeToTS/functions/new/variableExtract';
+import { replSpace } from '@/__tests__/TestUtils';
 
 const builder = InternalsBuildQuery({ props: AllTypesProps, returns: ReturnTypes, ops: Ops });
 

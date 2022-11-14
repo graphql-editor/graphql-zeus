@@ -1,5 +1,5 @@
-import { TYPES } from '@//TreeToTS/templates/returnedTypes/models';
-import { resolveUnionMember } from '@//TreeToTS/templates/returnedTypes/unionMember';
+import { TYPES } from '@/TreeToTS/templates/returnedTypes/models';
+import { resolveUnionMember } from '@/TreeToTS/templates/returnedTypes/unionMember';
 import { Options, ParserField, TypeSystemDefinition, getTypeName, createParserField } from 'graphql-js-tree';
 
 test('resolve union members', () => {

@@ -1,5 +1,5 @@
-import { generateScalars, SCALAR_TYPES } from '@//TreeToTS/templates/scalars';
-import { replSpace } from '@//__tests__/TestUtils';
+import { generateScalars, SCALAR_TYPES } from '@/TreeToTS/templates/scalars';
+import { replSpace } from '@/__tests__/TestUtils';
 import { createParserField, Options, TypeDefinition } from 'graphql-js-tree';
 describe('Tests scalars object generation', () => {
   test('Generate empty objects if no scalars', () => {

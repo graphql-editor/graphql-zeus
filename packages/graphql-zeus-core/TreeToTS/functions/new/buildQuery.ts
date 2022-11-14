@@ -6,10 +6,10 @@ import {
   Operations,
   SEPARATOR,
   OperationOptions,
-} from '@//TreeToTS/functions/new/models';
-import { purifyGraphQLKey } from '@//TreeToTS/functions/new/purifyGraphQLKey';
-import { InternalArgsBuilt } from '@//TreeToTS/functions/new/resolvePath';
-import { ScalarDefinition } from '@//TreeToTS/functions/new/types';
+} from '@/TreeToTS/functions/new/models';
+import { purifyGraphQLKey } from '@/TreeToTS/functions/new/purifyGraphQLKey';
+import { InternalArgsBuilt } from '@/TreeToTS/functions/new/resolvePath';
+import { ScalarDefinition } from '@/TreeToTS/functions/new/types';
 
 export const InternalsBuildQuery = ({
   ops,

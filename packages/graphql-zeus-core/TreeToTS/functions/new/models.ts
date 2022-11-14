@@ -1,5 +1,5 @@
-import { Ops, ScalarCoders } from '@//TreeToTS/functions/new/mocks';
-import { ScalarDefinition } from '@//TreeToTS/functions/new/types';
+import { Ops, ScalarCoders } from '@/TreeToTS/functions/new/mocks';
+import { ScalarDefinition } from '@/TreeToTS/functions/new/types';
 
 export type AllTypesPropsType = {
   [x: string]:

@@ -1,5 +1,5 @@
-import { GraphQLTypes, ZEUS_VARIABLES, ZEUS_INTERFACES, ZEUS_UNIONS } from '@//TreeToTS/functions/new/mocks';
-import { Variable } from '@//TreeToTS/functions/new/variableExtract';
+import { GraphQLTypes, ZEUS_VARIABLES, ZEUS_INTERFACES, ZEUS_UNIONS } from '@/TreeToTS/functions/new/mocks';
+import { Variable } from '@/TreeToTS/functions/new/variableExtract';
 
 export type UnwrapPromise<T> = T extends Promise<infer R> ? R : T;
 export type ZeusState<T extends (...args: any[]) => Promise<any>> = NonNullable<UnwrapPromise<ReturnType<T>>>;

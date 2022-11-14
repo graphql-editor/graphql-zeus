@@ -1,4 +1,4 @@
-import { plusDescription } from '@//TreeToTS/templates/shared/description';
+import { plusDescription } from '@/TreeToTS/templates/shared/description';
 import { ParserField } from 'graphql-js-tree';
 
 export const resolveEnum = (i: ParserField): string => {

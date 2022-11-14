@@ -1,7 +1,7 @@
-import { plusDescription } from '@//TreeToTS/templates/shared/description';
-import { isTypeScriptPrimitive, toTypeScriptPrimitive } from '@//TreeToTS/templates/shared/primitive';
-import { truthyType } from '@//TreeToTS/templates/truthy';
-import { INPUTTYPES } from '@//TreeToTS/templates/valueTypes/models';
+import { plusDescription } from '@/TreeToTS/templates/shared/description';
+import { isTypeScriptPrimitive, toTypeScriptPrimitive } from '@/TreeToTS/templates/shared/primitive';
+import { truthyType } from '@/TreeToTS/templates/truthy';
+import { INPUTTYPES } from '@/TreeToTS/templates/valueTypes/models';
 import { ParserField, Options, getTypeName, FieldType } from 'graphql-js-tree';
 
 export const resolveInputArg = (f: ParserField): string => {

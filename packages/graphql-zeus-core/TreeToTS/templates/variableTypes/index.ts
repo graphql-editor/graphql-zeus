@@ -1,4 +1,4 @@
-import { VALUETYPES } from '@//TreeToTS/templates/valueTypes/models';
+import { VALUETYPES } from '@/TreeToTS/templates/valueTypes/models';
 import { ParserField, TypeDefinition } from 'graphql-js-tree';
 export const ZEUS_VARIABLES = `ZEUS_VARIABLES`;
 

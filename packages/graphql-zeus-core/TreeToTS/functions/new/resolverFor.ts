@@ -1,4 +1,4 @@
-import { ModelTypes, ResolverInputTypes } from '@//TreeToTS/functions/new/mocks';
+import { ModelTypes, ResolverInputTypes } from '@/TreeToTS/functions/new/mocks';
 
 export const resolverFor = <X, T extends keyof ResolverInputTypes, Z extends keyof ResolverInputTypes[T]>(
   type: T,

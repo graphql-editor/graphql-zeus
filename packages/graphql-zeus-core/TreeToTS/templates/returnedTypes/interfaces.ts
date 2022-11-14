@@ -1,4 +1,4 @@
-import { TYPES, ZEUS_INTERFACES } from '@//TreeToTS/templates/returnedTypes/models';
+import { TYPES, ZEUS_INTERFACES } from '@/TreeToTS/templates/returnedTypes/models';
 import { ParserField, TypeDefinition } from 'graphql-js-tree';
 
 export const resolveInterfaces = (rootNodes: ParserField[]): string => {

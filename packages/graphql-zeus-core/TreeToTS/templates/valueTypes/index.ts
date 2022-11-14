@@ -1,8 +1,8 @@
-import { truthyType } from '@//TreeToTS/templates/truthy';
+import { truthyType } from '@/TreeToTS/templates/truthy';
 import { ParserField, TypeSystemDefinition, Helpers, TypeDefinition, getTypeName } from 'graphql-js-tree';
-import { createValueType, resolveArg, resolveValueField } from '@//TreeToTS/templates/valueTypes/arg';
-import { plusDescription } from '@//TreeToTS/templates/shared/description';
-import { VALUETYPES } from '@//TreeToTS/templates/valueTypes/models';
+import { createValueType, resolveArg, resolveValueField } from '@/TreeToTS/templates/valueTypes/arg';
+import { plusDescription } from '@/TreeToTS/templates/shared/description';
+import { VALUETYPES } from '@/TreeToTS/templates/valueTypes/models';
 
 const AliasType = (code: string): string => `AliasType<${code}>`;
 const resolveValueTypeFromRoot = (i: ParserField, rootNodes: ParserField[], enumsAndScalars: string[]): string => {

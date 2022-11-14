@@ -1,5 +1,5 @@
-import { decodeScalarsInResponse } from '@//TreeToTS/functions/new/decodeScalarsInResponse';
-import { Ops, ReturnTypes } from '@//TreeToTS/functions/new/mocks';
+import { decodeScalarsInResponse } from '@/TreeToTS/functions/new/decodeScalarsInResponse';
+import { Ops, ReturnTypes } from '@/TreeToTS/functions/new/mocks';
 
 describe('Scalars in response get decoded', () => {
   test('JSON scalar decoded in response', () => {

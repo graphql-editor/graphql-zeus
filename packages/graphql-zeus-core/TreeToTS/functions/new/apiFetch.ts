@@ -1,4 +1,4 @@
-import { fetchOptions, GraphQLError, GraphQLResponse } from '@//TreeToTS/functions/new/models';
+import { fetchOptions, GraphQLError, GraphQLResponse } from '@/TreeToTS/functions/new/models';
 
 const handleFetchResponse = (response: Response): Promise<GraphQLResponse> => {
   if (!response.ok) {

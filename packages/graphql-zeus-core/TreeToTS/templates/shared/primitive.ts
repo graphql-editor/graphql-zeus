@@ -1,4 +1,4 @@
-import { TYPES } from '@//TreeToTS/templates/returnedTypes/models';
+import { TYPES } from '@/TreeToTS/templates/returnedTypes/models';
 
 const typeScriptMap: Record<string, string> = {
   Int: 'number',

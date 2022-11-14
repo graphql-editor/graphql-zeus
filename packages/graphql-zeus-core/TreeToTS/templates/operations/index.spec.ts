@@ -1,5 +1,5 @@
-import { operationNodeToKV, resolveOperations } from '@//TreeToTS/templates/operations';
-import { replSpace } from '@//__tests__/TestUtils';
+import { operationNodeToKV, resolveOperations } from '@/TreeToTS/templates/operations';
+import { replSpace } from '@/__tests__/TestUtils';
 import { createParserField, OperationType, Options, TypeDefinition } from 'graphql-js-tree';
 
 describe('Test operations string generation', () => {

@@ -1,4 +1,4 @@
-import { purifyGraphQLKey } from '@//TreeToTS/functions/new/purifyGraphQLKey';
+import { purifyGraphQLKey } from '@/TreeToTS/functions/new/purifyGraphQLKey';
 
 describe('Test purify graphql keys', () => {
   test('Remove parentheses', () => {

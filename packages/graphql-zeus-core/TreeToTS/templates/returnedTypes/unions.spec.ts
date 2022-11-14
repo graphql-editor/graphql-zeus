@@ -1,5 +1,5 @@
-import { TYPES, ZEUS_UNIONS } from '@//TreeToTS/templates/returnedTypes/models';
-import { resolveUnions } from '@//TreeToTS/templates/returnedTypes/unions';
+import { TYPES, ZEUS_UNIONS } from '@/TreeToTS/templates/returnedTypes/models';
+import { resolveUnions } from '@/TreeToTS/templates/returnedTypes/unions';
 import { createParserField, Options, TypeDefinition } from 'graphql-js-tree';
 
 describe('Test union => ZEUS_UNIONS generation', () => {

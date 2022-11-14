@@ -1,5 +1,5 @@
-import { InternalsBuildQuery } from '@//TreeToTS/functions/new/buildQuery';
-import { decodeScalarsInResponse } from '@//TreeToTS/functions/new/decodeScalarsInResponse';
+import { InternalsBuildQuery } from '@/TreeToTS/functions/new/buildQuery';
+import { decodeScalarsInResponse } from '@/TreeToTS/functions/new/decodeScalarsInResponse';
 import {
   AllTypesProps,
   GraphQLTypes,
@@ -11,7 +11,7 @@ import {
   HOST,
   ScalarCoders,
   HEADERS,
-} from '@//TreeToTS/functions/new/mocks';
+} from '@/TreeToTS/functions/new/mocks';
 import {
   chainOptions,
   FetchFunction,
@@ -20,9 +20,9 @@ import {
   SubscriptionFunction,
   ThunderGraphQLOptions,
   VType,
-} from '@//TreeToTS/functions/new/models';
-import { InputType, ScalarDefinition, SelectionFunction, SubscriptionToGraphQL } from '@//TreeToTS/functions/new/types';
-import { ExtractVariables } from '@//TreeToTS/functions/new/variableExtract';
+} from '@/TreeToTS/functions/new/models';
+import { InputType, ScalarDefinition, SelectionFunction, SubscriptionToGraphQL } from '@/TreeToTS/functions/new/types';
+import { ExtractVariables } from '@/TreeToTS/functions/new/variableExtract';
 
 export const Thunder =
   (fn: FetchFunction) =>

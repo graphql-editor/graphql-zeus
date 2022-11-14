@@ -1,4 +1,4 @@
-import { resolveValueFieldType } from '@//TreeToTS/templates/valueTypes/arg';
+import { resolveValueFieldType } from '@/TreeToTS/templates/valueTypes/arg';
 import { Options } from 'graphql-js-tree';
 
 describe('Test type arg generation', () => {

@@ -1,5 +1,5 @@
-import { resolveInterfaces } from '@//TreeToTS/templates/returnedTypes/interfaces';
-import { TYPES, ZEUS_INTERFACES } from '@//TreeToTS/templates/returnedTypes/models';
+import { resolveInterfaces } from '@/TreeToTS/templates/returnedTypes/interfaces';
+import { TYPES, ZEUS_INTERFACES } from '@/TreeToTS/templates/returnedTypes/models';
 import { createParserField, Options, TypeDefinition } from 'graphql-js-tree';
 
 describe('Test interface => ZEUS_INTERFACES generation', () => {

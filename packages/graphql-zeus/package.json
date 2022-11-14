@@ -9,7 +9,7 @@
   },
   "author": "",
   "license": "MIT",
-  "description": "Generate Client Libary for GraphQL Schema",
+  "description": "Generate Client Library for GraphQL Schema",
   "homepage": "https://graphqleditor.com",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -24,9 +24,6 @@
     "url": "https://github.com/graphql-editor/graphql-zeus.git"
   },
   "private": "false",
-  "devDependencies": {
-    "@types/node": "^18.11.2"
-  },
   "dependencies": {
     "yargs": "^16.1.1",
     "cross-fetch": "^3.0.4"

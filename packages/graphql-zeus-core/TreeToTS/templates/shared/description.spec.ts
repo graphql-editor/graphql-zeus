@@ -1,4 +1,4 @@
-import { plusDescription } from '@//TreeToTS/templates/shared/description';
+import { plusDescription } from '@/TreeToTS/templates/shared/description';
 
 test('It creates correct TypeScript doc', () => {
   const desc = plusDescription('Hello world', '');

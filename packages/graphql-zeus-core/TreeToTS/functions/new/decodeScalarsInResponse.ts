@@ -1,7 +1,7 @@
-import { InputValueType, Operations, ReturnTypesType, SEPARATOR, VType } from '@//TreeToTS/functions/new/models';
-import { PrepareScalarPaths } from '@//TreeToTS/functions/new/prepareScalarPaths';
-import { purifyGraphQLKey } from '@//TreeToTS/functions/new/purifyGraphQLKey';
-import { ScalarResolver } from '@//TreeToTS/functions/new/types';
+import { InputValueType, Operations, ReturnTypesType, SEPARATOR, VType } from '@/TreeToTS/functions/new/models';
+import { PrepareScalarPaths } from '@/TreeToTS/functions/new/prepareScalarPaths';
+import { purifyGraphQLKey } from '@/TreeToTS/functions/new/purifyGraphQLKey';
+import { ScalarResolver } from '@/TreeToTS/functions/new/types';
 
 export const decodeScalarsInResponse = <O extends Operations>({
   response,

@@ -1,4 +1,4 @@
-import { TYPES } from '@//TreeToTS/templates/returnedTypes/models';
+import { TYPES } from '@/TreeToTS/templates/returnedTypes/models';
 import { getTypeName, ParserField } from 'graphql-js-tree';
 
 export const resolveUnionMember = (f: ParserField) =>

@@ -1,5 +1,5 @@
-import { resolvePropTypeFromRoot } from '@//TreeToTS/templates/returnedPropTypes';
-import { replSpace } from '@//__tests__/TestUtils';
+import { resolvePropTypeFromRoot } from '@/TreeToTS/templates/returnedPropTypes';
+import { replSpace } from '@/__tests__/TestUtils';
 import {
   createParserField,
   Options,

@@ -1,6 +1,6 @@
-import { Chain, ZeusScalars, Selector } from '@//TreeToTS/functions/new/clientFunctions';
-import { FromSelector } from '@//TreeToTS/functions/new/types';
-import { $ } from '@//TreeToTS/functions/new/variableExtract';
+import { Chain, ZeusScalars, Selector } from '@/TreeToTS/functions/new/clientFunctions';
+import { FromSelector } from '@/TreeToTS/functions/new/types';
+import { $ } from '@/TreeToTS/functions/new/variableExtract';
 
 const cardSelector = Selector('Card')({ name: true, id: true });
 

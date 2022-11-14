@@ -1,5 +1,5 @@
-import { ReturnTypesType, InputValueType, VType, Operations, SEPARATOR } from '@//TreeToTS/functions/new/models';
-import { purifyGraphQLKey } from '@//TreeToTS/functions/new/purifyGraphQLKey';
+import { ReturnTypesType, InputValueType, VType, Operations, SEPARATOR } from '@/TreeToTS/functions/new/models';
+import { purifyGraphQLKey } from '@/TreeToTS/functions/new/purifyGraphQLKey';
 
 const ExtractScalar = (mappedParts: string[], returns: ReturnTypesType): `scalar.${string}` | undefined => {
   if (mappedParts.length === 0) {

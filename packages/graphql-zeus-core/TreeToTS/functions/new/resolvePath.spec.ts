@@ -1,5 +1,5 @@
-import { AllTypesProps, Ops, ReturnTypes } from '@//TreeToTS/functions/new/mocks';
-import { ResolveFromPath } from '@//TreeToTS/functions/new/resolvePath';
+import { AllTypesProps, Ops, ReturnTypes } from '@/TreeToTS/functions/new/mocks';
+import { ResolveFromPath } from '@/TreeToTS/functions/new/resolvePath';
 
 const resolver = ResolveFromPath(AllTypesProps, ReturnTypes, Ops);
 

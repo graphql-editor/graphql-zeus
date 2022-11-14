@@ -1,4 +1,4 @@
-import { resolveFieldType } from '@//TreeToTS/templates/shared/field';
+import { resolveFieldType } from '@/TreeToTS/templates/shared/field';
 import { Options } from 'graphql-js-tree';
 
 describe('Test type field generation', () => {

@@ -1,5 +1,5 @@
-import { Ops, ReturnTypes } from '@//TreeToTS/functions/new/mocks';
-import { PrepareScalarPaths } from '@//TreeToTS/functions/new/prepareScalarPaths';
+import { Ops, ReturnTypes } from '@/TreeToTS/functions/new/mocks';
+import { PrepareScalarPaths } from '@/TreeToTS/functions/new/prepareScalarPaths';
 
 const builder = PrepareScalarPaths({ returns: ReturnTypes, ops: Ops });
 
