@@ -1,23 +1,10 @@
 /* eslint-disable */
 
 import { Zeus, GraphQLTypes, InputType, ValueTypes, OperationOptions, ScalarDefinition } from './index';
-import { gql, useSubscription, useQuery, useLazyQuery, useMutation } from '@apollo/client';
-import type { SubscriptionHookOptions, QueryHookOptions, LazyQueryHookOptions, MutationHookOptions } from '@apollo/client';
+import { gql, useQuery, useLazyQuery, useSubscription, useMutation } from '@apollo/client';
+import type { QueryHookOptions, LazyQueryHookOptions, SubscriptionHookOptions, MutationHookOptions } from '@apollo/client';
 
 
-export function useTypedSubscription<Z extends ValueTypes[O], O extends "Subscription", SCLR extends ScalarDefinition>(
-  subscription: Z | ValueTypes[O],
-  options?:{
-    apolloOptions?: SubscriptionHookOptions<InputType<GraphQLTypes[O], Z, SCLR>>,
-    operationOptions?: OperationOptions,
-    scalars?: SCLR
-  }
-) {
-  return useSubscription<InputType<GraphQLTypes[O], Z, SCLR>>(gql(Zeus("subscription",subscription, {
-    operationOptions: options?.operationOptions,
-    scalars: options?.scalars
-  })), options?.apolloOptions);
-}
 export function useTypedQuery<Z extends ValueTypes[O], O extends "Query", SCLR extends ScalarDefinition>(
   query: Z | ValueTypes[O],
   options?:{
@@ -40,6 +27,19 @@ export function useTypedLazyQuery<Z extends ValueTypes[O], O extends "Query", SC
   }
 ) {
   return useLazyQuery<InputType<GraphQLTypes[O], Z, SCLR>>(gql(Zeus("query",LazyQuery, {
+    operationOptions: options?.operationOptions,
+    scalars: options?.scalars
+  })), options?.apolloOptions);
+}
+export function useTypedSubscription<Z extends ValueTypes[O], O extends "Subscription", SCLR extends ScalarDefinition>(
+  subscription: Z | ValueTypes[O],
+  options?:{
+    apolloOptions?: SubscriptionHookOptions<InputType<GraphQLTypes[O], Z, SCLR>>,
+    operationOptions?: OperationOptions,
+    scalars?: SCLR
+  }
+) {
+  return useSubscription<InputType<GraphQLTypes[O], Z, SCLR>>(gql(Zeus("subscription",subscription, {
     operationOptions: options?.operationOptions,
     scalars: options?.scalars
   })), options?.apolloOptions);

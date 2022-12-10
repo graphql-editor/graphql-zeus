@@ -13,8 +13,8 @@ jobs:
           node-version: '14.x'
           registry-url: 'https://registry.npmjs.org'
       - run: npm install
-      - run: npm test
-      - run: npm run build
-      - run: npm publish --access public --tag latest
+      - run: npm run test
+      - run: npm run build --ws --if-present
+      - run: npm publish -ws --access public --tag latest
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}

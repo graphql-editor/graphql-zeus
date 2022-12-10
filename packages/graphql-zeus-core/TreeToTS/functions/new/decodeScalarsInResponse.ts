@@ -61,7 +61,12 @@ export const traverseResponse = ({
     if (typeof o === 'boolean' || typeof o === 'number' || typeof o === 'string' || !o) {
       return o;
     }
-    return Object.fromEntries(Object.entries(o).map(([k, v]) => [k, ibb(k, v, [...p, purifyGraphQLKey(k)])]));
+    const entries = Object.entries(o).map(([k, v]) => [k, ibb(k, v, [...p, purifyGraphQLKey(k)])] as const);
+    const objectFromEntries = entries.reduce<Record<string, unknown>>((a, [k, v]) => {
+      a[k] = v;
+      return a;
+    }, {});
+    return objectFromEntries;
   };
   return ibb;
 };

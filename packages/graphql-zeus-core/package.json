@@ -3,6 +3,7 @@
   "version": "5.2.0",
   "private": false,
   "main": "./lib/index.js",
+  "author": "GraphQL Editor, Artur Czemiel",
   "scripts": {
     "build": "ttsc --build tsconfig.build.json",
     "start": "ttsc --build tsconfig.build.json --watch",

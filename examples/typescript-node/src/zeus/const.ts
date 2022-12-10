@@ -29,19 +29,9 @@ export const AllTypesProps: Record<string,any> = {
 }
 
 export const ReturnTypes: Record<string,any> = {
-	CardStack:{
-		cards:"Card",
-		name:"String"
-	},
-	Subscription:{
-		deck:"Card"
-	},
-	Nameable:{
-		"...on CardStack": "CardStack",
-		"...on SpecialCard": "SpecialCard",
-		"...on Card": "Card",
-		"...on EffectCard": "EffectCard",
-		name:"String"
+	ChangeCard:{
+		"...on SpecialCard":"SpecialCard",
+		"...on EffectCard":"EffectCard"
 	},
 	Query:{
 		cardById:"Card",
@@ -52,18 +42,16 @@ export const ReturnTypes: Record<string,any> = {
 		nameables:"Nameable",
 		public:"Public"
 	},
-	S3Object:{
-		bucket:"String",
-		key:"String",
-		region:"String"
+	EffectCard:{
+		effectSize:"Float",
+		name:"String"
+	},
+	Subscription:{
+		deck:"Card"
 	},
 	SpecialCard:{
 		effect:"String",
 		name:"String"
-	},
-	ChangeCard:{
-		"...on SpecialCard":"SpecialCard",
-		"...on EffectCard":"EffectCard"
 	},
 	Card:{
 		Attack:"Int",
@@ -78,24 +66,36 @@ export const ReturnTypes: Record<string,any> = {
 		name:"String",
 		skills:"SpecialSkills"
 	},
+	S3Object:{
+		bucket:"String",
+		key:"String",
+		region:"String"
+	},
 	JSON: `scalar.JSON` as const,
-	Public:{
-		powerups:"Powerup"
-	},
-	Mutation:{
-		addCard:"Card"
-	},
 	Powerup:{
 		name:"String"
 	},
-	EffectCard:{
-		effectSize:"Float",
+	Public:{
+		powerups:"Powerup"
+	},
+	CardStack:{
+		cards:"Card",
 		name:"String"
+	},
+	Nameable:{
+		"...on EffectCard": "EffectCard",
+		"...on SpecialCard": "SpecialCard",
+		"...on Card": "Card",
+		"...on CardStack": "CardStack",
+		name:"String"
+	},
+	Mutation:{
+		addCard:"Card"
 	}
 }
 
 export const Ops = {
-subscription: "Subscription" as const,
-	query: "Query" as const,
+query: "Query" as const,
+	subscription: "Subscription" as const,
 	mutation: "Mutation" as const
 }
