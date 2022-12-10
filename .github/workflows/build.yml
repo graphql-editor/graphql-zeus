@@ -1,17 +1,40 @@
 on:
   push:
+    branches:
+      - '**'
     tags-ignore:
-      - '*'
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+  pull_request:
+    branches:
+      - master
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [18, 16]
+        platform: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.platform }}
     steps:
-      - uses: actions/checkout@v2
-      # Setup .npmrc file to publish to npm
-      - uses: actions/setup-node@v1
+      - name: setup node
+        uses: actions/setup-node@v1
         with:
-          node-version: '14.x'
-          registry-url: 'https://registry.npmjs.org'
-      - run: npm install
-      - run: npm run test
-      - run: npm run build --ws --if-present
+          node-version: ${{ matrix.node }}
+      - name: checkout
+        uses: actions/checkout@v1
+      - name: Get npm cache directory
+        id: npm-cache
+        run: |
+          echo "::set-output name=dir::$(npm config get cache)"
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.npm-cache.outputs.dir }}
+          key: ${{ matrix.platform }}-node-${{ matrix.node }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ matrix.platform }}-node-${{ matrix.node }}
+      - name: install deps
+        run: npm install
+      - name: run tests
+        run: npm run test
+        if: matrix.node == 16 # Only run unit test on node 16, more at: https://github.com/facebook/jest/issues/11438
+      - name: build library
+        run: npm run build --ws --if-present
