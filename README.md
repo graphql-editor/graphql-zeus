@@ -21,23 +21,18 @@ GraphQL Zeus is the absolute best way to interact with your GraphQL endpoints in
 
 ## Full documentation
 
-[Full documentation is available here](https://zeus.graphqleditor.com)
+Our full documentation has all the use cases of:
 
-## Generate Types With Zeus CLI Example
+- scalars
+- selectors
 
-Simply run Zeus in your terminal to output your types file based on your graphql schema
+and much more...
 
-![](images/zeus-bash-command.png)
-
-## Usage Example
-
-Example using a generated `chain` client. Queries, mutations and subscriptions are now type-safe in arguments, field selections and response types.
-
-![](images/example.png)
+[Full documentation is available here](https://graphqleditor.com/docs/tools/zeus/index/)
 
 ## Join the Zeus Community and Spread the Word
 
-⚡️ [Join the Discussion forum on GitHub](https://github.com/graphql-editor/graphql-zeus/discussions) 📣
+⚡️ [Join the Discussion forum on Dicord](https://discord.gg/bHf2cw8e) 📣
 
 ⚡️ Leave a GitHub star ⭐️ 👆
 
