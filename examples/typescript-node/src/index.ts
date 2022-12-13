@@ -11,6 +11,7 @@ import {
   ZeusScalars,
   ValueTypes,
   $,
+  FromSelector,
 } from './zeus';
 import { ApolloClient, InMemoryCache, useMutation } from '@apollo/client';
 import { typedGql } from './zeus/typedDocumentNode';
@@ -375,6 +376,51 @@ const run = async () => {
     },
     cardById: [{ cardId: $('cardId', 'String!') }, { id: true }],
   });
+
+  //interface selector
+  const inSelector = Selector('Nameable')({
+    __typename: true,
+    name: true,
+  });
+
+  type aa = FromSelector<typeof inSelector, 'Nameable'>;
+  const ab: aa = {} as any;
+  if (ab.__typename === 'Card') {
+    ab.name;
+  } else if (ab.__typename === 'EffectCard') {
+    ab.name;
+  } else if (ab.__typename === 'CardStack') {
+    ab.name;
+  }
+  //interface selector
+  const inSelector2 = Selector('Nameable')({
+    __typename: true,
+    name: true,
+    '...on Card': {
+      description: true,
+    },
+    '...on EffectCard': {
+      effectSize: true,
+    },
+    '...on CardStack': {
+      cards: {
+        info: true,
+      },
+    },
+  });
+
+  type bb = FromSelector<typeof inSelector2, 'Nameable'>;
+  const bc: bb = {} as any;
+  if (bc.__typename === 'Card') {
+    bc.name;
+    bc.description;
+  } else if (bc.__typename === 'EffectCard') {
+    bc.name;
+    bc.effectSize;
+  } else if (bc.__typename === 'CardStack') {
+    bc.name;
+    bc.cards;
+  }
 
   const generatedTypedDocumentNode = typedGql('query')(selectorTDD);
   printQueryResult('Generated TypedDocumentNode Test', generatedTypedDocumentNode);

@@ -6,7 +6,7 @@ const removeImports = (s: string) => s.replace(/import\s(\n|\w|{|}|\s|,)*.*;(?! 
 const toTemplateString = (s: string) => '`' + s.replace(/\$\{/gm, '\\${').replace(/`/gm, '\\`') + '`';
 
 const bundleFunctions = () => {
-  const baseDirFunctions = path.join(process.cwd(), 'src/TreeToTS/functions');
+  const baseDirFunctions = path.join(process.cwd(), 'packages/graphql-zeus-core/TreeToTS/functions');
   const baseDir = path.join(baseDirFunctions, 'new');
   const directories = fs.readdirSync(baseDir);
   const allFunctions = directories

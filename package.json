@@ -16,12 +16,12 @@
   "scripts": {
     "build": "npm run build -ws --if-present",
     "lint": "ttsc  && eslint \"./packages/**/*.{ts,js}\" --quiet --fix",
-    "produce-lib": "ts-node packages/graphql-zeus/libBuilder.ts && eslint packages/graphql-zeus-core/TreeToTS/functions/generated.ts --quiet --fix",
     "run-example-typescript-node": "./run-example.sh examples/typescript-node",
     "examples-generate": "npm run generate-typescript-node",
-    "test": "npm run test -w packages/graphql-zeus-core",
+    "produce-lib": "ts-node libBuilder.ts && eslint packages/graphql-zeus-core/TreeToTS/functions/generated.ts --quiet --fix",
     "generate-typescript-node": "node ./packages/graphql-zeus/lib/index.js https://faker.graphqleditor.com/a-team/olympus/graphql ./examples/typescript-node/src --n -g ./examples/typescript-node/zeus.graphql --apollo --reactQuery --stuccoSubscriptions --td",
-    "cli": "node ./packages/graphql-zeus/lib/index.js"
+    "cli": "node ./packages/graphql-zeus/lib/index.js",
+    "test": "jest"
   },
   "devDependencies": {
     "@types/jest": "^29.1.2",
@@ -38,7 +38,21 @@
     "ts-node": "^10.9.1",
     "ttypescript": "^1.5.15",
     "typescript": "4.8.4",
-    "typescript-transform-paths": "^3.3.1"
+    "typescript-transform-paths": "^3.3.1",
+    "@babel/core": "^7.2.2",
+    "@babel/node": "^7.10.5",
+    "@babel/preset-env": "^7.11.5",
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
+    "@types/graphql": "^14.5.0",
+    "@types/node-fetch": "^2.3.7",
+    "@types/yargs": "^15.0.11",
+    "cz-conventional-changelog": "^3.1.0",
+    "graphql-ws": "^5.8.2",
+    "husky": "^4.2.3",
+    "mocha": "^7.1.0",
+    "ts-toolbelt": "^6.3.6",
+    "tslint-config-prettier": "^1.18.0"
   },
   "workspaces": [
     "./packages/graphql-zeus-core",

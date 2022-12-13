@@ -4,7 +4,7 @@ module.exports = {
   moduleNameMapper: {
     '@/(.*)': ['<rootDir>/$1'],
   },
-  testMatch: ['**/*.spec.(ts|tsx)'],
+  testMatch: ['<rootDir>/**/*.spec.(ts|tsx)'],
   watchPathIgnorePatterns: ['node_modules'],
   watchman: false,
 };

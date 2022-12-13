@@ -16,7 +16,7 @@
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "rootDir": "./",
     "baseUrl": "./",
-    "typeRoots": ["./node_modules/@types", "./types"],
+    "composite": true,
     "paths": {
       "@/*": ["./*"]
     },
@@ -30,5 +30,5 @@
       }
     ]
   },
-  "exclude": ["lib", "node_modules"]
+  "exclude": ["lib", "node_modules", "jest.config.js"]
 }
