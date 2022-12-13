@@ -25,11 +25,7 @@
   "dependencies": {
     "yargs": "^16.1.1",
     "cross-fetch": "^3.0.4",
-    "graphql-zeus-core": "*"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint"
-    }
+    "graphql-zeus-core": "*",
+    "graphql-zeus-jsonschema": "*"
   }
 }

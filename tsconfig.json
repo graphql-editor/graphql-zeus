@@ -2,6 +2,9 @@
   "files": [],
   "references": [
     {
+      "path": "./packages/graphql-zeus-jsonschema"
+    },
+    {
       "path": "./packages/graphql-zeus-core"
     },
     {

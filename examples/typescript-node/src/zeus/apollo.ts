@@ -1,10 +1,23 @@
 /* eslint-disable */
 
 import { Zeus, GraphQLTypes, InputType, ValueTypes, OperationOptions, ScalarDefinition } from './index';
-import { gql, useQuery, useLazyQuery, useSubscription, useMutation } from '@apollo/client';
-import type { QueryHookOptions, LazyQueryHookOptions, SubscriptionHookOptions, MutationHookOptions } from '@apollo/client';
+import { gql, useMutation, useQuery, useLazyQuery, useSubscription } from '@apollo/client';
+import type { MutationHookOptions, QueryHookOptions, LazyQueryHookOptions, SubscriptionHookOptions } from '@apollo/client';
 
 
+export function useTypedMutation<Z extends ValueTypes[O], O extends "Mutation", SCLR extends ScalarDefinition>(
+  mutation: Z | ValueTypes[O],
+  options?:{
+    apolloOptions?: MutationHookOptions<InputType<GraphQLTypes[O], Z, SCLR>>,
+    operationOptions?: OperationOptions,
+    scalars?: SCLR
+  }
+) {
+  return useMutation<InputType<GraphQLTypes[O], Z, SCLR>>(gql(Zeus("mutation",mutation, {
+    operationOptions: options?.operationOptions,
+    scalars: options?.scalars
+  })), options?.apolloOptions);
+}
 export function useTypedQuery<Z extends ValueTypes[O], O extends "Query", SCLR extends ScalarDefinition>(
   query: Z | ValueTypes[O],
   options?:{
@@ -40,19 +53,6 @@ export function useTypedSubscription<Z extends ValueTypes[O], O extends "Subscri
   }
 ) {
   return useSubscription<InputType<GraphQLTypes[O], Z, SCLR>>(gql(Zeus("subscription",subscription, {
-    operationOptions: options?.operationOptions,
-    scalars: options?.scalars
-  })), options?.apolloOptions);
-}
-export function useTypedMutation<Z extends ValueTypes[O], O extends "Mutation", SCLR extends ScalarDefinition>(
-  mutation: Z | ValueTypes[O],
-  options?:{
-    apolloOptions?: MutationHookOptions<InputType<GraphQLTypes[O], Z, SCLR>>,
-    operationOptions?: OperationOptions,
-    scalars?: SCLR
-  }
-) {
-  return useMutation<InputType<GraphQLTypes[O], Z, SCLR>>(gql(Zeus("mutation",mutation, {
     operationOptions: options?.operationOptions,
     scalars: options?.scalars
   })), options?.apolloOptions);

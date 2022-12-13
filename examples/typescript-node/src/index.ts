@@ -373,13 +373,13 @@ const run = async () => {
       id: true,
       Attack: true,
       Defense: true,
+      attacks: true,
     },
     cardById: [{ cardId: $('cardId', 'String!') }, { id: true }],
   });
 
   //interface selector
   const inSelector = Selector('Nameable')({
-    __typename: true,
     name: true,
   });
 

@@ -39,22 +39,16 @@
     "ttypescript": "^1.5.15",
     "typescript": "4.8.4",
     "typescript-transform-paths": "^3.3.1",
-    "@babel/core": "^7.2.2",
-    "@babel/node": "^7.10.5",
-    "@babel/preset-env": "^7.11.5",
     "@commitlint/cli": "^8.3.5",
     "@commitlint/config-conventional": "^8.3.4",
     "@types/graphql": "^14.5.0",
     "@types/node-fetch": "^2.3.7",
     "@types/yargs": "^15.0.11",
     "cz-conventional-changelog": "^3.1.0",
-    "graphql-ws": "^5.8.2",
-    "husky": "^4.2.3",
-    "mocha": "^7.1.0",
-    "ts-toolbelt": "^6.3.6",
-    "tslint-config-prettier": "^1.18.0"
+    "graphql-ws": "^5.8.2"
   },
   "workspaces": [
+    "./packages/graphql-zeus-jsonschema",
     "./packages/graphql-zeus-core",
     "./packages/graphql-zeus",
     "./examples/typescript-node"
