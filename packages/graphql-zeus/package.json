@@ -1,6 +1,6 @@
 {
   "name": "graphql-zeus",
-  "version": "5.2.3",
+  "version": "5.2.4",
   "private": false,
   "scripts": {
     "start": "ttsc --build tsconfig.build.json --watch",
