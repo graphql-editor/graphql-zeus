@@ -1,6 +1,6 @@
 {
   "name": "graphql-zeus-core",
-  "version": "5.2.4",
+  "version": "5.2.5",
   "private": false,
   "main": "./lib/index.js",
   "author": "GraphQL Editor, Artur Czemiel",
