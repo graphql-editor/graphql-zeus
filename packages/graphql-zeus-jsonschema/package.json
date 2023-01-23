@@ -17,8 +17,8 @@
   },
   "dependencies": {
     "graphql": "^16.5.0",
-    "json-schema": "^0.3.0",
-    "graphql-js-tree": "^0.1.9"
+    "graphql-js-tree": "^0.2.5",
+    "json-schema": "^0.3.0"
   },
   "peerDependencies": {
     "graphql-ws": ">=5"
