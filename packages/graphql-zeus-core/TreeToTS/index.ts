@@ -105,7 +105,9 @@ export class TreeToTS {
     subscriptions = 'legacy',
   }: ResolveOptions) {
     return {
-      indexImports: `import { AllTypesProps, ReturnTypes, Ops } from './const${esModule ? '.js' : ''}';`.concat(
+      indexImports: `import { AllTypesProps, ReturnTypes, Ops } from './const${
+        esModule || env === 'node' ? '.js' : ''
+      }';`.concat(
         env === 'node'
           ? `
 import fetch, { Response } from 'node-fetch';

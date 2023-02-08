@@ -1,8 +1,8 @@
 /* eslint-disable */
 
 import { Zeus, GraphQLTypes, InputType, ValueTypes, OperationOptions, ScalarDefinition } from './index';
-import { gql, useMutation, useQuery, useLazyQuery, useSubscription } from '@apollo/client';
-import type { MutationHookOptions, QueryHookOptions, LazyQueryHookOptions, SubscriptionHookOptions } from '@apollo/client';
+import { gql, useMutation, useSubscription, useQuery, useLazyQuery } from '@apollo/client';
+import type { MutationHookOptions, SubscriptionHookOptions, QueryHookOptions, LazyQueryHookOptions } from '@apollo/client';
 
 
 export function useTypedMutation<Z extends ValueTypes[O], O extends "Mutation", SCLR extends ScalarDefinition>(
@@ -14,6 +14,19 @@ export function useTypedMutation<Z extends ValueTypes[O], O extends "Mutation", 
   }
 ) {
   return useMutation<InputType<GraphQLTypes[O], Z, SCLR>>(gql(Zeus("mutation",mutation, {
+    operationOptions: options?.operationOptions,
+    scalars: options?.scalars
+  })), options?.apolloOptions);
+}
+export function useTypedSubscription<Z extends ValueTypes[O], O extends "Subscription", SCLR extends ScalarDefinition>(
+  subscription: Z | ValueTypes[O],
+  options?:{
+    apolloOptions?: SubscriptionHookOptions<InputType<GraphQLTypes[O], Z, SCLR>>,
+    operationOptions?: OperationOptions,
+    scalars?: SCLR
+  }
+) {
+  return useSubscription<InputType<GraphQLTypes[O], Z, SCLR>>(gql(Zeus("subscription",subscription, {
     operationOptions: options?.operationOptions,
     scalars: options?.scalars
   })), options?.apolloOptions);
@@ -40,19 +53,6 @@ export function useTypedLazyQuery<Z extends ValueTypes[O], O extends "Query", SC
   }
 ) {
   return useLazyQuery<InputType<GraphQLTypes[O], Z, SCLR>>(gql(Zeus("query",LazyQuery, {
-    operationOptions: options?.operationOptions,
-    scalars: options?.scalars
-  })), options?.apolloOptions);
-}
-export function useTypedSubscription<Z extends ValueTypes[O], O extends "Subscription", SCLR extends ScalarDefinition>(
-  subscription: Z | ValueTypes[O],
-  options?:{
-    apolloOptions?: SubscriptionHookOptions<InputType<GraphQLTypes[O], Z, SCLR>>,
-    operationOptions?: OperationOptions,
-    scalars?: SCLR
-  }
-) {
-  return useSubscription<InputType<GraphQLTypes[O], Z, SCLR>>(gql(Zeus("subscription",subscription, {
     operationOptions: options?.operationOptions,
     scalars: options?.scalars
   })), options?.apolloOptions);

@@ -1,19 +1,23 @@
 /* eslint-disable */
 
 export const AllTypesProps: Record<string,any> = {
-	SpecialSkills: "enum" as const,
-	JSON: `scalar.JSON` as const,
-	Card:{
-		attack:{
-
-		}
-	},
 	createCard:{
 		skills:"SpecialSkills"
+	},
+	Public:{
+		powerups:{
+
+		}
 	},
 	Mutation:{
 		addCard:{
 			card:"createCard"
+		}
+	},
+	JSON: `scalar.JSON` as const,
+	Card:{
+		attack:{
+
 		}
 	},
 	Query:{
@@ -21,14 +25,47 @@ export const AllTypesProps: Record<string,any> = {
 
 		}
 	},
-	Public:{
-		powerups:{
-
-		}
-	}
+	SpecialSkills: "enum" as const
 }
 
 export const ReturnTypes: Record<string,any> = {
+	ChangeCard:{
+		"...on SpecialCard":"SpecialCard",
+		"...on EffectCard":"EffectCard"
+	},
+	CardStack:{
+		cards:"Card",
+		name:"String"
+	},
+	Public:{
+		powerups:"Powerup"
+	},
+	Mutation:{
+		addCard:"Card"
+	},
+	S3Object:{
+		bucket:"String",
+		key:"String",
+		region:"String"
+	},
+	Powerup:{
+		name:"String"
+	},
+	SpecialCard:{
+		effect:"String",
+		name:"String"
+	},
+	EffectCard:{
+		effectSize:"Float",
+		name:"String"
+	},
+	Nameable:{
+		"...on CardStack": "CardStack",
+		"...on SpecialCard": "SpecialCard",
+		"...on EffectCard": "EffectCard",
+		"...on Card": "Card",
+		name:"String"
+	},
 	JSON: `scalar.JSON` as const,
 	Card:{
 		Attack:"Int",
@@ -43,35 +80,8 @@ export const ReturnTypes: Record<string,any> = {
 		name:"String",
 		skills:"SpecialSkills"
 	},
-	Powerup:{
-		name:"String"
-	},
-	ChangeCard:{
-		"...on SpecialCard":"SpecialCard",
-		"...on EffectCard":"EffectCard"
-	},
-	EffectCard:{
-		effectSize:"Float",
-		name:"String"
-	},
-	Nameable:{
-		"...on Card": "Card",
-		"...on EffectCard": "EffectCard",
-		"...on CardStack": "CardStack",
-		"...on SpecialCard": "SpecialCard",
-		name:"String"
-	},
-	CardStack:{
-		cards:"Card",
-		name:"String"
-	},
-	S3Object:{
-		bucket:"String",
-		key:"String",
-		region:"String"
-	},
-	Mutation:{
-		addCard:"Card"
+	Subscription:{
+		deck:"Card"
 	},
 	Query:{
 		cardById:"Card",
@@ -81,21 +91,11 @@ export const ReturnTypes: Record<string,any> = {
 		myStacks:"CardStack",
 		nameables:"Nameable",
 		public:"Public"
-	},
-	SpecialCard:{
-		effect:"String",
-		name:"String"
-	},
-	Public:{
-		powerups:"Powerup"
-	},
-	Subscription:{
-		deck:"Card"
 	}
 }
 
 export const Ops = {
 mutation: "Mutation" as const,
-	query: "Query" as const,
-	subscription: "Subscription" as const
+	subscription: "Subscription" as const,
+	query: "Query" as const
 }
