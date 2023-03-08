@@ -1,14 +1,20 @@
 """"""
-union ChangeCard = SpecialCard | EffectCard
+type Mutation {
+  """add Card to Cards database<br>"""
+  addCard(card: createCard!): Card!
+}
+
+""""""
+scalar JSON
+
+""""""
+type Powerup {
+  """"""
+  name: String
+}
 
 """create card inputs<br>"""
 input createCard {
-  """The defense power<br>"""
-  Defense: Int!
-
-  """input skills"""
-  skills: [SpecialSkills!]
-
   """The name of a card<br>"""
   name: String!
 
@@ -20,54 +26,12 @@ input createCard {
 
   """The attack power<br>"""
   Attack: Int!
-}
 
-"""Stack of cards"""
-type CardStack implements Nameable {
-  """"""
-  cards: [Card!]
+  """The defense power<br>"""
+  Defense: Int!
 
-  """"""
-  name: String!
-}
-
-""""""
-type Public {
-  """"""
-  powerups(filter: String!): [Powerup!]
-}
-
-""""""
-type Mutation {
-  """add Card to Cards database<br>"""
-  addCard(card: createCard!): Card!
-}
-
-"""Aws S3 File"""
-type S3Object {
-  """"""
-  bucket: String!
-
-  """"""
-  key: String!
-
-  """"""
-  region: String!
-}
-
-""""""
-type Powerup {
-  """"""
-  name: String
-}
-
-""""""
-type SpecialCard implements Nameable {
-  """"""
-  effect: String!
-
-  """"""
-  name: String!
+  """input skills"""
+  skills: [SpecialSkills!]
 }
 
 """"""
@@ -86,7 +50,10 @@ interface Nameable {
 }
 
 """"""
-scalar JSON
+type Public {
+  """"""
+  powerups(filter: String!): [Powerup!]
+}
 
 """Card used in card game<br>"""
 type Card implements Nameable {
@@ -127,10 +94,49 @@ type Card implements Nameable {
   skills: [SpecialSkills!]
 }
 
-""""""
-type Subscription {
+"""Aws S3 File"""
+type S3Object {
   """"""
-  deck: [Card!]
+  bucket: String!
+
+  """"""
+  key: String!
+
+  """"""
+  region: String!
+}
+
+""""""
+union ChangeCard = SpecialCard | EffectCard
+
+""""""
+type SpecialCard implements Nameable {
+  """"""
+  effect: String!
+
+  """"""
+  name: String!
+}
+
+"""Stack of cards"""
+type CardStack implements Nameable {
+  """"""
+  cards: [Card!]
+
+  """"""
+  name: String!
+}
+
+""""""
+enum SpecialSkills {
+  """Attack multiple Cards at once<br>"""
+  RAIN
+
+  """50% chance to avoid any attack<br>"""
+  FIRE
+
+  """Lower enemy defense -5<br>"""
+  THUNDER
 }
 
 """"""
@@ -158,15 +164,9 @@ type Query {
 }
 
 """"""
-enum SpecialSkills {
-  """50% chance to avoid any attack<br>"""
-  FIRE
-
-  """Lower enemy defense -5<br>"""
-  THUNDER
-
-  """Attack multiple Cards at once<br>"""
-  RAIN
+type Subscription {
+  """"""
+  deck: [Card!]
 }
 schema{
 	query: Query,

@@ -1,6 +1,12 @@
 /* eslint-disable */
 
 export const AllTypesProps: Record<string,any> = {
+	Mutation:{
+		addCard:{
+			card:"createCard"
+		}
+	},
+	JSON: `scalar.JSON` as const,
 	createCard:{
 		skills:"SpecialSkills"
 	},
@@ -9,50 +15,25 @@ export const AllTypesProps: Record<string,any> = {
 
 		}
 	},
-	Mutation:{
-		addCard:{
-			card:"createCard"
-		}
-	},
-	JSON: `scalar.JSON` as const,
 	Card:{
 		attack:{
 
 		}
 	},
+	SpecialSkills: "enum" as const,
 	Query:{
 		cardById:{
 
 		}
-	},
-	SpecialSkills: "enum" as const
+	}
 }
 
 export const ReturnTypes: Record<string,any> = {
-	ChangeCard:{
-		"...on SpecialCard":"SpecialCard",
-		"...on EffectCard":"EffectCard"
-	},
-	CardStack:{
-		cards:"Card",
-		name:"String"
-	},
-	Public:{
-		powerups:"Powerup"
-	},
 	Mutation:{
 		addCard:"Card"
 	},
-	S3Object:{
-		bucket:"String",
-		key:"String",
-		region:"String"
-	},
+	JSON: `scalar.JSON` as const,
 	Powerup:{
-		name:"String"
-	},
-	SpecialCard:{
-		effect:"String",
 		name:"String"
 	},
 	EffectCard:{
@@ -60,13 +41,15 @@ export const ReturnTypes: Record<string,any> = {
 		name:"String"
 	},
 	Nameable:{
-		"...on CardStack": "CardStack",
-		"...on SpecialCard": "SpecialCard",
 		"...on EffectCard": "EffectCard",
 		"...on Card": "Card",
+		"...on SpecialCard": "SpecialCard",
+		"...on CardStack": "CardStack",
 		name:"String"
 	},
-	JSON: `scalar.JSON` as const,
+	Public:{
+		powerups:"Powerup"
+	},
 	Card:{
 		Attack:"Int",
 		Children:"Int",
@@ -80,8 +63,22 @@ export const ReturnTypes: Record<string,any> = {
 		name:"String",
 		skills:"SpecialSkills"
 	},
-	Subscription:{
-		deck:"Card"
+	S3Object:{
+		bucket:"String",
+		key:"String",
+		region:"String"
+	},
+	ChangeCard:{
+		"...on SpecialCard":"SpecialCard",
+		"...on EffectCard":"EffectCard"
+	},
+	SpecialCard:{
+		effect:"String",
+		name:"String"
+	},
+	CardStack:{
+		cards:"Card",
+		name:"String"
 	},
 	Query:{
 		cardById:"Card",
@@ -91,11 +88,14 @@ export const ReturnTypes: Record<string,any> = {
 		myStacks:"CardStack",
 		nameables:"Nameable",
 		public:"Public"
+	},
+	Subscription:{
+		deck:"Card"
 	}
 }
 
 export const Ops = {
 mutation: "Mutation" as const,
-	subscription: "Subscription" as const,
-	query: "Query" as const
+	query: "Query" as const,
+	subscription: "Subscription" as const
 }

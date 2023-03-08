@@ -11,7 +11,7 @@ import {
   Zeus,
   ExtractVariables,
 } from './';
-import { Ops } t';
+import { Ops } from './const';
 
 export const typedGql =
   <O extends keyof typeof Ops, SCLR extends ScalarDefinition, R extends keyof ValueTypes = GenericOperation<O>>(
