@@ -16,12 +16,12 @@ const pluginReactQueryOps = ({
     ts: `export function useTyped${capitalized}<O extends "${queryName}", TData extends ValueTypes[O], TResult = InputType<GraphQLTypes[O], TData>>(
   ${operation}Key: string | unknown[],
   ${operation}: TData | ValueTypes[O],
-  options?: Omit<Use${capitalized}Options<TResult, any, any>, '${operation}Key' | '${operation}Fn'>,
+  options?: Omit<Use${capitalized}Options<TResult>, '${operation}Key' | '${operation}Fn'>,
   zeusOptions?: OperationOptions,
   host = "${host || ''}",
   hostOptions: chainOptions[1] = {},
 ) {
-  return use${capitalized}<TResult, any, any>(${operation}Key, () => Chain(host, hostOptions)("${operation}")(${operation}, zeusOptions) as Promise<TResult>, options);
+  return use${capitalized}<TResult>(${operation}Key, () => Chain(host, hostOptions)("${operation}")(${operation}, zeusOptions) as Promise<TResult>, options);
 }`,
   };
 };
