@@ -10,10 +10,18 @@ const pluginReactQueryOps = ({
   host?: string;
 }) => {
   const capitalized = operation[0].toUpperCase() + operation.slice(1);
+  const isMutation = operation == OperationType.mutation;
+  const variablesType = isMutation
+    ? `, TVariables = keyof ExtractVariables<TData> extends never
+    ? void
+    : ExtractVariables<TData> extends Record<string, unknown>
+    ? { variables: ExtractVariables<TData> }
+    : void`
+    : '';
   return {
     queryName,
     operation,
-    ts: `export function useTyped${capitalized}<O extends "${queryName}", TData extends ValueTypes[O], TResult = InputType<GraphQLTypes[O], TData>>(
+    ts: `export function useTyped${capitalized}<O extends "${queryName}", TData extends ValueTypes[O], TResult = InputType<GraphQLTypes[O], TData>${variablesType}>(
   ${operation}Key: string | unknown[],
   ${operation}: TData | ValueTypes[O],
   options?: Omit<Use${capitalized}Options<TResult, any, any>, '${operation}Key' | '${operation}Fn'>,
@@ -21,7 +29,11 @@ const pluginReactQueryOps = ({
   host = "${host || ''}",
   hostOptions: chainOptions[1] = {},
 ) {
-  return use${capitalized}<TResult, any, any>(${operation}Key, () => Chain(host, hostOptions)("${operation}")(${operation}, zeusOptions) as Promise<TResult>, options);
+  return use${capitalized}<TResult, any, ${isMutation ? 'TVariables' : 'any'}>(${operation}Key, (${
+      isMutation ? 'variables?' : ''
+    }) => Chain(host, hostOptions)("${operation}")(${operation}, ${
+      isMutation ? '{...zeusOptions, ...variables}' : 'zeusOptions'
+    }) as Promise<TResult>, options);
 }`,
   };
 };
@@ -44,7 +56,7 @@ export const pluginReactQuery = ({ tree, esModule, host }: { tree: ParserTree; e
   return {
     ts: `/* eslint-disable */
 
-import { ValueTypes, GraphQLTypes, InputType, Chain, OperationOptions, chainOptions } from './index${
+import { ValueTypes, GraphQLTypes, InputType, Chain, OperationOptions, chainOptions, ExtractVariables } from './index${
       esModule ? '.js' : ''
     }';
 import { ${capitalizedOps.map((o) => `use${o}`).join(', ')} } from 'react-query';
