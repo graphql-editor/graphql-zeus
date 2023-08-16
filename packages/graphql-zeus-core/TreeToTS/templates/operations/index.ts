@@ -1,4 +1,4 @@
-import { ParserField, ParserTree } from 'graphql-js-tree';
+import { ParserTree, TypeSystemDefinition, getTypeName } from 'graphql-js-tree';
 
 export interface OperationName {
   name: string;
@@ -16,16 +16,10 @@ export interface OperationDetails {
   operations: string[];
 }
 
-export const operationNodeToKV = (node: ParserField) => {
-  if (node.type.operations && node.type.operations.length > 0) {
-    const operationType = node.type.operations[0];
-    return `${operationType}: "${node.name}" as const`;
-  }
-  return '';
-};
-
 export const resolveOperations = (tree: ParserTree) => {
-  const opsStrings = tree.nodes.map(operationNodeToKV).filter((n) => !!n);
+  const schemaNode = tree.nodes.find((n) => n.data.type === TypeSystemDefinition.SchemaDefinition);
+  if (!schemaNode) throw new Error('No operations in schema');
+  const opsStrings = schemaNode.args.map((a) => `${a.name}: "${getTypeName(a.type.fieldType)}" as const`);
   const opsString = `export const Ops = {
 ${opsStrings.join(',\n\t')}
 }`;

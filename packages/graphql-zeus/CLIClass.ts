@@ -3,8 +3,6 @@ import * as path from 'path';
 import { TranslateGraphQL, Environment } from 'graphql-zeus-core';
 import { TreeToJSONSchema } from 'graphql-zeus-jsonschema';
 import { Parser } from 'graphql-js-tree';
-import { pluginApollo } from '@/plugins/apollo';
-import { pluginReactQuery } from '@/plugins/react-query';
 import { pluginStucco } from '@/plugins/stuccoSubscriptions';
 import { pluginTypedDocumentNode } from '@/plugins/typedDocumentNode';
 import { Utils } from '@/Utils';
@@ -89,12 +87,6 @@ export class CLI {
         typeScriptDefinition[k as keyof typeof typeScriptDefinition],
       ),
     );
-    if (args.apollo) {
-      writeFileRecursive(path.join(pathToFile, 'zeus'), `apollo.ts`, pluginApollo({ tree }).ts);
-    }
-    if (args.reactQuery) {
-      writeFileRecursive(path.join(pathToFile, 'zeus'), `reactQuery.ts`, pluginReactQuery({ tree, host }).ts);
-    }
     if (args.stuccoSubscriptions) {
       writeFileRecursive(path.join(pathToFile, 'zeus'), `stuccoSubscriptions.ts`, pluginStucco({ tree }).ts);
     }

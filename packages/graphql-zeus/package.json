@@ -1,6 +1,6 @@
 {
   "name": "graphql-zeus",
-  "version": "5.3.0",
+  "version": "5.3.1",
   "private": false,
   "scripts": {
     "start": "ttsc --build tsconfig.build.json --watch",
@@ -23,9 +23,9 @@
     "url": "https://github.com/graphql-editor/graphql-zeus.git"
   },
   "dependencies": {
-    "yargs": "^16.1.1",
     "cross-fetch": "^3.0.4",
-    "graphql-zeus-core": "*",
-    "graphql-zeus-jsonschema": "*"
+    "graphql-zeus-core": "^5.3.1",
+    "graphql-zeus-jsonschema": "^5.3.1",
+    "yargs": "^16.1.1"
   }
 }

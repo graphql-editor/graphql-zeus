@@ -33,12 +33,18 @@ const resolveValueTypeFromRoot = (i: ParserField, rootNodes: ParserField[], enum
         .join('\n\t\t')}\n\t\t__typename?: ${truthyType}\n}`,
     )}`;
   }
-  return `["${i.name}"]: ${AliasType(
-    `{\n${i.args.map((f) => resolveValueField(f, enumsAndScalars)).join(',\n')},\n\t\t__typename?: ${truthyType}\n}`,
-  )}`;
+  if (i.data.type === TypeDefinition.ObjectTypeDefinition) {
+    return `["${i.name}"]: ${AliasType(
+      `{\n${i.args.map((f) => resolveValueField(f, enumsAndScalars)).join(',\n')},\n\t\t__typename?: ${truthyType}\n}`,
+    )}`;
+  }
+  return ``;
 };
 export const resolveValueType = (i: ParserField, rootNodes: ParserField[], enumsAndScalars: string[]): string => {
-  if (i.data.type === TypeSystemDefinition.DirectiveDefinition) {
+  if (
+    i.data.type === TypeSystemDefinition.DirectiveDefinition ||
+    i.data.type === TypeSystemDefinition.SchemaDefinition
+  ) {
     return '';
   }
   if (i.data.type === Helpers.Comment) {
