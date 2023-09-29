@@ -133,10 +133,14 @@ export const InternalArgsBuilt = ({
     }
     const checkType = ResolveFromPath(props, returns, ops)(p);
     if (checkType.startsWith('scalar.')) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const [_, ...splittedScalar] = checkType.split('.');
-      const scalarKey = splittedScalar.join('.');
-      return (scalars?.[scalarKey]?.encode?.(a) as string) || JSON.stringify(a);
+      const scalarKey = checkType.split('.').slice(1).join('.');
+      // If the type is a UUID array, apply the scalar encoding function to each element
+      if (scalarKey === 'UUID' && Array.isArray(a)) {
+        return `[${a.map((uuid) => scalars?.[scalarKey]?.encode?.(uuid) || JSON.stringify(uuid)).join(', ')}]`;
+      } else {
+        // Handling for other scalars
+        return (scalars?.[scalarKey]?.encode?.(a) as string) || JSON.stringify(a);
+      }
     }
     if (Array.isArray(a)) {
       return `[${a.map((arr) => arb(arr, p, false)).join(', ')}]`;
