@@ -133,7 +133,7 @@ export const InternalArgsBuilt = ({
     }
     const checkType = ResolveFromPath(props, returns, ops)(p);
     if (checkType.startsWith('scalar.')) {
-      const [, ...splittedScalar] = checkType.split('.');
+      const [_, ...splittedScalar] = checkType.split('.');
       const scalarKey = splittedScalar.join('.');
 
       if (scalarKey === 'UUID' && Array.isArray(a)) {
