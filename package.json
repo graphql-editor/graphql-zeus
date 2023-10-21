@@ -19,7 +19,7 @@
     "run-example-typescript-node": "./run-example.sh examples/typescript-node",
     "examples-generate": "npm run generate-typescript-node",
     "produce-lib": "ts-node libBuilder.ts && eslint packages/graphql-zeus-core/TreeToTS/functions/generated.ts --quiet --fix",
-    "generate-typescript-node": "node ./packages/graphql-zeus/lib/index.js https://faker.graphqleditor.com/a-team/olympus/graphql ./examples/typescript-node/src --n -g ./examples/typescript-node/zeus.graphql --apollo --reactQuery --stuccoSubscriptions --td",
+    "generate-typescript-node": "node ./packages/graphql-zeus/lib/index.js https://faker.graphqleditor.com/a-team/olympus/graphql ./examples/typescript-node/src --n -g ./examples/typescript-node/zeus.graphql --stuccoSubscriptions --td",
     "cli": "node ./packages/graphql-zeus/lib/index.js",
     "test": "jest"
   },

@@ -18,7 +18,7 @@ export const typedGql =
     operation: O,
     graphqlOptions?: ThunderGraphQLOptions<SCLR>,
   ) =>
-  <Z extends ValueTypes[R]>(o: Z | ValueTypes[R], ops?: OperationOptions) => {
+  <Z extends ValueTypes[R]>(o: (Z & ValueTypes[R]) | ValueTypes[R], ops?: OperationOptions) => {
     const str = Zeus(operation, o, {
       operationOptions: ops,
       scalars: graphqlOptions?.scalars,

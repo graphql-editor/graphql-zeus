@@ -123,7 +123,10 @@ export const Thunder =
     operation: O,
     graphqlOptions?: ThunderGraphQLOptions<SCLR>,
   ) =>
-  <Z extends ValueTypes[R]>(o: Z | ValueTypes[R], ops?: OperationOptions & { variables?: Record<string, unknown> }) =>
+  <Z extends ValueTypes[R]>(
+    o: (Z & ValueTypes[R]) | ValueTypes[R],
+    ops?: OperationOptions & { variables?: Record<string, unknown> },
+  ) =>
     fn(
       Zeus(operation, o, {
         operationOptions: ops,
@@ -152,7 +155,10 @@ export const SubscriptionThunder =
     operation: O,
     graphqlOptions?: ThunderGraphQLOptions<SCLR>,
   ) =>
-  <Z extends ValueTypes[R]>(o: Z | ValueTypes[R], ops?: OperationOptions & { variables?: ExtractVariables<Z> }) => {
+  <Z extends ValueTypes[R]>(
+    o: (Z & ValueTypes[R]) | ValueTypes[R],
+    ops?: OperationOptions & { variables?: ExtractVariables<Z> },
+  ) => {
     const returnedFunction = fn(
       Zeus(operation, o, {
         operationOptions: ops,
@@ -188,7 +194,7 @@ export const Zeus = <
   R extends keyof ValueTypes = GenericOperation<O>,
 >(
   operation: O,
-  o: Z | ValueTypes[R],
+  o: (Z & ValueTypes[R]) | ValueTypes[R],
   ops?: {
     operationOptions?: OperationOptions;
     scalars?: ScalarDefinition;
@@ -658,7 +664,7 @@ type IsInterfaced<SRC extends DeepAnify<DST>, DST, SCLR extends ScalarDefinition
       [P in keyof SRC]: SRC[P] extends '__union' & infer R
         ? P extends keyof DST
           ? IsArray<R, '__typename' extends keyof DST ? DST[P] & { __typename: true } : DST[P], SCLR>
-          : IsArray<R, '__typename' extends keyof DST ? { __typename: true } : never, SCLR>
+          : IsArray<R, '__typename' extends keyof DST ? { __typename: true } : Record<string, never>, SCLR>
         : never;
     }[keyof SRC] & {
       [P in keyof Omit<

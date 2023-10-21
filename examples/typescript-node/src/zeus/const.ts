@@ -2,8 +2,11 @@
 
 export const AllTypesProps: Record<string,any> = {
 	JSON: `scalar.JSON` as const,
-	Public:{
-		powerups:{
+	createCard:{
+		skills:"SpecialSkills"
+	},
+	Query:{
+		cardById:{
 
 		}
 	},
@@ -12,71 +15,42 @@ export const AllTypesProps: Record<string,any> = {
 			card:"createCard"
 		}
 	},
-	createCard:{
-		skills:"SpecialSkills"
+	Public:{
+		powerups:{
+
+		}
 	},
 	Card:{
 		attack:{
 
 		}
 	},
-	SpecialSkills: "enum" as const,
-	Query:{
-		cardById:{
-
-		}
-	}
+	SpecialSkills: "enum" as const
 }
 
 export const ReturnTypes: Record<string,any> = {
-	Nameable:{
-		"...on CardStack": "CardStack",
-		"...on EffectCard": "EffectCard",
-		"...on SpecialCard": "SpecialCard",
-		"...on Card": "Card",
-		name:"String"
-	},
-	ChangeCard:{
-		"...on SpecialCard":"SpecialCard",
-		"...on EffectCard":"EffectCard"
-	},
-	Subscription:{
-		deck:"Card"
-	},
 	Powerup:{
 		name:"String"
 	},
-	JSON: `scalar.JSON` as const,
-	CardStack:{
-		cards:"Card",
-		name:"String"
-	},
-	EffectCard:{
-		effectSize:"Float",
+	Nameable:{
+		"...on SpecialCard": "SpecialCard",
+		"...on EffectCard": "EffectCard",
+		"...on Card": "Card",
+		"...on CardStack": "CardStack",
 		name:"String"
 	},
 	SpecialCard:{
 		effect:"String",
 		name:"String"
 	},
-	Public:{
-		powerups:"Powerup"
+	EffectCard:{
+		effectSize:"Float",
+		name:"String"
 	},
-	Mutation:{
-		addCard:"Card"
-	},
-	Card:{
-		Attack:"Int",
-		Children:"Int",
-		Defense:"Int",
-		attack:"Card",
-		cardImage:"S3Object",
-		description:"String",
-		id:"ID",
-		image:"String",
-		info:"JSON",
-		name:"String",
-		skills:"SpecialSkills"
+	JSON: `scalar.JSON` as const,
+	ChangeCard:{
+		"...on SpecialCard":"SpecialCard",
+		"...on EffectCard":"EffectCard"
 	},
 	Query:{
 		cardById:"Card",
@@ -91,6 +65,32 @@ export const ReturnTypes: Record<string,any> = {
 		bucket:"String",
 		key:"String",
 		region:"String"
+	},
+	Mutation:{
+		addCard:"Card"
+	},
+	Public:{
+		powerups:"Powerup"
+	},
+	Card:{
+		Attack:"Int",
+		Children:"Int",
+		Defense:"Int",
+		attack:"Card",
+		cardImage:"S3Object",
+		description:"String",
+		id:"ID",
+		image:"String",
+		info:"JSON",
+		name:"String",
+		skills:"SpecialSkills"
+	},
+	Subscription:{
+		deck:"Card"
+	},
+	CardStack:{
+		cards:"Card",
+		name:"String"
 	}
 }
 

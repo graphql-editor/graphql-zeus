@@ -30,7 +30,10 @@ export const Thunder =
     operation: O,
     graphqlOptions?: ThunderGraphQLOptions<SCLR>,
   ) =>
-  <Z extends ValueTypes[R]>(o: Z | ValueTypes[R], ops?: OperationOptions & { variables?: Record<string, unknown> }) =>
+  <Z extends ValueTypes[R]>(
+    o: (Z & ValueTypes[R]) | ValueTypes[R],
+    ops?: OperationOptions & { variables?: Record<string, unknown> },
+  ) =>
     fn(
       Zeus(operation, o, {
         operationOptions: ops,
@@ -59,7 +62,10 @@ export const SubscriptionThunder =
     operation: O,
     graphqlOptions?: ThunderGraphQLOptions<SCLR>,
   ) =>
-  <Z extends ValueTypes[R]>(o: Z | ValueTypes[R], ops?: OperationOptions & { variables?: ExtractVariables<Z> }) => {
+  <Z extends ValueTypes[R]>(
+    o: (Z & ValueTypes[R]) | ValueTypes[R],
+    ops?: OperationOptions & { variables?: ExtractVariables<Z> },
+  ) => {
     const returnedFunction = fn(
       Zeus(operation, o, {
         operationOptions: ops,
@@ -95,7 +101,7 @@ export const Zeus = <
   R extends keyof ValueTypes = GenericOperation<O>,
 >(
   operation: O,
-  o: Z | ValueTypes[R],
+  o: (Z & ValueTypes[R]) | ValueTypes[R],
   ops?: {
     operationOptions?: OperationOptions;
     scalars?: ScalarDefinition;
