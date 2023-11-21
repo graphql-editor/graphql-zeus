@@ -1,61 +1,4 @@
 """"""
-type Powerup {
-  """"""
-  name: String
-}
-
-""""""
-interface Nameable {
-  """"""
-  name: String!
-}
-
-""""""
-type SpecialCard implements Nameable {
-  """"""
-  effect: String!
-
-  """"""
-  name: String!
-}
-
-""""""
-type EffectCard implements Nameable {
-  """"""
-  effectSize: Float!
-
-  """"""
-  name: String!
-}
-
-""""""
-scalar JSON
-
-""""""
-union ChangeCard = SpecialCard | EffectCard
-
-"""create card inputs<br>"""
-input createCard {
-  """The name of a card<br>"""
-  name: String!
-
-  """Description of a card<br>"""
-  description: String!
-
-  """<div>How many children the greek god had</div>"""
-  Children: Int
-
-  """The attack power<br>"""
-  Attack: Int!
-
-  """The defense power<br>"""
-  Defense: Int!
-
-  """input skills"""
-  skills: [SpecialSkills!]
-}
-
-""""""
 type Query {
   """"""
   cardById(cardId: String): Card
@@ -79,28 +22,25 @@ type Query {
   public: Public
 }
 
-"""Aws S3 File"""
-type S3Object {
-  """"""
-  bucket: String!
+"""create card inputs<br>"""
+input createCard {
+  """<div>How many children the greek god had</div>"""
+  Children: Int
 
-  """"""
-  key: String!
+  """The attack power<br>"""
+  Attack: Int!
 
-  """"""
-  region: String!
-}
+  """The defense power<br>"""
+  Defense: Int!
 
-""""""
-type Mutation {
-  """add Card to Cards database<br>"""
-  addCard(card: createCard!): Card!
-}
+  """input skills"""
+  skills: [SpecialSkills!]
 
-""""""
-type Public {
-  """"""
-  powerups(filter: String!): [Powerup!]
+  """The name of a card<br>"""
+  name: String!
+
+  """Description of a card<br>"""
+  description: String!
 }
 
 """Card used in card game<br>"""
@@ -143,9 +83,33 @@ type Card implements Nameable {
 }
 
 """"""
-type Subscription {
+union ChangeCard = SpecialCard | EffectCard
+
+""""""
+type EffectCard implements Nameable {
   """"""
-  deck: [Card!]
+  effectSize: Float!
+
+  """"""
+  name: String!
+}
+
+""""""
+interface Nameable {
+  """"""
+  name: String!
+}
+
+""""""
+scalar JSON
+
+""""""
+type SpecialCard implements Nameable {
+  """"""
+  effect: String!
+
+  """"""
+  name: String!
 }
 
 """Stack of cards"""
@@ -158,6 +122,30 @@ type CardStack implements Nameable {
 }
 
 """"""
+type Powerup {
+  """"""
+  name: String
+}
+
+""""""
+type Mutation {
+  """add Card to Cards database<br>"""
+  addCard(card: createCard!): Card!
+}
+
+""""""
+type Subscription {
+  """"""
+  deck: [Card!]
+}
+
+""""""
+type Public {
+  """"""
+  powerups(filter: String!): [Powerup!]
+}
+
+""""""
 enum SpecialSkills {
   """Lower enemy defense -5<br>"""
   THUNDER
@@ -167,6 +155,18 @@ enum SpecialSkills {
 
   """50% chance to avoid any attack<br>"""
   FIRE
+}
+
+"""Aws S3 File"""
+type S3Object {
+  """"""
+  bucket: String!
+
+  """"""
+  key: String!
+
+  """"""
+  region: String!
 }
 schema{
 	query: Query,

@@ -22,7 +22,7 @@ export const InternalsBuildQuery = ({
   returns: ReturnTypesType;
   ops: Operations;
   options?: OperationOptions;
-  scalars?: ScalarDefinition;
+  scalars?: ScalarDefinition | undefined;
 }) => {
   const ibb = (
     k: string,

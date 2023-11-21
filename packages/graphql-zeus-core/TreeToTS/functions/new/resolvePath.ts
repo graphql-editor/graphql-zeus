@@ -108,7 +108,7 @@ export const InternalArgsBuilt = ({
   props: AllTypesPropsType;
   returns: ReturnTypesType;
   ops: Operations;
-  scalars?: ScalarDefinition;
+  scalars?: ScalarDefinition | undefined;
   vars: Array<{ name: string; graphQLType: string }>;
 }) => {
   const arb = (a: ZeusArgsType, p = '', root = true): string => {

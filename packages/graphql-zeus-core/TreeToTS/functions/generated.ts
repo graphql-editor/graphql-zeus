@@ -58,7 +58,7 @@ export const InternalsBuildQuery = ({
   returns: ReturnTypesType;
   ops: Operations;
   options?: OperationOptions;
-  scalars?: ScalarDefinition;
+  scalars?: ScalarDefinition | undefined;
 }) => {
   const ibb = (
     k: string,
@@ -196,8 +196,8 @@ export const Zeus = <
   operation: O,
   o: (Z & ValueTypes[R]) | ValueTypes[R],
   ops?: {
-    operationOptions?: OperationOptions;
-    scalars?: ScalarDefinition;
+    operationOptions?: OperationOptions | undefined;
+    scalars?: ScalarDefinition | undefined;
   },
 ) =>
   InternalsBuildQuery({
@@ -558,7 +558,7 @@ export const InternalArgsBuilt = ({
   props: AllTypesPropsType;
   returns: ReturnTypesType;
   ops: Operations;
-  scalars?: ScalarDefinition;
+  scalars?: ScalarDefinition | undefined;
   vars: Array<{ name: string; graphQLType: string }>;
 }) => {
   const arb = (a: ZeusArgsType, p = '', root = true): string => {

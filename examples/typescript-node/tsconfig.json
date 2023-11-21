@@ -11,6 +11,7 @@
     "removeComments": true,
     "noUnusedLocals": true,
     "strict": true,
+    "exactOptionalPropertyTypes": true,
     "outDir": "./lib",
     "rootDir": "./src",
     "baseUrl": "./src/"
