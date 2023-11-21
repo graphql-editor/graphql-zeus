@@ -103,8 +103,8 @@ export const Zeus = <
   operation: O,
   o: (Z & ValueTypes[R]) | ValueTypes[R],
   ops?: {
-    operationOptions?: OperationOptions;
-    scalars?: ScalarDefinition;
+    operationOptions?: OperationOptions | undefined;
+    scalars?: ScalarDefinition | undefined;
   },
 ) =>
   InternalsBuildQuery({
