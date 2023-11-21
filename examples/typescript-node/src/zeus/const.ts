@@ -1,15 +1,20 @@
 /* eslint-disable */
 
 export const AllTypesProps: Record<string,any> = {
-	JSON: `scalar.JSON` as const,
-	createCard:{
-		skills:"SpecialSkills"
-	},
 	Query:{
 		cardById:{
 
 		}
 	},
+	createCard:{
+		skills:"SpecialSkills"
+	},
+	Card:{
+		attack:{
+
+		}
+	},
+	JSON: `scalar.JSON` as const,
 	Mutation:{
 		addCard:{
 			card:"createCard"
@@ -20,38 +25,10 @@ export const AllTypesProps: Record<string,any> = {
 
 		}
 	},
-	Card:{
-		attack:{
-
-		}
-	},
 	SpecialSkills: "enum" as const
 }
 
 export const ReturnTypes: Record<string,any> = {
-	Powerup:{
-		name:"String"
-	},
-	Nameable:{
-		"...on SpecialCard": "SpecialCard",
-		"...on EffectCard": "EffectCard",
-		"...on Card": "Card",
-		"...on CardStack": "CardStack",
-		name:"String"
-	},
-	SpecialCard:{
-		effect:"String",
-		name:"String"
-	},
-	EffectCard:{
-		effectSize:"Float",
-		name:"String"
-	},
-	JSON: `scalar.JSON` as const,
-	ChangeCard:{
-		"...on SpecialCard":"SpecialCard",
-		"...on EffectCard":"EffectCard"
-	},
 	Query:{
 		cardById:"Card",
 		drawCard:"Card",
@@ -60,17 +37,6 @@ export const ReturnTypes: Record<string,any> = {
 		myStacks:"CardStack",
 		nameables:"Nameable",
 		public:"Public"
-	},
-	S3Object:{
-		bucket:"String",
-		key:"String",
-		region:"String"
-	},
-	Mutation:{
-		addCard:"Card"
-	},
-	Public:{
-		powerups:"Powerup"
 	},
 	Card:{
 		Attack:"Int",
@@ -85,12 +51,46 @@ export const ReturnTypes: Record<string,any> = {
 		name:"String",
 		skills:"SpecialSkills"
 	},
-	Subscription:{
-		deck:"Card"
+	ChangeCard:{
+		"...on SpecialCard":"SpecialCard",
+		"...on EffectCard":"EffectCard"
+	},
+	EffectCard:{
+		effectSize:"Float",
+		name:"String"
+	},
+	Nameable:{
+		"...on Card": "Card",
+		"...on EffectCard": "EffectCard",
+		"...on SpecialCard": "SpecialCard",
+		"...on CardStack": "CardStack",
+		name:"String"
+	},
+	JSON: `scalar.JSON` as const,
+	SpecialCard:{
+		effect:"String",
+		name:"String"
 	},
 	CardStack:{
 		cards:"Card",
 		name:"String"
+	},
+	Powerup:{
+		name:"String"
+	},
+	Mutation:{
+		addCard:"Card"
+	},
+	Subscription:{
+		deck:"Card"
+	},
+	Public:{
+		powerups:"Powerup"
+	},
+	S3Object:{
+		bucket:"String",
+		key:"String",
+		region:"String"
 	}
 }
 
