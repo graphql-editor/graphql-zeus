@@ -1,15 +1,13 @@
 /* eslint-disable */
 
 export const AllTypesProps: Record<string,any> = {
-	JSON: `scalar.JSON` as const,
-	createCard:{
-		skills:"SpecialSkills"
-	},
-	Query:{
-		cardById:{
+	SpecialSkills: "enum" as const,
+	Card:{
+		attack:{
 
 		}
 	},
+	JSON: `scalar.JSON` as const,
 	Mutation:{
 		addCard:{
 			card:"createCard"
@@ -20,57 +18,25 @@ export const AllTypesProps: Record<string,any> = {
 
 		}
 	},
-	Card:{
-		attack:{
+	Query:{
+		cardById:{
 
 		}
 	},
-	SpecialSkills: "enum" as const
+	createCard:{
+		skills:"SpecialSkills"
+	}
 }
 
 export const ReturnTypes: Record<string,any> = {
-	Powerup:{
-		name:"String"
-	},
-	Nameable:{
-		"...on SpecialCard": "SpecialCard",
-		"...on EffectCard": "EffectCard",
-		"...on Card": "Card",
-		"...on CardStack": "CardStack",
-		name:"String"
-	},
-	SpecialCard:{
-		effect:"String",
-		name:"String"
-	},
-	EffectCard:{
-		effectSize:"Float",
-		name:"String"
-	},
-	JSON: `scalar.JSON` as const,
-	ChangeCard:{
-		"...on SpecialCard":"SpecialCard",
-		"...on EffectCard":"EffectCard"
-	},
-	Query:{
-		cardById:"Card",
-		drawCard:"Card",
-		drawChangeCard:"ChangeCard",
-		listCards:"Card",
-		myStacks:"CardStack",
-		nameables:"Nameable",
-		public:"Public"
-	},
 	S3Object:{
 		bucket:"String",
 		key:"String",
 		region:"String"
 	},
-	Mutation:{
-		addCard:"Card"
-	},
-	Public:{
-		powerups:"Powerup"
+	ChangeCard:{
+		"...on SpecialCard":"SpecialCard",
+		"...on EffectCard":"EffectCard"
 	},
 	Card:{
 		Attack:"Int",
@@ -85,11 +51,45 @@ export const ReturnTypes: Record<string,any> = {
 		name:"String",
 		skills:"SpecialSkills"
 	},
-	Subscription:{
-		deck:"Card"
+	Nameable:{
+		"...on Card": "Card",
+		"...on CardStack": "CardStack",
+		"...on SpecialCard": "SpecialCard",
+		"...on EffectCard": "EffectCard",
+		name:"String"
+	},
+	JSON: `scalar.JSON` as const,
+	Powerup:{
+		name:"String"
+	},
+	Mutation:{
+		addCard:"Card"
 	},
 	CardStack:{
 		cards:"Card",
+		name:"String"
+	},
+	Public:{
+		powerups:"Powerup"
+	},
+	Query:{
+		cardById:"Card",
+		drawCard:"Card",
+		drawChangeCard:"ChangeCard",
+		listCards:"Card",
+		myStacks:"CardStack",
+		nameables:"Nameable",
+		public:"Public"
+	},
+	Subscription:{
+		deck:"Card"
+	},
+	SpecialCard:{
+		effect:"String",
+		name:"String"
+	},
+	EffectCard:{
+		effectSize:"Float",
 		name:"String"
 	}
 }
