@@ -806,6 +806,7 @@ export const apiSubscription = (options: chainOptions) => {
   const client = createClient({
     url: String(options[0]),
     connectionParams: Object.fromEntries(new Headers(options[1]?.headers).entries()),
+    webSocketImpl: WebSocket,
   });
 
   const ws = new Proxy(
