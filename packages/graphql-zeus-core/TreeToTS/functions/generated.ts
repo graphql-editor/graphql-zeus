@@ -1,3 +1,5 @@
+import type { Environment } from '@/Models';
+
 export default `const handleFetchResponse = (response: Response): Promise<GraphQLResponse> => {
   if (!response.ok) {
     return new Promise((_, reject) => {
@@ -799,14 +801,15 @@ export const $ = <Type extends GraphQLVariableType, Name extends string>(name: N
   return (START_VAR_NAME + name + GRAPHQL_TYPE_SEPARATOR + graphqlType) as unknown as Variable<Type, Name>;
 };`;
 
-export const subscriptionFunctions = {
+export const subscriptionFunctions = (env: Environment) => ({
   'graphql-ws': `import { createClient, type Sink } from 'graphql-ws'; // keep
 
 export const apiSubscription = (options: chainOptions) => {
   const client = createClient({
     url: String(options[0]),
-    connectionParams: Object.fromEntries(new Headers(options[1]?.headers).entries()),
-    webSocketImpl: WebSocket,
+    connectionParams: Object.fromEntries(new Headers(options[1]?.headers).entries()),${
+      env === 'node' ? '\n    webSocketImpl: WebSocket,' : ''
+    }
   });
 
   const ws = new Proxy(
@@ -890,4 +893,4 @@ export const apiSubscription = (options: chainOptions) => {
     throw new Error('No websockets implemented');
   }
 };`,
-};
+});

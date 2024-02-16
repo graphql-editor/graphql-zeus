@@ -120,7 +120,7 @@ import WebSocket from 'ws';`
         .concat('\n')
         .concat(headers ? `export const HEADERS = ${JSON.stringify(headers)}` : '\n\nexport const HEADERS = {}')
         .concat('\n')
-        .concat(subscriptionFunctions[subscriptions])
+        .concat(subscriptionFunctions(env)[subscriptions])
         .concat('\n')
         .concat(typescriptFunctions)
         .concat('\n')
