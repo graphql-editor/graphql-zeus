@@ -29,6 +29,7 @@ interface CliArgs extends Yargs {
   stuccoSubscriptions?: boolean;
   typedDocumentNode?: boolean;
   subscriptions?: string;
+  method?: string;
 }
 /**
  * Main class for controlling CLI
@@ -44,9 +45,9 @@ export class CLI {
     const schemaFile: string = allArgs[0];
     let host: string | undefined;
     if (schemaFile.startsWith('http://') || schemaFile.startsWith('https://')) {
-      const { header } = args;
+      const { header, method } = args;
       host = schemaFile;
-      schemaFileContents = await Utils.getFromUrl(schemaFile, header);
+      schemaFileContents = await Utils.getFromUrl(schemaFile, { header, method: method === 'GET' ? 'GET' : 'POST' });
     }
     schemaFileContents = schemaFileContents || fs.readFileSync(schemaFile).toString();
     const pathToFile = allArgs[1] || '';
@@ -59,7 +60,6 @@ export class CLI {
 
       const pathToSchema = path.dirname(schemaPath);
       const schemaFile = path.basename(schemaPath);
-
       writeFileRecursive(pathToSchema, schemaFile, schemaFileContents);
     }
     if (args.jsonSchema) {

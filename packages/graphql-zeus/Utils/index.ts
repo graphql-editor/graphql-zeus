@@ -7,12 +7,18 @@ export class Utils {
   /**
    * Get GraphQL Schema by doing introspection on specified URL
    */
-  static getFromUrl = async (url: string, header?: string | string[]): Promise<string> => {
+  static getFromUrl = async (
+    url: string,
+    options: {
+      header?: string | string[];
+      method?: 'POST' | 'GET';
+    },
+  ): Promise<string> => {
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
     };
-    if (header) {
-      const allHeaders: string[] = Array.isArray(header) ? header : [header];
+    if (options.header) {
+      const allHeaders: string[] = Array.isArray(options.header) ? options.header : [options.header];
       for (const h of allHeaders) {
         const [key, ...val] = h.split(':').map((k) => k.trim());
         if (!val) {
@@ -20,6 +26,18 @@ export class Utils {
         }
         headers[key] = val.join(':');
       }
+    }
+    if (options.method === 'GET') {
+      const response = await fetch(url + `?query=${getIntrospectionQuery()}`, {
+        method: 'GET',
+        headers,
+      });
+      const { data, errors } = await response.json();
+      if (errors) {
+        throw new Error(JSON.stringify(errors, null, 2));
+      }
+      const c = buildClientSchema(data);
+      return Utils.printFullSchema(c);
     }
     const response = await fetch(url, {
       method: 'POST',

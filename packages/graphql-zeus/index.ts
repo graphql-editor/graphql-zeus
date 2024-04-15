@@ -41,6 +41,11 @@ zeus [path] [output_path] [options]
     describe: 'Generate React Query useTypedQuery module',
     boolean: true,
   })
+  .option('method', {
+    alias: 'm',
+    describe: 'provide request method "GET" or "POST" post by default',
+    choices: ['POST', 'GET'],
+  })
   .option('header', {
     alias: 'h',
     describe:
