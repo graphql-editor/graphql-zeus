@@ -1,6 +1,8 @@
 #!/usr/bin/env node
+import { createZeusFiles } from '@/createZeusFiles';
+import { options } from '@/options';
+import path = require('path');
 import * as yargs from 'yargs';
-import { CLI } from './CLIClass';
 const args = yargs
   .usage(
     `
@@ -11,58 +13,37 @@ Load from file or url (url must start with http:// or https:// ):
 zeus [path] [output_path] [options]
 `,
   )
-  .option('node', {
-    alias: 'n',
-    describe: 'Generate client for NodeJS( default is for browser and react-native )',
-    boolean: true,
-  })
-  .option('esModule', {
-    alias: 'es',
-    describe: 'Use .js import in TypeScript to use with esModules',
-    boolean: true,
-  })
-  .option('apollo', {
-    alias: 'ap',
-    describe: 'Generate Apollo useTypedQuery module',
-    boolean: true,
-  })
-  .option('stuccoSubscriptions', {
-    alias: 'ss',
-    describe: 'Generate Stucco.js stuccoSubscriptions module',
-    boolean: true,
-  })
-  .option('typedDocumentNode', {
-    alias: 'td',
-    describe: 'Generate TypedDocumentNode createQuery module',
-    boolean: true,
-  })
-  .option('reactQuery', {
-    alias: 'rq',
-    describe: 'Generate React Query useTypedQuery module',
-    boolean: true,
-  })
-  .option('header', {
-    alias: 'h',
-    describe:
-      'Additional header flag. You can also pass multiple headers like this -h myheader:123123 -h myheader2:321321',
-    string: true,
-  })
-  .option('graphql', {
-    alias: 'g',
-    describe: 'Download and save schema also. Path where .graphql schema file should be put. ',
-    string: true,
-  })
-  .option('jsonSchema', {
-    alias: 'j',
-    describe:
-      'Generate JSON Schema to create forms from inputs and type fields with args. Path where .json schema file should be put. ',
-    string: true,
-  })
-  .option('subscriptions', {
-    alias: 's',
-    describe: 'The underlying implementation of realtime subscriptions.',
-    choices: ['legacy', 'graphql-ws'],
-    default: 'legacy',
-  })
+  .command(
+    '$0 <path_or_url>',
+    'create zeus typings folder',
+    async (y) => {
+      y.options(options);
+    },
+    async (argv) => {
+      await createZeusFiles(argv);
+    },
+  )
+  .command(
+    'create <path_or_url> ',
+    'Create a package with generated SDK with regeneration scripts to further update it when you update the schema.graphql or schema URL. Useful wit monorepos',
+    async (y) => {
+      await y.options({
+        path: {
+          string: true,
+          describe: 'path to generated package for example packages/client',
+        },
+        name: {
+          string: true,
+          describe: 'name of the generated npm package folder',
+        },
+        ...options,
+      });
+    },
+    async (argv) => {
+      const packagePath = argv.path || './packages/zeus';
+      const generatedPath = path.join(process.cwd(), pacakagePath);
+      fs.mkdirSync(generatedPath, { recursive: true });
+      await createZeusFiles(argv);
+    },
+  )
   .demandCommand(1).argv;
-CLI.execute(args);

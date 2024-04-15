@@ -26,6 +26,7 @@
     "cross-fetch": "^3.0.4",
     "graphql-zeus-core": "^5.3.3",
     "graphql-zeus-jsonschema": "^5.3.3",
+    "pkg-install": "^1.0.0",
     "yargs": "^16.1.1"
   }
 }
