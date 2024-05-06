@@ -1,11 +1,14 @@
 {
   "name": "typescript-node",
-  "version": "1.1.4",
+  "version": "1.2.0",
   "description": "",
   "private": true,
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "start": "ts-node src/index.ts"
+    "start": "npm run generate-typescript-node && node --loader ts-node/esm src/index.ts",
+    "generate-typescript-node": "node ../../packages/graphql-zeus/lib/index.js https://faker.graphqleditor.com/a-team/olympus/graphql ./src --n -g ./zeus.graphql --td",
+    "generate-typescript-node-get": "node ../../packages/graphql-zeus/lib/index.js https://faker.graphqleditor.com/a-team/olympus/graphql ./src --n -g ./zeus.graphql --method=GET --td"
   },
   "author": "Aexol <aexol@aexol.com> (http://aexol.com)",
   "license": "ISC",

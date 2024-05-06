@@ -1,14 +1,15 @@
 {
   "compilerOptions": {
     "sourceMap": true,
-    "target": "es6",
-    "module": "commonjs",
+    "target": "ESNext",
+    "module": "ESNext",
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "declaration": true,
     "incremental": true,
     "removeComments": true,
     "noUnusedLocals": true,
+    "allowSyntheticDefaultImports": true,
     "strictNullChecks": true,
     "skipLibCheck": true,
     "strict": true,

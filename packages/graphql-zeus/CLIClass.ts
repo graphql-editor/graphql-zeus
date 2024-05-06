@@ -3,9 +3,9 @@ import * as path from 'path';
 import { TranslateGraphQL, Environment } from 'graphql-zeus-core';
 import { TreeToJSONSchema } from 'graphql-zeus-jsonschema';
 import { Parser } from 'graphql-js-tree';
-import { pluginStucco } from '@/plugins/stuccoSubscriptions';
-import { pluginTypedDocumentNode } from '@/plugins/typedDocumentNode';
-import { Utils } from '@/Utils';
+import { pluginTypedDocumentNode } from '@/plugins/typedDocumentNode/index.js';
+import { Utils } from '@/Utils/index.js';
+import { config } from '@/config.js';
 /**
  * basic yargs interface
  */
@@ -26,7 +26,6 @@ interface CliArgs extends Yargs {
   jsonSchema?: string;
   apollo?: boolean;
   reactQuery?: boolean;
-  stuccoSubscriptions?: boolean;
   typedDocumentNode?: boolean;
   subscriptions?: string;
   method?: string;
@@ -42,7 +41,10 @@ export class CLI {
     const env: Environment = args.node ? 'node' : 'browser';
     let schemaFileContents = '';
     const allArgs = args._ as string[];
-    const schemaFile: string = allArgs[0];
+    const commandLineProvidedOptions = { ...args, urlOrPath: allArgs[0] };
+    const schemaFile = await config.getValueOrThrow('urlOrPath', {
+      commandLineProvidedOptions,
+    });
     let host: string | undefined;
     if (schemaFile.startsWith('http://') || schemaFile.startsWith('https://')) {
       const { header, method } = args;
@@ -87,11 +89,12 @@ export class CLI {
         typeScriptDefinition[k as keyof typeof typeScriptDefinition],
       ),
     );
-    if (args.stuccoSubscriptions) {
-      writeFileRecursive(path.join(pathToFile, 'zeus'), `stuccoSubscriptions.ts`, pluginStucco({ tree }).ts);
-    }
     if (args.typedDocumentNode) {
-      writeFileRecursive(path.join(pathToFile, 'zeus'), `typedDocumentNode.ts`, pluginTypedDocumentNode);
+      writeFileRecursive(
+        path.join(pathToFile, 'zeus'),
+        `typedDocumentNode.ts`,
+        pluginTypedDocumentNode(commandLineProvidedOptions),
+      );
     }
   };
 }

@@ -1,58 +1,10 @@
 """"""
-type Public {
-  """"""
-  powerups(filter: String!): [Powerup!]
-}
-
-""""""
-enum SpecialSkills {
-  """50% chance to avoid any attack<br>"""
-  FIRE
-
-  """Lower enemy defense -5<br>"""
-  THUNDER
-
-  """Attack multiple Cards at once<br>"""
-  RAIN
-}
-
-""""""
 type EffectCard implements Nameable {
   """"""
   effectSize: Float!
 
   """"""
   name: String!
-}
-
-""""""
-interface Nameable {
-  """"""
-  name: String!
-}
-
-""""""
-type Query {
-  """"""
-  cardById(cardId: String): Card
-
-  """Draw a card<br>"""
-  drawCard: Card!
-
-  """"""
-  drawChangeCard: ChangeCard!
-
-  """list All Cards availble<br>"""
-  listCards: [Card!]!
-
-  """"""
-  myStacks: [CardStack!]
-
-  """"""
-  nameables: [Nameable!]!
-
-  """"""
-  public: Public
 }
 
 """Card used in card game<br>"""
@@ -95,7 +47,37 @@ type Card implements Nameable {
 }
 
 """"""
-union ChangeCard = SpecialCard | EffectCard
+enum SpecialSkills {
+  """Lower enemy defense -5<br>"""
+  THUNDER
+
+  """Attack multiple Cards at once<br>"""
+  RAIN
+
+  """50% chance to avoid any attack<br>"""
+  FIRE
+}
+
+"""Aws S3 File"""
+type S3Object {
+  """"""
+  bucket: String!
+
+  """"""
+  key: String!
+
+  """"""
+  region: String!
+}
+
+""""""
+scalar JSON
+
+""""""
+type Public {
+  """"""
+  powerups(filter: String!): [Powerup!]
+}
 
 """create card inputs<br>"""
 input createCard {
@@ -119,9 +101,9 @@ input createCard {
 }
 
 """"""
-type Powerup {
-  """"""
-  name: String
+type Mutation {
+  """add Card to Cards database<br>"""
+  addCard(card: createCard!): Card!
 }
 
 """"""
@@ -134,16 +116,31 @@ type SpecialCard implements Nameable {
 }
 
 """"""
-type Mutation {
-  """add Card to Cards database<br>"""
-  addCard(card: createCard!): Card!
+type Query {
+  """"""
+  cardById(cardId: String): Card
+
+  """Draw a card<br>"""
+  drawCard: Card!
+
+  """"""
+  drawChangeCard: ChangeCard!
+
+  """list All Cards availble<br>"""
+  listCards: [Card!]!
+
+  """"""
+  myStacks: [CardStack!]
+
+  """"""
+  nameables: [Nameable!]!
+
+  """"""
+  public: Public
 }
 
 """"""
-type Subscription {
-  """"""
-  deck: [Card!]
-}
+union ChangeCard = SpecialCard | EffectCard
 
 """Stack of cards"""
 type CardStack implements Nameable {
@@ -154,20 +151,23 @@ type CardStack implements Nameable {
   name: String!
 }
 
-"""Aws S3 File"""
-type S3Object {
+""""""
+interface Nameable {
   """"""
-  bucket: String!
-
-  """"""
-  key: String!
-
-  """"""
-  region: String!
+  name: String!
 }
 
 """"""
-scalar JSON
+type Powerup {
+  """"""
+  name: String
+}
+
+""""""
+type Subscription {
+  """"""
+  deck: [Card!]
+}
 schema{
 	query: Query,
 	mutation: Mutation,

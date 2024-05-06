@@ -1,10 +1,10 @@
 {
   "name": "graphql-zeus",
-  "version": "5.3.4",
+  "version": "5.4.0",
   "private": false,
   "scripts": {
-    "start": "ttsc --build tsconfig.build.json --watch",
-    "build": "ttsc --build tsconfig.build.json"
+    "start": "ttsc --watch",
+    "build": "ttsc"
   },
   "author": "GraphQL Editor, Artur Czemiel",
   "license": "MIT",
@@ -12,6 +12,7 @@
   "homepage": "https://graphqleditor.com",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "type": "module",
   "bin": {
     "zeus": "lib/index.js"
   },
@@ -23,9 +24,10 @@
     "url": "https://github.com/graphql-editor/graphql-zeus.git"
   },
   "dependencies": {
+    "config-maker": "^0.0.2",
     "cross-fetch": "^3.0.4",
-    "graphql-zeus-core": "^5.3.4",
-    "graphql-zeus-jsonschema": "^5.3.4",
+    "graphql-zeus-core": "^5.4.0",
+    "graphql-zeus-jsonschema": "^5.4.0",
     "yargs": "^16.1.1"
   }
 }

@@ -11,7 +11,7 @@ Strongly Typed GraphQL from the team at [GraphQL Editor](https://graphqleditor.c
 GraphQL Zeus is the absolute best way to interact with your GraphQL endpoints in a type-safe way. Zeus uses your schema to generate Typescript types and strongly typed clients to unlock the power, efficiency, productivity and safety of Typescript on your GraphQL requests.
 
 ## Features
-
+⚡️ Validates queries and selectors
 ⚡️ Types mapped from your schema <br/>
 ⚡️ Works with Apollo Client, React Query, Stucco Subscriptions _(\*more coming soon...)_<br/>
 ⚡️ Works with Subscriptions <br/>

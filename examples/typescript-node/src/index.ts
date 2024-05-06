@@ -12,41 +12,47 @@ import {
   ValueTypes,
   $,
   FromSelector,
-} from './zeus';
-import { ApolloClient, InMemoryCache, useMutation } from '@apollo/client';
-import { typedGql } from './zeus/typedDocumentNode';
+} from './zeus/index.js';
+import { typedGql } from './zeus/typedDocumentNode.js';
 
-const client = new ApolloClient({
-  cache: new InMemoryCache(),
-});
+export const testApollo = async () => {
+  const { ApolloClient, InMemoryCache, useMutation } = await import('@apollo/client');
 
-export const useMyMutation = () => {
-  return ({ card }: { card: ValueTypes['createCard'] }) =>
-    client.mutate({
-      mutation: typedGql('mutation')({
-        addCard: [{ card }, { id: true }],
-      }),
-    });
-};
-
-export const testMutate = () => {
-  const [mutate] = useMutation(
-    typedGql('mutation')({
-      addCard: [
-        { card: { Attack: $('attt', 'Int'), Defense: 2, name: $('name', 'String!'), description: 'Stronk' } },
-        { id: true },
-      ],
-    }),
-  );
-
-  mutate({
-    variables: {
-      name: 'DDD',
-      attt: 1,
-    },
+  const client = new ApolloClient({
+    cache: new InMemoryCache(),
   });
-};
 
+  const useMyMutation = () => {
+    return ({ card }: { card: ValueTypes['createCard'] }) =>
+      client.mutate({
+        mutation: typedGql('mutation')({
+          addCard: [{ card }, { id: true }],
+        }),
+      });
+  };
+
+  const testMutate = () => {
+    const [mutate] = useMutation(
+      typedGql('mutation')({
+        addCard: [
+          { card: { Attack: $('attt', 'Int'), Defense: 2, name: $('name', 'String!'), description: 'Stronk' } },
+          { id: true },
+        ],
+      }),
+    );
+
+    mutate({
+      variables: {
+        name: 'DDD',
+        attt: 1,
+      },
+    });
+  };
+  return {
+    useMyMutation,
+    testMutate,
+  };
+};
 const sel = Selector('Query')({
   drawCard: {
     Children: true,
@@ -258,7 +264,7 @@ const run = async () => {
           },
           atak: {
             attack: [
-              { cardID: $('cardIds', '[String!]!') },
+              { cardID: $('cardIds', '[String!]!'), dupa: 1 },
               {
                 name: true,
                 __alias: {

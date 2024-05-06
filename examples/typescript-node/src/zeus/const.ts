@@ -1,19 +1,15 @@
 /* eslint-disable */
 
 export const AllTypesProps: Record<string,any> = {
-	Public:{
-		powerups:{
+	Card:{
+		attack:{
 
 		}
 	},
 	SpecialSkills: "enum" as const,
-	Query:{
-		cardById:{
-
-		}
-	},
-	Card:{
-		attack:{
+	JSON: `scalar.JSON` as const,
+	Public:{
+		powerups:{
 
 		}
 	},
@@ -25,32 +21,17 @@ export const AllTypesProps: Record<string,any> = {
 			card:"createCard"
 		}
 	},
-	JSON: `scalar.JSON` as const
+	Query:{
+		cardById:{
+
+		}
+	}
 }
 
 export const ReturnTypes: Record<string,any> = {
-	Public:{
-		powerups:"Powerup"
-	},
 	EffectCard:{
 		effectSize:"Float",
 		name:"String"
-	},
-	Nameable:{
-		"...on EffectCard": "EffectCard",
-		"...on Card": "Card",
-		"...on SpecialCard": "SpecialCard",
-		"...on CardStack": "CardStack",
-		name:"String"
-	},
-	Query:{
-		cardById:"Card",
-		drawCard:"Card",
-		drawChangeCard:"ChangeCard",
-		listCards:"Card",
-		myStacks:"CardStack",
-		nameables:"Nameable",
-		public:"Public"
 	},
 	Card:{
 		Attack:"Int",
@@ -65,33 +46,52 @@ export const ReturnTypes: Record<string,any> = {
 		name:"String",
 		skills:"SpecialSkills"
 	},
-	ChangeCard:{
-		"...on SpecialCard":"SpecialCard",
-		"...on EffectCard":"EffectCard"
-	},
-	Powerup:{
-		name:"String"
-	},
-	SpecialCard:{
-		effect:"String",
-		name:"String"
-	},
-	Mutation:{
-		addCard:"Card"
-	},
-	Subscription:{
-		deck:"Card"
-	},
-	CardStack:{
-		cards:"Card",
-		name:"String"
-	},
 	S3Object:{
 		bucket:"String",
 		key:"String",
 		region:"String"
 	},
-	JSON: `scalar.JSON` as const
+	JSON: `scalar.JSON` as const,
+	Public:{
+		powerups:"Powerup"
+	},
+	Mutation:{
+		addCard:"Card"
+	},
+	SpecialCard:{
+		effect:"String",
+		name:"String"
+	},
+	Query:{
+		cardById:"Card",
+		drawCard:"Card",
+		drawChangeCard:"ChangeCard",
+		listCards:"Card",
+		myStacks:"CardStack",
+		nameables:"Nameable",
+		public:"Public"
+	},
+	ChangeCard:{
+		"...on SpecialCard":"SpecialCard",
+		"...on EffectCard":"EffectCard"
+	},
+	CardStack:{
+		cards:"Card",
+		name:"String"
+	},
+	Nameable:{
+		"...on EffectCard": "EffectCard",
+		"...on Card": "Card",
+		"...on SpecialCard": "SpecialCard",
+		"...on CardStack": "CardStack",
+		name:"String"
+	},
+	Powerup:{
+		name:"String"
+	},
+	Subscription:{
+		deck:"Card"
+	}
 }
 
 export const Ops = {

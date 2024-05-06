@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-import * as yargs from 'yargs';
-import { CLI } from './CLIClass';
-const args = yargs
+import yargs from 'yargs';
+import { CLI } from '@/CLIClass.js';
+const args = yargs(process.argv.slice(2))
   .usage(
     `
 Zeus⚡⚡⚡
@@ -21,24 +21,9 @@ zeus [path] [output_path] [options]
     describe: 'Use .js import in TypeScript to use with esModules',
     boolean: true,
   })
-  .option('apollo', {
-    alias: 'ap',
-    describe: 'Generate Apollo useTypedQuery module',
-    boolean: true,
-  })
-  .option('stuccoSubscriptions', {
-    alias: 'ss',
-    describe: 'Generate Stucco.js stuccoSubscriptions module',
-    boolean: true,
-  })
   .option('typedDocumentNode', {
     alias: 'td',
     describe: 'Generate TypedDocumentNode createQuery module',
-    boolean: true,
-  })
-  .option('reactQuery', {
-    alias: 'rq',
-    describe: 'Generate React Query useTypedQuery module',
     boolean: true,
   })
   .option('method', {
