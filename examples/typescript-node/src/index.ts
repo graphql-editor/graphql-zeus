@@ -264,7 +264,7 @@ const run = async () => {
           },
           atak: {
             attack: [
-              { cardID: $('cardIds', '[String!]!'), dupa: 1 },
+              { cardID: $('cardIds', '[String!]!') },
               {
                 name: true,
                 __alias: {

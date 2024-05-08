@@ -1,34 +1,57 @@
 /* eslint-disable */
 
 export const AllTypesProps: Record<string,any> = {
-	Card:{
-		attack:{
-
-		}
-	},
-	SpecialSkills: "enum" as const,
-	JSON: `scalar.JSON` as const,
 	Public:{
 		powerups:{
 
-		}
-	},
-	createCard:{
-		skills:"SpecialSkills"
-	},
-	Mutation:{
-		addCard:{
-			card:"createCard"
 		}
 	},
 	Query:{
 		cardById:{
 
 		}
-	}
+	},
+	Mutation:{
+		addCard:{
+			card:"createCard"
+		}
+	},
+	JSON: `scalar.JSON` as const,
+	createCard:{
+		skills:"SpecialSkills"
+	},
+	Card:{
+		attack:{
+
+		}
+	},
+	SpecialSkills: "enum" as const
 }
 
 export const ReturnTypes: Record<string,any> = {
+	Public:{
+		powerups:"Powerup"
+	},
+	ChangeCard:{
+		"...on SpecialCard":"SpecialCard",
+		"...on EffectCard":"EffectCard"
+	},
+	Subscription:{
+		deck:"Card"
+	},
+	Query:{
+		cardById:"Card",
+		drawCard:"Card",
+		drawChangeCard:"ChangeCard",
+		listCards:"Card",
+		myStacks:"CardStack",
+		nameables:"Nameable",
+		public:"Public"
+	},
+	Mutation:{
+		addCard:"Card"
+	},
+	JSON: `scalar.JSON` as const,
 	EffectCard:{
 		effectSize:"Float",
 		name:"String"
@@ -46,39 +69,6 @@ export const ReturnTypes: Record<string,any> = {
 		name:"String",
 		skills:"SpecialSkills"
 	},
-	S3Object:{
-		bucket:"String",
-		key:"String",
-		region:"String"
-	},
-	JSON: `scalar.JSON` as const,
-	Public:{
-		powerups:"Powerup"
-	},
-	Mutation:{
-		addCard:"Card"
-	},
-	SpecialCard:{
-		effect:"String",
-		name:"String"
-	},
-	Query:{
-		cardById:"Card",
-		drawCard:"Card",
-		drawChangeCard:"ChangeCard",
-		listCards:"Card",
-		myStacks:"CardStack",
-		nameables:"Nameable",
-		public:"Public"
-	},
-	ChangeCard:{
-		"...on SpecialCard":"SpecialCard",
-		"...on EffectCard":"EffectCard"
-	},
-	CardStack:{
-		cards:"Card",
-		name:"String"
-	},
 	Nameable:{
 		"...on EffectCard": "EffectCard",
 		"...on Card": "Card",
@@ -86,11 +76,21 @@ export const ReturnTypes: Record<string,any> = {
 		"...on CardStack": "CardStack",
 		name:"String"
 	},
-	Powerup:{
+	S3Object:{
+		bucket:"String",
+		key:"String",
+		region:"String"
+	},
+	SpecialCard:{
+		effect:"String",
 		name:"String"
 	},
-	Subscription:{
-		deck:"Card"
+	CardStack:{
+		cards:"Card",
+		name:"String"
+	},
+	Powerup:{
+		name:"String"
 	}
 }
 

@@ -24,11 +24,13 @@ import {
 import { InputType, ScalarDefinition, SelectionFunction, SubscriptionToGraphQL } from '@/TreeToTS/functions/new/types';
 import { ExtractVariables } from '@/TreeToTS/functions/new/variableExtract';
 
+type UnionOverrideKeys<T, U> = Omit<T, keyof U> & U;
+
 export const Thunder =
   <SCLR extends ScalarDefinition>(fn: FetchFunction, thunderGraphQLOptions?: ThunderGraphQLOptions<SCLR>) =>
-  <O extends keyof typeof Ops, R extends keyof ValueTypes = GenericOperation<O>>(
+  <O extends keyof typeof Ops, OVERRIDESCLR extends ScalarDefinition, R extends keyof ValueTypes = GenericOperation<O>>(
     operation: O,
-    graphqlOptions?: ThunderGraphQLOptions<SCLR>,
+    graphqlOptions?: ThunderGraphQLOptions<OVERRIDESCLR>,
   ) =>
   <Z extends ValueTypes[R]>(
     o: Z & {
@@ -58,16 +60,16 @@ export const Thunder =
         });
       }
       return data;
-    }) as Promise<InputType<GraphQLTypes[R], Z, SCLR>>;
+    }) as Promise<InputType<GraphQLTypes[R], Z, UnionOverrideKeys<SCLR, OVERRIDESCLR>>>;
   };
 
 export const Chain = (...options: chainOptions) => Thunder(apiFetch(options));
 
 export const SubscriptionThunder =
   <SCLR extends ScalarDefinition>(fn: SubscriptionFunction, thunderGraphQLOptions?: ThunderGraphQLOptions<SCLR>) =>
-  <O extends keyof typeof Ops, R extends keyof ValueTypes = GenericOperation<O>>(
+  <O extends keyof typeof Ops, OVERRIDESCLR extends ScalarDefinition, R extends keyof ValueTypes = GenericOperation<O>>(
     operation: O,
-    graphqlOptions?: ThunderGraphQLOptions<SCLR>,
+    graphqlOptions?: ThunderGraphQLOptions<OVERRIDESCLR>,
   ) =>
   <Z extends ValueTypes[R]>(
     o: Z & {
@@ -79,16 +81,17 @@ export const SubscriptionThunder =
       ...thunderGraphQLOptions,
       ...graphqlOptions,
     };
+    type CombinedSCLR = UnionOverrideKeys<SCLR, OVERRIDESCLR>;
     const returnedFunction = fn(
       Zeus(operation, o, {
         operationOptions: ops,
         scalars: options?.scalars,
       }),
-    ) as SubscriptionToGraphQL<Z, GraphQLTypes[R], SCLR>;
+    ) as SubscriptionToGraphQL<Z, GraphQLTypes[R], CombinedSCLR>;
     if (returnedFunction?.on && options?.scalars) {
       const wrapped = returnedFunction.on;
-      returnedFunction.on = (fnToCall: (args: InputType<GraphQLTypes[R], Z, SCLR>) => void) =>
-        wrapped((data: InputType<GraphQLTypes[R], Z, SCLR>) => {
+      returnedFunction.on = (fnToCall: (args: InputType<GraphQLTypes[R], Z, CombinedSCLR>) => void) =>
+        wrapped((data: InputType<GraphQLTypes[R], Z, CombinedSCLR>) => {
           if (options?.scalars) {
             return fnToCall(
               decodeScalarsInResponse({
