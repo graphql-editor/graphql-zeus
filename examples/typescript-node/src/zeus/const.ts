@@ -1,13 +1,17 @@
 /* eslint-disable */
 
 export const AllTypesProps: Record<string,any> = {
-	Public:{
-		powerups:{
+	SpecialSkills: "enum" as const,
+	Query:{
+		cardById:{
 
 		}
 	},
-	Query:{
-		cardById:{
+	createCard:{
+		skills:"SpecialSkills"
+	},
+	Card:{
+		attack:{
 
 		}
 	},
@@ -17,27 +21,20 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	JSON: `scalar.JSON` as const,
-	createCard:{
-		skills:"SpecialSkills"
-	},
-	Card:{
-		attack:{
+	Public:{
+		powerups:{
 
 		}
-	},
-	SpecialSkills: "enum" as const
+	}
 }
 
 export const ReturnTypes: Record<string,any> = {
-	Public:{
-		powerups:"Powerup"
-	},
-	ChangeCard:{
-		"...on SpecialCard":"SpecialCard",
-		"...on EffectCard":"EffectCard"
-	},
-	Subscription:{
-		deck:"Card"
+	Nameable:{
+		"...on CardStack": "CardStack",
+		"...on Card": "Card",
+		"...on SpecialCard": "SpecialCard",
+		"...on EffectCard": "EffectCard",
+		name:"String"
 	},
 	Query:{
 		cardById:"Card",
@@ -48,12 +45,8 @@ export const ReturnTypes: Record<string,any> = {
 		nameables:"Nameable",
 		public:"Public"
 	},
-	Mutation:{
-		addCard:"Card"
-	},
-	JSON: `scalar.JSON` as const,
-	EffectCard:{
-		effectSize:"Float",
+	CardStack:{
+		cards:"Card",
 		name:"String"
 	},
 	Card:{
@@ -69,28 +62,35 @@ export const ReturnTypes: Record<string,any> = {
 		name:"String",
 		skills:"SpecialSkills"
 	},
-	Nameable:{
-		"...on EffectCard": "EffectCard",
-		"...on Card": "Card",
-		"...on SpecialCard": "SpecialCard",
-		"...on CardStack": "CardStack",
+	SpecialCard:{
+		effect:"String",
 		name:"String"
 	},
+	EffectCard:{
+		effectSize:"Float",
+		name:"String"
+	},
+	Mutation:{
+		addCard:"Card"
+	},
+	JSON: `scalar.JSON` as const,
 	S3Object:{
 		bucket:"String",
 		key:"String",
 		region:"String"
 	},
-	SpecialCard:{
-		effect:"String",
-		name:"String"
-	},
-	CardStack:{
-		cards:"Card",
-		name:"String"
+	Public:{
+		powerups:"Powerup"
 	},
 	Powerup:{
 		name:"String"
+	},
+	ChangeCard:{
+		"...on SpecialCard":"SpecialCard",
+		"...on EffectCard":"EffectCard"
+	},
+	Subscription:{
+		deck:"Card"
 	}
 }
 

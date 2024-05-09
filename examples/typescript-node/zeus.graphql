@@ -1,16 +1,19 @@
 """"""
-type Public {
+interface Nameable {
   """"""
-  powerups(filter: String!): [Powerup!]
+  name: String!
 }
 
 """"""
-union ChangeCard = SpecialCard | EffectCard
+enum SpecialSkills {
+  """Lower enemy defense -5<br>"""
+  THUNDER
 
-""""""
-type Subscription {
-  """"""
-  deck: [Card!]
+  """Attack multiple Cards at once<br>"""
+  RAIN
+
+  """50% chance to avoid any attack<br>"""
+  FIRE
 }
 
 """"""
@@ -37,26 +40,11 @@ type Query {
   public: Public
 }
 
-""""""
-type Mutation {
-  """add Card to Cards database<br>"""
-  addCard(card: createCard!): Card!
-}
-
-""""""
-scalar JSON
-
-""""""
-type EffectCard implements Nameable {
-  """"""
-  effectSize: Float!
-
-  """"""
-  name: String!
-}
-
 """create card inputs<br>"""
 input createCard {
+  """The name of a card<br>"""
+  name: String!
+
   """Description of a card<br>"""
   description: String!
 
@@ -71,8 +59,14 @@ input createCard {
 
   """input skills"""
   skills: [SpecialSkills!]
+}
 
-  """The name of a card<br>"""
+"""Stack of cards"""
+type CardStack implements Nameable {
+  """"""
+  cards: [Card!]
+
+  """"""
   name: String!
 }
 
@@ -116,22 +110,31 @@ type Card implements Nameable {
 }
 
 """"""
-enum SpecialSkills {
-  """Lower enemy defense -5<br>"""
-  THUNDER
+type SpecialCard implements Nameable {
+  """"""
+  effect: String!
 
-  """Attack multiple Cards at once<br>"""
-  RAIN
-
-  """50% chance to avoid any attack<br>"""
-  FIRE
-}
-
-""""""
-interface Nameable {
   """"""
   name: String!
 }
+
+""""""
+type EffectCard implements Nameable {
+  """"""
+  effectSize: Float!
+
+  """"""
+  name: String!
+}
+
+""""""
+type Mutation {
+  """add Card to Cards database<br>"""
+  addCard(card: createCard!): Card!
+}
+
+""""""
+scalar JSON
 
 """Aws S3 File"""
 type S3Object {
@@ -146,27 +149,24 @@ type S3Object {
 }
 
 """"""
-type SpecialCard implements Nameable {
+type Public {
   """"""
-  effect: String!
-
-  """"""
-  name: String!
-}
-
-"""Stack of cards"""
-type CardStack implements Nameable {
-  """"""
-  cards: [Card!]
-
-  """"""
-  name: String!
+  powerups(filter: String!): [Powerup!]
 }
 
 """"""
 type Powerup {
   """"""
   name: String
+}
+
+""""""
+union ChangeCard = SpecialCard | EffectCard
+
+""""""
+type Subscription {
+  """"""
+  deck: [Card!]
 }
 schema{
 	query: Query,

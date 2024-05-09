@@ -28,7 +28,7 @@ type UnionOverrideKeys<T, U> = Omit<T, keyof U> & U;
 
 export const Thunder =
   <SCLR extends ScalarDefinition>(fn: FetchFunction, thunderGraphQLOptions?: ThunderGraphQLOptions<SCLR>) =>
-  <O extends keyof typeof Ops, OVERRIDESCLR extends ScalarDefinition, R extends keyof ValueTypes = GenericOperation<O>>(
+  <O extends keyof typeof Ops, OVERRIDESCLR extends SCLR, R extends keyof ValueTypes = GenericOperation<O>>(
     operation: O,
     graphqlOptions?: ThunderGraphQLOptions<OVERRIDESCLR>,
   ) =>
@@ -67,7 +67,7 @@ export const Chain = (...options: chainOptions) => Thunder(apiFetch(options));
 
 export const SubscriptionThunder =
   <SCLR extends ScalarDefinition>(fn: SubscriptionFunction, thunderGraphQLOptions?: ThunderGraphQLOptions<SCLR>) =>
-  <O extends keyof typeof Ops, OVERRIDESCLR extends ScalarDefinition, R extends keyof ValueTypes = GenericOperation<O>>(
+  <O extends keyof typeof Ops, OVERRIDESCLR extends SCLR, R extends keyof ValueTypes = GenericOperation<O>>(
     operation: O,
     graphqlOptions?: ThunderGraphQLOptions<OVERRIDESCLR>,
   ) =>
