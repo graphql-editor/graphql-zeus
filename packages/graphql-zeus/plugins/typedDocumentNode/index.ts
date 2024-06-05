@@ -2,7 +2,7 @@ import { ProjectOptions } from '@/config.js';
 
 export const pluginTypedDocumentNode = ({ esModule, node }: Partial<ProjectOptions>) => `/* eslint-disable */
 import { TypedDocumentNode } from '@graphql-typed-document-node/core';
-import gql from 'graphql-tag';
+import ${esModule ? "{ gql }" : "gql"} from 'graphql-tag';
 import {
   ValueTypes,
   GenericOperation,
