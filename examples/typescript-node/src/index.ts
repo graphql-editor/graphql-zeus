@@ -67,7 +67,7 @@ const decoders = ZeusScalars({
   JSON: {
     encode: (e: unknown) => JSON.stringify(e),
     decode: (e: unknown) => {
-      console.log(e);
+      if (!e) return;
       return e as { power: number };
     },
   },
@@ -93,6 +93,7 @@ const run = async () => {
           },
         },
         {
+          info: true,
           cardImage: {
             bucket: true,
             region: true,
@@ -112,9 +113,6 @@ const run = async () => {
         effectSize: true,
         name: true,
       },
-      '...on SpecialCard': {
-        name: true,
-      },
     },
   });
   printQueryResult('drawChangeCard', blalba.drawChangeCard);
@@ -123,14 +121,15 @@ const run = async () => {
       info: true,
     },
   });
-  if (typeof blalbaScalars.drawCard.info.power !== 'number') {
+  console.log({ blalbaScalars });
+  if (typeof blalbaScalars.drawCard.info?.power !== 'number') {
     throw new Error('Invalid scalar decoder');
   }
   printQueryResult('blalbaScalars', blalbaScalars.drawCard.info.power);
 
   // Thunder example
   const thunder = Thunder(async (query) => {
-    const response = await fetch('https://faker.graphqleditor.com/a-team/olympus/graphql', {
+    const response = await fetch('https://faker.prod.graphqleditor.com/a-team/olympus/graphql', {
       body: JSON.stringify({ query }),
       method: 'POST',
       headers: {
@@ -165,9 +164,6 @@ const run = async () => {
       __typename: true,
       '...on EffectCard': {
         effectSize: true,
-        name: true,
-      },
-      '...on SpecialCard': {
         name: true,
       },
     },

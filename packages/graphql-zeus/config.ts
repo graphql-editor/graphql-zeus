@@ -15,7 +15,7 @@ export type ProjectOptions = {
 };
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-export const config = new ConfigMaker<ProjectOptions, {}>('graphql-zeus', {
+export const config = new ConfigMaker<ProjectOptions>('graphql-zeus', {
   decoders: {},
   defaultValues: {
     esModule: false,

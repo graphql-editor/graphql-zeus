@@ -1,6 +1,6 @@
 {
   "name": "graphql-zeus",
-  "version": "5.4.4",
+  "version": "5.4.5",
   "private": false,
   "scripts": {
     "start": "ttsc --watch",
@@ -24,10 +24,10 @@
     "url": "https://github.com/graphql-editor/graphql-zeus.git"
   },
   "dependencies": {
-    "config-maker": "^0.0.2",
+    "config-maker": "^0.0.6",
     "cross-fetch": "^3.0.4",
-    "graphql-zeus-core": "^5.4.4",
-    "graphql-zeus-jsonschema": "^5.4.4",
+    "graphql-zeus-core": "^5.4.5",
+    "graphql-zeus-jsonschema": "^5.4.5",
     "yargs": "^16.1.1"
   }
 }

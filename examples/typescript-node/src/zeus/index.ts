@@ -3,7 +3,7 @@
 import { AllTypesProps, ReturnTypes, Ops } from './const.js';
 import fetch, { Response } from 'node-fetch';
 import WebSocket from 'ws';
-export const HOST = "https://faker.graphqleditor.com/a-team/olympus/graphql"
+export const HOST = "https://faker.prod.graphqleditor.com/a-team/olympus/graphql"
 
 
 export const HEADERS = {}
@@ -960,8 +960,8 @@ powerups?: [{	filter: string | Variable<any, string>},ValueTypes["Powerup"]],
 	name?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
-	["ChangeCard"]: AliasType<{		["...on SpecialCard"] : ValueTypes["SpecialCard"],
-		["...on EffectCard"] : ValueTypes["EffectCard"]
+	["ChangeCard"]: AliasType<{		["...on SpecialCard"]?: ValueTypes["SpecialCard"],
+		["...on EffectCard"]?: ValueTypes["EffectCard"]
 		__typename?: boolean | `@${string}`
 }>;
 	["Subscription"]: AliasType<{

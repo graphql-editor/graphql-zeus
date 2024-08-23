@@ -1,6 +1,6 @@
 {
   "name": "graphql-zeus-jsonschema",
-  "version": "5.4.4",
+  "version": "5.4.5",
   "private": false,
   "main": "./lib/index.js",
   "author": "GraphQL Editor, Artur Czemiel",

@@ -13,7 +13,7 @@ const resolveValueTypeFromRoot = (i: ParserField, rootNodes: ParserField[], enum
     return `["${i.name}"]: ${AliasType(
       `{${i.args
         .map(
-          (f) => `\t\t["...on ${getTypeName(f.type.fieldType)}"] : ${VALUETYPES}["${getTypeName(f.type.fieldType)}"]`,
+          (f) => `\t\t["...on ${getTypeName(f.type.fieldType)}"]?: ${VALUETYPES}["${getTypeName(f.type.fieldType)}"]`,
         )
         .join(',\n')}\n\t\t__typename?: ${truthyType}\n}`,
     )}`;
