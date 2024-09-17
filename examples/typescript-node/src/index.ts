@@ -12,6 +12,7 @@ import {
   ValueTypes,
   $,
   FromSelector,
+  fields,
 } from './zeus/index.js';
 import { typedGql } from './zeus/typedDocumentNode.js';
 
@@ -105,6 +106,13 @@ const run = async () => {
     { operationName: 'ZausCard' },
   );
   printQueryResult('ZeusCard', ZeusCard);
+
+  const bbb = await Gql('query')({
+    drawCard: {
+      ...fields('Card'),
+    },
+  });
+  printQueryResult('scalarsSelector', bbb.drawCard);
 
   const blalba = await Gql('query')({
     drawChangeCard: {

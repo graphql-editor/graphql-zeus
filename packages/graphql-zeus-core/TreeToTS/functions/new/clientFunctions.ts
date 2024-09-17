@@ -10,6 +10,7 @@ import {
   apiSubscription,
   HOST,
   ScalarCoders,
+  ModelTypes,
   HEADERS,
 } from '@/TreeToTS/functions/new/mocks';
 import {
@@ -144,3 +145,24 @@ export const Gql = Chain(HOST, {
 });
 
 export const ZeusScalars = ZeusSelect<ScalarCoders>();
+
+type ScalarsSelector<T> = {
+  [X in Required<{
+    [P in keyof T]: T[P] extends number | string | undefined | boolean ? P : never;
+  }>[keyof T]]: true;
+};
+
+export const fields = <T extends keyof ModelTypes>(k: T) => {
+  const t = ReturnTypes[k];
+  const o = Object.fromEntries(
+    Object.entries(t)
+      .filter(([, value]) => {
+        const isReturnType = ReturnTypes[value as string];
+        if (!isReturnType || (typeof isReturnType === 'string' && isReturnType.startsWith('scalar.'))) {
+          return true;
+        }
+      })
+      .map(([key]) => [key, true as const]),
+  );
+  return o as ScalarsSelector<ModelTypes[T]>;
+};

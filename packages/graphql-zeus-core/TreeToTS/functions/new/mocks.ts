@@ -30,7 +30,8 @@ export const AllTypesProps = {
   JSON: 'scalar.JSON' as const,
 };
 
-export const ReturnTypes = {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const ReturnTypes: Record<string, any> = {
   Query: {
     cardByStatus: 'Card',
     drawCard: 'Card',
