@@ -110,7 +110,7 @@ export class TreeToTS {
       }';`.concat(
         env === 'node'
           ? `
-import fetch, { Response } from 'node-fetch';
+import fetch, {${subscriptions === 'graphql-ws' ? ' Headers,' : ''} Response } from 'node-fetch';
 import WebSocket from 'ws';`
           : ``,
       ),
@@ -120,7 +120,7 @@ import WebSocket from 'ws';`
         .concat('\n')
         .concat(headers ? `export const HEADERS = ${JSON.stringify(headers)}` : '\n\nexport const HEADERS = {}')
         .concat('\n')
-        .concat(subscriptionFunctions[subscriptions])
+        .concat(subscriptionFunctions(env)[subscriptions])
         .concat('\n')
         .concat(typescriptFunctions)
         .concat('\n')
