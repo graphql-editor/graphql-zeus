@@ -42,7 +42,7 @@ export const resolveTypeFromRoot = (i: ParserField, rootNodes: ParserField[]): s
 
   return `${plusDescription(i.description)}${resolveType(i, rootNodes)}`;
 };
-export const resolveTypes = (rootNodes: ParserField[]): string => {
+export const resolveTypes = (rootNodes: ParserField[], options?: { constEnums?: boolean }): string => {
   return `export type ${TYPES} = {
     ${rootNodes
       .map((f) => resolveTypeFromRoot(f, rootNodes))
@@ -53,7 +53,7 @@ export const resolveTypes = (rootNodes: ParserField[]): string => {
     .concat(
       rootNodes
         .filter((rn) => rn.data.type === TypeDefinition.EnumTypeDefinition)
-        .map(resolveEnum)
+        .map((f) => resolveEnum(f, options?.constEnums))
         .join('\n'),
     );
 };

@@ -8,12 +8,13 @@ export interface TranslateOptions {
   host?: string;
   esModule?: boolean;
   subscriptions?: 'legacy' | 'graphql-ws';
+  constEnums?: boolean;
 }
 
 export class TranslateGraphQL {
-  static typescript = ({ schema, env = 'browser', host, subscriptions = 'legacy' }: TranslateOptions) => {
+  static typescript = ({ schema, env = 'browser', host, subscriptions = 'legacy', constEnums }: TranslateOptions) => {
     const tree = Parser.parseAddExtensions(schema);
-    const ts = TreeToTS.resolveTree({ tree, env, host, subscriptions });
+    const ts = TreeToTS.resolveTree({ tree, env, host, subscriptions, constEnums });
     return ts;
   };
 
@@ -23,9 +24,10 @@ export class TranslateGraphQL {
     host,
     esModule,
     subscriptions = 'legacy',
+    constEnums,
   }: TranslateOptions) => {
     const tree = Parser.parseAddExtensions(schema);
-    const ts = TreeToTS.resolveTreeSplit({ tree, env, host, esModule, subscriptions });
+    const ts = TreeToTS.resolveTreeSplit({ tree, env, host, esModule, subscriptions, constEnums });
     return {
       const: TreeToTS.resolveBasisHeader().concat(ts.const),
       index: TreeToTS.resolveBasisHeader().concat(ts.indexImports).concat('\n').concat(ts.index),

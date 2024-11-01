@@ -36,6 +36,7 @@ export interface ResolveOptions {
   headers?: Record<string, string>;
   esModule?: boolean;
   subscriptions?: 'legacy' | 'graphql-ws';
+  constEnums?: boolean;
 }
 
 const disableLintersComments = ['eslint-disable'];
@@ -67,8 +68,8 @@ export class TreeToTS {
     return propTypes.concat('\n\n').concat(returnTypes).concat('\n\n').concat(opsString);
   }
 
-  static resolveBasisTypes(tree: ParserTree): string {
-    const rootTypes = resolveTypes(tree.nodes);
+  static resolveBasisTypes(tree: ParserTree, options?: { constEnums?: boolean }): string {
+    const rootTypes = resolveTypes(tree.nodes, options);
     const valueTypes = resolveValueTypes(tree.nodes);
     const inputTypes = resolveInputTypes(tree.nodes);
     const modelTypes = resolveModelTypes(tree.nodes);
@@ -103,6 +104,7 @@ export class TreeToTS {
     esModule,
     headers,
     subscriptions = 'legacy',
+    constEnums,
   }: ResolveOptions) {
     return {
       indexImports: `import { AllTypesProps, ReturnTypes, Ops } from './const${
@@ -124,7 +126,11 @@ import WebSocket from 'ws';`
         .concat('\n')
         .concat(typescriptFunctions)
         .concat('\n')
-        .concat(TreeToTS.resolveBasisTypes(tree)),
+        .concat(
+          TreeToTS.resolveBasisTypes(tree, {
+            constEnums,
+          }),
+        ),
     };
   }
 

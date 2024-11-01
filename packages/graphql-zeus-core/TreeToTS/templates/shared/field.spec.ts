@@ -17,7 +17,7 @@ describe('Test type field generation', () => {
       type: Options.name,
       name: 'Person',
     });
-    expect(resolvedString).toEqual(`Person | undefined`);
+    expect(resolvedString).toEqual(`Person | undefined | null`);
   });
   test('Optional Array Optional Field generation', () => {
     const resolvedString = resolveFieldType('Person', {
@@ -27,7 +27,7 @@ describe('Test type field generation', () => {
         name: 'Person',
       },
     });
-    expect(resolvedString).toEqual(`Array<Person | undefined> | undefined`);
+    expect(resolvedString).toEqual(`Array<Person | undefined | null> | undefined | null`);
   });
   test('Required Array Optional Field generation', () => {
     const resolvedString = resolveFieldType('Person', {
@@ -40,7 +40,7 @@ describe('Test type field generation', () => {
         },
       },
     });
-    expect(resolvedString).toEqual(`Array<Person | undefined>`);
+    expect(resolvedString).toEqual(`Array<Person | undefined | null>`);
   });
   test('Required Array Required Field generation', () => {
     const resolvedString = resolveFieldType('Person', {

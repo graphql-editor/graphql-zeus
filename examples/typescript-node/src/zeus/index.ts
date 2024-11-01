@@ -1107,15 +1107,15 @@ export type ModelTypes = {
     ["Nameable"]: ModelTypes["CardStack"] | ModelTypes["Card"] | ModelTypes["SpecialCard"] | ModelTypes["EffectCard"];
 	["SpecialSkills"]:SpecialSkills;
 	["Query"]: {
-		cardById?: ModelTypes["Card"] | undefined,
+		cardById?: ModelTypes["Card"] | undefined | null,
 	/** Draw a card<br> */
 	drawCard: ModelTypes["Card"],
 	drawChangeCard: ModelTypes["ChangeCard"],
 	/** list All Cards availble<br> */
 	listCards: Array<ModelTypes["Card"]>,
-	myStacks?: Array<ModelTypes["CardStack"]> | undefined,
+	myStacks?: Array<ModelTypes["CardStack"]> | undefined | null,
 	nameables: Array<ModelTypes["Nameable"]>,
-	public?: ModelTypes["Public"] | undefined
+	public?: ModelTypes["Public"] | undefined | null
 };
 	/** create card inputs<br> */
 ["createCard"]: {
@@ -1124,17 +1124,17 @@ export type ModelTypes = {
 	/** Description of a card<br> */
 	description: string,
 	/** <div>How many children the greek god had</div> */
-	Children?: number | undefined,
+	Children?: number | undefined | null,
 	/** The attack power<br> */
 	Attack: number,
 	/** The defense power<br> */
 	Defense: number,
 	/** input skills */
-	skills?: Array<ModelTypes["SpecialSkills"]> | undefined
+	skills?: Array<ModelTypes["SpecialSkills"]> | undefined | null
 };
 	/** Stack of cards */
 ["CardStack"]: {
-		cards?: Array<ModelTypes["Card"]> | undefined,
+		cards?: Array<ModelTypes["Card"]> | undefined | null,
 	name: string
 };
 	/** Card used in card game<br> */
@@ -1142,13 +1142,13 @@ export type ModelTypes = {
 		/** The attack power<br> */
 	Attack: number,
 	/** <div>How many children the greek god had</div> */
-	Children?: number | undefined,
+	Children?: number | undefined | null,
 	/** The defense power<br> */
 	Defense: number,
 	/** Attack other cards on the table , returns Cards after attack<br> */
-	attack?: Array<ModelTypes["Card"]> | undefined,
+	attack?: Array<ModelTypes["Card"]> | undefined | null,
 	/** Put your description here */
-	cardImage?: ModelTypes["S3Object"] | undefined,
+	cardImage?: ModelTypes["S3Object"] | undefined | null,
 	/** Description of a card<br> */
 	description: string,
 	id: string,
@@ -1156,7 +1156,7 @@ export type ModelTypes = {
 	info: ModelTypes["JSON"],
 	/** The name of a card<br> */
 	name: string,
-	skills?: Array<ModelTypes["SpecialSkills"]> | undefined
+	skills?: Array<ModelTypes["SpecialSkills"]> | undefined | null
 };
 	["SpecialCard"]: {
 		effect: string,
@@ -1178,19 +1178,19 @@ export type ModelTypes = {
 	region: string
 };
 	["Public"]: {
-		powerups?: Array<ModelTypes["Powerup"]> | undefined
+		powerups?: Array<ModelTypes["Powerup"]> | undefined | null
 };
 	["Powerup"]: {
-		name?: string | undefined
+		name?: string | undefined | null
 };
 	["ChangeCard"]:ModelTypes["SpecialCard"] | ModelTypes["EffectCard"];
 	["Subscription"]: {
-		deck?: Array<ModelTypes["Card"]> | undefined
+		deck?: Array<ModelTypes["Card"]> | undefined | null
 };
 	["schema"]: {
-	query?: ModelTypes["Query"] | undefined,
-	mutation?: ModelTypes["Mutation"] | undefined,
-	subscription?: ModelTypes["Subscription"] | undefined
+	query?: ModelTypes["Query"] | undefined | null,
+	mutation?: ModelTypes["Mutation"] | undefined | null,
+	subscription?: ModelTypes["Subscription"] | undefined | null
 }
     }
 
@@ -1206,15 +1206,15 @@ export type GraphQLTypes = {
 	["SpecialSkills"]: SpecialSkills;
 	["Query"]: {
 	__typename: "Query",
-	cardById?: GraphQLTypes["Card"] | undefined,
+	cardById?: GraphQLTypes["Card"] | undefined | null,
 	/** Draw a card<br> */
 	drawCard: GraphQLTypes["Card"],
 	drawChangeCard: GraphQLTypes["ChangeCard"],
 	/** list All Cards availble<br> */
 	listCards: Array<GraphQLTypes["Card"]>,
-	myStacks?: Array<GraphQLTypes["CardStack"]> | undefined,
+	myStacks?: Array<GraphQLTypes["CardStack"]> | undefined | null,
 	nameables: Array<GraphQLTypes["Nameable"]>,
-	public?: GraphQLTypes["Public"] | undefined
+	public?: GraphQLTypes["Public"] | undefined | null
 };
 	/** create card inputs<br> */
 ["createCard"]: {
@@ -1223,18 +1223,18 @@ export type GraphQLTypes = {
 	/** Description of a card<br> */
 	description: string,
 	/** <div>How many children the greek god had</div> */
-	Children?: number | undefined,
+	Children?: number | undefined | null,
 	/** The attack power<br> */
 	Attack: number,
 	/** The defense power<br> */
 	Defense: number,
 	/** input skills */
-	skills?: Array<GraphQLTypes["SpecialSkills"]> | undefined
+	skills?: Array<GraphQLTypes["SpecialSkills"]> | undefined | null
 };
 	/** Stack of cards */
 ["CardStack"]: {
 	__typename: "CardStack",
-	cards?: Array<GraphQLTypes["Card"]> | undefined,
+	cards?: Array<GraphQLTypes["Card"]> | undefined | null,
 	name: string
 };
 	/** Card used in card game<br> */
@@ -1243,13 +1243,13 @@ export type GraphQLTypes = {
 	/** The attack power<br> */
 	Attack: number,
 	/** <div>How many children the greek god had</div> */
-	Children?: number | undefined,
+	Children?: number | undefined | null,
 	/** The defense power<br> */
 	Defense: number,
 	/** Attack other cards on the table , returns Cards after attack<br> */
-	attack?: Array<GraphQLTypes["Card"]> | undefined,
+	attack?: Array<GraphQLTypes["Card"]> | undefined | null,
 	/** Put your description here */
-	cardImage?: GraphQLTypes["S3Object"] | undefined,
+	cardImage?: GraphQLTypes["S3Object"] | undefined | null,
 	/** Description of a card<br> */
 	description: string,
 	id: string,
@@ -1257,7 +1257,7 @@ export type GraphQLTypes = {
 	info: GraphQLTypes["JSON"],
 	/** The name of a card<br> */
 	name: string,
-	skills?: Array<GraphQLTypes["SpecialSkills"]> | undefined
+	skills?: Array<GraphQLTypes["SpecialSkills"]> | undefined | null
 };
 	["SpecialCard"]: {
 	__typename: "SpecialCard",
@@ -1284,11 +1284,11 @@ export type GraphQLTypes = {
 };
 	["Public"]: {
 	__typename: "Public",
-	powerups?: Array<GraphQLTypes["Powerup"]> | undefined
+	powerups?: Array<GraphQLTypes["Powerup"]> | undefined | null
 };
 	["Powerup"]: {
 	__typename: "Powerup",
-	name?: string | undefined
+	name?: string | undefined | null
 };
 	["ChangeCard"]:{
         	__typename:"SpecialCard" | "EffectCard"
@@ -1297,10 +1297,10 @@ export type GraphQLTypes = {
 };
 	["Subscription"]: {
 	__typename: "Subscription",
-	deck?: Array<GraphQLTypes["Card"]> | undefined
+	deck?: Array<GraphQLTypes["Card"]> | undefined | null
 }
     }
-export const enum SpecialSkills {
+export enum SpecialSkills {
 	THUNDER = "THUNDER",
 	RAIN = "RAIN",
 	FIRE = "FIRE"

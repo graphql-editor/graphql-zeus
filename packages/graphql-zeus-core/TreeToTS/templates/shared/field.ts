@@ -10,13 +10,13 @@ export const resolveFieldType = (
   isRequired = false,
 ): string => {
   if (fType.type === Options.name) {
-    return fn(isRequired ? name : `${name} | undefined`);
+    return fn(isRequired ? name : `${name} | undefined | null`);
   }
   if (fType.type === Options.array) {
     return resolveFieldType(
       name,
       fType.nest,
-      isRequired ? (x) => `Array<${fn(x)}>` : (x) => `Array<${fn(x)}> | undefined`,
+      isRequired ? (x) => `Array<${fn(x)}>` : (x) => `Array<${fn(x)}> | undefined | null`,
       false,
     );
   }

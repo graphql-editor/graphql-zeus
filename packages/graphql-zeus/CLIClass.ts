@@ -25,6 +25,7 @@ interface CliArgs extends Yargs {
   graphql?: string;
   jsonSchema?: string;
   apollo?: boolean;
+  constEnums?: boolean;
   reactQuery?: boolean;
   typedDocumentNode?: boolean;
   subscriptions?: string;
@@ -80,6 +81,7 @@ export class CLI {
       env,
       host,
       esModule: !!args.esModule,
+      constEnums: !!args.constEnums,
       subscriptions: args.subscriptions === 'graphql-ws' ? 'graphql-ws' : 'legacy',
     });
     Object.keys(typeScriptDefinition).forEach((k) =>
