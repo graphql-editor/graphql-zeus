@@ -33,7 +33,7 @@ Our full documentation has all the use cases of:
 
 and much more...
 
-[Full documentation is available here](https://graphqleditor.com/docs/tools/zeus/index/)
+[Full documentation is available here](https://graphqleditor.com/docs/zeus/)
 
 ## Join the Zeus Community and Spread the Word
 
