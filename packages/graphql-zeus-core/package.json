@@ -1,6 +1,6 @@
 {
   "name": "graphql-zeus-core",
-  "version": "7.0.1",
+  "version": "7.0.2",
   "private": false,
   "main": "./lib/index.js",
   "author": "GraphQL Editor, Artur Czemiel",
@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "graphql": "^16.5.0",
-    "graphql-js-tree": "^1.0.5"
+    "graphql-js-tree": "^3.0.2"
   },
   "peerDependencies": {
     "graphql-ws": ">=5"
