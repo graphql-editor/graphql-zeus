@@ -10,6 +10,77 @@ Strongly Typed GraphQL from the team at [GraphQL Editor](https://graphqleditor.c
 
 GraphQL Zeus is the absolute best way to interact with your GraphQL endpoints in a type-safe way. Zeus uses your schema to generate Typescript types and strongly typed clients to unlock the power, efficiency, productivity and safety of Typescript on your GraphQL requests.
 
+GraphQL Syntax ( not type-safe 😢 )
+
+```gql
+query ($id: String!) {
+  usersQuery {
+    admin {
+      sequenceById(_id: $id) {
+        _id
+        name
+        analytics {
+          sentMessages
+          sentInvitations
+          receivedReplies
+          acceptedInvitations
+        }
+        replies {
+          message
+          createdAt
+          _id
+        }
+        messages {
+          _id
+          content
+          renderedContent
+          sendAfterDays
+        }
+        tracks {
+          _id
+          createdAt
+          inviteSent
+          inviteAccepted
+          contact {
+            linkedInId
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+Zeus syntax ( type-safe 😋 )
+```tsx
+{
+  usersQuery: {
+    admin: {
+      sequenceById: [
+        { id: $("id", "String!") },
+        {
+          _id: true,
+          name: true,
+          analytics: { ...fields("SequenceAnalytics") },
+          replies: {
+            ...fields("SequenceTrackReply"),
+          },
+          messages: {
+            ...fields("Message"),
+          },
+          tracks: {
+            ...fields("SequenceTrack"),
+            contact: {
+              linkedInId: true,
+            },
+          },
+        },
+      ],
+    },
+  },
+}
+```
+
 ## Features
 ⚡️ Validates queries and selectors
 ⚡️ Types mapped from your schema <br/>
