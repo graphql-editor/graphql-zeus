@@ -26,7 +26,7 @@
     "@commitlint/config-conventional": "^8.3.4",
     "@types/graphql": "^14.5.0",
     "@types/jest": "^29.1.2",
-    "@types/node": "^18.11.2",
+    "@types/node": "^22.10.3",
     "@types/node-fetch": "^2.3.7",
     "@types/ws": "^8.5.3",
     "@types/yargs": "^15.0.11",

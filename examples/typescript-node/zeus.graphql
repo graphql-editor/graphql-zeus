@@ -1,10 +1,7 @@
-""""""
 interface Nameable {
-  """"""
   name: String!
 }
 
-""""""
 enum SpecialSkills {
   """Lower enemy defense -5<br>"""
   THUNDER
@@ -16,27 +13,17 @@ enum SpecialSkills {
   FIRE
 }
 
-""""""
 type Query {
-  """"""
   cardById(cardId: String): Card
 
   """Draw a card<br>"""
   drawCard: Card!
-
-  """"""
   drawChangeCard: ChangeCard!
 
   """list All Cards availble<br>"""
   listCards: [Card!]!
-
-  """"""
   myStacks: [CardStack!]
-
-  """"""
   nameables: [Nameable!]!
-
-  """"""
   public: Public
 }
 
@@ -63,10 +50,7 @@ input createCard {
 
 """Stack of cards"""
 type CardStack implements Nameable {
-  """"""
   cards: [Card!]
-
-  """"""
   name: String!
 }
 
@@ -92,80 +76,51 @@ type Card implements Nameable {
 
   """Description of a card<br>"""
   description: String!
-
-  """"""
   id: ID!
-
-  """"""
   image: String!
-
-  """"""
   info: JSON!
 
   """The name of a card<br>"""
   name: String!
-
-  """"""
   skills: [SpecialSkills!]
+  testFn(test: String): String
 }
 
-""""""
 type SpecialCard implements Nameable {
-  """"""
   effect: String!
-
-  """"""
   name: String!
 }
 
-""""""
 type EffectCard implements Nameable {
-  """"""
   effectSize: Float!
-
-  """"""
   name: String!
 }
 
-""""""
 type Mutation {
   """add Card to Cards database<br>"""
   addCard(card: createCard!): Card!
 }
 
-""""""
 scalar JSON
 
 """Aws S3 File"""
 type S3Object {
-  """"""
   bucket: String!
-
-  """"""
   key: String!
-
-  """"""
   region: String!
 }
 
-""""""
 type Public {
-  """"""
   powerups(filter: String!): [Powerup!]
 }
 
-""""""
 type Powerup {
-  """"""
   name: String
 }
 
-""""""
 union ChangeCard = SpecialCard | EffectCard
 
-""""""
 type Subscription {
-  """"""
   deck: [Card!]
 }
 schema{

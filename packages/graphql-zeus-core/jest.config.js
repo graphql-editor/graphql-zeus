@@ -6,5 +6,4 @@ module.exports = {
   },
   testMatch: ['<rootDir>/**/*.spec.(ts|tsx)'],
   watchPathIgnorePatterns: ['node_modules'],
-  watchman: false,
 };

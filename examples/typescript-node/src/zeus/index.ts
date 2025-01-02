@@ -279,21 +279,30 @@ export const Gql = Chain(HOST, {
 
 export const ZeusScalars = ZeusSelect<ScalarCoders>();
 
+type BaseSymbol = number | string | undefined | boolean | null;
+
 type ScalarsSelector<T> = {
   [X in Required<{
-    [P in keyof T]: T[P] extends number | string | undefined | boolean ? P : never;
+    [P in keyof T]: T[P] extends BaseSymbol | Array<BaseSymbol> ? P : never;
   }>[keyof T]]: true;
 };
 
 export const fields = <T extends keyof ModelTypes>(k: T) => {
   const t = ReturnTypes[k];
+  const fnType = k in AllTypesProps ? AllTypesProps[k as keyof typeof AllTypesProps] : undefined;
+  const hasFnTypes = typeof fnType === 'object' ? fnType : undefined;
   const o = Object.fromEntries(
     Object.entries(t)
-      .filter(([, value]) => {
+      .filter(([k, value]) => {
+        const isFunctionType = hasFnTypes && k in hasFnTypes && !!hasFnTypes[k as keyof typeof hasFnTypes];
+        if (isFunctionType) return false;
         const isReturnType = ReturnTypes[value as string];
-        if (!isReturnType || (typeof isReturnType === 'string' && isReturnType.startsWith('scalar.'))) {
+        if (!isReturnType) return true;
+        if (typeof isReturnType !== 'string') return false;
+        if (isReturnType.startsWith('scalar.')) {
           return true;
         }
+        return false;
       })
       .map(([key]) => [key, true as const]),
   );
@@ -949,6 +958,7 @@ attack?: [{	/** Attacked card/card ids<br> */
 	/** The name of a card<br> */
 	name?:boolean | `@${string}`,
 	skills?:boolean | `@${string}`,
+testFn?: [{	test?: string | undefined | null | Variable<any, string>},boolean | `@${string}`],
 		__typename?: boolean | `@${string}`
 }>;
 	["SpecialCard"]: AliasType<{
@@ -1054,6 +1064,7 @@ attack?: [{	/** Attacked card/card ids<br> */
 	/** The name of a card<br> */
 	name?:boolean | `@${string}`,
 	skills?:boolean | `@${string}`,
+testFn?: [{	test?: string | undefined | null},boolean | `@${string}`],
 		__typename?: boolean | `@${string}`
 }>;
 	["SpecialCard"]: AliasType<{
@@ -1156,7 +1167,8 @@ export type ModelTypes = {
 	info: ModelTypes["JSON"],
 	/** The name of a card<br> */
 	name: string,
-	skills?: Array<ModelTypes["SpecialSkills"]> | undefined | null
+	skills?: Array<ModelTypes["SpecialSkills"]> | undefined | null,
+	testFn?: string | undefined | null
 };
 	["SpecialCard"]: {
 		effect: string,
@@ -1257,7 +1269,8 @@ export type GraphQLTypes = {
 	info: GraphQLTypes["JSON"],
 	/** The name of a card<br> */
 	name: string,
-	skills?: Array<GraphQLTypes["SpecialSkills"]> | undefined | null
+	skills?: Array<GraphQLTypes["SpecialSkills"]> | undefined | null,
+	testFn?: string | undefined | null
 };
 	["SpecialCard"]: {
 	__typename: "SpecialCard",

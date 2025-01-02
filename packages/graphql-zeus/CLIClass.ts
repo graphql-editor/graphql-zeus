@@ -45,6 +45,7 @@ export class CLI {
     const commandLineProvidedOptions = { ...args, urlOrPath: allArgs[0] };
     const schemaFile = await config.getValueOrThrow('urlOrPath', {
       commandLineProvidedOptions,
+      saveOnInput: true,
     });
     let host: string | undefined;
     if (schemaFile.startsWith('http://') || schemaFile.startsWith('https://')) {

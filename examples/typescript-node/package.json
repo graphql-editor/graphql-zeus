@@ -1,13 +1,13 @@
 {
   "name": "typescript-node",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "",
   "private": true,
   "main": "index.js",
   "type": "module",
   "scripts": {
     "just-run": "node --loader ts-node/esm src/index.ts",
-    "start": "npm run generate-typescript-node && node --loader ts-node/esm src/index.ts",
+    "start": "npm run generate-typescript-node && node --import=tsx src/index.ts",
     "generate-typescript-node-config": "node ../../packages/graphql-zeus/lib/index.js --n -g ./zeus.graphql --td",
     "generate-typescript-node": "node ../../packages/graphql-zeus/lib/index.js https://faker.prod.graphqleditor.com/a-team/olympus/graphql ./src --n -g ./zeus.graphql --td",
     "generate-typescript-node-get": "node ../../packages/graphql-zeus/lib/index.js https://faker.prod.graphqleditor.com/a-team/olympus/graphql ./src --n -g ./zeus.graphql --method=GET --td"
@@ -15,7 +15,8 @@
   "author": "Aexol <aexol@aexol.com> (http://aexol.com)",
   "license": "ISC",
   "devDependencies": {
-    "@graphql-typed-document-node/core": "^3.1.1"
+    "@graphql-typed-document-node/core": "^3.1.1",
+    "tsx": "^4.19.2"
   },
   "dependencies": {
     "@apollo/client": "^3.4.16",

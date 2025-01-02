@@ -13,6 +13,9 @@ export const AllTypesProps: Record<string,any> = {
 	Card:{
 		attack:{
 
+		},
+		testFn:{
+
 		}
 	},
 	Mutation:{
@@ -60,7 +63,8 @@ export const ReturnTypes: Record<string,any> = {
 		image:"String",
 		info:"JSON",
 		name:"String",
-		skills:"SpecialSkills"
+		skills:"SpecialSkills",
+		testFn:"String"
 	},
 	SpecialCard:{
 		effect:"String",
