@@ -23,6 +23,6 @@ describe('TypeScript primitive generation', () => {
   });
   test('for GraphQL ID type', () => {
     const primitive = toTypeScriptPrimitive('ID');
-    expect(primitive).toEqual('string');
+    expect(primitive).toEqual(`GraphQLTypes["ID"]`);
   });
 });
