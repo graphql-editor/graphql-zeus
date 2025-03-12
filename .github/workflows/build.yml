@@ -26,7 +26,7 @@ jobs:
         id: npm-cache
         run: |
           echo "::set-output name=dir::$(npm config get cache)"
-      - uses: actions/cache@v1
+      - uses: actions/cache@v4
         with:
           path: ${{ steps.npm-cache.outputs.dir }}
           key: ${{ matrix.platform }}-node-${{ matrix.node }}-${{ hashFiles('package-lock.json') }}
@@ -36,6 +36,5 @@ jobs:
         run: npm install
       - name: run tests
         run: npm run test
-        if: matrix.node == 16 # Only run unit test on node 16, more at: https://github.com/facebook/jest/issues/11438
       - name: build library
         run: npm run build --ws --if-present
