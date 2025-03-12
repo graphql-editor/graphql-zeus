@@ -28,7 +28,8 @@ export const AllTypesProps: Record<string,any> = {
 		powerups:{
 
 		}
-	}
+	},
+	ID: `scalar.ID` as const
 }
 
 export const ReturnTypes: Record<string,any> = {
@@ -95,7 +96,8 @@ export const ReturnTypes: Record<string,any> = {
 	},
 	Subscription:{
 		deck:"Card"
-	}
+	},
+	ID: `scalar.ID` as const
 }
 
 export const Ops = {

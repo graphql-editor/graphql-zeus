@@ -6,7 +6,7 @@ import { generateScalars } from '@/TreeToTS/templates/scalars';
 import { resolveValueTypes } from '@/TreeToTS/templates/valueTypes';
 import { resolveInputTypes } from '@/TreeToTS/templates/valueTypes/inputTypes';
 import { resolveVariableTypes } from '@/TreeToTS/templates/variableTypes';
-import { ParserTree, TypeDefinition } from 'graphql-js-tree';
+import { createParserField, Options, ParserTree, TypeDefinition } from 'graphql-js-tree';
 import { Environment } from '../Models';
 import { default as typescriptFunctions, subscriptionFunctions } from './functions/generated';
 import { resolvePropTypeFromRoot } from './templates/returnedPropTypes';
@@ -50,10 +50,12 @@ export class TreeToTS {
 
   static resolveBasisCode(tree: ParserTree): string {
     const propTypes = `export const AllTypesProps: Record<string,any> = {\n${tree.nodes
+      .concat([idScalarHelper])
       .map(resolvePropTypeFromRoot)
       .filter((pt) => pt)
       .join(',\n')}\n}`;
     const returnTypes = `export const ReturnTypes: Record<string,any> = {\n${tree.nodes
+      .concat([idScalarHelper])
       .map((f) =>
         resolveReturnFromRoot(
           f,
@@ -69,14 +71,15 @@ export class TreeToTS {
   }
 
   static resolveBasisTypes(tree: ParserTree, options?: { constEnums?: boolean }): string {
-    const rootTypes = resolveTypes(tree.nodes, options);
-    const valueTypes = resolveValueTypes(tree.nodes);
-    const inputTypes = resolveInputTypes(tree.nodes);
-    const modelTypes = resolveModelTypes(tree.nodes);
-    const unionTypes = resolveUnions(tree.nodes);
-    const interfaceTypes = resolveInterfaces(tree.nodes);
-    const scalarTypes = generateScalars(tree.nodes);
-    const variableTypes = resolveVariableTypes(tree.nodes);
+    const allNodes = tree.nodes.concat([idScalarHelper]);
+    const rootTypes = resolveTypes(allNodes, options);
+    const valueTypes = resolveValueTypes(allNodes);
+    const inputTypes = resolveInputTypes(allNodes);
+    const modelTypes = resolveModelTypes(allNodes);
+    const unionTypes = resolveUnions(allNodes);
+    const interfaceTypes = resolveInterfaces(allNodes);
+    const scalarTypes = generateScalars(allNodes);
+    const variableTypes = resolveVariableTypes(allNodes);
     return interfaceTypes
       .concat('\n')
       .concat(scalarTypes)
@@ -139,3 +142,9 @@ import WebSocket from 'ws';`
     return TreeToTS.resolveBasisHeader().concat(t.const).concat('\n').concat(t.index);
   }
 }
+
+const idScalarHelper = createParserField({
+  data: { type: TypeDefinition.ScalarTypeDefinition },
+  name: 'ID',
+  type: { fieldType: { type: Options.name, name: 'scalar' } },
+});

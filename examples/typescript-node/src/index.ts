@@ -72,6 +72,9 @@ const decoders = ZeusScalars({
       return e as { power: number };
     },
   },
+  ID: {
+    decode: (e: unknown) => e as number,
+  },
 });
 
 export type IRT = InputType<GraphQLTypes['Query'], typeof sel, typeof decoders>;
@@ -127,6 +130,7 @@ const run = async () => {
   const blalbaScalars = await Gql('query', { scalars: decoders })({
     drawCard: {
       info: true,
+      id: true,
     },
   });
   console.log({ blalbaScalars });

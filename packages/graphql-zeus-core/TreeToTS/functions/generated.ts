@@ -240,9 +240,15 @@ export const ZeusScalars = ZeusSelect<ScalarCoders>();
 
 type BaseSymbol = number | string | undefined | boolean | null;
 
-type ScalarsSelector<T> = {
+type ScalarsSelector<T, V> = {
   [X in Required<{
-    [P in keyof T]: T[P] extends BaseSymbol | Array<BaseSymbol> ? P : never;
+    [P in keyof T]: P extends keyof V
+      ? V[P] extends Array<any> | undefined
+        ? never
+        : T[P] extends BaseSymbol | Array<BaseSymbol>
+        ? P
+        : never
+      : never;
   }>[keyof T]]: true;
 };
 
@@ -265,7 +271,7 @@ export const fields = <T extends keyof ModelTypes>(k: T) => {
       })
       .map(([key]) => [key, true as const]),
   );
-  return o as ScalarsSelector<ModelTypes[T]>;
+  return o as ScalarsSelector<ModelTypes[T], T extends keyof ValueTypes ? ValueTypes[T] : never>;
 };
 
 export const decodeScalarsInResponse = <O extends Operations>({
@@ -768,7 +774,6 @@ type BuiltInVariableTypes = {
   ['String']: string;
   ['Int']: number;
   ['Float']: number;
-  ['ID']: unknown;
   ['Boolean']: boolean;
 };
 type AllVariableTypes = keyof BuiltInVariableTypes | keyof ZEUS_VARIABLES;

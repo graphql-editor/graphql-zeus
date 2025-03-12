@@ -4,7 +4,6 @@ const typeScriptMap: Record<string, string> = {
   Int: 'number',
   Float: 'number',
   Boolean: 'boolean',
-  ID: 'string',
   String: 'string',
 };
 export const isTypeScriptPrimitive = (a: string) => !!typeScriptMap[a];

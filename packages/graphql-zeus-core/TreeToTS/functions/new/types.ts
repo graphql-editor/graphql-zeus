@@ -99,7 +99,6 @@ type BuiltInVariableTypes = {
   ['String']: string;
   ['Int']: number;
   ['Float']: number;
-  ['ID']: unknown;
   ['Boolean']: boolean;
 };
 type AllVariableTypes = keyof BuiltInVariableTypes | keyof ZEUS_VARIABLES;

@@ -281,9 +281,15 @@ export const ZeusScalars = ZeusSelect<ScalarCoders>();
 
 type BaseSymbol = number | string | undefined | boolean | null;
 
-type ScalarsSelector<T> = {
+type ScalarsSelector<T, V> = {
   [X in Required<{
-    [P in keyof T]: T[P] extends BaseSymbol | Array<BaseSymbol> ? P : never;
+    [P in keyof T]: P extends keyof V
+      ? V[P] extends Array<any> | undefined
+        ? never
+        : T[P] extends BaseSymbol | Array<BaseSymbol>
+        ? P
+        : never
+      : never;
   }>[keyof T]]: true;
 };
 
@@ -306,7 +312,7 @@ export const fields = <T extends keyof ModelTypes>(k: T) => {
       })
       .map(([key]) => [key, true as const]),
   );
-  return o as ScalarsSelector<ModelTypes[T]>;
+  return o as ScalarsSelector<ModelTypes[T], T extends keyof ValueTypes ? ValueTypes[T] : never>;
 };
 
 export const decodeScalarsInResponse = <O extends Operations>({
@@ -809,7 +815,6 @@ type BuiltInVariableTypes = {
   ['String']: string;
   ['Int']: number;
   ['Float']: number;
-  ['ID']: unknown;
   ['Boolean']: boolean;
 };
 type AllVariableTypes = keyof BuiltInVariableTypes | keyof ZEUS_VARIABLES;
@@ -892,6 +897,7 @@ export const $ = <Type extends GraphQLVariableType, Name extends string>(name: N
 type ZEUS_INTERFACES = GraphQLTypes["Nameable"]
 export type ScalarCoders = {
 	JSON?: ScalarResolver;
+	ID?: ScalarResolver;
 }
 type ZEUS_UNIONS = GraphQLTypes["ChangeCard"]
 
@@ -998,7 +1004,8 @@ powerups?: [{	filter: string | Variable<any, string>},ValueTypes["Powerup"]],
 	["Subscription"]: AliasType<{
 	deck?:ValueTypes["Card"],
 		__typename?: boolean | `@${string}`
-}>
+}>;
+	["ID"]:unknown
   }
 
 export type ResolverInputTypes = {
@@ -1111,7 +1118,8 @@ powerups?: [{	filter: string},ResolverInputTypes["Powerup"]],
 	mutation?:ResolverInputTypes["Mutation"],
 	subscription?:ResolverInputTypes["Subscription"],
 		__typename?: boolean | `@${string}`
-}>
+}>;
+	["ID"]:unknown
   }
 
 export type ModelTypes = {
@@ -1162,7 +1170,7 @@ export type ModelTypes = {
 	cardImage?: ModelTypes["S3Object"] | undefined | null,
 	/** Description of a card<br> */
 	description: string,
-	id: string,
+	id: ModelTypes["ID"],
 	image: string,
 	info: ModelTypes["JSON"],
 	/** The name of a card<br> */
@@ -1203,7 +1211,8 @@ export type ModelTypes = {
 	query?: ModelTypes["Query"] | undefined | null,
 	mutation?: ModelTypes["Mutation"] | undefined | null,
 	subscription?: ModelTypes["Subscription"] | undefined | null
-}
+};
+	["ID"]:any
     }
 
 export type GraphQLTypes = {
@@ -1264,7 +1273,7 @@ export type GraphQLTypes = {
 	cardImage?: GraphQLTypes["S3Object"] | undefined | null,
 	/** Description of a card<br> */
 	description: string,
-	id: string,
+	id: GraphQLTypes["ID"],
 	image: string,
 	info: GraphQLTypes["JSON"],
 	/** The name of a card<br> */
@@ -1311,7 +1320,8 @@ export type GraphQLTypes = {
 	["Subscription"]: {
 	__typename: "Subscription",
 	deck?: Array<GraphQLTypes["Card"]> | undefined | null
-}
+};
+	["ID"]: "scalar" & { name: "ID" }
     }
 export enum SpecialSkills {
 	THUNDER = "THUNDER",
@@ -1323,4 +1333,5 @@ type ZEUS_VARIABLES = {
 	["SpecialSkills"]: ValueTypes["SpecialSkills"];
 	["createCard"]: ValueTypes["createCard"];
 	["JSON"]: ValueTypes["JSON"];
+	["ID"]: ValueTypes["ID"];
 }
