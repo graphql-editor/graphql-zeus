@@ -865,6 +865,8 @@ type OptionalKeys<T> = {
 
 export type WithOptionalNullables<T> = OptionalKeys<WithNullableKeys<T>> & WithNonNullableKeys<T>;
 
+export type ComposableSelector<T extends keyof ValueTypes> = ReturnType<SelectionFunction<ValueTypes[T]>>;
+
 export type Variable<T extends GraphQLVariableType, Name extends string> = {
   ' __zeus_name': Name;
   ' __zeus_type': T;

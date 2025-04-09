@@ -81,6 +81,28 @@ Zeus syntax ( type-safe 😋 )
 }
 ```
 
+## New! Composables
+```ts
+import {
+  Gql,
+  ComposableSelector,
+} from './zeus/index.js';
+
+const withComposable = <T extends ComposableSelector<'Card'>, Z extends T>(id: string, rest: Z | T) =>
+  Gql('query')({
+    cardById: [{ cardId: id }, rest],
+  });
+  const c1result = await withComposable('12', {
+    id: true,
+  });
+  const c2result = await withComposable('12', {
+    Defense: true,
+    Attack: true,
+  });
+```
+
+Both responses and inputs are safely typed
+
 ## Features
 ⚡️ Validates queries and selectors
 ⚡️ Types mapped from your schema <br/>
@@ -123,6 +145,8 @@ For a complete guide to contributing to GraphQL Zeus, see the [Contribution Guid
 3.  Commit your changes: git commit -am 'Add some feature'
 4.  Push to the branch: git push origin my-new-feature
 5.  Submit a pull request
+
+
 
 ## License
 

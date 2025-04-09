@@ -1,4 +1,4 @@
-import { GraphQLTypes, ZEUS_VARIABLES, ZEUS_INTERFACES, ZEUS_UNIONS } from '@/TreeToTS/functions/new/mocks';
+import { GraphQLTypes, ZEUS_VARIABLES, ZEUS_INTERFACES, ZEUS_UNIONS, ValueTypes } from '@/TreeToTS/functions/new/mocks';
 import { Variable } from '@/TreeToTS/functions/new/variableExtract';
 
 export type UnwrapPromise<T> = T extends Promise<infer R> ? R : T;
@@ -148,3 +148,5 @@ type OptionalKeys<T> = {
 };
 
 export type WithOptionalNullables<T> = OptionalKeys<WithNullableKeys<T>> & WithNonNullableKeys<T>;
+
+export type ComposableSelector<T extends keyof ValueTypes> = ReturnType<SelectionFunction<ValueTypes[T]>>;

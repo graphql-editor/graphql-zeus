@@ -13,6 +13,7 @@ import {
   $,
   FromSelector,
   fields,
+  ComposableSelector,
 } from './zeus/index.js';
 import { typedGql } from './zeus/typedDocumentNode.js';
 
@@ -109,7 +110,18 @@ const run = async () => {
     { operationName: 'ZausCard' },
   );
   printQueryResult('ZeusCard', ZeusCard);
-
+  const withComposable = <T extends ComposableSelector<'Card'>, Z extends T>(id: string, rest: Z | T) =>
+    Gql('query')({
+      cardById: [{ cardId: id }, rest],
+    });
+  const c1result = await withComposable('12', {
+    id: true,
+  });
+  const c2result = await withComposable('12', {
+    Defense: true,
+    Attack: true,
+  });
+  printQueryResult('composables', `1. ${c1result.cardById?.id} 2. ${c2result.cardById?.Attack}`);
   const bbb = await Gql('query')({
     drawCard: {
       ...fields('Card'),
