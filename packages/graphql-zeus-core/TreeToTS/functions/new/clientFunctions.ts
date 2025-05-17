@@ -35,7 +35,7 @@ export const Thunder =
   ) =>
   <Z extends ValueTypes[R]>(
     o:
-      | (ValueTypes[R] & (typeof Ops)[O])
+      | (typeof Ops)[O]
       | {
           [P in keyof Z]: P extends keyof ValueTypes[R] ? Z[P] : never;
         },
