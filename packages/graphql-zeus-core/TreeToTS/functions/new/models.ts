@@ -80,7 +80,7 @@ export class GraphQLError extends Error {
     return 'GraphQL Response Error';
   }
 }
-export type GenericOperation<O> = O extends keyof typeof Ops ? typeof Ops[O] : never;
+export type GenericOperation<O> = O extends keyof typeof Ops ? (typeof Ops)[O] : never;
 export type ThunderGraphQLOptions<SCLR extends ScalarDefinition> = {
   scalars?: SCLR | ScalarCoders;
 };

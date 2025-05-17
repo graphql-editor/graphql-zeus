@@ -34,9 +34,11 @@ export const Thunder =
     graphqlOptions?: ThunderGraphQLOptions<OVERRIDESCLR>,
   ) =>
   <Z extends ValueTypes[R]>(
-    o: Z & {
-      [P in keyof Z]: P extends keyof ValueTypes[R] ? Z[P] : never;
-    },
+    o:
+      | (ValueTypes[R] & (typeof Ops)[O])
+      | {
+          [P in keyof Z]: P extends keyof ValueTypes[R] ? Z[P] : never;
+        },
     ops?: OperationOptions & { variables?: Record<string, unknown> },
   ) => {
     const options = {
