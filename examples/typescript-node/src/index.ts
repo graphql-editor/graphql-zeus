@@ -60,6 +60,7 @@ const sel = Selector('Query')({
     Children: true,
     Attack: true,
     info: true,
+    ids: true,
     attack: [{ cardID: ['sss'] }, { Attack: true }],
   },
   cardById: [{ cardId: '' }, { Attack: true }],
@@ -99,6 +100,7 @@ const run = async () => {
         },
         {
           info: true,
+          ids: true,
           cardImage: {
             bucket: true,
             region: true,

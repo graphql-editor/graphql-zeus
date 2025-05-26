@@ -743,7 +743,8 @@ type IsScalar<S, SCLR extends ScalarDefinition> = S extends 'scalar' & { name: i
       ? ReturnType<SCLR[T]['decode']>
       : unknown
     : unknown
-  : S;
+  : S extends Array<infer R> ? Array<IsScalar<R,SCLR>> : S;
+
 type IsArray<T, U, SCLR extends ScalarDefinition> = T extends Array<infer R>
   ? InputType<R, U, SCLR>[]
   : InputType<T, U, SCLR>;
@@ -967,6 +968,7 @@ attack?: [{	/** Attacked card/card ids<br> */
 	name?:boolean | `@${string}`,
 	skills?:boolean | `@${string}`,
 testFn?: [{	test?: string | undefined | null | Variable<any, string>},boolean | `@${string}`],
+	ids?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["SpecialCard"]: AliasType<{
@@ -1074,6 +1076,7 @@ attack?: [{	/** Attacked card/card ids<br> */
 	name?:boolean | `@${string}`,
 	skills?:boolean | `@${string}`,
 testFn?: [{	test?: string | undefined | null},boolean | `@${string}`],
+	ids?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["SpecialCard"]: AliasType<{
@@ -1178,7 +1181,8 @@ export type ModelTypes = {
 	/** The name of a card<br> */
 	name: string,
 	skills?: Array<ModelTypes["SpecialSkills"]> | undefined | null,
-	testFn?: string | undefined | null
+	testFn?: string | undefined | null,
+	ids?: Array<ModelTypes["ID"]> | undefined | null
 };
 	["SpecialCard"]: {
 		effect: string,
@@ -1281,7 +1285,8 @@ export type GraphQLTypes = {
 	/** The name of a card<br> */
 	name: string,
 	skills?: Array<GraphQLTypes["SpecialSkills"]> | undefined | null,
-	testFn?: string | undefined | null
+	testFn?: string | undefined | null,
+	ids?: Array<GraphQLTypes["ID"]> | undefined | null
 };
 	["SpecialCard"]: {
 	__typename: "SpecialCard",

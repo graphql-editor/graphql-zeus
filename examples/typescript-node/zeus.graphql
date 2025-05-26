@@ -84,6 +84,7 @@ type Card implements Nameable {
   name: String!
   skills: [SpecialSkills!]
   testFn(test: String): String
+  ids: [ID!]
 }
 
 type SpecialCard implements Nameable {

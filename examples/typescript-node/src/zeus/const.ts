@@ -65,7 +65,8 @@ export const ReturnTypes: Record<string,any> = {
 		info:"JSON",
 		name:"String",
 		skills:"SpecialSkills",
-		testFn:"String"
+		testFn:"String",
+		ids:"ID"
 	},
 	SpecialCard:{
 		effect:"String",
