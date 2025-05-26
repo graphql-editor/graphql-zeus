@@ -27,7 +27,10 @@ type IsScalar<S, SCLR extends ScalarDefinition> = S extends 'scalar' & { name: i
       ? ReturnType<SCLR[T]['decode']>
       : unknown
     : unknown
+  : S extends Array<infer R>
+  ? Array<IsScalar<R, SCLR>>
   : S;
+
 type IsArray<T, U, SCLR extends ScalarDefinition> = T extends Array<infer R>
   ? InputType<R, U, SCLR>[]
   : InputType<T, U, SCLR>;
