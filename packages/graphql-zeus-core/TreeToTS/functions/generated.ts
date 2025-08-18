@@ -668,8 +668,8 @@ export const InternalArgsBuilt = ({
 };
 
 export const resolverFor = <X, T extends keyof ResolverInputTypes, Z extends keyof ResolverInputTypes[T]>(
-  type: T,
-  field: Z,
+  _type: T,
+  _field: Z,
   fn: (
     args: Required<ResolverInputTypes[T]>[Z] extends [infer Input, any] ? Input : any,
     source: any,
@@ -726,7 +726,7 @@ type IsInterfaced<SRC extends DeepAnify<DST>, DST, SCLR extends ScalarDefinition
         Pick<
           SRC,
           {
-            [P in keyof DST]: SRC[P] extends '__union' & infer R ? never : P;
+            [P in keyof DST]: SRC[P] extends '__union' & infer _R ? never : P;
           }[keyof DST]
         >,
         '__typename'
