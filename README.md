@@ -4,7 +4,13 @@
 
 Strongly Typed GraphQL from the team at [GraphQL Editor](https://graphqleditor.com/?utm_source=graphql_zeus_github)
 
-# How it works
+# Install
+`npm install graphql-zeus`
+
+# Generate
+`zeus <file-or-backend-schema-url>`
+
+## How it works
 
 ![](Zeus.gif)
 
