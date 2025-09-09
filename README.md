@@ -5,10 +5,35 @@
 Strongly Typed GraphQL from the team at [GraphQL Editor](https://graphqleditor.com/?utm_source=graphql_zeus_github)
 
 # Install
-`npm install graphql-zeus`
+
+```
+$ npm i -g graphql-zeus
+# OR
+# yarn global add graphql-zeus
+```
+You can also install it locally to a project and then use it as an npm or yarn script command using `npx` or `yarn` directly like this:
+
+```
+$ npx zeus schema.graphql ./
+# OR
+# yarn zeus schema.graphql ./
+```
+
+## TypeScript
+
+Zeus is TypeScript native, you can refer to imported types directly from the generated output of the CLI
+
+```
+$ zeus schema.graphql ./
+```
 
 # Generate
-`zeus <file-or-backend-schema-url>`
+To generate clients simply run this command:
+
+| For NodeJS                          | For React Native                 |
+|-------------------------------------|----------------------------------|
+| `$ zeus schema.graphql ./ --node`   | `$ zeus schema.graphql ./`       |
+
 
 ## How it works
 
