@@ -709,8 +709,8 @@ export const InternalArgsBuilt = ({
 };
 
 export const resolverFor = <X, T extends keyof ResolverInputTypes, Z extends keyof ResolverInputTypes[T]>(
-  type: T,
-  field: Z,
+  _type: T,
+  _field: Z,
   fn: (
     args: Required<ResolverInputTypes[T]>[Z] extends [infer Input, any] ? Input : any,
     source: any,
@@ -767,7 +767,7 @@ type IsInterfaced<SRC extends DeepAnify<DST>, DST, SCLR extends ScalarDefinition
         Pick<
           SRC,
           {
-            [P in keyof DST]: SRC[P] extends '__union' & infer R ? never : P;
+            [P in keyof DST]: SRC[P] extends '__union' & infer _R ? never : P;
           }[keyof DST]
         >,
         '__typename'
@@ -926,7 +926,8 @@ cardById?: [{	cardId?: string | undefined | null | Variable<any, string>},ValueT
 	myStacks?:ValueTypes["CardStack"],
 	nameables?:ValueTypes["Nameable"],
 	public?:ValueTypes["Public"],
-		__typename?: boolean | `@${string}`
+		__typename?: boolean | `@${string}`,
+	['...on Query']?: Omit<ValueTypes["Query"], "...on Query">
 }>;
 	/** create card inputs<br> */
 ["createCard"]: {
@@ -947,7 +948,8 @@ cardById?: [{	cardId?: string | undefined | null | Variable<any, string>},ValueT
 ["CardStack"]: AliasType<{
 	cards?:ValueTypes["Card"],
 	name?:boolean | `@${string}`,
-		__typename?: boolean | `@${string}`
+		__typename?: boolean | `@${string}`,
+	['...on CardStack']?: Omit<ValueTypes["CardStack"], "...on CardStack">
 }>;
 	/** Card used in card game<br> */
 ["Card"]: AliasType<{
@@ -971,21 +973,25 @@ attack?: [{	/** Attacked card/card ids<br> */
 	skills?:boolean | `@${string}`,
 testFn?: [{	test?: string | undefined | null | Variable<any, string>},boolean | `@${string}`],
 	ids?:boolean | `@${string}`,
-		__typename?: boolean | `@${string}`
+		__typename?: boolean | `@${string}`,
+	['...on Card']?: Omit<ValueTypes["Card"], "...on Card">
 }>;
 	["SpecialCard"]: AliasType<{
 	effect?:boolean | `@${string}`,
 	name?:boolean | `@${string}`,
-		__typename?: boolean | `@${string}`
+		__typename?: boolean | `@${string}`,
+	['...on SpecialCard']?: Omit<ValueTypes["SpecialCard"], "...on SpecialCard">
 }>;
 	["EffectCard"]: AliasType<{
 	effectSize?:boolean | `@${string}`,
 	name?:boolean | `@${string}`,
-		__typename?: boolean | `@${string}`
+		__typename?: boolean | `@${string}`,
+	['...on EffectCard']?: Omit<ValueTypes["EffectCard"], "...on EffectCard">
 }>;
 	["Mutation"]: AliasType<{
 addCard?: [{	card: ValueTypes["createCard"] | Variable<any, string>},ValueTypes["Card"]],
-		__typename?: boolean | `@${string}`
+		__typename?: boolean | `@${string}`,
+	['...on Mutation']?: Omit<ValueTypes["Mutation"], "...on Mutation">
 }>;
 	["JSON"]:unknown;
 	/** Aws S3 File */
@@ -993,15 +999,18 @@ addCard?: [{	card: ValueTypes["createCard"] | Variable<any, string>},ValueTypes[
 	bucket?:boolean | `@${string}`,
 	key?:boolean | `@${string}`,
 	region?:boolean | `@${string}`,
-		__typename?: boolean | `@${string}`
+		__typename?: boolean | `@${string}`,
+	['...on S3Object']?: Omit<ValueTypes["S3Object"], "...on S3Object">
 }>;
 	["Public"]: AliasType<{
 powerups?: [{	filter: string | Variable<any, string>},ValueTypes["Powerup"]],
-		__typename?: boolean | `@${string}`
+		__typename?: boolean | `@${string}`,
+	['...on Public']?: Omit<ValueTypes["Public"], "...on Public">
 }>;
 	["Powerup"]: AliasType<{
 	name?:boolean | `@${string}`,
-		__typename?: boolean | `@${string}`
+		__typename?: boolean | `@${string}`,
+	['...on Powerup']?: Omit<ValueTypes["Powerup"], "...on Powerup">
 }>;
 	["ChangeCard"]: AliasType<{		["...on SpecialCard"]?: ValueTypes["SpecialCard"],
 		["...on EffectCard"]?: ValueTypes["EffectCard"]
@@ -1009,7 +1018,8 @@ powerups?: [{	filter: string | Variable<any, string>},ValueTypes["Powerup"]],
 }>;
 	["Subscription"]: AliasType<{
 	deck?:ValueTypes["Card"],
-		__typename?: boolean | `@${string}`
+		__typename?: boolean | `@${string}`,
+	['...on Subscription']?: Omit<ValueTypes["Subscription"], "...on Subscription">
 }>;
 	["ID"]:unknown
   }
@@ -1243,7 +1253,8 @@ export type GraphQLTypes = {
 	listCards: Array<GraphQLTypes["Card"]>,
 	myStacks?: Array<GraphQLTypes["CardStack"]> | undefined | null,
 	nameables: Array<GraphQLTypes["Nameable"]>,
-	public?: GraphQLTypes["Public"] | undefined | null
+	public?: GraphQLTypes["Public"] | undefined | null,
+	['...on Query']: Omit<GraphQLTypes["Query"], "...on Query">
 };
 	/** create card inputs<br> */
 ["createCard"]: {
@@ -1264,7 +1275,8 @@ export type GraphQLTypes = {
 ["CardStack"]: {
 	__typename: "CardStack",
 	cards?: Array<GraphQLTypes["Card"]> | undefined | null,
-	name: string
+	name: string,
+	['...on CardStack']: Omit<GraphQLTypes["CardStack"], "...on CardStack">
 };
 	/** Card used in card game<br> */
 ["Card"]: {
@@ -1288,22 +1300,26 @@ export type GraphQLTypes = {
 	name: string,
 	skills?: Array<GraphQLTypes["SpecialSkills"]> | undefined | null,
 	testFn?: string | undefined | null,
-	ids?: Array<GraphQLTypes["ID"]> | undefined | null
+	ids?: Array<GraphQLTypes["ID"]> | undefined | null,
+	['...on Card']: Omit<GraphQLTypes["Card"], "...on Card">
 };
 	["SpecialCard"]: {
 	__typename: "SpecialCard",
 	effect: string,
-	name: string
+	name: string,
+	['...on SpecialCard']: Omit<GraphQLTypes["SpecialCard"], "...on SpecialCard">
 };
 	["EffectCard"]: {
 	__typename: "EffectCard",
 	effectSize: number,
-	name: string
+	name: string,
+	['...on EffectCard']: Omit<GraphQLTypes["EffectCard"], "...on EffectCard">
 };
 	["Mutation"]: {
 	__typename: "Mutation",
 	/** add Card to Cards database<br> */
-	addCard: GraphQLTypes["Card"]
+	addCard: GraphQLTypes["Card"],
+	['...on Mutation']: Omit<GraphQLTypes["Mutation"], "...on Mutation">
 };
 	["JSON"]: "scalar" & { name: "JSON" };
 	/** Aws S3 File */
@@ -1311,15 +1327,18 @@ export type GraphQLTypes = {
 	__typename: "S3Object",
 	bucket: string,
 	key: string,
-	region: string
+	region: string,
+	['...on S3Object']: Omit<GraphQLTypes["S3Object"], "...on S3Object">
 };
 	["Public"]: {
 	__typename: "Public",
-	powerups?: Array<GraphQLTypes["Powerup"]> | undefined | null
+	powerups?: Array<GraphQLTypes["Powerup"]> | undefined | null,
+	['...on Public']: Omit<GraphQLTypes["Public"], "...on Public">
 };
 	["Powerup"]: {
 	__typename: "Powerup",
-	name?: string | undefined | null
+	name?: string | undefined | null,
+	['...on Powerup']: Omit<GraphQLTypes["Powerup"], "...on Powerup">
 };
 	["ChangeCard"]:{
         	__typename:"SpecialCard" | "EffectCard"
@@ -1328,7 +1347,8 @@ export type GraphQLTypes = {
 };
 	["Subscription"]: {
 	__typename: "Subscription",
-	deck?: Array<GraphQLTypes["Card"]> | undefined | null
+	deck?: Array<GraphQLTypes["Card"]> | undefined | null,
+	['...on Subscription']: Omit<GraphQLTypes["Subscription"], "...on Subscription">
 };
 	["ID"]: "scalar" & { name: "ID" }
     }

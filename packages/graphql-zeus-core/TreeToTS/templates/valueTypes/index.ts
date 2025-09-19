@@ -35,7 +35,11 @@ const resolveValueTypeFromRoot = (i: ParserField, rootNodes: ParserField[], enum
   }
   if (i.data.type === TypeDefinition.ObjectTypeDefinition) {
     return `["${i.name}"]: ${AliasType(
-      `{\n${i.args.map((f) => resolveValueField(f, enumsAndScalars)).join(',\n')},\n\t\t__typename?: ${truthyType}\n}`,
+      `{\n${i.args
+        .map((f) => resolveValueField(f, enumsAndScalars))
+        .join(',\n')},\n\t\t__typename?: ${truthyType},\n\t['...on ${i.name}']?: Omit<${VALUETYPES}["${
+        i.name
+      }"], "...on ${i.name}">\n}`,
     )}`;
   }
   return ``;

@@ -1,0 +1,165 @@
+# Technologies Docs Map
+
+- @commitlint/cli
+  - @commitlint/cli
+    - npm: https://www.npmjs.com/package/@commitlint/cli
+    - repo: https://github.com/conventional-changelog/commitlint
+    - home: https://commitlint.js.org/
+- @commitlint/config-conventional
+  - @commitlint/config-conventional
+    - npm: https://www.npmjs.com/package/@commitlint/config-conventional
+    - repo: https://github.com/conventional-changelog/commitlint
+    - home: https://commitlint.js.org/
+- Apollo Client
+  - @apollo/client
+    - npm: https://www.npmjs.com/package/@apollo/client
+    - repo: https://github.com/apollographql/apollo-client
+    - home: https://www.apollographql.com/docs/react/
+- config-maker
+  - config-maker
+    - local: .ouro/technologies/config-maker.md
+    - npm: https://www.npmjs.com/package/config-maker
+- cross-fetch
+  - cross-fetch
+    - npm: https://www.npmjs.com/package/cross-fetch
+    - repo: https://github.com/lquixada/cross-fetch
+    - home: https://github.com/lquixada/cross-fetch
+- cz-conventional-changelog
+  - cz-conventional-changelog
+    - local: .ouro/technologies/cz-conventional-changelog.md
+    - npm: https://www.npmjs.com/package/cz-conventional-changelog
+    - repo: https://github.com/commitizen/cz-conventional-changelog
+    - home: https://github.com/commitizen/cz-conventional-changelog
+- ESLint
+  - @typescript-eslint/eslint-plugin
+    - npm: https://www.npmjs.com/package/@typescript-eslint/eslint-plugin
+    - repo: https://github.com/typescript-eslint/typescript-eslint
+    - home: https://typescript-eslint.io/packages/eslint-plugin
+  - @typescript-eslint/parser
+    - npm: https://www.npmjs.com/package/@typescript-eslint/parser
+    - repo: https://github.com/typescript-eslint/typescript-eslint
+    - home: https://typescript-eslint.io/packages/parser
+  - eslint
+    - local: .ouro/technologies/eslint.md
+    - npm: https://www.npmjs.com/package/eslint
+    - repo: https://github.com/eslint/eslint
+    - home: https://eslint.org
+  - eslint-config-prettier
+    - npm: https://www.npmjs.com/package/eslint-config-prettier
+    - repo: https://github.com/prettier/eslint-config-prettier
+    - home: https://github.com/prettier/eslint-config-prettier#readme
+  - eslint-plugin-prettier
+    - local: .ouro/technologies/eslint-plugin-prettier.md
+    - npm: https://www.npmjs.com/package/eslint-plugin-prettier
+    - repo: https://github.com/prettier/eslint-plugin-prettier
+    - home: https://github.com/prettier/eslint-plugin-prettier#readme
+- GraphQL
+  - @graphql-typed-document-node/core
+    - local: .ouro/technologies/graphql-typed-document-node__core.md
+    - npm: https://www.npmjs.com/package/@graphql-typed-document-node/core
+    - repo: ssh://git@github.com/dotansimha/graphql-typed-document-node
+    - home: https://github.com/dotansimha/graphql-typed-document-node#readme
+  - graphql
+    - npm: https://www.npmjs.com/package/graphql
+    - repo: https://github.com/graphql/graphql-js
+    - home: https://github.com/graphql/graphql-js
+  - graphql-js-tree
+    - local: .ouro/technologies/graphql-js-tree.md
+    - npm: https://www.npmjs.com/package/graphql-js-tree
+    - repo: https://github.com/graphql-editor/graphql-js-tree
+    - home: https://graphqleditor.com
+  - graphql-tag
+    - local: .ouro/technologies/graphql-tag.md
+    - npm: https://www.npmjs.com/package/graphql-tag
+    - repo: https://github.com/apollographql/graphql-tag
+    - home: https://github.com/apollographql/graphql-tag#readme
+  - graphql-ws
+    - local: .ouro/technologies/graphql-ws.md
+    - npm: https://www.npmjs.com/package/graphql-ws
+    - repo: https://github.com/enisdenjo/graphql-ws
+    - home: https://the-guild.dev/graphql/ws
+  - graphql-zeus-core
+    - local: .ouro/technologies/graphql-zeus-core.md
+    - npm: https://www.npmjs.com/package/graphql-zeus-core
+    - repo: https://github.com/graphql-editor/graphql-zeus
+    - home: https://github.com/graphql-editor/graphql-zeus#readme
+  - graphql-zeus-jsonschema
+    - local: .ouro/technologies/graphql-zeus-jsonschema.md
+    - npm: https://www.npmjs.com/package/graphql-zeus-jsonschema
+    - repo: https://github.com/graphql-editor/graphql-zeus
+    - home: https://github.com/graphql-editor/graphql-zeus#readme
+- Jest
+  - jest
+    - npm: https://www.npmjs.com/package/jest
+    - repo: https://github.com/jestjs/jest
+    - home: https://jestjs.io/
+- json-schema
+  - json-schema
+    - local: .ouro/technologies/json-schema.md
+    - npm: https://www.npmjs.com/package/json-schema
+    - repo: ssh://git@github.com/kriszyp/json-schema
+    - home: https://github.com/kriszyp/json-schema#readme
+- node-fetch
+  - node-fetch
+    - npm: https://www.npmjs.com/package/node-fetch
+    - repo: https://github.com/node-fetch/node-fetch
+    - home: https://github.com/node-fetch/node-fetch
+- Prettier
+  - prettier
+    - local: .ouro/technologies/prettier.md
+    - npm: https://www.npmjs.com/package/prettier
+    - repo: https://github.com/prettier/prettier
+    - home: https://prettier.io
+- react-query
+  - react-query
+    - local: .ouro/technologies/react-query.md
+    - npm: https://www.npmjs.com/package/react-query
+    - repo: https://github.com/tannerlinsley/react-query
+    - home: https://github.com/tannerlinsley/react-query#readme
+- ts-jest
+  - ts-jest
+    - local: .ouro/technologies/ts-jest.md
+    - npm: https://www.npmjs.com/package/ts-jest
+    - repo: https://github.com/kulshekhar/ts-jest
+    - home: https://kulshekhar.github.io/ts-jest
+- ts-node
+  - ts-node
+    - local: .ouro/technologies/ts-node.md
+    - npm: https://www.npmjs.com/package/ts-node
+    - repo: https://github.com/TypeStrong/ts-node
+    - home: https://typestrong.org/ts-node
+- tsx
+  - tsx
+    - local: .ouro/technologies/tsx.md
+    - npm: https://www.npmjs.com/package/tsx
+    - repo: https://github.com/privatenumber/tsx
+    - home: https://tsx.is
+- ttypescript
+  - ttypescript
+    - local: .ouro/technologies/ttypescript.md
+    - npm: https://www.npmjs.com/package/ttypescript
+    - repo: https://github.com/cevek/ttypescript
+    - home: https://github.com/cevek/ttypescript/tree/master/packages/ttypescript
+- TypeScript
+  - typescript
+    - npm: https://www.npmjs.com/package/typescript
+    - repo: https://github.com/microsoft/TypeScript
+    - home: https://www.typescriptlang.org/
+- typescript-transform-paths
+  - typescript-transform-paths
+    - local: .ouro/technologies/typescript-transform-paths.md
+    - npm: https://www.npmjs.com/package/typescript-transform-paths
+    - repo: https://github.com/LeDDGroup/typescript-transform-paths
+    - home: https://github.com/LeDDGroup/typescript-transform-paths#readme
+- ws
+  - ws
+    - local: .ouro/technologies/ws.md
+    - npm: https://www.npmjs.com/package/ws
+    - repo: https://github.com/websockets/ws
+    - home: https://github.com/websockets/ws
+- yargs
+  - yargs
+    - local: .ouro/technologies/yargs.md
+    - npm: https://www.npmjs.com/package/yargs
+    - repo: https://github.com/yargs/yargs
+    - home: https://yargs.js.org/

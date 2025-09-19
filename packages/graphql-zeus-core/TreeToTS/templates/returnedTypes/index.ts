@@ -19,7 +19,9 @@ const resolveType = ({ data, name, args }: ParserField, rootNodes: ParserField[]
 ${args.map((f) => resolveField(f)).join(',\n')}
 \t${typesImplementing.map((f) => `['...on ${f.name}']: '__union' & ${TYPES}["${f.name}"];`).join('\n\t')}\n}`;
     case TypeDefinition.ObjectTypeDefinition:
-      return `["${name}"]: {\n\t__typename: "${name}",\n${args.map((f) => resolveField(f)).join(',\n')}\n}`;
+      return `["${name}"]: {\n\t__typename: "${name}",\n${args
+        .map((f) => resolveField(f))
+        .join(',\n')},\n\t['...on ${name}']: Omit<${TYPES}["${name}"], "...on ${name}">\n}`;
     case TypeDefinition.ScalarTypeDefinition:
       return `["${name}"]: "scalar" & { name: "${name}" }`;
     case TypeDefinition.UnionTypeDefinition:

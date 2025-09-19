@@ -61,6 +61,9 @@ const sel = Selector('Query')({
     Attack: true,
     info: true,
     ids: true,
+    '...on Card': {
+      id: true,
+    },
     attack: [{ cardID: ['sss'] }, { Attack: true }],
   },
   cardById: [{ cardId: '' }, { Attack: true }],
@@ -101,6 +104,9 @@ const run = async () => {
         {
           info: true,
           ids: true,
+          '...on Card': {
+            Attack: true,
+          },
           cardImage: {
             bucket: true,
             region: true,
@@ -268,6 +274,10 @@ const run = async () => {
     {
       listCards: {
         Attack: true,
+        '...on Card': {
+          __directives: '@defer',
+          id: true,
+        },
       },
     },
     {
