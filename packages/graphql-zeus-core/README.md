@@ -4,6 +4,76 @@ Strongly Typed GraphQL from the team at [GraphQL Editor](https://graphqleditor.c
 
 GraphQL Zeus is the absolute best way to interact with your GraphQL endpoints in a type-safe way. Zeus uses your schema to generate Typescript types and strongly typed clients to unlock the power, efficiency, productivity and safety of Typescript on your GraphQL requests.
 
+## LLM Quickstart
+
+- This package documents how to use the generated client. For a working reference, see `examples/typescript-node/src/index.ts`.
+- Typical generated entry points: `./zeus/index.ts` and `./zeus/typedDocumentNode.ts`.
+
+```ts
+import {
+  Gql,
+  Zeus,
+  Thunder,
+  Selector,
+  fields,
+  GraphQLTypes,
+  InputType,
+  ZeusScalars,
+  $,
+} from './zeus';
+import { typedGql } from './zeus/typedDocumentNode';
+
+// 1) Query/mutation with variables
+const created = await Gql('mutation')(
+  {
+    addCard: [
+      { card: { Attack: $('Attack', 'Int!'), Defense: 1, name: 'A', description: 'B' } },
+      { id: true, '...on Card': { Attack: true } },
+    ],
+  },
+  { variables: { Attack: 1 } },
+);
+
+// 2) Reusable selections and inferred types
+const q = Selector('Query')({ drawCard: { id: true, Attack: true } });
+type DrawCard = InputType<GraphQLTypes['Query'], typeof q>;
+const { drawCard } = await Gql('query')(q);
+
+// 3) Aliases and string generation
+const gqlStr = Zeus('query', {
+  __alias: { myCards: { listCards: { name: true } } },
+});
+
+// 4) TypedDocumentNode for Apollo/urql
+const byId = typedGql('query')({ cardById: [{ cardId: $('id', 'String!') }, { name: true }] });
+
+// 5) Custom fetch without losing types
+const thunder = Thunder(async (query) => {
+  const r = await fetch('https://your.graphql/endpoint', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query }),
+  });
+  const j = await r.json();
+  return j.data;
+});
+const data = await thunder('query')({ drawCard: { id: true, Attack: true } });
+
+// 6) Scalars encode/decode (one place)
+const scalars = ZeusScalars({
+  JSON: { encode: JSON.stringify, decode: (e) => e as unknown },
+});
+await Gql('query', { scalars })({ drawCard: { info: true } });
+
+// 7) Spread all scalar fields of a type
+await Gql('query')({ drawCard: { ...fields('Card') } });
+```
+
+Tips
+- Prefer `Gql` for a preconfigured Chain, `Zeus` for building raw query strings, and `typedGql` when integrating with GraphQL clients.
+- Variables use the `$` helper: `$('name', 'String!')` both declares and types the variable.
+- Interface/union selections use inline fragments: `'...on Type': { ... }`.
+
 ## Features
 
 ⚡️ Types mapped from your schema\
@@ -210,6 +280,71 @@ const cardSelector = Selector('Card')({
 const queryWithSelectionSet = await chain('query')({
   drawCard: cardSelector,
 });
+```
+
+### FromSelector: Infer Types From Selectors
+
+Use `FromSelector` to convert a selector into a concrete TypeScript type for a given schema type.
+
+```ts
+import { Selector, FromSelector } from './zeus';
+
+const nameableSelector = Selector('Nameable')({
+  __typename: true,
+  name: true,
+  '...on Card': { description: true },
+  '...on EffectCard': { effectSize: true },
+  '...on CardStack': { cards: { id: true } },
+});
+
+type Nameable = FromSelector<typeof nameableSelector, 'Nameable'>;
+
+const handle = (n: Nameable) => {
+  if (n.__typename === 'Card') n.description;
+  if (n.__typename === 'EffectCard') n.effectSize;
+  if (n.__typename === 'CardStack') n.cards;
+};
+```
+
+### Composing Selectors
+
+Pass selections as values to compose queries dynamically using `ComposableSelector`.
+
+```ts
+import { Gql, ComposableSelector } from './zeus';
+
+const withCardById = <T extends ComposableSelector<'Card'>>(id: string, selection: T) =>
+  Gql('query')({
+    cardById: [{ cardId: id }, selection],
+  });
+
+const a = await withCardById('12', { id: true });
+const b = await withCardById('12', { Attack: true, Defense: true });
+```
+
+Or build on existing selections by spreading the returned selection objects:
+
+```ts
+const base = Selector('Card')({ id: true, name: true });
+const extended = Selector('Card')({ ...base, Attack: true });
+```
+
+### FromSelector + ZeusScalars
+
+Thread custom scalar decoders/encoders into your inferred types by supplying the third generic to `FromSelector`.
+
+```ts
+import { ZeusScalars, Selector, FromSelector } from './zeus';
+
+const scalars = ZeusScalars({
+  JSON: { encode: JSON.stringify, decode: (e) => e as { power: number } },
+  ID: { decode: (e) => Number(e) },
+});
+
+const cardSel = Selector('Card')({ id: true, info: true }); // info is JSON
+
+type CardWithScalars = FromSelector<typeof cardSel, 'Card', typeof scalars>;
+// CardWithScalars['info'] is now { power: number }
 ```
 
 ### Inferring the response type
