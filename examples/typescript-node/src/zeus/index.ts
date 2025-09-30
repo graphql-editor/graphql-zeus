@@ -1,8 +1,6 @@
 /* eslint-disable */
 
 import { AllTypesProps, ReturnTypes, Ops } from './const.js';
-import fetch, { Response } from 'node-fetch';
-import WebSocket from 'ws';
 export const HOST = "https://faker.prod.graphqleditor.com/a-team/olympus/graphql"
 
 

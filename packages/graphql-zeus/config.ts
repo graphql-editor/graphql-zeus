@@ -3,6 +3,7 @@ import { ConfigMaker } from 'config-maker';
 export type ProjectOptions = {
   urlOrPath: string;
   esModule?: boolean;
+  deno?: boolean;
   headers?: {
     [x: string]: string;
   };
@@ -19,6 +20,7 @@ export const config = new ConfigMaker<ProjectOptions>('graphql-zeus', {
   decoders: {},
   defaultValues: {
     esModule: false,
+    deno: false,
     method: 'POST',
     headers: {},
     node: false,

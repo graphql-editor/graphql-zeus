@@ -21,6 +21,7 @@ interface Yargs {
 interface CliArgs extends Yargs {
   header?: string;
   esModule?: boolean;
+  deno?: boolean;
   node?: boolean;
   graphql?: string;
   jsonSchema?: string;
@@ -81,6 +82,7 @@ export class CLI {
       schema: schemaFileContents,
       env,
       host,
+      deno: !!args.deno,
       esModule: !!args.esModule,
       constEnums: !!args.constEnums,
       subscriptions: args.subscriptions === 'graphql-ws' ? 'graphql-ws' : 'legacy',

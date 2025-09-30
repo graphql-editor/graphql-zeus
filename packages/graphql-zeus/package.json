@@ -1,6 +1,6 @@
 {
   "name": "graphql-zeus",
-  "version": "7.1.1",
+  "version": "7.1.2",
   "private": false,
   "scripts": {
     "start": "ttsc --watch",
@@ -26,8 +26,8 @@
   "dependencies": {
     "config-maker": "^0.0.6",
     "cross-fetch": "^3.0.4",
-    "graphql-zeus-core": "^7.1.1",
-    "graphql-zeus-jsonschema": "^7.1.1",
+    "graphql-zeus-core": "^7.1.2",
+    "graphql-zeus-jsonschema": "^7.1.2",
     "yargs": "^16.1.1"
   }
 }

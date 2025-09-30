@@ -35,6 +35,7 @@ export interface ResolveOptions {
   host?: string;
   headers?: Record<string, string>;
   esModule?: boolean;
+  deno?: boolean;
   subscriptions?: 'legacy' | 'graphql-ws';
   constEnums?: boolean;
 }
@@ -108,17 +109,12 @@ export class TreeToTS {
     headers,
     subscriptions = 'legacy',
     constEnums,
+    deno,
   }: ResolveOptions) {
     return {
       indexImports: `import { AllTypesProps, ReturnTypes, Ops } from './const${
-        esModule || env === 'node' ? '.js' : ''
-      }';`.concat(
-        env === 'node'
-          ? `
-import fetch, { Response } from 'node-fetch';
-import WebSocket from 'ws';`
-          : ``,
-      ),
+        deno ? '.ts' : esModule || env === 'node' ? '.js' : ''
+      }';`,
       const: TreeToTS.resolveBasisCode(tree),
       index: ''
         .concat(host ? `export const HOST = "${host}"` : '\n\nexport const HOST="Specify host"')

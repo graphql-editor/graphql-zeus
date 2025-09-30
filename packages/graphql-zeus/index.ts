@@ -21,6 +21,11 @@ zeus [path] [output_path] [options]
     describe: 'Use .js import in TypeScript to use with esModules',
     boolean: true,
   })
+  .option('deno', {
+    alias: 'de',
+    describe: 'Use .ts import in TypeScript to use with deno',
+    boolean: true,
+  })
   .option('constEnums', {
     alias: 'ce',
     describe: 'Use .js import in TypeScript to use with esModules',
