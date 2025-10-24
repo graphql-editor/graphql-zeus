@@ -8,6 +8,7 @@ import {
   ValueTypes,
   apiFetch,
   apiSubscription,
+  apiSubscriptionSSE,
   HOST,
   ScalarCoders,
   ModelTypes,
@@ -112,6 +113,58 @@ export const SubscriptionThunder =
   };
 
 export const Subscription = (...options: chainOptions) => SubscriptionThunder(apiSubscription(options));
+export type SubscriptionToGraphQLSSE<Z, T, SCLR extends ScalarDefinition> = {
+  on: (fn: (args: InputType<T, Z, SCLR>) => void) => void;
+  off: (fn: (e: { data?: InputType<T, Z, SCLR>; code?: number; reason?: string; message?: string }) => void) => void;
+  error: (fn: (e: { data?: InputType<T, Z, SCLR>; errors?: string[] }) => void) => void;
+  open: (fn?: () => void) => void;
+  close: () => void;
+};
+export const SubscriptionThunderSSE =
+  <SCLR extends ScalarDefinition>(fn: SubscriptionFunction, thunderGraphQLOptions?: ThunderGraphQLOptions<SCLR>) =>
+  <O extends keyof typeof Ops, OVERRIDESCLR extends SCLR, R extends keyof ValueTypes = GenericOperation<O>>(
+    operation: O,
+    graphqlOptions?: ThunderGraphQLOptions<OVERRIDESCLR>,
+  ) =>
+  <Z extends ValueTypes[R]>(
+    o: Z & {
+      [P in keyof Z]: P extends keyof ValueTypes[R] ? Z[P] : never;
+    },
+    ops?: OperationOptions & { variables?: ExtractVariables<Z> },
+  ) => {
+    const options = {
+      ...thunderGraphQLOptions,
+      ...graphqlOptions,
+    };
+    type CombinedSCLR = UnionOverrideKeys<SCLR, OVERRIDESCLR>;
+    const returnedFunction = fn(
+      Zeus(operation, o, {
+        operationOptions: ops,
+        scalars: options?.scalars,
+      }),
+    ) as SubscriptionToGraphQLSSE<Z, GraphQLTypes[R], CombinedSCLR>;
+    if (returnedFunction?.on && options?.scalars) {
+      const wrapped = returnedFunction.on;
+      returnedFunction.on = (fnToCall: (args: InputType<GraphQLTypes[R], Z, CombinedSCLR>) => void) =>
+        wrapped((data: InputType<GraphQLTypes[R], Z, CombinedSCLR>) => {
+          if (options?.scalars) {
+            return fnToCall(
+              decodeScalarsInResponse({
+                response: data,
+                initialOp: operation,
+                initialZeusQuery: o as VType,
+                returns: ReturnTypes,
+                scalars: options.scalars,
+                ops: Ops,
+              }),
+            );
+          }
+          return fnToCall(data);
+        });
+    }
+    return returnedFunction;
+  };
+export const SubscriptionSSE = (...options: chainOptions) => SubscriptionThunderSSE(apiSubscriptionSSE(options));
 export const Zeus = <
   Z extends ValueTypes[R],
   O extends keyof typeof Ops,

@@ -1,31 +1,32 @@
 /* eslint-disable */
 
 export const AllTypesProps: Record<string,any> = {
-	SpecialSkills: "enum" as const,
-	Query:{
-		cardById:{
+	AuthorizedUserMutation:{
+		createTodo:{
+
+		},
+		todoOps:{
+
+		},
+		changePassword:{
 
 		}
 	},
-	createCard:{
-		skills:"SpecialSkills"
-	},
-	Card:{
-		attack:{
-
-		},
-		testFn:{
+	AuthorizedUserQuery:{
+		todo:{
 
 		}
 	},
 	Mutation:{
-		addCard:{
-			card:"createCard"
+		login:{
+
+		},
+		register:{
+
 		}
 	},
-	JSON: `scalar.JSON` as const,
-	Public:{
-		powerups:{
+	Subscription:{
+		countdown:{
 
 		}
 	},
@@ -33,70 +34,38 @@ export const AllTypesProps: Record<string,any> = {
 }
 
 export const ReturnTypes: Record<string,any> = {
-	Nameable:{
-		"...on CardStack": "CardStack",
-		"...on Card": "Card",
-		"...on SpecialCard": "SpecialCard",
-		"...on EffectCard": "EffectCard",
-		name:"String"
+	Todo:{
+		_id:"String",
+		content:"String",
+		done:"Boolean"
 	},
-	Query:{
-		cardById:"Card",
-		drawCard:"Card",
-		drawChangeCard:"ChangeCard",
-		listCards:"Card",
-		myStacks:"CardStack",
-		nameables:"Nameable",
-		public:"Public"
+	TodoOps:{
+		markDone:"Boolean"
 	},
-	CardStack:{
-		cards:"Card",
-		name:"String"
+	User:{
+		_id:"String",
+		username:"String"
 	},
-	Card:{
-		Attack:"Int",
-		Children:"Int",
-		Defense:"Int",
-		attack:"Card",
-		cardImage:"S3Object",
-		description:"String",
-		id:"ID",
-		image:"String",
-		info:"JSON",
-		name:"String",
-		skills:"SpecialSkills",
-		testFn:"String",
-		ids:"ID"
+	AuthorizedUserMutation:{
+		createTodo:"String",
+		todoOps:"TodoOps",
+		changePassword:"Boolean"
 	},
-	SpecialCard:{
-		effect:"String",
-		name:"String"
-	},
-	EffectCard:{
-		effectSize:"Float",
-		name:"String"
+	AuthorizedUserQuery:{
+		todos:"Todo",
+		todo:"Todo",
+		me:"User"
 	},
 	Mutation:{
-		addCard:"Card"
-	},
-	JSON: `scalar.JSON` as const,
-	S3Object:{
-		bucket:"String",
-		key:"String",
-		region:"String"
-	},
-	Public:{
-		powerups:"Powerup"
-	},
-	Powerup:{
-		name:"String"
-	},
-	ChangeCard:{
-		"...on SpecialCard":"SpecialCard",
-		"...on EffectCard":"EffectCard"
+		user:"AuthorizedUserMutation",
+		login:"String",
+		register:"String"
 	},
 	Subscription:{
-		deck:"Card"
+		countdown:"Int"
+	},
+	Query:{
+		user:"AuthorizedUserQuery"
 	},
 	ID: `scalar.ID` as const
 }
