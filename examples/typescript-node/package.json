@@ -9,8 +9,8 @@
     "just-run": "node --loader ts-node/esm src/index.ts",
     "start": "npm run generate-typescript-node && node --import=tsx src/index.ts",
     "generate-typescript-node-config": "node ../../packages/graphql-zeus/lib/index.js --n -g ./zeus.graphql --td",
-    "generate-typescript-node": "node ../../packages/graphql-zeus/lib/index.js https://faker.prod.graphqleditor.com/a-team/olympus/graphql ./src --n -g ./zeus.graphql --td",
-    "generate-typescript-node-get": "node ../../packages/graphql-zeus/lib/index.js https://faker.prod.graphqleditor.com/a-team/olympus/graphql ./src --n -g ./zeus.graphql --method=GET --td"
+    "generate-typescript-node": "node ../../packages/graphql-zeus/lib/index.js http://localhost:4003/graphql ./src --n -g ./zeus.graphql --td",
+    "generate-typescript-node-get": "node ../../packages/graphql-zeus/lib/index.js http://localhost:4003/graphql ./src --n -g ./zeus.graphql --method=GET --td"
   },
   "author": "Aexol <aexol@aexol.com> (http://aexol.com)",
   "license": "ISC",

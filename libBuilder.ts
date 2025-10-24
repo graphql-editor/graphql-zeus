@@ -1,6 +1,6 @@
 #!/bin/node
 import * as fs from 'fs';
-import path = require('path');
+import * as path from 'path';
 
 const removeImports = (s: string) => s.replace(/import\s(\n|\w|{|}|\s|,)*.*;(?! \/\/ keep)/gm, '');
 const toTemplateString = (s: string) => '`' + s.replace(/\$\{/gm, '\\${').replace(/`/gm, '\\`') + '`';
@@ -27,10 +27,22 @@ const bundleFunctions = () => {
     return [key, code];
   });
 
+  const sseDir = path.join(baseDirFunctions, 'apiSSESubscription');
+  const sseFunctions = fs.readdirSync(sseDir).map((file) => {
+    // The key is the filename without its extension
+    const key = path.basename(file, '.ts');
+    const content = fs.readFileSync(path.join(sseDir, file)).toString('utf-8');
+    const code = removeImports(content).replace(/\\/gm, '\\\\').trim();
+    return [key, code];
+  });
+
   const content = `
   export default ${toTemplateString(allFunctions.join('\n\n'))};
 
   export const subscriptionFunctions = {${subscriptionFunctions
+    .map(([key, value]) => JSON.stringify(key) + ': ' + toTemplateString(value))
+    .join(',\n')}};
+  export const sseFunctions = {${sseFunctions
     .map(([key, value]) => JSON.stringify(key) + ': ' + toTemplateString(value))
     .join(',\n')}}`;
 
