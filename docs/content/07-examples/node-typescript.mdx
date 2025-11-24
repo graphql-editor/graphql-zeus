@@ -1,0 +1,403 @@
+# Node.js + TypeScript Example
+
+Complete example of using GraphQL Zeus in a Node.js + TypeScript project.
+
+## Project Setup
+
+### 1. Initialize Project
+
+```bash
+mkdir graphql-zeus-example
+cd graphql-zeus-example
+npm init -y
+```
+
+### 2. Install Dependencies
+
+```bash
+# Install TypeScript and Zeus
+npm install typescript ts-node @types/node
+npm install graphql-zeus
+
+# For this example, we'll use the SpaceX GraphQL API
+# No additional dependencies needed!
+```
+
+### 3. Configure TypeScript
+
+```json filename="tsconfig.json"
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "commonjs",
+    "lib": ["ES2020"],
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}
+```
+
+### 4. Generate Zeus Client
+
+```bash
+# Generate from SpaceX API
+npx zeus https://spacex-production.up.railway.app/ ./src/zeus
+
+# Or use your own GraphQL API
+npx zeus https://your-api.com/graphql ./src/zeus
+```
+
+## Complete Example
+
+### Project Structure
+
+```
+graphql-zeus-example/
+├── src/
+│   ├── zeus/
+│   │   ├── index.ts
+│   │   └── const.ts
+│   ├── queries/
+│   │   ├── launches.ts
+│   │   └── rockets.ts
+│   ├── types/
+│   │   └── index.ts
+│   └── index.ts
+├── package.json
+└── tsconfig.json
+```
+
+### Selectors and Types
+
+```typescript filename="src/types/index.ts"
+import { Selector, FromSelector } from '../zeus';
+
+// Define reusable selectors
+export const rocketSelector = Selector('Rocket')({
+  id: true,
+  name: true,
+  type: true,
+  description: true,
+  height: {
+    meters: true,
+    feet: true,
+  },
+  mass: {
+    kg: true,
+    lb: true,
+  },
+});
+
+export const launchSelector = Selector('Launch')({
+  id: true,
+  mission_name: true,
+  launch_date_local: true,
+  launch_success: true,
+  details: true,
+  rocket: rocketSelector,
+  links: {
+    mission_patch: true,
+    mission_patch_small: true,
+    video_link: true,
+    article_link: true,
+  },
+});
+
+// Export types
+export type Rocket = FromSelector<typeof rocketSelector, 'Rocket'>;
+export type Launch = FromSelector<typeof launchSelector, 'Launch'>;
+```
+
+### Query Functions
+
+```typescript filename="src/queries/launches.ts"
+import { Chain } from '../zeus';
+import { launchSelector, Launch } from '../types';
+
+const chain = Chain('https://spacex-production.up.railway.app/');
+
+export async function getLatestLaunches(limit: number = 10): Promise<Launch[]> {
+  try {
+    const result = await chain('query')({
+      launches: [{ limit, order: 'desc', sort: 'launch_date_local' }, launchSelector],
+    });
+
+    return result.launches?.filter((l): l is Launch => l !== null) ?? [];
+  } catch (error) {
+    console.error('Failed to fetch launches:', error);
+    throw error;
+  }
+}
+
+export async function getLaunchById(id: string): Promise<Launch | null> {
+  try {
+    const result = await chain('query')({
+      launch: [{ id }, launchSelector],
+    });
+
+    return result.launch;
+  } catch (error) {
+    console.error(`Failed to fetch launch ${id}:`, error);
+    throw error;
+  }
+}
+
+export async function getSuccessfulLaunches(limit: number = 10): Promise<Launch[]> {
+  try {
+    const result = await chain('query')({
+      launches: [
+        {
+          limit,
+          find: { launch_success: true },
+          order: 'desc',
+          sort: 'launch_date_local',
+        },
+        launchSelector,
+      ],
+    });
+
+    return result.launches?.filter((l): l is Launch => l !== null) ?? [];
+  } catch (error) {
+    console.error('Failed to fetch successful launches:', error);
+    throw error;
+  }
+}
+```
+
+```typescript filename="src/queries/rockets.ts"
+import { Chain } from '../zeus';
+import { rocketSelector, Rocket } from '../types';
+
+const chain = Chain('https://spacex-production.up.railway.app/');
+
+export async function getAllRockets(): Promise<Rocket[]> {
+  try {
+    const result = await chain('query')({
+      rockets: rocketSelector,
+    });
+
+    return result.rockets?.filter((r): r is Rocket => r !== null) ?? [];
+  } catch (error) {
+    console.error('Failed to fetch rockets:', error);
+    throw error;
+  }
+}
+
+export async function getRocketById(id: string): Promise<Rocket | null> {
+  try {
+    const result = await chain('query')({
+      rocket: [{ id }, rocketSelector],
+    });
+
+    return result.rocket;
+  } catch (error) {
+    console.error(`Failed to fetch rocket ${id}:`, error);
+    throw error;
+  }
+}
+```
+
+### Main Application
+
+```typescript filename="src/index.ts"
+import { getLatestLaunches, getSuccessfulLaunches } from './queries/launches';
+import { getAllRockets } from './queries/rockets';
+
+async function main() {
+  console.log('🚀 SpaceX GraphQL Zeus Example\n');
+
+  // Fetch latest launches
+  console.log('📡 Fetching latest launches...');
+  const launches = await getLatestLaunches(5);
+
+  console.log(`\nFound ${launches.length} launches:\n`);
+  launches.forEach((launch) => {
+    const success = launch.launch_success ? '✅' : '❌';
+    console.log(`${success} ${launch.mission_name}`);
+    console.log(`   Date: ${new Date(launch.launch_date_local).toLocaleDateString()}`);
+    console.log(`   Rocket: ${launch.rocket?.name}`);
+    if (launch.details) {
+      console.log(`   Details: ${launch.details.substring(0, 100)}...`);
+    }
+    console.log();
+  });
+
+  // Fetch successful launches
+  console.log('\n🎯 Fetching successful launches...');
+  const successfulLaunches = await getSuccessfulLaunches(3);
+
+  console.log(`\nFound ${successfulLaunches.length} successful launches:\n`);
+  successfulLaunches.forEach((launch) => {
+    console.log(`✨ ${launch.mission_name}`);
+    console.log(`   Rocket: ${launch.rocket?.name} (${launch.rocket?.type})`);
+    if (launch.links?.video_link) {
+      console.log(`   Video: ${launch.links.video_link}`);
+    }
+    console.log();
+  });
+
+  // Fetch all rockets
+  console.log('\n🚀 Fetching all rockets...');
+  const rockets = await getAllRockets();
+
+  console.log(`\nFound ${rockets.length} rockets:\n`);
+  rockets.forEach((rocket) => {
+    console.log(`🔧 ${rocket.name} (${rocket.type})`);
+    console.log(`   Description: ${rocket.description?.substring(0, 100)}...`);
+    console.log(`   Height: ${rocket.height?.meters}m`);
+    console.log(`   Mass: ${rocket.mass?.kg}kg`);
+    console.log();
+  });
+}
+
+// Run the application
+main().catch((error) => {
+  console.error('Application error:', error);
+  process.exit(1);
+});
+```
+
+### Package Scripts
+
+```json filename="package.json"
+{
+  "name": "graphql-zeus-example",
+  "version": "1.0.0",
+  "description": "GraphQL Zeus Node.js + TypeScript example",
+  "main": "dist/index.js",
+  "scripts": {
+    "generate": "zeus https://spacex-production.up.railway.app/ ./src/zeus",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "clean": "rm -rf dist",
+    "rebuild": "npm run clean && npm run build"
+  },
+  "dependencies": {
+    "graphql-zeus": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.7.0"
+  }
+}
+```
+
+## Running the Example
+
+```bash
+# Generate Zeus client
+npm run generate
+
+# Run in development
+npm run dev
+
+# Or build and run
+npm run build
+npm start
+```
+
+## Expected Output
+
+```
+🚀 SpaceX GraphQL Zeus Example
+
+📡 Fetching latest launches...
+
+Found 5 launches:
+
+✅ Starlink-15 (v1.0)
+   Date: 3/14/2021
+   Rocket: Falcon 9
+   Details: This mission will launch the fifteenth batch...
+
+✅ Starlink-14 (v1.0)
+   Date: 3/11/2021
+   Rocket: Falcon 9
+   Details: This mission will launch the fourteenth batch...
+
+...
+```
+
+## Advanced Patterns
+
+### With Authentication
+
+```typescript
+import { Chain } from './zeus';
+
+function createAuthenticatedClient(apiKey: string) {
+  return Chain('https://your-api.com/graphql', {
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+    },
+  });
+}
+
+const chain = createAuthenticatedClient(process.env.API_KEY!);
+```
+
+### With Error Handling
+
+```typescript
+import { Chain } from './zeus';
+
+const chain = Chain('https://api.com/graphql');
+
+async function safeQuery<T>(queryFn: () => Promise<T>): Promise<{ data: T | null; error: Error | null }> {
+  try {
+    const data = await queryFn();
+    return { data, error: null };
+  } catch (error) {
+    return {
+      data: null,
+      error: error instanceof Error ? error : new Error('Unknown error'),
+    };
+  }
+}
+
+// Usage
+const { data, error } = await safeQuery(() => chain('query')({ launches: { mission_name: true } }));
+
+if (error) {
+  console.error('Query failed:', error.message);
+} else {
+  console.log('Launches:', data?.launches);
+}
+```
+
+### With Retry Logic
+
+```typescript
+async function queryWithRetry<T>(queryFn: () => Promise<T>, maxRetries: number = 3): Promise<T> {
+  let lastError: Error | null = null;
+
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      return await queryFn();
+    } catch (error) {
+      lastError = error instanceof Error ? error : new Error('Unknown error');
+      console.log(`Attempt ${i + 1} failed, retrying...`);
+      await new Promise((resolve) => setTimeout(resolve, 1000 * Math.pow(2, i)));
+    }
+  }
+
+  throw lastError;
+}
+```
+
+## Next Steps
+
+- **[React Application](/examples/react-app)** - Zeus with React
+- **[Next.js](/examples/next-js)** - Server-side rendering with Zeus
+- **[CLI Usage](/getting-started/cli-usage)** - Advanced CLI options
+
+[Explore More Examples →](/examples/react-app)

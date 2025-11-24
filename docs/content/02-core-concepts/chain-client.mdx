@@ -1,0 +1,121 @@
+# Chain Client
+
+The Chain client is your primary interface for executing GraphQL queries and mutations with full type safety.
+
+## Creating a Chain
+
+```typescript
+import { Chain } from './zeus';
+
+const chain = Chain('https://your-api.com/graphql');
+```
+
+## With Configuration
+
+```typescript
+const chain = Chain('https://your-api.com/graphql', {
+  headers: {
+    Authorization: 'Bearer your-token',
+    'X-Custom-Header': 'value',
+  },
+});
+```
+
+## Authentication
+
+### Bearer Token
+
+```typescript
+const chain = Chain('https://api.com/graphql', {
+  headers: {
+    Authorization: `Bearer ${process.env.API_TOKEN}`,
+  },
+});
+```
+
+### Dynamic Headers
+
+```typescript
+function createAuthenticatedChain(token: string) {
+  return Chain('https://api.com/graphql', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
+const userChain = createAuthenticatedChain(userToken);
+```
+
+### Refresh Token Pattern
+
+```typescript
+let currentToken = 'initial-token';
+
+function getChain() {
+  return Chain('https://api.com/graphql', {
+    headers: {
+      Authorization: `Bearer ${currentToken}`,
+    },
+  });
+}
+
+// Update token
+async function refreshToken() {
+  // ... refresh logic
+  currentToken = newToken;
+}
+```
+
+## Error Handling
+
+```typescript
+try {
+  const result = await chain('query')({
+    user: [{ id: '123' }, { name: true }],
+  });
+  console.log(result.user.name);
+} catch (error) {
+  if (error instanceof Error) {
+    console.error('GraphQL Error:', error.message);
+
+    // Handle specific error types
+    if (error.message.includes('Unauthorized')) {
+      // Refresh token or redirect to login
+    }
+  }
+}
+```
+
+## Batch Requests
+
+Execute multiple operations in a single request:
+
+```typescript
+const results = await Promise.all([
+  chain('query')({ user: [{ id: '1' }, { name: true }] }),
+  chain('query')({ posts: { title: true } }),
+  chain('query')({ categories: { name: true } }),
+]);
+
+const [userData, postsData, categoriesData] = results;
+```
+
+## Custom Fetch
+
+Use with custom fetch implementation:
+
+```typescript
+const chain = Chain('https://api.com/graphql', {
+  headers: {},
+  fetch: customFetch, // Your custom fetch function
+});
+```
+
+## Next Steps
+
+- **[Selectors](/core-concepts/selectors)** - Reusable selection sets
+- **[Thunder](/core-concepts/thunder)** - Custom fetch with full control
+- **[Type Inference](/core-concepts/type-inference)** - Understanding types
+
+[Explore Selectors →](/core-concepts/selectors)

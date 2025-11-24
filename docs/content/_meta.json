@@ -1,0 +1,50 @@
+{
+  "index": {
+    "title": "Introduction",
+    "display": "normal"
+  },
+  "01-getting-started": {
+    "title": "Getting Started",
+    "display": "normal"
+  },
+  "02-core-concepts": {
+    "title": "Core Concepts",
+    "display": "normal"
+  },
+  "03-queries-mutations": {
+    "title": "Queries & Mutations",
+    "display": "normal"
+  },
+  "04-advanced": {
+    "title": "Advanced",
+    "display": "normal"
+  },
+  "05-integrations": {
+    "title": "Integrations",
+    "display": "normal"
+  },
+  "06-recipes": {
+    "title": "Recipes",
+    "display": "normal"
+  },
+  "07-examples": {
+    "title": "Examples",
+    "display": "normal"
+  },
+  "cli": {
+    "title": "CLI",
+    "display": "normal"
+  },
+  "api-reference": {
+    "title": "API Reference",
+    "display": "normal"
+  },
+  "migration": {
+    "title": "Migration",
+    "display": "normal"
+  },
+  "community": {
+    "title": "Community",
+    "display": "normal"
+  }
+}

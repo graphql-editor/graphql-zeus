@@ -1,6 +1,7 @@
 import { chainOptions } from '@/TreeToTS/functions/new/models';
 
-export const apiSubscriptionSSE = (options: chainOptions) => (query: string) => {
+
+export const apiSubscriptionSSE = (options: chainOptions) => (query: string, variables?: Record<string, unknown>) => {
   const url = options[0];
   const fetchOptions = options[1] || {};
 
@@ -23,7 +24,7 @@ export const apiSubscriptionSSE = (options: chainOptions) => (query: string) => 
           'Cache-Control': 'no-cache',
           ...fetchOptions.headers,
         },
-        body: JSON.stringify({ query }),
+        body: JSON.stringify({ query, variables }),
         signal: abortController.signal,
         ...fetchOptions,
       });

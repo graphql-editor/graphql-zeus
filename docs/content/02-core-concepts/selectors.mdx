@@ -1,0 +1,364 @@
+# Selectors
+
+Selectors are reusable selection sets that promote DRY code and type safety across your application.
+
+## Why Selectors?
+
+- **Reusability** - Define once, use everywhere
+- **Type Safety** - Fully typed with IntelliSense
+- **Composition** - Combine selectors together
+- **Maintainability** - Update in one place
+
+## Basic Usage
+
+```typescript
+import { Selector } from './zeus';
+
+// Define a reusable selector
+const userFields = Selector('User')({
+  id: true,
+  name: true,
+  email: true,
+  avatar: true,
+});
+
+// Use in queries
+import { Chain } from './zeus';
+const chain = Chain('https://api.com/graphql');
+
+const result = await chain('query')({
+  user: [{ id: '123' }, userFields],
+});
+```
+
+## Nested Selectors
+
+Compose selectors for nested data:
+
+```typescript
+const authorFields = Selector('User')({
+  id: true,
+  name: true,
+  avatar: true,
+});
+
+const postFields = Selector('Post')({
+  id: true,
+  title: true,
+  content: true,
+  createdAt: true,
+  author: authorFields, // Nested selector
+});
+
+const commentFields = Selector('Comment')({
+  id: true,
+  content: true,
+  createdAt: true,
+  author: authorFields, // Reuse the same selector
+});
+
+// Use in query
+const result = await chain('query')({
+  post: [
+    { id: 'post-123' },
+    {
+      ...postFields,
+      comments: commentFields,
+    },
+  ],
+});
+```
+
+## Type Inference with FromSelector
+
+Extract TypeScript types from selectors:
+
+```typescript
+import { Selector, FromSelector } from './zeus';
+
+const userFields = Selector('User')({
+  id: true,
+  name: true,
+  email: true,
+  posts: {
+    id: true,
+    title: true,
+  },
+});
+
+// Extract the type
+type UserData = FromSelector<typeof userFields, 'User'>;
+// Result:
+// {
+//   id: string;
+//   name: string;
+//   email: string;
+//   posts: Array<{
+//     id: string;
+//     title: string;
+//   }>;
+// }
+```
+
+## Selector Composition Patterns
+
+### Base Selectors
+
+```typescript
+// Define base selectors for common fields
+const baseUser = Selector('User')({
+  id: true,
+  name: true,
+});
+
+const extendedUser = Selector('User')({
+  ...baseUser,
+  email: true,
+  phone: true,
+  address: {
+    street: true,
+    city: true,
+    country: true,
+  },
+});
+
+const fullUser = Selector('User')({
+  ...extendedUser,
+  posts: {
+    id: true,
+    title: true,
+  },
+  followers: baseUser, // Reuse base
+});
+```
+
+### Conditional Fields
+
+```typescript
+function createUserSelector(includePrivate: boolean) {
+  return Selector('User')({
+    id: true,
+    name: true,
+    ...(includePrivate && {
+      email: true,
+      phone: true,
+    }),
+  });
+}
+
+const publicUserFields = createUserSelector(false);
+const privateUserFields = createUserSelector(true);
+```
+
+### Parameterized Selectors
+
+```typescript
+function postSelector(includeComments: boolean, includeAuthor: boolean) {
+  return Selector('Post')({
+    id: true,
+    title: true,
+    content: true,
+    ...(includeComments && {
+      comments: {
+        id: true,
+        content: true,
+      },
+    }),
+    ...(includeAuthor && {
+      author: {
+        id: true,
+        name: true,
+      },
+    }),
+  });
+}
+
+// Use with different configurations
+const minimalPost = postSelector(false, false);
+const fullPost = postSelector(true, true);
+```
+
+## Real-World Example
+
+```typescript
+import { Selector, Chain, FromSelector } from './zeus';
+
+// Define selectors
+const addressSelector = Selector('Address')({
+  street: true,
+  city: true,
+  state: true,
+  zipCode: true,
+  country: true,
+});
+
+const profileSelector = Selector('Profile')({
+  bio: true,
+  website: true,
+  twitter: true,
+  github: true,
+});
+
+const userCardSelector = Selector('User')({
+  id: true,
+  name: true,
+  avatar: true,
+  role: true,
+});
+
+const userDetailSelector = Selector('User')({
+  ...userCardSelector,
+  email: true,
+  phone: true,
+  profile: profileSelector,
+  address: addressSelector,
+});
+
+// Extract types
+export type UserCard = FromSelector<typeof userCardSelector, 'User'>;
+export type UserDetail = FromSelector<typeof userDetailSelector, 'User'>;
+
+// Use in application
+const chain = Chain('https://api.com/graphql');
+
+export async function getUserCard(id: string): Promise<UserCard> {
+  const result = await chain('query')({
+    user: [{ id }, userCardSelector],
+  });
+  return result.user;
+}
+
+export async function getUserDetail(id: string): Promise<UserDetail> {
+  const result = await chain('query')({
+    user: [{ id }, userDetailSelector],
+  });
+  return result.user;
+}
+
+// Use in React components
+function UserCard({ userId }: { userId: string }) {
+  const [user, setUser] = useState<UserCard | null>(null);
+
+  useEffect(() => {
+    getUserCard(userId).then(setUser);
+  }, [userId]);
+
+  if (!user) return <div>Loading...</div>;
+
+  return (
+    <div className="user-card">
+      <img src={user.avatar} alt={user.name} />
+      <h3>{user.name}</h3>
+      <span>{user.role}</span>
+    </div>
+  );
+}
+```
+
+## Selector Libraries
+
+Create a library of reusable selectors:
+
+```typescript filename="src/selectors/index.ts"
+import { Selector } from './zeus';
+
+// User selectors
+export const userBasic = Selector('User')({
+  id: true,
+  name: true,
+  avatar: true,
+});
+
+export const userWithEmail = Selector('User')({
+  ...userBasic,
+  email: true,
+});
+
+export const userFull = Selector('User')({
+  ...userWithEmail,
+  phone: true,
+  address: {
+    street: true,
+    city: true,
+  },
+  profile: {
+    bio: true,
+    website: true,
+  },
+});
+
+// Post selectors
+export const postPreview = Selector('Post')({
+  id: true,
+  title: true,
+  excerpt: true,
+  createdAt: true,
+  author: userBasic,
+});
+
+export const postFull = Selector('Post')({
+  id: true,
+  title: true,
+  content: true,
+  createdAt: true,
+  updatedAt: true,
+  author: userWithEmail,
+  tags: {
+    id: true,
+    name: true,
+  },
+  comments: {
+    id: true,
+    content: true,
+    author: userBasic,
+  },
+});
+
+// Export types
+export type { FromSelector };
+```
+
+## Best Practices
+
+1. **Keep selectors focused** - One selector per use case
+2. **Name descriptively** - `userCardFields`, not just `user`
+3. **Export types** - Use `FromSelector` for component props
+4. **Organize in files** - Group related selectors together
+5. **Document complex selectors** - Add comments for clarity
+
+## Advanced: ComposableSelector
+
+For dynamic selector composition:
+
+```typescript
+import { ComposableSelector } from './zeus';
+
+const dynamicUserSelector = ComposableSelector('User', (fields) => ({
+  id: true,
+  name: true,
+  ...fields,
+}));
+
+// Use with custom fields
+const userWithPosts = dynamicUserSelector({
+  posts: {
+    id: true,
+    title: true,
+  },
+});
+
+const userWithComments = dynamicUserSelector({
+  comments: {
+    id: true,
+    content: true,
+  },
+});
+```
+
+## Next Steps
+
+- **[Type Inference](/core-concepts/type-inference)** - Deep dive into Zeus types
+- **[Chain Client](/core-concepts/chain-client)** - Using selectors with Chain
+- **[Generated Types](/core-concepts/generated-types)** - Understanding generated code
+
+[Explore Type Inference →](/core-concepts/type-inference)

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "playwright-mcp": {
+      "enabled": true,
+      "command": ["npx", "@playwright/mcp@latest"],
+      "type": "local"
+    },
+    "figma-mcp": {
+      "enabled": true,
+      "url": "http://127.0.0.1:3845/mcp",
+      "type": "remote"
+    },
+    "replicate": {
+      "command": ["npx","-y", "replicate-mcp"],
+      "type": "local"
+    }
+  }
+}

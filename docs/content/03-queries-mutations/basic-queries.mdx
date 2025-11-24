@@ -1,0 +1,650 @@
+# Basic Queries
+
+Learn how to write GraphQL queries with Zeus's type-safe API.
+
+## Your First Query
+
+The simplest Zeus query:
+
+```typescript
+import { Chain } from './zeus';
+
+const chain = Chain('https://api.com/graphql');
+
+const result = await chain('query')({
+  user: [
+    { id: '123' }, // Arguments
+    {
+      // Selected fields
+      id: true,
+      name: true,
+      email: true,
+    },
+  ],
+});
+
+console.log(result.user.name); // Fully typed!
+```
+
+## Query Anatomy
+
+Every Zeus query has three parts:
+
+```typescript
+await chain('query')({
+  fieldName: [
+    {
+      /* arguments */
+    },
+    {
+      /* field selections */
+    },
+  ],
+});
+```
+
+### 1. Operation Type
+
+```typescript
+// Query - read data
+chain('query')({
+  /* ... */
+});
+
+// Mutation - modify data
+chain('mutation')({
+  /* ... */
+});
+
+// Subscription - real-time updates
+chain('subscription')({
+  /* ... */
+});
+```
+
+### 2. Arguments
+
+Pass arguments in the first array element:
+
+```typescript
+{
+  user: [
+    { id: '123' }, // Arguments object
+    { name: true },
+  ];
+}
+```
+
+### 3. Field Selection
+
+Select fields in the second array element:
+
+```typescript
+{
+  user: [
+    { id: '123' },
+    {
+      // Select these fields
+      id: true,
+      name: true,
+      email: true,
+    },
+  ];
+}
+```
+
+## Field Selection
+
+### Scalar Fields
+
+Select scalar fields with `true`:
+
+```typescript
+const result = await chain('query')({
+  user: [
+    { id: '123' },
+    {
+      id: true, // String
+      name: true, // String
+      age: true, // Number
+      active: true, // Boolean
+      createdAt: true, // DateTime (string)
+    },
+  ],
+});
+```
+
+### No Arguments
+
+For fields without arguments, omit the array syntax:
+
+```typescript
+const result = await chain('query')({
+  currentUser: {
+    // No arguments needed
+    id: true,
+    name: true,
+    email: true,
+  },
+});
+```
+
+### Nested Objects
+
+Select fields on nested objects:
+
+```typescript
+const result = await chain('query')({
+  user: [
+    { id: '123' },
+    {
+      name: true,
+      profile: {
+        // Nested object
+        avatar: true,
+        bio: true,
+        location: {
+          // Deeply nested
+          city: true,
+          country: true,
+        },
+      },
+    },
+  ],
+});
+
+console.log(result.user.profile.location.city);
+```
+
+## Multiple Fields
+
+Query multiple root fields:
+
+```typescript
+const result = await chain('query')({
+  user: [{ id: '123' }, { name: true, email: true }],
+
+  posts: [{ first: 10 }, { title: true, content: true }],
+
+  categories: {
+    name: true,
+    slug: true,
+  },
+});
+
+// Access all results
+console.log(result.user.name);
+console.log(result.posts);
+console.log(result.categories);
+```
+
+## Arrays and Lists
+
+Query list fields:
+
+```typescript
+const result = await chain('query')({
+  users: {
+    // Returns array of users
+    id: true,
+    name: true,
+    email: true,
+  },
+});
+
+// Type: { users: Array<{ id: string; name: string; email: string }> }
+result.users.forEach((user) => {
+  console.log(user.name);
+});
+```
+
+### With Arguments
+
+```typescript
+const result = await chain('query')({
+  users: [
+    {
+      first: 10, // Pagination
+      orderBy: 'CREATED_AT',
+      filter: { active: true },
+    },
+    {
+      id: true,
+      name: true,
+    },
+  ],
+});
+```
+
+## Pagination
+
+### Offset-Based Pagination
+
+```typescript
+const result = await chain('query')({
+  posts: [
+    {
+      limit: 20,
+      offset: 40, // Skip first 40
+    },
+    {
+      id: true,
+      title: true,
+    },
+  ],
+});
+```
+
+### Cursor-Based Pagination (Relay)
+
+```typescript
+const result = await chain('query')({
+  posts: [
+    {
+      first: 20,
+      after: 'cursor-string',
+    },
+    {
+      edges: {
+        cursor: true,
+        node: {
+          id: true,
+          title: true,
+          content: true,
+        },
+      },
+      pageInfo: {
+        hasNextPage: true,
+        endCursor: true,
+      },
+    },
+  ],
+});
+
+// Check for more pages
+if (result.posts.pageInfo.hasNextPage) {
+  const nextPage = await chain('query')({
+    posts: [
+      {
+        first: 20,
+        after: result.posts.pageInfo.endCursor,
+      },
+      {
+        /* ... same selections ... */
+      },
+    ],
+  });
+}
+```
+
+### Load All Pages
+
+```typescript
+async function fetchAllPosts() {
+  const allPosts = [];
+  let hasMore = true;
+  let cursor = null;
+
+  while (hasMore) {
+    const result = await chain('query')({
+      posts: [
+        {
+          first: 100,
+          after: cursor,
+        },
+        {
+          edges: {
+            cursor: true,
+            node: {
+              id: true,
+              title: true,
+            },
+          },
+          pageInfo: {
+            hasNextPage: true,
+            endCursor: true,
+          },
+        },
+      ],
+    });
+
+    allPosts.push(...result.posts.edges.map((e) => e.node));
+    hasMore = result.posts.pageInfo.hasNextPage;
+    cursor = result.posts.pageInfo.endCursor;
+  }
+
+  return allPosts;
+}
+```
+
+## Filtering
+
+### Simple Filters
+
+```typescript
+const result = await chain('query')({
+  users: [
+    {
+      where: {
+        role: 'ADMIN',
+        active: true,
+      },
+    },
+    {
+      id: true,
+      name: true,
+    },
+  ],
+});
+```
+
+### Complex Filters
+
+```typescript
+const result = await chain('query')({
+  posts: [
+    {
+      where: {
+        AND: [
+          { status: 'PUBLISHED' },
+          {
+            OR: [{ featured: true }, { viewCount_gt: 1000 }],
+          },
+        ],
+      },
+    },
+    {
+      id: true,
+      title: true,
+    },
+  ],
+});
+```
+
+## Sorting
+
+```typescript
+const result = await chain('query')({
+  posts: [
+    {
+      orderBy: 'CREATED_AT_DESC',
+    },
+    {
+      id: true,
+      title: true,
+      createdAt: true,
+    },
+  ],
+});
+
+// Multiple sort fields
+const result2 = await chain('query')({
+  users: [
+    {
+      orderBy: ['ROLE_ASC', 'NAME_ASC'],
+    },
+    {
+      name: true,
+      role: true,
+    },
+  ],
+});
+```
+
+## Search
+
+### Full-Text Search
+
+```typescript
+const result = await chain('query')({
+  searchPosts: [
+    {
+      query: 'GraphQL Zeus',
+    },
+    {
+      id: true,
+      title: true,
+      excerpt: true,
+      score: true, // Relevance score
+    },
+  ],
+});
+```
+
+### Autocomplete
+
+```typescript
+const suggestions = await chain('query')({
+  searchUsers: [
+    {
+      query: 'joh', // Partial match
+      limit: 5,
+    },
+    {
+      id: true,
+      name: true,
+      avatar: true,
+    },
+  ],
+});
+```
+
+## Aggregations
+
+### Count
+
+```typescript
+const result = await chain('query')({
+  postsCount: true, // Simple count
+
+  users: [
+    { where: { active: true } },
+    {
+      totalCount: true, // Connection count
+      edges: {
+        node: { id: true },
+      },
+    },
+  ],
+});
+
+console.log(result.postsCount);
+console.log(result.users.totalCount);
+```
+
+### Statistics
+
+```typescript
+const result = await chain('query')({
+  postStats: {
+    count: true,
+    avg: { viewCount: true },
+    sum: { viewCount: true },
+    min: { createdAt: true },
+    max: { createdAt: true },
+  },
+});
+
+console.log('Average views:', result.postStats.avg.viewCount);
+console.log('Total views:', result.postStats.sum.viewCount);
+```
+
+## Conditional Fields
+
+Select fields conditionally:
+
+```typescript
+const includeProfile = true;
+
+const result = await chain('query')({
+  user: [
+    { id: '123' },
+    {
+      id: true,
+      name: true,
+      ...(includeProfile && {
+        profile: {
+          avatar: true,
+          bio: true,
+        },
+      }),
+    },
+  ],
+});
+```
+
+## Reusing Queries
+
+### Function Wrapper
+
+```typescript
+async function getUser(userId: string) {
+  return chain('query')({
+    user: [
+      { id: userId },
+      {
+        id: true,
+        name: true,
+        email: true,
+      },
+    ],
+  });
+}
+
+const user = await getUser('123');
+```
+
+### With Options
+
+```typescript
+type UserQueryOptions = {
+  includeProfile?: boolean;
+  includePosts?: boolean;
+};
+
+async function getUser(userId: string, options: UserQueryOptions = {}) {
+  return chain('query')({
+    user: [
+      { id: userId },
+      {
+        id: true,
+        name: true,
+        email: true,
+        ...(options.includeProfile && {
+          profile: { avatar: true, bio: true },
+        }),
+        ...(options.includePosts && {
+          posts: [{ first: 10 }, { title: true }],
+        }),
+      },
+    ],
+  });
+}
+
+const user = await getUser('123', {
+  includeProfile: true,
+  includePosts: true,
+});
+```
+
+## Error Handling
+
+### Try-Catch
+
+```typescript
+try {
+  const result = await chain('query')({
+    user: [{ id: '123' }, { name: true }],
+  });
+  console.log(result.user.name);
+} catch (error) {
+  console.error('Query failed:', error);
+}
+```
+
+### With Retry
+
+```typescript
+async function queryWithRetry<T>(queryFn: () => Promise<T>, maxRetries = 3): Promise<T> {
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      return await queryFn();
+    } catch (error) {
+      if (i === maxRetries - 1) throw error;
+      await new Promise((resolve) => setTimeout(resolve, 1000 * Math.pow(2, i)));
+    }
+  }
+  throw new Error('Max retries exceeded');
+}
+
+const result = await queryWithRetry(() =>
+  chain('query')({
+    user: [{ id: '123' }, { name: true }],
+  }),
+);
+```
+
+## Performance Tips
+
+### 1. Request Only Needed Fields
+
+```typescript
+// ❌ Over-fetching
+const result = await chain('query')({
+  user: [
+    { id: '123' },
+    {
+      // Requesting everything when you only need name
+      id: true,
+      name: true,
+      email: true,
+      profile: {
+        avatar: true,
+        bio: true,
+        // ... many more fields
+      },
+    },
+  ],
+});
+
+// ✅ Request only what you need
+const result = await chain('query')({
+  user: [{ id: '123' }, { name: true }],
+});
+```
+
+### 2. Batch Related Queries
+
+```typescript
+// ❌ Multiple requests
+const user = await chain('query')({ user: [{ id: '123' }, { name: true }] });
+const posts = await chain('query')({ posts: { title: true } });
+
+// ✅ Single request
+const result = await chain('query')({
+  user: [{ id: '123' }, { name: true }],
+  posts: { title: true },
+});
+```
+
+### 3. Use Pagination
+
+```typescript
+// ❌ Fetch all at once
+const result = await chain('query')({
+  posts: { title: true, content: true }, // Could be thousands
+});
+
+// ✅ Use pagination
+const result = await chain('query')({
+  posts: [{ first: 20 }, { title: true, content: true }],
+});
+```
+
+## Next Steps
+
+- **[Mutations](/queries-mutations/mutations)** - Modifying data
+- **[Variables](/queries-mutations/variables)** - Dynamic queries
+- **[Selectors](/core-concepts/selectors)** - Reusable selections
+
+[Learn About Mutations →](/queries-mutations/mutations)

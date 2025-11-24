@@ -1,0 +1,884 @@
+# Mutations
+
+Mutations modify data on the server. Zeus provides full type safety for all mutation operations.
+
+## Basic Mutation
+
+```typescript
+import { Chain } from './zeus';
+
+const chain = Chain('https://api.com/graphql');
+
+const result = await chain('mutation')({
+  createUser: [
+    {
+      input: {
+        name: 'Zeus',
+        email: 'zeus@olympus.com',
+      },
+    },
+    {
+      id: true,
+      name: true,
+      email: true,
+    },
+  ],
+});
+
+console.log('Created user:', result.createUser.id);
+```
+
+## Mutation Syntax
+
+Mutations use the same syntax as queries:
+
+```typescript
+await chain('mutation')({
+  mutationName: [
+    {
+      /* input arguments */
+    },
+    {
+      /* return fields */
+    },
+  ],
+});
+```
+
+## Create Operations
+
+### Simple Create
+
+```typescript
+const result = await chain('mutation')({
+  createPost: [
+    {
+      input: {
+        title: 'GraphQL Zeus',
+        content: 'Type-safe GraphQL client',
+        authorId: '123',
+      },
+    },
+    {
+      id: true,
+      title: true,
+      createdAt: true,
+    },
+  ],
+});
+```
+
+### Create with Nested Data
+
+```typescript
+const result = await chain('mutation')({
+  createUser: [
+    {
+      input: {
+        name: 'Zeus',
+        email: 'zeus@olympus.com',
+        profile: {
+          bio: 'King of the Gods',
+          location: 'Mount Olympus',
+        },
+        posts: [
+          {
+            title: 'First Post',
+            content: 'Hello World',
+          },
+          {
+            title: 'Second Post',
+            content: 'GraphQL is awesome',
+          },
+        ],
+      },
+    },
+    {
+      id: true,
+      name: true,
+      profile: {
+        bio: true,
+        location: true,
+      },
+      posts: {
+        id: true,
+        title: true,
+      },
+    },
+  ],
+});
+```
+
+### Create Multiple
+
+```typescript
+const result = await chain('mutation')({
+  createUsers: [
+    {
+      input: [
+        { name: 'Zeus', email: 'zeus@olympus.com' },
+        { name: 'Athena', email: 'athena@olympus.com' },
+        { name: 'Apollo', email: 'apollo@olympus.com' },
+      ],
+    },
+    {
+      count: true,
+      users: {
+        id: true,
+        name: true,
+      },
+    },
+  ],
+});
+
+console.log(`Created ${result.createUsers.count} users`);
+```
+
+## Update Operations
+
+### Update by ID
+
+```typescript
+const result = await chain('mutation')({
+  updateUser: [
+    {
+      id: '123',
+      input: {
+        name: 'Zeus Updated',
+        email: 'zeus.new@olympus.com',
+      },
+    },
+    {
+      id: true,
+      name: true,
+      email: true,
+      updatedAt: true,
+    },
+  ],
+});
+```
+
+### Partial Update
+
+```typescript
+// Only update specific fields
+const result = await chain('mutation')({
+  updateUser: [
+    {
+      id: '123',
+      input: {
+        name: 'Zeus', // Only updating name
+      },
+    },
+    {
+      id: true,
+      name: true,
+    },
+  ],
+});
+```
+
+### Update with Where Clause
+
+```typescript
+const result = await chain('mutation')({
+  updateUsers: [
+    {
+      where: {
+        role: 'USER',
+        active: false,
+      },
+      input: {
+        active: true,
+      },
+    },
+    {
+      count: true,
+      users: {
+        id: true,
+        active: true,
+      },
+    },
+  ],
+});
+
+console.log(`Updated ${result.updateUsers.count} users`);
+```
+
+### Upsert
+
+Create if doesn't exist, update if exists:
+
+```typescript
+const result = await chain('mutation')({
+  upsertUser: [
+    {
+      where: {
+        email: 'zeus@olympus.com',
+      },
+      create: {
+        name: 'Zeus',
+        email: 'zeus@olympus.com',
+        role: 'ADMIN',
+      },
+      update: {
+        lastLogin: new Date().toISOString(),
+      },
+    },
+    {
+      id: true,
+      name: true,
+      email: true,
+    },
+  ],
+});
+```
+
+## Delete Operations
+
+### Delete by ID
+
+```typescript
+const result = await chain('mutation')({
+  deleteUser: [
+    {
+      id: '123',
+    },
+    {
+      id: true,
+      name: true,
+    },
+  ],
+});
+
+console.log('Deleted user:', result.deleteUser.name);
+```
+
+### Delete with Where Clause
+
+```typescript
+const result = await chain('mutation')({
+  deleteUsers: [
+    {
+      where: {
+        active: false,
+        createdAt_lt: '2023-01-01',
+      },
+    },
+    {
+      count: true,
+    },
+  ],
+});
+
+console.log(`Deleted ${result.deleteUsers.count} inactive users`);
+```
+
+### Soft Delete
+
+```typescript
+// Mark as deleted instead of removing
+const result = await chain('mutation')({
+  updateUser: [
+    {
+      id: '123',
+      input: {
+        deletedAt: new Date().toISOString(),
+      },
+    },
+    {
+      id: true,
+      deletedAt: true,
+    },
+  ],
+});
+```
+
+## Nested Mutations
+
+### Update Nested Relations
+
+```typescript
+const result = await chain('mutation')({
+  updateUser: [
+    {
+      id: '123',
+      input: {
+        name: 'Zeus',
+        profile: {
+          update: {
+            bio: 'Updated bio',
+          },
+        },
+        posts: {
+          create: [
+            {
+              title: 'New Post',
+              content: 'Content here',
+            },
+          ],
+          update: [
+            {
+              where: { id: 'post-1' },
+              data: { title: 'Updated Title' },
+            },
+          ],
+          delete: ['post-2', 'post-3'],
+        },
+      },
+    },
+    {
+      id: true,
+      name: true,
+      profile: {
+        bio: true,
+      },
+      posts: {
+        id: true,
+        title: true,
+      },
+    },
+  ],
+});
+```
+
+### Connect Existing Relations
+
+```typescript
+const result = await chain('mutation')({
+  updatePost: [
+    {
+      id: 'post-1',
+      input: {
+        categories: {
+          connect: ['cat-1', 'cat-2'], // Link existing categories
+        },
+        tags: {
+          create: [{ name: 'GraphQL' }, { name: 'TypeScript' }],
+        },
+      },
+    },
+    {
+      id: true,
+      categories: {
+        id: true,
+        name: true,
+      },
+      tags: {
+        id: true,
+        name: true,
+      },
+    },
+  ],
+});
+```
+
+### Disconnect Relations
+
+```typescript
+const result = await chain('mutation')({
+  updatePost: [
+    {
+      id: 'post-1',
+      input: {
+        categories: {
+          disconnect: ['cat-1'], // Remove category link
+        },
+      },
+    },
+    {
+      id: true,
+      categories: {
+        id: true,
+        name: true,
+      },
+    },
+  ],
+});
+```
+
+## Multiple Mutations
+
+Execute multiple mutations in one request:
+
+```typescript
+const result = await chain('mutation')({
+  createUser: [
+    {
+      input: {
+        name: 'Zeus',
+        email: 'zeus@olympus.com',
+      },
+    },
+    {
+      id: true,
+      name: true,
+    },
+  ],
+
+  createPost: [
+    {
+      input: {
+        title: 'First Post',
+        authorId: 'will-be-replaced',
+      },
+    },
+    {
+      id: true,
+      title: true,
+    },
+  ],
+
+  updateSettings: [
+    {
+      input: {
+        theme: 'dark',
+      },
+    },
+    {
+      theme: true,
+    },
+  ],
+});
+
+// Access all results
+console.log('Created user:', result.createUser.name);
+console.log('Created post:', result.createPost.title);
+console.log('Updated theme:', result.updateSettings.theme);
+```
+
+## File Uploads
+
+### Single File
+
+```typescript
+const file = document.querySelector('input[type="file"]').files[0];
+
+const result = await chain('mutation')({
+  uploadFile: [
+    {
+      file: file, // File object
+    },
+    {
+      id: true,
+      url: true,
+      filename: true,
+    },
+  ],
+});
+
+console.log('Uploaded:', result.uploadFile.url);
+```
+
+### Multiple Files
+
+```typescript
+const files = Array.from(document.querySelector('input[type="file"]').files);
+
+const result = await chain('mutation')({
+  uploadFiles: [
+    {
+      files: files,
+    },
+    {
+      id: true,
+      url: true,
+      filename: true,
+    },
+  ],
+});
+
+result.uploadFiles.forEach((file) => {
+  console.log('Uploaded:', file.url);
+});
+```
+
+### With Metadata
+
+```typescript
+const result = await chain('mutation')({
+  createPost: [
+    {
+      input: {
+        title: 'Post with Image',
+        content: 'Content here',
+        coverImage: file, // File upload in nested input
+      },
+    },
+    {
+      id: true,
+      title: true,
+      coverImage: {
+        url: true,
+        filename: true,
+      },
+    },
+  ],
+});
+```
+
+## Optimistic Updates
+
+Update UI before server response:
+
+```typescript
+// Optimistically update local state
+const optimisticUser = {
+  id: 'temp-id',
+  name: newName,
+  email: currentEmail,
+};
+
+setUser(optimisticUser); // Update UI immediately
+
+try {
+  // Send mutation
+  const result = await chain('mutation')({
+    updateUser: [
+      {
+        id: userId,
+        input: { name: newName },
+      },
+      {
+        id: true,
+        name: true,
+        email: true,
+      },
+    ],
+  });
+
+  setUser(result.updateUser); // Update with real data
+} catch (error) {
+  setUser(previousUser); // Rollback on error
+  console.error('Update failed:', error);
+}
+```
+
+## Batching Mutations
+
+### Sequential Mutations
+
+Execute mutations one after another:
+
+```typescript
+async function createUserWithPosts(userData: any, posts: any[]) {
+  // 1. Create user
+  const userResult = await chain('mutation')({
+    createUser: [{ input: userData }, { id: true, name: true }],
+  });
+
+  const userId = userResult.createUser.id;
+
+  // 2. Create posts for user
+  const postsResult = await chain('mutation')({
+    createPosts: [
+      {
+        input: posts.map((post) => ({
+          ...post,
+          authorId: userId,
+        })),
+      },
+      {
+        id: true,
+        title: true,
+      },
+    ],
+  });
+
+  return {
+    user: userResult.createUser,
+    posts: postsResult.createPosts,
+  };
+}
+```
+
+### Parallel Mutations
+
+Execute independent mutations in parallel:
+
+```typescript
+const [user, settings, preferences] = await Promise.all([
+  chain('mutation')({
+    updateUser: [
+      { id: '123', input: { name: 'Zeus' } },
+      { id: true, name: true },
+    ],
+  }),
+
+  chain('mutation')({
+    updateSettings: [{ input: { theme: 'dark' } }, { theme: true }],
+  }),
+
+  chain('mutation')({
+    updatePreferences: [{ input: { notifications: true } }, { notifications: true }],
+  }),
+]);
+
+console.log(user.updateUser.name);
+console.log(settings.updateSettings.theme);
+console.log(preferences.updatePreferences.notifications);
+```
+
+## Transaction-Like Behavior
+
+Some servers support transactions:
+
+```typescript
+const result = await chain('mutation')({
+  transaction: [
+    {
+      operations: [
+        {
+          createUser: {
+            name: 'Zeus',
+            email: 'zeus@olympus.com',
+          },
+        },
+        {
+          createPost: {
+            title: 'First Post',
+            authorEmail: 'zeus@olympus.com',
+          },
+        },
+      ],
+    },
+    {
+      success: true,
+      user: {
+        id: true,
+        name: true,
+      },
+      post: {
+        id: true,
+        title: true,
+      },
+    },
+  ],
+});
+```
+
+## Error Handling
+
+### Basic Error Handling
+
+```typescript
+try {
+  const result = await chain('mutation')({
+    createUser: [
+      {
+        input: {
+          name: 'Zeus',
+          email: 'zeus@olympus.com',
+        },
+      },
+      {
+        id: true,
+        name: true,
+      },
+    ],
+  });
+
+  console.log('Success:', result.createUser);
+} catch (error) {
+  console.error('Mutation failed:', error);
+}
+```
+
+### Validation Errors
+
+```typescript
+try {
+  await chain('mutation')({
+    createUser: [
+      {
+        input: {
+          name: 'Ze', // Too short
+          email: 'invalid-email', // Invalid format
+        },
+      },
+      {
+        id: true,
+      },
+    ],
+  });
+} catch (error: any) {
+  if (error.message.includes('validation')) {
+    console.error('Validation errors:', error.message);
+    // Show validation errors to user
+  }
+}
+```
+
+### Conflict Handling
+
+```typescript
+try {
+  await chain('mutation')({
+    createUser: [
+      {
+        input: {
+          email: 'existing@email.com', // Already exists
+        },
+      },
+      {
+        id: true,
+      },
+    ],
+  });
+} catch (error: any) {
+  if (error.message.includes('unique constraint')) {
+    console.error('Email already exists');
+    // Suggest login or password reset
+  }
+}
+```
+
+## Type-Safe Inputs
+
+Zeus enforces input types:
+
+```typescript
+import { InputType, GraphQLTypes } from './zeus';
+
+type CreateUserInput = InputType<GraphQLTypes['CreateUserInput']>;
+
+// Type-safe input object
+const input: CreateUserInput = {
+  name: 'Zeus',
+  email: 'zeus@olympus.com',
+  age: 3000,
+  role: 'ADMIN', // Validated against enum
+};
+
+const result = await chain('mutation')({
+  createUser: [{ input }, { id: true, name: true }],
+});
+```
+
+## Reusable Mutations
+
+### Function Wrapper
+
+```typescript
+async function createUser(input: CreateUserInput) {
+  return chain('mutation')({
+    createUser: [
+      { input },
+      {
+        id: true,
+        name: true,
+        email: true,
+        createdAt: true,
+      },
+    ],
+  });
+}
+
+async function updateUser(id: string, input: UpdateUserInput) {
+  return chain('mutation')({
+    updateUser: [
+      { id, input },
+      {
+        id: true,
+        name: true,
+        email: true,
+        updatedAt: true,
+      },
+    ],
+  });
+}
+
+async function deleteUser(id: string) {
+  return chain('mutation')({
+    deleteUser: [
+      { id },
+      {
+        id: true,
+        name: true,
+      },
+    ],
+  });
+}
+
+// Usage
+const newUser = await createUser({
+  name: 'Zeus',
+  email: 'zeus@olympus.com',
+});
+
+await updateUser(newUser.createUser.id, {
+  name: 'Zeus Updated',
+});
+
+await deleteUser(newUser.createUser.id);
+```
+
+## Best Practices
+
+### 1. Return Useful Fields
+
+Return fields you'll need after mutation:
+
+```typescript
+// ✅ Good - return updated fields
+const result = await chain('mutation')({
+  updateUser: [
+    { id: '123', input: { name: 'Zeus' } },
+    {
+      id: true,
+      name: true,
+      updatedAt: true, // Know when it was updated
+      version: true, // For optimistic locking
+    },
+  ],
+});
+
+// ❌ Bad - only return id
+const result = await chain('mutation')({
+  updateUser: [
+    { id: '123', input: { name: 'Zeus' } },
+    { id: true }, // Have to refetch to get updated data
+  ],
+});
+```
+
+### 2. Handle Errors Gracefully
+
+```typescript
+async function safeCreateUser(input: CreateUserInput) {
+  try {
+    return await chain('mutation')({
+      createUser: [{ input }, { id: true, name: true }],
+    });
+  } catch (error) {
+    console.error('Failed to create user:', error);
+    // Return null or throw custom error
+    return null;
+  }
+}
+```
+
+### 3. Use TypeScript Types
+
+```typescript
+import { ModelTypes, InputType, GraphQLTypes } from './zeus';
+
+type User = ModelTypes['User'];
+type CreateUserInput = InputType<GraphQLTypes['CreateUserInput']>;
+
+async function createUser(input: CreateUserInput): Promise<User> {
+  const result = await chain('mutation')({
+    createUser: [{ input }, { id: true, name: true, email: true }],
+  });
+
+  return result.createUser;
+}
+```
+
+## Next Steps
+
+- **[Variables](/queries-mutations/variables)** - Dynamic mutation inputs
+- **[Aliases](/queries-mutations/aliases)** - Multiple mutations with aliases
+- **[Error Handling](/advanced/error-handling)** - Production error handling
+
+[Learn About Variables →](/queries-mutations/variables)

@@ -1,0 +1,147 @@
+# Installation
+
+Get GraphQL Zeus up and running in your project in under a minute.
+
+## Prerequisites
+
+Before installing Zeus, ensure you have:
+
+- **Node.js** 16.0 or higher
+- **npm**, **yarn**, or **pnpm** package manager
+- A GraphQL API endpoint or schema file
+
+## Installation Methods
+
+### Using npm
+
+```bash
+npm install graphql-zeus
+```
+
+### Using yarn
+
+```bash
+yarn add graphql-zeus
+```
+
+### Using pnpm
+
+```bash
+pnpm add graphql-zeus
+```
+
+## Verify Installation
+
+Check that Zeus is installed correctly:
+
+```bash
+npx zeus --version
+```
+
+You should see the version number printed to your console.
+
+## Next Steps
+
+Now that Zeus is installed, you can:
+
+1. **[Generate your first client](/getting-started/quick-start)** - Learn how to generate type-safe GraphQL clients
+2. **[Explore CLI options](/getting-started/cli-usage)** - Understand all available CLI commands and flags
+3. **[Make your first query](/getting-started/first-query)** - Start querying your GraphQL API
+
+## Project Setup Checklist
+
+- [ ] Node.js 16+ installed
+- [ ] GraphQL Zeus package installed
+- [ ] GraphQL API endpoint accessible
+- [ ] Output directory chosen for generated files
+
+## Global Installation (Optional)
+
+For convenience, you can install Zeus globally:
+
+```bash
+npm install -g graphql-zeus
+```
+
+This allows you to use `zeus` directly instead of `npx zeus`:
+
+```bash
+zeus https://your-api.com/graphql ./src
+```
+
+## Development vs Production
+
+Zeus is typically used as a **development dependency** since it generates code at build time:
+
+```bash
+npm install --save-dev graphql-zeus
+```
+
+The generated client code has **zero runtime dependencies** on Zeus, making your production bundle lightweight.
+
+## TypeScript Support
+
+Zeus is built with TypeScript and includes type definitions out of the box. No additional `@types` packages are needed.
+
+## Requirements Summary
+
+| Requirement | Minimum Version     |
+| ----------- | ------------------- |
+| Node.js     | 16.0.0              |
+| TypeScript  | 4.5.0 (recommended) |
+| GraphQL     | Any version         |
+
+## Troubleshooting
+
+### Permission Errors
+
+If you encounter permission errors during installation:
+
+```bash
+# Use npm with --legacy-peer-deps flag
+npm install graphql-zeus --legacy-peer-deps
+
+# Or use sudo (not recommended)
+sudo npm install -g graphql-zeus
+```
+
+### Network Issues
+
+If you're behind a corporate proxy:
+
+```bash
+# Configure npm proxy
+npm config set proxy http://proxy.company.com:8080
+npm config set https-proxy http://proxy.company.com:8080
+```
+
+### Version Conflicts
+
+Check for conflicting GraphQL versions:
+
+```bash
+npm ls graphql
+```
+
+Zeus works with any GraphQL schema, but ensure you have compatible versions in your project.
+
+## What Gets Installed
+
+Zeus installation includes:
+
+- **CLI tool** - Code generation command `zeus`
+- **Core library** - Type generation engine
+- **Templates** - Generated client templates
+
+The generated code will include:
+
+- Type-safe query builders
+- GraphQL type definitions
+- Helper utilities
+- Subscription clients (if needed)
+
+## Ready to Generate
+
+With Zeus installed, you're ready to generate your first type-safe GraphQL client!
+
+[Continue to Quick Start →](/getting-started/quick-start)

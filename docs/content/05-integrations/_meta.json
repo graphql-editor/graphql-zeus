@@ -1,0 +1,6 @@
+{
+  "apollo-client": "Apollo Client",
+  "react-query": "React Query",
+  "urql": "urql",
+  "typed-document-node": "TypedDocumentNode"
+}

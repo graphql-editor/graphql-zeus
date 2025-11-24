@@ -1,0 +1,9 @@
+{
+  "authentication": "Authentication",
+  "pagination": "Pagination",
+  "file-uploads": "File Uploads",
+  "optimistic-updates": "Optimistic Updates",
+  "real-time-notifications": "Real-time Notifications",
+  "live-dashboards": "Live Dashboards",
+  "testing": "Testing"
+}

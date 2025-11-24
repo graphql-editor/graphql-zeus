@@ -24,7 +24,6 @@ import {
   VType,
 } from '@/TreeToTS/functions/new/models';
 import { InputType, ScalarDefinition, SelectionFunction, SubscriptionToGraphQL } from '@/TreeToTS/functions/new/types';
-import { ExtractVariables } from '@/TreeToTS/functions/new/variableExtract';
 
 type UnionOverrideKeys<T, U> = Omit<T, keyof U> & U;
 
@@ -77,7 +76,7 @@ export const SubscriptionThunder =
     o: Z & {
       [P in keyof Z]: P extends keyof ValueTypes[R] ? Z[P] : never;
     },
-    ops?: OperationOptions & { variables?: ExtractVariables<Z> },
+    ops?: OperationOptions & { variables?: Record<string, unknown> },
   ) => {
     const options = {
       ...thunderGraphQLOptions,
@@ -120,6 +119,7 @@ export type SubscriptionToGraphQLSSE<Z, T, SCLR extends ScalarDefinition> = {
   open: (fn?: () => void) => void;
   close: () => void;
 };
+
 export const SubscriptionThunderSSE =
   <SCLR extends ScalarDefinition>(fn: SubscriptionFunction, thunderGraphQLOptions?: ThunderGraphQLOptions<SCLR>) =>
   <O extends keyof typeof Ops, OVERRIDESCLR extends SCLR, R extends keyof ValueTypes = GenericOperation<O>>(
@@ -130,7 +130,7 @@ export const SubscriptionThunderSSE =
     o: Z & {
       [P in keyof Z]: P extends keyof ValueTypes[R] ? Z[P] : never;
     },
-    ops?: OperationOptions & { variables?: ExtractVariables<Z> },
+    ops?: OperationOptions & { variables?: Record<string, unknown> },
   ) => {
     const options = {
       ...thunderGraphQLOptions,
@@ -142,6 +142,7 @@ export const SubscriptionThunderSSE =
         operationOptions: ops,
         scalars: options?.scalars,
       }),
+      ops?.variables,
     ) as SubscriptionToGraphQLSSE<Z, GraphQLTypes[R], CombinedSCLR>;
     if (returnedFunction?.on && options?.scalars) {
       const wrapped = returnedFunction.on;

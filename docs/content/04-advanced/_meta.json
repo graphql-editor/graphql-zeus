@@ -1,0 +1,8 @@
+{
+  "interfaces-unions": "Interfaces & Unions",
+  "scalars": "Custom Scalars",
+  "subscriptions": "WebSocket Subscriptions",
+  "sse-subscriptions": "SSE Subscriptions",
+  "custom-fetch": "Custom Fetch",
+  "error-handling": "Error Handling"
+}

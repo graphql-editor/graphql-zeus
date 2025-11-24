@@ -1,0 +1,106 @@
+@import 'tailwindcss';
+@import 'nextra-theme-docs/style.css';
+
+/* Tailwind v4 Theme Configuration */
+@theme {
+  /* Font Family */
+  --font-sans:
+    var(--font-inter), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+    'Noto Color Emoji';
+  --font-mono:
+    var(--font-jetbrains-mono), ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono',
+    monospace;
+  --font-heading: var(--font-syne), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Custom dark mode variant */
+@variant dark (&:where(.dark *));
+
+/* Font family application */
+html {
+  font-family: var(--font-sans);
+}
+
+code,
+pre {
+  font-family: var(--font-mono);
+}
+
+/* Apply Cinzel font to all headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+}
+
+/* Zeus Brand Colors */
+:root {
+  --zeus-blue: #3b82f6;
+  --zeus-purple: #8b5cf6;
+  --lightning-gold: #fbbf24;
+}
+
+/* Clean body styling */
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Nextra overrides for Zeus branding */
+.dark {
+  --nextra-primary-hue: 217deg;
+  --nextra-primary-saturation: 91%;
+}
+
+/* Custom hero gradient for homepage */
+.zeus-hero-gradient {
+  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
+  position: relative;
+}
+
+/* Zeus lightning bolt icon styling */
+.zeus-icon {
+  filter: drop-shadow(0 2px 4px rgba(59, 130, 246, 0.3));
+}
+
+/* Custom card styling with Zeus theme */
+.zeus-card {
+  @apply rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 shadow-sm hover:shadow-md transition-shadow;
+}
+
+.zeus-card:hover {
+  @apply border-blue-500 dark:border-blue-400;
+}
+
+/* Code blocks enhancement */
+pre {
+  @apply rounded-lg;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Link styling */
+a {
+  @apply transition-colors;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100 dark:bg-gray-900;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-400 dark:bg-gray-600 rounded-full hover:bg-gray-500 dark:hover:bg-gray-500;
+}

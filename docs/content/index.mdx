@@ -1,0 +1,240 @@
+---
+title: GraphQL Zeus - TypeScript-first GraphQL Client
+---
+
+import { Callout } from 'nextra/components';
+import { FeatureCard, FeatureCardGrid, CommunityCardGrid } from '@/components/FeatureCard';
+
+<div className="relative -mx-6 -mt-6 mb-12 sm:-mx-8 sm:-mt-8 overflow-hidden">
+  <div className="absolute inset-0 w-full h-full">
+    <img
+      src="/zeus-hero.png"
+      alt="Zeus, the Olympian god of thunder, wielding a lightning bolt."
+      className="w-full h-full object-cover"
+      loading="eager"
+    />
+    <div className="absolute inset-0 bg-gradient-to-r from-slate-900/95 via-slate-900/85 to-slate-900/60" />
+  </div>
+  <div className="relative px-6 py-24 text-white sm:px-8 sm:py-32 md:py-40 lg:py-48">
+    <div className="mx-auto max-w-4xl flex flex-col gap-4">
+      <div className="flex-1">
+        <h1 className=" font-sans text-2xl font-bold sm:text-3xl md:text-4xl lg:text-5xl">
+          GraphQL with Divine Precision
+        </h1>
+      </div>
+      <div className="text-xl sm:text-2xl font-semibold mb-8 leading-normal">
+        TypeScript-first GraphQL client with complete type safety
+      </div>
+      <div className="text-base sm:text-lg text-blue-100 max-w-3xl mb-10 leading-relaxed">
+        Strike your queries with lightning-fast type inference. Build GraphQL clients with absolute type safety and zero
+        runtime overhead.
+      </div>
+      <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap">
+        <a
+          href="/01-getting-started/installation"
+          className="group inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 px-6 py-3 text-sm font-bold text-white transition-all hover:from-blue-500 hover:via-blue-400 hover:to-blue-500 sm:px-8 sm:py-3.5 sm:text-base shadow-[0_0_20px_rgba(59,130,246,0.6)] hover:shadow-[0_0_30px_rgba(59,130,246,0.8)] hover:scale-105 dark:from-blue-500 dark:via-blue-400 dark:to-blue-500 dark:shadow-[0_0_25px_rgba(59,130,246,0.9)] dark:hover:shadow-[0_0_40px_rgba(59,130,246,1)]"
+        >
+          ⚡ Get Started →
+        </a>
+        <a
+          href="/07-examples/node-typescript"
+          className="group inline-flex items-center justify-center rounded-lg border-2 border-blue-400/60 px-6 py-3 text-sm font-bold text-blue-100 transition-all hover:bg-blue-500/20 hover:border-blue-300 sm:px-8 sm:py-3.5 sm:text-base backdrop-blur-sm shadow-lg shadow-blue-500/30 hover:shadow-blue-400/50 hover:scale-105 dark:border-blue-400/70 dark:text-blue-200 dark:shadow-blue-600/60 dark:hover:shadow-blue-500/80 dark:hover:bg-blue-400/10"
+        >
+          📜 View Examples
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+## Why GraphQL Zeus?
+
+GraphQL Zeus is the **ultimate TypeScript-first GraphQL client** that gives you complete end-to-end type safety, intuitive query building, and zero runtime overhead.
+
+<FeatureCardGrid>
+  <FeatureCard title="⚡ Thunderous Type Safety" href="/02-core-concepts/type-inference" badge="Ω">
+    Complete end-to-end type inference from your GraphQL schema. TypeScript knows exactly what's available at every
+    level.
+  </FeatureCard>
+  <FeatureCard title="⚡ Lightning Fast" href="/01-getting-started/quick-start" badge="Δ">
+    Build queries naturally with an intuitive, chainable API. No need to write GraphQL strings by hand.
+  </FeatureCard>
+  <FeatureCard title="🚀 Zero Runtime Overhead" href="/02-core-concepts/generated-types" badge="Λ">
+    All the magic happens at build time. Your production bundle stays lean and fast.
+  </FeatureCard>
+  <FeatureCard title="🔧 Works Everywhere" href="/05-integrations/typed-document-node" badge="Ψ">
+    Compatible with Apollo Client, React Query, urql, and any GraphQL client through TypedDocumentNode.
+  </FeatureCard>
+  <FeatureCard title="📡 Real-time Ready" href="/04-advanced/sse-subscriptions" badge="Σ">
+    Built-in support for WebSocket and SSE subscriptions for real-time updates.
+  </FeatureCard>
+  <FeatureCard title="🎨 Custom Scalars" href="/02-core-concepts/generated-types" badge="Φ">
+    Full support for custom scalar encoding/decoding with complete type safety.
+  </FeatureCard>
+</FeatureCardGrid>
+
+## Quick Example
+
+See how Zeus transforms your GraphQL development:
+
+```typescript
+import { Chain } from './zeus';
+
+// Create a type-safe client
+const chain = Chain('https://your-api.com/graphql');
+
+// Write a fully typed query
+const user = await chain('query')({
+  user: [
+    { id: '123' }, // arguments are type-checked
+    {
+      id: true,
+      name: true,
+      email: true,
+      posts: {
+        title: true,
+        content: true,
+        createdAt: true,
+      },
+    },
+  ],
+});
+
+// The response is fully typed!
+console.log(user.user.name); // TypeScript knows this exists
+console.log(user.user.posts[0].title); // Nested types work perfectly
+```
+
+## Feature Comparison
+
+| Feature        | Zeus             | Apollo Client  | urql          | graphql-request |
+| -------------- | ---------------- | -------------- | ------------- | --------------- |
+| Type Safety    | ✅ Full          | ⚠️ Partial     | ⚠️ Partial    | ⚠️ Partial      |
+| IntelliSense   | ✅ Complete      | ❌ Limited     | ❌ Limited    | ❌ Limited      |
+| Bundle Size    | ✅ Zero overhead | ⚠️ ~100kb      | ✅ ~15kb      | ✅ ~5kb         |
+| Setup Time     | ✅ < 1 minute    | ⚠️ 10+ minutes | ⚠️ 5+ minutes | ⚠️ 5+ minutes   |
+| Subscriptions  | ✅ WS + SSE      | ✅ WS only     | ✅ WS only    | ❌ No           |
+| Custom Scalars | ✅ Built-in      | ⚠️ Manual      | ⚠️ Manual     | ⚠️ Manual       |
+
+## Key Features
+
+### Complete Type Safety
+
+Zeus generates TypeScript types directly from your GraphQL schema. Every query, mutation, and subscription is fully typed with IntelliSense support:
+
+```typescript
+// Zeus knows your schema intimately
+const result = await chain('query')({
+  products: [
+    { category: 'electronics' }, // TypeScript validates this
+    {
+      id: true,
+      name: true,
+      price: true,
+      // TypeScript suggests all available fields
+    },
+  ],
+});
+
+// Result type is automatically inferred
+type ProductResult = typeof result;
+```
+
+### Selector Composition
+
+Create reusable selection sets and compose them:
+
+```typescript
+import { Selector } from './zeus';
+
+// Create reusable selectors
+const userFields = Selector('User')({
+  id: true,
+  name: true,
+  email: true,
+});
+
+const postFields = Selector('Post')({
+  id: true,
+  title: true,
+  content: true,
+  author: userFields, // Compose selectors
+});
+
+// Use them in queries
+const posts = await chain('query')({
+  posts: postFields,
+});
+```
+
+### Multiple Integration Options
+
+Zeus works with any GraphQL client:
+
+- **Chain** - Direct, type-safe queries
+- **Thunder** - Custom fetch with full control
+- **TypedDocumentNode** - Compatible with Apollo, urql, React Query
+- **Subscriptions** - WebSocket and SSE support
+
+### Real-time Subscriptions
+
+Built-in support for both WebSocket and SSE subscriptions:
+
+```typescript
+import { Subscription, SSESubscription } from './zeus';
+
+// WebSocket subscriptions
+const sub = Subscription('wss://api.com/graphql');
+sub('subscription')({
+  messageAdded: {
+    id: true,
+    content: true,
+    author: { name: true },
+  },
+}).on((data) => {
+  console.log('New message:', data.messageAdded);
+});
+
+// SSE subscriptions
+const sse = SSESubscription('https://api.com/graphql');
+const stream = sse('subscription')({
+  liveMetrics: {
+    timestamp: true,
+    activeUsers: true,
+  },
+});
+
+stream.on((data) => {
+  console.log('Metrics:', data.liveMetrics);
+});
+```
+
+## Get Started in 30 Seconds
+
+```bash
+# Install Zeus
+npm install graphql-zeus
+
+# Generate your client
+npx zeus https://your-api.com/graphql ./src
+
+# Start using it
+import { Chain } from './src/zeus';
+const chain = Chain('https://your-api.com/graphql');
+```
+
+Ready to get started? [Installation Guide →](/01-getting-started/installation)
+
+## Community & Support
+
+<CommunityCardGrid>
+  <FeatureCard title="💬 Discord Community" href="https://discord.gg/graphql-editor" badge="Η">
+    Join our Discord for help, discussions, and community support
+  </FeatureCard>
+  <FeatureCard title="🐛 GitHub Issues" href="https://github.com/graphql-editor/graphql-zeus/issues" badge="Ξ">
+    Report bugs or request features on our GitHub repository
+  </FeatureCard>
+  <FeatureCard title="📖 Documentation" href="/01-getting-started/quick-start" badge="Π">
+    Explore our comprehensive documentation and guides
+  </FeatureCard>
+</CommunityCardGrid>

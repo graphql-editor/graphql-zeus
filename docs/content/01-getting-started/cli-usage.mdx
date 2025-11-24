@@ -1,0 +1,386 @@
+# CLI Usage
+
+Master the Zeus command-line interface to generate powerful type-safe GraphQL clients.
+
+## Basic Syntax
+
+```bash
+zeus <schema-source> <output-directory> [options]
+```
+
+## Schema Sources
+
+Zeus can generate clients from multiple sources:
+
+### HTTP Endpoint
+
+```bash
+zeus https://your-api.com/graphql ./src/zeus
+```
+
+### Local Schema File
+
+```bash
+zeus ./schema.graphql ./src/zeus
+zeus ./schema.gql ./src/zeus
+```
+
+### Introspection JSON
+
+```bash
+zeus ./introspection.json ./src/zeus
+```
+
+### From Multiple Files
+
+```bash
+zeus "./schemas/**/*.graphql" ./src/zeus
+```
+
+## Command Options
+
+### `--header` or `-h`
+
+Add custom headers for schema introspection:
+
+```bash
+zeus https://api.com/graphql ./src/zeus \
+  --header "Authorization: Bearer token" \
+  --header "X-API-Key: key123"
+```
+
+### `--typedDocumentNode` or `-t`
+
+Generate TypedDocumentNode exports for Apollo Client, urql, etc.:
+
+```bash
+zeus https://api.com/graphql ./src/zeus --typedDocumentNode
+```
+
+This creates additional TypedDocumentNode exports in `typedDocumentNode.ts`.
+
+### `--apollo`
+
+Optimize for Apollo Client integration:
+
+```bash
+zeus https://api.com/graphql ./src/zeus --apollo
+```
+
+### `--jsonSchema`
+
+Generate JSON Schema alongside TypeScript types:
+
+```bash
+zeus https://api.com/graphql ./src/zeus --jsonSchema
+```
+
+### `--help`
+
+Display help information:
+
+```bash
+zeus --help
+```
+
+### `--version` or `-v`
+
+Show Zeus version:
+
+```bash
+zeus --version
+```
+
+## Configuration File
+
+Create a `zeus.config.json` for reusable configuration:
+
+```json filename="zeus.config.json"
+{
+  "schema": "https://your-api.com/graphql",
+  "output": "./src/zeus",
+  "headers": {
+    "Authorization": "Bearer ${API_TOKEN}",
+    "X-Custom-Header": "value"
+  },
+  "typedDocumentNode": true,
+  "scalars": {
+    "DateTime": "string",
+    "JSON": "Record<string, any>",
+    "Upload": "File"
+  }
+}
+```
+
+Then run Zeus without arguments:
+
+```bash
+zeus
+```
+
+Or specify the config file:
+
+```bash
+zeus --config ./custom-config.json
+```
+
+## Environment Variables
+
+Use environment variables in configuration:
+
+```json filename="zeus.config.json"
+{
+  "schema": "${GRAPHQL_ENDPOINT}",
+  "output": "./src/zeus",
+  "headers": {
+    "Authorization": "Bearer ${API_TOKEN}"
+  }
+}
+```
+
+Set in your environment:
+
+```bash
+export GRAPHQL_ENDPOINT=https://api.com/graphql
+export API_TOKEN=your_token_here
+zeus
+```
+
+## Common Workflows
+
+### Development Setup
+
+Generate client with TypedDocumentNode for React:
+
+```bash
+zeus https://api.com/graphql ./src/zeus --typedDocumentNode
+```
+
+### CI/CD Pipeline
+
+Add to your CI pipeline:
+
+```bash
+# Install Zeus
+npm install -D graphql-zeus
+
+# Generate in build
+npx zeus https://api.com/graphql ./src/zeus
+```
+
+### Watch Mode (with nodemon)
+
+Auto-regenerate on schema changes:
+
+```bash
+npm install -D nodemon
+```
+
+```json filename="package.json"
+{
+  "scripts": {
+    "zeus:watch": "nodemon --watch schema.graphql --exec 'zeus schema.graphql ./src/zeus'"
+  }
+}
+```
+
+### Multiple Environments
+
+```json filename="package.json"
+{
+  "scripts": {
+    "zeus:dev": "zeus https://dev-api.com/graphql ./src/zeus",
+    "zeus:staging": "zeus https://staging-api.com/graphql ./src/zeus",
+    "zeus:prod": "zeus https://api.com/graphql ./src/zeus"
+  }
+}
+```
+
+## Schema Download
+
+Download and save schema for offline use:
+
+```bash
+# Introspect and save
+zeus https://api.com/graphql ./src/zeus --download-schema
+
+# This saves schema.graphql in output directory
+# Now you can use the local file
+zeus ./src/zeus/schema.graphql ./src/zeus
+```
+
+## Custom Scalar Mapping
+
+Map custom scalars to TypeScript types:
+
+```bash
+zeus https://api.com/graphql ./src/zeus \
+  --scalar DateTime=string \
+  --scalar JSON="Record<string, any>" \
+  --scalar Upload=File
+```
+
+Or in config file:
+
+```json filename="zeus.config.json"
+{
+  "scalars": {
+    "DateTime": "string",
+    "JSON": "Record<string, any>",
+    "Upload": "File",
+    "BigInt": "bigint",
+    "UUID": "string"
+  }
+}
+```
+
+## Output Structure
+
+Zeus generates the following structure:
+
+```
+src/zeus/
+├── index.ts              # Main file with Chain, Selector, etc.
+├── const.ts              # Constants and utility functions
+├── typedDocumentNode.ts  # TypedDocumentNode exports (if enabled)
+└── zeus.config.json      # Generated configuration
+```
+
+## Integration with Build Tools
+
+### package.json Scripts
+
+```json filename="package.json"
+{
+  "scripts": {
+    "generate": "zeus https://api.com/graphql ./src/zeus",
+    "generate:watch": "nodemon --exec npm run generate",
+    "prebuild": "npm run generate",
+    "build": "tsc",
+    "dev": "npm run generate && ts-node src/index.ts"
+  }
+}
+```
+
+### With Webpack
+
+```javascript filename="webpack.config.js"
+const { execSync } = require('child_process');
+
+module.exports = {
+  // ... other config
+  plugins: [
+    {
+      apply: (compiler) => {
+        compiler.hooks.beforeCompile.tap('ZeusPlugin', () => {
+          execSync('npx zeus https://api.com/graphql ./src/zeus');
+        });
+      },
+    },
+  ],
+};
+```
+
+### With Vite
+
+```typescript filename="vite.config.ts"
+import { defineConfig } from 'vite';
+import { exec } from 'child_process';
+
+export default defineConfig({
+  plugins: [
+    {
+      name: 'zeus-generator',
+      buildStart() {
+        return new Promise((resolve, reject) => {
+          exec('npx zeus https://api.com/graphql ./src/zeus', (error) => {
+            if (error) reject(error);
+            else resolve();
+          });
+        });
+      },
+    },
+  ],
+});
+```
+
+## Authentication Patterns
+
+### Basic Auth
+
+```bash
+zeus https://api.com/graphql ./src/zeus \
+  --header "Authorization: Basic $(echo -n user:pass | base64)"
+```
+
+### Bearer Token
+
+```bash
+zeus https://api.com/graphql ./src/zeus \
+  --header "Authorization: Bearer ${TOKEN}"
+```
+
+### API Key
+
+```bash
+zeus https://api.com/graphql ./src/zeus \
+  --header "X-API-Key: ${API_KEY}"
+```
+
+### Custom Auth
+
+```bash
+zeus https://api.com/graphql ./src/zeus \
+  --header "X-Custom-Auth: ${AUTH_VALUE}" \
+  --header "X-User-ID: ${USER_ID}"
+```
+
+## Troubleshooting
+
+### Network Errors
+
+```bash
+# Increase timeout
+zeus https://slow-api.com/graphql ./src/zeus --timeout 30000
+```
+
+### SSL Errors
+
+```bash
+# Skip SSL verification (not recommended for production)
+NODE_TLS_REJECT_UNAUTHORIZED=0 zeus https://api.com/graphql ./src/zeus
+```
+
+### Large Schemas
+
+```bash
+# Increase Node memory
+NODE_OPTIONS="--max-old-space-size=4096" zeus https://api.com/graphql ./src/zeus
+```
+
+## Best Practices
+
+1. **Version Control** - Commit generated files for reproducible builds
+2. **CI/CD** - Always regenerate in CI to catch schema changes
+3. **Configuration File** - Use `zeus.config.json` for consistency
+4. **Environment Variables** - Never commit sensitive tokens
+5. **Watch Mode** - Use in development for live updates
+
+## Next Steps
+
+- **[Your First Query](/getting-started/first-query)** - Learn how to use the generated client
+- **[Configuration](/cli/configuration)** - Deep dive into configuration options
+- **[Schema Download](/cli/schema-download)** - Working with downloaded schemas
+
+## Command Reference
+
+| Command                           | Description                |
+| --------------------------------- | -------------------------- |
+| `zeus <source> <output>`          | Generate client            |
+| `zeus --version`                  | Show version               |
+| `zeus --help`                     | Show help                  |
+| `zeus --typedDocumentNode`        | Generate TypedDocumentNode |
+| `zeus --header "<name>: <value>"` | Add header                 |
+| `zeus --config <file>`            | Use config file            |
+
+[Explore CLI configuration →](/cli/configuration)

@@ -1,0 +1,442 @@
+# SSE Subscriptions
+
+Server-Sent Events (SSE) provide a simple, HTTP-based approach to real-time GraphQL subscriptions.
+
+## Why SSE?
+
+SSE is perfect for server-to-client streaming:
+
+- **Simpler than WebSocket** - Uses standard HTTP
+- **Better compatibility** - Works through firewalls and proxies
+- **Auto-reconnection** - Built into browser EventSource API
+- **Lower overhead** - One-way communication is more efficient
+
+## When to Use SSE vs WebSocket
+
+| Feature           | SSE                              | WebSocket                         |
+| ----------------- | -------------------------------- | --------------------------------- |
+| Direction         | Server → Client                  | Bi-directional                    |
+| Protocol          | HTTP/HTTPS                       | ws/wss                            |
+| Reconnection      | Automatic                        | Manual                            |
+| Firewall-friendly | ✅ Yes                           | ⚠️ Sometimes blocked              |
+| Use case          | Notifications, feeds, monitoring | Chat, gaming, collaborative tools |
+
+## Basic Usage
+
+```typescript
+import { SSESubscription } from './zeus';
+
+// Create SSE client
+const sseClient = SSESubscription('https://your-api.com/graphql', {
+  headers: {
+    Authorization: 'Bearer token',
+  },
+});
+
+// Create a subscription stream
+const stream = sseClient('subscription')({
+  messageAdded: {
+    id: true,
+    content: true,
+    author: {
+      name: true,
+      avatar: true,
+    },
+    timestamp: true,
+  },
+});
+
+// Handle incoming data
+stream.on((data) => {
+  console.log('New message:', data.messageAdded);
+});
+
+// Handle errors
+stream.error((err) => {
+  console.error('Stream error:', err);
+});
+
+// Handle connection open
+stream.open(() => {
+  console.log('SSE connection established');
+});
+
+// Handle connection close
+stream.off(() => {
+  console.log('SSE connection closed');
+});
+
+// Close when done
+setTimeout(() => {
+  stream.close();
+}, 60000);
+```
+
+## API Methods
+
+### `on(callback)`
+
+Handle incoming data events:
+
+```typescript
+stream.on((data) => {
+  // data is fully typed based on your selection
+  console.log(data);
+});
+```
+
+### `error(callback)`
+
+Handle error events:
+
+```typescript
+stream.error((error) => {
+  console.error('Error occurred:', error);
+  // Implement retry logic or user notification
+});
+```
+
+### `open(callback?)`
+
+Handle connection open and optionally start the stream:
+
+```typescript
+// Just handle open event
+stream.open(() => {
+  console.log('Connected!');
+});
+
+// Or call without callback to start
+stream.open();
+```
+
+### `off(callback)`
+
+Handle connection close events:
+
+```typescript
+stream.off((event) => {
+  console.log('Connection closed:', event);
+});
+```
+
+### `close()`
+
+Manually close the SSE connection:
+
+```typescript
+stream.close();
+```
+
+## React Integration
+
+### Basic Hook
+
+```typescript
+import { SSESubscription } from './zeus';
+import { useEffect, useState } from 'react';
+
+function useSSESubscription() {
+  const [data, setData] = useState(null);
+  const [isConnected, setIsConnected] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const sseClient = SSESubscription('https://api.example.com/graphql');
+
+    const stream = sseClient('subscription')({
+      liveMetrics: {
+        timestamp: true,
+        activeUsers: true,
+        requestsPerSecond: true,
+      },
+    });
+
+    stream.on((newData) => {
+      setData(newData.liveMetrics);
+      setError(null);
+    });
+
+    stream.error((err) => {
+      setError(err);
+      setIsConnected(false);
+    });
+
+    stream.open(() => {
+      setIsConnected(true);
+    });
+
+    stream.off(() => {
+      setIsConnected(false);
+    });
+
+    // Start streaming
+    stream.open();
+
+    // Cleanup
+    return () => {
+      stream.close();
+    };
+  }, []);
+
+  return { data, isConnected, error };
+}
+```
+
+### Live Dashboard Example
+
+```typescript
+import { SSESubscription } from './zeus';
+import { useEffect, useState } from 'react';
+
+interface Metrics {
+  userCount: number;
+  revenue: number;
+  errorRate: number;
+}
+
+function LiveDashboard() {
+  const [metrics, setMetrics] = useState<Metrics | null>(null);
+  const [isConnected, setIsConnected] = useState(false);
+
+  useEffect(() => {
+    const sseClient = SSESubscription('https://api.example.com/graphql', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+
+    const stream = sseClient('subscription')({
+      dashboardMetrics: {
+        userCount: true,
+        revenue: true,
+        errorRate: true,
+      },
+    });
+
+    stream.on((data) => {
+      setMetrics(data.dashboardMetrics);
+    });
+
+    stream.error((err) => {
+      console.error('Dashboard stream error:', err);
+      setIsConnected(false);
+    });
+
+    stream.open(() => {
+      console.log('Dashboard connected');
+      setIsConnected(true);
+    });
+
+    stream.off(() => {
+      setIsConnected(false);
+    });
+
+    stream.open();
+
+    return () => {
+      stream.close();
+    };
+  }, []);
+
+  if (!metrics) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <div className="dashboard">
+      <h1>
+        Live Dashboard{' '}
+        <span className={isConnected ? 'connected' : 'disconnected'}>
+          {isConnected ? '🟢' : '🔴'}
+        </span>
+      </h1>
+      <div className="metrics">
+        <div className="metric">
+          <h2>Active Users</h2>
+          <p>{metrics.userCount}</p>
+        </div>
+        <div className="metric">
+          <h2>Revenue</h2>
+          <p>${metrics.revenue.toLocaleString()}</p>
+        </div>
+        <div className="metric">
+          <h2>Error Rate</h2>
+          <p>{metrics.errorRate.toFixed(2)}%</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+```
+
+## Real-Time Notifications
+
+```typescript
+import { SSESubscription } from './zeus';
+
+interface Notification {
+  id: string;
+  type: string;
+  message: string;
+  timestamp: string;
+}
+
+function NotificationStream() {
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+
+  useEffect(() => {
+    const sseClient = SSESubscription('https://api.example.com/graphql', {
+      headers: {
+        Authorization: `Bearer ${getAuthToken()}`,
+      },
+    });
+
+    const stream = sseClient('subscription')({
+      userNotifications: {
+        id: true,
+        type: true,
+        message: true,
+        timestamp: true,
+      },
+    });
+
+    stream.on((data) => {
+      const newNotification = data.userNotifications;
+      setNotifications((prev) => [newNotification, ...prev]);
+
+      // Show browser notification
+      if (Notification.permission === 'granted') {
+        new Notification(newNotification.type, {
+          body: newNotification.message,
+        });
+      }
+    });
+
+    stream.error((err) => {
+      console.error('Notification stream error:', err);
+    });
+
+    stream.open();
+
+    return () => {
+      stream.close();
+    };
+  }, []);
+
+  return (
+    <div className="notifications">
+      {notifications.map((notif) => (
+        <div key={notif.id} className="notification">
+          <strong>{notif.type}</strong>
+          <p>{notif.message}</p>
+          <span>{new Date(notif.timestamp).toLocaleString()}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+```
+
+## Error Handling & Reconnection
+
+```typescript
+import { SSESubscription } from './zeus';
+
+function createResilientStream() {
+  let retryCount = 0;
+  const maxRetries = 5;
+
+  function connect() {
+    const sseClient = SSESubscription('https://api.example.com/graphql');
+
+    const stream = sseClient('subscription')({
+      liveData: {
+        value: true,
+        timestamp: true,
+      },
+    });
+
+    stream.on((data) => {
+      retryCount = 0; // Reset on successful data
+      console.log('Received:', data.liveData);
+    });
+
+    stream.error((err) => {
+      console.error('Stream error:', err);
+
+      if (retryCount < maxRetries) {
+        retryCount++;
+        console.log(`Retrying (${retryCount}/${maxRetries})...`);
+        setTimeout(() => connect(), 1000 * Math.pow(2, retryCount));
+      } else {
+        console.error('Max retries reached');
+      }
+    });
+
+    stream.open();
+
+    return stream;
+  }
+
+  return connect();
+}
+```
+
+## Browser Compatibility
+
+SSE is supported in all modern browsers:
+
+- ✅ Chrome 6+
+- ✅ Firefox 6+
+- ✅ Safari 5+
+- ✅ Edge 79+
+- ✅ Opera 11+
+
+Note: Internet Explorer does not support SSE natively.
+
+## Use Cases
+
+Perfect for:
+
+- **Live Dashboards** - Real-time metrics and analytics
+- **Notification Feeds** - User notifications and updates
+- **Activity Streams** - Social media-style feeds
+- **Monitoring Systems** - Server health, logs
+- **Stock Tickers** - Financial data streams
+- **Live Scores** - Sports updates
+- **Chat (Read-only)** - Message broadcasts
+
+Not ideal for:
+
+- **Bi-directional Communication** - Use WebSocket instead
+- **Binary Data** - WebSocket is better
+- **Very High Frequency** - WebSocket has lower overhead
+
+## Comparison with WebSocket Subscriptions
+
+```typescript
+// SSE - Simpler, HTTP-based
+import { SSESubscription } from './zeus';
+
+const sse = SSESubscription('https://api.com/graphql');
+const stream = sse('subscription')({ data: { value: true } });
+stream.on((data) => console.log(data));
+stream.open();
+
+// WebSocket - More complex, bi-directional
+import { Subscription } from './zeus';
+
+const ws = Subscription('wss://api.com/graphql');
+ws('subscription')({ data: { value: true } }).on((data) => {
+  console.log(data);
+});
+```
+
+## Next Steps
+
+- **[WebSocket Subscriptions](/advanced/subscriptions)** - For bi-directional communication
+- **[Live Dashboards Recipe](/recipes/live-dashboards)** - Complete dashboard example
+- **[Real-time Notifications Recipe](/recipes/real-time-notifications)** - Notification system
+
+[Explore Subscription Recipes →](/recipes/real-time-notifications)

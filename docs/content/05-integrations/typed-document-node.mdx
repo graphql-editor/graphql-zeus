@@ -1,0 +1,409 @@
+# TypedDocumentNode
+
+Generate TypedDocumentNode exports for seamless integration with Apollo Client, urql, React Query, and other GraphQL clients.
+
+## What is TypedDocumentNode?
+
+TypedDocumentNode is a GraphQL DocumentNode with attached TypeScript types. It provides:
+
+- **Full type safety** with any GraphQL client
+- **IntelliSense** for queries and results
+- **No code generation runtime**
+- **Standard GraphQL** query syntax
+
+## Generate TypedDocumentNode
+
+```bash
+zeus https://api.com/graphql ./src/zeus --typedDocumentNode
+```
+
+This creates an additional `typedDocumentNode.ts` file with all your operations.
+
+## Apollo Client Integration
+
+### Installation
+
+```bash
+npm install @apollo/client graphql
+npm install -D graphql-zeus
+```
+
+### Setup
+
+```typescript
+import { ApolloClient, InMemoryCache } from '@apollo/client';
+
+const client = new ApolloClient({
+  uri: 'https://your-api.com/graphql',
+  cache: new InMemoryCache(),
+});
+```
+
+### Using TypedDocumentNode
+
+```typescript
+import { useQuery, useMutation } from '@apollo/client';
+import { typedGql } from './zeus';
+
+// Define your query with full type safety
+const GET_USER = typedGql('query')({
+  user: [
+    { id: '$id' },
+    {
+      id: true,
+      name: true,
+      email: true,
+      posts: {
+        id: true,
+        title: true,
+      },
+    },
+  ],
+});
+
+// Use in React component
+function UserProfile({ userId }: { userId: string }) {
+  const { data, loading, error } = useQuery(GET_USER, {
+    variables: { id: userId },
+  });
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
+  // data.user is fully typed!
+  return (
+    <div>
+      <h1>{data.user.name}</h1>
+      <p>{data.user.email}</p>
+      <h2>Posts</h2>
+      {data.user.posts.map((post) => (
+        <div key={post.id}>{post.title}</div>
+      ))}
+    </div>
+  );
+}
+```
+
+### Mutations with TypedDocumentNode
+
+```typescript
+import { useMutation } from '@apollo/client';
+import { typedGql } from './zeus';
+
+const CREATE_POST = typedGql('mutation')({
+  createPost: [
+    {
+      input: {
+        title: '$title',
+        content: '$content',
+      },
+    },
+    {
+      id: true,
+      title: true,
+      content: true,
+      createdAt: true,
+    },
+  ],
+});
+
+function CreatePostForm() {
+  const [createPost, { loading }] = useMutation(CREATE_POST);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const formData = new FormData(e.target as HTMLFormElement);
+
+    const { data } = await createPost({
+      variables: {
+        title: formData.get('title'),
+        content: formData.get('content'),
+      },
+    });
+
+    // data.createPost is fully typed!
+    console.log('Created post:', data.createPost);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input name="title" placeholder="Title" required />
+      <textarea name="content" placeholder="Content" required />
+      <button type="submit" disabled={loading}>
+        {loading ? 'Creating...' : 'Create Post'}
+      </button>
+    </form>
+  );
+}
+```
+
+## React Query Integration
+
+### Installation
+
+```bash
+npm install @tanstack/react-query graphql-request
+npm install -D graphql-zeus
+```
+
+### Setup
+
+```typescript
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { GraphQLClient } from 'graphql-request';
+
+const queryClient = new QueryClient();
+
+const graphqlClient = new GraphQLClient('https://api.com/graphql', {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+});
+```
+
+### Using with React Query
+
+```typescript
+import { useQuery, useMutation } from '@tanstack/react-query';
+import { request } from 'graphql-request';
+import { typedGql } from './zeus';
+
+const GET_POSTS = typedGql('query')({
+  posts: [
+    { limit: 10 },
+    {
+      id: true,
+      title: true,
+      author: {
+        name: true,
+        avatar: true,
+      },
+    },
+  ],
+});
+
+function PostList() {
+  const { data, isLoading } = useQuery({
+    queryKey: ['posts'],
+    queryFn: async () =>
+      request('https://api.com/graphql', GET_POSTS, { limit: 10 }),
+  });
+
+  if (isLoading) return <div>Loading...</div>;
+
+  return (
+    <div>
+      {data.posts.map((post) => (
+        <div key={post.id}>
+          <h3>{post.title}</h3>
+          <p>By {post.author.name}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+```
+
+### Mutations with React Query
+
+```typescript
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { request } from 'graphql-request';
+import { typedGql } from './zeus';
+
+const UPDATE_USER = typedGql('mutation')({
+  updateUser: [
+    {
+      id: '$id',
+      input: {
+        name: '$name',
+        email: '$email',
+      },
+    },
+    {
+      id: true,
+      name: true,
+      email: true,
+    },
+  ],
+});
+
+function UserUpdateForm({ userId }: { userId: string }) {
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: (variables: { id: string; name: string; email: string }) =>
+      request('https://api.com/graphql', UPDATE_USER, variables),
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ['user', userId] });
+    },
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const formData = new FormData(e.target as HTMLFormElement);
+
+    mutation.mutate({
+      id: userId,
+      name: formData.get('name') as string,
+      email: formData.get('email') as string,
+    });
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input name="name" placeholder="Name" />
+      <input name="email" type="email" placeholder="Email" />
+      <button type="submit" disabled={mutation.isPending}>
+        Update
+      </button>
+    </form>
+  );
+}
+```
+
+## urql Integration
+
+### Installation
+
+```bash
+npm install urql graphql
+npm install -D graphql-zeus
+```
+
+### Setup
+
+```typescript
+import { createClient, Provider } from 'urql';
+
+const client = createClient({
+  url: 'https://api.com/graphql',
+});
+
+function App() {
+  return (
+    <Provider value={client}>
+      <YourApp />
+    </Provider>
+  );
+}
+```
+
+### Using with urql
+
+```typescript
+import { useQuery, useMutation } from 'urql';
+import { typedGql } from './zeus';
+
+const GET_USER = typedGql('query')({
+  user: [
+    { id: '$id' },
+    {
+      id: true,
+      name: true,
+      email: true,
+    },
+  ],
+});
+
+function UserProfile({ userId }: { userId: string }) {
+  const [result] = useQuery({
+    query: GET_USER,
+    variables: { id: userId },
+  });
+
+  const { data, fetching, error } = result;
+
+  if (fetching) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
+  return (
+    <div>
+      <h1>{data.user.name}</h1>
+      <p>{data.user.email}</p>
+    </div>
+  );
+}
+```
+
+## Reusable Queries
+
+Create a library of typed queries:
+
+```typescript filename="src/queries/users.ts"
+import { typedGql } from './zeus';
+
+export const GET_USER = typedGql('query')({
+  user: [
+    { id: '$id' },
+    {
+      id: true,
+      name: true,
+      email: true,
+      avatar: true,
+    },
+  ],
+});
+
+export const GET_USERS = typedGql('query')({
+  users: [
+    { limit: '$limit', offset: '$offset' },
+    {
+      id: true,
+      name: true,
+      email: true,
+    },
+  ],
+});
+
+export const UPDATE_USER = typedGql('mutation')({
+  updateUser: [
+    {
+      id: '$id',
+      input: {
+        name: '$name',
+        email: '$email',
+      },
+    },
+    {
+      id: true,
+      name: true,
+      email: true,
+      updatedAt: true,
+    },
+  ],
+});
+```
+
+## Benefits of TypedDocumentNode
+
+1. **Universal** - Works with any GraphQL client
+2. **Type-safe** - Full TypeScript support
+3. **Standard** - Uses GraphQL query syntax
+4. **Cached** - Queries can be reused across app
+5. **Familiar** - Same patterns as traditional GraphQL
+
+## When to Use
+
+Use TypedDocumentNode when:
+
+- You're already using Apollo Client, urql, or React Query
+- You prefer standard GraphQL query syntax
+- You want to gradually migrate from existing client
+- You need client-specific features (caching, optimistic UI)
+
+Use Chain/Thunder when:
+
+- You want the simplest possible API
+- You don't need a full GraphQL client
+- You're building a lightweight application
+- You want programmatic query building
+
+## Next Steps
+
+- **[Apollo Client](/integrations/apollo-client)** - Complete Apollo integration
+- **[React Query](/integrations/react-query)** - React Query patterns
+- **[urql](/integrations/urql)** - urql integration guide
+
+[Explore Apollo Client Integration →](/integrations/apollo-client)

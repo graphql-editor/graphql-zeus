@@ -1,0 +1,454 @@
+# Type Inference
+
+Zeus provides automatic TypeScript type inference for all GraphQL operations, ensuring complete type safety without manual type definitions.
+
+## How It Works
+
+Zeus generates TypeScript types directly from your GraphQL schema, then infers the exact return type based on your field selections.
+
+```typescript
+import { Chain } from './zeus';
+
+const chain = Chain('https://api.com/graphql');
+
+// Zeus automatically infers the return type
+const result = await chain('query')({
+  user: [
+    { id: '123' },
+    {
+      id: true,
+      name: true,
+      email: true,
+    },
+  ],
+});
+
+// Type: { user: { id: string; name: string; email: string } }
+// TypeScript knows exactly what fields are available
+console.log(result.user.name); // ✅ Type-safe
+console.log(result.user.age); // ❌ TypeScript error - field not selected
+```
+
+## Selection-Based Inference
+
+Zeus infers types based on **what you select**, not what's available in the schema:
+
+```typescript
+// Only selecting 'name'
+const minimal = await chain('query')({
+  user: [{ id: '123' }, { name: true }],
+});
+// Type: { user: { name: string } }
+
+// Selecting multiple fields
+const detailed = await chain('query')({
+  user: [
+    { id: '123' },
+    {
+      name: true,
+      email: true,
+      profile: {
+        avatar: true,
+        bio: true,
+      },
+    },
+  ],
+});
+// Type: { user: { name: string; email: string; profile: { avatar: string; bio: string } } }
+```
+
+## Nested Object Inference
+
+Zeus handles complex nested selections:
+
+```typescript
+const result = await chain('query')({
+  user: [
+    { id: '123' },
+    {
+      name: true,
+      posts: [
+        { first: 10 },
+        {
+          edges: {
+            node: {
+              title: true,
+              content: true,
+              author: {
+                name: true,
+              },
+            },
+          },
+        },
+      ],
+    },
+  ],
+});
+
+// Fully typed nested structure
+result.user.posts.edges.forEach((edge) => {
+  console.log(edge.node.title); // ✅ Type-safe
+  console.log(edge.node.author.name); // ✅ Type-safe
+});
+```
+
+## Array and Connection Types
+
+Zeus correctly infers array types and GraphQL connections:
+
+```typescript
+const result = await chain('query')({
+  users: {
+    id: true,
+    name: true,
+  },
+});
+
+// Type: { users: Array<{ id: string; name: string }> }
+result.users.forEach((user) => {
+  console.log(user.name); // ✅ Type-safe array iteration
+});
+
+// GraphQL Relay connections
+const posts = await chain('query')({
+  posts: [
+    { first: 20 },
+    {
+      edges: {
+        cursor: true,
+        node: {
+          title: true,
+        },
+      },
+      pageInfo: {
+        hasNextPage: true,
+        endCursor: true,
+      },
+    },
+  ],
+});
+
+// Fully typed connection structure
+if (posts.posts.pageInfo.hasNextPage) {
+  console.log('More posts available');
+}
+```
+
+## Union Type Inference
+
+Zeus handles GraphQL unions with discriminated union types:
+
+```typescript
+const result = await chain('query')({
+  search: [
+    { query: 'Zeus' },
+    {
+      __typename: true,
+      '...on User': {
+        name: true,
+        email: true,
+      },
+      '...on Post': {
+        title: true,
+        content: true,
+      },
+    },
+  ],
+});
+
+// Type narrowing with __typename
+result.search.forEach((item) => {
+  if (item.__typename === 'User') {
+    console.log(item.name); // ✅ TypeScript knows this is a User
+    console.log(item.email); // ✅ Available on User
+  } else if (item.__typename === 'Post') {
+    console.log(item.title); // ✅ TypeScript knows this is a Post
+    console.log(item.content); // ✅ Available on Post
+  }
+});
+```
+
+## Interface Type Inference
+
+Similar handling for GraphQL interfaces:
+
+```typescript
+const result = await chain('query')({
+  nodes: [
+    { ids: ['1', '2', '3'] },
+    {
+      __typename: true,
+      id: true,
+      '...on User': {
+        name: true,
+      },
+      '...on Post': {
+        title: true,
+      },
+    },
+  ],
+});
+
+// Type-safe interface fragments
+result.nodes.forEach((node) => {
+  console.log(node.id); // ✅ Available on all nodes
+
+  if (node.__typename === 'User') {
+    console.log(node.name); // ✅ User-specific field
+  }
+});
+```
+
+## Nullable Type Handling
+
+Zeus respects GraphQL's nullable type system:
+
+```typescript
+const result = await chain('query')({
+  user: [
+    { id: '123' },
+    {
+      name: true, // Non-nullable in schema
+      nickname: true, // Nullable in schema
+      profile: {
+        // Nullable object
+        bio: true,
+      },
+    },
+  ],
+});
+
+// Type: {
+//   user: {
+//     name: string;
+//     nickname: string | null;
+//     profile: { bio: string } | null;
+//   }
+// }
+
+console.log(result.user.name.toUpperCase()); // ✅ Safe - never null
+console.log(result.user.nickname?.toUpperCase()); // ✅ Optional chaining needed
+```
+
+## Enum Type Inference
+
+Enums are typed as string literal unions:
+
+```typescript
+const result = await chain('query')({
+  users: [
+    { role: 'ADMIN' }, // Type-safe enum value
+    {
+      name: true,
+      role: true, // Type: 'ADMIN' | 'USER' | 'MODERATOR'
+    },
+  ],
+});
+
+// TypeScript enforces valid enum values
+result.users.forEach((user) => {
+  if (user.role === 'ADMIN') {
+    // ✅ Type-safe comparison
+    console.log('Administrator');
+  }
+});
+```
+
+## Scalar Type Inference
+
+Custom scalars are properly typed:
+
+```typescript
+// In your schema: scalar DateTime, scalar JSON
+
+const result = await chain('query')({
+  post: [
+    { id: '123' },
+    {
+      createdAt: true, // Type: DateTime (string)
+      metadata: true, // Type: JSON (any or custom type)
+    },
+  ],
+});
+
+// DateTime scalars typed as strings by default
+const date = new Date(result.post.createdAt);
+
+// JSON scalars can be typed via schema configuration
+const metadata: PostMetadata = result.post.metadata;
+```
+
+## Variable Type Inference
+
+Zeus infers variable types from your input:
+
+```typescript
+// Variables are fully typed
+const result = await chain('query')({
+  user: [
+    {
+      // Zeus infers the exact input type needed
+      id: $('id', 'ID!'), // Required ID
+    },
+    {
+      name: true,
+      posts: [
+        {
+          first: $('first', 'Int'), // Optional Int
+        },
+        {
+          title: true,
+        },
+      ],
+    },
+  ],
+})({
+  id: '123', // ✅ Must be string (ID!)
+  first: 10, // ✅ Must be number (Int)
+});
+```
+
+## Selector Type Inference
+
+When using selectors, types are preserved:
+
+```typescript
+import { Selector } from './zeus';
+
+// Define typed selector
+const userFields = Selector('User')({
+  id: true,
+  name: true,
+  email: true,
+});
+
+// Use in query - type is inferred
+const result = await chain('query')({
+  user: [{ id: '123' }, userFields],
+});
+
+// Type: { user: { id: string; name: string; email: string } }
+```
+
+## Generic Type Utilities
+
+Zeus provides utility types for advanced scenarios:
+
+```typescript
+import { InputType, GraphQLTypes } from './zeus';
+
+// Extract input types
+type CreateUserInput = InputType<GraphQLTypes['CreateUserInput']>;
+
+// Extract return types
+type User = GraphQLTypes['User'];
+
+// Use in functions
+function processUser(user: User) {
+  // Fully typed user object
+  console.log(user.name);
+}
+
+// Type-safe input creation
+const input: CreateUserInput = {
+  name: 'Zeus',
+  email: 'zeus@olympus.com',
+};
+```
+
+## Type Assertion Utilities
+
+Zeus exports types for runtime validation:
+
+```typescript
+import { ModelTypes } from './zeus';
+
+// Use generated model types
+type User = ModelTypes['User'];
+type Post = ModelTypes['Post'];
+
+// Type guards
+function isUser(obj: any): obj is User {
+  return obj && typeof obj.name === 'string';
+}
+
+// Runtime validation with type safety
+const data = await chain('query')({
+  node: [
+    { id: '123' },
+    {
+      __typename: true,
+      '...on User': {
+        name: true,
+      },
+    },
+  ],
+});
+
+if (isUser(data.node)) {
+  console.log(data.node.name);
+}
+```
+
+## Benefits
+
+### 1. Zero Manual Types
+
+No need to write or maintain TypeScript interfaces:
+
+```typescript
+// ❌ Traditional approach
+interface User {
+  id: string;
+  name: string;
+  email: string;
+}
+
+// ✅ Zeus approach - types inferred automatically
+const result = await chain('query')({
+  user: [{ id: '123' }, { id: true, name: true, email: true }],
+});
+// Type automatically matches your selection
+```
+
+### 2. Refactoring Safety
+
+Schema changes are immediately reflected:
+
+```typescript
+// If 'email' field is removed from schema
+const result = await chain('query')({
+  user: [
+    { id: '123' },
+    {
+      name: true,
+      email: true, // ❌ TypeScript error - field doesn't exist
+    },
+  ],
+});
+```
+
+### 3. IntelliSense Support
+
+Full autocomplete in your IDE:
+
+```typescript
+await chain('query')({
+  user: [
+    { id: '123' },
+    {
+      // IDE shows all available fields
+      name: true,
+      // Autocomplete suggests: email, profile, posts, etc.
+    },
+  ],
+});
+```
+
+## Next Steps
+
+- **[Thunder](/core-concepts/thunder)** - Custom fetch with type inference
+- **[Generated Types](/core-concepts/generated-types)** - Understanding the generated code
+- **[Selectors](/core-concepts/selectors)** - Reusable typed selections
+
+[Learn about Thunder →](/core-concepts/thunder)

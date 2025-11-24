@@ -1,0 +1,93 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Zeus, Olympian god of thunder, holding a lightning bolt</title>
+  <desc id="desc">Stylized illustration of Zeus standing on a peak, wrapped in a cloak, holding a glowing lightning bolt above storm clouds.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#020617"/>
+      <stop offset="40%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <radialGradient id="stormGlow" cx="50%" cy="10%" r="60%">
+      <stop offset="0%" stop-color="#e5f3ff" stop-opacity="0.9"/>
+      <stop offset="40%" stop-color="#38bdf8" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="bolt" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fefce8"/>
+      <stop offset="45%" stop-color="#fde047"/>
+      <stop offset="100%" stop-color="#f97316"/>
+    </linearGradient>
+    <linearGradient id="cloak" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#020617"/>
+      <stop offset="40%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+    <linearGradient id="skin" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fef3c7"/>
+      <stop offset="100%" stop-color="#f97316"/>
+    </linearGradient>
+    <filter id="glowStrong" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="18" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.96 0 0 0 0 0.98 0 0 0 0 1 0 0 0 0.7 0"/>
+    </filter>
+    <filter id="glowSoft" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.64 0 0 0 0 0.87 0 0 0 0 1 0 0 0 0.6 0"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#stormGlow)" opacity="0.9"/>
+
+  <g opacity="0.9">
+    <path d="M-50 640C140 600 260 610 420 640C650 685 830 700 1060 660C1230 630 1390 620 1650 650V960H-50V640Z" fill="#020617"/>
+    <path d="M-50 620C140 580 260 585 420 615C650 660 830 675 1060 635C1230 605 1390 595 1650 625" fill="none" stroke="#0f172a" stroke-opacity="0.9" stroke-width="4"/>
+    <path d="M-50 670C140 640 260 645 420 670C650 710 830 725 1060 690C1230 665 1390 655 1650 680" fill="none" stroke="#020617" stroke-opacity="0.7" stroke-width="6"/>
+  </g>
+
+  <g transform="translate(260 140)">
+    <path d="M360 510C410 450 480 420 540 415C600 410 660 420 700 440C650 550 540 630 410 650C360 580 345 545 360 510Z" fill="#020617"/>
+
+    <g id="zeus-body" transform="translate(360 130)">
+      <path d="M120 130C120 95 144 70 180 70C216 70 240 95 240 130C240 165 216 190 180 190C144 190 120 165 120 130Z" fill="url(#skin)"/>
+      <path d="M142 118C150 100 166 90 180 90C194 90 210 100 218 118" stroke="#fbbf24" stroke-width="6" stroke-linecap="round"/>
+      <path d="M154 130C156 124 160 120 166 120" stroke="#0f172a" stroke-width="5" stroke-linecap="round"/>
+      <path d="M194 130C196 124 200 120 206 120" stroke="#0f172a" stroke-width="5" stroke-linecap="round"/>
+      <path d="M166 150C172 156 188 156 194 150" stroke="#0f172a" stroke-width="5" stroke-linecap="round"/>
+      <path d="M138 112C140 98 150 80 168 70C186 60 212 60 228 70C238 76 244 84 248 94C244 76 234 62 220 52C198 36 168 34 146 48C128 60 118 76 114 98C112 110 112 122 114 132" stroke="#e5e7eb" stroke-width="10" stroke-linecap="round"/>
+      <path d="M170 190L196 238L172 276" fill="url(#skin)"/>
+      <path d="M180 188C210 200 232 228 248 264C264 300 274 342 278 376C252 392 222 400 188 400C154 400 120 392 90 376C94 342 104 300 120 264C136 228 158 200 188 188Z" fill="url(#cloak)"/>
+      <path d="M130 222C146 250 154 280 156 318C132 310 112 296 96 278" fill="#0b1120" fill-opacity="0.75"/>
+      <circle cx="188" cy="244" r="10" fill="#e5e7eb"/>
+      <circle cx="188" cy="244" r="6" fill="#60a5fa"/>
+    </g>
+
+    <g id="lightning-group" transform="translate(540 40)">
+      <path d="M-40 260L68 130L0 132L90 4L22 8L94 -90" stroke="#fefce8" stroke-width="16" stroke-linejoin="round" stroke-linecap="round" filter="url(#glowStrong)" opacity="0.9"/>
+      <path d="M-40 260L68 130L0 132L90 4L22 8L94 -90" fill="none" stroke="url(#bolt)" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="M-24 242L76 122" stroke="#e0f2fe" stroke-width="6" stroke-linecap="round" opacity="0.85"/>
+      <path d="M12 116L80 16" stroke="#e0f2fe" stroke-width="4" stroke-linecap="round" opacity="0.85"/>
+      <path d="M30 2L84 -72" stroke="#e0f2fe" stroke-width="3" stroke-linecap="round" opacity="0.85"/>
+      <ellipse cx="-10" cy="240" rx="30" ry="18" fill="#e0f2fe" fill-opacity="0.35" filter="url(#glowSoft)"/>
+      <ellipse cx="40" cy="150" rx="40" ry="26" fill="#e0f2fe" fill-opacity="0.28" filter="url(#glowSoft)"/>
+      <ellipse cx="70" cy="40" rx="32" ry="22" fill="#e0f2fe" fill-opacity="0.22" filter="url(#glowSoft)"/>
+    </g>
+
+    <g transform="translate(150 420)">
+      <path d="M80 140C150 100 230 80 310 80C390 80 470 100 540 140V260H80V140Z" fill="#020617"/>
+      <path d="M80 140C150 100 230 80 310 80C390 80 470 100 540 140" fill="none" stroke="#020617" stroke-width="6" stroke-linecap="round"/>
+      <path d="M90 150C160 115 230 100 310 100C390 100 460 115 530 150" fill="none" stroke="#0f172a" stroke-width="4" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <g opacity="0.42">
+    <path d="M260 220C360 160 520 130 640 140" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 10"/>
+    <path d="M260 280C380 240 520 230 640 240" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 10"/>
+  </g>
+
+  <g opacity="0.3">
+    <path d="M1200 220C1120 210 1060 200 1000 190" stroke="#1d4ed8" stroke-width="3" stroke-linecap="round"/>
+    <path d="M1200 260C1120 250 1060 240 1000 232" stroke="#22d3ee" stroke-width="2" stroke-linecap="round"/>
+    <path d="M1200 300C1120 290 1060 280 1010 272" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"/>
+  </g>
+</svg>

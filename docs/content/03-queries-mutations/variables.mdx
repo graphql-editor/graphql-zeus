@@ -1,0 +1,737 @@
+# Variables
+
+Use GraphQL variables to create dynamic, reusable queries and mutations with full type safety.
+
+## Why Use Variables?
+
+Variables allow you to:
+
+- Separate query logic from data
+- Reuse queries with different inputs
+- Prevent injection attacks
+- Enable query caching
+
+## Basic Variable Syntax
+
+Use the `$` function to declare variables:
+
+```typescript
+import { Chain, $ } from './zeus';
+
+const chain = Chain('https://api.com/graphql');
+
+const result = await chain('query')({
+  user: [
+    {
+      id: $('userId', 'ID!'), // Declare variable
+    },
+    {
+      name: true,
+      email: true,
+    },
+  ],
+})({
+  userId: '123', // Provide variable value
+});
+```
+
+## Variable Declaration
+
+### $ Function Syntax
+
+```typescript
+$('variableName', 'GraphQLType');
+```
+
+- **variableName**: Variable identifier (string)
+- **GraphQLType**: GraphQL type (with `!` for required)
+
+### Common Types
+
+```typescript
+// Scalar types
+$('id', 'ID!'); // Required ID
+$('name', 'String'); // Optional String
+$('age', 'Int!'); // Required Int
+$('price', 'Float'); // Optional Float
+$('active', 'Boolean!'); // Required Boolean
+
+// Custom scalars
+$('date', 'DateTime!'); // Required DateTime
+$('data', 'JSON'); // Optional JSON
+
+// Enums
+$('role', 'UserRole!'); // Required enum
+
+// Input types
+$('input', 'CreateUserInput!'); // Required input object
+
+// Arrays
+$('ids', '[ID!]!'); // Required array of required IDs
+$('tags', '[String!]'); // Optional array of required Strings
+```
+
+## Query Variables
+
+### Single Variable
+
+```typescript
+const result = await chain('query')({
+  user: [
+    {
+      id: $('userId', 'ID!'),
+    },
+    {
+      id: true,
+      name: true,
+      email: true,
+    },
+  ],
+})({
+  userId: '123',
+});
+```
+
+### Multiple Variables
+
+```typescript
+const result = await chain('query')({
+  users: [
+    {
+      first: $('limit', 'Int!'),
+      offset: $('offset', 'Int!'),
+      where: {
+        role: $('role', 'UserRole'),
+      },
+    },
+    {
+      id: true,
+      name: true,
+      role: true,
+    },
+  ],
+})({
+  limit: 20,
+  offset: 0,
+  role: 'ADMIN',
+});
+```
+
+### Optional Variables
+
+```typescript
+const result = await chain('query')({
+  users: [
+    {
+      first: $('limit', 'Int'), // Optional
+      where: {
+        role: $('role', 'UserRole'), // Optional
+      },
+    },
+    {
+      name: true,
+    },
+  ],
+})({
+  limit: 10,
+  // role omitted - uses server default
+});
+```
+
+## Mutation Variables
+
+### Create Mutation
+
+```typescript
+const result = await chain('mutation')({
+  createUser: [
+    {
+      input: $('input', 'CreateUserInput!'),
+    },
+    {
+      id: true,
+      name: true,
+      email: true,
+    },
+  ],
+})({
+  input: {
+    name: 'Zeus',
+    email: 'zeus@olympus.com',
+    role: 'ADMIN',
+  },
+});
+```
+
+### Update Mutation
+
+```typescript
+const result = await chain('mutation')({
+  updateUser: [
+    {
+      id: $('id', 'ID!'),
+      input: $('input', 'UpdateUserInput!'),
+    },
+    {
+      id: true,
+      name: true,
+      updatedAt: true,
+    },
+  ],
+})({
+  id: '123',
+  input: {
+    name: 'Zeus Updated',
+  },
+});
+```
+
+### Delete Mutation
+
+```typescript
+const result = await chain('mutation')({
+  deleteUser: [
+    {
+      id: $('id', 'ID!'),
+    },
+    {
+      id: true,
+      name: true,
+    },
+  ],
+})({
+  id: '123',
+});
+```
+
+## Complex Variables
+
+### Nested Input Objects
+
+```typescript
+const result = await chain('mutation')({
+  createUser: [
+    {
+      input: $('input', 'CreateUserInput!'),
+    },
+    {
+      id: true,
+      name: true,
+      profile: {
+        bio: true,
+      },
+    },
+  ],
+})({
+  input: {
+    name: 'Zeus',
+    email: 'zeus@olympus.com',
+    profile: {
+      bio: 'King of the Gods',
+      location: 'Mount Olympus',
+    },
+  },
+});
+```
+
+### Array Variables
+
+```typescript
+const result = await chain('query')({
+  users: [
+    {
+      ids: $('userIds', '[ID!]!'), // Array of IDs
+    },
+    {
+      id: true,
+      name: true,
+    },
+  ],
+})({
+  userIds: ['1', '2', '3'],
+});
+```
+
+### Filter Objects
+
+```typescript
+const result = await chain('query')({
+  posts: [
+    {
+      where: $('filter', 'PostFilter'),
+    },
+    {
+      id: true,
+      title: true,
+    },
+  ],
+})({
+  filter: {
+    status: 'PUBLISHED',
+    featured: true,
+    author: {
+      role: 'ADMIN',
+    },
+  },
+});
+```
+
+## Reusable Query Functions
+
+### Query Builder
+
+```typescript
+function getUser(userId: string) {
+  return chain('query')({
+    user: [
+      {
+        id: $('userId', 'ID!'),
+      },
+      {
+        id: true,
+        name: true,
+        email: true,
+      },
+    ],
+  })({
+    userId,
+  });
+}
+
+const user = await getUser('123');
+```
+
+### Parameterized Search
+
+```typescript
+type SearchOptions = {
+  query: string;
+  limit?: number;
+  offset?: number;
+};
+
+function searchPosts(options: SearchOptions) {
+  return chain('query')({
+    searchPosts: [
+      {
+        query: $('query', 'String!'),
+        first: $('limit', 'Int'),
+        offset: $('offset', 'Int'),
+      },
+      {
+        id: true,
+        title: true,
+        excerpt: true,
+        score: true,
+      },
+    ],
+  })({
+    query: options.query,
+    limit: options.limit ?? 10,
+    offset: options.offset ?? 0,
+  });
+}
+
+const results = await searchPosts({
+  query: 'GraphQL',
+  limit: 20,
+});
+```
+
+### CRUD Operations
+
+```typescript
+type User = {
+  id?: string;
+  name: string;
+  email: string;
+};
+
+const userOperations = {
+  async getById(id: string) {
+    return chain('query')({
+      user: [{ id: $('id', 'ID!') }, { id: true, name: true, email: true }],
+    })({ id });
+  },
+
+  async create(input: Omit<User, 'id'>) {
+    return chain('mutation')({
+      createUser: [{ input: $('input', 'CreateUserInput!') }, { id: true, name: true, email: true }],
+    })({ input });
+  },
+
+  async update(id: string, input: Partial<User>) {
+    return chain('mutation')({
+      updateUser: [
+        {
+          id: $('id', 'ID!'),
+          input: $('input', 'UpdateUserInput!'),
+        },
+        { id: true, name: true, email: true, updatedAt: true },
+      ],
+    })({ id, input });
+  },
+
+  async delete(id: string) {
+    return chain('mutation')({
+      deleteUser: [{ id: $('id', 'ID!') }, { id: true }],
+    })({ id });
+  },
+};
+
+// Usage
+const user = await userOperations.getById('123');
+await userOperations.update('123', { name: 'Updated Name' });
+await userOperations.delete('123');
+```
+
+## Default Values
+
+### In Query Definition
+
+```typescript
+const result = await chain('query')({
+  users: [
+    {
+      first: $('limit', 'Int') || 10, // Default value
+      where: {
+        active: $('active', 'Boolean') ?? true,
+      },
+    },
+    {
+      name: true,
+    },
+  ],
+})({
+  // Can omit variables with defaults
+});
+```
+
+### In Function Parameters
+
+```typescript
+function getUsers(limit: number = 10, offset: number = 0) {
+  return chain('query')({
+    users: [
+      {
+        first: $('limit', 'Int!'),
+        offset: $('offset', 'Int!'),
+      },
+      {
+        id: true,
+        name: true,
+      },
+    ],
+  })({
+    limit,
+    offset,
+  });
+}
+
+// Use defaults
+const users = await getUsers();
+
+// Override defaults
+const moreUsers = await getUsers(50, 100);
+```
+
+## Type Safety
+
+### Inferred Types
+
+TypeScript infers variable types:
+
+```typescript
+const result = await chain('query')({
+  user: [
+    {
+      id: $('userId', 'ID!'),
+    },
+    {
+      name: true,
+    },
+  ],
+})({
+  userId: '123', // ✅ String
+  // userId: 123, // ❌ TypeScript error - number not allowed
+});
+```
+
+### Input Type Validation
+
+```typescript
+import { InputType, GraphQLTypes } from './zeus';
+
+type CreateUserInput = InputType<GraphQLTypes['CreateUserInput']>;
+
+const result = await chain('mutation')({
+  createUser: [
+    {
+      input: $('input', 'CreateUserInput!'),
+    },
+    {
+      id: true,
+      name: true,
+    },
+  ],
+})({
+  input: {
+    name: 'Zeus',
+    email: 'zeus@olympus.com',
+    role: 'ADMIN', // ✅ Valid enum value
+    // role: 'INVALID', // ❌ TypeScript error
+  } satisfies CreateUserInput,
+});
+```
+
+## Variable Validation
+
+### Runtime Validation
+
+```typescript
+function validateUserId(id: string): string {
+  if (!id || id.length === 0) {
+    throw new Error('User ID is required');
+  }
+  return id;
+}
+
+async function getUser(userId: string) {
+  const validatedId = validateUserId(userId);
+
+  return chain('query')({
+    user: [{ id: $('userId', 'ID!') }, { id: true, name: true }],
+  })({
+    userId: validatedId,
+  });
+}
+```
+
+### Schema Validation
+
+```typescript
+import { z } from 'zod';
+
+const CreateUserSchema = z.object({
+  name: z.string().min(2).max(50),
+  email: z.string().email(),
+  age: z.number().int().min(0).max(150).optional(),
+});
+
+async function createUser(input: unknown) {
+  // Validate input
+  const validatedInput = CreateUserSchema.parse(input);
+
+  return chain('mutation')({
+    createUser: [{ input: $('input', 'CreateUserInput!') }, { id: true, name: true, email: true }],
+  })({
+    input: validatedInput,
+  });
+}
+
+// Usage
+try {
+  await createUser({
+    name: 'Zeus',
+    email: 'zeus@olympus.com',
+  });
+} catch (error) {
+  console.error('Validation failed:', error);
+}
+```
+
+## Dynamic Queries
+
+### Conditional Variables
+
+```typescript
+type UserQueryOptions = {
+  includeProfile?: boolean;
+  includePosts?: boolean;
+  postsLimit?: number;
+};
+
+function buildUserQuery(userId: string, options: UserQueryOptions = {}) {
+  const query: any = {
+    user: [
+      { id: $('userId', 'ID!') },
+      {
+        id: true,
+        name: true,
+        email: true,
+      },
+    ],
+  };
+
+  // Add profile if requested
+  if (options.includeProfile) {
+    query.user[1].profile = {
+      avatar: true,
+      bio: true,
+    };
+  }
+
+  // Add posts if requested
+  if (options.includePosts) {
+    query.user[1].posts = [
+      {
+        first: $('postsLimit', 'Int'),
+      },
+      {
+        id: true,
+        title: true,
+      },
+    ];
+  }
+
+  return chain('query')(query)({
+    userId,
+    ...(options.postsLimit && { postsLimit: options.postsLimit }),
+  });
+}
+
+// Usage
+const user1 = await buildUserQuery('123', { includeProfile: true });
+const user2 = await buildUserQuery('123', { includePosts: true, postsLimit: 5 });
+```
+
+### Variable Field Selection
+
+```typescript
+function getUser(userId: string, fields: string[]) {
+  const selection = fields.reduce((acc, field) => {
+    acc[field] = true;
+    return acc;
+  }, {} as any);
+
+  return chain('query')({
+    user: [{ id: $('userId', 'ID!') }, selection],
+  })({
+    userId,
+  });
+}
+
+const user = await getUser('123', ['id', 'name', 'email']);
+```
+
+## Performance Optimization
+
+### Query Caching
+
+Variables enable server-side query caching:
+
+```typescript
+// This query can be cached by the server
+// Only variables change between requests
+const getCachedUser = (userId: string) =>
+  chain('query')({
+    user: [{ id: $('userId', 'ID!') }, { id: true, name: true, email: true }],
+  })({ userId });
+
+const user1 = await getCachedUser('123');
+const user2 = await getCachedUser('456'); // Same query, different variable
+```
+
+### Batch Variable Requests
+
+```typescript
+async function getUsersBatch(userIds: string[]) {
+  const promises = userIds.map((id) =>
+    chain('query')({
+      user: [{ id: $('userId', 'ID!') }, { id: true, name: true }],
+    })({ userId: id }),
+  );
+
+  return Promise.all(promises);
+}
+
+const users = await getUsersBatch(['1', '2', '3', '4', '5']);
+```
+
+## Best Practices
+
+### 1. Always Use Variables for User Input
+
+```typescript
+// ✅ Safe - uses variables
+const result = await chain('query')({
+  user: [{ id: $('userId', 'ID!') }, { name: true }],
+})({ userId: userInput });
+
+// ❌ Unsafe - string interpolation (potential injection)
+const result = await chain('query')({
+  user: [
+    { id: userInput }, // Don't do this!
+    { name: true },
+  ],
+});
+```
+
+### 2. Use TypeScript Types
+
+```typescript
+import { ModelTypes, InputType, GraphQLTypes } from './zeus';
+
+type CreateUserInput = InputType<GraphQLTypes['CreateUserInput']>;
+
+async function createUser(input: CreateUserInput) {
+  return chain('mutation')({
+    createUser: [{ input: $('input', 'CreateUserInput!') }, { id: true, name: true }],
+  })({ input });
+}
+```
+
+### 3. Create Reusable Query Functions
+
+```typescript
+// Reusable query functions with variables
+const queries = {
+  getUser: (id: string) =>
+    chain('query')({
+      user: [{ id: $('id', 'ID!') }, { id: true, name: true, email: true }],
+    })({ id }),
+
+  listUsers: (limit: number = 10) =>
+    chain('query')({
+      users: [{ first: $('limit', 'Int!') }, { id: true, name: true }],
+    })({ limit }),
+};
+
+const user = await queries.getUser('123');
+const users = await queries.listUsers(20);
+```
+
+### 4. Document Variable Types
+
+```typescript
+/**
+ * Searches posts by query string
+ * @param query - Search query string
+ * @param limit - Maximum number of results (default: 10)
+ * @param offset - Number of results to skip (default: 0)
+ */
+function searchPosts(query: string, limit: number = 10, offset: number = 0) {
+  return chain('query')({
+    searchPosts: [
+      {
+        query: $('query', 'String!'),
+        first: $('limit', 'Int!'),
+        offset: $('offset', 'Int!'),
+      },
+      {
+        id: true,
+        title: true,
+        excerpt: true,
+      },
+    ],
+  })({ query, limit, offset });
+}
+```
+
+## Next Steps
+
+- **[Aliases](/queries-mutations/aliases)** - Multiple operations with aliases
+- **[Directives](/queries-mutations/directives)** - Conditional field selection
+- **[Selectors](/core-concepts/selectors)** - Reusable field selections
+
+[Learn About Aliases →](/queries-mutations/aliases)

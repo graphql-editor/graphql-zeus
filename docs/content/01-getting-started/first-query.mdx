@@ -1,0 +1,472 @@
+# Your First Query
+
+Learn how to build type-safe GraphQL queries with Zeus.
+
+## Anatomy of a Zeus Query
+
+A Zeus query consists of three parts:
+
+```typescript
+const result = await chain('query')({
+  // 1. Field name
+  user: [
+    // 2. Arguments (optional)
+    { id: '123' },
+    // 3. Selection set
+    {
+      id: true,
+      name: true,
+      email: true,
+    },
+  ],
+});
+```
+
+## Simple Query (No Arguments)
+
+For fields without arguments, use a simple selection object:
+
+```typescript
+import { Chain } from './zeus';
+
+const chain = Chain('https://api.com/graphql');
+
+// Query without arguments
+const result = await chain('query')({
+  currentUser: {
+    id: true,
+    name: true,
+    email: true,
+    role: true,
+  },
+});
+
+// Access the typed result
+console.log(result.currentUser.name); // ✅ Fully typed
+```
+
+## Query with Arguments
+
+Pass arguments as the first element of an array:
+
+```typescript
+const result = await chain('query')({
+  user: [
+    // Arguments object
+    { id: '123' },
+    // Selection set
+    {
+      id: true,
+      name: true,
+      email: true,
+    },
+  ],
+});
+```
+
+## Multiple Root Fields
+
+Query multiple fields at once:
+
+```typescript
+const result = await chain('query')({
+  currentUser: {
+    id: true,
+    name: true,
+  },
+  posts: [
+    { limit: 10 },
+    {
+      id: true,
+      title: true,
+    },
+  ],
+  categories: {
+    id: true,
+    name: true,
+  },
+});
+
+// Access each field
+console.log(result.currentUser.name);
+console.log(result.posts);
+console.log(result.categories);
+```
+
+## Nested Selections
+
+Select nested fields with full type safety:
+
+```typescript
+const result = await chain('query')({
+  user: [
+    { id: '123' },
+    {
+      id: true,
+      name: true,
+      // Nested selection
+      posts: {
+        id: true,
+        title: true,
+        // Deeply nested selection
+        comments: {
+          id: true,
+          content: true,
+          author: {
+            name: true,
+            avatar: true,
+          },
+        },
+      },
+    },
+  ],
+});
+
+// Fully typed nested access
+const firstPost = result.user.posts[0];
+const firstComment = firstPost.comments[0];
+console.log(firstComment.author.name); // ✅ All typed!
+```
+
+## Optional Fields
+
+Handle nullable fields safely:
+
+```typescript
+const result = await chain('query')({
+  user: [
+    { id: '123' },
+    {
+      id: true,
+      name: true,
+      bio: true, // bio might be null
+      avatar: true, // avatar might be null
+    },
+  ],
+});
+
+// TypeScript knows these might be null/undefined
+const bio = result.user.bio ?? 'No bio';
+const avatar = result.user.avatar ?? '/default-avatar.png';
+```
+
+## Understanding the Chain
+
+The `chain` function is your main entry point:
+
+```typescript
+import { Chain } from './zeus';
+
+// Create a chain instance
+const chain = Chain('https://api.com/graphql');
+
+// The chain accepts operation type
+chain('query'); // For queries
+chain('mutation'); // For mutations
+chain('subscription'); // For subscriptions
+```
+
+## Type-Safe Arguments
+
+Zeus validates argument types at compile time:
+
+```typescript
+// ✅ Correct - id is a string
+const result1 = await chain('query')({
+  user: [{ id: '123' }, { name: true }],
+});
+
+// ❌ Error - id should be string, not number
+const result2 = await chain('query')({
+  user: [{ id: 123 }, { name: true }], // TypeScript error!
+});
+
+// ✅ Complex arguments are typed too
+const result3 = await chain('query')({
+  users: [
+    {
+      filter: {
+        role: 'ADMIN',
+        active: true,
+        createdAfter: '2023-01-01',
+      },
+      limit: 10,
+      offset: 0,
+    },
+    {
+      id: true,
+      name: true,
+    },
+  ],
+});
+```
+
+## Type-Safe Response
+
+The response is automatically typed:
+
+```typescript
+const result = await chain('query')({
+  user: [
+    { id: '123' },
+    {
+      id: true,
+      name: true,
+      email: true,
+      posts: {
+        id: true,
+        title: true,
+      },
+    },
+  ],
+});
+
+// TypeScript knows the exact shape
+type UserResult = typeof result.user;
+// {
+//   id: string;
+//   name: string;
+//   email: string;
+//   posts: Array<{
+//     id: string;
+//     title: string;
+//   }>;
+// }
+```
+
+## Error Handling
+
+Handle GraphQL errors properly:
+
+```typescript
+try {
+  const result = await chain('query')({
+    user: [{ id: '123' }, { name: true }],
+  });
+
+  console.log(result.user.name);
+} catch (error) {
+  if (error instanceof Error) {
+    console.error('Query failed:', error.message);
+  }
+}
+```
+
+## Variables Pattern
+
+While Zeus uses direct arguments, you can still extract variables:
+
+```typescript
+// Define your variables
+const userId = '123';
+const postLimit = 10;
+
+// Use in query
+const result = await chain('query')({
+  user: [
+    { id: userId },
+    {
+      name: true,
+      posts: [
+        { limit: postLimit },
+        {
+          title: true,
+        },
+      ],
+    },
+  ],
+});
+```
+
+## Aliases
+
+GraphQL aliases work naturally:
+
+```typescript
+const result = await chain('query')({
+  // Use same field with different arguments
+  adminUsers: [
+    { role: 'ADMIN' },
+    {
+      __alias: 'adminUsers', // Explicit alias
+      id: true,
+      name: true,
+    },
+  ],
+  regularUsers: [
+    { role: 'USER' },
+    {
+      __alias: 'regularUsers',
+      id: true,
+      name: true,
+    },
+  ],
+});
+
+console.log(result.adminUsers);
+console.log(result.regularUsers);
+```
+
+## Fragments with Selectors
+
+Use Selectors for reusable selection sets:
+
+```typescript
+import { Chain, Selector } from './zeus';
+
+const chain = Chain('https://api.com/graphql');
+
+// Define reusable selector
+const userFields = Selector('User')({
+  id: true,
+  name: true,
+  email: true,
+  avatar: true,
+});
+
+// Use in query
+const result = await chain('query')({
+  user: [{ id: '123' }, userFields],
+});
+```
+
+## Real-World Example
+
+Here's a complete example with error handling and types:
+
+```typescript
+import { Chain } from './zeus';
+
+const chain = Chain('https://api.com/graphql', {
+  headers: {
+    Authorization: `Bearer ${process.env.API_TOKEN}`,
+  },
+});
+
+interface GetUserPostsParams {
+  userId: string;
+  limit?: number;
+}
+
+async function getUserPosts({ userId, limit = 10 }: GetUserPostsParams) {
+  try {
+    const result = await chain('query')({
+      user: [
+        { id: userId },
+        {
+          id: true,
+          name: true,
+          email: true,
+          posts: [
+            { limit, orderBy: 'CREATED_DESC' },
+            {
+              id: true,
+              title: true,
+              content: true,
+              createdAt: true,
+              author: {
+                name: true,
+              },
+              tags: {
+                name: true,
+              },
+            },
+          ],
+        },
+      ],
+    });
+
+    return result.user;
+  } catch (error) {
+    console.error('Failed to fetch user posts:', error);
+    throw error;
+  }
+}
+
+// Usage
+getUserPosts({ userId: '123', limit: 5 })
+  .then((user) => {
+    console.log(`${user.name}'s posts:`);
+    user.posts.forEach((post) => {
+      console.log(`- ${post.title} by ${post.author.name}`);
+    });
+  })
+  .catch(console.error);
+```
+
+## Best Practices
+
+1. **Always specify fields** - Don't rely on defaults
+2. **Use Selectors** - For reusable selection sets
+3. **Handle nulls** - Use optional chaining or null coalescing
+4. **Type your functions** - Extract query logic into typed functions
+5. **Error handling** - Always wrap in try/catch
+6. **Extract variables** - Don't hardcode values in queries
+
+## Common Patterns
+
+### Conditional Fields
+
+```typescript
+const includeEmail = true;
+
+const result = await chain('query')({
+  user: [
+    { id: '123' },
+    {
+      id: true,
+      name: true,
+      ...(includeEmail && { email: true }),
+    },
+  ],
+});
+```
+
+### Pagination
+
+```typescript
+async function fetchPage(page: number, pageSize: number) {
+  return chain('query')({
+    users: [
+      {
+        limit: pageSize,
+        offset: page * pageSize,
+      },
+      {
+        id: true,
+        name: true,
+      },
+    ],
+  });
+}
+```
+
+### Search
+
+```typescript
+async function searchUsers(query: string) {
+  return chain('query')({
+    users: [
+      {
+        where: {
+          name: { contains: query },
+        },
+      },
+      {
+        id: true,
+        name: true,
+        email: true,
+      },
+    ],
+  });
+}
+```
+
+## Next Steps
+
+- **[Chain Client](/core-concepts/chain-client)** - Advanced client configuration
+- **[Selectors](/core-concepts/selectors)** - Reusable selection patterns
+- **[Mutations](/queries-mutations/mutations)** - Modify data
+- **[Type Inference](/core-concepts/type-inference)** - Deep dive into types
+
+[Explore Core Concepts →](/core-concepts/chain-client)

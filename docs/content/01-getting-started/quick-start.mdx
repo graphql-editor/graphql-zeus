@@ -1,0 +1,234 @@
+# Quick Start
+
+Generate your first type-safe GraphQL client in under 5 minutes.
+
+## Step 1: Generate Your Client
+
+Point Zeus at your GraphQL API or schema file:
+
+```bash
+# From a GraphQL endpoint
+npx zeus https://your-api.com/graphql ./src/zeus
+
+# From a schema file
+npx zeus ./schema.graphql ./src/zeus
+
+# From introspection JSON
+npx zeus ./introspection.json ./src/zeus
+```
+
+This creates a `zeus` directory with:
+
+```
+src/zeus/
+├── index.ts          # Main generated file with types and functions
+├── const.ts          # Constants and configuration
+└── typedDocumentNode.ts  # TypedDocumentNode exports (optional)
+```
+
+## Step 2: Import and Initialize
+
+```typescript
+import { Chain } from './zeus';
+
+// Initialize the Chain client
+const chain = Chain('https://your-api.com/graphql');
+```
+
+## Step 3: Make Your First Query
+
+```typescript
+// Query with full type safety
+const result = await chain('query')({
+  user: [
+    { id: '123' }, // Arguments
+    {
+      // Selection set
+      id: true,
+      name: true,
+      email: true,
+    },
+  ],
+});
+
+// TypeScript knows the exact shape
+console.log(result.user.name); // ✅ Fully typed!
+```
+
+## Complete Example
+
+Here's a full working example:
+
+```typescript filename="src/index.ts"
+import { Chain } from './zeus';
+
+// Initialize client
+const chain = Chain('https://spacex-production.up.railway.app/');
+
+async function fetchLaunches() {
+  // Query with nested selection
+  const response = await chain('query')({
+    launches: [
+      { limit: 5 },
+      {
+        mission_name: true,
+        launch_date_local: true,
+        launch_success: true,
+        rocket: {
+          rocket_name: true,
+          rocket_type: true,
+        },
+        links: {
+          mission_patch: true,
+          video_link: true,
+        },
+      },
+    ],
+  });
+
+  // Response is fully typed!
+  response.launches?.forEach((launch) => {
+    console.log(`🚀 ${launch.mission_name}`);
+    console.log(`   Rocket: ${launch.rocket?.rocket_name}`);
+    console.log(`   Success: ${launch.launch_success ? '✅' : '❌'}`);
+  });
+
+  return response;
+}
+
+fetchLaunches().catch(console.error);
+```
+
+## What Just Happened?
+
+1. **Schema Analysis** - Zeus read your GraphQL schema
+2. **Type Generation** - Generated TypeScript types for every schema type
+3. **Client Creation** - Created type-safe query builders
+4. **IntelliSense** - Your IDE now autocompletes all fields and types
+
+## Understanding the Generated Code
+
+### GraphQLTypes
+
+All your schema types as TypeScript types:
+
+```typescript
+import { GraphQLTypes } from './zeus';
+
+// Access any schema type
+type User = GraphQLTypes['User'];
+type Query = GraphQLTypes['Query'];
+type LaunchInput = GraphQLTypes['LaunchInput'];
+```
+
+### Chain Client
+
+The main query client:
+
+```typescript
+import { Chain } from './zeus';
+
+const chain = Chain('https://api.com/graphql', {
+  headers: {
+    Authorization: 'Bearer token',
+  },
+});
+```
+
+### Selector Helper
+
+For reusable selection sets:
+
+```typescript
+import { Selector } from './zeus';
+
+const userFields = Selector('User')({
+  id: true,
+  name: true,
+  email: true,
+});
+```
+
+## Next Steps
+
+Now that you have a working client, explore:
+
+- **[CLI Usage](/getting-started/cli-usage)** - Learn all CLI options
+- **[Your First Query](/getting-started/first-query)** - Deep dive into queries
+- **[Chain Client](/core-concepts/chain-client)** - Advanced client configuration
+- **[Selectors](/core-concepts/selectors)** - Reusable selection patterns
+
+## Common Patterns
+
+### With Authentication
+
+```typescript
+const chain = Chain('https://api.com/graphql', {
+  headers: {
+    Authorization: `Bearer ${process.env.API_TOKEN}`,
+  },
+});
+```
+
+### With Custom Headers
+
+```typescript
+const chain = Chain('https://api.com/graphql', {
+  headers: {
+    'X-Custom-Header': 'value',
+    'Content-Type': 'application/json',
+  },
+});
+```
+
+### Multiple Clients
+
+```typescript
+const publicAPI = Chain('https://api.com/public/graphql');
+const privateAPI = Chain('https://api.com/private/graphql', {
+  headers: { Authorization: 'Bearer token' },
+});
+```
+
+## IDE Integration
+
+Zeus works perfectly with:
+
+- **VS Code** - Full IntelliSense and autocomplete
+- **WebStorm** - Complete type checking
+- **Vim/Neovim** - With TypeScript LSP
+- **Any TypeScript-enabled editor**
+
+## Regeneration
+
+Update your client when the schema changes:
+
+```bash
+# Run the same command again
+npx zeus https://your-api.com/graphql ./src/zeus
+```
+
+Add it to your build process:
+
+```json filename="package.json"
+{
+  "scripts": {
+    "generate": "zeus https://api.com/graphql ./src/zeus",
+    "prebuild": "npm run generate",
+    "build": "tsc"
+  }
+}
+```
+
+## Development Workflow
+
+1. **Generate** - Run Zeus to create your client
+2. **Code** - Write queries with full IntelliSense
+3. **Type Check** - TypeScript validates everything
+4. **Run** - Execute with confidence
+
+## That's It!
+
+You now have a fully functional, type-safe GraphQL client. The power of Zeus is in its simplicity - generate once, query anywhere, with complete type safety.
+
+[Learn more about the Chain client →](/core-concepts/chain-client)
