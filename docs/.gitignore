@@ -12,3 +12,5 @@ lib
 .tscache
 package-lock.json
 *.tsbuildinfo*
+.next
+public/_pagefind

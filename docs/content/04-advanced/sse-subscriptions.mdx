@@ -246,10 +246,7 @@ function LiveDashboard() {
   return (
     <div className="dashboard">
       <h1>
-        Live Dashboard{' '}
-        <span className={isConnected ? 'connected' : 'disconnected'}>
-          {isConnected ? '🟢' : '🔴'}
-        </span>
+        Live Dashboard <span className={isConnected ? 'connected' : 'disconnected'}>{isConnected ? '🟢' : '🔴'}</span>
       </h1>
       <div className="metrics">
         <div className="metric">
@@ -435,8 +432,8 @@ ws('subscription')({ data: { value: true } }).on((data) => {
 
 ## Next Steps
 
-- **[WebSocket Subscriptions](/advanced/subscriptions)** - For bi-directional communication
-- **[Live Dashboards Recipe](/recipes/live-dashboards)** - Complete dashboard example
-- **[Real-time Notifications Recipe](/recipes/real-time-notifications)** - Notification system
+- **[Thunder Client](/core-concepts/thunder)** - Custom fetch implementation
+- **[Chain Client](/core-concepts/chain-client)** - Simple query/mutation client
+- **[Basic Queries](/queries-mutations/basic-queries)** - Query fundamentals
 
-[Explore Subscription Recipes →](/recipes/real-time-notifications)
+[Explore Thunder Client →](/core-concepts/thunder)

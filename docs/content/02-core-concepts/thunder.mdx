@@ -266,11 +266,7 @@ const thunder = Thunder(async (query, variables) => {
 
 ```typescript
 class GraphQLError extends Error {
-  constructor(
-    message: string,
-    public statusCode?: number,
-    public graphQLErrors?: any[],
-  ) {
+  constructor(message: string, public statusCode?: number, public graphQLErrors?: any[]) {
     super(message);
     this.name = 'GraphQLError';
   }
@@ -500,7 +496,7 @@ const thunder = Thunder(async (query, variables) => {
 ## Next Steps
 
 - **[Generated Types](/core-concepts/generated-types)** - Understanding the generated code
-- **[Custom Fetch](/advanced/custom-fetch)** - Advanced fetch patterns
-- **[Error Handling](/advanced/error-handling)** - Production error handling
+- **[Selectors](/core-concepts/selectors)** - Reusable field selections
+- **[Type Inference](/core-concepts/type-inference)** - Deep dive into types
 
 [Explore Generated Types →](/core-concepts/generated-types)

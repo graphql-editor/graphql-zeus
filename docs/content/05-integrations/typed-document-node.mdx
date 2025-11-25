@@ -185,8 +185,7 @@ const GET_POSTS = typedGql('query')({
 function PostList() {
   const { data, isLoading } = useQuery({
     queryKey: ['posts'],
-    queryFn: async () =>
-      request('https://api.com/graphql', GET_POSTS, { limit: 10 }),
+    queryFn: async () => request('https://api.com/graphql', GET_POSTS, { limit: 10 }),
   });
 
   if (isLoading) return <div>Loading...</div>;
@@ -402,8 +401,8 @@ Use Chain/Thunder when:
 
 ## Next Steps
 
-- **[Apollo Client](/integrations/apollo-client)** - Complete Apollo integration
-- **[React Query](/integrations/react-query)** - React Query patterns
-- **[urql](/integrations/urql)** - urql integration guide
+- **[Chain Client](/core-concepts/chain-client)** - Simple query/mutation client
+- **[Thunder Client](/core-concepts/thunder)** - Custom fetch implementation
+- **[Basic Queries](/queries-mutations/basic-queries)** - Query fundamentals
 
-[Explore Apollo Client Integration →](/integrations/apollo-client)
+[Explore Chain Client →](/core-concepts/chain-client)
