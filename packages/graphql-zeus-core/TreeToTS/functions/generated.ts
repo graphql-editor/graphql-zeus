@@ -233,7 +233,8 @@ export const SubscriptionThunderSSE =
       Zeus(operation, o, {
         operationOptions: ops,
         scalars: options?.scalars,
-      }), ops?.variables
+      }),
+      ops?.variables,
     ) as SubscriptionToGraphQLSSE<Z, GraphQLTypes[R], CombinedSCLR>;
     if (returnedFunction?.on && options?.scalars) {
       const wrapped = returnedFunction.on;
@@ -474,7 +475,7 @@ export class GraphQLError extends Error {
     return 'GraphQL Response Error';
   }
 }
-export type GenericOperation<O> = O extends keyof typeof Ops ? typeof Ops[O] : never;
+export type GenericOperation<O> = O extends keyof typeof Ops ? (typeof Ops)[O] : never;
 export type ThunderGraphQLOptions<SCLR extends ScalarDefinition> = {
   scalars?: SCLR | ScalarCoders;
 };
@@ -1108,11 +1109,17 @@ export const sseFunctions = {
       startStream();
     },
     close: () => {
+      // Cancel the reader first (if it exists) to gracefully close the stream
+      if (reader) {
+        reader.cancel().catch(() => {
+          // Ignore cancel errors - stream may already be closed
+        });
+        reader = null;
+      }
+      // Then abort the controller
       if (abortController) {
         abortController.abort();
-      }
-      if (reader) {
-        reader.cancel();
+        abortController = null;
       }
     },
   };

@@ -1,6 +1,5 @@
 import { chainOptions } from '@/TreeToTS/functions/new/models';
 
-
 export const apiSubscriptionSSE = (options: chainOptions) => (query: string, variables?: Record<string, unknown>) => {
   const url = options[0];
   const fetchOptions = options[1] || {};
@@ -105,11 +104,17 @@ export const apiSubscriptionSSE = (options: chainOptions) => (query: string, var
       startStream();
     },
     close: () => {
+      // Cancel the reader first (if it exists) to gracefully close the stream
+      if (reader) {
+        reader.cancel().catch(() => {
+          // Ignore cancel errors - stream may already be closed
+        });
+        reader = null;
+      }
+      // Then abort the controller
       if (abortController) {
         abortController.abort();
-      }
-      if (reader) {
-        reader.cancel();
+        abortController = null;
       }
     },
   };
