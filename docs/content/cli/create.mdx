@@ -1,0 +1,170 @@
+# Create Command
+
+Quickly scaffold a new project with Zeus pre-configured using the interactive `create` command.
+
+## Usage
+
+```bash
+npx graphql-zeus create
+```
+
+Or if you have Zeus installed globally:
+
+```bash
+zeus create
+```
+
+## Interactive Setup
+
+The `create` command launches an interactive wizard that guides you through project creation:
+
+### 1. Choose a Template
+
+```
+? Which template would you like to use?
+❯ Next.js - Next.js 16 + React 19 + Tailwind CSS 4
+  Vite - Vite 7 + React 19 + Tailwind CSS 4
+```
+
+### 2. Enter Project Name
+
+```
+? What is your project name? my-zeus-app
+```
+
+Project names can contain letters, numbers, hyphens, and underscores.
+
+## Available Templates
+
+### Next.js
+
+A full-featured Next.js starter with:
+
+- **Next.js 16** - Latest App Router
+- **React 19** - Latest React version
+- **Tailwind CSS 4** - Utility-first CSS framework
+- **TypeScript** - Full type safety
+- **ESLint & Prettier** - Code quality tools
+
+The Zeus client should be generated to `./lib`:
+
+```bash
+npx graphql-zeus <schema-url-or-path> ./lib --node
+```
+
+Development server runs on `http://localhost:3000`.
+
+### Vite
+
+A lightweight Vite starter with:
+
+- **Vite 7** - Lightning-fast build tool
+- **React 19** - Latest React version
+- **Tailwind CSS 4** - Utility-first CSS framework
+- **TypeScript** - Full type safety
+- **ESLint & Prettier** - Code quality tools
+
+The Zeus client should be generated to `./src/lib`:
+
+```bash
+npx graphql-zeus <schema-url-or-path> ./src/lib
+```
+
+Development server runs on `http://localhost:5173`.
+
+## After Project Creation
+
+Once your project is created, follow these steps:
+
+```bash
+# 1. Navigate to your project
+cd my-zeus-app
+
+# 2. Install dependencies
+npm install
+
+# 3. Generate Zeus client from your GraphQL schema
+npx graphql-zeus https://your-api.com/graphql ./lib --node  # Next.js
+# or
+npx graphql-zeus https://your-api.com/graphql ./src/lib     # Vite
+
+# 4. Start development server
+npm run dev
+```
+
+## Example Workflow
+
+Here's a complete example creating a new Next.js project:
+
+```bash
+# Create the project
+npx graphql-zeus create
+
+# Select "Next.js" and enter "my-app" as the project name
+
+# Navigate and install
+cd my-app
+npm install
+
+# Generate Zeus client from a public GraphQL API
+npx graphql-zeus https://countries.trevorblades.com/graphql ./lib --node
+
+# Start development
+npm run dev
+```
+
+## Project Structure
+
+### Next.js Template
+
+```
+my-zeus-app/
+├── app/
+│   ├── globals.css
+│   ├── layout.tsx
+│   └── page.tsx
+├── public/
+├── .env.example
+├── .gitignore
+├── .prettierrc
+├── eslint.config.mjs
+├── next.config.ts
+├── package.json
+├── postcss.config.mjs
+└── tsconfig.json
+```
+
+### Vite Template
+
+```
+my-zeus-app/
+├── public/
+├── src/
+│   ├── App.tsx
+│   ├── index.css
+│   ├── main.tsx
+│   └── vite-env.d.ts
+├── .env.example
+├── .gitignore
+├── .prettierrc
+├── eslint.config.js
+├── index.html
+├── package.json
+├── tsconfig.json
+├── tsconfig.node.json
+└── vite.config.ts
+```
+
+## Tips
+
+- **Environment Variables**: Both templates include a `.env.example` file. Copy it to `.env.local` (Next.js) or `.env` (Vite) to set up your environment variables.
+- **GraphQL Schema**: You can use either a remote GraphQL endpoint URL or a local `.graphql` schema file when generating the Zeus client.
+- **TypedDocumentNode**: Add `--typedDocumentNode` flag when generating to get TypedDocumentNode exports for use with Apollo Client or urql.
+
+## Next Steps
+
+- **[CLI Usage](/getting-started/cli-usage)** - Learn all CLI options
+- **[Your First Query](/getting-started/first-query)** - Write your first type-safe query
+- **[Chain Client](/core-concepts/chain-client)** - Understand the generated client
+
+[Write Your First Query →](/getting-started/first-query)

@@ -1,0 +1,16 @@
+# dependencies
+node_modules
+
+# next.js
+.next
+out
+
+# production
+build
+dist
+
+# misc
+*.min.js
+*.min.css
+package-lock.json
+pnpm-lock.yaml

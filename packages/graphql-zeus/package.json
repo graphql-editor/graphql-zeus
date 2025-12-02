@@ -1,6 +1,6 @@
 {
   "name": "graphql-zeus",
-  "version": "7.1.6",
+  "version": "7.1.7",
   "private": false,
   "scripts": {
     "start": "ttsc --watch",
@@ -16,6 +16,10 @@
   "bin": {
     "zeus": "lib/index.js"
   },
+  "files": [
+    "lib",
+    "starters"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/graphql-editor/graphql-zeus.git"
@@ -27,8 +31,9 @@
     "config-maker": "^0.0.6",
     "cross-fetch": "^3.0.4",
     "graphql-js-tree": "^3.0.4",
-    "graphql-zeus-core": "^7.1.6",
-    "graphql-zeus-jsonschema": "^7.1.6",
+    "graphql-zeus-core": "^7.1.7",
+    "graphql-zeus-jsonschema": "^7.1.7",
+    "prompts": "^2.4.2",
     "yargs": "^16.1.1"
   }
 }

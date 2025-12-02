@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 import yargs from 'yargs';
 import { CLI } from '@/CLIClass.js';
-const args = yargs(process.argv.slice(2))
+import { createProject } from '@/commands/create.js';
+
+yargs(process.argv.slice(2))
   .usage(
     `
 Zeus⚡⚡⚡
@@ -9,7 +11,36 @@ GraphQL Autocomplete Client Library generator
 
 Load from file or url (url must start with http:// or https:// ):
 zeus [path] [output_path] [options]
+
+Create a new project with Zeus:
+zeus create
 `,
+  )
+  .command(
+    'create',
+    'Create a new project with Zeus pre-configured',
+    () => {},
+    () => {
+      createProject();
+    },
+  )
+  .command(
+    '$0 <path> [output_path]',
+    'Generate TypeScript client from GraphQL schema',
+    (yargs) => {
+      return yargs
+        .positional('path', {
+          describe: 'Path to GraphQL schema file or URL',
+          type: 'string',
+        })
+        .positional('output_path', {
+          describe: 'Output directory for generated files',
+          type: 'string',
+        });
+    },
+    (args) => {
+      CLI.execute(args);
+    },
   )
   .option('node', {
     alias: 'n',
@@ -64,5 +95,4 @@ zeus [path] [output_path] [options]
     choices: ['legacy', 'graphql-ws'],
     default: 'legacy',
   })
-  .demandCommand(1).argv;
-CLI.execute(args);
+  .help().argv;
