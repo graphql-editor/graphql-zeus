@@ -157,7 +157,7 @@ Our full documentation has all the use cases of:
 
 and much more...
 
-[Full documentation is available here](https://graphqleditor.com/docs/zeus/)
+[Full documentation is available here](https://zeus.aexol.com)
 
 ## Join the Zeus Community and Spread the Word
 
