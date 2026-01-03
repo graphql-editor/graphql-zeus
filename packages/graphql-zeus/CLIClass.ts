@@ -51,7 +51,7 @@ export class CLI {
       schemaFileContents = await Utils.getFromUrl(schemaFile, { header, method: method === 'GET' ? 'GET' : 'POST' });
     }
     schemaFileContents = schemaFileContents || fs.readFileSync(schemaFile).toString();
-    const pathToFile = args.output_path || '';
+    const outputPath = args.output_path || 'zeus';
     const tree = Parser.parse(schemaFileContents);
     if (args.graphql) {
       const schemaPath =
@@ -85,14 +85,14 @@ export class CLI {
     });
     Object.keys(typeScriptDefinition).forEach((k) =>
       writeFileRecursive(
-        pathToFile,
+        outputPath,
         `${k}.ts`,
         typeScriptDefinition[k as keyof typeof typeScriptDefinition],
       ),
     );
     if (args.typedDocumentNode) {
       writeFileRecursive(
-        pathToFile,
+        outputPath,
         `typedDocumentNode.ts`,
         pluginTypedDocumentNode(commandLineProvidedOptions),
       );
