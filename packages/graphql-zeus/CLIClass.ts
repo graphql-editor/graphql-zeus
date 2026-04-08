@@ -42,12 +42,8 @@ export class CLI {
   static execute = async <T extends CliArgs>(args: T): Promise<void> => {
     const env: Environment = args.node ? 'node' : 'browser';
     let schemaFileContents = '';
-    const allArgs = args._ as string[];
-    const commandLineProvidedOptions = { ...args, urlOrPath: allArgs[0] };
-    const schemaFile = await config.getValueOrThrow('urlOrPath', {
-      commandLineProvidedOptions,
-      saveOnInput: true,
-    });
+    const commandLineProvidedOptions = { ...args, urlOrPath: args.path };
+    const schemaFile = args.path;
     let host: string | undefined;
     if (schemaFile.startsWith('http://') || schemaFile.startsWith('https://')) {
       const { header, method } = args;
@@ -55,7 +51,7 @@ export class CLI {
       schemaFileContents = await Utils.getFromUrl(schemaFile, { header, method: method === 'GET' ? 'GET' : 'POST' });
     }
     schemaFileContents = schemaFileContents || fs.readFileSync(schemaFile).toString();
-    const pathToFile = allArgs[1] || '';
+    const outputPath = args.output_path || 'zeus';
     const tree = Parser.parse(schemaFileContents);
     if (args.graphql) {
       const schemaPath =
@@ -89,14 +85,14 @@ export class CLI {
     });
     Object.keys(typeScriptDefinition).forEach((k) =>
       writeFileRecursive(
-        path.join(pathToFile, 'zeus'),
+        outputPath,
         `${k}.ts`,
         typeScriptDefinition[k as keyof typeof typeScriptDefinition],
       ),
     );
     if (args.typedDocumentNode) {
       writeFileRecursive(
-        path.join(pathToFile, 'zeus'),
+        outputPath,
         `typedDocumentNode.ts`,
         pluginTypedDocumentNode(commandLineProvidedOptions),
       );
