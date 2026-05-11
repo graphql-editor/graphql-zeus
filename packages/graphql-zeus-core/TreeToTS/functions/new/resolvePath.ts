@@ -24,15 +24,29 @@ const mapPart = (p: string) => {
 
 type Part = ReturnType<typeof mapPart>;
 
+const LIST_TYPE_SUFFIX = '[]';
+const stripListTypeSuffix = (typeName: string) => typeName.replace(/(?:\[\])+$/, '');
+const getListTypeSuffix = (typeName: string) => typeName.slice(stripListTypeSuffix(typeName).length);
+const appendListTypeSuffix = (resolvedType: 'enum' | 'not' | `scalar.${string}` | undefined, typeName: string) => {
+  if (!resolvedType?.startsWith('scalar.')) {
+    return resolvedType;
+  }
+  return `${resolvedType}${getListTypeSuffix(typeName)}` as `scalar.${string}`;
+};
+const isScalarListType = (resolvedType: string) =>
+  resolvedType.startsWith('scalar.') && resolvedType.endsWith(LIST_TYPE_SUFFIX);
+
 export const ResolveFromPath = (props: AllTypesPropsType, returns: ReturnTypesType, ops: Operations) => {
   const ResolvePropsType = (mappedParts: Part[]) => {
-    const oKey = ops[mappedParts[0].v];
-    const propsP1 = oKey ? props[oKey] : props[mappedParts[0].v];
+    const firstPartType = mappedParts[0].v;
+    const firstPartTypeName = stripListTypeSuffix(firstPartType);
+    const oKey = ops[firstPartTypeName];
+    const propsP1 = oKey ? props[oKey] : props[firstPartTypeName];
     if (propsP1 === 'enum' && mappedParts.length === 1) {
       return 'enum';
     }
     if (typeof propsP1 === 'string' && propsP1.startsWith('scalar.') && mappedParts.length === 1) {
-      return propsP1;
+      return appendListTypeSuffix(propsP1, firstPartType);
     }
     if (typeof propsP1 === 'object') {
       if (mappedParts.length < 2) {
@@ -132,10 +146,13 @@ export const InternalArgsBuilt = ({
       }
     }
     const checkType = ResolveFromPath(props, returns, ops)(p);
+    if (Array.isArray(a) && isScalarListType(checkType)) {
+      return `[${a.map((arr) => arb(arr, p, false)).join(', ')}]`;
+    }
     if (checkType.startsWith('scalar.')) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const [_, ...splittedScalar] = checkType.split('.');
-      const scalarKey = splittedScalar.join('.');
+      const scalarKey = stripListTypeSuffix(splittedScalar.join('.'));
       return (scalars?.[scalarKey]?.encode?.(a) as string) || JSON.stringify(a);
     }
     if (Array.isArray(a)) {

@@ -16,6 +16,10 @@ describe(`Resolves correct type from pregenerated AllTypesProps and ReturnTypes`
     const r = resolver('|field<>Mutation|field<>createCard|card|settings');
     expect(r).toEqual('scalar.JSON');
   });
+  test('It correctly resolves path for input field, which is a scalar list', () => {
+    const r = resolver('|field<>Mutation|field<>createCard|card|ids');
+    expect(r).toEqual('scalar.UUID[]');
+  });
   test('It correctly resolves path for input field which is not enum', () => {
     const r = resolver('|field<>Mutation|field<>createCard|card|name');
     expect(r).toEqual('not');
