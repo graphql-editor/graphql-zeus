@@ -24,10 +24,12 @@ export const AllTypesProps = {
   CreateCard: {
     status: 'Status',
     settings: 'JSON',
+    ids: 'UUID[]',
   },
   Status: 'enum' as const,
   TypeOfAttack: 'enum' as const,
   JSON: 'scalar.JSON' as const,
+  UUID: 'scalar.UUID' as const,
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

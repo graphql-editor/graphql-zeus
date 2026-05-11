@@ -376,6 +376,76 @@ describe('Test generated function buildQuery', () => {
         }
     }`);
   });
+  test('Simple query with scalar list encoder', () => {
+    const customBuilder = InternalsBuildQuery({
+      props: AllTypesProps,
+      returns: ReturnTypes,
+      ops: Ops,
+      scalars: {
+        UUID: {
+          encode: (e) => JSON.stringify(e),
+        },
+      },
+    });
+    const matchExact = replSpace(
+      customBuilder('mutation', {
+        createCard: [
+          {
+            card: {
+              name: 'Hello',
+              ids: ['first-id', 'second-id'],
+            },
+          },
+          {
+            name: true,
+          },
+        ],
+      }),
+    );
+    matchExact(`mutation{
+      createCard(card:{
+        name: "Hello",
+        ids: ["first-id", "second-id"]
+      }){
+            name
+        }
+    }`);
+  });
+  test('Simple query with empty scalar list encoder', () => {
+    const customBuilder = InternalsBuildQuery({
+      props: AllTypesProps,
+      returns: ReturnTypes,
+      ops: Ops,
+      scalars: {
+        UUID: {
+          encode: (e) => JSON.stringify(e),
+        },
+      },
+    });
+    const matchExact = replSpace(
+      customBuilder('mutation', {
+        createCard: [
+          {
+            card: {
+              name: 'Hello',
+              ids: [],
+            },
+          },
+          {
+            name: true,
+          },
+        ],
+      }),
+    );
+    matchExact(`mutation{
+      createCard(card:{
+        name: "Hello",
+        ids: []
+      }){
+            name
+        }
+    }`);
+  });
   test('Simple query with alias and enum', () => {
     const enum Status {
       CREATED = 'CREATED',

@@ -1,4 +1,22 @@
-import { ParserField, TypeSystemDefinition, TypeDefinition, getTypeName, ScalarTypes } from 'graphql-js-tree';
+import {
+  ParserField,
+  TypeSystemDefinition,
+  TypeDefinition,
+  getTypeName,
+  ScalarTypes,
+  FieldType,
+  Options,
+} from 'graphql-js-tree';
+
+const listTypeSuffix = (fieldType: FieldType): string => {
+  if (fieldType.type === Options.required) {
+    return listTypeSuffix(fieldType.nest);
+  }
+  if (fieldType.type === Options.array) {
+    return `[]${listTypeSuffix(fieldType.nest)}`;
+  }
+  return '';
+};
 
 const resolveArg = (f: ParserField, tabs = '\t\t\t'): string => {
   const {
@@ -8,7 +26,7 @@ const resolveArg = (f: ParserField, tabs = '\t\t\t'): string => {
   if (Object.keys(ScalarTypes).includes(fType)) {
     return '';
   }
-  return `${tabs}${f.name}:"${fType}"`;
+  return `${tabs}${f.name}:"${fType}${listTypeSuffix(fieldType)}"`;
 };
 const resolveField = (f: ParserField): string => {
   const { args, name } = f;

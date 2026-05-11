@@ -108,6 +108,30 @@ describe('Prop types generation test', () => {
                     },
                   },
                 }),
+                createParserField({
+                  args: [],
+                  data: {
+                    type: ValueDefinition.InputValueDefinition,
+                  },
+                  directives: [],
+                  interfaces: [],
+                  name: 'ids',
+                  type: {
+                    fieldType: {
+                      type: Options.required,
+                      nest: {
+                        type: Options.array,
+                        nest: {
+                          type: Options.required,
+                          nest: {
+                            type: Options.name,
+                            name: 'UUID',
+                          },
+                        },
+                      },
+                    },
+                  },
+                }),
               ],
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
@@ -137,6 +161,6 @@ describe('Prop types generation test', () => {
         }),
       ),
     );
-    matchExact(`Mutation: { addPerson: { CreatePerson: "CreatePerson" }}`);
+    matchExact(`Mutation: { addPerson: { CreatePerson: "CreatePerson", ids: "UUID[]" }}`);
   });
 });
