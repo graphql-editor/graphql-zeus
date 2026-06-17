@@ -58,7 +58,7 @@ type Query{
 	drawCard: Card!
 	drawChangeCard: ChangeCard!
 	"""
-	list All Cards availble<br>
+	list All Cards available<br>
 	"""
 	listCards: [Card!]!
 	myStacks: [CardStack!]
